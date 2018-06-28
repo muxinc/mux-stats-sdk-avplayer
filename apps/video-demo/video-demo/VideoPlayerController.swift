@@ -21,7 +21,7 @@ class VideoPlayerController: AVPlayerViewController {
 
         let cpd = MUXSDKCustomerPlayerData(environmentKey: "img");
         cpd?.playerName = "AVPlayer"
-        cpd?.environmentKey = "hrca1hhidk4je5lbtcvjsj4sm"
+        cpd?.environmentKey = "YOUR_ENVIRONMENT_KEY"
         let cvd = MUXSDKCustomerVideoData();
         cvd.videoIsLive = false;
         cvd.videoTitle = video["title"]!
