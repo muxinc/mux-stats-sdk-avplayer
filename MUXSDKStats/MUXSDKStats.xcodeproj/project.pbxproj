@@ -423,7 +423,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BCC5D86A3714D5DBC5D8ED1B /* Pods-MUXSDKStatsTv.debug.xcconfig */;
 			buildSettings = {
-				BITCODE_GENERATION_MODE = bitcode;
 				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 0.0.6;
 				DEFINES_MODULE = YES;
@@ -453,7 +452,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 71E9DFE516F6970D05769B4E /* Pods-MUXSDKStatsTv.release.xcconfig */;
 			buildSettings = {
-				BITCODE_GENERATION_MODE = bitcode;
 				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 0.0.6;
 				DEFINES_MODULE = YES;
@@ -588,7 +586,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2299324CA6DB1DBCB21FE15C /* Pods-MUXSDKStats.debug.xcconfig */;
 			buildSettings = {
-				BITCODE_GENERATION_MODE = bitcode;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -616,7 +613,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A509F4458CE894269B2FC0DD /* Pods-MUXSDKStats.release.xcconfig */;
 			buildSettings = {
-				BITCODE_GENERATION_MODE = bitcode;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
