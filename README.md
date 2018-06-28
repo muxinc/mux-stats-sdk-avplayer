@@ -8,3 +8,9 @@
 * Github - Make a new release with the new version
 * Cocoapod - Run `pod spec lint` to local check pod validity
 * Cocoapod - Run `pod trunk push Mux-Stats-SDK.podspec`
+
+
+## Sample apps
+* apps/DemoApp - Objective C demo
+* apps/video-demo - Swift demo
+* apps/TvDemoAPp - Apple TV demo
