@@ -1,6 +1,0 @@
-framework module MuxCoreTv {
-  umbrella header "MuxCoreTv.h"
-
-  export *
-  module * { export * }
-}

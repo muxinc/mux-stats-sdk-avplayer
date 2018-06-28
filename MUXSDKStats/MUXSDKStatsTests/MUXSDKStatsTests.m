@@ -8,12 +8,10 @@
 
 #import <XCTest/XCTest.h>
 #import "MUXSDKStats.h"
-#import <MuxCore/MUXSDKEventHandling.h>
-#import <MuxCore/MUXSDKCustomerVideoData.h>
-#import <MuxCore/MUXSDKCustomerPlayerData.h>
 
 @import AVKit;
 @import AVFoundation;
+@import MuxCore;
 
 @interface MuxMockAVPlayerViewController : AVPlayerViewController
 @end
