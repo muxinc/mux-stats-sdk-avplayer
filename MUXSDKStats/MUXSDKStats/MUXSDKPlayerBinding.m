@@ -3,7 +3,11 @@
 #import <Foundation/Foundation.h>
 
 @import CoreMedia;
+#if TARGET_OS_IOS
 @import MuxCore;
+#else
+@import MuxCoreTv;
+#endif
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
