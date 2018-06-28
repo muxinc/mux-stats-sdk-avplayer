@@ -1,5 +1,4 @@
 import UIKit
-import MuxCore
 
 class ViewController: UIViewController {
 

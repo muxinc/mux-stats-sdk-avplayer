@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3184032832F8BD21EB306928 /* Pods_video_demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9494D06ED85F8B24523E1C6B /* Pods_video_demo.framework */; };
 		733C31B92060C9AC00CC32F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733C31B82060C9AC00CC32F1 /* AppDelegate.swift */; };
 		733C31BB2060C9AC00CC32F1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733C31BA2060C9AC00CC32F1 /* ViewController.swift */; };
 		733C31BE2060C9AC00CC32F1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 733C31BC2060C9AC00CC32F1 /* Main.storyboard */; };
@@ -19,32 +18,7 @@
 		733C31D52060CB0E00CC32F1 /* VideoDemoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733C31D42060CB0E00CC32F1 /* VideoDemoCell.swift */; };
 		733C31D72060CBCE00CC32F1 /* VideoDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733C31D62060CBCE00CC32F1 /* VideoDemoController.swift */; };
 		733C31D92060D0EE00CC32F1 /* VideoPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733C31D82060D0EE00CC32F1 /* VideoPlayerController.swift */; };
-		73BF807420E55C4700934371 /* MUXSDKStats.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73DD610720E40F0B00717157 /* MUXSDKStats.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		73DD610620E40F0B00717157 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 73DD610020E40F0B00717157 /* MUXSDKStats.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 73C626EF20E2E85000FB0C85;
-			remoteInfo = MUXSDKStats;
-		};
-		73DD610820E40F0B00717157 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 73DD610020E40F0B00717157 /* MUXSDKStats.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 73C626F820E2E85000FB0C85;
-			remoteInfo = MUXSDKStatsTests;
-		};
-		73DD610A20E40F0B00717157 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 73DD610020E40F0B00717157 /* MUXSDKStats.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 73C6272120E2E92300FB0C85;
-			remoteInfo = MUXSDKStatsTv;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		733C31B52060C9AC00CC32F1 /* video-demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "video-demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -60,11 +34,6 @@
 		733C31D42060CB0E00CC32F1 /* VideoDemoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDemoCell.swift; sourceTree = "<group>"; };
 		733C31D62060CBCE00CC32F1 /* VideoDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDemoController.swift; sourceTree = "<group>"; };
 		733C31D82060D0EE00CC32F1 /* VideoPlayerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerController.swift; sourceTree = "<group>"; };
-		73DD610020E40F0B00717157 /* MUXSDKStats.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MUXSDKStats.xcodeproj; path = ../../../MUXSDKStats/MUXSDKStats.xcodeproj; sourceTree = "<group>"; };
-		73DD616F20E41A3100717157 /* MuxCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MuxCore.framework; path = ../../MuxCore/iOS/MuxCore.framework; sourceTree = "<group>"; };
-		9494D06ED85F8B24523E1C6B /* Pods_video_demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_video_demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9E734FA85FC82BEE2581F25B /* Pods-video-demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-video-demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-video-demo/Pods-video-demo.debug.xcconfig"; sourceTree = "<group>"; };
-		D210CCE7A3866A961649B126 /* Pods-video-demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-video-demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-video-demo/Pods-video-demo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,8 +41,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				73BF807420E55C4700934371 /* MUXSDKStats.framework in Frameworks */,
-				3184032832F8BD21EB306928 /* Pods_video_demo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,9 +52,7 @@
 			children = (
 				733C31B72060C9AC00CC32F1 /* video-demo */,
 				733C31B62060C9AC00CC32F1 /* Products */,
-				73DD616F20E41A3100717157 /* MuxCore.framework */,
-				879E19EACA05B320600D1A95 /* Pods */,
-				84C37647E7CA59825D0B15B6 /* Frameworks */,
+				73FD4C342061BE6800AFBA85 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -102,7 +67,6 @@
 		733C31B72060C9AC00CC32F1 /* video-demo */ = {
 			isa = PBXGroup;
 			children = (
-				73DD610020E40F0B00717157 /* MUXSDKStats.xcodeproj */,
 				733C31CE2060CA2200CC32F1 /* launch-full.png */,
 				733C31CF2060CA2200CC32F1 /* launch-landscape.png */,
 				733C31D02060CA2200CC32F1 /* launch-portrait.png */,
@@ -119,31 +83,11 @@
 			path = "video-demo";
 			sourceTree = "<group>";
 		};
-		73DD610120E40F0B00717157 /* Products */ = {
+		73FD4C342061BE6800AFBA85 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				73DD610720E40F0B00717157 /* MUXSDKStats.framework */,
-				73DD610920E40F0B00717157 /* MUXSDKStatsTests.xctest */,
-				73DD610B20E40F0B00717157 /* MUXSDKStatsTv.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		84C37647E7CA59825D0B15B6 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				9494D06ED85F8B24523E1C6B /* Pods_video_demo.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		879E19EACA05B320600D1A95 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				9E734FA85FC82BEE2581F25B /* Pods-video-demo.debug.xcconfig */,
-				D210CCE7A3866A961649B126 /* Pods-video-demo.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -153,11 +97,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 733C31C72060C9AC00CC32F1 /* Build configuration list for PBXNativeTarget "video-demo" */;
 			buildPhases = (
-				356402838C7DCCCBD039B966 /* [CP] Check Pods Manifest.lock */,
 				733C31B12060C9AC00CC32F1 /* Sources */,
 				733C31B22060C9AC00CC32F1 /* Frameworks */,
 				733C31B32060C9AC00CC32F1 /* Resources */,
-				D4ABC5305097F51CC613D385 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -175,7 +117,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = mux;
 				TargetAttributes = {
 					733C31B42060C9AC00CC32F1 = {
@@ -195,42 +137,12 @@
 			mainGroup = 733C31AC2060C9AC00CC32F1;
 			productRefGroup = 733C31B62060C9AC00CC32F1 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 73DD610120E40F0B00717157 /* Products */;
-					ProjectRef = 73DD610020E40F0B00717157 /* MUXSDKStats.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				733C31B42060C9AC00CC32F1 /* video-demo */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		73DD610720E40F0B00717157 /* MUXSDKStats.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = MUXSDKStats.framework;
-			remoteRef = 73DD610620E40F0B00717157 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		73DD610920E40F0B00717157 /* MUXSDKStatsTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = MUXSDKStatsTests.xctest;
-			remoteRef = 73DD610820E40F0B00717157 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		73DD610B20E40F0B00717157 /* MUXSDKStatsTv.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = MUXSDKStatsTv.framework;
-			remoteRef = 73DD610A20E40F0B00717157 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		733C31B32060C9AC00CC32F1 /* Resources */ = {
@@ -247,45 +159,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		356402838C7DCCCBD039B966 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-video-demo-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D4ABC5305097F51CC613D385 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-video-demo/Pods-video-demo-frameworks.sh",
-				"${PODS_ROOT}/Mux-Stats-Core/Frameworks/iOS/fat/MuxCore.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MuxCore.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-video-demo/Pods-video-demo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		733C31B12060C9AC00CC32F1 /* Sources */ = {
@@ -336,7 +209,6 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -344,7 +216,6 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -395,7 +266,6 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -403,7 +273,6 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -435,12 +304,14 @@
 		};
 		733C31C82060C9AC00CC32F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9E734FA85FC82BEE2581F25B /* Pods-video-demo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XX95P4Y787;
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "video-demo/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.video-demo";
@@ -452,12 +323,14 @@
 		};
 		733C31C92060C9AC00CC32F1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D210CCE7A3866A961649B126 /* Pods-video-demo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XX95P4Y787;
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "video-demo/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.video-demo";
