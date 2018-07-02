@@ -125,7 +125,7 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
 }
 
 - (void)stopMonitoringAVPlayerItem {
-    [MUXSDKCore destoryPlayer: _name];
+    [MUXSDKCore destroyPlayer: _name];
     [_playerItem removeObserver:self forKeyPath:@"status"];
     _playerItem = nil;
 }
