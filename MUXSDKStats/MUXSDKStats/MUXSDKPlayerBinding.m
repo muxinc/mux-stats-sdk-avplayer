@@ -11,7 +11,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"0.0.12";
+NSString *const MUXSDKPluginVersion = @"2.0.2";
 
 // Min number of seconds between timeupdate events. (100ms)
 double MUXSDKMaxSecsBetweenTimeUpdate = 0.1;
@@ -82,11 +82,58 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
               forKeyPath:@"currentItem"
                  options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
                  context:MUXSDKAVPlayerCurrentItemObservationContext];
+    _lastMediaRequest = 0;
+    _lastMediaRequestBytes = 0;
+    _lastErrorLogEventCount = 0;
 }
 
 - (void)timeUpdateTimer:(NSTimer *)timer {
     if (![self isTryingToPlay] && ![self isBuffering]) {
         [self dispatchTimeUpdateFromTimer];
+    }
+
+    if (_player.currentItem != nil) {
+        AVPlayerItemAccessLog *log = _player.currentItem.accessLog;
+        if (log != nil && log.events.count > 0) {
+            // https://developer.apple.com/documentation/avfoundation/avplayeritemaccesslogevent?language=objc
+            AVPlayerItemAccessLogEvent *event = log.events[log.events.count - 1];
+            if (event.numberOfMediaRequests > 0 && event.numberOfMediaRequests != _lastMediaRequest) {
+                // NSLog(@"BandwidthMetrics %lu: bytes %llu", event.numberOfMediaRequests, (event.numberOfBytesTransferred - _lastMediaRequestBytes));
+                MUXSDKBandwidthMetricData *loadData = [[MUXSDKBandwidthMetricData alloc] init];
+                loadData.requestType = @"ManifestOrMedia";
+                loadData.requestBytesLoaded = [NSNumber numberWithLong:(event.numberOfBytesTransferred - _lastMediaRequestBytes)];
+                loadData.requestResponseHeaders = nil;
+                loadData.requestHostName = event.serverAddress;
+                loadData.requestCurrentLevel = nil;
+                loadData.requestMediaStartTime = nil;
+                loadData.requestMediaDuration = nil;
+                loadData.requestVideoWidth = nil;
+                loadData.requestVideoHeight = nil;
+                loadData.requestRenditionLists = nil;
+                loadData.requestMinThroughput = [NSNumber numberWithLongLong:(long long) event.observedMinBitrate];
+                loadData.requestAverageThroughput = [NSNumber numberWithLongLong:(long long) event.observedBitrate];
+                [self dispatchBandwidthMetric:loadData];
+            }
+            _lastMediaRequestBytes = event.numberOfBytesTransferred;
+            _lastMediaRequest = event.numberOfMediaRequests;
+        }
+
+        AVPlayerItemErrorLog *error = _player.currentItem.errorLog;
+        if (error != nil && error.events.count > 0) {
+            // https://developer.apple.com/documentation/avfoundation/avplayeritemerrorlogevent?language=objc
+            if (_lastErrorLogEventCount < error.events.count) {
+                AVPlayerItemErrorLogEvent *errorEvent = error.events[error.events.count - 1];
+                MUXSDKBandwidthMetricData *loadData = [[MUXSDKBandwidthMetricData alloc] init];
+                loadData.requestError = errorEvent.errorDomain;
+                loadData.requestType = @"ManifestOrMedia";
+                loadData.requestUrl = errorEvent.URI;
+                loadData.requestHostName = errorEvent.serverAddress;
+                loadData.requestErrorCode = [NSNumber numberWithLong: errorEvent.errorStatusCode];
+                loadData.requestErrorText = errorEvent.errorComment;
+                [self dispatchBandwidthMetric:loadData];
+            }
+            _lastErrorLogEventCount = error.events.count;
+        }
     }
 }
 
@@ -470,6 +517,18 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
     [event setPlayerData:playerData];
     [MUXSDKCore dispatchEvent:event forPlayer:_name];
     _state = MUXSDKPlayerStateViewEnd;
+}
+
+- (void)dispatchBandwidthMetric: (MUXSDKBandwidthMetricData *)loadData {
+    if (![self isPlayerOK]) {
+        return;
+    }
+    [self checkVideoData];
+    MUXSDKPlayerData *playerData = [self getPlayerData];
+    MUXSDKRequestBandwidthEvent *event = [[MUXSDKRequestBandwidthEvent alloc] init];
+    [event setPlayerData:playerData];
+    [event setBandwidthMetricData: loadData];
+    [MUXSDKCore dispatchEvent:event forPlayer:_name];
 }
 
 - (void)updateLastPlayheadTime {
