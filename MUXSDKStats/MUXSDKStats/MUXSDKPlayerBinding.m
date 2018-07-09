@@ -87,6 +87,11 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
     _lastErrorLogEventCount = 0;
 }
 
+-(NSString *)getHostName:(NSString *)urlString {
+    NSURL* url = [NSURL URLWithString:urlString];
+    return [url host];
+}
+
 - (void)timeUpdateTimer:(NSTimer *)timer {
     if (![self isTryingToPlay] && ![self isBuffering]) {
         [self dispatchTimeUpdateFromTimer];
@@ -99,11 +104,12 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
             AVPlayerItemAccessLogEvent *event = log.events[log.events.count - 1];
             if (event.numberOfMediaRequests > 0 && event.numberOfMediaRequests != _lastMediaRequest) {
                 // NSLog(@"BandwidthMetrics %lu: bytes %llu", event.numberOfMediaRequests, (event.numberOfBytesTransferred - _lastMediaRequestBytes));
+                NSString *domain = [self getHostName:event.URI];
                 MUXSDKBandwidthMetricData *loadData = [[MUXSDKBandwidthMetricData alloc] init];
                 loadData.requestType = @"ManifestOrMedia";
                 loadData.requestBytesLoaded = [NSNumber numberWithLong:(event.numberOfBytesTransferred - _lastMediaRequestBytes)];
                 loadData.requestResponseHeaders = nil;
-                loadData.requestHostName = event.serverAddress;
+                loadData.requestHostName = (domain == nil) ? event.serverAddress : domain;
                 loadData.requestCurrentLevel = nil;
                 loadData.requestMediaStartTime = nil;
                 loadData.requestMediaDuration = nil;
@@ -123,11 +129,12 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
             // https://developer.apple.com/documentation/avfoundation/avplayeritemerrorlogevent?language=objc
             if (_lastErrorLogEventCount < error.events.count) {
                 AVPlayerItemErrorLogEvent *errorEvent = error.events[error.events.count - 1];
+                NSString *domain = [self getHostName:errorEvent.URI];
                 MUXSDKBandwidthMetricData *loadData = [[MUXSDKBandwidthMetricData alloc] init];
                 loadData.requestError = errorEvent.errorDomain;
                 loadData.requestType = @"ManifestOrMedia";
                 loadData.requestUrl = errorEvent.URI;
-                loadData.requestHostName = errorEvent.serverAddress;
+                loadData.requestHostName = (domain == nil) ? errorEvent.serverAddress : domain;
                 loadData.requestErrorCode = [NSNumber numberWithLong: errorEvent.errorStatusCode];
                 loadData.requestErrorText = errorEvent.errorComment;
                 [self dispatchBandwidthMetric:loadData];
