@@ -7,5 +7,5 @@ target 'video-demo' do
 
   # Pods for video-demo
   pod 'Mux-Stats-Core', '~>2.0.0'
-  pod 'Mux-Stats-SDK', '~>2.0.0'
+  pod 'Mux-Stats-AVPlayer', '~>0.1.0'
 end
