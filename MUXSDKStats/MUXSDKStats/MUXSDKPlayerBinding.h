@@ -40,6 +40,13 @@ typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
     NSUInteger _lastMediaRequest;
     NSUInteger _lastMediaRequestBytes;
     NSUInteger _lastErrorLogEventCount;
+    NSUInteger _lastTransferEventCount;
+    double _lastTransferDuration;
+    long long _lastTransferredBytes;
+    // The following three vars are for future research only
+    // double _totalTime;
+    // long long _totalBytes;
+    // double _minBitrate;
 }
 
 - (id)initWithName:(NSString *)name andSoftware:(NSString *)software;

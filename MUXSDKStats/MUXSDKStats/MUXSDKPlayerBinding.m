@@ -85,6 +85,10 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
     _lastMediaRequest = 0;
     _lastMediaRequestBytes = 0;
     _lastErrorLogEventCount = 0;
+    _lastTransferEventCount = 0;
+    _lastTransferDuration= 0;
+    _lastTransferredBytes = 0;
+    //_minBitrate = 0;
 }
 
 -(NSString *)getHostName:(NSString *)urlString {
@@ -102,12 +106,29 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
         if (log != nil && log.events.count > 0) {
             // https://developer.apple.com/documentation/avfoundation/avplayeritemaccesslogevent?language=objc
             AVPlayerItemAccessLogEvent *event = log.events[log.events.count - 1];
+
             if (event.numberOfMediaRequests > 0 && event.numberOfMediaRequests != _lastMediaRequest) {
-                // NSLog(@"BandwidthMetrics %lu: bytes %llu", event.numberOfMediaRequests, (event.numberOfBytesTransferred - _lastMediaRequestBytes));
+                if (_lastTransferEventCount != log.events.count) {
+                    _lastTransferDuration= 0;
+                    _lastTransferredBytes = 0;
+                    _lastTransferEventCount = log.events.count;
+                }
+                //double transferDuration = event.transferDuration - _lastTransferDuration;
+                //long long transferredBytes = event.numberOfBytesTransferred - _lastTransferredBytes;
+                // !!! event.observedMinBitrate, event.observedMaxBitrate, event.observedBitrate don't seem to be accurate
+                // we did a chalres proxy dump try to calculate the bitrate, and compared with above values. It doesn't match
+                // but it matches with the calculation between line 141 to line 149
+
+                // Keep the next line of print for future reseaerch.
+                //NSLog(@"Bwm transferDuration %f, numOfBytesXferred %llu, min %fbps, max %fbps, observered %fbps", event.transferDuration, event.numberOfBytesTransferred, event.observedMinBitrate, event.observedMaxBitrate, event.observedBitrate);
+
                 NSString *domain = [self getHostName:event.URI];
                 MUXSDKBandwidthMetricData *loadData = [[MUXSDKBandwidthMetricData alloc] init];
                 loadData.requestType = @"ManifestOrMedia";
-                loadData.requestBytesLoaded = [NSNumber numberWithLong:(event.numberOfBytesTransferred - _lastMediaRequestBytes)];
+                loadData.requestStart = [NSNumber numberWithLong: _lastTransferDuration * 1000];
+                loadData.requestResponseStart = [NSNumber numberWithLong: _lastTransferDuration * 1000];
+                loadData.requestResponseEnd = [NSNumber numberWithLong: event.transferDuration * 1000];
+                loadData.requestBytesLoaded = [NSNumber numberWithLong: event.numberOfBytesTransferred - _lastTransferredBytes];
                 loadData.requestResponseHeaders = nil;
                 loadData.requestHostName = (domain == nil) ? event.serverAddress : domain;
                 loadData.requestCurrentLevel = nil;
@@ -116,9 +137,19 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
                 loadData.requestVideoWidth = nil;
                 loadData.requestVideoHeight = nil;
                 loadData.requestRenditionLists = nil;
-                loadData.requestMinThroughput = [NSNumber numberWithLongLong:(long long) event.observedMinBitrate];
-                loadData.requestAverageThroughput = [NSNumber numberWithLongLong:(long long) event.observedBitrate];
                 [self dispatchBandwidthMetric:loadData];
+
+                // manual bitrate calculation; it includes request latency, which is defined as delta between request sent and 1st byte of recsponse received.
+                // double currBitrate = transferredBytes * 8 / transferDuration;
+                // if (_minBitrate == 0 || _minBitrate > currBitrate) {
+                //    _minBitrate = currBitrate;
+                // }
+                // _totalTime += transferDuration;
+                // _totalBytes += transferredBytes;
+                // double avgBitRate = _totalBytes * 8 / _totalTime;
+                // NSLog(@"Bwm: min %f, avg %f", _minBitrate, avgBitRate);
+                _lastTransferredBytes = event.numberOfBytesTransferred;
+                _lastTransferDuration = event.transferDuration;
             }
             _lastMediaRequestBytes = event.numberOfBytesTransferred;
             _lastMediaRequest = event.numberOfMediaRequests;
