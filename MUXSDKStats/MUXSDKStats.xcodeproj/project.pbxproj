@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0BAE6EA01FC48ACC88249C0E /* libPods-MUXSDKStatsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14FEFF8CDE6D86B37B60812D /* libPods-MUXSDKStatsTests.a */; };
 		F41E09081DDA8E530028A296 /* MUXSDKStatsTv.h in Headers */ = {isa = PBXBuildFile; fileRef = F41E09061DDA8E530028A296 /* MUXSDKStatsTv.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F41E099D1DDA8FB50028A296 /* MUXSDKStats.h in Headers */ = {isa = PBXBuildFile; fileRef = F4DCAD001DCA892E0094D94C /* MUXSDKStats.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F41E09E41DDA90DB0028A296 /* MUXSDKPlayerBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = F4572FC11DDA2FC8003FE72B /* MUXSDKPlayerBinding.h */; };
@@ -75,6 +76,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4DCAD071DCA892E0094D94C /* MUXSDKStats.framework in Frameworks */,
+				0BAE6EA01FC48ACC88249C0E /* libPods-MUXSDKStatsTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
