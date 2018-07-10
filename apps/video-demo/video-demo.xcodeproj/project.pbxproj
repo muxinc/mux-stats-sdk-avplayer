@@ -202,15 +202,15 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-video-demo/Pods-video-demo-frameworks.sh",
+				"${PODS_ROOT}/Mux-Stats-AVPlayer/Frameworks/iOS/fat/MUXSDKStats.framework",
+				"${PODS_ROOT}/Mux-Stats-AVPlayer/Frameworks/iOS/fat/MUXSDKStats.framework.dSYM",
 				"${PODS_ROOT}/Mux-Stats-Core/Frameworks/iOS/fat/MuxCore.framework",
-				"${PODS_ROOT}/Mux-Stats-SDK/Frameworks/iOS/fat/MUXSDKStats.framework",
-				"${PODS_ROOT}/Mux-Stats-SDK/Frameworks/iOS/fat/MUXSDKStats.framework.dSYM",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MuxCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MUXSDKStats.framework",
 				"${DWARF_DSYM_FOLDER_PATH}/MUXSDKStats.framework.dSYM",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MuxCore.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
