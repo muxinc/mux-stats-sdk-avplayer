@@ -11,7 +11,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"0.0.12";
+NSString *const MUXSDKPluginVersion = @"0.1.0";
 
 // Min number of seconds between timeupdate events. (100ms)
 double MUXSDKMaxSecsBetweenTimeUpdate = 0.1;
@@ -82,11 +82,81 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
               forKeyPath:@"currentItem"
                  options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
                  context:MUXSDKAVPlayerCurrentItemObservationContext];
+    _lastMediaRequest = 0;
+    _lastMediaRequestBytes = 0;
+    _lastErrorLogEventCount = 0;
+    _lastTransferEventCount = 0;
+    _lastTransferDuration= 0;
+    _lastTransferredBytes = 0;
+}
+
+-(NSString *)getHostName:(NSString *)urlString {
+    NSURL* url = [NSURL URLWithString:urlString];
+    NSString *domain = [url host];
+    return (domain == nil) ? urlString : domain;
 }
 
 - (void)timeUpdateTimer:(NSTimer *)timer {
     if (![self isTryingToPlay] && ![self isBuffering]) {
         [self dispatchTimeUpdateFromTimer];
+    }
+
+    if (_player.currentItem != nil) {
+        AVPlayerItemAccessLog *log = _player.currentItem.accessLog;
+        if (log != nil && log.events.count > 0) {
+            // https://developer.apple.com/documentation/avfoundation/avplayeritemaccesslogevent?language=objc
+            AVPlayerItemAccessLogEvent *event = log.events[log.events.count - 1];
+
+            if (event.numberOfMediaRequests > 0 && event.numberOfMediaRequests != _lastMediaRequest) {
+                if (_lastTransferEventCount != log.events.count) {
+                    _lastTransferDuration= 0;
+                    _lastTransferredBytes = 0;
+                    _lastTransferEventCount = log.events.count;
+                }
+
+                double requestCompletedTime = [[NSDate date] timeIntervalSince1970];
+                // !!! event.observedMinBitrate, event.observedMaxBitrate, event.observedBitrate don't seem to be accurate
+                // we did a charles proxy dump try to calculate the bitrate, and compared with above values. It doesn't match
+                // but if use data stored in requestResponseStart/requestResponseEnd/requestBytesLoaded to compute, the value are very close.
+                MUXSDKBandwidthMetricData *loadData = [[MUXSDKBandwidthMetricData alloc] init];
+                loadData.requestType = @"media";
+                loadData.requestStart = [NSNumber numberWithLong: _lastTransferDuration * 1000];
+                loadData.requestResponseStart = [NSNumber numberWithLong: (long)(requestCompletedTime - (event.transferDuration - _lastTransferDuration) * 1000)];
+                loadData.requestResponseEnd = [NSNumber numberWithLong: (long)requestCompletedTime];
+                loadData.requestBytesLoaded = [NSNumber numberWithLong: event.numberOfBytesTransferred - _lastTransferredBytes];
+                loadData.requestResponseHeaders = nil;
+                loadData.requestHostName = [self getHostName:event.URI];
+                loadData.requestCurrentLevel = nil;
+                loadData.requestMediaStartTime = nil;
+                loadData.requestMediaDuration = nil;
+                loadData.requestVideoWidth = nil;
+                loadData.requestVideoHeight = nil;
+                loadData.requestRenditionLists = nil;
+                [self dispatchBandwidthMetric:loadData];
+                _lastTransferredBytes = event.numberOfBytesTransferred;
+                _lastTransferDuration = event.transferDuration;
+            }
+            _lastMediaRequestBytes = event.numberOfBytesTransferred;
+            _lastMediaRequest = event.numberOfMediaRequests;
+        }
+
+        AVPlayerItemErrorLog *error = _player.currentItem.errorLog;
+        if (error != nil && error.events.count > 0) {
+            // https://developer.apple.com/documentation/avfoundation/avplayeritemerrorlogevent?language=objc
+            if (_lastErrorLogEventCount < error.events.count) {
+                AVPlayerItemErrorLogEvent *errorEvent = error.events[error.events.count - 1];
+                NSString *domain = [self getHostName:errorEvent.URI];
+                MUXSDKBandwidthMetricData *loadData = [[MUXSDKBandwidthMetricData alloc] init];
+                loadData.requestError = errorEvent.errorDomain;
+                loadData.requestType = @"media";
+                loadData.requestUrl = errorEvent.URI;
+                loadData.requestHostName = [self getHostName:errorEvent.URI];
+                loadData.requestErrorCode = [NSNumber numberWithLong: errorEvent.errorStatusCode];
+                loadData.requestErrorText = errorEvent.errorComment;
+                [self dispatchBandwidthMetric:loadData];
+            }
+            _lastErrorLogEventCount = error.events.count;
+        }
     }
 }
 
@@ -470,6 +540,18 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
     [event setPlayerData:playerData];
     [MUXSDKCore dispatchEvent:event forPlayer:_name];
     _state = MUXSDKPlayerStateViewEnd;
+}
+
+- (void)dispatchBandwidthMetric: (MUXSDKBandwidthMetricData *)loadData {
+    if (![self isPlayerOK]) {
+        return;
+    }
+    [self checkVideoData];
+    MUXSDKPlayerData *playerData = [self getPlayerData];
+    MUXSDKRequestBandwidthEvent *event = [[MUXSDKRequestBandwidthEvent alloc] init];
+    [event setPlayerData:playerData];
+    [event setBandwidthMetricData: loadData];
+    [MUXSDKCore dispatchEvent:event forPlayer:_name];
 }
 
 - (void)updateLastPlayheadTime {

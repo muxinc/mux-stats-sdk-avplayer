@@ -7,7 +7,7 @@
 * If approved, `git tag [YOUR NEW VERSION]` and `git push --tags`
 * Github - Make a new release with the new version
 * Cocoapod - Run `pod spec lint` to local check pod validity
-* Cocoapod - Run `pod trunk push Mux-Stats-SDK.podspec`
+* Cocoapod - Run `pod trunk push Mux-Stats-AVPlayer.podspec`
 
 
 ## Sample apps
