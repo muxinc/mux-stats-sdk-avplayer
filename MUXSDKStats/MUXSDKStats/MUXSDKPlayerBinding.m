@@ -145,7 +145,6 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
             // https://developer.apple.com/documentation/avfoundation/avplayeritemerrorlogevent?language=objc
             if (_lastErrorLogEventCount < error.events.count) {
                 AVPlayerItemErrorLogEvent *errorEvent = error.events[error.events.count - 1];
-                NSString *domain = [self getHostName:errorEvent.URI];
                 MUXSDKBandwidthMetricData *loadData = [[MUXSDKBandwidthMetricData alloc] init];
                 loadData.requestError = errorEvent.errorDomain;
                 loadData.requestType = @"media";

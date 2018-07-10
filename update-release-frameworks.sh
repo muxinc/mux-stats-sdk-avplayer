@@ -61,10 +61,3 @@ cp -R MUXSDKStats/ios/MUXSDKStats.framework.dSYM Frameworks/iOS/fat/MUXSDKStats.
 # Clean up
 rm -Rf MUXSDKStats/tv
 rm -Rf MUXSDKStats/ios
-
-
-# Copy the fat binaries over to the demo apps
-rm -Rf DemoApp/MUXSDKStats.framework
-rm -Rf TvDemoApp/MUXSDKStatsTv.framework
-cp -R Frameworks/iOS/fat/MUXSDKStats.framework DemoApp/MUXSDKStats.framework
-cp -R Frameworks/tvOS/fat/MUXSDKStatsTv.framework TvDemoApp/MUXSDKStatsTv.framework
