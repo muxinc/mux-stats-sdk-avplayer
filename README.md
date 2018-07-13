@@ -1,5 +1,12 @@
 # mux-stats-sdk-avplayer
 
+Mux integration with `AVPlayer` and `AVPlayerLayer` for iOS native applications.
+
+This integration is built on top of [Mux's core Objective-C library](), allowing thinner wrappers for each new player, such as any third-party players that do not use (or expose) an underlying `AVPlayer` and/or `AVPlayerLayer`.
+
+## Integration Instructions
+Full integration instructions can be found here: https://docs.mux.com/docs/ios-integration-guide.
+
 ## How to release
 * Bump versions in MUXSDKStats.info, MUXSDKStatsTv.info, and Mux-Stats-SDK.podspec
 * Execute `update-release-frameworks.sh` to make a full build
@@ -9,8 +16,7 @@
 * Cocoapod - Run `pod spec lint` to local check pod validity
 * Cocoapod - Run `pod trunk push Mux-Stats-AVPlayer.podspec`
 
-
 ## Sample apps
 * apps/DemoApp - Objective C demo
 * apps/video-demo - Swift demo
-* apps/TvDemoAPp - Apple TV demo
+* apps/TvDemoApp - Apple TV demo
