@@ -16,6 +16,10 @@ Full integration instructions can be found here: https://docs.mux.com/docs/ios-i
 * Cocoapod - Run `pod spec lint` to local check pod validity
 * Cocoapod - Run `pod trunk push Mux-Stats-AVPlayer.podspec`
 
+* To support Carthage framework management,
+* After the `update-release-frameworks.sh` build, run carthage-archive.sh.
+* Then attach the output to the release
+
 ## Sample apps
 * apps/DemoApp - Objective C demo
 * apps/video-demo - Swift demo
