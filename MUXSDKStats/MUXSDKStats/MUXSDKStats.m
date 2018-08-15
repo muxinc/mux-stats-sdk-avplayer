@@ -1,5 +1,6 @@
 #import "MUXSDKStats.h"
 #import "MUXSDKPlayerBinding.h"
+#import "AVPlayerReverseProxy.h"
 
 #import <Foundation/Foundation.h>
 #import <sys/utsname.h>
@@ -21,6 +22,8 @@ static MUXSDKDispatcher *_dispatcher;
 static NSMutableDictionary *_bindings;
 // Name => AVPlayerViewController or AVPlayerLayer
 static NSMutableDictionary *_viewControllers;
+// Name => AVPlayerReverseProxy
+static NSMutableDictionary *_proxies;
 
 + (void)initSDK {
     if (!_bindings) {
@@ -28,6 +31,9 @@ static NSMutableDictionary *_viewControllers;
     }
     if (!_viewControllers) {
         _viewControllers = [[NSMutableDictionary alloc] init];
+    }
+    if (!_proxies) {
+        _proxies = [[NSMutableDictionary alloc] init];
     }
     if (!_dispatcher) {
         _dispatcher = [[MUXSDKDispatcher alloc] init];
@@ -105,7 +111,7 @@ static NSMutableDictionary *_viewControllers;
     }
 }
 
-+ (void)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData {
++ (void)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player withUrl: (nonnull NSString *)streamUrl withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData {
     [self initSDK];
     NSString *binding = [_bindings valueForKey:name];
     if (binding) {
@@ -113,6 +119,11 @@ static NSMutableDictionary *_viewControllers;
         [self destroyPlayer:name];
     }
     if (player.player) {
+        AVPlayerReverseProxy *proxy = [[AVPlayerReverseProxy alloc] init];
+        [_proxies setValue:proxy forKey:name];
+        NSURL* videoURL = [proxy startPlayerProxyWithReverseProxyHost:streamUrl];
+        [player.player replaceCurrentItemWithPlayerItem: [AVPlayerItem playerItemWithURL:videoURL]];
+
         MUXSDKAVPlayerViewControllerBinding *newBinding = [[MUXSDKAVPlayerViewControllerBinding alloc] initWithName:name software:MuxPlayerSoftwareAVPlayerViewController andView:player];
         [newBinding attachAVPlayer:player.player];
         [newBinding dispatchViewInit];
@@ -145,7 +156,7 @@ static NSMutableDictionary *_viewControllers;
     }
 }
 
-+ (void)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData {
++ (void)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player withUrl:(nonnull NSString *)streamUrl withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData {
     [self initSDK];
     NSString *binding = [_bindings valueForKey:name];
     if (binding) {
@@ -153,6 +164,11 @@ static NSMutableDictionary *_viewControllers;
         [self destroyPlayer:name];
     }
     if (player.player) {
+        AVPlayerReverseProxy *proxy = [[AVPlayerReverseProxy alloc] init];
+        [_proxies setValue:proxy forKey:name];
+        NSURL* videoURL = [proxy startPlayerProxyWithReverseProxyHost:streamUrl];
+        [player.player replaceCurrentItemWithPlayerItem: [AVPlayerItem playerItemWithURL:videoURL]];
+
         MUXSDKAVPlayerLayerBinding *newBinding = [[MUXSDKAVPlayerLayerBinding alloc] initWithName:name software:MuxPlayerSoftwareAVPlayerLayer andView:player];
         [newBinding attachAVPlayer:player.player];
         [newBinding dispatchViewInit];
@@ -186,6 +202,12 @@ static NSMutableDictionary *_viewControllers;
 }
 
 + (void)destroyPlayer:(NSString *)name {
+    AVPlayerReverseProxy *proxy = [_proxies valueForKey:name];
+    if (proxy != nil) {
+        [proxy stopPlayerProxy];
+    }
+    [_proxies removeObjectForKey:name];
+
     NSString *binding = [_bindings valueForKey:name];
     if (binding == MuxPlayerSoftwareAVPlayerViewController) {
         MUXSDKAVPlayerViewControllerBinding *player = [_viewControllers valueForKey:name];

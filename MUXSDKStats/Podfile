@@ -7,6 +7,7 @@ target 'MUXSDKStats' do
 
   # Pods for MUXSDKStats
   pod 'Mux-Stats-Core', '~>2.0.0'
+  pod "GCDWebServer", "~> 3.0"
 
   target 'MUXSDKStatsTests' do
     inherit! :search_paths
@@ -22,4 +23,5 @@ target 'MUXSDKStatsTv' do
 
   # Pods for MUXSDKStatsTv
   pod 'Mux-Stats-Core', '~>2.0.0'
+  pod "GCDWebServer", "~> 3.0"
 end

@@ -37,15 +37,16 @@ FOUNDATION_EXPORT
 + (_Null_unspecified instancetype)new NS_UNAVAILABLE;
 
 /*!
- @method      monitorAVPlayerViewController:withPlayerName:playerData:videoData:
+ @method      monitorAVPlayerViewController:withUrl:withPlayerName:playerData:videoData:
  @abstract    Starts to monitor a given AVPlayerViewController.
  @param       player An AVPlayerViewController to monitor
+ @param       streamUrl A stream url to be played
  @param       name A name for this instance of the player
  @param       playerData A MUXSDKCustomerPlayerData object with player metadata
  @param       videoData A MUXSDKCustomerVideoData object with video metadata
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerViewController. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
-+ (void)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData;
++ (void)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player withUrl: (nonnull NSString *)streamUrl withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData;
 
 /*!
  @method      updateAVPlayerViewController:withPlayerName
@@ -57,15 +58,16 @@ FOUNDATION_EXPORT
 + (void)updateAVPlayerViewController:(nonnull AVPlayerViewController *)player withPlayerName:(nonnull NSString *)name;
 
 /*!
- @method      monitorAVPlayerLayer:withPlayerName:playerData:videoData:
+ @method      monitorAVPlayerLayer:withUrl:withPlayerName:playerData:videoData:
  @abstract    Starts to monitor a given AVPlayerLayer.
  @param       player An AVPlayerLayer to monitor
+ @param       streamUrl A stream url to be played
  @param       name A name for this instance of the player
  @param       playerData A MUXSDKCustomerPlayerData object with player metadata
  @param       videoData A MUXSDKCustomerVideoData object with video metadata
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerLayer. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
-+ (void)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData;
++ (void)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player withUrl:(nonnull NSString *)streamUrl withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData;
 
 /*!
  @method      updateAVPlayerLayer:withPlayerName:

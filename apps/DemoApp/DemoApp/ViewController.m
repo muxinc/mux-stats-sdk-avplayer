@@ -13,7 +13,8 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSURL* videoURL = [NSURL URLWithString:@"http://www.streambox.fr/playlists/x36xhzz/x36xhzz.m3u8"];
+    NSString *urlString = @"http://www.streambox.fr/playlists/x36xhzz/x36xhzz.m3u8";
+    NSURL* videoURL = [NSURL URLWithString:urlString];
     _avplayer = [AVPlayer playerWithURL:videoURL];
     _avplayerController = [AVPlayerViewController new];
     _avplayerController.player = _avplayer;
@@ -25,6 +26,7 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
     videoData.videoId = @"bigbuckbunny";
     videoData.videoSeries = @"animation";
     [MUXSDKStats monitorAVPlayerViewController:_avplayerController
+                                       withUrl:urlString
                                 withPlayerName:DEMO_PLAYER_NAME
                                     playerData:playerData
                                      videoData:videoData];
