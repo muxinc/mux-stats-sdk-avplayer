@@ -2,6 +2,7 @@
 #define MUXSDKPlayerBinding_h
 
 #import <Foundation/Foundation.h>
+#import "AVPlayerReverseProxy.h"
 
 @import AVKit;
 @import AVFoundation;
@@ -43,10 +44,11 @@ typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
     NSUInteger _lastTransferEventCount;
     double _lastTransferDuration;
     long long _lastTransferredBytes;
+    AVPlayerReverseProxy *_proxy;
 }
 
 - (id)initWithName:(NSString *)name andSoftware:(NSString *)software;
-- (void)attachAVPlayer:(AVPlayer *)player;
+- (void)attachAVPlayer:(AVPlayer *)player withUrl:(NSString *)streamUrl;
 - (void)detachAVPlayer;
 - (CGRect)getViewBounds;
 - (void)dispatchViewInit;
@@ -57,6 +59,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
 - (void)dispatchTimeUpdateEvent:(CMTime)time;
 - (void)dispatchError;
 - (void)dispatchViewEnd;
+- (void)setupProxy:(NSString *)streamUrl;
 
 @end
 

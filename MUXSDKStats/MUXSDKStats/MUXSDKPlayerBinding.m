@@ -41,7 +41,17 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
     return(self);
 }
 
-- (void)attachAVPlayer:(AVPlayer *)player {
+- (void)setupProxy:(NSString *)streamUrl {
+    if (_proxy != nil) {
+        [_proxy stopPlayerProxy];
+        _proxy = nil;
+    }
+    _proxy = [[AVPlayerReverseProxy alloc] init];
+    NSURL* videoURL = [_proxy startPlayerProxyWithReverseProxyHost:streamUrl];
+    [_player replaceCurrentItemWithPlayerItem: [AVPlayerItem playerItemWithURL:videoURL]];
+}
+
+- (void)attachAVPlayer:(AVPlayer *)player withUrl:(NSString *)streamUrl {
     if (_player) {
         [self detachAVPlayer];
     }
@@ -49,7 +59,9 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
         NSLog(@"MUXSDK-ERROR - Cannot attach to NULL AVPlayer for player name: %@", _name);
         return;
     }
+
     _player = player;
+    [self setupProxy: streamUrl];
     __weak MUXSDKPlayerBinding *weakSelf = self;
     _lastTimeUpdate = CFAbsoluteTimeGetCurrent() - MUXSDKMaxSecsBetweenTimeUpdate;
     _timeObserver = [_player addPeriodicTimeObserverForInterval:[self getTimeObserverInternal]
@@ -164,6 +176,10 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
 }
 
 - (void)detachAVPlayer {
+    if (_proxy != nil) {
+        [_proxy stopPlayerProxy];
+        _proxy = nil;
+    }
     if (_player) {
         [_player removeTimeObserver:_timeObserver];
         [_player removeObserver:self forKeyPath:@"rate"];

@@ -52,10 +52,11 @@ FOUNDATION_EXPORT
  @method      updateAVPlayerViewController:withPlayerName
  @abstract    Updates the monitor for a player to a new AVPlayerViewController.
  @param       player The new AVPlayerViewController to monitor
+ @param       streamUrl A stream url to be played
  @param       name The name of the player instance to update
  @discussion  Use this method to modify the AVPlayerViewController a Mux player monitor is watching. The player monitor must previously have been created via a monitorAVPlayerViewController call.
  */
-+ (void)updateAVPlayerViewController:(nonnull AVPlayerViewController *)player withPlayerName:(nonnull NSString *)name;
++ (void)updateAVPlayerViewController:(nonnull AVPlayerViewController *)player withUrl:(nonnull NSString *)streamUrl withPlayerName:(nonnull NSString *)name;
 
 /*!
  @method      monitorAVPlayerLayer:withUrl:withPlayerName:playerData:videoData:
@@ -73,10 +74,11 @@ FOUNDATION_EXPORT
  @method      updateAVPlayerLayer:withPlayerName:
  @abstract    Updates the monitor for a player to a new AVPlayerLayer.
  @param       player The new AVPlayerLayer to monitor
+ @param       streamUrl A stream url to be played
  @param       name The name of the player instance to update
  @discussion  Use this method to modify the AVPlayerLayer a Mux player monitor is watching. The player monitor must previously have been created via a monitorAVPlayerViewController call.
  */
-+ (void)updateAVPlayerLayer:(nonnull AVPlayerLayer *)player withPlayerName:(nonnull NSString *)name;
++ (void)updateAVPlayerLayer:(nonnull AVPlayerLayer *)player withUrl:(nonnull NSString *)streamUrl withPlayerName:(nonnull NSString *)name;
 
 /*!
  @method			destroyPlayer:
@@ -90,10 +92,11 @@ FOUNDATION_EXPORT
  @method      videoChangeForPlayer:withVideoData:
  @abstract    Signals that a player is now playing a different video.
  @param       name The name of the player to update
+ @param       streamUrl A stream url to be played
  @param       videoData A MUXSDKCustomerVideoData object with video metadata
  @discussion  Use this method to signal that the player is now playing a new video. The player name provided must been passed as the name in a monitorPlayer:withPlayerName:andConfig: call. The config provided should match the specifications in the Mux docs at https://docs.mux.com and should include all desired keys, not just those keys that are specific to this video. If the name of the player provided was not previously initialized, an exception will be raised.
 
  */
-+ (void)videoChangeForPlayer:(nonnull NSString *)name withVideoData:(nullable MUXSDKCustomerVideoData *)videoData;
++ (void)videoChangeForPlayer:(nonnull NSString *)name withUrl:(nonnull NSString *)streamUrl withVideoData:(nullable MUXSDKCustomerVideoData *)videoData;
 
 @end

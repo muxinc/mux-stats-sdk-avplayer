@@ -46,15 +46,16 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 }
 
 - (void)changeVideo:(NSTimer *)timer {
+    NSString *urlString = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8";
+    NSURL* videoURL = [NSURL URLWithString:urlString];
+    AVPlayerItem *keynote = [AVPlayerItem playerItemWithURL:videoURL];
+    [_avplayer replaceCurrentItemWithPlayerItem:keynote];
+
     MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
     videoData.videoTitle = @"Apple Keynote";
     videoData.videoId = @"applekeynote2010";
-    [MUXSDKStats videoChangeForPlayer:DEMO_PLAYER_NAME
+    [MUXSDKStats videoChangeForPlayer:DEMO_PLAYER_NAME withUrl: urlString
                         withVideoData:videoData];
-
-    NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
-    AVPlayerItem *keynote = [AVPlayerItem playerItemWithURL:videoURL];
-    [_avplayer replaceCurrentItemWithPlayerItem:keynote];
     [_avplayer play];
 }
 

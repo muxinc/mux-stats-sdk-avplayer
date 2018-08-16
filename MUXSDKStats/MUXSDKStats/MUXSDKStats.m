@@ -1,6 +1,5 @@
 #import "MUXSDKStats.h"
 #import "MUXSDKPlayerBinding.h"
-#import "AVPlayerReverseProxy.h"
 
 #import <Foundation/Foundation.h>
 #import <sys/utsname.h>
@@ -22,8 +21,6 @@ static MUXSDKDispatcher *_dispatcher;
 static NSMutableDictionary *_bindings;
 // Name => AVPlayerViewController or AVPlayerLayer
 static NSMutableDictionary *_viewControllers;
-// Name => AVPlayerReverseProxy
-static NSMutableDictionary *_proxies;
 
 + (void)initSDK {
     if (!_bindings) {
@@ -31,9 +28,6 @@ static NSMutableDictionary *_proxies;
     }
     if (!_viewControllers) {
         _viewControllers = [[NSMutableDictionary alloc] init];
-    }
-    if (!_proxies) {
-        _proxies = [[NSMutableDictionary alloc] init];
     }
     if (!_dispatcher) {
         _dispatcher = [[MUXSDKDispatcher alloc] init];
@@ -119,13 +113,8 @@ static NSMutableDictionary *_proxies;
         [self destroyPlayer:name];
     }
     if (player.player) {
-        AVPlayerReverseProxy *proxy = [[AVPlayerReverseProxy alloc] init];
-        [_proxies setValue:proxy forKey:name];
-        NSURL* videoURL = [proxy startPlayerProxyWithReverseProxyHost:streamUrl];
-        [player.player replaceCurrentItemWithPlayerItem: [AVPlayerItem playerItemWithURL:videoURL]];
-
         MUXSDKAVPlayerViewControllerBinding *newBinding = [[MUXSDKAVPlayerViewControllerBinding alloc] initWithName:name software:MuxPlayerSoftwareAVPlayerViewController andView:player];
-        [newBinding attachAVPlayer:player.player];
+        [newBinding attachAVPlayer:player.player withUrl: streamUrl];
         [newBinding dispatchViewInit];
         [self dispatchDataEventForPlayerName:name playerData:playerData videoData:videoData];
         [newBinding dispatchPlayerReady];
@@ -136,7 +125,7 @@ static NSMutableDictionary *_proxies;
     }
 }
 
-+ (void)updateAVPlayerViewController:(nonnull AVPlayerViewController *)player withPlayerName:(nonnull NSString *)name {
++ (void)updateAVPlayerViewController:(nonnull AVPlayerViewController *)player withUrl: (nonnull NSString *)streamUrl withPlayerName:(nonnull NSString *)name {
     [self initSDK];
     NSString *binding = [_bindings valueForKey:name];
     if (binding) {
@@ -147,7 +136,7 @@ static NSMutableDictionary *_proxies;
         if (binding == MuxPlayerSoftwareAVPlayerViewController) {
             MUXSDKAVPlayerViewControllerBinding *playerController = [_viewControllers valueForKey:name];
             [playerController detachAVPlayer];
-            [playerController attachAVPlayer:player.player];
+            [playerController attachAVPlayer:player.player withUrl: streamUrl];
         } else {
             NSLog(@"MUXSDK-ERROR - Mux failed to update the monitor because the previous player with name %@ was not set up via monitorAVPlayerViewController", name);
         }
@@ -164,13 +153,8 @@ static NSMutableDictionary *_proxies;
         [self destroyPlayer:name];
     }
     if (player.player) {
-        AVPlayerReverseProxy *proxy = [[AVPlayerReverseProxy alloc] init];
-        [_proxies setValue:proxy forKey:name];
-        NSURL* videoURL = [proxy startPlayerProxyWithReverseProxyHost:streamUrl];
-        [player.player replaceCurrentItemWithPlayerItem: [AVPlayerItem playerItemWithURL:videoURL]];
-
         MUXSDKAVPlayerLayerBinding *newBinding = [[MUXSDKAVPlayerLayerBinding alloc] initWithName:name software:MuxPlayerSoftwareAVPlayerLayer andView:player];
-        [newBinding attachAVPlayer:player.player];
+        [newBinding attachAVPlayer:player.player withUrl: streamUrl];
         [newBinding dispatchViewInit];
         [self dispatchDataEventForPlayerName:name playerData:playerData videoData:videoData];
         [newBinding dispatchPlayerReady];
@@ -181,7 +165,7 @@ static NSMutableDictionary *_proxies;
     }
 }
 
-+ (void)updateAVPlayerLayer:(AVPlayerLayer *)player withPlayerName:(NSString *)name {
++ (void)updateAVPlayerLayer:(AVPlayerLayer *)player withUrl: (nonnull NSString *)streamUrl withPlayerName:(NSString *)name {
     [self initSDK];
     NSString *binding = [_bindings valueForKey:name];
     if (binding) {
@@ -192,7 +176,7 @@ static NSMutableDictionary *_proxies;
         if (binding == MuxPlayerSoftwareAVPlayerLayer) {
             MUXSDKAVPlayerLayerBinding *playerLayer = [_viewControllers valueForKey:name];
             [playerLayer detachAVPlayer];
-            [playerLayer attachAVPlayer:player.player];
+            [playerLayer attachAVPlayer:player.player withUrl: streamUrl];
         } else {
             NSLog(@"MUXSDK-ERROR - Mux failed to update the monitor because the previous player with name %@ was not set up via monitorAVPlayerLayer", name);
         }
@@ -202,12 +186,6 @@ static NSMutableDictionary *_proxies;
 }
 
 + (void)destroyPlayer:(NSString *)name {
-    AVPlayerReverseProxy *proxy = [_proxies valueForKey:name];
-    if (proxy != nil) {
-        [proxy stopPlayerProxy];
-    }
-    [_proxies removeObjectForKey:name];
-
     NSString *binding = [_bindings valueForKey:name];
     if (binding == MuxPlayerSoftwareAVPlayerViewController) {
         MUXSDKAVPlayerViewControllerBinding *player = [_viewControllers valueForKey:name];
@@ -221,10 +199,11 @@ static NSMutableDictionary *_proxies;
     [_bindings removeObjectForKey:name];
 }
 
-+ (void)videoChangeForPlayer:(nonnull NSString *)name withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
++ (void)videoChangeForPlayer:(nonnull NSString *)name withUrl:(nonnull NSString *)streamUrl withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
     if (videoData) {
         MUXSDKAVPlayerViewControllerBinding *player = [_viewControllers valueForKey:name];
         if (player) {
+            [player setupProxy: streamUrl];
             [player dispatchViewEnd];
             [player dispatchViewInit];
             MUXSDKDataEvent *dataEvent = [MUXSDKDataEvent new];
