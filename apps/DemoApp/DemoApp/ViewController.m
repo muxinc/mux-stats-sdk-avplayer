@@ -1,7 +1,7 @@
 #import "ViewController.h"
+#import "MUXSDKStats.h"
 
 @import MuxCore;
-@import MUXSDKStats;
 
 static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 

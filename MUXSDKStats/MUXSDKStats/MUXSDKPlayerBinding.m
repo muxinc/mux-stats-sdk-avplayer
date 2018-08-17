@@ -41,16 +41,6 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
     return(self);
 }
 
-- (void)setupProxy:(NSString *)streamUrl {
-    if (_proxy != nil) {
-        [_proxy stopPlayerProxy];
-        _proxy = nil;
-    }
-    _proxy = [[AVPlayerReverseProxy alloc] init];
-    NSURL* videoURL = [_proxy startPlayerProxyWithReverseProxyHost:streamUrl];
-    [_player replaceCurrentItemWithPlayerItem: [AVPlayerItem playerItemWithURL:videoURL]];
-}
-
 - (void)attachAVPlayer:(AVPlayer *)player withUrl:(NSString *)streamUrl {
     if (_player) {
         [self detachAVPlayer];
@@ -115,7 +105,7 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
 
     if (_player.currentItem != nil) {
         AVPlayerItemAccessLog *log = _player.currentItem.accessLog;
-        if (log != nil && log.events.count > 0) {
+        if (_proxy == nil && log != nil && log.events.count > 0) {
             // https://developer.apple.com/documentation/avfoundation/avplayeritemaccesslogevent?language=objc
             AVPlayerItemAccessLogEvent *event = log.events[log.events.count - 1];
 
@@ -144,7 +134,7 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
                 loadData.requestVideoWidth = nil;
                 loadData.requestVideoHeight = nil;
                 loadData.requestRenditionLists = nil;
-                [self dispatchBandwidthMetric:loadData];
+                //[self dispatchBandwidthMetric:loadData];
                 _lastTransferredBytes = event.numberOfBytesTransferred;
                 _lastTransferDuration = event.transferDuration;
             }
@@ -668,6 +658,29 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
             [self dispatchError];
         }
     }
+}
+
+- (void)handlePlayerProxyReceivedHeadersNotification:(NSNotification *)notification {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // Get headers and corresponding URL from notification
+        NSDictionary *httpHeaders = [[notification userInfo] objectForKey:AVPlayerReverseProxyNotificationHeadersKey];
+        NSString *requestUrl =  [[notification userInfo] objectForKey:AVPlayerReverseProxyNotificationRequestURLKey];
+        //NSLog(@"%@", [NSString stringWithFormat:@"URL: %@\nHeaders:%@\n\n\n", requestUrl, httpHeaders]);
+
+        MUXSDKBandwidthMetricData *loadData = [[notification userInfo] objectForKey:AVPlayerReverseProxyNotificationMetricsKey];
+        loadData.requestHostName = [self getHostName:requestUrl];
+        [self dispatchBandwidthMetric:loadData];
+    });
+}
+
+- (void)setupProxy:(NSString *)streamUrl {
+    if (_proxy != nil) {
+        [_proxy stopPlayerProxy];
+        _proxy = nil;
+    }
+    _proxy = [[AVPlayerReverseProxy alloc] init];
+    NSURL* videoURL = [_proxy startPlayerProxyWithReverseProxyHost:streamUrl notifyObj:self withCallback:@selector(handlePlayerProxyReceivedHeadersNotification:)];
+    [_player replaceCurrentItemWithPlayerItem: [AVPlayerItem playerItemWithURL:videoURL]];
 }
 
 @end

@@ -15,6 +15,7 @@ OBJC_EXTERN NSString * __nonnull const AVPlayerReverseProxyDidReceiveHeadersNoti
 
 OBJC_EXTERN NSString * __nonnull const AVPlayerReverseProxyNotificationRequestURLKey;                 /**< NSString representing the URL of the request that was made */
 OBJC_EXTERN NSString * __nonnull const AVPlayerReverseProxyNotificationHeadersKey;                   /**< NSDictionary containing all key/value pairs from the HTTP headers of the response */
+OBJC_EXTERN NSString * __nonnull const AVPlayerReverseProxyNotificationMetricsKey;                   /**< NSDictionary containing all bandwidth metrics data */
 
 /**
  * A wrapper for the GCD webserver used to inject and insepect HTTP headers AVPlayer requests and responses
@@ -36,7 +37,7 @@ OBJC_EXTERN NSString * __nonnull const AVPlayerReverseProxyNotificationHeadersKe
  *
  * @param originStreamUrl The remote host for the reverse proxy
  */
-- (NSURL *)startPlayerProxyWithReverseProxyHost:(nonnull NSString *)originStreamUrl;
+- (NSURL *)startPlayerProxyWithReverseProxyHost:(nonnull NSString *)originStreamUrl notifyObj:(id)obj withCallback:(SEL)callback;
 
 /**
  Stops the AVPlayer proxy
