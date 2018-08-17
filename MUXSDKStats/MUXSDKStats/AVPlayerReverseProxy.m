@@ -29,16 +29,79 @@ NSString *const AVPlayerReverseProxyNotificationMetricsKey                = @"AV
 - (instancetype)init {
     if (self = [super init]) {
         _httpHeaders = [[NSDictionary alloc] init];
-        _isHttps = false;
+        _proxyHosts = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
 
-- (NSURL *)startPlayerProxyWithReverseProxyHost:(nonnull NSString *)originStreamUrl notifyObj:(id)obj withCallback:(SEL)callback {
-    NSURL* videoURL = [NSURL URLWithString: originStreamUrl];
+- (NSString *)replaceWithLocalProxyHost:(NSString *)streamUrl {
+    NSString *customUrl = streamUrl;
+    NSURL* videoURL = [NSURL URLWithString: streamUrl];
     NSString *externalDomain = [videoURL host];
-    _isHttps = [[videoURL scheme] isEqualToString:@"https"];
+    bool isHttps = [[videoURL scheme] isEqualToString:@"https"];
+    if (externalDomain != nil) {
+        NSNumber *strHash = [NSNumber numberWithUnsignedInteger:[externalDomain hash]];
+        if (![_proxyHosts objectForKey: strHash]) {
+            [_proxyHosts setObject: externalDomain forKey:strHash];
+        }
+        NSString *proxyLocalHost = [NSString stringWithFormat:@"%@:%d/[%d=%@]", GCDWebServerGetPrimaryIPAddress(NO), PortNumber, isHttps, [strHash stringValue]];
+        customUrl = [streamUrl stringByReplacingOccurrencesOfString:externalDomain withString: proxyLocalHost];
+        if (isHttps)
+            customUrl = [customUrl stringByReplacingOccurrencesOfString:@"https" withString: @"http"];
+    }
+    return customUrl;
+}
 
+- (NSString *)replaceWithExternalHost:(NSString *)localProxyUrl {
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"%5B.*%5D" options:NSRegularExpressionCaseInsensitive error:NULL];
+    NSTextCheckingResult *match = [regex firstMatchInString:localProxyUrl
+                                                    options:0
+                                                      range:NSMakeRange(0, [localProxyUrl length])];
+    NSString *externalUrl = nil;
+    if (match) {
+        NSRange range = [match range];
+        range = NSMakeRange(range.location + 3, range.length - 6);
+        externalUrl = [localProxyUrl substringWithRange: range];
+        NSArray *components = [externalUrl componentsSeparatedByString:@"="];
+        if ([components count] == 2) {
+            bool isHttps = [[components objectAtIndex:0] integerValue] > 0;
+            NSNumber *strHash = [NSNumber numberWithUnsignedInteger:[[components objectAtIndex:1] integerValue]];
+            NSString *externHost = [_proxyHosts objectForKey: strHash];
+            if (externHost) {
+                range = [match range];
+                range = NSMakeRange(range.location, range.length + 1);
+                externalUrl = [localProxyUrl stringByReplacingCharactersInRange:range withString:@""];
+                NSString *proxyLocalHost = [NSString stringWithFormat:@"%@:%d", GCDWebServerGetPrimaryIPAddress(NO), PortNumber];
+                externalUrl = [externalUrl stringByReplacingOccurrencesOfString:proxyLocalHost withString:externHost];
+                if (isHttps)
+                    externalUrl = [externalUrl stringByReplacingOccurrencesOfString:@"http" withString: @"https"];
+            }
+        }
+    }
+    return externalUrl;
+}
+
+- (NSData *)parseM3u8:(NSData *)file {
+    NSString* content = [[NSString alloc] initWithData:file encoding:NSUTF8StringEncoding];
+    NSMutableArray *lines = [NSMutableArray array];
+    NSScanner *scanner = [NSScanner scannerWithString:content];
+    while (![scanner isAtEnd]) {
+        NSString *line = nil;
+        [scanner scanUpToCharactersFromSet:[NSCharacterSet newlineCharacterSet] intoString:&line];
+        if (line && ![line hasPrefix:@"#EXT"]) {
+            line = [self replaceWithLocalProxyHost: line];
+        }
+        [lines addObject:line];
+    }
+    NSMutableString *newM3u8 = [[NSMutableString alloc] init];
+    for (NSString *line in lines) {
+        [newM3u8 appendFormat:@"%@\n", line];
+    }
+    NSData* data = [newM3u8 dataUsingEncoding:NSUTF8StringEncoding];
+    return data;
+}
+
+- (NSURL *)startPlayerProxyWithReverseProxyHost:(nonnull NSString *)originStreamUrl notifyObj:(id)obj withCallback:(SEL)callback {
     [[NSNotificationCenter defaultCenter] addObserver:obj selector:callback name:AVPlayerReverseProxyDidReceiveHeadersNotification object:nil];
 
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -52,7 +115,7 @@ NSString *const AVPlayerReverseProxyNotificationMetricsKey                = @"AV
                                   processBlock:^GCDWebServerResponse *(GCDWebServerRequest* request) {
                                       
                                       // Process the request by sending it using the reverse proxy URL
-                                      GCDWebServerResponse *response = [weakSelf sendRequest:request toHost:externalDomain withHeaders:weakHeaders];
+                                      GCDWebServerResponse *response = [weakSelf sendRequest:request withHeaders:weakHeaders];
                                       return response;
                                   }];
         
@@ -60,12 +123,10 @@ NSString *const AVPlayerReverseProxyNotificationMetricsKey                = @"AV
         [_webServer startWithPort:PortNumber bonjourName:nil];
     });
 
-    _proxyLocalHost = [NSString stringWithFormat:@"%@:%d", GCDWebServerGetPrimaryIPAddress(NO), PortNumber];
-    NSString *customUrl = [originStreamUrl stringByReplacingOccurrencesOfString:externalDomain withString: _proxyLocalHost];
-    if (_isHttps)
-        customUrl = [customUrl stringByReplacingOccurrencesOfString:@"https" withString: @"http"];
+    NSString *customUrl = [self replaceWithLocalProxyHost:originStreamUrl];
     return [NSURL URLWithString: customUrl];
 }
+
 - (void)stopPlayerProxy {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerReverseProxyDidReceiveHeadersNotification object:nil];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -89,16 +150,14 @@ NSString *const AVPlayerReverseProxyNotificationMetricsKey                = @"AV
     }
 }
 
-- (GCDWebServerResponse *)sendRequest:(GCDWebServerRequest *)request toHost:(NSString *)reverseProxyHost withHeaders:(NSDictionary *)headers {
+- (GCDWebServerResponse *)sendRequest:(GCDWebServerRequest *)request withHeaders:(NSDictionary *)headers {
     NSError *error = nil;
     NSHTTPURLResponse *urlResponse = nil;
     
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // Replace the local url with the reverse host to recreate the original url
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    NSString *customUrl = [request.URL.absoluteString stringByReplacingOccurrencesOfString:_proxyLocalHost withString:reverseProxyHost];
-    if (_isHttps)
-        customUrl = [customUrl stringByReplacingOccurrencesOfString:@"http" withString: @"https"];
+    NSString *customUrl = [self replaceWithExternalHost:request.URL.absoluteString];
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:customUrl]];
     NSUInteger requestStart = round([[NSDate date] timeIntervalSince1970] * 1000);
     // Set the additional HTTP headers in the new request
@@ -118,6 +177,7 @@ NSString *const AVPlayerReverseProxyNotificationMetricsKey                = @"AV
     // Post notification containing headers an corresponding URL
     MUXSDKBandwidthMetricData *loadData = [[MUXSDKBandwidthMetricData alloc] init];
     if ([customUrl hasSuffix:@".m3u8"]){
+        responseData = [self parseM3u8: responseData];
         loadData.requestEventType = @"hlsManifestLoaded";
         loadData.requestType = @"manifest";
     } else {

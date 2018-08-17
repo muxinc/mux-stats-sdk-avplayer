@@ -27,8 +27,7 @@ OBJC_EXTERN NSString * __nonnull const AVPlayerReverseProxyNotificationMetricsKe
  */
 @interface AVPlayerReverseProxy : NSObject {
     @private
-    NSString * _proxyLocalHost;
-    bool _isHttps;
+    NSMutableDictionary * _proxyHosts;
 }
 
 /**
