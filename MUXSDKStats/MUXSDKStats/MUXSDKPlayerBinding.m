@@ -134,7 +134,7 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
                 loadData.requestVideoWidth = nil;
                 loadData.requestVideoHeight = nil;
                 loadData.requestRenditionLists = nil;
-                //[self dispatchBandwidthMetric:loadData];
+                [self dispatchBandwidthMetric:loadData];
                 _lastTransferredBytes = event.numberOfBytesTransferred;
                 _lastTransferDuration = event.transferDuration;
             }
