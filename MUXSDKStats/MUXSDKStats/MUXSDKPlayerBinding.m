@@ -134,7 +134,7 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
                 loadData.requestVideoWidth = nil;
                 loadData.requestVideoHeight = nil;
                 loadData.requestRenditionLists = nil;
-                [self dispatchBandwidthMetric:loadData];
+                [self dispatchBandwidthMetric:loadData eventType: MUXSDKPlaybackEventRequestBandwidthEventCompleteType];
                 _lastTransferredBytes = event.numberOfBytesTransferred;
                 _lastTransferDuration = event.transferDuration;
             }
@@ -154,7 +154,7 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
                 loadData.requestHostName = [self getHostName:errorEvent.URI];
                 loadData.requestErrorCode = [NSNumber numberWithLong: errorEvent.errorStatusCode];
                 loadData.requestErrorText = errorEvent.errorComment;
-                [self dispatchBandwidthMetric:loadData];
+                [self dispatchBandwidthMetric:loadData eventType:MUXSDKPlaybackEventRequestBandwidthEventErrorType];
             }
             _lastErrorLogEventCount = error.events.count;
         }
@@ -547,13 +547,14 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
     _state = MUXSDKPlayerStateViewEnd;
 }
 
-- (void)dispatchBandwidthMetric: (MUXSDKBandwidthMetricData *)loadData {
+- (void)dispatchBandwidthMetric: (MUXSDKBandwidthMetricData *)loadData eventType:(NSString *)eventType{
     if (![self isPlayerOK]) {
         return;
     }
     [self checkVideoData];
     MUXSDKPlayerData *playerData = [self getPlayerData];
     MUXSDKRequestBandwidthEvent *event = [[MUXSDKRequestBandwidthEvent alloc] init];
+    event.type = eventType;
     [event setPlayerData:playerData];
     [event setBandwidthMetricData: loadData];
     [MUXSDKCore dispatchEvent:event forPlayer:_name];
@@ -669,7 +670,7 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
 
         MUXSDKBandwidthMetricData *loadData = [[notification userInfo] objectForKey:AVPlayerReverseProxyNotificationMetricsKey];
         loadData.requestHostName = [self getHostName:requestUrl];
-        [self dispatchBandwidthMetric:loadData];
+        [self dispatchBandwidthMetric:loadData eventType:MUXSDKPlaybackEventRequestBandwidthEventCompleteType];
     });
 }
 

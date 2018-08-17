@@ -29,10 +29,6 @@ static NSMutableDictionary *_viewControllers;
     if (!_viewControllers) {
         _viewControllers = [[NSMutableDictionary alloc] init];
     }
-    if (!_dispatcher) {
-        _dispatcher = [[MUXSDKDispatcher alloc] init];
-        [MUXSDKCore setClientHandler:_dispatcher];
-    }
     // Provide EnvironmentData and ViewerData to Core.
     MUXSDKEnvironmentData *environmentData = [[MUXSDKEnvironmentData alloc] init];
     [environmentData setMuxViewerId:[[[UIDevice currentDevice] identifierForVendor] UUIDString]];

@@ -188,8 +188,8 @@ NSString *const AVPlayerReverseProxyNotificationMetricsKey                = @"AV
     loadData.requestResponseStart = [NSNumber numberWithLong: requestStart];
     loadData.requestResponseEnd = [NSNumber numberWithLong: responseEnd];
     if (responseHeaders != nil && [responseHeaders objectForKey:@"Content-Length"] != nil) {
-        NSNumber *length = [responseHeaders objectForKey:@"Content-Length"];
-        loadData.requestBytesLoaded = length;
+        NSNumber *length = [NSNumber numberWithLong:[[responseHeaders objectForKey:@"Content-Length"] longLongValue]];
+        loadData.requestBytesLoaded =  length;
     }
     loadData.requestUrl = customUrl;
     loadData.requestResponseHeaders = responseHeaders;
