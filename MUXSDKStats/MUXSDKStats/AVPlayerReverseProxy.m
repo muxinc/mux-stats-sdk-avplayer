@@ -36,18 +36,34 @@ NSString *const AVPlayerReverseProxyNotificationMetricsKey                = @"AV
 
 - (NSString *)replaceWithLocalProxyHost:(NSString *)streamUrl {
     NSString *customUrl = streamUrl;
-    NSURL* videoURL = [NSURL URLWithString: streamUrl];
-    NSString *externalDomain = [videoURL host];
-    bool isHttps = [[videoURL scheme] isEqualToString:@"https"];
-    if (externalDomain != nil) {
-        NSNumber *strHash = [NSNumber numberWithUnsignedInteger:[externalDomain hash]];
-        if (![_proxyHosts objectForKey: strHash]) {
-            [_proxyHosts setObject: externalDomain forKey:strHash];
+    NSURL *videoURL = [NSURL URLWithString: streamUrl];
+    if (videoURL != nil) {
+        NSString *externalDomain = [videoURL host];
+        NSNumber *port =[videoURL port];
+        if (externalDomain == nil) {
+            NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\/\\/.*\\/" options:NSRegularExpressionCaseInsensitive error:NULL];
+            NSTextCheckingResult *match = [regex firstMatchInString:streamUrl
+                                                            options:0
+                                                              range:NSMakeRange(0, [streamUrl length])];
+            if (match) {
+                NSRange range = [match range];
+                range = NSMakeRange(range.location + 2, range.length - 3);
+                externalDomain = [streamUrl substringWithRange: range];
+            }
+        } else if (port != nil) {
+            externalDomain = [NSString stringWithFormat:@"%@:%ld", externalDomain, [port longValue]];
         }
-        NSString *proxyLocalHost = [NSString stringWithFormat:@"%@:%d/[%d=%@]", GCDWebServerGetPrimaryIPAddress(NO), PortNumber, isHttps, [strHash stringValue]];
-        customUrl = [streamUrl stringByReplacingOccurrencesOfString:externalDomain withString: proxyLocalHost];
-        if (isHttps)
-            customUrl = [customUrl stringByReplacingOccurrencesOfString:@"https" withString: @"http"];
+        bool isHttps = [[videoURL scheme] isEqualToString:@"https"];
+        if (externalDomain != nil) {
+            NSNumber *strHash = [NSNumber numberWithUnsignedInteger:[externalDomain hash]];
+            if (![_proxyHosts objectForKey: strHash]) {
+                [_proxyHosts setObject: externalDomain forKey:strHash];
+            }
+            NSString *proxyLocalHost = [NSString stringWithFormat:@"%@:%d/[%d=%@]", GCDWebServerGetPrimaryIPAddress(NO), PortNumber, isHttps, [strHash stringValue]];
+            customUrl = [streamUrl stringByReplacingOccurrencesOfString:externalDomain withString: proxyLocalHost];
+            if (isHttps)
+                customUrl = [customUrl stringByReplacingOccurrencesOfString:@"https" withString: @"http"];
+        }
     }
     return customUrl;
 }
