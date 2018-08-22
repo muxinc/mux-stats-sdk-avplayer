@@ -13,8 +13,32 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    AVPlayer *player = [self testAVQueuePlayer]; //[self testAVPlayer];
+    [self testAVPlayerViewController: player];
+}
+
+- (AVPlayer *)testAVQueuePlayer {
+    AVPlayerItem *item1 = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"]];
+    AVPlayerItem *item2 = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:@"http://184.72.239.149/vod/smil:BigBuckBunny.smil/playlist.m3u8"]];
+    AVQueuePlayer *player = [[AVQueuePlayer alloc] initWithItems:@[item1, item2]];
+    return player;
+}
+
+- (AVPlayer *)testAVPlayer {
     NSURL* videoURL = [NSURL URLWithString:@"http://www.streambox.fr/playlists/x36xhzz/x36xhzz.m3u8"];
-    _avplayer = [AVPlayer playerWithURL:videoURL];
+    AVPlayer *player = [AVPlayer playerWithURL:videoURL];
+    
+    // After 20 seconds, we'll change the video.
+    _videoChangeTimer = [NSTimer scheduledTimerWithTimeInterval:20.0
+                                                         target:self
+                                                       selector:@selector(changeVideo:)
+                                                       userInfo:nil
+                                                        repeats:NO];
+    return player;
+}
+
+- (void)testAVPlayerViewController:(AVPlayer *)player {
+    _avplayer = player;
     _avplayerController = [AVPlayerViewController new];
     _avplayerController.player = _avplayer;
 
@@ -28,19 +52,11 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
                                 withPlayerName:DEMO_PLAYER_NAME
                                     playerData:playerData
                                      videoData:videoData];
-
     [_avplayer play];
 
     [self addChildViewController:_avplayerController];
     [self.view addSubview:_avplayerController.view];
     _avplayerController.view.frame = self.view.frame;
-
-    // After 20 seconds, we'll change the video.
-    _videoChangeTimer = [NSTimer scheduledTimerWithTimeInterval:20.0
-                                                         target:self
-                                                       selector:@selector(changeVideo:)
-                                                       userInfo:nil
-                                                        repeats:NO];
 }
 
 - (void)changeVideo:(NSTimer *)timer {
