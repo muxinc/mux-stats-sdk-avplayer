@@ -213,4 +213,13 @@ static NSMutableDictionary *_viewControllers;
     }
 }
 
++ (void)programChangeForPlayer:(nonnull NSString *)name withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
+    [MUXSDKStats videoChangeForPlayer: name withVideoData:videoData];
+    MUXSDKAVPlayerViewControllerBinding *player = [_viewControllers valueForKey:name];
+    if (player) {
+        [player dispatchPlay];
+        [player dispatchPlaying];
+    }
+}
+
 @end
