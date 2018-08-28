@@ -63,10 +63,16 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
     if (event.type == kIMAAdEvent_LOADED) {
         [_adsManager start];
     }
+    if (_imaListener != nil) {
+        [_imaListener dispatchEvent: event.type];
+    }
 }
 
 - (void)adsManager:(IMAAdsManager *)adsManager didReceiveAdError:(IMAAdError *)error {
     [_avplayer play];
+    if (_imaListener != nil) {
+        [_imaListener dispatchError: error.message];
+    }
 }
 
 - (void)adsManagerDidRequestContentPause:(IMAAdsManager *)adsManager {
@@ -116,6 +122,8 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
     [self addChildViewController:_avplayerController];
     [self.view addSubview:_avplayerController.view];
     _avplayerController.view.frame = self.view.frame;
+
+    _imaListener = [MUXSDKStats getImaAdsListener:DEMO_PLAYER_NAME];
 }
 
 - (void)changeVideo:(NSTimer *)timer {
