@@ -2,11 +2,10 @@
 #define MUXSDKPlayerBinding_h
 
 #import <Foundation/Foundation.h>
-#import "MUXSDKPlaybackEvent.h"
 
 @import AVKit;
 @import AVFoundation;
-
+@import MuxCore;
 
 typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
     MUXSDKPlayerStateReady,
@@ -59,7 +58,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
 - (void)dispatchError;
 - (void)dispatchViewEnd;
 - (void)dispatchAdEvent:(MUXSDKPlaybackEvent *)event;
-
+- (float)getCurrentPlayheadTimeMs;
 @end
 
 

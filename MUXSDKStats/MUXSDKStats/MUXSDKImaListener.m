@@ -2,18 +2,7 @@
 #import "MUXSDKImaListener.h"
 #import "MUXSDKPlayerBinding.h"
 
-#import "MUXSDKAdBreakEndEvent.h"
-#import "MUXSDKAdBreakStartEvent.h"
-#import "MUXSDKAdEndedEvent.h"
-#import "MUXSDKAdErrorEvent.h"
-#import "MUXSDKAdFirstQuartileEvent.h"
-#import "MUXSDKAdMidpointEvent.h"
-#import "MUXSDKAdPauseEvent.h"
-#import "MUXSDKAdPlayEvent.h"
-#import "MUXSDKAdPlayingEvent.h"
-#import "MUXSDKAdThirdQuartileEvent.h"
-#import "MUXSDKAdRequestEvent.h"
-#import "MUXSDKAdResponseEvent.h"
+@import MuxCore;
 
 @implementation MUXSDKImaListener
 
@@ -25,60 +14,70 @@
     return(self);
 }
 
-- (void)dispatchEvent:(IMAAdEventType)eventType {
-    switch(eventType) {
-        case kIMAAdEvent_AD_BREAK_READY:
-            [_playerBinding dispatchAdEvent:[MUXSDKAdResponseEvent new]];
-            break;
-        case kIMAAdEvent_AD_BREAK_ENDED:
-            [_playerBinding dispatchAdEvent:[MUXSDKAdBreakEndEvent new]];
-            break;
-        case kIMAAdEvent_AD_BREAK_STARTED:
-            [_playerBinding dispatchAdEvent:[MUXSDKAdBreakStartEvent new]];
-            [_playerBinding dispatchAdEvent:[MUXSDKAdRequestEvent new]];
-            break;
-        case kIMAAdEvent_ALL_ADS_COMPLETED:
-            break;
-        case kIMAAdEvent_CLICKED:
-            break;
-        case kIMAAdEvent_COMPLETE:
-            [_playerBinding dispatchAdEvent:[MUXSDKAdEndedEvent new]];
-            break;
-        case kIMAAdEvent_CUEPOINTS_CHANGED:
-            break;
-        case kIMAAdEvent_FIRST_QUARTILE:
-            [_playerBinding dispatchAdEvent:[MUXSDKAdFirstQuartileEvent new]];
-            break;
+- (void) setupAdViewData:(MUXSDKPlaybackEvent *)event withAd:(IMAAd *)ad {
+    MUXSDKViewData *viewData = [MUXSDKViewData new];
+    if ([_playerBinding getCurrentPlayheadTimeMs] == 0) {
+        if (ad != nil) {
+            viewData.viewPrerollAdId = ad.adId;
+            viewData.viewPrerollAdId = ad.creativeID;
+        }
+    }
+    event.viewData = viewData;
+}
+
+- (void)dispatchEvent:(IMAAdEvent *)event {
+    NSLog(@"IMA events %@", event.typeString);
+    MUXSDKPlaybackEvent *playbackEvent;
+    switch(event.type) {
         case kIMAAdEvent_LOADED:
-            break;
-        case kIMAAdEvent_LOG:
-            break;
-        case kIMAAdEvent_MIDPOINT:
-            [_playerBinding dispatchAdEvent:[MUXSDKAdMidpointEvent new]];
-            break;
-        case kIMAAdEvent_PAUSE:
-            [_playerBinding dispatchAdEvent:[MUXSDKAdPauseEvent new]];
-            break;
-        case kIMAAdEvent_RESUME:
-            [_playerBinding dispatchAdEvent:[MUXSDKAdPlayingEvent new]];
-            break;
-        case kIMAAdEvent_SKIPPED:
+            playbackEvent = [MUXSDKAdResponseEvent new];
+            [self setupAdViewData:playbackEvent withAd:event.ad];
+            [_playerBinding dispatchAdEvent: playbackEvent];
+            playbackEvent = [MUXSDKAdPlayEvent new];
             break;
         case kIMAAdEvent_STARTED:
-            [_playerBinding dispatchAdEvent:[MUXSDKAdPlayingEvent new]];
+            playbackEvent = [MUXSDKAdPlayingEvent new];
             break;
-        case kIMAAdEvent_STREAM_LOADED:
+        case kIMAAdEvent_FIRST_QUARTILE:
+            playbackEvent = [MUXSDKAdFirstQuartileEvent new];
             break;
-        case kIMAAdEvent_STREAM_STARTED:
-            [_playerBinding dispatchAdEvent:[MUXSDKAdPlayEvent new]];
-            break;
-        case kIMAAdEvent_TAPPED:
+        case kIMAAdEvent_MIDPOINT:
+            playbackEvent = [MUXSDKAdMidpointEvent new];
             break;
         case kIMAAdEvent_THIRD_QUARTILE:
-            [_playerBinding dispatchAdEvent:[MUXSDKAdThirdQuartileEvent new]];
+            playbackEvent = [MUXSDKAdThirdQuartileEvent new];
+            break;
+        case kIMAAdEvent_COMPLETE:
+            playbackEvent = [MUXSDKAdEndedEvent new];
+            break;
+        case kIMAAdEvent_PAUSE:
+            playbackEvent = [MUXSDKAdPauseEvent new];
+            break;
+        case kIMAAdEvent_RESUME:
+            playbackEvent = [MUXSDKAdPlayingEvent new];
             break;
         default:
             break;
+    }
+    if (playbackEvent != nil) {
+        [self setupAdViewData:playbackEvent withAd:event.ad];
+        [_playerBinding dispatchAdEvent:playbackEvent];
+    }
+}
+
+- (void)onContentPauseOrResume :(bool)isPause {
+    MUXSDKPlaybackEvent *playbackEvent;
+    if (isPause) {
+        playbackEvent = [MUXSDKAdBreakStartEvent new];
+        [self setupAdViewData:playbackEvent withAd:nil];
+        [_playerBinding dispatchAdEvent: playbackEvent];
+        playbackEvent = [MUXSDKAdRequestEvent new];
+    } else {
+        playbackEvent = [MUXSDKAdBreakEndEvent new];
+    }
+    if (playbackEvent != nil) {
+        [self setupAdViewData:playbackEvent withAd:nil];
+        [_playerBinding dispatchAdEvent:playbackEvent];
     }
 }
 

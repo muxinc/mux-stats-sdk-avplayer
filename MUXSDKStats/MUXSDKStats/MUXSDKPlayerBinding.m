@@ -655,6 +655,10 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
 }
 
 - (void)dispatchAdEvent:(MUXSDKPlaybackEvent *)event {
+    if (![self isPlayerOK]) {
+        return;
+    }
+    [self checkVideoData];
     MUXSDKPlayerData *playerData = [self getPlayerData];
     [event setPlayerData:playerData];
     [MUXSDKCore dispatchEvent:event forPlayer:_name];

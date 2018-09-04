@@ -11,8 +11,9 @@
 }
 
 - (id)initWithPlayerBinding:(MUXSDKPlayerBinding *)binding;
-- (void)dispatchEvent:(IMAAdEventType)eventType;
+- (void)dispatchEvent:(IMAAdEvent *)event;
 - (void)dispatchError:(NSString *)message;
+- (void)onContentPauseOrResume :(bool)isPause;
 
 @end
 
