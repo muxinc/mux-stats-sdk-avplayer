@@ -26,7 +26,6 @@
 }
 
 - (void)dispatchEvent:(IMAAdEvent *)event {
-    NSLog(@"IMA events %@", event.typeString);
     MUXSDKPlaybackEvent *playbackEvent;
     switch(event.type) {
         case kIMAAdEvent_LOADED:
