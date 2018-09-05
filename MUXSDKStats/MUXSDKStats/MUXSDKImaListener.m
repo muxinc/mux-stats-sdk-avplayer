@@ -16,10 +16,10 @@
 
 - (void) setupAdViewData:(MUXSDKPlaybackEvent *)event withAd:(IMAAd *)ad {
     MUXSDKViewData *viewData = [MUXSDKViewData new];
-    if ([_playerBinding getCurrentPlayheadTimeMs] == 0) {
+    if ([_playerBinding getCurrentPlayheadTimeMs] < 1000) {
         if (ad != nil) {
             viewData.viewPrerollAdId = ad.adId;
-            viewData.viewPrerollAdId = ad.creativeID;
+            viewData.viewPrerollCreativeId = ad.creativeID;
         }
     }
     event.viewData = viewData;
@@ -47,6 +47,7 @@
         case kIMAAdEvent_THIRD_QUARTILE:
             playbackEvent = [MUXSDKAdThirdQuartileEvent new];
             break;
+        case kIMAAdEvent_SKIPPED:
         case kIMAAdEvent_COMPLETE:
             playbackEvent = [MUXSDKAdEndedEvent new];
             break;
@@ -82,7 +83,9 @@
 }
 
 - (void)dispatchError:(NSString *)message {
-    [_playerBinding dispatchAdEvent:[MUXSDKAdErrorEvent new]];
+    MUXSDKPlaybackEvent *playbackEvent = [MUXSDKAdErrorEvent new];
+    [self setupAdViewData:playbackEvent withAd:nil];
+    [_playerBinding dispatchAdEvent:playbackEvent];
 }
 
 @end
