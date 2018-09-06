@@ -54,6 +54,9 @@
             playbackEvent = [MUXSDKAdPauseEvent new];
             break;
         case kIMAAdEvent_RESUME:
+            playbackEvent = [MUXSDKAdPlayEvent new];
+            [self setupAdViewData:playbackEvent withAd:event.ad];
+            [_playerBinding dispatchAdEvent: playbackEvent];
             playbackEvent = [MUXSDKAdPlayingEvent new];
             break;
         default:
