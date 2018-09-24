@@ -111,5 +111,7 @@ FOUNDATION_EXPORT
  @return      an IMA event listener
  @discussion  Use this method to return an IMA Ads listener to collect IMA Ad event and Ad error event.
  */
+#if TARGET_OS_IOS
 + (MUXSDKImaListener *)getImaAdsListener:(nonnull NSString *)name;
+#endif
 @end

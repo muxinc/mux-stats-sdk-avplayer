@@ -2,8 +2,6 @@
 #import "MUXSDKImaListener.h"
 #import "MUXSDKPlayerBinding.h"
 
-@import MuxCore;
-
 @implementation MUXSDKImaListener
 
 - (id)initWithPlayerBinding:(MUXSDKPlayerBinding *)binding {

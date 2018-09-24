@@ -218,6 +218,7 @@ static NSMutableDictionary *_viewControllers;
     }
 }
 
+#if TARGET_OS_IOS
 + (MUXSDKImaListener *)getImaAdsListener:(nonnull NSString *)name {
     MUXSDKImaListener *listener = nil;
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
@@ -226,5 +227,6 @@ static NSMutableDictionary *_viewControllers;
     }
     return listener;
 }
+#endif
 
 @end
