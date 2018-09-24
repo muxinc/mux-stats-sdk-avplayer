@@ -29,6 +29,7 @@
 #else
 @import MuxCoreTv;
 #endif
+#import "MUXSDKImaListener.h"
 
 FOUNDATION_EXPORT
 @interface MUXSDKStats : NSObject
@@ -102,4 +103,15 @@ FOUNDATION_EXPORT
  @discussion  Use this method to signal that the player is now playing a differnt video of a playlist, or a different program of a live stream. The player name provided must been passed as the name in a monitorPlayer:withPlayerName:andConfig: call. The config provided should match the specifications in the Mux docs at https://docs.mux.com and should include all desired keys, not just those keys that are specific to this video. If the name of the player provided was not previously initialized, an exception will be raised.
  */
 + (void)programChangeForPlayer:(nonnull NSString *)name withVideoData:(nullable MUXSDKCustomerVideoData *)videoData;
+
+/*!
+ @method      getImaAdsListener:
+ @abstract    Return an IMA Ads listener for Ad analytic collection
+ @param       name The name of the player
+ @return      an IMA event listener
+ @discussion  Use this method to return an IMA Ads listener to collect IMA Ad event and Ad error event.
+ */
+#if TARGET_OS_IOS
++ (MUXSDKImaListener *)getImaAdsListener:(nonnull NSString *)name;
+#endif
 @end
