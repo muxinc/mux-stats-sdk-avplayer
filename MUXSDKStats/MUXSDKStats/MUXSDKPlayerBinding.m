@@ -11,7 +11,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"0.1.3";
+NSString *const MUXSDKPluginVersion = @"0.1.4";
 
 // Min number of seconds between timeupdate events. (100ms)
 double MUXSDKMaxSecsBetweenTimeUpdate = 0.1;
@@ -652,6 +652,16 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
             [self dispatchError];
         }
     }
+}
+
+- (void)dispatchAdEvent:(MUXSDKPlaybackEvent *)event {
+    if (![self isPlayerOK]) {
+        return;
+    }
+    [self checkVideoData];
+    MUXSDKPlayerData *playerData = [self getPlayerData];
+    [event setPlayerData:playerData];
+    [MUXSDKCore dispatchEvent:event forPlayer:_name];
 }
 
 @end

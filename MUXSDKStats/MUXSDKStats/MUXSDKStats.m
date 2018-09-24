@@ -197,7 +197,7 @@ static NSMutableDictionary *_viewControllers;
 
 + (void)videoChangeForPlayer:(nonnull NSString *)name withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
     if (videoData) {
-        MUXSDKAVPlayerViewControllerBinding *player = [_viewControllers valueForKey:name];
+        MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
         if (player) {
             [player dispatchViewEnd];
             [player dispatchViewInit];
@@ -211,11 +211,20 @@ static NSMutableDictionary *_viewControllers;
 
 + (void)programChangeForPlayer:(nonnull NSString *)name withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
     [MUXSDKStats videoChangeForPlayer: name withVideoData:videoData];
-    MUXSDKAVPlayerViewControllerBinding *player = [_viewControllers valueForKey:name];
+    MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
     if (player) {
         [player dispatchPlay];
         [player dispatchPlaying];
     }
+}
+
++ (MUXSDKImaListener *)getImaAdsListener:(nonnull NSString *)name {
+    MUXSDKImaListener *listener = nil;
+    MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
+    if (player) {
+        listener = [[MUXSDKImaListener alloc] initWithPlayerBinding: player];
+    }
+    return listener;
 }
 
 @end

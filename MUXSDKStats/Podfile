@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+platform :ios, '9.0'
 
 target 'MUXSDKStats' do
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
@@ -7,6 +7,7 @@ target 'MUXSDKStats' do
 
   # Pods for MUXSDKStats
   pod 'Mux-Stats-Core', '~>2.0.0'
+  pod 'GoogleAds-IMA-iOS-SDK', '~> 3.7'
 
   target 'MUXSDKStatsTests' do
     inherit! :search_paths
@@ -22,4 +23,5 @@ target 'MUXSDKStatsTv' do
 
   # Pods for MUXSDKStatsTv
   pod 'Mux-Stats-Core', '~>2.0.0'
+  pod 'GoogleAds-IMA-iOS-SDK', '~> 3.7'
 end
