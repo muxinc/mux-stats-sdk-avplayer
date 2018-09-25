@@ -41,7 +41,7 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
     return(self);
 }
 
-- (void)attachAVPlayer:(AVPlayer *)player withUrl:(NSString *)streamUrl {
+- (void)attachAVPlayer:(AVPlayer *)player {
     if (_player) {
         [self detachAVPlayer];
     }
@@ -51,7 +51,7 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
     }
 
     _player = player;
-    [self setupProxy: streamUrl];
+    [self setupProxy];
     __weak MUXSDKPlayerBinding *weakSelf = self;
     _lastTimeUpdate = CFAbsoluteTimeGetCurrent() - MUXSDKMaxSecsBetweenTimeUpdate;
     _timeObserver = [_player addPeriodicTimeObserverForInterval:[self getTimeObserverInternal]
@@ -674,14 +674,19 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
     });
 }
 
-- (void)setupProxy:(NSString *)streamUrl {
+- (void)setupProxy{
     if (_proxy != nil) {
         [_proxy stopPlayerProxy];
         _proxy = nil;
     }
-    _proxy = [[AVPlayerReverseProxy alloc] init];
-    NSURL* videoURL = [_proxy startPlayerProxyWithReverseProxyHost:streamUrl notifyObj:self withCallback:@selector(handlePlayerProxyReceivedHeadersNotification:)];
-    [_player replaceCurrentItemWithPlayerItem: [AVPlayerItem playerItemWithURL:videoURL]];
+    if (_player.currentItem != nil && _player.currentItem.asset != nil && [_player.currentItem.asset isKindOfClass:AVURLAsset.class]) {
+        NSString *streamUrl =  [(AVURLAsset *)_player.currentItem.asset URL].absoluteString;
+        if (streamUrl != nil) {
+            _proxy = [[AVPlayerReverseProxy alloc] init];
+            NSURL* videoURL = [_proxy startPlayerProxyWithReverseProxyHost:streamUrl notifyObj:self withCallback:@selector(handlePlayerProxyReceivedHeadersNotification:)];
+            [_player replaceCurrentItemWithPlayerItem: [AVPlayerItem playerItemWithURL:videoURL]];
+        }
+    }
 }
 
 @end

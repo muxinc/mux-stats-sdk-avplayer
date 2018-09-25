@@ -121,12 +121,12 @@ NSString *const AVPlayerReverseProxyNotificationMetricsKey                = @"AV
     [[NSNotificationCenter defaultCenter] addObserver:obj selector:callback name:AVPlayerReverseProxyDidReceiveHeadersNotification object:nil];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        _webServer = [[GCDWebServer alloc] init];
+        self->_webServer = [[GCDWebServer alloc] init];
 
-        __weak NSDictionary *weakHeaders = _httpHeaders;
+        __weak NSDictionary *weakHeaders = self->_httpHeaders;
         __weak typeof(self) weakSelf = self;
         // Add a handler to respond to GET requests on any local URL
-        [_webServer addDefaultHandlerForMethod:@"GET"
+        [self->_webServer addDefaultHandlerForMethod:@"GET"
                                   requestClass:[GCDWebServerRequest class]
                                   processBlock:^GCDWebServerResponse *(GCDWebServerRequest* request) {
                                       
@@ -136,7 +136,7 @@ NSString *const AVPlayerReverseProxyNotificationMetricsKey                = @"AV
                                   }];
         
         // Start server on port 8080
-        [_webServer startWithPort:PortNumber bonjourName:nil];
+        [self->_webServer startWithPort:PortNumber bonjourName:nil];
     });
 
     NSString *customUrl = [self replaceWithLocalProxyHost:originStreamUrl];
@@ -146,7 +146,7 @@ NSString *const AVPlayerReverseProxyNotificationMetricsKey                = @"AV
 - (void)stopPlayerProxy {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerReverseProxyDidReceiveHeadersNotification object:nil];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [_webServer stop];
+        [self->_webServer stop];
     });
 }
 
