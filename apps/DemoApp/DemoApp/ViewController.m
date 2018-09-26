@@ -9,11 +9,15 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 
 @end
 
+static bool useProxy = true;
+
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSString *urlString = @"http://www.streambox.fr/playlists/x36xhzz/x36xhzz.m3u8";
+    if (useProxy)
+        urlString = [MUXSDKStats convertToProxyUrl:urlString];
     NSURL* videoURL = [NSURL URLWithString:urlString];
     _avplayer = [AVPlayer playerWithURL:videoURL];
     _avplayerController = [AVPlayerViewController new];
@@ -26,7 +30,6 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
     videoData.videoId = @"bigbuckbunny";
     videoData.videoSeries = @"animation";
     [MUXSDKStats monitorAVPlayerViewController:_avplayerController
-                                       withUrl:urlString
                                 withPlayerName:DEMO_PLAYER_NAME
                                     playerData:playerData
                                      videoData:videoData];
@@ -47,6 +50,8 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 
 - (void)changeVideo:(NSTimer *)timer {
     NSString *urlString = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8";
+    if (useProxy)
+        urlString = [MUXSDKStats convertToProxyUrl:urlString];
     NSURL* videoURL = [NSURL URLWithString:urlString];
     AVPlayerItem *keynote = [AVPlayerItem playerItemWithURL:videoURL];
     [_avplayer replaceCurrentItemWithPlayerItem:keynote];
@@ -54,7 +59,7 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
     MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
     videoData.videoTitle = @"Apple Keynote";
     videoData.videoId = @"applekeynote2010";
-    [MUXSDKStats videoChangeForPlayer:DEMO_PLAYER_NAME withUrl: urlString
+    [MUXSDKStats videoChangeForPlayer:DEMO_PLAYER_NAME
                         withVideoData:videoData];
     [_avplayer play];
 }

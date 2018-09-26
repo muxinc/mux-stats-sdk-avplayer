@@ -1,5 +1,6 @@
 #import "MUXSDKStats.h"
 #import "MUXSDKPlayerBinding.h"
+#import "AVPlayerReverseProxy.h"
 
 #import <Foundation/Foundation.h>
 #import <sys/utsname.h>
@@ -199,7 +200,6 @@ static NSMutableDictionary *_viewControllers;
     if (videoData) {
         MUXSDKAVPlayerViewControllerBinding *player = [_viewControllers valueForKey:name];
         if (player) {
-            [player setupProxy];
             [player dispatchViewEnd];
             [player dispatchViewInit];
             MUXSDKDataEvent *dataEvent = [MUXSDKDataEvent new];
@@ -210,4 +210,7 @@ static NSMutableDictionary *_viewControllers;
     }
 }
 
++ (NSString *)convertToProxyUrl:(nonnull NSString *)streamUrl {
+    return [AVPlayerReverseProxy convertToProxyUrl: streamUrl];
+}
 @end

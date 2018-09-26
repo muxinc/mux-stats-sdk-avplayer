@@ -94,4 +94,12 @@ FOUNDATION_EXPORT
  */
 + (void)videoChangeForPlayer:(nonnull NSString *)name withVideoData:(nullable MUXSDKCustomerVideoData *)videoData;
 
+/*!
+ @method      convertToProxyUrl:
+ @abstract    Convert a stream URL to a local proxy URL
+ @param       streamUrl The stream's URL
+ @discussion  Use this method to convert a stream URL to a local proxy URL. Then the returned URL can be used to initialize an AVPlayerItem for playback. Use a local proxy URL enables MUX SDK to gain insight on activities of each data fragment.
+
+ */
++ (NSString *)convertToProxyUrl:(nonnull NSString *)streamUrl;
 @end

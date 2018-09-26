@@ -16,10 +16,11 @@
 static const int PortNumber = 8080;
 
 NSString *const AVPlayerReverseProxyDidReceiveHeadersNotification         = @"AVPlayerReverseProxyDidReceiveHeadersNotification";
-
 NSString *const AVPlayerReverseProxyNotificationRequestURLKey             = @"AVPlayerReverseProxyNotificationRequestURLKey";
 NSString *const AVPlayerReverseProxyNotificationHeadersKey                = @"AVPlayerReverseProxyNotificationHeadersKey";
 NSString *const AVPlayerReverseProxyNotificationMetricsKey                = @"AVPlayerReverseProxyNotificationMetricsKey";
+
+NSMutableDictionary * _proxyHosts;
 
 @implementation AVPlayerReverseProxy {
     NSDictionary *_httpHeaders;
@@ -29,12 +30,11 @@ NSString *const AVPlayerReverseProxyNotificationMetricsKey                = @"AV
 - (instancetype)init {
     if (self = [super init]) {
         _httpHeaders = [[NSDictionary alloc] init];
-        _proxyHosts = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
 
-- (NSString *)replaceWithLocalProxyHost:(NSString *)streamUrl {
++ (NSString *)convertToProxyUrl:(NSString *)streamUrl {
     NSString *customUrl = streamUrl;
     NSURL *videoURL = [NSURL URLWithString: streamUrl];
     if (videoURL != nil) {
@@ -49,21 +49,25 @@ NSString *const AVPlayerReverseProxyNotificationMetricsKey                = @"AV
                 NSRange range = [match range];
                 range = NSMakeRange(range.location + 2, range.length - 3);
                 externalDomain = [streamUrl substringWithRange: range];
+            } else {
+                return streamUrl;
             }
-        } else if (port != nil) {
+        }
+        if (port != nil) {
             externalDomain = [NSString stringWithFormat:@"%@:%ld", externalDomain, [port longValue]];
         }
         bool isHttps = [[videoURL scheme] isEqualToString:@"https"];
-        if (externalDomain != nil) {
-            NSNumber *strHash = [NSNumber numberWithUnsignedInteger:[externalDomain hash]];
-            if (![_proxyHosts objectForKey: strHash]) {
-                [_proxyHosts setObject: externalDomain forKey:strHash];
-            }
-            NSString *proxyLocalHost = [NSString stringWithFormat:@"%@:%d/[%d=%@]", GCDWebServerGetPrimaryIPAddress(NO), PortNumber, isHttps, [strHash stringValue]];
-            customUrl = [streamUrl stringByReplacingOccurrencesOfString:externalDomain withString: proxyLocalHost];
-            if (isHttps)
-                customUrl = [customUrl stringByReplacingOccurrencesOfString:@"https" withString: @"http"];
+        NSNumber *strHash = [NSNumber numberWithUnsignedInteger:[externalDomain hash]];
+        if (_proxyHosts == nil) {
+            _proxyHosts = [[NSMutableDictionary alloc] init];
         }
+        if (![_proxyHosts objectForKey: strHash]) {
+            [_proxyHosts setObject: externalDomain forKey:strHash];
+        }
+        NSString *proxyLocalHost = [NSString stringWithFormat:@"%@:%d/[%d=%@]", GCDWebServerGetPrimaryIPAddress(NO), PortNumber, isHttps, [strHash stringValue]];
+        customUrl = [streamUrl stringByReplacingOccurrencesOfString:externalDomain withString: proxyLocalHost];
+        if (isHttps)
+            customUrl = [customUrl stringByReplacingOccurrencesOfString:@"https" withString: @"http"];
     }
     return customUrl;
 }
@@ -105,7 +109,7 @@ NSString *const AVPlayerReverseProxyNotificationMetricsKey                = @"AV
         NSString *line = nil;
         [scanner scanUpToCharactersFromSet:[NSCharacterSet newlineCharacterSet] intoString:&line];
         if (line && ![line hasPrefix:@"#EXT"]) {
-            line = [self replaceWithLocalProxyHost: line];
+            line = [AVPlayerReverseProxy convertToProxyUrl: line];
         }
         [lines addObject:line];
     }
@@ -117,7 +121,7 @@ NSString *const AVPlayerReverseProxyNotificationMetricsKey                = @"AV
     return data;
 }
 
-- (NSURL *)startPlayerProxyWithReverseProxyHost:(nonnull NSString *)originStreamUrl notifyObj:(id)obj withCallback:(SEL)callback {
+- (void)startPlayerProxyWithReverseProxyHost:(id)obj withCallback:(SEL)callback {
     [[NSNotificationCenter defaultCenter] addObserver:obj selector:callback name:AVPlayerReverseProxyDidReceiveHeadersNotification object:nil];
 
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -129,7 +133,6 @@ NSString *const AVPlayerReverseProxyNotificationMetricsKey                = @"AV
         [self->_webServer addDefaultHandlerForMethod:@"GET"
                                   requestClass:[GCDWebServerRequest class]
                                   processBlock:^GCDWebServerResponse *(GCDWebServerRequest* request) {
-                                      
                                       // Process the request by sending it using the reverse proxy URL
                                       GCDWebServerResponse *response = [weakSelf sendRequest:request withHeaders:weakHeaders];
                                       return response;
@@ -138,15 +141,14 @@ NSString *const AVPlayerReverseProxyNotificationMetricsKey                = @"AV
         // Start server on port 8080
         [self->_webServer startWithPort:PortNumber bonjourName:nil];
     });
-
-    NSString *customUrl = [self replaceWithLocalProxyHost:originStreamUrl];
-    return [NSURL URLWithString: customUrl];
 }
 
 - (void)stopPlayerProxy {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerReverseProxyDidReceiveHeadersNotification object:nil];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self->_webServer stop];
+        if (_proxyHosts != nil)
+            [_proxyHosts removeAllObjects];
     });
 }
 
@@ -174,6 +176,8 @@ NSString *const AVPlayerReverseProxyNotificationMetricsKey                = @"AV
     // Replace the local url with the reverse host to recreate the original url
     // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     NSString *customUrl = [self replaceWithExternalHost:request.URL.absoluteString];
+    if (customUrl == nil)
+        return nil;
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:customUrl]];
     NSUInteger requestStart = round([[NSDate date] timeIntervalSince1970] * 1000);
     // Set the additional HTTP headers in the new request

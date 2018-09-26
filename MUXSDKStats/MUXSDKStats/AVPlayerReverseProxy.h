@@ -25,10 +25,7 @@ OBJC_EXTERN NSString * __nonnull const AVPlayerReverseProxyNotificationMetricsKe
  * If a request is sent to http://localhost:8080, the proxy will intercept the request, add any additional HTTP headers, then complete the request via the reverse proxy host on port 80, and finally return the response to the original request from the player.
  * Any HTTP headers received in the response are passed along to its listeners.
  */
-@interface AVPlayerReverseProxy : NSObject {
-    @private
-    NSMutableDictionary * _proxyHosts;
-}
+@interface AVPlayerReverseProxy : NSObject
 
 /**
  * Starts the AVPlayer proxy server listening to localhost.
@@ -36,7 +33,7 @@ OBJC_EXTERN NSString * __nonnull const AVPlayerReverseProxyNotificationMetricsKe
  *
  * @param originStreamUrl The remote host for the reverse proxy
  */
-- (NSURL *)startPlayerProxyWithReverseProxyHost:(nonnull NSString *)originStreamUrl notifyObj:(id)obj withCallback:(SEL)callback;
+- (void)startPlayerProxyWithReverseProxyHost:(id)obj withCallback:(SEL)callback;
 
 /**
  Stops the AVPlayer proxy
@@ -55,4 +52,5 @@ OBJC_EXTERN NSString * __nonnull const AVPlayerReverseProxyNotificationMetricsKe
  */
 - (void)removeHttpHeaders:(nonnull NSDictionary *)httpHeaders;
 
++ (NSString *)convertToProxyUrl:(NSString *)streamUrl;
 @end

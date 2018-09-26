@@ -675,18 +675,8 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
 }
 
 - (void)setupProxy{
-    if (_proxy != nil) {
-        [_proxy stopPlayerProxy];
-        _proxy = nil;
-    }
-    if (_player.currentItem != nil && _player.currentItem.asset != nil && [_player.currentItem.asset isKindOfClass:AVURLAsset.class]) {
-        NSString *streamUrl =  [(AVURLAsset *)_player.currentItem.asset URL].absoluteString;
-        if (streamUrl != nil) {
-            _proxy = [[AVPlayerReverseProxy alloc] init];
-            NSURL* videoURL = [_proxy startPlayerProxyWithReverseProxyHost:streamUrl notifyObj:self withCallback:@selector(handlePlayerProxyReceivedHeadersNotification:)];
-            [_player replaceCurrentItemWithPlayerItem: [AVPlayerItem playerItemWithURL:videoURL]];
-        }
-    }
+    _proxy = [[AVPlayerReverseProxy alloc] init];
+    [_proxy startPlayerProxyWithReverseProxyHost:self withCallback:@selector(handlePlayerProxyReceivedHeadersNotification:)];
 }
 
 @end
