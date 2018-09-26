@@ -32,6 +32,9 @@
 #import "MUXSDKImaListener.h"
 
 FOUNDATION_EXPORT
+
+NSString *const MUXSDKOptionUseLocalProxy;
+
 @interface MUXSDKStats : NSObject
 
 - (_Null_unspecified instancetype)init NS_UNAVAILABLE;
@@ -123,4 +126,13 @@ FOUNDATION_EXPORT
 #if TARGET_OS_IOS
 + (MUXSDKImaListener *)getImaAdsListener:(nonnull NSString *)name;
 #endif
+
+/*!
+ @method      setSdkOptions:withData:
+ @abstract    setSDK global options
+ @param       name The name of the option
+ @param       data The data of the option's value
+ @discussion  Use this method to set the Sdk's one global option at a time. It is recommended to call this API before any other API.
+ */
++ (void)setSdkOptions:(nonnull NSString *)name withData:(nonnull NSNumber *)data;
 @end

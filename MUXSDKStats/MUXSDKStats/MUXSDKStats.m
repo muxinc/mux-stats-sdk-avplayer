@@ -13,7 +13,8 @@
 // Software constants.
 NSString *const MuxPlayerSoftwareAVPlayerViewController = @"AVPlayerViewController";
 NSString *const MuxPlayerSoftwareAVPlayerLayer = @"AVPlayerLayer";
-
+// Options constants.
+NSString *const MUXSDKOptionUseLocalProxy = @"OptionUseLocalProxy";
 
 @implementation MUXSDKStats
 
@@ -234,5 +235,11 @@ static NSMutableDictionary *_viewControllers;
 }
 #endif
 
++ (void)setSdkOptions:(nonnull NSString *)name withData:(nonnull NSNumber *)data {
+    MUXSDKOptions *options = [MUXSDKOptions getSingleton];
+    if ([name isEqualToString:MUXSDKOptionUseLocalProxy]) {
+        options.useProxy = [data boolValue];
+    }
+}
 
 @end

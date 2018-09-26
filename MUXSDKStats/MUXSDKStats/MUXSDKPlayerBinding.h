@@ -12,6 +12,13 @@
 @import MuxCoreTv;
 #endif
 
+@interface MUXSDKOptions : NSObject
+
+@property (nonatomic) bool useProxy;
+
++(MUXSDKOptions *)getSingleton;
+@end
+
 typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
     MUXSDKPlayerStateReady,
     MUXSDKPlayerStateViewInit,

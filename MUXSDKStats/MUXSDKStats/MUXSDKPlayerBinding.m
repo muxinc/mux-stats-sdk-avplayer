@@ -24,6 +24,26 @@ static void *MUXSDKAVPlayerCurrentItemObservationContext = &MUXSDKAVPlayerCurren
 // AVPlayerItem observation contexts.
 static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusObservationContext;
 
+MUXSDKOptions *_muxOptions;
+
+@implementation MUXSDKOptions
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        self.useProxy = false;
+    }
+    return(self);
+}
+
++(MUXSDKOptions *)getSingleton {
+    if (_muxOptions == nil) {
+        _muxOptions = [[MUXSDKOptions alloc] init];
+    }
+    return _muxOptions;
+}
+
+@end
 
 @implementation MUXSDKPlayerBinding
 
@@ -669,8 +689,11 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
 }
 
 - (void)setupProxy{
-    _proxy = [[AVPlayerReverseProxy alloc] init];
-    [_proxy startPlayerProxyWithReverseProxyHost:self withCallback:@selector(handlePlayerProxyReceivedHeadersNotification:)];
+    bool useProxy = [MUXSDKOptions getSingleton].useProxy;
+    if (useProxy){
+        _proxy = [[AVPlayerReverseProxy alloc] init];
+        [_proxy startPlayerProxyWithReverseProxyHost:self withCallback:@selector(handlePlayerProxyReceivedHeadersNotification:)];
+    }
 }
 
 - (void)dispatchAdEvent:(MUXSDKPlaybackEvent *)event {

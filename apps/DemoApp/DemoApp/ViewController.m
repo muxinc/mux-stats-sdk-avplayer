@@ -16,7 +16,8 @@ static bool useProxy = true;
 - (void)viewDidLoad {
     [super viewDidLoad];
     _avplayerController = [AVPlayerViewController new];
-    AVPlayer *player = [self testImaSDK]; //[self testAVQueuePlayer]; //[self testAVPlayer];
+    [MUXSDKStats setSdkOptions:MUXSDKOptionUseLocalProxy withData: [NSNumber numberWithBool:useProxy]];
+    AVPlayer *player = [self testAVPlayer]; //[self testImaSDK]; //[self testAVQueuePlayer];
     [self setupAVPlayerViewController: player];
 }
 
