@@ -17,7 +17,7 @@ static bool useProxy = true;
     [super viewDidLoad];
     _avplayerController = [AVPlayerViewController new];
     [MUXSDKStats setSdkOptions:MUXSDKOptionUseLocalProxy withData: [NSNumber numberWithBool:useProxy]];
-    AVPlayer *player = [self testAVPlayer]; //[self testImaSDK]; //[self testAVQueuePlayer];
+    AVPlayer *player = [self testAVQueuePlayer]; //[self testImaSDK]; //[self testAVPlayer];
     [self setupAVPlayerViewController: player];
 }
 
@@ -89,8 +89,14 @@ static bool useProxy = true;
 }
 
 - (AVPlayer *)testAVQueuePlayer {
-    AVPlayerItem *item1 = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"]];
-    AVPlayerItem *item2 = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:@"http://184.72.239.149/vod/smil:BigBuckBunny.smil/playlist.m3u8"]];
+    NSString *urlString = @"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8";
+    if (useProxy)
+        urlString = [MUXSDKStats convertToProxyUrl:urlString];
+    AVPlayerItem *item1 = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:urlString]];
+    urlString = @"http://184.72.239.149/vod/smil:BigBuckBunny.smil/playlist.m3u8";
+    if (useProxy)
+        urlString = [MUXSDKStats convertToProxyUrl:urlString];
+    AVPlayerItem *item2 = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:urlString]];
     AVQueuePlayer *player = [[AVQueuePlayer alloc] initWithItems:@[item1, item2]];
     return player;
 }
