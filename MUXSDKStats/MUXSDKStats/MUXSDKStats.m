@@ -198,7 +198,7 @@ static NSMutableDictionary *_viewControllers;
 
 + (void)videoChangeForPlayer:(nonnull NSString *)name withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
     if (videoData) {
-        MUXSDKAVPlayerViewControllerBinding *player = [_viewControllers valueForKey:name];
+        MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
         if (player) {
             [player dispatchViewEnd];
             [player dispatchViewInit];
@@ -213,4 +213,26 @@ static NSMutableDictionary *_viewControllers;
 + (NSString *)convertToProxyUrl:(nonnull NSString *)streamUrl {
     return [AVPlayerReverseProxy convertToProxyUrl: streamUrl];
 }
+
++ (void)programChangeForPlayer:(nonnull NSString *)name withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
+    [MUXSDKStats videoChangeForPlayer: name withVideoData:videoData];
+    MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
+    if (player) {
+        [player dispatchPlay];
+        [player dispatchPlaying];
+    }
+}
+
+#if TARGET_OS_IOS
++ (MUXSDKImaListener *)getImaAdsListener:(nonnull NSString *)name {
+    MUXSDKImaListener *listener = nil;
+    MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
+    if (player) {
+        listener = [[MUXSDKImaListener alloc] initWithPlayerBinding: player];
+    }
+    return listener;
+}
+#endif
+
+
 @end

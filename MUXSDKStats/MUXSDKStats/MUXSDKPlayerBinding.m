@@ -3,15 +3,10 @@
 #import <Foundation/Foundation.h>
 
 @import CoreMedia;
-#if TARGET_OS_IOS
-@import MuxCore;
-#else
-@import MuxCoreTv;
-#endif
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"0.1.0";
+NSString *const MUXSDKPluginVersion = @"0.1.4";
 
 // Min number of seconds between timeupdate events. (100ms)
 double MUXSDKMaxSecsBetweenTimeUpdate = 0.1;
@@ -358,7 +353,7 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
             [errors addObject:[self buildError:@"l"
                                         domain:event.errorDomain
                                           code:event.errorStatusCode
-                                       message:event.errorComment]];
+                                       message:(event.errorComment ? event.errorComment : @"")]];
 
         }
     } else {
@@ -676,6 +671,16 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
 - (void)setupProxy{
     _proxy = [[AVPlayerReverseProxy alloc] init];
     [_proxy startPlayerProxyWithReverseProxyHost:self withCallback:@selector(handlePlayerProxyReceivedHeadersNotification:)];
+}
+
+- (void)dispatchAdEvent:(MUXSDKPlaybackEvent *)event {
+    if (![self isPlayerOK]) {
+        return;
+    }
+    [self checkVideoData];
+    MUXSDKPlayerData *playerData = [self getPlayerData];
+    [event setPlayerData:playerData];
+    [MUXSDKCore dispatchEvent:event forPlayer:_name];
 }
 
 @end

@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/MUXSDKStats.h</key>
 		<data>
-		z+Z3vTwubFB8stoo0KlG2H8MLjc=
+		0s3lWF1BuHC6RlMHSymYptgmGz4=
 		</data>
 		<key>Headers/MUXSDKStatsTv.h</key>
 		<data>
@@ -14,7 +14,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		lpQVoshjYY1RjffMBWIUWtLBSUM=
+		g7yl64SLdUjHvffTsnvSRbWEveU=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -27,11 +27,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			z+Z3vTwubFB8stoo0KlG2H8MLjc=
+			0s3lWF1BuHC6RlMHSymYptgmGz4=
 			</data>
 			<key>hash2</key>
 			<data>
-			0uCUJTir+Sppc+qLlFgQYlxmdfbm8w/Zk3zUpgYXQUM=
+			lhiBDFSMLDoEutMIDHlqSOEWI2qWqhHzkpod2VOQNfU=
 			</data>
 		</dict>
 		<key>Headers/MUXSDKStatsTv.h</key>

@@ -13,6 +13,8 @@
 		736DC071212373B400677F1A /* AVPlayerReverseProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 736DC06F212373B400677F1A /* AVPlayerReverseProxy.m */; };
 		73B291ED2124ACB800BFAE85 /* AVPlayerReverseProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 736DC06F212373B400677F1A /* AVPlayerReverseProxy.m */; };
 		AEABAABC6F146D055CFD21E8 /* libPods-MUXSDKStats.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F8C2DE9EC01086696D87331C /* libPods-MUXSDKStats.a */; };
+		738C6323213EF99B00C2230C /* MUXSDKImaListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 738C6321213EF99B00C2230C /* MUXSDKImaListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		738C6324213EF99B00C2230C /* MUXSDKImaListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 738C6322213EF99B00C2230C /* MUXSDKImaListener.m */; };
 		F41E09081DDA8E530028A296 /* MUXSDKStatsTv.h in Headers */ = {isa = PBXBuildFile; fileRef = F41E09061DDA8E530028A296 /* MUXSDKStatsTv.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F41E099D1DDA8FB50028A296 /* MUXSDKStats.h in Headers */ = {isa = PBXBuildFile; fileRef = F4DCAD001DCA892E0094D94C /* MUXSDKStats.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F41E09E41DDA90DB0028A296 /* MUXSDKPlayerBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = F4572FC11DDA2FC8003FE72B /* MUXSDKPlayerBinding.h */; };
@@ -44,6 +46,8 @@
 		71E9DFE516F6970D05769B4E /* Pods-MUXSDKStatsTv.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStatsTv.release.xcconfig"; path = "Pods/Target Support Files/Pods-MUXSDKStatsTv/Pods-MUXSDKStatsTv.release.xcconfig"; sourceTree = "<group>"; };
 		736DC06E212373B400677F1A /* AVPlayerReverseProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVPlayerReverseProxy.h; sourceTree = "<group>"; };
 		736DC06F212373B400677F1A /* AVPlayerReverseProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVPlayerReverseProxy.m; sourceTree = "<group>"; };
+		738C6321213EF99B00C2230C /* MUXSDKImaListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MUXSDKImaListener.h; sourceTree = "<group>"; };
+		738C6322213EF99B00C2230C /* MUXSDKImaListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MUXSDKImaListener.m; sourceTree = "<group>"; };
 		7FEF662BE45E805333B7371A /* Pods-MUXSDKStatsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStatsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MUXSDKStatsTests/Pods-MUXSDKStatsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A509F4458CE894269B2FC0DD /* Pods-MUXSDKStats.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStats.release.xcconfig"; path = "Pods/Target Support Files/Pods-MUXSDKStats/Pods-MUXSDKStats.release.xcconfig"; sourceTree = "<group>"; };
 		BCC5D86A3714D5DBC5D8ED1B /* Pods-MUXSDKStatsTv.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStatsTv.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MUXSDKStatsTv/Pods-MUXSDKStatsTv.debug.xcconfig"; sourceTree = "<group>"; };
@@ -136,8 +140,11 @@
 		F4DCACFF1DCA892E0094D94C /* MUXSDKStats */ = {
 			isa = PBXGroup;
 			children = (
+
 				736DC06E212373B400677F1A /* AVPlayerReverseProxy.h */,
 				736DC06F212373B400677F1A /* AVPlayerReverseProxy.m */,
+				738C6321213EF99B00C2230C /* MUXSDKImaListener.h */,
+				738C6322213EF99B00C2230C /* MUXSDKImaListener.m */,
 				F4DCAD001DCA892E0094D94C /* MUXSDKStats.h */,
 				F4572FB41DDA2F05003FE72B /* MUXSDKStats.m */,
 				F4572FC11DDA2FC8003FE72B /* MUXSDKPlayerBinding.h */,
@@ -188,6 +195,7 @@
 			files = (
 				F4DCAD0E1DCA892E0094D94C /* MUXSDKStats.h in Headers */,
 				736DC070212373B400677F1A /* AVPlayerReverseProxy.h in Headers */,
+				738C6323213EF99B00C2230C /* MUXSDKImaListener.h in Headers */,
 				F4572FC21DDA2FC8003FE72B /* MUXSDKPlayerBinding.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -412,6 +420,7 @@
 				F4572FC41DDA2FE9003FE72B /* MUXSDKPlayerBinding.m in Sources */,
 				F4572FB51DDA2F05003FE72B /* MUXSDKStats.m in Sources */,
 				736DC071212373B400677F1A /* AVPlayerReverseProxy.m in Sources */,
+				738C6324213EF99B00C2230C /* MUXSDKImaListener.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

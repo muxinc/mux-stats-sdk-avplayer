@@ -6,7 +6,11 @@
 
 @import AVKit;
 @import AVFoundation;
-
+#if TARGET_OS_IOS
+@import MuxCore;
+#else
+@import MuxCoreTv;
+#endif
 
 typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
     MUXSDKPlayerStateReady,
@@ -60,7 +64,8 @@ typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
 - (void)dispatchError;
 - (void)dispatchViewEnd;
 - (void)setupProxy;
-
+- (void)dispatchAdEvent:(MUXSDKPlaybackEvent *)event;
+- (float)getCurrentPlayheadTimeMs;
 @end
 
 
