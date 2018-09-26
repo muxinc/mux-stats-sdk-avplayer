@@ -37,7 +37,7 @@ FOUNDATION_EXPORT
 + (_Null_unspecified instancetype)new NS_UNAVAILABLE;
 
 /*!
- @method      monitorAVPlayerViewController:withUrl:withPlayerName:playerData:videoData:
+ @method      monitorAVPlayerViewController:withPlayerName:playerData:videoData:
  @abstract    Starts to monitor a given AVPlayerViewController.
  @param       player An AVPlayerViewController to monitor
  @param       name A name for this instance of the player
@@ -57,7 +57,7 @@ FOUNDATION_EXPORT
 + (void)updateAVPlayerViewController:(nonnull AVPlayerViewController *)player withPlayerName:(nonnull NSString *)name;
 
 /*!
- @method      monitorAVPlayerLayer:withUrl:withPlayerName:playerData:videoData:
+ @method      monitorAVPlayerLayer:withPlayerName:playerData:videoData:
  @abstract    Starts to monitor a given AVPlayerLayer.
  @param       player An AVPlayerLayer to monitor
  @param       name A name for this instance of the player

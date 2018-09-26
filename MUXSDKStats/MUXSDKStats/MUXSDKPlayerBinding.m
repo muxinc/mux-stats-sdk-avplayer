@@ -666,7 +666,6 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
         // Get headers and corresponding URL from notification
         NSDictionary *httpHeaders = [[notification userInfo] objectForKey:AVPlayerReverseProxyNotificationHeadersKey];
         NSString *requestUrl =  [[notification userInfo] objectForKey:AVPlayerReverseProxyNotificationRequestURLKey];
-        //NSLog(@"%@", [NSString stringWithFormat:@"URL: %@\nHeaders:%@\n\n\n", requestUrl, httpHeaders]);
 
         MUXSDKBandwidthMetricData *loadData = [[notification userInfo] objectForKey:AVPlayerReverseProxyNotificationMetricsKey];
         loadData.requestHostName = [self getHostName:requestUrl];
