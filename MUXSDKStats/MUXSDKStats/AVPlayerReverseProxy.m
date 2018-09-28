@@ -1,10 +1,7 @@
-//
-//  AVPlayerProxy.m
-//  AVPlayerHTTPHeaders
-//
-//  Created by Kevin Hunt on 2017-01-16.
-//  Copyright © 2017 Prophet Studios. All rights reserved.
-//
+// This code is based on Kevin Hunt's open source https://github.com/kevinjameshunt/AVPlayer-HTTP-Headers-Example
+// Major improvements on his code are
+// 1. support both https and http
+// 2. modify m3u8 fiules on the fly
 
 #import "AVPlayerReverseProxy.h"
 #import "GCDWebServer.h"
@@ -13,7 +10,7 @@
 
 @import MuxCore;
 
-static const int PortNumber = 8080;
+static const int PortNumber = 11824;
 
 NSString *const AVPlayerReverseProxyDidReceiveHeadersNotification         = @"AVPlayerReverseProxyDidReceiveHeadersNotification";
 NSString *const AVPlayerReverseProxyNotificationRequestURLKey             = @"AVPlayerReverseProxyNotificationRequestURLKey";
