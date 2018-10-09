@@ -26,10 +26,10 @@
 @import AVFoundation;
 #if TARGET_OS_IOS
 @import MuxCore;
+#import "MUXSDKImaListener.h"
 #else
 @import MuxCoreTv;
 #endif
-#import "MUXSDKImaListener.h"
 
 FOUNDATION_EXPORT
 @interface MUXSDKStats : NSObject

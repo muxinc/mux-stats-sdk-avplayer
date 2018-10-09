@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		87138A4D0E7F6026C61AF4CC /* libPods-DemoApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 723F5A21A9180590FC680F84 /* libPods-DemoApp.a */; };
 		F444D43D1DDB8EBF00FE804F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F444D43C1DDB8EBF00FE804F /* main.m */; };
 		F444D4401DDB8EBF00FE804F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F444D43F1DDB8EBF00FE804F /* AppDelegate.m */; };
 		F444D4431DDB8EBF00FE804F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F444D4421DDB8EBF00FE804F /* ViewController.m */; };
@@ -37,6 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87138A4D0E7F6026C61AF4CC /* libPods-DemoApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -198,12 +200,14 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-DemoApp/Pods-DemoApp-frameworks.sh",
+				"${PODS_ROOT}/GoogleAds-IMA-iOS-SDK/GoogleInteractiveMediaAds.framework",
 				"${PODS_ROOT}/Mux-Stats-AVPlayer/Frameworks/iOS/fat/MUXSDKStats.framework",
 				"${PODS_ROOT}/Mux-Stats-AVPlayer/Frameworks/iOS/fat/MUXSDKStats.framework.dSYM",
 				"${PODS_ROOT}/Mux-Stats-Core/Frameworks/iOS/fat/MuxCore.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleInteractiveMediaAds.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MUXSDKStats.framework",
 				"${DWARF_DSYM_FOLDER_PATH}/MUXSDKStats.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MuxCore.framework",

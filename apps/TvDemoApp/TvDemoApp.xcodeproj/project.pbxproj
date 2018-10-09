@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1AF2E6660BC1E500A00B57B8 /* libPods-TvDemoApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CAA9D72560A0C2100828176 /* libPods-TvDemoApp.a */; };
 		7355685920F55A4C00C42440 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7355685820F55A4C00C42440 /* AppDelegate.m */; };
 		7355685C20F55A4C00C42440 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7355685B20F55A4C00C42440 /* ViewController.m */; };
 		7355685F20F55A4C00C42440 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7355685D20F55A4C00C42440 /* Main.storyboard */; };
@@ -34,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AF2E6660BC1E500A00B57B8 /* libPods-TvDemoApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,10 +343,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XX95P4Y787;
 				INFOPLIST_FILE = TvDemoApp/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.TvDemoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 3;
@@ -360,10 +359,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XX95P4Y787;
 				INFOPLIST_FILE = TvDemoApp/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.TvDemoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 3;
