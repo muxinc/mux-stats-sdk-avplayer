@@ -22,12 +22,22 @@
 
 #import <Foundation/Foundation.h>
 
+#if __has_feature(modules)
 @import AVKit;
 @import AVFoundation;
 #if TARGET_OS_IOS
 @import MuxCore;
 #else
 @import MuxCoreTv;
+#endif
+#else
+#import <AVKit/AVKit.h>;
+#import <AVFoundation/AVFoundation.h>;
+#if TARGET_OS_IOS
+#import <MuxCore/MuxCore.h>;
+#else
+#import <MuxCoreTv/MuxCoreTv.h>;
+#endif
 #endif
 
 FOUNDATION_EXPORT

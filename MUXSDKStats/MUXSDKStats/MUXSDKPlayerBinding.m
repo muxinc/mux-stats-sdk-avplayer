@@ -2,11 +2,20 @@
 
 #import <Foundation/Foundation.h>
 
+#if __has_feature(modules)
 @import CoreMedia;
 #if TARGET_OS_IOS
 @import MuxCore;
 #else
 @import MuxCoreTv;
+#endif
+#else
+#import <CoreMedia/CoreMedia.h>;
+#if TARGET_OS_IOS
+#import <MuxCore/MuxCore.h>;
+#else
+#import <MuxCoreTv/MuxCoreTv.h>;
+#endif
 #endif
 
 // SDK constants.

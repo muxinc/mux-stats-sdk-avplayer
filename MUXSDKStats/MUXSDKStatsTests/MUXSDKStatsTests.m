@@ -9,9 +9,16 @@
 #import <XCTest/XCTest.h>
 #import "MUXSDKStats.h"
 
+#if __has_feature(modules)
 @import AVKit;
 @import AVFoundation;
 @import MuxCore;
+#else
+#import <AVKit/AVKit.h>;
+#import <AVFoundation/AVFoundation.h>;
+#import <MuxCore/MuxCore.h>;
+#endif
+
 
 @interface MuxMockAVPlayerViewController : AVPlayerViewController
 @end

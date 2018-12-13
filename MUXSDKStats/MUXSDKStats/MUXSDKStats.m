@@ -4,10 +4,18 @@
 #import <Foundation/Foundation.h>
 #import <sys/utsname.h>
 
+#if __has_feature(modules)
 @import AVFoundation;
 @import AVKit;
 @import Foundation;
 @import UIKit;
+#else
+#import <AVKit/AVKit.h>;
+#import <AVFoundation/AVFoundation.h>;
+#import <Foundation/Foundation.h>;
+#import <UIKit/UIKit.h>;
+#endif
+
 
 // Software constants.
 NSString *const MuxPlayerSoftwareAVPlayerViewController = @"AVPlayerViewController";

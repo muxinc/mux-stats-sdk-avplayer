@@ -3,8 +3,13 @@
 
 #import <Foundation/Foundation.h>
 
+#if __has_feature(modules)
 @import AVKit;
 @import AVFoundation;
+#else
+#import <AVKit/AVKit.h>;
+#import <AVFoundation/AVFoundation.h>;
+#endif
 
 
 typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
