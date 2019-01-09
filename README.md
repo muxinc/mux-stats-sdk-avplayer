@@ -2,7 +2,7 @@
 
 Mux integration with `AVPlayer` and `AVPlayerLayer` for iOS native applications.
 
-This integration is built on top of [Mux's core Objective-C library](), allowing thinner wrappers for each new player, such as any third-party players that do not use (or expose) an underlying `AVPlayer` and/or `AVPlayerLayer`.
+This integration is built on top of [Mux's core Objective-C library](https://github.com/muxinc/stats-sdk-objc), allowing thinner wrappers for each new player, such as any third-party players that do not use (or expose) an underlying `AVPlayer` and/or `AVPlayerLayer`.
 
 ## Integration Instructions
 Full integration instructions can be found here: https://docs.mux.com/docs/ios-integration-guide.
