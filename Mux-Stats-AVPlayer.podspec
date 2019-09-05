@@ -15,10 +15,12 @@ Pod::Spec.new do |s|
   s.author           = { 'Mux' => 'ios-sdk@mux.com' }
 
   s.ios.deployment_target = '8.0'
-  s.ios.vendored_frameworks = 'Frameworks/iOS/fat/MUXSDKStats.framework'
+  # s.ios.source_files = 'Frameworks/iOS/fat/MUXSDKStats.framework'
+  s.ios.source_files = 'MUXSDKStats/MUXSDKStats/*.{h,m}'
   s.ios.frameworks = 'AVKit', 'AVFoundation'
 
   s.tvos.deployment_target = '9.0'
-  s.tvos.vendored_frameworks = 'Frameworks/tvOS/fat/MUXSDKStatsTv.framework'
+  # s.tvos.vendored_frameworks = 'Frameworks/tvOS/fat/MUXSDKStatsTv.framework'
+  s.tvos.source_files = 'MUXSDKStats/MUXSDKStatsTv/*.{h,m}'
   s.tvos.frameworks = 'AVKit', 'AVFoundation'
 end

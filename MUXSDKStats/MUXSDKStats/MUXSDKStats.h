@@ -26,7 +26,11 @@
 @import AVFoundation;
 #if TARGET_OS_IOS
 @import MuxCore;
+#ifdef GoogleInteractiveMediaAds
 #import "MUXSDKImaListener.h"
+#else
+#import "MUXSDKImaListenerStub.h"
+#endif
 #else
 @import MuxCoreTv;
 #endif
