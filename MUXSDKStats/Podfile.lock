@@ -7,7 +7,7 @@ DEPENDENCIES:
   - Mux-Stats-Core (~> 2.0.0)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - GoogleAds-IMA-iOS-SDK
     - Mux-Stats-Core
 
@@ -17,4 +17,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 6b9b87bc5d02f98293c2e731064591df2df0dd78
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.7.5
