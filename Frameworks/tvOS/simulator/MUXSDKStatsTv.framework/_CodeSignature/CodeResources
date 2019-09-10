@@ -4,9 +4,13 @@
 <dict>
 	<key>files</key>
 	<dict>
+		<key>Headers/MUXSDKPlayerBinding.h</key>
+		<data>
+		15xZHfHovythsRAlxv4Tb7tnT2c=
+		</data>
 		<key>Headers/MUXSDKStats.h</key>
 		<data>
-		UYuutO2C1EY2ZVkE2seaIMOeuFs=
+		LSTTVVHirIJu+ZQOth+jI0UDnBw=
 		</data>
 		<key>Headers/MUXSDKStatsTv.h</key>
 		<data>
@@ -14,7 +18,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		mfvQaQ7AGX5xWyUVn3dnk+P/n7I=
+		bFTn43TJIWSFIW4FKUCOIqkv0ig=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -23,15 +27,26 @@
 	</dict>
 	<key>files2</key>
 	<dict>
+		<key>Headers/MUXSDKPlayerBinding.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			15xZHfHovythsRAlxv4Tb7tnT2c=
+			</data>
+			<key>hash2</key>
+			<data>
+			C1ZqVwk05/h9jZ5D5f1/p6u1l0D5g7nENDgM862Zkuc=
+			</data>
+		</dict>
 		<key>Headers/MUXSDKStats.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			UYuutO2C1EY2ZVkE2seaIMOeuFs=
+			LSTTVVHirIJu+ZQOth+jI0UDnBw=
 			</data>
 			<key>hash2</key>
 			<data>
-			DQ7DU41+e2auF+kfiZu05t4JmnK2c/s9smT/z4johTs=
+			IGnfEevDrK0DiTfl0JTL4LHq7anCmTxKHu+S9mgymCE=
 			</data>
 		</dict>
 		<key>Headers/MUXSDKStatsTv.h</key>
@@ -59,7 +74,7 @@
 	</dict>
 	<key>rules</key>
 	<dict>
-		<key>^</key>
+		<key>^.*</key>
 		<true/>
 		<key>^.*\.lproj/</key>
 		<dict>
@@ -90,24 +105,12 @@
 			<key>weight</key>
 			<real>11</real>
 		</dict>
-		<key>^</key>
-		<dict>
-			<key>weight</key>
-			<real>20</real>
-		</dict>
 		<key>^(.*/)?\.DS_Store$</key>
 		<dict>
 			<key>omit</key>
 			<true/>
 			<key>weight</key>
 			<real>2000</real>
-		</dict>
-		<key>^(Frameworks|SharedFrameworks|PlugIns|Plug-ins|XPCServices|Helpers|MacOS|Library/(Automator|Spotlight|LoginItems))/</key>
-		<dict>
-			<key>nested</key>
-			<true/>
-			<key>weight</key>
-			<real>10</real>
 		</dict>
 		<key>^.*</key>
 		<true/>
@@ -143,13 +146,6 @@
 			<true/>
 			<key>weight</key>
 			<real>20</real>
-		</dict>
-		<key>^[^/]+$</key>
-		<dict>
-			<key>nested</key>
-			<true/>
-			<key>weight</key>
-			<real>10</real>
 		</dict>
 		<key>^embedded\.provisionprofile$</key>
 		<dict>
