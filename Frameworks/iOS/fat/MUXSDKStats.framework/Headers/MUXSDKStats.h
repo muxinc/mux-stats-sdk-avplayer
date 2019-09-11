@@ -26,7 +26,6 @@
 @import AVFoundation;
 #if TARGET_OS_IOS
 @import MuxCore;
-#import "MUXSDKImaListener.h"
 #else
 @import MuxCoreTv;
 #endif
@@ -107,14 +106,4 @@ FOUNDATION_EXPORT
  */
 + (void)programChangeForPlayer:(nonnull NSString *)name withVideoData:(nullable MUXSDKCustomerVideoData *)videoData;
 
-/*!
- @method      getImaAdsListener:
- @abstract    Return an IMA Ads listener for Ad analytic collection
- @param       name The name of the player
- @return      an IMA event listener
- @discussion  Use this method to return an IMA Ads listener to collect IMA Ad event and Ad error event.
- */
-#if TARGET_OS_IOS
-+ (MUXSDKImaListener *)getImaAdsListener:(nonnull NSString *)name;
-#endif
 @end
