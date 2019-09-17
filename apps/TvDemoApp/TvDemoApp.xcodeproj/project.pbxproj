@@ -182,21 +182,16 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-TvDemoApp/Pods-TvDemoApp-frameworks.sh",
-				"${PODS_ROOT}/Mux-Stats-AVPlayer/Frameworks/tvOS/fat/MUXSDKStatsTv.framework",
-				"${PODS_ROOT}/Mux-Stats-AVPlayer/Frameworks/tvOS/fat/MUXSDKStatsTv.framework.dSYM",
-				"${PODS_ROOT}/Mux-Stats-Core/Frameworks/tvOS/fat/MuxCoreTv.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TvDemoApp/Pods-TvDemoApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MUXSDKStatsTv.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/MUXSDKStatsTv.framework.dSYM",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MuxCoreTv.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TvDemoApp/Pods-TvDemoApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TvDemoApp/Pods-TvDemoApp-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TvDemoApp/Pods-TvDemoApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -343,7 +338,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XX95P4Y787;
 				INFOPLIST_FILE = TvDemoApp/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.TvDemoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 3;
@@ -359,7 +357,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XX95P4Y787;
 				INFOPLIST_FILE = TvDemoApp/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.TvDemoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 3;
