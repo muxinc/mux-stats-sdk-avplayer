@@ -7,7 +7,6 @@ target 'MUXSDKStats' do
 
   # Pods for MUXSDKStats
   pod 'Mux-Stats-Core', '~>2.0.0'
-  pod 'GoogleAds-IMA-iOS-SDK', '~> 3.7'
 
   target 'MUXSDKStatsTests' do
     inherit! :search_paths

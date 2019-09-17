@@ -26,10 +26,10 @@
 @import AVFoundation;
 #if TARGET_OS_IOS
 @import MuxCore;
-#import "MUXSDKImaListener.h"
 #else
 @import MuxCoreTv;
 #endif
+#import "MUXSDKPlayerBinding.h"
 
 FOUNDATION_EXPORT
 @interface MUXSDKStats : NSObject
@@ -44,9 +44,10 @@ FOUNDATION_EXPORT
  @param       name A name for this instance of the player
  @param       playerData A MUXSDKCustomerPlayerData object with player metadata
  @param       videoData A MUXSDKCustomerVideoData object with video metadata
+ @return      an instance of MUXSDKAVPlayerLayerBinding or null
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerViewController. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
-+ (void)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData;
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData;
 
 /*!
  @method      updateAVPlayerViewController:withPlayerName
@@ -64,9 +65,10 @@ FOUNDATION_EXPORT
  @param       name A name for this instance of the player
  @param       playerData A MUXSDKCustomerPlayerData object with player metadata
  @param       videoData A MUXSDKCustomerVideoData object with video metadata
+ @return      an instance of MUXSDKAVPlayerLayerBinding or null
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerLayer. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
-+ (void)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData;
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData;
 
 /*!
  @method      updateAVPlayerLayer:withPlayerName:
@@ -104,14 +106,4 @@ FOUNDATION_EXPORT
  */
 + (void)programChangeForPlayer:(nonnull NSString *)name withVideoData:(nullable MUXSDKCustomerVideoData *)videoData;
 
-/*!
- @method      getImaAdsListener:
- @abstract    Return an IMA Ads listener for Ad analytic collection
- @param       name The name of the player
- @return      an IMA event listener
- @discussion  Use this method to return an IMA Ads listener to collect IMA Ad event and Ad error event.
- */
-#if TARGET_OS_IOS
-+ (MUXSDKImaListener *)getImaAdsListener:(nonnull NSString *)name;
-#endif
 @end

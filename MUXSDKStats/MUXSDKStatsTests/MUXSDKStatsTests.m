@@ -52,25 +52,14 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
-}
-
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
-}
-
 - (void)testVideoChangeForAVPlayerViewController{
     MuxMockAVPlayerViewController *controller = [[MuxMockAVPlayerViewController alloc] init];
     MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
     MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
     [customerVideoData setVideoTitle:@"01234"];
     NSString *playName = @"Player";
-    [MUXSDKStats monitorAVPlayerViewController:controller withPlayerName:playName playerData:customerPlayerData videoData:customerVideoData];
+    MUXSDKPlayerBinding *playerBinding = [MUXSDKStats monitorAVPlayerViewController:controller withPlayerName:playName playerData:customerPlayerData videoData:customerVideoData];
+    XCTAssertNotNil(playerBinding, "expected monitorAVPlayerViewController to return a playerBinding");
     [customerVideoData setVideoTitle:@"56789"];
     [MUXSDKStats videoChangeForPlayer:playName withVideoData:customerVideoData];
     [MUXSDKStats destroyPlayer:playName];
@@ -82,7 +71,8 @@
     MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
     [customerVideoData setVideoTitle:@"01234"];
     NSString *playName = @"Player";
-    [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName playerData:customerPlayerData videoData:customerVideoData];
+    MUXSDKPlayerBinding *playerBinding = [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName playerData:customerPlayerData videoData:customerVideoData];
+    XCTAssertNotNil(playerBinding, "expected monitorAVPlayerLayer to return a playerBinding");
     [customerVideoData setVideoTitle:@"56789"];
     [MUXSDKStats videoChangeForPlayer:playName withVideoData:customerVideoData];
     [MUXSDKStats destroyPlayer:playName];
