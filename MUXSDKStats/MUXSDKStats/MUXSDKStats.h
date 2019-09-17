@@ -65,7 +65,7 @@ FOUNDATION_EXPORT
  @param       name A name for this instance of the player
  @param       playerData A MUXSDKCustomerPlayerData object with player metadata
  @param       videoData A MUXSDKCustomerVideoData object with video metadata
- @return      an instance of MUXSDKAVPlayerLayerBinding or nill
+ @return      an instance of MUXSDKAVPlayerLayerBinding or null
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerLayer. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData;

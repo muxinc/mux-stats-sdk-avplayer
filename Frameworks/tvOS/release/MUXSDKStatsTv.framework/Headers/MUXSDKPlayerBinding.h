@@ -24,8 +24,8 @@ typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
 
 
 @interface MUXSDKPlayerBinding : NSObject {
-    NSString *_name;
 @private
+    NSString *_name;
     NSString *_software;
     AVPlayer *_player;
     AVPlayerItem *_playerItem;
