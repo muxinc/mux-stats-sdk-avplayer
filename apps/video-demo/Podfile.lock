@@ -1,0 +1,20 @@
+PODS:
+  - Mux-Stats-AVPlayer (1.0.0):
+    - Mux-Stats-Core (~> 2.0.0)
+  - Mux-Stats-Core (2.0.7)
+
+DEPENDENCIES:
+  - Mux-Stats-AVPlayer (~> 1.0.0)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Mux-Stats-AVPlayer
+    - Mux-Stats-Core
+
+SPEC CHECKSUMS:
+  Mux-Stats-AVPlayer: 0257d53ea2d7db1f720e5f3cf3a1861d9b732da4
+  Mux-Stats-Core: a766e391d7d1802440c8711c0fea8c7405964eae
+
+PODFILE CHECKSUM: 644dba7feb78b9f15a18422547bd36f421031e92
+
+COCOAPODS: 1.7.5
