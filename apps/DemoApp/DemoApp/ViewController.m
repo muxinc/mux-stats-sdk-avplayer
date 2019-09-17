@@ -1,7 +1,7 @@
 #import "ViewController.h"
 
-@import MuxCore;
 @import MUXSDKStats;
+@import Mux_Stats_Google_IMA;
 
 static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 
@@ -115,17 +115,16 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
     videoData.videoTitle = @"Big Buck Bunny";
     videoData.videoId = @"bigbuckbunny";
     videoData.videoSeries = @"animation";
-    [MUXSDKStats monitorAVPlayerViewController:_avplayerController
+    _playerBinding = [MUXSDKStats monitorAVPlayerViewController:_avplayerController
                                 withPlayerName:DEMO_PLAYER_NAME
                                     playerData:playerData
                                      videoData:videoData];
+    _imaListener = [[MuxImaListener alloc] initWithPlayerBinding:_playerBinding];
     [_avplayer play];
 
     [self addChildViewController:_avplayerController];
     [self.view addSubview:_avplayerController.view];
     _avplayerController.view.frame = self.view.frame;
-
-    _imaListener = [MUXSDKStats getImaAdsListener:DEMO_PLAYER_NAME];
 }
 
 - (void)changeVideo:(NSTimer *)timer {
