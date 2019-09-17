@@ -4,7 +4,8 @@
 @import AVFoundation;
 @import GoogleInteractiveMediaAds;
 
-@class MUXSDKImaListener;
+@class MuxImaListener;
+@class MUXSDKPlayerBinding;
 
 @interface ViewController : UIViewController <IMAAdsLoaderDelegate, IMAAdsManagerDelegate> {
     @private
@@ -16,7 +17,8 @@
     IMAAdsLoader *_adsLoader;
     IMAAdsManager *_adsManager;
     IMAAVPlayerContentPlayhead *_contentPlayhead;
-    MUXSDKImaListener *_imaListener;
+    MuxImaListener *_imaListener;
+    MUXSDKPlayerBinding *_playerBinding;
 }
 
 @end

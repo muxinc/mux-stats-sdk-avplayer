@@ -19,7 +19,7 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
     _avplayerController.player = _avplayer;
 
     // TODO: Add your property key!
-    MUXSDKCustomerPlayerData *playerData = [[MUXSDKCustomerPlayerData alloc] initWithPropertyKey:@"YOUR_ENVIRONMENT_KEY"];
+    MUXSDKCustomerPlayerData *playerData = [[MUXSDKCustomerPlayerData alloc] initWithPropertyKey:@"cqtqt2jfbq235huvso0djbn56"];
     MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
     videoData.videoTitle = @"Big Buck Bunny";
     videoData.videoId = @"bigbuckbunny";

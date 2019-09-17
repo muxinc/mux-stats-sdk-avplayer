@@ -6,6 +6,5 @@ target 'TvDemoApp' do
   # use_frameworks!
 
   # Pods for TvDemoApp
-  pod 'Mux-Stats-Core', '~>2.0.0'
-  pod 'Mux-Stats-AVPlayer', '~>0.1.0'
+  pod 'Mux-Stats-AVPlayer', '~>1.0.0'
 end
