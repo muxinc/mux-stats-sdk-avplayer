@@ -18,15 +18,17 @@ class VideoPlayerController: AVPlayerViewController {
         let videoUrl = video["url"]!
         let url = URL(string: videoUrl)
         player = AVPlayer(url: url!)
+        player?.replaceCurrentItem(with: AVPlayerItem(url: url!))
 
-        let cpd = MUXSDKCustomerPlayerData(environmentKey: "img");
-        cpd?.playerName = "AVPlayer"
-        cpd?.environmentKey = "YOUR_ENVIRONMENT_KEY"
-        let cvd = MUXSDKCustomerVideoData();
-        cvd.videoIsLive = false;
-        cvd.videoTitle = video["title"]!
-        cvd.videoStreamType = "mp4"
-        MUXSDKStats.monitorAVPlayerViewController(self, withPlayerName: playName, playerData: cpd!, videoData: cvd);
+        let playerData = MUXSDKCustomerPlayerData(environmentKey: "YOUR_ENVIRONMENT_KEY");
+        playerData?.playerName = "AVPlayer"
+        let videoData = MUXSDKCustomerVideoData();
+        videoData.videoIsLive = false;
+        videoData.videoTitle = video["title"]!
+        videoData.videoStreamType = "mp4"
+        videoData.videoDuration = 120000
+        MUXSDKStats.videoChange(forPlayer: "AVPlayer", with: videoData)
+        MUXSDKStats.monitorAVPlayerViewController(self, withPlayerName: playName, playerData: playerData!, videoData: videoData);
 
         timeObserverToken = player!.addPeriodicTimeObserver(forInterval: CMTime(seconds: 0.5,
                                                                                preferredTimescale: CMTimeScale(NSEC_PER_SEC)),
