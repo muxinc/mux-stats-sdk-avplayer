@@ -2,3 +2,5 @@
 **/xcshareddata/*
 **/Pods/*
 **/*.xcworkspace/*
+
+Carthage/Build
