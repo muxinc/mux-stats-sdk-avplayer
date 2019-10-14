@@ -279,13 +279,11 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
             [videoData setVideoSourceIsLive:@"true"];
         } else {
             [videoData setVideoSourceIsLive:@"false"];
-            if (_player.currentItem && _player.currentItem.asset) {
-                float sec = CMTimeGetSeconds(_player.currentItem.asset.duration);
-                if (sec && sec > 0) {
-                    float ms = sec * 1000;
-                    NSNumber *timeMs = [NSNumber numberWithFloat:ms];
-                    [videoData setVideoSourceDuration:[NSNumber numberWithLongLong:[timeMs longLongValue]]];
-                }
+            float sec = CMTimeGetSeconds(_videoDuration);
+            if (sec && sec > 0) {
+                float ms = sec * 1000;
+                NSNumber *timeMs = [NSNumber numberWithFloat:ms];
+                [videoData setVideoSourceDuration:[NSNumber numberWithLongLong:[timeMs longLongValue]]];
             }
         }
         if (_videoURL) {
