@@ -19,6 +19,7 @@ Full integration instructions can be found here: https://docs.mux.com/docs/avpla
 * To support Carthage framework management,
 * After the `update-release-frameworks.sh` build, run carthage-archive.sh.
 * Then attach the output to the release
+* Update the release notes in the [AVPlayer Integration Guide](https://docs.mux.com/docs/avplayer-integration-guide)
 
 ## Sample apps
 * apps/DemoApp - Objective C demo
