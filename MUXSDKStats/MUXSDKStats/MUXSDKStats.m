@@ -222,4 +222,18 @@ static NSMutableDictionary *_viewControllers;
     }
 }
 
++ (void)updateCustomerDataForPlayer:(nonnull NSString *)name withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
+    MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
+    if (!player) return;
+    if (!playerData && !videoData) return;
+    MUXSDKDataEvent *dataEvent = [MUXSDKDataEvent new];
+    if (playerData) {
+        [dataEvent setCustomerPlayerData:playerData];
+    }
+    if (videoData) {
+        [dataEvent setCustomerVideoData:videoData];
+    }
+    [MUXSDKCore dispatchEvent:dataEvent forPlayer:name];
+}
+
 @end

@@ -260,10 +260,12 @@
 					};
 					F4DCACFC1DCA892E0094D94C = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = CX6AHWLHM6;
 						ProvisioningStyle = Automatic;
 					};
 					F4DCAD051DCA892E0094D94C = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = CX6AHWLHM6;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -597,8 +599,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2299324CA6DB1DBCB21FE15C /* Pods-MUXSDKStats.debug.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = CX6AHWLHM6;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -626,6 +629,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = CX6AHWLHM6;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -647,6 +651,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7FEF662BE45E805333B7371A /* Pods-MUXSDKStatsTests.debug.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = CX6AHWLHM6;
 				INFOPLIST_FILE = MUXSDKStatsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.ios.MUXSDKStatsTests;
@@ -658,6 +663,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D55847390AE2D6C375E7535C /* Pods-MUXSDKStatsTests.release.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = CX6AHWLHM6;
 				INFOPLIST_FILE = MUXSDKStatsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.ios.MUXSDKStatsTests;
