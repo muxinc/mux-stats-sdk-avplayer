@@ -13,7 +13,7 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSURL* videoURL = [NSURL URLWithString:@"http://www.streambox.fr/playlists/x36xhzz/x36xhzz.m3u8"];
+    NSURL* videoURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
     _avplayer = [AVPlayer playerWithURL:videoURL];
     _avplayerController = [AVPlayerViewController new];
     _avplayerController.player = _avplayer;
