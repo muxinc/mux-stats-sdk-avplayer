@@ -106,4 +106,14 @@ FOUNDATION_EXPORT
  */
 + (void)programChangeForPlayer:(nonnull NSString *)name withVideoData:(nullable MUXSDKCustomerVideoData *)videoData;
 
+/*!
+ @method      updateCustomerData:forPlayer:withPlayerData:withVideoData
+ @abstract    allows videoData to be set or updated for the player
+ @param       name The name of the player to update
+ @param       playerData A MUXSDKCustomerPlayerData object with video metadata
+ @param       videoData A MUXSDKCustomerVideoData object with video metadata
+ @discussion  Use this method after you have already initialized the Mux SDK at any time before the player has been destroyed. Pass in either videoData or playerData.
+ */
++ (void)updateCustomerDataForPlayer:(nonnull NSString *)name withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData;
+
 @end
