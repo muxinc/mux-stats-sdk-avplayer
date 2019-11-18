@@ -8,7 +8,10 @@ This integration is built on top of [Mux's core Objective-C library](https://git
 Full integration instructions can be found here: https://docs.mux.com/docs/avplayer-integration-guide.
 
 ## How to release
-* Bump versions in MUXSDKStats.info, MUXSDKStatsTv.info, and Mux-Stats-SDK.podspec
+* Bump version in Mux-Stats-AVPlayer.podspec
+* Bump version in MUXSDKStats/MUXSDKStats/Info.plist
+* Bump version in MUXSDKStats/MUXSDKStatsTv/Info.plist
+* Bump version in MUXSDKStats/MUXSDKStats/MUXSDKPlayerBinding.m
 * Execute `update-release-frameworks.sh` to make a full build
 * Github - Create a PR to check in all changed files.
 * If approved, `git tag [YOUR NEW VERSION]` and `git push --tags`
