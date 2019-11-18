@@ -26,9 +26,9 @@ lipo -create tv/Release-appletvos/MUXSDKStatsTv.framework/MUXSDKStatsTv tv/Relea
 
 
 # Build iOS release SDK
-xcodebuild -workspace 'MUXSDKStats.xcworkspace' -configuration Release archive -scheme 'MUXSDKStats' SYMROOT=$PWD/ios
+xcodebuild -workspace 'MUXSDKStats.xcworkspace' -configuration Release archive -scheme 'MUXSDKStats' -sdk iphoneos SYMROOT=$PWD/ios
 # Build iOS simulator SDK
-xcodebuild -workspace 'MUXSDKStats.xcworkspace' -configuration Release -scheme 'MUXSDKStats' -destination 'platform=iOS Simulator,name=iPhone 7' SYMROOT=$PWD/ios
+xcodebuild -workspace 'MUXSDKStats.xcworkspace' -configuration Release -scheme 'MUXSDKStats' -destination 'platform=iOS Simulator,name=iPhone 8' SYMROOT=$PWD/ios
 
 # Prepare the release .framework
 cp -R -L ios/Release-iphoneos/MUXSDKStats.framework ios/MUXSDKStats.framework
