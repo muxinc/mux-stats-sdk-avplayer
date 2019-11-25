@@ -6,12 +6,12 @@ target 'MUXSDKStats' do
   # use_frameworks!
 
   # Pods for MUXSDKStats
-  pod 'Mux-Stats-Core', '~>2.0.0'
+  pod 'Mux-Stats-Core', '~>2.1'
 
   target 'MUXSDKStatsTests' do
     inherit! :search_paths
     # Pods for testing
-    pod 'Mux-Stats-Core', '~>2.0.0'
+    pod 'Mux-Stats-Core', '~>2.1'
   end
 
 end
@@ -22,5 +22,5 @@ target 'MUXSDKStatsTv' do
   # use_frameworks!
 
   # Pods for MUXSDKStatsTv
-  pod 'Mux-Stats-Core', '~>2.0.0'
+  pod 'Mux-Stats-Core', '~>2.1'
 end
