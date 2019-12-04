@@ -21,6 +21,7 @@ static MUXSDKDispatcher *_dispatcher;
 static NSMutableDictionary *_bindings;
 // Name => AVPlayerViewController or AVPlayerLayer
 static NSMutableDictionary *_viewControllers;
+static NSMutableArray *_queryParamFilters;
 
 + (void)initSDK {
     if (!_bindings) {
@@ -28,6 +29,9 @@ static NSMutableDictionary *_viewControllers;
     }
     if (!_viewControllers) {
         _viewControllers = [[NSMutableDictionary alloc] init];
+    }
+    if (!_queryParamFilters) {
+        _queryParamFilters = [[NSMutableArray alloc] init];
     }
     // Provide EnvironmentData and ViewerData to Core.
     MUXSDKEnvironmentData *environmentData = [[MUXSDKEnvironmentData alloc] init];
@@ -86,6 +90,39 @@ static NSMutableDictionary *_viewControllers;
     [dataEvent setEnvironmentData:environmentData];
     [dataEvent setViewerData:viewerData];
     [MUXSDKCore dispatchGlobalDataEvent:dataEvent];
+}
+
++ (void)addQueryParamFilter:(NSString*)paramName {
+    if (!_queryParamFilters) {
+        [self initSDK];
+    }
+    [_queryParamFilters addObject:paramName];
+}
+
++ (void)removeQueryParamFilter:(NSString*)paramName {
+    if (!_queryParamFilters) {
+        return;
+    }
+    [_queryParamFilters removeObject:paramName];
+}
+
++ (NSString*)filteredStringFromURL:(NSURL*)url {
+    if (!_queryParamFilters) {
+        return [url absoluteString];
+    }
+    NSURLComponents* components = [NSURLComponents componentsWithURL:url
+                                             resolvingAgainstBaseURL:false];
+    NSMutableArray<NSURLQueryItem*>* queryItems =
+    [NSMutableArray arrayWithArray:[components queryItems]];
+    for (NSURLQueryItem* item in queryItems) {
+        if ([_queryParamFilters containsObject:item.name]) {
+            [queryItems removeObject:item];
+            [queryItems addObject:[NSURLQueryItem queryItemWithName:item.name
+                                                              value:@"REDACTED"]];
+        }
+    }
+    [components setQueryItems:queryItems];
+    return [[components URL] absoluteString];
 }
 
 + (void)dispatchDataEventForPlayerName:(NSString *)name playerData:(MUXSDKCustomerPlayerData *)customerPlayerData videoData:(MUXSDKCustomerVideoData *)customerVideoData {

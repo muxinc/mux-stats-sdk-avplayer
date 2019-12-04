@@ -110,4 +110,26 @@
     [MUXSDKStats destroyPlayer:playName];
 }
 
+- (void)testQueryParamFilter {
+    [MUXSDKStats addQueryParamFilter:@"superSecret"];
+    NSURL* src = [NSURL URLWithString:@"https://example.com/master.m3u8?trivial=foo&superSecret=bar"];
+    NSString* dest = [MUXSDKStats filteredStringFromURL:src];
+    NSURLComponents* destComponents = [NSURLComponents componentsWithString:dest];
+    NSArray<NSURLQueryItem*>* destQueryItems = destComponents.queryItems;
+    NSURLQueryItem* secretItem = nil;
+    NSURLQueryItem* lessSecretItem = nil;
+    for (NSURLQueryItem* queryItem in destQueryItems) {
+        if ([queryItem.name isEqualToString:@"superSecret"]) {
+            secretItem = queryItem;
+        }
+        if ([queryItem.name isEqualToString:@"trivial"]) {
+            lessSecretItem = queryItem;
+        }
+    }
+    XCTAssertNotNil(secretItem);
+    XCTAssertNotNil(lessSecretItem);
+    XCTAssertFalse([secretItem.value isEqualToString:@"bar"]);
+    XCTAssertTrue([lessSecretItem.value isEqualToString:@"foo"]);
+}
+
 @end

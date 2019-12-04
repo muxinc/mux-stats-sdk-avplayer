@@ -37,6 +37,14 @@ FOUNDATION_EXPORT
 - (_Null_unspecified instancetype)init NS_UNAVAILABLE;
 + (_Null_unspecified instancetype)new NS_UNAVAILABLE;
 
+/*
+ Filter query parameters from playback URLs prior to reporting to Mux.
+ This has no impact on playback, but will affect the data sent for analytics.
+ */
++ (void)addQueryParamFilter:(nonnull NSString*)paramName;
++ (void)removeQueryParamFilter:(nonnull NSString*)paramName;
++ (nonnull NSString*)filteredStringFromURL:(nonnull NSURL*)url;
+
 /*!
  @method      monitorAVPlayerViewController:withPlayerName:playerData:videoData:
  @abstract    Starts to monitor a given AVPlayerViewController.

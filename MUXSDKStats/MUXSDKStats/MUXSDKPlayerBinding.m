@@ -1,5 +1,5 @@
 #import "MUXSDKPlayerBinding.h"
-
+#import "MUXSDKStats.h"
 #import <Foundation/Foundation.h>
 
 @import CoreMedia;
@@ -263,8 +263,8 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
     AVAsset *currentPlayerAsset = _player.currentItem.asset;
     if ([currentPlayerAsset isKindOfClass:AVURLAsset.class]) {
         AVURLAsset *urlAsset = (AVURLAsset *)currentPlayerAsset;
-        NSString * urlString = [[urlAsset URL] absoluteString];
-        if (!_videoURL || [_videoURL isEqualToString:urlString]) {
+        NSString * urlString = [MUXSDKStats filteredStringFromURL:[urlAsset URL]];
+        if (!_videoURL || ![_videoURL isEqualToString:urlString]) {
             _videoURL = urlString;
             videoDataUpdated = YES;
         }
