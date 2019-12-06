@@ -1,5 +1,4 @@
 #import "MUXSDKPlayerBinding.h"
-#import "MUXSDKStats.h"
 #import <Foundation/Foundation.h>
 
 @import CoreMedia;
