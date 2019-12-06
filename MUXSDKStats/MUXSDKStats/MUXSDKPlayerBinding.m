@@ -155,6 +155,7 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
 }
 
 - (void)dealloc {
+    [self setVideoSourceUrlOverride:nil];
     [self detachAVPlayer];
 }
 
@@ -234,7 +235,7 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
     _videoSize = CGSizeMake(0, 0);
     _videoDuration = CMTimeMake(0, 0);
     _videoIsLive = NO;
-    _videoURL = NULL;
+    _videoURL = nil;
     _seeking = NO;
     _started = NO;
 }
@@ -262,9 +263,10 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
     }
     AVAsset *currentPlayerAsset = _player.currentItem.asset;
     if ([currentPlayerAsset isKindOfClass:AVURLAsset.class]) {
+        // [PR discuss] Option 1 of 3: Ignore multiple URLs in the player when URL override is present.
         AVURLAsset *urlAsset = (AVURLAsset *)currentPlayerAsset;
-        NSString * urlString = [MUXSDKStats filteredStringFromURL:[urlAsset URL]];
-        if (!_videoURL || ![_videoURL isEqualToString:urlString]) {
+        NSString* urlString = [[urlAsset URL] absoluteString];
+        if (!self.videoSourceUrlOverride && ![_videoURL isEqualToString:urlString]) {
             _videoURL = urlString;
             videoDataUpdated = YES;
         }
@@ -286,7 +288,9 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
                 [videoData setVideoSourceDuration:[NSNumber numberWithLongLong:[timeMs longLongValue]]];
             }
         }
-        if (_videoURL) {
+        if (self.videoSourceUrlOverride) {
+            [videoData setVideoSourceUrl:self.videoSourceUrlOverride];
+        } else if (_videoURL) {
             [videoData setVideoSourceUrl:_videoURL];
         }
         MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];

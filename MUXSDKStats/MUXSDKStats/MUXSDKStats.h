@@ -37,14 +37,6 @@ FOUNDATION_EXPORT
 - (_Null_unspecified instancetype)init NS_UNAVAILABLE;
 + (_Null_unspecified instancetype)new NS_UNAVAILABLE;
 
-/*
- Filter query parameters from playback URLs prior to reporting to Mux.
- This has no impact on playback, but will affect the data sent for analytics.
- */
-+ (void)addQueryParamFilter:(nonnull NSString*)paramName;
-+ (void)removeQueryParamFilter:(nonnull NSString*)paramName;
-+ (nonnull NSString*)filteredStringFromURL:(nonnull NSURL*)url;
-
 /*!
  @method      monitorAVPlayerViewController:withPlayerName:playerData:videoData:
  @abstract    Starts to monitor a given AVPlayerViewController.
@@ -55,7 +47,16 @@ FOUNDATION_EXPORT
  @return      an instance of MUXSDKAVPlayerLayerBinding or null
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerViewController. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData;
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
+                                                 withPlayerName:(nonnull NSString *)name
+                                                     playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
+                                                      videoData:(nullable MUXSDKCustomerVideoData *)videoData;
+
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
+                                                 withPlayerName:(nonnull NSString *)name
+                                                     playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
+                                                      videoData:(nullable MUXSDKCustomerVideoData *)videoData
+                                                 videoSourceUrl:(nullable NSString*)videoSourceUrl;
 
 /*!
  @method      updateAVPlayerViewController:withPlayerName
