@@ -110,6 +110,9 @@ static NSMutableDictionary *_viewControllers;
     }
     if (player.player) {
         MUXSDKAVPlayerViewControllerBinding *newBinding = [[MUXSDKAVPlayerViewControllerBinding alloc] initWithName:name software:MuxPlayerSoftwareAVPlayerViewController andView:player];
+        if (videoData.videoSourceUrl) {
+            [newBinding setShouldTrackVideoSourceUrl:NO];
+        }
         [newBinding attachAVPlayer:player.player];
         [newBinding dispatchViewInit];
         [self dispatchDataEventForPlayerName:name playerData:playerData videoData:videoData];
@@ -152,6 +155,9 @@ static NSMutableDictionary *_viewControllers;
     }
     if (player.player) {
         MUXSDKAVPlayerLayerBinding *newBinding = [[MUXSDKAVPlayerLayerBinding alloc] initWithName:name software:MuxPlayerSoftwareAVPlayerLayer andView:player];
+        if (videoData.videoSourceUrl) {
+            [newBinding setShouldTrackVideoSourceUrl:NO];
+        }
         [newBinding attachAVPlayer:player.player];
         [newBinding dispatchViewInit];
         [self dispatchDataEventForPlayerName:name playerData:playerData videoData:videoData];

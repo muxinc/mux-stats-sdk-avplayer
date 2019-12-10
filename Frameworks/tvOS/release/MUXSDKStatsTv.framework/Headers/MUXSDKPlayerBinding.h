@@ -49,6 +49,8 @@ typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
     long long _lastTransferredBytes;
 }
 
+@property (nonatomic,assign) BOOL shouldTrackVideoSourceUrl;
+
 - (id)initWithName:(NSString *)name andSoftware:(NSString *)software;
 - (void)attachAVPlayer:(AVPlayer *)player;
 - (void)detachAVPlayer;

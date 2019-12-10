@@ -32,6 +32,7 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
     if (self) {
         _name = name;
         _software = software;
+        _shouldTrackVideoSourceUrl = YES;
     }
     return(self);
 }
@@ -261,10 +262,10 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
         }
     }
     AVAsset *currentPlayerAsset = _player.currentItem.asset;
-    if ([currentPlayerAsset isKindOfClass:AVURLAsset.class]) {
+    if (_shouldTrackVideoSourceUrl && [currentPlayerAsset isKindOfClass:AVURLAsset.class]) {
         AVURLAsset *urlAsset = (AVURLAsset *)currentPlayerAsset;
         NSString * urlString = [[urlAsset URL] absoluteString];
-        if (!_videoURL || [_videoURL isEqualToString:urlString]) {
+        if (!_videoURL || ![_videoURL isEqualToString:urlString]) {
             _videoURL = urlString;
             videoDataUpdated = YES;
         }
@@ -286,7 +287,7 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
                 [videoData setVideoSourceDuration:[NSNumber numberWithLongLong:[timeMs longLongValue]]];
             }
         }
-        if (_videoURL) {
+        if (_shouldTrackVideoSourceUrl && _videoURL) {
             [videoData setVideoSourceUrl:_videoURL];
         }
         MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
