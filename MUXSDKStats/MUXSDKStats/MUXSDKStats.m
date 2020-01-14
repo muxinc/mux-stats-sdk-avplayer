@@ -21,6 +21,8 @@ static MUXSDKDispatcher *_dispatcher;
 static NSMutableDictionary *_bindings;
 // Name => AVPlayerViewController or AVPlayerLayer
 static NSMutableDictionary *_viewControllers;
+// Name => MUXSDKCustomerPlayerData
+static NSMutableDictionary *_customerPlayerDatas;
 
 + (void)initSDK {
     if (!_bindings) {
@@ -28,6 +30,9 @@ static NSMutableDictionary *_viewControllers;
     }
     if (!_viewControllers) {
         _viewControllers = [[NSMutableDictionary alloc] init];
+    }
+    if (!_customerPlayerDatas) {
+        _customerPlayerDatas = [[NSMutableDictionary alloc] init];
     }
     // Provide EnvironmentData and ViewerData to Core.
     MUXSDKEnvironmentData *environmentData = [[MUXSDKEnvironmentData alloc] init];
@@ -92,6 +97,7 @@ static NSMutableDictionary *_viewControllers;
     MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
     if (customerPlayerData) {
         [dataEvent setCustomerPlayerData:customerPlayerData];
+        [_customerPlayerDatas setValue:customerPlayerData forKey:name];
     }
     if (customerVideoData) {
         [dataEvent setCustomerVideoData:customerVideoData];
@@ -207,6 +213,10 @@ static NSMutableDictionary *_viewControllers;
             [player dispatchViewInit];
             MUXSDKDataEvent *dataEvent = [MUXSDKDataEvent new];
             [dataEvent setCustomerVideoData:videoData];
+            MUXSDKCustomerPlayerData *playerData = [_customerPlayerDatas valueForKey:name];
+            if (playerData) {
+                [dataEvent setCustomerPlayerData:playerData];
+            }
             dataEvent.videoChange = YES;
             [MUXSDKCore dispatchEvent:dataEvent forPlayer:name];
         }
@@ -229,6 +239,7 @@ static NSMutableDictionary *_viewControllers;
     MUXSDKDataEvent *dataEvent = [MUXSDKDataEvent new];
     if (playerData) {
         [dataEvent setCustomerPlayerData:playerData];
+        [_customerPlayerDatas setValue:playerData forKey:name];
     }
     if (videoData) {
         [dataEvent setCustomerVideoData:videoData];
