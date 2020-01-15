@@ -24,6 +24,12 @@ static void *MUXSDKAVPlayerCurrentItemObservationContext = &MUXSDKAVPlayerCurren
 // AVPlayerItem observation contexts.
 static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusObservationContext;
 
+// This is the name of the exception that gets thrown when we remove an observer that
+// is not registered. In theory, this should not really happen, but there is one async condition
+// that makes it possible. Specifically when handling the _playerItem observers. The
+// _playerItem observer is attached asynchonously, a developer could call destroyPlayer before
+// we have attached the _playerItem observer
+NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 @implementation MUXSDKPlayerBinding
 
@@ -158,14 +164,57 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
     [self detachAVPlayer];
 }
 
-- (void)detachAVPlayer {
+- (void) safelyRemoveTimeObserverForPlayer {
     if (_player) {
-        [_player removeTimeObserver:_timeObserver];
-        [_player removeObserver:self forKeyPath:@"rate"];
-        [_player removeObserver:self forKeyPath:@"status"];
-        [_player removeObserver:self forKeyPath:@"currentItem"];
-        _player = nil;
+        @try {
+            [_player removeTimeObserver:_timeObserver];
+        } @catch (NSException * e) {
+            if ([[e name] isEqualToString:RemoveObserverExceptionName]) {
+                NSLog(@"MUXSDK-ERROR removing timeObserver (no observer registered, this can be ignored): %@ %@", e.name, e.reason);
+            } else {
+                @throw;
+            }
+        }
+        @finally { }
     }
+}
+
+- (void) safelyRemovePlayerObserverForKeyPath:(NSString *)keyPath {
+    if (_player) {
+        @try {
+            [_player removeObserver:self forKeyPath:keyPath];
+        } @catch (NSException * e) {
+            if ([[e name] isEqualToString:RemoveObserverExceptionName]) {
+                NSLog(@"MUXSDK-ERROR removing player observer for keyPath (no observer registered, this can be ignored): %@. %@: %@", keyPath, e.name, e.reason);
+            } else {
+                @throw;
+            }
+        }
+        @finally { }
+    }
+}
+
+- (void) safelyRemovePlayerItemObserverForKeyPath:(NSString *)keyPath {
+    if (_playerItem) {
+        @try {
+            [_playerItem removeObserver:self forKeyPath:keyPath];
+        } @catch (NSException * e) {
+            if ([[e name] isEqualToString:RemoveObserverExceptionName]) {
+                NSLog(@"MUXSDK-ERROR removing player item observer for keyPath (no observer registered, this can be ignored): %@. %@: %@", keyPath, e.name, e.reason);
+            } else {
+                @throw;
+            }
+        }
+        @finally { }
+    }
+}
+
+- (void)detachAVPlayer {
+    [self safelyRemoveTimeObserverForPlayer];
+    [self safelyRemovePlayerObserverForKeyPath:@"rate"];
+    [self safelyRemovePlayerObserverForKeyPath:@"status"];
+    [self safelyRemovePlayerObserverForKeyPath:@"currentItem"];
+    _player = nil;
     if (_playerItem) {
         [self stopMonitoringAVPlayerItem];
     }
@@ -190,7 +239,7 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
 
 - (void)stopMonitoringAVPlayerItem {
     [MUXSDKCore destroyPlayer: _name];
-    [_playerItem removeObserver:self forKeyPath:@"status"];
+    [self safelyRemovePlayerItemObserverForKeyPath:@"status"];
     _playerItem = nil;
 }
 
