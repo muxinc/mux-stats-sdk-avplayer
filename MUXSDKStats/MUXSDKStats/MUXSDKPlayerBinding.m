@@ -179,7 +179,7 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
     if (_playerItem) {
         [self stopMonitoringAVPlayerItem];
     }
-    if (_player.currentItem) {
+    if (_player && _player.currentItem) {
         _playerItem = _player.currentItem;
         [_playerItem addObserver:self
                       forKeyPath:@"status"
