@@ -22,6 +22,9 @@ typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
     MUXSDKPlayerStateViewEnd,
 };
 
+@protocol MUXSDKPlayDispatchDelegate
+- (void)playerWillDispatchPlay:(NSString *) name;
+@end
 
 @interface MUXSDKPlayerBinding : NSObject {
 @private
@@ -48,6 +51,8 @@ typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
     double _lastTransferDuration;
     long long _lastTransferredBytes;
 }
+
+@property (nonatomic, weak) id<MUXSDKPlayDispatchDelegate>  playDispatchDelegate;
 
 - (id)initWithName:(NSString *)name andSoftware:(NSString *)software;
 - (void)attachAVPlayer:(AVPlayer *)player;
