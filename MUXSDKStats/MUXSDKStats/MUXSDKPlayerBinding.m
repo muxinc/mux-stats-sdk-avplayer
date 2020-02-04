@@ -493,6 +493,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (![self isPlayerOK]) {
         return;
     }
+    [self.playDispatchDelegate playerWillDispatchPlay:_name];
     if (!_started) {
         _started = YES;
         [self updateLastPlayheadTime];

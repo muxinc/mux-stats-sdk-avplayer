@@ -7,6 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0243A98523E9FFC600FBF5B4 /* MUXSDKPlayerBindingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0243A98423E9FFC600FBF5B4 /* MUXSDKPlayerBindingTests.m */; };
+		028281E423E3815700B5531B /* MUXSDKPlayerBindingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 028281E223E3815700B5531B /* MUXSDKPlayerBindingManager.h */; };
+		028281E523E3815700B5531B /* MUXSDKPlayerBindingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 028281E323E3815700B5531B /* MUXSDKPlayerBindingManager.m */; };
+		028281E623E3A17400B5531B /* MUXSDKPlayerBindingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 028281E223E3815700B5531B /* MUXSDKPlayerBindingManager.h */; };
+		028281E723E3A17700B5531B /* MUXSDKPlayerBindingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 028281E323E3815700B5531B /* MUXSDKPlayerBindingManager.m */; };
+		02EA754C23EA074800B06715 /* MUXSDKCore+Mock.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EA754B23EA074800B06715 /* MUXSDKCore+Mock.m */; };
+		02EB9E2723E894E70007E1CD /* MUXSDKCustomerPlayerDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 02EB9E2523E894E70007E1CD /* MUXSDKCustomerPlayerDataStore.h */; };
+		02EB9E2823E894E70007E1CD /* MUXSDKCustomerPlayerDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EB9E2623E894E70007E1CD /* MUXSDKCustomerPlayerDataStore.m */; };
+		02EB9E2923E8950A0007E1CD /* MUXSDKCustomerPlayerDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 02EB9E2523E894E70007E1CD /* MUXSDKCustomerPlayerDataStore.h */; };
+		02EB9E2A23E896650007E1CD /* MUXSDKCustomerPlayerDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EB9E2623E894E70007E1CD /* MUXSDKCustomerPlayerDataStore.m */; };
+		02EB9E2D23E896790007E1CD /* MUXSDKCustomerVideoDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 02EB9E2B23E896790007E1CD /* MUXSDKCustomerVideoDataStore.h */; };
+		02EB9E2E23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EB9E2C23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m */; };
+		02EB9E2F23E896A90007E1CD /* MUXSDKCustomerVideoDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 02EB9E2B23E896790007E1CD /* MUXSDKCustomerVideoDataStore.h */; };
+		02EB9E3023E896F20007E1CD /* MUXSDKCustomerVideoDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EB9E2C23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m */; };
 		0AD858D36A06FE46A0C85221 /* libPods-MUXSDKStatsTv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 37DDF81F8B3D22C9D06C80B5 /* libPods-MUXSDKStatsTv.a */; };
 		0BAE6EA01FC48ACC88249C0E /* libPods-MUXSDKStatsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14FEFF8CDE6D86B37B60812D /* libPods-MUXSDKStatsTests.a */; };
 		A050578AE771DC84CAD841A8 /* libPods-MUXSDKStats.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F8C2DE9EC01086696D87331C /* libPods-MUXSDKStats.a */; };
@@ -18,7 +32,6 @@
 		F4572FB51DDA2F05003FE72B /* MUXSDKStats.m in Sources */ = {isa = PBXBuildFile; fileRef = F4572FB41DDA2F05003FE72B /* MUXSDKStats.m */; };
 		F4572FC21DDA2FC8003FE72B /* MUXSDKPlayerBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = F4572FC11DDA2FC8003FE72B /* MUXSDKPlayerBinding.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F4572FC41DDA2FE9003FE72B /* MUXSDKPlayerBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = F4572FC31DDA2FE9003FE72B /* MUXSDKPlayerBinding.m */; };
-		F4572FC51DDA2FE9003FE72B /* MUXSDKPlayerBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = F4572FC31DDA2FE9003FE72B /* MUXSDKPlayerBinding.m */; };
 		F4DCAD071DCA892E0094D94C /* MUXSDKStats.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4DCACFD1DCA892E0094D94C /* MUXSDKStats.framework */; };
 		F4DCAD0C1DCA892E0094D94C /* MUXSDKStatsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DCAD0B1DCA892E0094D94C /* MUXSDKStatsTests.m */; };
 		F4DCAD0E1DCA892E0094D94C /* MUXSDKStats.h in Headers */ = {isa = PBXBuildFile; fileRef = F4DCAD001DCA892E0094D94C /* MUXSDKStats.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -35,6 +48,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0243A98423E9FFC600FBF5B4 /* MUXSDKPlayerBindingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MUXSDKPlayerBindingTests.m; sourceTree = "<group>"; };
+		028281E223E3815700B5531B /* MUXSDKPlayerBindingManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MUXSDKPlayerBindingManager.h; sourceTree = "<group>"; };
+		028281E323E3815700B5531B /* MUXSDKPlayerBindingManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MUXSDKPlayerBindingManager.m; sourceTree = "<group>"; };
+		02EA754A23EA074800B06715 /* MUXSDKCore+Mock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MUXSDKCore+Mock.h"; sourceTree = "<group>"; };
+		02EA754B23EA074800B06715 /* MUXSDKCore+Mock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MUXSDKCore+Mock.m"; sourceTree = "<group>"; };
+		02EB9E2523E894E70007E1CD /* MUXSDKCustomerPlayerDataStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MUXSDKCustomerPlayerDataStore.h; sourceTree = "<group>"; };
+		02EB9E2623E894E70007E1CD /* MUXSDKCustomerPlayerDataStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MUXSDKCustomerPlayerDataStore.m; sourceTree = "<group>"; };
+		02EB9E2B23E896790007E1CD /* MUXSDKCustomerVideoDataStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MUXSDKCustomerVideoDataStore.h; sourceTree = "<group>"; };
+		02EB9E2C23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MUXSDKCustomerVideoDataStore.m; sourceTree = "<group>"; };
 		14FEFF8CDE6D86B37B60812D /* libPods-MUXSDKStatsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MUXSDKStatsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2299324CA6DB1DBCB21FE15C /* Pods-MUXSDKStats.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStats.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MUXSDKStats/Pods-MUXSDKStats.debug.xcconfig"; sourceTree = "<group>"; };
 		37DDF81F8B3D22C9D06C80B5 /* libPods-MUXSDKStatsTv.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MUXSDKStatsTv.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,6 +109,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		02729E1A23E8F31B0037F0E9 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				02EA754A23EA074800B06715 /* MUXSDKCore+Mock.h */,
+				02EA754B23EA074800B06715 /* MUXSDKCore+Mock.m */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		6808FFDC7DFF60E4CC0995AB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -136,6 +167,12 @@
 				F4572FC11DDA2FC8003FE72B /* MUXSDKPlayerBinding.h */,
 				F4572FC31DDA2FE9003FE72B /* MUXSDKPlayerBinding.m */,
 				F4DCAD011DCA892E0094D94C /* Info.plist */,
+				028281E223E3815700B5531B /* MUXSDKPlayerBindingManager.h */,
+				028281E323E3815700B5531B /* MUXSDKPlayerBindingManager.m */,
+				02EB9E2523E894E70007E1CD /* MUXSDKCustomerPlayerDataStore.h */,
+				02EB9E2623E894E70007E1CD /* MUXSDKCustomerPlayerDataStore.m */,
+				02EB9E2B23E896790007E1CD /* MUXSDKCustomerVideoDataStore.h */,
+				02EB9E2C23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m */,
 			);
 			path = MUXSDKStats;
 			sourceTree = "<group>";
@@ -143,8 +180,10 @@
 		F4DCAD0A1DCA892E0094D94C /* MUXSDKStatsTests */ = {
 			isa = PBXGroup;
 			children = (
+				02729E1A23E8F31B0037F0E9 /* Utils */,
 				F4DCAD0B1DCA892E0094D94C /* MUXSDKStatsTests.m */,
 				F4DCAD0D1DCA892E0094D94C /* Info.plist */,
+				0243A98423E9FFC600FBF5B4 /* MUXSDKPlayerBindingTests.m */,
 			);
 			path = MUXSDKStatsTests;
 			sourceTree = "<group>";
@@ -170,8 +209,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				F41E09081DDA8E530028A296 /* MUXSDKStatsTv.h in Headers */,
+				028281E623E3A17400B5531B /* MUXSDKPlayerBindingManager.h in Headers */,
 				F41E099D1DDA8FB50028A296 /* MUXSDKStats.h in Headers */,
+				02EB9E2F23E896A90007E1CD /* MUXSDKCustomerVideoDataStore.h in Headers */,
 				F41E09E41DDA90DB0028A296 /* MUXSDKPlayerBinding.h in Headers */,
+				02EB9E2923E8950A0007E1CD /* MUXSDKCustomerPlayerDataStore.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,7 +221,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02EB9E2D23E896790007E1CD /* MUXSDKCustomerVideoDataStore.h in Headers */,
 				F4DCAD0E1DCA892E0094D94C /* MUXSDKStats.h in Headers */,
+				028281E423E3815700B5531B /* MUXSDKPlayerBindingManager.h in Headers */,
+				02EB9E2723E894E70007E1CD /* MUXSDKCustomerPlayerDataStore.h in Headers */,
 				F4572FC21DDA2FC8003FE72B /* MUXSDKPlayerBinding.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -260,7 +305,7 @@
 					};
 					F4DCACFC1DCA892E0094D94C = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = CX6AHWLHM6;
+						DevelopmentTeam = GFDDVAVUVC;
 						ProvisioningStyle = Automatic;
 					};
 					F4DCAD051DCA892E0094D94C = {
@@ -394,6 +439,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02EB9E2A23E896650007E1CD /* MUXSDKCustomerPlayerDataStore.m in Sources */,
+				028281E723E3A17700B5531B /* MUXSDKPlayerBindingManager.m in Sources */,
+				02EB9E3023E896F20007E1CD /* MUXSDKCustomerVideoDataStore.m in Sources */,
 				F41E0A261DDA91110028A296 /* MUXSDKStats.m in Sources */,
 				F41E0A291DDA91110028A296 /* MUXSDKPlayerBinding.m in Sources */,
 			);
@@ -403,6 +451,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02EB9E2823E894E70007E1CD /* MUXSDKCustomerPlayerDataStore.m in Sources */,
+				028281E523E3815700B5531B /* MUXSDKPlayerBindingManager.m in Sources */,
+				02EB9E2E23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m in Sources */,
 				F4572FC41DDA2FE9003FE72B /* MUXSDKPlayerBinding.m in Sources */,
 				F4572FB51DDA2F05003FE72B /* MUXSDKStats.m in Sources */,
 			);
@@ -412,8 +463,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02EA754C23EA074800B06715 /* MUXSDKCore+Mock.m in Sources */,
+				0243A98523E9FFC600FBF5B4 /* MUXSDKPlayerBindingTests.m in Sources */,
 				F4DCAD0C1DCA892E0094D94C /* MUXSDKStatsTests.m in Sources */,
-				F4572FC51DDA2FE9003FE72B /* MUXSDKPlayerBinding.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -599,9 +651,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2299324CA6DB1DBCB21FE15C /* Pods-MUXSDKStats.debug.xcconfig */;
 			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = CX6AHWLHM6;
+				DEVELOPMENT_TEAM = GFDDVAVUVC;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -627,9 +680,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A509F4458CE894269B2FC0DD /* Pods-MUXSDKStats.release.xcconfig */;
 			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = CX6AHWLHM6;
+				DEVELOPMENT_TEAM = GFDDVAVUVC;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
