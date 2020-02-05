@@ -9,24 +9,24 @@
 #import "MUXSDKCustomerPlayerDataStore.h"
 
 @interface MUXSDKCustomerPlayerDataStore()
-@property (nonatomic, retain) NSMutableDictionary *customerPlayerDatas;
+@property (nonatomic, retain) NSMutableDictionary *store;
 @end
 @implementation MUXSDKCustomerPlayerDataStore
 
 - (id) init {
     self = [super init];
     if (self) {
-        self.customerPlayerDatas = [[NSMutableDictionary alloc] init];
+        self.store = [[NSMutableDictionary alloc] init];
     }
     return(self);
 }
 
 - (void) setPlayerData:(nonnull MUXSDKCustomerPlayerData *)playerData forPlayerName:(nonnull NSString *)name {
-    [self.customerPlayerDatas setValue:playerData forKey:name];
+    [self.store setValue:playerData forKey:name];
 }
 
 - (MUXSDKCustomerPlayerData *_Nullable) playerDataForPlayerName:(nonnull NSString *)name {
-    return [self.customerPlayerDatas valueForKey:name];
+    return [self.store valueForKey:name];
 }
 
 @end

@@ -9,24 +9,24 @@
 #import "MUXSDKCustomerVideoDataStore.h"
 
 @interface MUXSDKCustomerVideoDataStore()
-@property (nonatomic, retain) NSMutableDictionary *customerVideoDatas;
+@property (nonatomic, retain) NSMutableDictionary *store;
 @end
 @implementation MUXSDKCustomerVideoDataStore
 
 - (id) init {
     self = [super init];
     if (self) {
-        self.customerVideoDatas = [[NSMutableDictionary alloc] init];
+        self.store = [[NSMutableDictionary alloc] init];
     }
     return(self);
 }
 
 - (void) setVideoData:(nonnull MUXSDKCustomerVideoData *)videoData forPlayerName:(nonnull NSString *)name {
-    [self.customerVideoDatas setValue:videoData forKey:name];
+    [self.store setValue:videoData forKey:name];
 }
 
 - (MUXSDKCustomerVideoData *_Nullable) videoDataForPlayerName:(nonnull NSString *)name {
-     return [self.customerVideoDatas valueForKey:name];
+     return [self.store valueForKey:name];
 }
 
 @end
