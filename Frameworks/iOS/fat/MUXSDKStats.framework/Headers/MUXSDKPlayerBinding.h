@@ -23,7 +23,8 @@ typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
 };
 
 @protocol MUXSDKPlayDispatchDelegate
-- (void)playerWillDispatchPlay:(NSString *) name;
+- (void) playbackStartedForPlayer:(NSString *) name;
+- (void) videoChangedForPlayer:(NSString *) name;
 @end
 
 @interface MUXSDKPlayerBinding : NSObject {
