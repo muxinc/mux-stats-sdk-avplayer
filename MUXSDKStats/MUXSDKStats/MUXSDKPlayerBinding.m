@@ -227,6 +227,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 - (void)monitorAVPlayerItem {
     if (_playerItem) {
         [self stopMonitoringAVPlayerItem];
+        [self.playDispatchDelegate videoChangedForPlayer:_name];
     }
     if (_player && _player.currentItem) {
         _playerItem = _player.currentItem;
@@ -493,7 +494,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (![self isPlayerOK]) {
         return;
     }
-    [self.playDispatchDelegate playerWillDispatchPlay:_name];
+    [self.playDispatchDelegate playbackStartedForPlayer:_name];
     if (!_started) {
         _started = YES;
         [self updateLastPlayheadTime];

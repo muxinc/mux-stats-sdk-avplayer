@@ -123,7 +123,7 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
         [_bindings setValue:MuxPlayerSoftwareAVPlayerViewController forKey:name];
         
         [newBinding attachAVPlayer:player.player];
-        [_playerBindingManager initializeCoreForPlayer:name];
+        [_playerBindingManager newViewForPlayer:name];
         return newBinding;
     } else {
         NSLog(@"MUXSDK-ERROR - Mux failed to configure the monitor because AVPlayerViewController.player was NULL for player name: %@", name);
@@ -167,7 +167,7 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
         [_bindings setValue:MuxPlayerSoftwareAVPlayerLayer forKey:name];
         
         [newBinding attachAVPlayer:player.player];
-        [_playerBindingManager initializeCoreForPlayer:name];
+        [_playerBindingManager newViewForPlayer:name];
         return newBinding;
     } else {
         NSLog(@"MUXSDK-ERROR - Mux failed to configure the monitor because AVPlayerLayer.player was NULL for player name: %@", name);
@@ -214,17 +214,10 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
         MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
         if (player) {
             [player dispatchViewEnd];
-            [player dispatchViewInit];
-            MUXSDKDataEvent *dataEvent = [MUXSDKDataEvent new];
             [_customerVideoDataStore setVideoData:videoData forPlayerName:name];
-            [dataEvent setCustomerVideoData:videoData];
             if (playerData) {
                 [_customerPlayerDataStore setPlayerData:playerData forPlayerName:name];
-                [dataEvent setCustomerPlayerData:playerData];
             }
-           
-            dataEvent.videoChange = YES;
-            [MUXSDKCore dispatchEvent:dataEvent forPlayer:name];
         }
     }
 }

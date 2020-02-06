@@ -28,7 +28,7 @@
     [MUXSDKCore resetCapturedEvents];
 }
 
-- (void)testPlayerBindingManagerInitializesCore {
+- (void)testPlayerBindingManagerStartsNewViews {
     
     MUXSDKPlayerBindingManager *sut = [[MUXSDKPlayerBindingManager alloc] init];
     MUXSDKCustomerPlayerDataStore *playerDataStore = [[MUXSDKCustomerPlayerDataStore alloc] init];
@@ -59,7 +59,7 @@
     [vcs setObject:binding forKey:name];
     
     [binding attachAVPlayer:player];
-    [sut initializeCoreForPlayer:name];
+    [sut newViewForPlayer:name];
     
     id<MUXSDKEventTyping> event0 = [MUXSDKCore eventAtIndex:0 forPlayer:name];
     id<MUXSDKEventTyping> event1 = [MUXSDKCore eventAtIndex:1 forPlayer:name];
@@ -69,7 +69,7 @@
     XCTAssertEqual([event1 getType], MUXSDKDataEventType);
     XCTAssertEqual([event2 getType], MUXSDKPlaybackEventPlayerReadyEventType);
     
-    [sut initializeCoreForPlayer:name];
+    [sut newViewForPlayer:name];
     XCTAssertEqual(3, [MUXSDKCore eventsCountForPlayer:name]);
 }
 
