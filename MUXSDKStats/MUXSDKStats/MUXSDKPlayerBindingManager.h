@@ -22,7 +22,7 @@
 @property (nonatomic, weak) id<MUXSDKCustomerVideoDataStoring> _Nullable customerVideoDataStore;
 @property (nonatomic, weak) NSDictionary * _Nullable viewControllers;
 
-- (void) initializeCoreForPlayer:(NSString *_Nonnull) name;
+- (void) newViewForPlayer:(NSString *_Nonnull) name;
 
 @end
 

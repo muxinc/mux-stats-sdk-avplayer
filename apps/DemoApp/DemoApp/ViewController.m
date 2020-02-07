@@ -89,7 +89,7 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 
 - (AVPlayer *)testAVQueuePlayer {
     AVPlayerItem *item1 = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"]];
-    AVPlayerItem *item2 = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:@"http://184.72.239.149/vod/smil:BigBuckBunny.smil/playlist.m3u8"]];
+    AVPlayerItem *item2 = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"]];
     AVQueuePlayer *player = [[AVQueuePlayer alloc] initWithItems:@[item1, item2]];
     return player;
 }
@@ -130,16 +130,16 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 }
 
 - (void)changeVideo:(NSTimer *)timer {
-    NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
-    AVPlayerItem *keynote = [AVPlayerItem playerItemWithURL:videoURL];
-    [_avplayer replaceCurrentItemWithPlayerItem:keynote];
-    [_avplayer play];
-
     MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
     videoData.videoTitle = @"Apple Keynote";
     videoData.videoId = @"applekeynote2010";
     [MUXSDKStats videoChangeForPlayer:DEMO_PLAYER_NAME
                         withVideoData:videoData];
+    
+    NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
+    AVPlayerItem *keynote = [AVPlayerItem playerItemWithURL:videoURL];
+    [_avplayer replaceCurrentItemWithPlayerItem:keynote];
+    [_avplayer play];
 }
 
 - (void)didReceiveMemoryWarning {
