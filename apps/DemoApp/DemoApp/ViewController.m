@@ -14,7 +14,9 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 - (void)viewDidLoad {
     [super viewDidLoad];
     _avplayerController = [AVPlayerViewController new];
-    AVPlayer *player = [self testImaSDK]; //[self testAVQueuePlayer]; //[self testAVPlayer];
+//    AVPlayer *player = [self testImaSDK];
+//    AVPlayer *player = [self testAVQueuePlayer];
+    AVPlayer *player = [self testAVPlayer];
     [self setupAVPlayerViewController: player];
 }
 
@@ -87,17 +89,17 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 
 - (AVPlayer *)testAVQueuePlayer {
     AVPlayerItem *item1 = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"]];
-    AVPlayerItem *item2 = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:@"http://184.72.239.149/vod/smil:BigBuckBunny.smil/playlist.m3u8"]];
+    AVPlayerItem *item2 = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"]];
     AVQueuePlayer *player = [[AVQueuePlayer alloc] initWithItems:@[item1, item2]];
     return player;
 }
 
 - (AVPlayer *)testAVPlayer {
-    NSURL* videoURL = [NSURL URLWithString:@"http://www.streambox.fr/playlists/x36xhzz/x36xhzz.m3u8"];
+    NSURL* videoURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
     AVPlayer *player = [AVPlayer playerWithURL:videoURL];
     
     // After 20 seconds, we'll change the video.
-    _videoChangeTimer = [NSTimer scheduledTimerWithTimeInterval:20.0
+    _videoChangeTimer = [NSTimer scheduledTimerWithTimeInterval:15.0
                                                          target:self
                                                        selector:@selector(changeVideo:)
                                                        userInfo:nil
@@ -133,7 +135,7 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
     videoData.videoId = @"applekeynote2010";
     [MUXSDKStats videoChangeForPlayer:DEMO_PLAYER_NAME
                         withVideoData:videoData];
-
+    
     NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
     AVPlayerItem *keynote = [AVPlayerItem playerItemWithURL:videoURL];
     [_avplayer replaceCurrentItemWithPlayerItem:keynote];

@@ -1,6 +1,8 @@
 #import "MUXSDKStats.h"
 #import "MUXSDKPlayerBinding.h"
-
+#import "MUXSDKPlayerBindingManager.h"
+#import "MUXSDKCustomerPlayerDataStore.h"
+#import "MUXSDKCustomerVideoDataStore.h"
 #import <Foundation/Foundation.h>
 #import <sys/utsname.h>
 
@@ -22,6 +24,10 @@ static NSMutableDictionary *_bindings;
 // Name => AVPlayerViewController or AVPlayerLayer
 static NSMutableDictionary *_viewControllers;
 
+static MUXSDKPlayerBindingManager *_playerBindingManager;
+static MUXSDKCustomerPlayerDataStore *_customerPlayerDataStore;
+static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
+
 + (void)initSDK {
     if (!_bindings) {
         _bindings = [[NSMutableDictionary alloc] init];
@@ -29,6 +35,19 @@ static NSMutableDictionary *_viewControllers;
     if (!_viewControllers) {
         _viewControllers = [[NSMutableDictionary alloc] init];
     }
+    if (!_customerPlayerDataStore) {
+        _customerPlayerDataStore = [[MUXSDKCustomerPlayerDataStore alloc] init];
+    }
+    if (!_customerVideoDataStore) {
+        _customerVideoDataStore = [[MUXSDKCustomerVideoDataStore alloc] init];
+    }
+    if (!_playerBindingManager) {
+        _playerBindingManager = [[MUXSDKPlayerBindingManager alloc] init];
+        _playerBindingManager.customerPlayerDataStore = _customerPlayerDataStore;
+        _playerBindingManager.customerVideoDataStore = _customerVideoDataStore;
+        _playerBindingManager.viewControllers = _viewControllers;
+    }
+    
     // Provide EnvironmentData and ViewerData to Core.
     MUXSDKEnvironmentData *environmentData = [[MUXSDKEnvironmentData alloc] init];
     [environmentData setMuxViewerId:[[[UIDevice currentDevice] identifierForVendor] UUIDString]];
@@ -88,19 +107,6 @@ static NSMutableDictionary *_viewControllers;
     [MUXSDKCore dispatchGlobalDataEvent:dataEvent];
 }
 
-+ (void)dispatchDataEventForPlayerName:(NSString *)name playerData:(MUXSDKCustomerPlayerData *)customerPlayerData videoData:(MUXSDKCustomerVideoData *)customerVideoData {
-    MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
-    if (customerPlayerData) {
-        [dataEvent setCustomerPlayerData:customerPlayerData];
-    }
-    if (customerVideoData) {
-        [dataEvent setCustomerVideoData:customerVideoData];
-    }
-    if (customerPlayerData || customerVideoData) {
-        [MUXSDKCore dispatchEvent:dataEvent forPlayer:name];
-    }
-}
-
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData {
     [self initSDK];
     NSString *binding = [_bindings valueForKey:name];
@@ -110,12 +116,14 @@ static NSMutableDictionary *_viewControllers;
     }
     if (player.player) {
         MUXSDKAVPlayerViewControllerBinding *newBinding = [[MUXSDKAVPlayerViewControllerBinding alloc] initWithName:name software:MuxPlayerSoftwareAVPlayerViewController andView:player];
-        [newBinding attachAVPlayer:player.player];
-        [newBinding dispatchViewInit];
-        [self dispatchDataEventForPlayerName:name playerData:playerData videoData:videoData];
-        [newBinding dispatchPlayerReady];
+        newBinding.playDispatchDelegate = _playerBindingManager;
+        [_customerPlayerDataStore setPlayerData:playerData forPlayerName:name];
+        [_customerVideoDataStore setVideoData:videoData forPlayerName:name];
         [_viewControllers setValue:newBinding forKey:name];
         [_bindings setValue:MuxPlayerSoftwareAVPlayerViewController forKey:name];
+        
+        [newBinding attachAVPlayer:player.player];
+        [_playerBindingManager newViewForPlayer:name];
         return newBinding;
     } else {
         NSLog(@"MUXSDK-ERROR - Mux failed to configure the monitor because AVPlayerViewController.player was NULL for player name: %@", name);
@@ -152,12 +160,14 @@ static NSMutableDictionary *_viewControllers;
     }
     if (player.player) {
         MUXSDKAVPlayerLayerBinding *newBinding = [[MUXSDKAVPlayerLayerBinding alloc] initWithName:name software:MuxPlayerSoftwareAVPlayerLayer andView:player];
-        [newBinding attachAVPlayer:player.player];
-        [newBinding dispatchViewInit];
-        [self dispatchDataEventForPlayerName:name playerData:playerData videoData:videoData];
-        [newBinding dispatchPlayerReady];
+        newBinding.playDispatchDelegate = _playerBindingManager;
+        [_customerPlayerDataStore setPlayerData:playerData forPlayerName:name];
+        [_customerVideoDataStore setVideoData:videoData forPlayerName:name];
         [_viewControllers setValue:newBinding forKey:name];
         [_bindings setValue:MuxPlayerSoftwareAVPlayerLayer forKey:name];
+        
+        [newBinding attachAVPlayer:player.player];
+        [_playerBindingManager newViewForPlayer:name];
         return newBinding;
     } else {
         NSLog(@"MUXSDK-ERROR - Mux failed to configure the monitor because AVPlayerLayer.player was NULL for player name: %@", name);
@@ -199,18 +209,22 @@ static NSMutableDictionary *_viewControllers;
     [_bindings removeObjectForKey:name];
 }
 
-+ (void)videoChangeForPlayer:(nonnull NSString *)name withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
++ (void)videoChangeForPlayer:(nonnull NSString *)name withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
     if (videoData) {
         MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
         if (player) {
             [player dispatchViewEnd];
-            [player dispatchViewInit];
-            MUXSDKDataEvent *dataEvent = [MUXSDKDataEvent new];
-            [dataEvent setCustomerVideoData:videoData];
-            dataEvent.videoChange = YES;
-            [MUXSDKCore dispatchEvent:dataEvent forPlayer:name];
+            [_customerVideoDataStore setVideoData:videoData forPlayerName:name];
+            if (playerData) {
+                [_customerPlayerDataStore setPlayerData:playerData forPlayerName:name];
+            }
         }
     }
+}
+
++ (void)videoChangeForPlayer:(nonnull NSString *)name withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
+    MUXSDKCustomerPlayerData *playerData = [_customerPlayerDataStore playerDataForPlayerName:name];
+    [self videoChangeForPlayer:name withPlayerData:playerData withVideoData:videoData];
 }
 
 + (void)programChangeForPlayer:(nonnull NSString *)name withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
@@ -228,12 +242,15 @@ static NSMutableDictionary *_viewControllers;
     if (!playerData && !videoData) return;
     MUXSDKDataEvent *dataEvent = [MUXSDKDataEvent new];
     if (playerData) {
+         [_customerPlayerDataStore setPlayerData:playerData forPlayerName:name];
         [dataEvent setCustomerPlayerData:playerData];
     }
     if (videoData) {
+        [_customerVideoDataStore setVideoData:videoData forPlayerName:name];
         [dataEvent setCustomerVideoData:videoData];
     }
     [MUXSDKCore dispatchEvent:dataEvent forPlayer:name];
 }
+
 
 @end

@@ -17,7 +17,7 @@
 
  In the simplest use case, an AVPlayer can be provided to the MUXSDKStats API and everything else is taken care of for you. The MUXSDKStats monitor methods attach a set of timed state and key-value observers on the AVPlayer. When you are done with an AVPlayer instance, call destroyPlayer: to remove the observers.
 
- If you change the video that is playing in an AVPlayer, you should call videoChangeForPlayer:withConfig: to provide the updated video information. Not calling videoChangeForPlayer:withConfig: when the video changes will cause tracking pings to be associated with the last video that was playing.
+ If you change the video that is playing in an AVPlayer, you should call videoChangeForPlayer:withVideoData to provide the updated video information. Not calling videoChangeForPlayer:withVideoData when the video changes will cause tracking pings to be associated with the last video that was playing.
  */
 
 #import <Foundation/Foundation.h>
@@ -96,6 +96,17 @@ FOUNDATION_EXPORT
 
  */
 + (void)videoChangeForPlayer:(nonnull NSString *)name withVideoData:(nullable MUXSDKCustomerVideoData *)videoData;
+
+/*!
+ @method      videoChangeForPlayer:withPlayerData:withVideoData
+ @abstract    Signals that a player is now playing a different video.
+ @param       name The name of the player to update
+ @param       playerData A MUXSDKCustomerPlayerData object with video metadata
+ @param       videoData A MUXSDKCustomerVideoData object with video metadata
+ @discussion  Use this method to signal that the player is now playing a new video. The player name provided must been passed as the name in a monitorPlayer:withPlayerName:andConfig: call. The config provided should match the specifications in the Mux docs at https://docs.mux.com and should include all desired keys, not just those keys that are specific to this video. If the name of the player provided was not previously initialized, an exception will be raised.
+
+ */
++ (void)videoChangeForPlayer:(nonnull NSString *)name  withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData;
 
 /*!
  @method      programChangeForPlayer:withVideoData:
