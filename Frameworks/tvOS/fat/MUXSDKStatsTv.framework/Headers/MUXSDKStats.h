@@ -127,4 +127,13 @@ FOUNDATION_EXPORT
  */
 + (void)updateCustomerDataForPlayer:(nonnull NSString *)name withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData;
 
+
+/*!
+@method      orientationChangeForPlayer:orientation:
+@abstract    Notifies the Mux SDK that the view's orientation has changed.
+@param       name The name of the player to update
+@param       orientation A MUXSDKViewOrientation enum value representing if the view has changed to portrait or landscape
+*/
++ (void) orientationChangeForPlayer:(nonnull NSString *) name  orientation:(MUXSDKViewOrientation) orientation;
+
 @end
