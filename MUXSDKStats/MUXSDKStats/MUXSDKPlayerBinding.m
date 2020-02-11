@@ -600,6 +600,35 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [MUXSDKCore dispatchEvent:event forPlayer:_name];
 }
 
+- (void) dispatchOrientationChange:(MUXSDKViewOrientation) orientation {
+    if (![self isPlayerOK]) {
+        return;
+    }
+    _orientation = orientation;
+    MUXSDKPlayerData *playerData = [self getPlayerData];
+    MUXSDKViewDeviceOrientationData *orientationData;
+    switch (orientation) {
+        case MUXSDKViewOrientationPortrait:
+            orientationData = [[MUXSDKViewDeviceOrientationData alloc] initWithZ:@(90.0)];
+            break;
+        case MUXSDKViewOrientationLandscape:
+            orientationData = [[MUXSDKViewDeviceOrientationData alloc] initWithZ:@(0.0)];
+            break;
+        default:
+            return;
+    }
+    MUXSDKViewData *viewData = [[MUXSDKViewData alloc] init];
+    viewData.viewDeviceOrientationData = orientationData;
+    
+    MUXSDKOrientationChangeEvent *event = [[MUXSDKOrientationChangeEvent alloc] init];
+    [event setPlayerData:playerData];
+    [event setViewData: viewData];
+    
+    NSLog(@"MUXSDK-INFO - dispatching orientation change %lu", (unsigned long)orientation);
+    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    
+}
+
 - (void)updateLastPlayheadTime {
     _lastPlayheadTimeMs = [self getCurrentPlayheadTimeMs];
     _lastPlayheadTimeUpdated = CFAbsoluteTimeGetCurrent();

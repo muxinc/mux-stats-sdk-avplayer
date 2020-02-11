@@ -51,7 +51,6 @@
 				CC2B13C32453147D6D3E9BDC /* Pods-DemoApp.debug.xcconfig */,
 				159DA99DFDA6C18516E95397 /* Pods-DemoApp.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -139,7 +138,7 @@
 				TargetAttributes = {
 					F444D4371DDB8EBF00FE804F = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = XX95P4Y787;
+						DevelopmentTeam = GFDDVAVUVC;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -149,6 +148,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -184,15 +184,19 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-DemoApp/Pods-DemoApp-frameworks.sh",
 				"${PODS_ROOT}/GoogleAds-IMA-iOS-SDK/GoogleInteractiveMediaAds.framework",
-				"${BUILT_PRODUCTS_DIR}/Mux-Stats-AVPlayer/Mux_Stats_AVPlayer.framework",
-				"${PODS_ROOT}/Mux-Stats-Core/Frameworks/iOS/fat/MuxCore.framework",
+				"${PODS_ROOT}/../../../Frameworks/iOS/fat/MUXSDKStats.framework",
+				"${PODS_ROOT}/../../../Frameworks/iOS/fat/MUXSDKStats.framework.dSYM",
+				"${PODS_ROOT}/../../../../mux-stats-sdk-objc/stats-sdk-objc/Frameworks/iOS/fat/MuxCore.framework",
+				"${PODS_ROOT}/../../../../mux-stats-sdk-objc/stats-sdk-objc/Frameworks/iOS/fat/MuxCore.framework.dSYM",
 				"${BUILT_PRODUCTS_DIR}/Mux-Stats-Google-IMA/Mux_Stats_Google_IMA.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleInteractiveMediaAds.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mux_Stats_AVPlayer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MUXSDKStats.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/MUXSDKStats.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MuxCore.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/MuxCore.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mux_Stats_Google_IMA.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -352,7 +356,7 @@
 			baseConfigurationReference = CC2B13C32453147D6D3E9BDC /* Pods-DemoApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = XX95P4Y787;
+				DEVELOPMENT_TEAM = GFDDVAVUVC;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -370,7 +374,7 @@
 			baseConfigurationReference = 159DA99DFDA6C18516E95397 /* Pods-DemoApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = XX95P4Y787;
+				DEVELOPMENT_TEAM = GFDDVAVUVC;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
