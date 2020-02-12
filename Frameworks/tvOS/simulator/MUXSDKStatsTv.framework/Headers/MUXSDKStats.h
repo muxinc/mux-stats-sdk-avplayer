@@ -134,6 +134,6 @@ FOUNDATION_EXPORT
 @param       name The name of the player to update
 @param       orientation A MUXSDKViewOrientation enum value representing if the view has changed to portrait or landscape
 */
-+ (void) orientationChangeForPlayer:(nonnull NSString *) name  orientation:(MUXSDKViewOrientation) orientation;
++ (void) orientationChangeForPlayer:(nonnull NSString *) name  withOrientation:(MUXSDKViewOrientation) orientation;
 
 @end
