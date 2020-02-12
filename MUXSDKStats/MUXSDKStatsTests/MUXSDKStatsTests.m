@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "MUXSDKStats.h"
+#import "MUXSDKCore+Mock.h"
 
 @import AVKit;
 @import AVFoundation;
@@ -42,14 +43,16 @@
 
 @implementation MUXSDKStatsTests
 
-- (void)setUp {
+- (void) setUp {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+    [MUXSDKCore swizzleDispatchEvents];
+    [MUXSDKCore resetCapturedEvents];
 }
 
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+- (void) tearDown {
     [super tearDown];
+    [MUXSDKCore swizzleDispatchEvents];
+    [MUXSDKCore resetCapturedEvents];
 }
 
 - (void)testVideoChangeForAVPlayerViewController{
@@ -108,6 +111,43 @@
     [customerVideoData setVideoTitle:@"Updated VideoTitle"];
     [MUXSDKStats updateCustomerDataForPlayer:playName withPlayerData:NULL withVideoData:customerVideoData];
     [MUXSDKStats destroyPlayer:playName];
+}
+
+- (void) testOrientationChangeEvent {
+    MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
+    MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
+    MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
+    NSString *playName = @"Player";
+    [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName playerData:customerPlayerData videoData:customerVideoData];
+    
+    [MUXSDKStats orientationChangeForPlayer:playName orientation:MUXSDKViewOrientationPortrait];
+    [MUXSDKStats orientationChangeForPlayer:playName orientation:MUXSDKViewOrientationLandscape];
+    
+    NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventPlayerReadyEventType,
+                                    MUXSDKPlaybackEventOrientationChangeEventType,
+                                    MUXSDKPlaybackEventOrientationChangeEventType
+    ];
+    
+    for (int i = 0; i < 5; i++) {
+        id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:i forPlayer:playName];
+        XCTAssertEqual([event getType], [expectedEventTypes objectAtIndex:i]);
+    }
+    
+    id<MUXSDKEventTyping> portraitEvent = [MUXSDKCore eventAtIndex:3 forPlayer:playName];
+    MUXSDKViewData *viewData = [((MUXSDKOrientationChangeEvent *) portraitEvent) viewData];
+    XCTAssertNotNil(viewData);
+    XCTAssertEqual(@(0.0), viewData.viewDeviceOrientationData.x);
+    XCTAssertEqual(@(0.0), viewData.viewDeviceOrientationData.y);
+    XCTAssertEqual(@(90.0), viewData.viewDeviceOrientationData.z);
+    
+    id<MUXSDKEventTyping> landscapeEvent = [MUXSDKCore eventAtIndex:3 forPlayer:playName];
+    viewData = [((MUXSDKOrientationChangeEvent *) landscapeEvent) viewData];
+    XCTAssertNotNil(viewData);
+    XCTAssertEqual(@(0.0), viewData.viewDeviceOrientationData.x);
+    XCTAssertEqual(@(0.0), viewData.viewDeviceOrientationData.y);
+    XCTAssertEqual(@(90.0), viewData.viewDeviceOrientationData.z);
 }
 
 @end
