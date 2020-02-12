@@ -120,8 +120,8 @@
     NSString *playName = @"Player";
     [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName playerData:customerPlayerData videoData:customerVideoData];
     
-    [MUXSDKStats orientationChangeForPlayer:playName orientation:MUXSDKViewOrientationPortrait];
-    [MUXSDKStats orientationChangeForPlayer:playName orientation:MUXSDKViewOrientationLandscape];
+    [MUXSDKStats orientationChangeForPlayer:playName withOrientation:MUXSDKViewOrientationPortrait];
+    [MUXSDKStats orientationChangeForPlayer:playName withOrientation:MUXSDKViewOrientationLandscape];
     
     NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                                     MUXSDKDataEventType,
@@ -142,12 +142,12 @@
     XCTAssertEqual(@(0.0), viewData.viewDeviceOrientationData.y);
     XCTAssertEqual(@(90.0), viewData.viewDeviceOrientationData.z);
     
-    id<MUXSDKEventTyping> landscapeEvent = [MUXSDKCore eventAtIndex:3 forPlayer:playName];
+    id<MUXSDKEventTyping> landscapeEvent = [MUXSDKCore eventAtIndex:4 forPlayer:playName];
     viewData = [((MUXSDKOrientationChangeEvent *) landscapeEvent) viewData];
     XCTAssertNotNil(viewData);
     XCTAssertEqual(@(0.0), viewData.viewDeviceOrientationData.x);
     XCTAssertEqual(@(0.0), viewData.viewDeviceOrientationData.y);
-    XCTAssertEqual(@(90.0), viewData.viewDeviceOrientationData.z);
+    XCTAssertEqual(@(0.0), viewData.viewDeviceOrientationData.z);
 }
 
 @end
