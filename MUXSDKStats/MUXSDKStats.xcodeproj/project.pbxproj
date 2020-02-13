@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		021F61E423F4E0810089A882 /* MUXSDKPlayerBindingConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 021F61E323F4E07B0089A882 /* MUXSDKPlayerBindingConstants.h */; };
+		021F61E523F4E0820089A882 /* MUXSDKPlayerBindingConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 021F61E323F4E07B0089A882 /* MUXSDKPlayerBindingConstants.h */; };
 		0243A98523E9FFC600FBF5B4 /* MUXSDKPlayerBindingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0243A98423E9FFC600FBF5B4 /* MUXSDKPlayerBindingTests.m */; };
 		028281E423E3815700B5531B /* MUXSDKPlayerBindingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 028281E223E3815700B5531B /* MUXSDKPlayerBindingManager.h */; };
 		028281E523E3815700B5531B /* MUXSDKPlayerBindingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 028281E323E3815700B5531B /* MUXSDKPlayerBindingManager.m */; };
@@ -48,6 +50,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		021F61E323F4E07B0089A882 /* MUXSDKPlayerBindingConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MUXSDKPlayerBindingConstants.h; sourceTree = "<group>"; };
 		0243A98423E9FFC600FBF5B4 /* MUXSDKPlayerBindingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MUXSDKPlayerBindingTests.m; sourceTree = "<group>"; };
 		028281E223E3815700B5531B /* MUXSDKPlayerBindingManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MUXSDKPlayerBindingManager.h; sourceTree = "<group>"; };
 		028281E323E3815700B5531B /* MUXSDKPlayerBindingManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MUXSDKPlayerBindingManager.m; sourceTree = "<group>"; };
@@ -167,6 +170,7 @@
 				F4572FC11DDA2FC8003FE72B /* MUXSDKPlayerBinding.h */,
 				F4572FC31DDA2FE9003FE72B /* MUXSDKPlayerBinding.m */,
 				F4DCAD011DCA892E0094D94C /* Info.plist */,
+				021F61E323F4E07B0089A882 /* MUXSDKPlayerBindingConstants.h */,
 				028281E223E3815700B5531B /* MUXSDKPlayerBindingManager.h */,
 				028281E323E3815700B5531B /* MUXSDKPlayerBindingManager.m */,
 				02EB9E2523E894E70007E1CD /* MUXSDKCustomerPlayerDataStore.h */,
@@ -212,6 +216,7 @@
 				028281E623E3A17400B5531B /* MUXSDKPlayerBindingManager.h in Headers */,
 				F41E099D1DDA8FB50028A296 /* MUXSDKStats.h in Headers */,
 				02EB9E2F23E896A90007E1CD /* MUXSDKCustomerVideoDataStore.h in Headers */,
+				021F61E523F4E0820089A882 /* MUXSDKPlayerBindingConstants.h in Headers */,
 				F41E09E41DDA90DB0028A296 /* MUXSDKPlayerBinding.h in Headers */,
 				02EB9E2923E8950A0007E1CD /* MUXSDKCustomerPlayerDataStore.h in Headers */,
 			);
@@ -224,6 +229,7 @@
 				02EB9E2D23E896790007E1CD /* MUXSDKCustomerVideoDataStore.h in Headers */,
 				F4DCAD0E1DCA892E0094D94C /* MUXSDKStats.h in Headers */,
 				028281E423E3815700B5531B /* MUXSDKPlayerBindingManager.h in Headers */,
+				021F61E423F4E0810089A882 /* MUXSDKPlayerBindingConstants.h in Headers */,
 				02EB9E2723E894E70007E1CD /* MUXSDKCustomerPlayerDataStore.h in Headers */,
 				F4572FC21DDA2FC8003FE72B /* MUXSDKPlayerBinding.h in Headers */,
 			);
@@ -421,11 +427,13 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-MUXSDKStatsTests/Pods-MUXSDKStatsTests-frameworks.sh",
-				"${PODS_ROOT}/Mux-Stats-Core/Frameworks/iOS/fat/MuxCore.framework",
+				"${PODS_ROOT}/../../../mux-stats-sdk-objc/stats-sdk-objc/Frameworks/iOS/fat/MuxCore.framework",
+				"${PODS_ROOT}/../../../mux-stats-sdk-objc/stats-sdk-objc/Frameworks/iOS/fat/MuxCore.framework.dSYM",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MuxCore.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/MuxCore.framework.dSYM",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -491,7 +499,11 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				"GCC_PREPROCESSOR_DEFINITIONS[sdk=*]" = "DEBUG=1 $(inherited) TVOS=1";
+				"GCC_PREPROCESSOR_DEFINITIONS[sdk=*]" = (
+					"DEBUG=1",
+					"$(inherited)",
+					"TVOS=1",
+				);
 				INFOPLIST_FILE = MUXSDKStatsTv/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -654,7 +666,11 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				"GCC_PREPROCESSOR_DEFINITIONS[sdk=appletvos*]" = "DEBUG=1 $(inherited) TVOS=1";
+				"GCC_PREPROCESSOR_DEFINITIONS[sdk=appletvos*]" = (
+					"DEBUG=1",
+					"$(inherited)",
+					"TVOS=1",
+				);
 				INFOPLIST_FILE = MUXSDKStats/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

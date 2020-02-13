@@ -2,21 +2,15 @@ PODS:
   - Mux-Stats-Core (2.2.0)
 
 DEPENDENCIES:
-  - Mux-Stats-Core (from `https://github.com/muxinc/stats-sdk-objc.git`, branch `nidhik/9807-orientation-change`)
+  - Mux-Stats-Core (from `~/data_sdks/mux-stats-sdk-objc/stats-sdk-objc`)
 
 EXTERNAL SOURCES:
   Mux-Stats-Core:
-    :branch: nidhik/9807-orientation-change
-    :git: https://github.com/muxinc/stats-sdk-objc.git
-
-CHECKOUT OPTIONS:
-  Mux-Stats-Core:
-    :commit: cce3870c1aec5fcbf74204fff75418e569e25180
-    :git: https://github.com/muxinc/stats-sdk-objc.git
+    :path: "~/data_sdks/mux-stats-sdk-objc/stats-sdk-objc"
 
 SPEC CHECKSUMS:
   Mux-Stats-Core: df498d7f0cc3b69f0061c2ad9f2546098c3d5af3
 
-PODFILE CHECKSUM: a1fa41f946dddd0671fe9a902f21c2d5e2b63c1e
+PODFILE CHECKSUM: 1825651df3bd9d34cef3bd2ce8ee45de407f1522
 
 COCOAPODS: 1.8.4

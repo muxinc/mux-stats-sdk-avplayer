@@ -1,5 +1,5 @@
 #import "MUXSDKPlayerBinding.h"
-
+#import "MUXSDKPlayerBindingConstants.h"
 #import <Foundation/Foundation.h>
 
 @import CoreMedia;
@@ -83,18 +83,45 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
               forKeyPath:@"currentItem"
                  options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
                  context:MUXSDKAVPlayerCurrentItemObservationContext];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAVPlayerAccess:) name:AVPlayerItemNewAccessLogEntryNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRenditionChange:) name:RenditionChangeNotification object:nil];
+    
     _lastMediaRequest = 0;
     _lastMediaRequestBytes = 0;
     _lastErrorLogEventCount = 0;
     _lastTransferEventCount = 0;
     _lastTransferDuration= 0;
     _lastTransferredBytes = 0;
+    _lastAdvertisedBitrate = 0.0;
 }
 
 -(NSString *)getHostName:(NSString *)urlString {
     NSURL* url = [NSURL URLWithString:urlString];
     NSString *domain = [url host];
     return (domain == nil) ? urlString : domain;
+}
+
+- (void) handleRenditionChange:(NSNotification *) notif {
+    NSDictionary *renditionChangeInfo = (NSDictionary *) notif.object;
+    NSNumber *advertisedBitrate = renditionChangeInfo[RenditionChangeNotificationInfoAdvertisedBitrate];
+    if (advertisedBitrate) {
+        _lastAdvertisedBitrate = [advertisedBitrate doubleValue];
+        [self dispatchRenditionChange];
+    }
+}
+
+- (void)handleAVPlayerAccess:(NSNotification *)notif {
+    AVPlayerItemAccessLog *accessLog = [((AVPlayerItem *)notif.object) accessLog];
+    AVPlayerItemAccessLogEvent *lastEvent = accessLog.events.lastObject;
+    float advertisedBitrate = lastEvent.indicatedBitrate;
+    if (advertisedBitrate != _lastAdvertisedBitrate) {
+        NSLog(@"MUXSDK-INFO - Switch advertised bitrate from: %f to: %f", _lastAdvertisedBitrate, advertisedBitrate);
+        NSDictionary *renditionInfo = @{
+            RenditionChangeNotificationInfoAdvertisedBitrate: @(advertisedBitrate)
+        };
+        [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object:renditionInfo];
+    }
 }
 
 - (void)timeUpdateTimer:(NSTimer *)timer {
@@ -162,6 +189,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 - (void)dealloc {
     [self detachAVPlayer];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemNewAccessLogEntryNotification object:nil];
 }
 
 - (void) safelyRemoveTimeObserverForPlayer {
@@ -287,6 +315,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     _videoURL = NULL;
     _seeking = NO;
     _started = NO;
+    _lastAdvertisedBitrate = 0.0;
 }
 
 - (void)checkVideoData {
@@ -319,6 +348,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             videoDataUpdated = YES;
         }
     }
+    if (_lastAdvertisedBitrate > 0) {
+        videoDataUpdated = YES;
+    }
     if (videoDataUpdated) {
         MUXSDKVideoData *videoData = [[MUXSDKVideoData alloc] init];
         if (_videoSize.width > 0 && _videoSize.height > 0) {
@@ -338,6 +370,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         }
         if (_videoURL) {
             [videoData setVideoSourceUrl:_videoURL];
+        }
+        if (_lastAdvertisedBitrate > 0) {
+            [videoData setVideoSourceAdvertisedBitrate:@(_lastAdvertisedBitrate)];
         }
         MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
         [dataEvent setVideoData:videoData];
@@ -604,6 +639,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (![self isPlayerOK]) {
         return;
     }
+    [self checkVideoData];
     _orientation = orientation;
     MUXSDKPlayerData *playerData = [self getPlayerData];
     MUXSDKViewDeviceOrientationData *orientationData;
@@ -623,10 +659,18 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     MUXSDKOrientationChangeEvent *event = [[MUXSDKOrientationChangeEvent alloc] init];
     [event setPlayerData:playerData];
     [event setViewData: viewData];
-    
-    NSLog(@"MUXSDK-INFO - dispatching orientation change %lu", (unsigned long)orientation);
     [MUXSDKCore dispatchEvent:event forPlayer:_name];
-    
+}
+
+- (void) dispatchRenditionChange {
+    if (![self isPlayerOK]) {
+        return;
+    }
+    [self checkVideoData];
+    MUXSDKPlayerData *playerData = [self getPlayerData];
+    MUXSDKRenditionChangeEvent *event = [[MUXSDKRenditionChangeEvent alloc] init];
+    [event setPlayerData:playerData];
+    [MUXSDKCore dispatchEvent:event forPlayer:_name];
 }
 
 - (void)updateLastPlayheadTime {

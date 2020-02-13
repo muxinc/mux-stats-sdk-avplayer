@@ -23,6 +23,7 @@
 @property (nonatomic, weak) NSDictionary * _Nullable viewControllers;
 
 - (void) newViewForPlayer:(NSString *_Nonnull) name;
+- (void) onPlayerDestroyed:(NSString *_Nonnull) name;
 
 @end
 
