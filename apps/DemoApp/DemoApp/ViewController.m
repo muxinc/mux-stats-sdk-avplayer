@@ -64,7 +64,7 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
        withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {} completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         NSLog(@"New orientation detected %lu", [self viewOrientationForSize:size]);
-        [MUXSDKStats orientationChangeForPlayer:DEMO_PLAYER_NAME orientation:[self viewOrientationForSize:size]];
+        [MUXSDKStats orientationChangeForPlayer:DEMO_PLAYER_NAME withOrientation:[self viewOrientationForSize:size]];
 
     }];
 }
