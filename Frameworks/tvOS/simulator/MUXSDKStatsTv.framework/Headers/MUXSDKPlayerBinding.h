@@ -2,7 +2,6 @@
 #define MUXSDKPlayerBinding_h
 
 #import <Foundation/Foundation.h>
-
 @import AVKit;
 @import AVFoundation;
 #if TARGET_OS_IOS
@@ -59,6 +58,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
     long long _lastTransferredBytes;
     MUXSDKViewOrientation _orientation;
     double _lastAdvertisedBitrate;
+    double _lastAdvertisedFramerate;
 }
 
 @property (nonatomic, weak) id<MUXSDKPlayDispatchDelegate>  playDispatchDelegate;

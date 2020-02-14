@@ -3,6 +3,7 @@
 #import "MUXSDKPlayerBindingManager.h"
 #import "MUXSDKCustomerPlayerDataStore.h"
 #import "MUXSDKCustomerVideoDataStore.h"
+#import "MUXSDKHLSMasterManifestLoader.h"
 #import <Foundation/Foundation.h>
 #import <sys/utsname.h>
 

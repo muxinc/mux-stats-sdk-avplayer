@@ -1,5 +1,7 @@
 #import "MUXSDKPlayerBinding.h"
 #import "MUXSDKPlayerBindingConstants.h"
+#import "MUXSDKHLSMasterManifestLoader.h"
+#import "NSNumber+MUXSDK.h"
 #import <Foundation/Foundation.h>
 
 @import CoreMedia;
@@ -31,6 +33,11 @@ static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusO
 // we have attached the _playerItem observer
 NSString * RemoveObserverExceptionName = @"NSRangeException";
 
+@interface MUXSDKPlayerBinding()
+@property(nonatomic, strong) NSArray *masterPlaylist;
+@property(nonatomic, assign) NSURLSessionTask *masterPlaylistRequest;
+@property (nonatomic, strong) id<MUXSDKHLSMasterManifestLoading> hlsMasterManifestLoader;
+@end
 @implementation MUXSDKPlayerBinding
 
 - (id)initWithName:(NSString *)name andSoftware:(NSString *)software {
@@ -38,6 +45,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (self) {
         _name = name;
         _software = software;
+        _hlsMasterManifestLoader = [[MUXSDKHLSMasterManifestLoader alloc] init];
     }
     return(self);
 }
@@ -105,8 +113,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 - (void) handleRenditionChange:(NSNotification *) notif {
     NSDictionary *renditionChangeInfo = (NSDictionary *) notif.object;
     NSNumber *advertisedBitrate = renditionChangeInfo[RenditionChangeNotificationInfoAdvertisedBitrate];
+    NSNumber *advertisedFramerate = renditionChangeInfo[RenditionChangeNotificationInfoAdvertisedFramerate];
     if (advertisedBitrate) {
         _lastAdvertisedBitrate = [advertisedBitrate doubleValue];
+        _lastAdvertisedFramerate = [advertisedFramerate doubleValue];
         [self dispatchRenditionChange];
     }
 }
@@ -115,11 +125,27 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     AVPlayerItemAccessLog *accessLog = [((AVPlayerItem *)notif.object) accessLog];
     AVPlayerItemAccessLogEvent *lastEvent = accessLog.events.lastObject;
     float advertisedBitrate = lastEvent.indicatedBitrate;
-    if (advertisedBitrate != _lastAdvertisedBitrate) {
+
+    BOOL bitrateHasChanged = ![@(_lastAdvertisedBitrate) doubleValueIsEqual:@(advertisedBitrate)];
+    BOOL isStartingPlayback = [@(_lastAdvertisedBitrate) doubleValueIsEqual:@(0)];
+    
+    if (bitrateHasChanged) {
+        if(isStartingPlayback) {
+            // This is not a renditionchange but the player playing the first rendition.
+            _lastAdvertisedBitrate = advertisedBitrate;
+            return;
+        }
+        
+        NSMutableDictionary *renditionInfo = [[NSMutableDictionary alloc] init];
+        NSNumber *advertisedFramerate = [self.hlsMasterManifestLoader advertisedFrameRateFromPlaylist:_masterPlaylist forBandwidth:@(advertisedBitrate)];
+        if (advertisedFramerate) {
+            [renditionInfo setValue:advertisedFramerate forKey:RenditionChangeNotificationInfoAdvertisedFramerate];
+        }
+        if (advertisedBitrate) {
+            [renditionInfo setValue:@(advertisedBitrate) forKey:RenditionChangeNotificationInfoAdvertisedBitrate];
+        }
         NSLog(@"MUXSDK-INFO - Switch advertised bitrate from: %f to: %f", _lastAdvertisedBitrate, advertisedBitrate);
-        NSDictionary *renditionInfo = @{
-            RenditionChangeNotificationInfoAdvertisedBitrate: @(advertisedBitrate)
-        };
+        NSLog(@"MUXSDK-INFO - Switch frame rate to: %@", advertisedFramerate);
         [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object:renditionInfo];
     }
 }
@@ -190,6 +216,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 - (void)dealloc {
     [self detachAVPlayer];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemNewAccessLogEntryNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RenditionChangeNotification object:nil];
 }
 
 - (void) safelyRemoveTimeObserverForPlayer {
@@ -250,6 +277,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         [_timeUpdateTimer invalidate];
         _timeUpdateTimer = nil;
     }
+    [_masterPlaylistRequest cancel];
 }
 
 - (void)monitorAVPlayerItem {
@@ -263,6 +291,19 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
                       forKeyPath:@"status"
                          options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
                          context:MUXSDKAVPlayerItemStatusObservationContext];
+        
+        if([_player.currentItem.asset isKindOfClass:[AVURLAsset class]]) {
+            AVURLAsset *asset = (AVURLAsset *) _player.currentItem.asset;
+            NSLog(@"MUXSDK-INFO - Loading HLS master manifest from asset URL: %@", asset.URL);
+            __weak MUXSDKPlayerBinding *weakSelf = self;
+            _masterPlaylistRequest = [_hlsMasterManifestLoader masterPlaylistFromSource:asset.URL completion:^(NSArray *playlist, NSError *error) {
+                if(error) {
+                    NSLog(@"MUXSDK-ERROR - Error loading HLS master manifest: %@", error);
+                } else {
+                    weakSelf.masterPlaylist = playlist;
+                }
+            }];
+        }
     }
 }
 
@@ -316,6 +357,8 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     _seeking = NO;
     _started = NO;
     _lastAdvertisedBitrate = 0.0;
+    _lastAdvertisedFramerate = 0.0;
+    _masterPlaylist = nil;
 }
 
 - (void)checkVideoData {
@@ -351,6 +394,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (_lastAdvertisedBitrate > 0) {
         videoDataUpdated = YES;
     }
+    if (_lastAdvertisedFramerate > 0) {
+        videoDataUpdated = YES;
+    }
     if (videoDataUpdated) {
         MUXSDKVideoData *videoData = [[MUXSDKVideoData alloc] init];
         if (_videoSize.width > 0 && _videoSize.height > 0) {
@@ -373,6 +419,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         }
         if (_lastAdvertisedBitrate > 0) {
             [videoData setVideoSourceAdvertisedBitrate:@(_lastAdvertisedBitrate)];
+        }
+        if (_lastAdvertisedFramerate > 0) {
+            [videoData setVideoSourceAdvertisedFrameRate:@(_lastAdvertisedFramerate)];
         }
         MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
         [dataEvent setVideoData:videoData];

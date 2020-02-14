@@ -9,3 +9,4 @@
 
 NSString *const RenditionChangeNotification = @"RenditionChangeNotification";
 NSString *const RenditionChangeNotificationInfoAdvertisedBitrate = @"RenditionChangeNotificationInfoAdvertisedBitrate";
+NSString *const RenditionChangeNotificationInfoAdvertisedFramerate = @"RenditionChangeNotificationInfoAdvertisedFramerate";

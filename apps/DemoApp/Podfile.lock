@@ -9,7 +9,7 @@ PODS:
 
 DEPENDENCIES:
   - GoogleAds-IMA-iOS-SDK (~> 3.9)
-  - Mux-Stats-AVPlayer (from `https://github.com/muxinc/mux-stats-sdk-avplayer.git`, branch `nidhik/9807-rendition-change`)
+  - Mux-Stats-AVPlayer (from `https://github.com/muxinc/mux-stats-sdk-avplayer.git`, branch `nidhik/9807-rendition-change-frame-rate`)
   - Mux-Stats-Core (from `https://github.com/muxinc/stats-sdk-objc.git`, branch `nidhik/9807-rendition-change`)
   - Mux-Stats-Google-IMA (~> 0.4)
 
@@ -20,7 +20,7 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   Mux-Stats-AVPlayer:
-    :branch: nidhik/9807-rendition-change
+    :branch: nidhik/9807-rendition-change-frame-rate
     :git: https://github.com/muxinc/mux-stats-sdk-avplayer.git
   Mux-Stats-Core:
     :branch: nidhik/9807-rendition-change
@@ -28,10 +28,10 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Mux-Stats-AVPlayer:
-    :commit: d75d562d70b32346d1d1c2166b2af75544e73988
+    :commit: 655ffd85f1001dc93ad2a2a8dcffc2d6e3b2967e
     :git: https://github.com/muxinc/mux-stats-sdk-avplayer.git
   Mux-Stats-Core:
-    :commit: 659010cf1bbf897f111dfa7591f53fa8bd4887f9
+    :commit: cf6f492c2452f272fc91d44bdcf0f6b7429d3aab
     :git: https://github.com/muxinc/stats-sdk-objc.git
 
 SPEC CHECKSUMS:
@@ -40,6 +40,6 @@ SPEC CHECKSUMS:
   Mux-Stats-Core: df498d7f0cc3b69f0061c2ad9f2546098c3d5af3
   Mux-Stats-Google-IMA: c8c2ad479c2fc0bce47f2f8f86153ea112365b39
 
-PODFILE CHECKSUM: 5da4022395c0d258f34c142802cfde4b2cb4361e
+PODFILE CHECKSUM: 22a2cb9075553ed84147443e2438f84c08f0a994
 
 COCOAPODS: 1.8.4
