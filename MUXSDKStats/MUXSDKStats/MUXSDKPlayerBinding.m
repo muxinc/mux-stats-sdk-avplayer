@@ -1,5 +1,6 @@
 #import "MUXSDKPlayerBinding.h"
 #import "MUXSDKPlayerBindingConstants.h"
+#import "NSNumber+MUXSDK.h"
 #import <Foundation/Foundation.h>
 
 @import CoreMedia;
@@ -115,12 +116,19 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     AVPlayerItemAccessLog *accessLog = [((AVPlayerItem *)notif.object) accessLog];
     AVPlayerItemAccessLogEvent *lastEvent = accessLog.events.lastObject;
     float advertisedBitrate = lastEvent.indicatedBitrate;
-    if (advertisedBitrate != _lastAdvertisedBitrate) {
+    BOOL bitrateHasChanged = ![@(_lastAdvertisedBitrate) doubleValueIsEqual:@(advertisedBitrate)];
+    BOOL isStartingPlayback = [@(_lastAdvertisedBitrate) doubleValueIsEqual:@(0)];
+
+    if (bitrateHasChanged) {
+        if(isStartingPlayback) {
+            // This is not a renditionchange but the player playing the first rendition.
+            _lastAdvertisedBitrate = advertisedBitrate;
+            return;
+        }
         NSLog(@"MUXSDK-INFO - Switch advertised bitrate from: %f to: %f", _lastAdvertisedBitrate, advertisedBitrate);
-        NSDictionary *renditionInfo = @{
+        [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object: @{
             RenditionChangeNotificationInfoAdvertisedBitrate: @(advertisedBitrate)
-        };
-        [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object:renditionInfo];
+        }];
     }
 }
 
@@ -190,6 +198,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 - (void)dealloc {
     [self detachAVPlayer];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemNewAccessLogEntryNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RenditionChangeNotification object:nil];
 }
 
 - (void) safelyRemoveTimeObserverForPlayer {

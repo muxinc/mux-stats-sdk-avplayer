@@ -10,6 +10,8 @@
 		021F61E423F4E0810089A882 /* MUXSDKPlayerBindingConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 021F61E323F4E07B0089A882 /* MUXSDKPlayerBindingConstants.h */; };
 		021F61E523F4E0820089A882 /* MUXSDKPlayerBindingConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 021F61E323F4E07B0089A882 /* MUXSDKPlayerBindingConstants.h */; };
 		0243A98523E9FFC600FBF5B4 /* MUXSDKPlayerBindingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0243A98423E9FFC600FBF5B4 /* MUXSDKPlayerBindingTests.m */; };
+		02776E5F23F75A840067CBCC /* NSNumber+MUXSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 02776E5D23F75A840067CBCC /* NSNumber+MUXSDK.h */; };
+		02776E6023F75A840067CBCC /* NSNumber+MUXSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 02776E5E23F75A840067CBCC /* NSNumber+MUXSDK.m */; };
 		028281E423E3815700B5531B /* MUXSDKPlayerBindingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 028281E223E3815700B5531B /* MUXSDKPlayerBindingManager.h */; };
 		028281E523E3815700B5531B /* MUXSDKPlayerBindingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 028281E323E3815700B5531B /* MUXSDKPlayerBindingManager.m */; };
 		028281E623E3A17400B5531B /* MUXSDKPlayerBindingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 028281E223E3815700B5531B /* MUXSDKPlayerBindingManager.h */; };
@@ -52,6 +54,8 @@
 /* Begin PBXFileReference section */
 		021F61E323F4E07B0089A882 /* MUXSDKPlayerBindingConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MUXSDKPlayerBindingConstants.h; sourceTree = "<group>"; };
 		0243A98423E9FFC600FBF5B4 /* MUXSDKPlayerBindingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MUXSDKPlayerBindingTests.m; sourceTree = "<group>"; };
+		02776E5D23F75A840067CBCC /* NSNumber+MUXSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSNumber+MUXSDK.h"; sourceTree = "<group>"; };
+		02776E5E23F75A840067CBCC /* NSNumber+MUXSDK.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+MUXSDK.m"; sourceTree = "<group>"; };
 		028281E223E3815700B5531B /* MUXSDKPlayerBindingManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MUXSDKPlayerBindingManager.h; sourceTree = "<group>"; };
 		028281E323E3815700B5531B /* MUXSDKPlayerBindingManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MUXSDKPlayerBindingManager.m; sourceTree = "<group>"; };
 		02EA754A23EA074800B06715 /* MUXSDKCore+Mock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MUXSDKCore+Mock.h"; sourceTree = "<group>"; };
@@ -177,6 +181,8 @@
 				02EB9E2623E894E70007E1CD /* MUXSDKCustomerPlayerDataStore.m */,
 				02EB9E2B23E896790007E1CD /* MUXSDKCustomerVideoDataStore.h */,
 				02EB9E2C23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m */,
+				02776E5D23F75A840067CBCC /* NSNumber+MUXSDK.h */,
+				02776E5E23F75A840067CBCC /* NSNumber+MUXSDK.m */,
 			);
 			path = MUXSDKStats;
 			sourceTree = "<group>";
@@ -226,6 +232,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02776E5F23F75A840067CBCC /* NSNumber+MUXSDK.h in Headers */,
 				02EB9E2D23E896790007E1CD /* MUXSDKCustomerVideoDataStore.h in Headers */,
 				F4DCAD0E1DCA892E0094D94C /* MUXSDKStats.h in Headers */,
 				028281E423E3815700B5531B /* MUXSDKPlayerBindingManager.h in Headers */,
@@ -464,6 +471,7 @@
 				02EB9E2E23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m in Sources */,
 				F4572FC41DDA2FE9003FE72B /* MUXSDKPlayerBinding.m in Sources */,
 				F4572FB51DDA2F05003FE72B /* MUXSDKStats.m in Sources */,
+				02776E6023F75A840067CBCC /* NSNumber+MUXSDK.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
