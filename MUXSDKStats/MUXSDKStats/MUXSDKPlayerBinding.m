@@ -103,6 +103,14 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     return (domain == nil) ? urlString : domain;
 }
 
+# pragma mark AVPlayerItemAccessLog
+
+- (void)handleAVPlayerAccess:(NSNotification *)notif {
+    AVPlayerItemAccessLog *accessLog = [((AVPlayerItem *)notif.object) accessLog];
+    [self handleAccesLogRenditionChange:accessLog];
+    [self calculateAccessLogBandwidthMetric:accessLog];
+}
+
 - (void) handleRenditionChange:(NSNotification *) notif {
     NSDictionary *renditionChangeInfo = (NSDictionary *) notif.object;
     NSNumber *advertisedBitrate = renditionChangeInfo[RenditionChangeNotificationInfoAdvertisedBitrate];
@@ -112,9 +120,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     }
 }
 
-- (void)handleAVPlayerAccess:(NSNotification *)notif {
-    AVPlayerItemAccessLog *accessLog = [((AVPlayerItem *)notif.object) accessLog];
-    AVPlayerItemAccessLogEvent *lastEvent = accessLog.events.lastObject;
+- (void) handleAccesLogRenditionChange:(AVPlayerItemAccessLog *) log {
+    
+    AVPlayerItemAccessLogEvent *lastEvent = log.events.lastObject;
     float advertisedBitrate = lastEvent.indicatedBitrate;
     BOOL bitrateHasChanged = ![@(_lastAdvertisedBitrate) doubleValueIsEqual:@(advertisedBitrate)];
     BOOL isStartingPlayback = [@(_lastAdvertisedBitrate) doubleValueIsEqual:@(0)];
@@ -132,50 +140,52 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     }
 }
 
+- (void) calculateAccessLogBandwidthMetric:(AVPlayerItemAccessLog *) log {
+    if (log != nil && log.events.count > 0) {
+        // https://developer.apple.com/documentation/avfoundation/avplayeritemaccesslogevent?language=objc
+        AVPlayerItemAccessLogEvent *event = log.events[log.events.count - 1];
+        
+        if (event.numberOfMediaRequests > 0 && event.numberOfMediaRequests != _lastMediaRequest) {
+            if (_lastTransferEventCount != log.events.count) {
+                _lastTransferDuration= 0;
+                _lastTransferredBytes = 0;
+                _lastTransferEventCount = log.events.count;
+            }
+            
+            double requestCompletedTime = [[NSDate date] timeIntervalSince1970];
+            // !!! event.observedMinBitrate, event.observedMaxBitrate, event.observedBitrate don't seem to be accurate
+            // we did a charles proxy dump try to calculate the bitrate, and compared with above values. It doesn't match
+            // but if use data stored in requestResponseStart/requestResponseEnd/requestBytesLoaded to compute, the value are very close.
+            MUXSDKBandwidthMetricData *loadData = [[MUXSDKBandwidthMetricData alloc] init];
+            loadData.requestType = @"media";
+            loadData.requestStart = [NSNumber numberWithLong: (long)(requestCompletedTime - (event.transferDuration - _lastTransferDuration) * 1000)];
+            loadData.requestResponseStart = nil;
+            loadData.requestResponseEnd = [NSNumber numberWithLong: (long)requestCompletedTime];
+            loadData.requestBytesLoaded = [NSNumber numberWithLong: event.numberOfBytesTransferred - _lastTransferredBytes];
+            loadData.requestResponseHeaders = nil;
+            loadData.requestHostName = [self getHostName:event.URI];
+            loadData.requestCurrentLevel = nil;
+            loadData.requestMediaStartTime = nil;
+            loadData.requestMediaDuration = nil;
+            loadData.requestVideoWidth = nil;
+            loadData.requestVideoHeight = nil;
+            loadData.requestRenditionLists = nil;
+            [self dispatchBandwidthMetric:loadData];
+            _lastTransferredBytes = event.numberOfBytesTransferred;
+            _lastTransferDuration = event.transferDuration;
+        }
+        _lastMediaRequestBytes = event.numberOfBytesTransferred;
+        _lastMediaRequest = event.numberOfMediaRequests;
+    }
+}
+
 - (void)timeUpdateTimer:(NSTimer *)timer {
     if (![self isTryingToPlay] && ![self isBuffering]) {
         [self dispatchTimeUpdateFromTimer];
     }
 
     if (_player.currentItem != nil) {
-        AVPlayerItemAccessLog *log = _player.currentItem.accessLog;
-        if (log != nil && log.events.count > 0) {
-            // https://developer.apple.com/documentation/avfoundation/avplayeritemaccesslogevent?language=objc
-            AVPlayerItemAccessLogEvent *event = log.events[log.events.count - 1];
-
-            if (event.numberOfMediaRequests > 0 && event.numberOfMediaRequests != _lastMediaRequest) {
-                if (_lastTransferEventCount != log.events.count) {
-                    _lastTransferDuration= 0;
-                    _lastTransferredBytes = 0;
-                    _lastTransferEventCount = log.events.count;
-                }
-
-                double requestCompletedTime = [[NSDate date] timeIntervalSince1970];
-                // !!! event.observedMinBitrate, event.observedMaxBitrate, event.observedBitrate don't seem to be accurate
-                // we did a charles proxy dump try to calculate the bitrate, and compared with above values. It doesn't match
-                // but if use data stored in requestResponseStart/requestResponseEnd/requestBytesLoaded to compute, the value are very close.
-                MUXSDKBandwidthMetricData *loadData = [[MUXSDKBandwidthMetricData alloc] init];
-                loadData.requestType = @"media";
-                loadData.requestStart = [NSNumber numberWithLong: (long)(requestCompletedTime - (event.transferDuration - _lastTransferDuration) * 1000)];
-                loadData.requestResponseStart = nil;
-                loadData.requestResponseEnd = [NSNumber numberWithLong: (long)requestCompletedTime];
-                loadData.requestBytesLoaded = [NSNumber numberWithLong: event.numberOfBytesTransferred - _lastTransferredBytes];
-                loadData.requestResponseHeaders = nil;
-                loadData.requestHostName = [self getHostName:event.URI];
-                loadData.requestCurrentLevel = nil;
-                loadData.requestMediaStartTime = nil;
-                loadData.requestMediaDuration = nil;
-                loadData.requestVideoWidth = nil;
-                loadData.requestVideoHeight = nil;
-                loadData.requestRenditionLists = nil;
-                [self dispatchBandwidthMetric:loadData];
-                _lastTransferredBytes = event.numberOfBytesTransferred;
-                _lastTransferDuration = event.transferDuration;
-            }
-            _lastMediaRequestBytes = event.numberOfBytesTransferred;
-            _lastMediaRequest = event.numberOfMediaRequests;
-        }
-
+    
         AVPlayerItemErrorLog *error = _player.currentItem.errorLog;
         if (error != nil && error.events.count > 0) {
             // https://developer.apple.com/documentation/avfoundation/avplayeritemerrorlogevent?language=objc
