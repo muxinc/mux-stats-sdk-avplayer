@@ -201,7 +201,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     }
 }
 
-
 - (void)timeUpdateTimer:(NSTimer *)timer {
     if (![self isTryingToPlay] && ![self isBuffering]) {
         [self dispatchTimeUpdateFromTimer];
