@@ -107,8 +107,8 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 - (void)handleAVPlayerAccess:(NSNotification *)notif {
     AVPlayerItemAccessLog *accessLog = [((AVPlayerItem *)notif.object) accessLog];
-    [self handleAccesLogRenditionChange:accessLog];
-    [self calculateAccessLogBandwidthMetric:accessLog];
+    [self handleRenditionChangeInAccessLog:accessLog];
+    [self calculateBandwidthMetricFromAccessLog:accessLog];
 }
 
 - (void) handleRenditionChange:(NSNotification *) notif {
@@ -120,7 +120,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     }
 }
 
-- (void) handleAccesLogRenditionChange:(AVPlayerItemAccessLog *) log {
+- (void) handleRenditionChangeInAccessLog:(AVPlayerItemAccessLog *) log {
     
     AVPlayerItemAccessLogEvent *lastEvent = log.events.lastObject;
     float advertisedBitrate = lastEvent.indicatedBitrate;
@@ -140,7 +140,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     }
 }
 
-- (void) calculateAccessLogBandwidthMetric:(AVPlayerItemAccessLog *) log {
+- (void) calculateBandwidthMetricFromAccessLog:(AVPlayerItemAccessLog *) log {
     if (log != nil && log.events.count > 0) {
         // https://developer.apple.com/documentation/avfoundation/avplayeritemaccesslogevent?language=objc
         AVPlayerItemAccessLogEvent *event = log.events[log.events.count - 1];
