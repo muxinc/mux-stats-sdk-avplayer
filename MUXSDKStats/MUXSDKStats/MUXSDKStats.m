@@ -231,6 +231,7 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
     [MUXSDKStats videoChangeForPlayer: name withVideoData:videoData];
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
     if (player) {
+        [player monitorAVPlayerItem];
         [player dispatchPlay];
         [player dispatchPlaying];
     }
