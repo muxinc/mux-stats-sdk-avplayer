@@ -184,10 +184,9 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-DemoApp/Pods-DemoApp-frameworks.sh",
 				"${PODS_ROOT}/GoogleAds-IMA-iOS-SDK/GoogleInteractiveMediaAds.framework",
-				"${PODS_ROOT}/../../../Frameworks/iOS/fat/MUXSDKStats.framework",
-				"${PODS_ROOT}/../../../Frameworks/iOS/fat/MUXSDKStats.framework.dSYM",
-				"${PODS_ROOT}/../../../../mux-stats-sdk-objc/stats-sdk-objc/Frameworks/iOS/fat/MuxCore.framework",
-				"${PODS_ROOT}/../../../../mux-stats-sdk-objc/stats-sdk-objc/Frameworks/iOS/fat/MuxCore.framework.dSYM",
+				"${PODS_ROOT}/Mux-Stats-AVPlayer/Frameworks/iOS/fat/MUXSDKStats.framework",
+				"${PODS_ROOT}/Mux-Stats-AVPlayer/Frameworks/iOS/fat/MUXSDKStats.framework.dSYM",
+				"${PODS_ROOT}/Mux-Stats-Core/Frameworks/iOS/fat/MuxCore.framework",
 				"${BUILT_PRODUCTS_DIR}/Mux-Stats-Google-IMA/Mux_Stats_Google_IMA.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -196,7 +195,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MUXSDKStats.framework",
 				"${DWARF_DSYM_FOLDER_PATH}/MUXSDKStats.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MuxCore.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/MuxCore.framework.dSYM",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mux_Stats_Google_IMA.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;

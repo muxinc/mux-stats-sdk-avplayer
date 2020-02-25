@@ -24,6 +24,9 @@
     return self;
 }
 
+- (void) onPlayerDestroyed:(NSString *_Nonnull) name {
+    [self.playerReadyBindings removeObject:name];
+}
 
 - (BOOL) hasInitializedPlayerBinding:(NSString *) name {
     return [self.playerReadyBindings containsObject:name];

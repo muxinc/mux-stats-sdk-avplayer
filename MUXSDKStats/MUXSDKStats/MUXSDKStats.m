@@ -207,6 +207,7 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
         [_viewControllers removeObjectForKey:name];
     }
     [_bindings removeObjectForKey:name];
+    [_playerBindingManager onPlayerDestroyed:name];
 }
 
 + (void)videoChangeForPlayer:(nonnull NSString *)name withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
