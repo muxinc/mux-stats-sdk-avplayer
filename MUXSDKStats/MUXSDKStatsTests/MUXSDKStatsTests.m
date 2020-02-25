@@ -77,9 +77,14 @@ static NSString *Z = @"Z";
 }
 
 - (void) assertPlayer:(NSString *)name dispatchedEventTypes:(NSArray *) expectedEventTypes {
+    NSInteger expectedCount = expectedEventTypes.count;
+    NSInteger actualCount = [MUXSDKCore eventsCountForPlayer:name];
+    XCTAssertEqual(expectedCount, actualCount, @"expected: %ld events got: %ld events.", (long)expectedCount, (long)actualCount);
     for (int i = 0; i < expectedEventTypes.count; i++) {
         id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:i forPlayer:name];
-        XCTAssertEqual([event getType], [expectedEventTypes objectAtIndex:i]);
+        NSString *expectedType = [expectedEventTypes objectAtIndex:i];
+        NSString *actualType = [event getType];
+        XCTAssertEqual(expectedType, actualType, @"expected event type: %@ got event type: %@", expectedType, actualType);
     }
 }
 
@@ -150,7 +155,9 @@ static NSString *Z = @"Z";
     NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                                     MUXSDKDataEventType,
                                     MUXSDKPlaybackEventPlayerReadyEventType,
-                                    MUXSDKPlaybackEventViewEndEventType
+                                    MUXSDKPlaybackEventViewEndEventType,
+                                    MUXSDKPlaybackEventPlayEventType,
+                                    MUXSDKPlaybackEventPlayingEventType
     ];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [MUXSDKStats destroyPlayer:playName];
