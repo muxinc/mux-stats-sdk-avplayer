@@ -22,6 +22,12 @@ typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
     MUXSDKPlayerStateViewEnd,
 };
 
+typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
+    MUXSDKViewOrientationUnknown,
+    MUXSDKViewOrientationPortrait,
+    MUXSDKViewOrientationLandscape
+};
+
 @protocol MUXSDKPlayDispatchDelegate
 - (void) playbackStartedForPlayer:(NSString *) name;
 - (void) videoChangedForPlayer:(NSString *) name;
@@ -45,12 +51,11 @@ typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
     float _lastPlayheadTimeMs;
     BOOL _seeking;
     BOOL _started;
-    NSUInteger _lastMediaRequest;
-    NSUInteger _lastMediaRequestBytes;
-    NSUInteger _lastErrorLogEventCount;
     NSUInteger _lastTransferEventCount;
     double _lastTransferDuration;
     long long _lastTransferredBytes;
+    MUXSDKViewOrientation _orientation;
+    double _lastAdvertisedBitrate;
 }
 
 @property (nonatomic, weak) id<MUXSDKPlayDispatchDelegate>  playDispatchDelegate;
@@ -58,7 +63,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
 - (id)initWithName:(NSString *)name andSoftware:(NSString *)software;
 - (void)attachAVPlayer:(AVPlayer *)player;
 - (void)detachAVPlayer;
-- (void)monitorAVPlayerItem;
+- (void)programChangedForPlayer;
 - (CGRect)getViewBounds;
 - (void)dispatchViewInit;
 - (void)dispatchPlayerReady;
@@ -68,8 +73,11 @@ typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
 - (void)dispatchTimeUpdateEvent:(CMTime)time;
 - (void)dispatchError;
 - (void)dispatchViewEnd;
+- (void)dispatchOrientationChange:(MUXSDKViewOrientation) orientation;
 - (void)dispatchAdEvent:(MUXSDKPlaybackEvent *)event;
 - (float)getCurrentPlayheadTimeMs;
+- (void)dispatchRenditionChange;
+
 @end
 
 

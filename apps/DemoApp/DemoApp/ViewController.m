@@ -58,6 +58,21 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
     NSLog(@"Error loading ads: %@", adErrorData.adError.message);
 }
 
+#pragma mark Orientation Changes
+
+- (void)viewWillTransitionToSize:(CGSize)size
+       withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {} completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        [MUXSDKStats orientationChangeForPlayer:DEMO_PLAYER_NAME withOrientation:[self viewOrientationForSize:size]];
+
+    }];
+}
+
+- (MUXSDKViewOrientation) viewOrientationForSize:(CGSize)size {
+    return (size.width > size.height) ? MUXSDKViewOrientationLandscape : MUXSDKViewOrientationPortrait;
+}
+
+
 #pragma mark AdsManager Delegates
 
 - (void)adsManager:(IMAAdsManager *)adsManager didReceiveAdEvent:(IMAAdEvent *)event {

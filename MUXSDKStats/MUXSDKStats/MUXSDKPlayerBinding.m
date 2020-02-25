@@ -1,5 +1,6 @@
 #import "MUXSDKPlayerBinding.h"
-
+#import "MUXSDKPlayerBindingConstants.h"
+#import "NSNumber+MUXSDK.h"
 #import <Foundation/Foundation.h>
 
 @import CoreMedia;
@@ -83,12 +84,15 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
               forKeyPath:@"currentItem"
                  options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
                  context:MUXSDKAVPlayerCurrentItemObservationContext];
-    _lastMediaRequest = 0;
-    _lastMediaRequestBytes = 0;
-    _lastErrorLogEventCount = 0;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAVPlayerAccess:) name:AVPlayerItemNewAccessLogEntryNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRenditionChange:) name:RenditionChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAVPlayerError:) name:AVPlayerItemNewErrorLogEntryNotification object:nil];
+    
     _lastTransferEventCount = 0;
     _lastTransferDuration= 0;
     _lastTransferredBytes = 0;
+    _lastAdvertisedBitrate = 0.0;
 }
 
 -(NSString *)getHostName:(NSString *)urlString {
@@ -97,71 +101,109 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     return (domain == nil) ? urlString : domain;
 }
 
+# pragma mark AVPlayerItemAccessLog
+
+- (void)handleAVPlayerAccess:(NSNotification *)notif {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        AVPlayerItemAccessLog *accessLog = [((AVPlayerItem *)notif.object) accessLog];
+        [self handleRenditionChangeInAccessLog:accessLog];
+        [self calculateBandwidthMetricFromAccessLog:accessLog];
+    });
+}
+
+- (void) handleRenditionChange:(NSNotification *) notif {
+    NSDictionary *renditionChangeInfo = (NSDictionary *) notif.object;
+    NSNumber *advertisedBitrate = renditionChangeInfo[RenditionChangeNotificationInfoAdvertisedBitrate];
+    if (advertisedBitrate) {
+        _lastAdvertisedBitrate = [advertisedBitrate doubleValue];
+        [self dispatchRenditionChange];
+    }
+}
+
+- (void) handleRenditionChangeInAccessLog:(AVPlayerItemAccessLog *) log {
+    
+    AVPlayerItemAccessLogEvent *lastEvent = log.events.lastObject;
+    float advertisedBitrate = lastEvent.indicatedBitrate;
+    BOOL bitrateHasChanged = ![@(_lastAdvertisedBitrate) doubleValueIsEqual:@(advertisedBitrate)];
+    BOOL isStartingPlayback = [@(_lastAdvertisedBitrate) doubleValueIsEqual:@(0)];
+
+    if (bitrateHasChanged) {
+        if(isStartingPlayback) {
+            // This is not a renditionchange but the player playing the first rendition.
+            _lastAdvertisedBitrate = advertisedBitrate;
+            return;
+        }
+        NSLog(@"MUXSDK-INFO - Switch advertised bitrate from: %f to: %f", _lastAdvertisedBitrate, advertisedBitrate);
+        [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object: @{
+            RenditionChangeNotificationInfoAdvertisedBitrate: @(advertisedBitrate)
+        }];
+    }
+}
+
+- (void) calculateBandwidthMetricFromAccessLog:(AVPlayerItemAccessLog *) log {
+    if (log != nil && log.events.count > 0) {
+        // https://developer.apple.com/documentation/avfoundation/avplayeritemaccesslogevent?language=objc
+        AVPlayerItemAccessLogEvent *event = log.events[log.events.count - 1];
+        
+       if (_lastTransferEventCount != log.events.count) {
+           _lastTransferDuration= 0;
+           _lastTransferredBytes = 0;
+           _lastTransferEventCount = log.events.count;
+       }
+       
+       double requestCompletedTime = [[NSDate date] timeIntervalSince1970];
+       // !!! event.observedMinBitrate, event.observedMaxBitrate, event.observedBitrate don't seem to be accurate
+       // we did a charles proxy dump try to calculate the bitrate, and compared with above values. It doesn't match
+       // but if use data stored in requestResponseStart/requestResponseEnd/requestBytesLoaded to compute, the value are very close.
+       MUXSDKBandwidthMetricData *loadData = [[MUXSDKBandwidthMetricData alloc] init];
+       loadData.requestType = @"media";
+       loadData.requestStart = [NSNumber numberWithLong: (long)(requestCompletedTime - (event.transferDuration - _lastTransferDuration) * 1000)];
+       loadData.requestResponseStart = nil;
+       loadData.requestResponseEnd = [NSNumber numberWithLong: (long)requestCompletedTime];
+       loadData.requestBytesLoaded = [NSNumber numberWithLong: event.numberOfBytesTransferred - _lastTransferredBytes];
+       loadData.requestResponseHeaders = nil;
+       loadData.requestHostName = [self getHostName:event.URI];
+       loadData.requestCurrentLevel = nil;
+       loadData.requestMediaStartTime = nil;
+       loadData.requestMediaDuration = nil;
+       loadData.requestVideoWidth = nil;
+       loadData.requestVideoHeight = nil;
+       loadData.requestRenditionLists = nil;
+       [self dispatchBandwidthMetric:loadData withType:MUXSDKPlaybackEventRequestBandwidthEventCompleteType];
+       _lastTransferredBytes = event.numberOfBytesTransferred;
+       _lastTransferDuration = event.transferDuration;
+    }
+}
+
+# pragma mark AVPlayerItemErrorLog
+
+- (void)handleAVPlayerError:(NSNotification *)notif {
+    AVPlayerItemErrorLog *log = [((AVPlayerItem *)notif.object) errorLog];
+    if (log != nil && log.events.count > 0) {
+        // https://developer.apple.com/documentation/avfoundation/avplayeritemerrorlogevent?language=objc
+        AVPlayerItemErrorLogEvent *errorEvent = log.events[log.events.count - 1];
+        MUXSDKBandwidthMetricData *loadData = [[MUXSDKBandwidthMetricData alloc] init];
+        loadData.requestError = errorEvent.errorDomain;
+        loadData.requestType = @"media";
+        loadData.requestUrl = errorEvent.URI;
+        loadData.requestHostName = [self getHostName:errorEvent.URI];
+        loadData.requestErrorCode = [NSNumber numberWithLong: errorEvent.errorStatusCode];
+        loadData.requestErrorText = errorEvent.errorComment;
+        [self dispatchBandwidthMetric:loadData withType:MUXSDKPlaybackEventRequestBandwidthEventErrorType];
+    }
+}
+
 - (void)timeUpdateTimer:(NSTimer *)timer {
     if (![self isTryingToPlay] && ![self isBuffering]) {
         [self dispatchTimeUpdateFromTimer];
-    }
-
-    if (_player.currentItem != nil) {
-        AVPlayerItemAccessLog *log = _player.currentItem.accessLog;
-        if (log != nil && log.events.count > 0) {
-            // https://developer.apple.com/documentation/avfoundation/avplayeritemaccesslogevent?language=objc
-            AVPlayerItemAccessLogEvent *event = log.events[log.events.count - 1];
-
-            if (event.numberOfMediaRequests > 0 && event.numberOfMediaRequests != _lastMediaRequest) {
-                if (_lastTransferEventCount != log.events.count) {
-                    _lastTransferDuration= 0;
-                    _lastTransferredBytes = 0;
-                    _lastTransferEventCount = log.events.count;
-                }
-
-                double requestCompletedTime = [[NSDate date] timeIntervalSince1970];
-                // !!! event.observedMinBitrate, event.observedMaxBitrate, event.observedBitrate don't seem to be accurate
-                // we did a charles proxy dump try to calculate the bitrate, and compared with above values. It doesn't match
-                // but if use data stored in requestResponseStart/requestResponseEnd/requestBytesLoaded to compute, the value are very close.
-                MUXSDKBandwidthMetricData *loadData = [[MUXSDKBandwidthMetricData alloc] init];
-                loadData.requestType = @"media";
-                loadData.requestStart = [NSNumber numberWithLong: (long)(requestCompletedTime - (event.transferDuration - _lastTransferDuration) * 1000)];
-                loadData.requestResponseStart = nil;
-                loadData.requestResponseEnd = [NSNumber numberWithLong: (long)requestCompletedTime];
-                loadData.requestBytesLoaded = [NSNumber numberWithLong: event.numberOfBytesTransferred - _lastTransferredBytes];
-                loadData.requestResponseHeaders = nil;
-                loadData.requestHostName = [self getHostName:event.URI];
-                loadData.requestCurrentLevel = nil;
-                loadData.requestMediaStartTime = nil;
-                loadData.requestMediaDuration = nil;
-                loadData.requestVideoWidth = nil;
-                loadData.requestVideoHeight = nil;
-                loadData.requestRenditionLists = nil;
-                [self dispatchBandwidthMetric:loadData withType:MUXSDKPlaybackEventRequestBandwidthEventCompleteType];
-                _lastTransferredBytes = event.numberOfBytesTransferred;
-                _lastTransferDuration = event.transferDuration;
-            }
-            _lastMediaRequestBytes = event.numberOfBytesTransferred;
-            _lastMediaRequest = event.numberOfMediaRequests;
-        }
-
-        AVPlayerItemErrorLog *error = _player.currentItem.errorLog;
-        if (error != nil && error.events.count > 0) {
-            // https://developer.apple.com/documentation/avfoundation/avplayeritemerrorlogevent?language=objc
-            if (_lastErrorLogEventCount < error.events.count) {
-                AVPlayerItemErrorLogEvent *errorEvent = error.events[error.events.count - 1];
-                MUXSDKBandwidthMetricData *loadData = [[MUXSDKBandwidthMetricData alloc] init];
-                loadData.requestError = errorEvent.errorDomain;
-                loadData.requestType = @"media";
-                loadData.requestUrl = errorEvent.URI;
-                loadData.requestHostName = [self getHostName:errorEvent.URI];
-                loadData.requestErrorCode = [NSNumber numberWithLong: errorEvent.errorStatusCode];
-                loadData.requestErrorText = errorEvent.errorComment;
-                [self dispatchBandwidthMetric:loadData withType:MUXSDKPlaybackEventRequestBandwidthEventErrorType];
-            }
-            _lastErrorLogEventCount = error.events.count;
-        }
     }
 }
 
 - (void)dealloc {
     [self detachAVPlayer];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemNewAccessLogEntryNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RenditionChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemNewErrorLogEntryNotification object:nil];
 }
 
 - (void) safelyRemoveTimeObserverForPlayer {
@@ -293,6 +335,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     _videoURL = NULL;
     _seeking = NO;
     _started = NO;
+    _lastAdvertisedBitrate = 0.0;
 }
 
 - (void)checkVideoData {
@@ -325,6 +368,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             videoDataUpdated = YES;
         }
     }
+    if (_lastAdvertisedBitrate > 0) {
+        videoDataUpdated = YES;
+    }
     if (videoDataUpdated) {
         MUXSDKVideoData *videoData = [[MUXSDKVideoData alloc] init];
         if (_videoSize.width > 0 && _videoSize.height > 0) {
@@ -344,6 +390,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         }
         if (_videoURL) {
             [videoData setVideoSourceUrl:_videoURL];
+        }
+        if (_lastAdvertisedBitrate > 0) {
+            [videoData setVideoSourceAdvertisedBitrate:@(_lastAdvertisedBitrate)];
         }
         MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
         [dataEvent setVideoData:videoData];
@@ -604,6 +653,44 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     event.type = type;
     [event setPlayerData:playerData];
     [event setBandwidthMetricData: loadData];
+    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+}
+
+- (void) dispatchOrientationChange:(MUXSDKViewOrientation) orientation {
+    if (![self isPlayerOK]) {
+        return;
+    }
+    [self checkVideoData];
+    _orientation = orientation;
+    MUXSDKPlayerData *playerData = [self getPlayerData];
+    MUXSDKViewDeviceOrientationData *orientationData;
+    switch (orientation) {
+        case MUXSDKViewOrientationPortrait:
+            orientationData = [[MUXSDKViewDeviceOrientationData alloc] initWithZ:@(90.0)];
+            break;
+        case MUXSDKViewOrientationLandscape:
+            orientationData = [[MUXSDKViewDeviceOrientationData alloc] initWithZ:@(0.0)];
+            break;
+        default:
+            return;
+    }
+    MUXSDKViewData *viewData = [[MUXSDKViewData alloc] init];
+    viewData.viewDeviceOrientationData = orientationData;
+    
+    MUXSDKOrientationChangeEvent *event = [[MUXSDKOrientationChangeEvent alloc] init];
+    [event setPlayerData:playerData];
+    [event setViewData: viewData];
+    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+}
+
+- (void) dispatchRenditionChange {
+    if (![self isPlayerOK]) {
+        return;
+    }
+    [self checkVideoData];
+    MUXSDKPlayerData *playerData = [self getPlayerData];
+    MUXSDKRenditionChangeEvent *event = [[MUXSDKRenditionChangeEvent alloc] init];
+    [event setPlayerData:playerData];
     [MUXSDKCore dispatchEvent:event forPlayer:_name];
 }
 
