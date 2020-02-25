@@ -7,7 +7,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"1.2.0";
+NSString *const MUXSDKPluginVersion = @"1.2.1";
 
 // Min number of seconds between timeupdate events. (100ms)
 double MUXSDKMaxSecsBetweenTimeUpdate = 0.1;
@@ -169,7 +169,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
        loadData.requestVideoWidth = nil;
        loadData.requestVideoHeight = nil;
        loadData.requestRenditionLists = nil;
-       [self dispatchBandwidthMetric:loadData];
+       [self dispatchBandwidthMetric:loadData withType:MUXSDKPlaybackEventRequestBandwidthEventCompleteType];
        _lastTransferredBytes = event.numberOfBytesTransferred;
        _lastTransferDuration = event.transferDuration;
     }
@@ -189,7 +189,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         loadData.requestHostName = [self getHostName:errorEvent.URI];
         loadData.requestErrorCode = [NSNumber numberWithLong: errorEvent.errorStatusCode];
         loadData.requestErrorText = errorEvent.errorComment;
-        [self dispatchBandwidthMetric:loadData];
+        [self dispatchBandwidthMetric:loadData withType:MUXSDKPlaybackEventRequestBandwidthEventErrorType];
     }
 }
 
@@ -637,13 +637,14 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     _state = MUXSDKPlayerStateViewEnd;
 }
 
-- (void)dispatchBandwidthMetric: (MUXSDKBandwidthMetricData *)loadData {
+- (void)dispatchBandwidthMetric: (MUXSDKBandwidthMetricData *)loadData withType:(NSString *)type {
     if (![self isPlayerOK]) {
         return;
     }
     [self checkVideoData];
     MUXSDKPlayerData *playerData = [self getPlayerData];
     MUXSDKRequestBandwidthEvent *event = [[MUXSDKRequestBandwidthEvent alloc] init];
+    event.type = type;
     [event setPlayerData:playerData];
     [event setBandwidthMetricData: loadData];
     [MUXSDKCore dispatchEvent:event forPlayer:_name];

@@ -434,13 +434,11 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-MUXSDKStatsTests/Pods-MUXSDKStatsTests-frameworks.sh",
-				"${PODS_ROOT}/../../../mux-stats-sdk-objc/stats-sdk-objc/Frameworks/iOS/fat/MuxCore.framework",
-				"${PODS_ROOT}/../../../mux-stats-sdk-objc/stats-sdk-objc/Frameworks/iOS/fat/MuxCore.framework.dSYM",
+				"${PODS_ROOT}/Mux-Stats-Core/Frameworks/iOS/fat/MuxCore.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MuxCore.framework",
-				"${DWARF_DSYM_FOLDER_PATH}/MuxCore.framework.dSYM",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -507,11 +505,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				"GCC_PREPROCESSOR_DEFINITIONS[sdk=*]" = (
-					"DEBUG=1",
-					"$(inherited)",
-					"TVOS=1",
-				);
+				"GCC_PREPROCESSOR_DEFINITIONS[sdk=*]" = "DEBUG=1 $(inherited) TVOS=1";
 				INFOPLIST_FILE = MUXSDKStatsTv/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -674,11 +668,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				"GCC_PREPROCESSOR_DEFINITIONS[sdk=appletvos*]" = (
-					"DEBUG=1",
-					"$(inherited)",
-					"TVOS=1",
-				);
+				"GCC_PREPROCESSOR_DEFINITIONS[sdk=appletvos*]" = "DEBUG=1 $(inherited) TVOS=1";
 				INFOPLIST_FILE = MUXSDKStats/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
