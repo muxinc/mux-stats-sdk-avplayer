@@ -244,6 +244,12 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     _playerItem = nil;
 }
 
+- (void) programChangedForPlayer {
+    [self monitorAVPlayerItem];
+    [self dispatchPlay];
+    [self dispatchPlaying];
+}
+
 - (CMTime)getTimeObserverInternal {
     return CMTimeMakeWithSeconds(0.1, NSEC_PER_SEC);
 }

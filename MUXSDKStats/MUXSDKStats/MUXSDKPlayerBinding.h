@@ -58,7 +58,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
 - (id)initWithName:(NSString *)name andSoftware:(NSString *)software;
 - (void)attachAVPlayer:(AVPlayer *)player;
 - (void)detachAVPlayer;
-- (void)monitorAVPlayerItem;
+- (void)programChangedForPlayer;
 - (CGRect)getViewBounds;
 - (void)dispatchViewInit;
 - (void)dispatchPlayerReady;

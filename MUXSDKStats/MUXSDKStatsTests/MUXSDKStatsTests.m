@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "MUXSDKStats.h"
+#import "MUXSDKCore+Mock.h"
 
 @import AVKit;
 @import AVFoundation;
