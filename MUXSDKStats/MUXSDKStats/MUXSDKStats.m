@@ -199,14 +199,17 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
     NSString *binding = [_bindings valueForKey:name];
     if (binding == MuxPlayerSoftwareAVPlayerViewController) {
         MUXSDKAVPlayerViewControllerBinding *player = [_viewControllers valueForKey:name];
+        [player dispatchViewEnd];
         [player detachAVPlayer];
         [_viewControllers removeObjectForKey:name];
     } else if (binding == MuxPlayerSoftwareAVPlayerLayer) {
         MUXSDKAVPlayerLayerBinding *player = [_viewControllers valueForKey:name];
+        [player dispatchViewEnd];
         [player detachAVPlayer];
         [_viewControllers removeObjectForKey:name];
     }
     [_bindings removeObjectForKey:name];
+    [_playerBindingManager onPlayerDestroyed:name];
 }
 
 + (void)videoChangeForPlayer:(nonnull NSString *)name withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
@@ -231,8 +234,7 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
     [MUXSDKStats videoChangeForPlayer: name withVideoData:videoData];
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
     if (player) {
-        [player dispatchPlay];
-        [player dispatchPlaying];
+        [player programChangedForPlayer];
     }
 }
 
@@ -250,6 +252,12 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
         [dataEvent setCustomerVideoData:videoData];
     }
     [MUXSDKCore dispatchEvent:dataEvent forPlayer:name];
+}
+
++ (void) orientationChangeForPlayer:(nonnull NSString *) name  withOrientation:(MUXSDKViewOrientation) orientation {
+    MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
+    if (!player) return;
+    [player dispatchOrientationChange:orientation];
 }
 
 

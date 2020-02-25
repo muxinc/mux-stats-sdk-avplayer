@@ -58,6 +58,21 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
     NSLog(@"Error loading ads: %@", adErrorData.adError.message);
 }
 
+#pragma mark Orientation Changes
+
+- (void)viewWillTransitionToSize:(CGSize)size
+       withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {} completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        [MUXSDKStats orientationChangeForPlayer:DEMO_PLAYER_NAME withOrientation:[self viewOrientationForSize:size]];
+
+    }];
+}
+
+- (MUXSDKViewOrientation) viewOrientationForSize:(CGSize)size {
+    return (size.width > size.height) ? MUXSDKViewOrientationLandscape : MUXSDKViewOrientationPortrait;
+}
+
+
 #pragma mark AdsManager Delegates
 
 - (void)adsManager:(IMAAdsManager *)adsManager didReceiveAdEvent:(IMAAdEvent *)event {
@@ -95,15 +110,22 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 }
 
 - (AVPlayer *)testAVPlayer {
-    NSURL* videoURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
+    NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
     AVPlayer *player = [AVPlayer playerWithURL:videoURL];
     
     // After 20 seconds, we'll change the video.
-    _videoChangeTimer = [NSTimer scheduledTimerWithTimeInterval:15.0
+    _videoChangeTimer = [NSTimer scheduledTimerWithTimeInterval:20.0
                                                          target:self
                                                        selector:@selector(changeVideo:)
                                                        userInfo:nil
                                                         repeats:NO];
+
+//    // After 20 seconds, we'll change the program
+//    _videoChangeTimer = [NSTimer scheduledTimerWithTimeInterval:20.0
+//                                                         target:self
+//                                                       selector:@selector(changeProgram:)
+//                                                       userInfo:nil
+//                                                        repeats:NO];
     return player;
 }
 
@@ -135,11 +157,18 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
     videoData.videoId = @"applekeynote2010";
     [MUXSDKStats videoChangeForPlayer:DEMO_PLAYER_NAME
                         withVideoData:videoData];
-    
     NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
     AVPlayerItem *keynote = [AVPlayerItem playerItemWithURL:videoURL];
     [_avplayer replaceCurrentItemWithPlayerItem:keynote];
     [_avplayer play];
+}
+
+- (void)changeProgram:(NSTimer *)timer {
+    MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
+    videoData.videoTitle = @"Apple Keynote";
+    videoData.videoId = @"applekeynote2010";
+    [MUXSDKStats programChangeForPlayer:DEMO_PLAYER_NAME
+                        withVideoData:videoData];
 }
 
 - (void)didReceiveMemoryWarning {

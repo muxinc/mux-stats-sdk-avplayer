@@ -8,9 +8,8 @@
 
 #import <XCTest/XCTest.h>
 #import "MUXSDKStats.h"
-
-@import AVKit;
-@import AVFoundation;
+#import "MUXSDKCore+Mock.h"
+#import "MUXSDKPlayerBindingConstants.h"
 @import MuxCore;
 
 @interface MuxMockAVPlayerViewController : AVPlayerViewController
@@ -41,15 +40,68 @@
 @end
 
 @implementation MUXSDKStatsTests
+static NSString *BANDWIDTH = @"BANDWIDTH";
+static NSString *FRAMERATE = @"FRAME-RATE";
+static NSString *X = @"X";
+static NSString *Y = @"Y";
+static NSString *Z = @"Z";
 
-- (void)setUp {
+- (void) setUp {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+    [MUXSDKCore swizzleDispatchEvents];
+    [MUXSDKCore resetCapturedEvents];
 }
 
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+- (void) tearDown {
     [super tearDown];
+    [MUXSDKCore swizzleDispatchEvents];
+    [MUXSDKCore resetCapturedEvents];
+}
+
+- (void) assertPlayer:(NSString *)name dispatchedPlaybackEvents:(NSDictionary *) expectedViewData {
+    MUXSDKPlaybackEvent *playbackEvent;
+    MUXSDKViewData *viewData;
+    NSDictionary *expected;
+    for (id key in expectedViewData) {
+        expected = [expectedViewData objectForKey:key];
+        playbackEvent = (MUXSDKPlaybackEvent * ) [MUXSDKCore eventAtIndex:[key intValue] forPlayer:name];
+        viewData = [playbackEvent viewData];
+        if ([expected isEqual:[NSNull null]]) {
+            XCTAssertNil(viewData);
+        } else {
+            XCTAssertEqual([expected objectForKey:X], viewData.viewDeviceOrientationData.x);
+            XCTAssertEqual([expected objectForKey:Y], viewData.viewDeviceOrientationData.y);
+            XCTAssertEqual([expected objectForKey:Z], viewData.viewDeviceOrientationData.z);
+        }
+    }
+}
+
+- (void) assertPlayer:(NSString *)name dispatchedEventTypes:(NSArray *) expectedEventTypes {
+    NSInteger expectedCount = expectedEventTypes.count;
+    NSInteger actualCount = [MUXSDKCore eventsCountForPlayer:name];
+    XCTAssertEqual(expectedCount, actualCount, @"expected: %ld events got: %ld events.", (long)expectedCount, (long)actualCount);
+    for (int i = 0; i < expectedEventTypes.count; i++) {
+        id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:i forPlayer:name];
+        NSString *expectedType = [expectedEventTypes objectAtIndex:i];
+        NSString *actualType = [event getType];
+        XCTAssertEqual(expectedType, actualType, @"expected event type: %@ got event type: %@", expectedType, actualType);
+    }
+}
+
+- (void) assertPlayer:(NSString *)name dispatchedDataEvents:(NSDictionary *) expectedVideoData {
+    MUXSDKDataEvent *dataEvent;
+    MUXSDKVideoData *videoData;
+    NSDictionary *expected;
+    for (id key in expectedVideoData) {
+        expected = [expectedVideoData objectForKey:key];
+        dataEvent = (MUXSDKDataEvent * ) [MUXSDKCore eventAtIndex:[key intValue] forPlayer:name];
+        videoData = [dataEvent videoData];
+        if ([expected isEqual:[NSNull null]]) {
+            XCTAssertNil(videoData);
+        } else {
+            XCTAssertEqualWithAccuracy([[expected objectForKey:BANDWIDTH] doubleValue], [videoData.videoSourceAdvertisedBitrate doubleValue], FLT_EPSILON);
+        }
+    }
 }
 
 - (void)testVideoChangeForAVPlayerViewController{
@@ -62,6 +114,12 @@
     XCTAssertNotNil(playerBinding, "expected monitorAVPlayerViewController to return a playerBinding");
     [customerVideoData setVideoTitle:@"56789"];
     [MUXSDKStats videoChangeForPlayer:playName withVideoData:customerVideoData];
+    NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventPlayerReadyEventType,
+                                    MUXSDKPlaybackEventViewEndEventType
+    ];
+    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [MUXSDKStats destroyPlayer:playName];
 }
 
@@ -75,6 +133,33 @@
     XCTAssertNotNil(playerBinding, "expected monitorAVPlayerLayer to return a playerBinding");
     [customerVideoData setVideoTitle:@"56789"];
     [MUXSDKStats videoChangeForPlayer:playName withVideoData:customerVideoData];
+    NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventPlayerReadyEventType,
+                                    MUXSDKPlaybackEventViewEndEventType
+    ];
+    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
+    [MUXSDKStats destroyPlayer:playName];
+}
+
+- (void)testProgramChangeForAVPlayerViewController{
+    MuxMockAVPlayerViewController *controller = [[MuxMockAVPlayerViewController alloc] init];
+    MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"ENV_KEY"];
+    MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
+    [customerVideoData setVideoTitle:@"01234"];
+    NSString *playName = @"Player";
+    MUXSDKPlayerBinding *playerBinding = [MUXSDKStats monitorAVPlayerViewController:controller withPlayerName:playName playerData:customerPlayerData videoData:customerVideoData];
+    XCTAssertNotNil(playerBinding, "expected monitorAVPlayerViewController to return a playerBinding");
+    [customerVideoData setVideoTitle:@"56789"];
+    [MUXSDKStats programChangeForPlayer:playName withVideoData:customerVideoData];
+    NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventPlayerReadyEventType,
+                                    MUXSDKPlaybackEventViewEndEventType,
+                                    MUXSDKPlaybackEventPlayEventType,
+                                    MUXSDKPlaybackEventPlayingEventType
+    ];
+    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [MUXSDKStats destroyPlayer:playName];
 }
 
@@ -85,6 +170,11 @@
     NSString *playName = @"Player";
     [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName playerData:customerPlayerData videoData:customerVideoData];
     [MUXSDKStats updateCustomerDataForPlayer:playName withPlayerData:NULL withVideoData:NULL];
+    NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventPlayerReadyEventType
+    ];
+    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [MUXSDKStats destroyPlayer:playName];
 }
 
@@ -96,6 +186,12 @@
     [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName playerData:customerPlayerData videoData:customerVideoData];
     [customerPlayerData setPlayerVersion:@"playerVersionV1"];
     [MUXSDKStats updateCustomerDataForPlayer:playName withPlayerData:customerPlayerData withVideoData:NULL];
+    NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventPlayerReadyEventType,
+                                    MUXSDKDataEventType
+    ];
+    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [MUXSDKStats destroyPlayer:playName];
 }
 
@@ -107,7 +203,165 @@
     [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName playerData:customerPlayerData videoData:customerVideoData];
     [customerVideoData setVideoTitle:@"Updated VideoTitle"];
     [MUXSDKStats updateCustomerDataForPlayer:playName withPlayerData:NULL withVideoData:customerVideoData];
+    NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventPlayerReadyEventType,
+                                    MUXSDKDataEventType
+    ];
+    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [MUXSDKStats destroyPlayer:playName];
 }
 
+- (void)testdestroyPlayer {
+    MuxMockAVPlayerViewController *controller = [[MuxMockAVPlayerViewController alloc] init];
+    MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"ENV_KEY"];
+    MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
+    [customerVideoData setVideoTitle:@"01234"];
+    NSString *playName = @"Player";
+    [MUXSDKStats monitorAVPlayerViewController:controller withPlayerName:playName playerData:customerPlayerData videoData:customerVideoData];
+    [MUXSDKStats destroyPlayer:playName];
+    NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventPlayerReadyEventType,
+                                    MUXSDKPlaybackEventViewEndEventType
+    ];
+    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
+}
+
+- (void) testOrientationChangeEvent {
+    MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
+    MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
+    MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
+    NSString *playName = @"Player";
+    [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName playerData:customerPlayerData videoData:customerVideoData];
+    
+    [MUXSDKStats orientationChangeForPlayer:playName withOrientation:MUXSDKViewOrientationPortrait];
+    [MUXSDKStats orientationChangeForPlayer:playName withOrientation:MUXSDKViewOrientationLandscape];
+    
+    NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventPlayerReadyEventType,
+                                    MUXSDKPlaybackEventOrientationChangeEventType,
+                                    MUXSDKPlaybackEventOrientationChangeEventType
+    ];
+    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
+    
+    id<MUXSDKEventTyping> portraitEvent = [MUXSDKCore eventAtIndex:3 forPlayer:playName];
+    MUXSDKViewData *viewData = [((MUXSDKOrientationChangeEvent *) portraitEvent) viewData];
+    XCTAssertNotNil(viewData);
+    XCTAssertEqual(@(0.0), viewData.viewDeviceOrientationData.x);
+    XCTAssertEqual(@(0.0), viewData.viewDeviceOrientationData.y);
+    XCTAssertEqual(@(90.0), viewData.viewDeviceOrientationData.z);
+    
+    id<MUXSDKEventTyping> landscapeEvent = [MUXSDKCore eventAtIndex:4 forPlayer:playName];
+    viewData = [((MUXSDKOrientationChangeEvent *) landscapeEvent) viewData];
+    XCTAssertNotNil(viewData);
+    XCTAssertEqual(@(0.0), viewData.viewDeviceOrientationData.x);
+    XCTAssertEqual(@(0.0), viewData.viewDeviceOrientationData.y);
+    XCTAssertEqual(@(0.0), viewData.viewDeviceOrientationData.z);
+    [MUXSDKStats destroyPlayer:playName];
+}
+
+- (void) testRenditionChangeEvent {
+    MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
+    MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
+    MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
+    NSString *playName = @"Player";
+    [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName playerData:customerPlayerData videoData:customerVideoData];
+    
+    NSDictionary *renditionInfo = @{
+        RenditionChangeNotificationInfoAdvertisedBitrate: @(258157)
+    };
+    [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object:renditionInfo];
+    
+    NSDictionary *renditionInfoWithoutFrameRate = @{
+        RenditionChangeNotificationInfoAdvertisedBitrate: @(258157)
+    };
+    [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object:renditionInfoWithoutFrameRate];
+
+    NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventPlayerReadyEventType,
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventRenditionChangeEventType,
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventRenditionChangeEventType
+
+    ];
+    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
+    
+    id<MUXSDKEventTyping> dataEvent = [MUXSDKCore eventAtIndex:3 forPlayer:playName];
+    MUXSDKVideoData *videoData = [((MUXSDKDataEvent *) dataEvent) videoData];
+    XCTAssertNotNil(videoData);
+    XCTAssertEqualWithAccuracy(258157, [videoData.videoSourceAdvertisedBitrate doubleValue], FLT_EPSILON);
+    
+    dataEvent = [MUXSDKCore eventAtIndex:5 forPlayer:playName];
+    videoData = [((MUXSDKDataEvent *) dataEvent) videoData];
+    XCTAssertNotNil(videoData);
+    XCTAssertEqualWithAccuracy(258157, [videoData.videoSourceAdvertisedBitrate doubleValue], FLT_EPSILON);
+    XCTAssertNil(videoData.videoSourceAdvertisedFrameRate);
+    
+    [MUXSDKStats destroyPlayer:playName];
+}
+
+- (void) testOrientationAndRenditionChangeEventSequence {
+    MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
+    MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
+    MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
+    NSString *playName = @"Player";
+    [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName playerData:customerPlayerData videoData:customerVideoData];
+    
+    [MUXSDKStats orientationChangeForPlayer:playName withOrientation:MUXSDKViewOrientationPortrait];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object:@{
+        RenditionChangeNotificationInfoAdvertisedBitrate: @(258157)
+    }];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object:@{
+        RenditionChangeNotificationInfoAdvertisedBitrate: @(1927853)
+    }];
+    
+    [MUXSDKStats orientationChangeForPlayer:playName withOrientation:MUXSDKViewOrientationLandscape];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object:@{
+        RenditionChangeNotificationInfoAdvertisedBitrate: @(258157)
+    }];
+    
+    // Assert sequence of playback & data events is correct
+    
+    NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventPlayerReadyEventType,
+                                    MUXSDKPlaybackEventOrientationChangeEventType,
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventRenditionChangeEventType,
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventRenditionChangeEventType,
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventOrientationChangeEventType,
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventRenditionChangeEventType
+    ];
+    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
+    
+    [self assertPlayer:playName dispatchedDataEvents:@{
+        @(1): [NSNull null],
+        @(4): @{BANDWIDTH: @(258157)},
+        @(6): @{BANDWIDTH: @(1927853)},
+        @(8): @{BANDWIDTH: @(1927853),},
+        @(10): @{BANDWIDTH: @(258157)},
+    }];
+    
+    [self assertPlayer:playName dispatchedPlaybackEvents:@{
+        @(0): [NSNull null],
+        @(2): [NSNull null],
+        @(3): @{X: @(0.0), Y: @(0.0), Z: @(90.0)},
+        @(5): [NSNull null],
+        @(7): [NSNull null],
+        @(9): @{X: @(0.0), Y: @(0.0), Z: @(0.0)},
+        @(11): [NSNull null],
+    }];
+
+    [MUXSDKStats destroyPlayer:playName];
+}
 @end
