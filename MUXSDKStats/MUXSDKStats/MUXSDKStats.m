@@ -199,10 +199,12 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
     NSString *binding = [_bindings valueForKey:name];
     if (binding == MuxPlayerSoftwareAVPlayerViewController) {
         MUXSDKAVPlayerViewControllerBinding *player = [_viewControllers valueForKey:name];
+        [player dispatchViewEnd];
         [player detachAVPlayer];
         [_viewControllers removeObjectForKey:name];
     } else if (binding == MuxPlayerSoftwareAVPlayerLayer) {
         MUXSDKAVPlayerLayerBinding *player = [_viewControllers valueForKey:name];
+        [player dispatchViewEnd];
         [player detachAVPlayer];
         [_viewControllers removeObjectForKey:name];
     }
@@ -232,8 +234,7 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
     [MUXSDKStats videoChangeForPlayer: name withVideoData:videoData];
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
     if (player) {
-        [player dispatchPlay];
-        [player dispatchPlaying];
+        [player programChangedForPlayer];
     }
 }
 
