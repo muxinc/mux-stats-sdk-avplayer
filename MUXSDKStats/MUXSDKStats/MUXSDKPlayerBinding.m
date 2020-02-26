@@ -101,13 +101,25 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     return (domain == nil) ? urlString : domain;
 }
 
+//
+// Check that the item in the notification matches the item that we are monitoring
+// This matters when there are multiple AVPlayer instances running simultaneously
+//
+- (BOOL) checkIfNotificationIsRelevant:(NSNotification *)notif {
+    AVPlayerItem *notificationItem = (AVPlayerItem *)notif.object;
+    return notificationItem == _playerItem;
+}
+
 # pragma mark AVPlayerItemAccessLog
 
 - (void)handleAVPlayerAccess:(NSNotification *)notif {
     dispatch_async(dispatch_get_main_queue(), ^{
-        AVPlayerItemAccessLog *accessLog = [((AVPlayerItem *)notif.object) accessLog];
-        [self handleRenditionChangeInAccessLog:accessLog];
-        [self calculateBandwidthMetricFromAccessLog:accessLog];
+        BOOL isNotificationRelevant = [self checkIfNotificationIsRelevant:notif];
+        if (isNotificationRelevant) {
+            AVPlayerItemAccessLog *accessLog = [((AVPlayerItem *)notif.object) accessLog];
+            [self handleRenditionChangeInAccessLog:accessLog];
+            [self calculateBandwidthMetricFromAccessLog:accessLog];
+        }
     });
 }
 
@@ -121,7 +133,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void) handleRenditionChangeInAccessLog:(AVPlayerItemAccessLog *) log {
-    
     AVPlayerItemAccessLogEvent *lastEvent = log.events.lastObject;
     float advertisedBitrate = lastEvent.indicatedBitrate;
     BOOL bitrateHasChanged = ![@(_lastAdvertisedBitrate) doubleValueIsEqual:@(advertisedBitrate)];
@@ -178,18 +189,21 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 # pragma mark AVPlayerItemErrorLog
 
 - (void)handleAVPlayerError:(NSNotification *)notif {
-    AVPlayerItemErrorLog *log = [((AVPlayerItem *)notif.object) errorLog];
-    if (log != nil && log.events.count > 0) {
-        // https://developer.apple.com/documentation/avfoundation/avplayeritemerrorlogevent?language=objc
-        AVPlayerItemErrorLogEvent *errorEvent = log.events[log.events.count - 1];
-        MUXSDKBandwidthMetricData *loadData = [[MUXSDKBandwidthMetricData alloc] init];
-        loadData.requestError = errorEvent.errorDomain;
-        loadData.requestType = @"media";
-        loadData.requestUrl = errorEvent.URI;
-        loadData.requestHostName = [self getHostName:errorEvent.URI];
-        loadData.requestErrorCode = [NSNumber numberWithLong: errorEvent.errorStatusCode];
-        loadData.requestErrorText = errorEvent.errorComment;
-        [self dispatchBandwidthMetric:loadData withType:MUXSDKPlaybackEventRequestBandwidthEventErrorType];
+    BOOL isNotificationRelevant = [self checkIfNotificationIsRelevant:notif];
+    if (isNotificationRelevant) {
+        AVPlayerItemErrorLog *log = [((AVPlayerItem *)notif.object) errorLog];
+        if (log != nil && log.events.count > 0) {
+            // https://developer.apple.com/documentation/avfoundation/avplayeritemerrorlogevent?language=objc
+            AVPlayerItemErrorLogEvent *errorEvent = log.events[log.events.count - 1];
+            MUXSDKBandwidthMetricData *loadData = [[MUXSDKBandwidthMetricData alloc] init];
+            loadData.requestError = errorEvent.errorDomain;
+            loadData.requestType = @"media";
+            loadData.requestUrl = errorEvent.URI;
+            loadData.requestHostName = [self getHostName:errorEvent.URI];
+            loadData.requestErrorCode = [NSNumber numberWithLong: errorEvent.errorStatusCode];
+            loadData.requestErrorText = errorEvent.errorComment;
+            [self dispatchBandwidthMetric:loadData withType:MUXSDKPlaybackEventRequestBandwidthEventErrorType];
+        }
     }
 }
 
