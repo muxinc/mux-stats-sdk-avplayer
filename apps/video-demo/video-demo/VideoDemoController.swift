@@ -1,4 +1,6 @@
 import UIKit
+import AVFoundation
+import MUXSDKStats
 
 extension UIImageView {
     func downloadedFrom(url: String, contentMode mode: UIViewContentMode = .scaleAspectFit) {
@@ -26,27 +28,44 @@ class VideoDemoController: UITableViewController {
         var request = URLRequest(url: URL(string: "https://api.mux.com/video/v1/appleapp")!)
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        URLSession.shared.dataTask(with: request, completionHandler: { data, response, error -> Void in
-            do {
-                let json = try JSONSerialization.jsonObject(with: data!) as! Dictionary<String, AnyObject>
-                let data = json["data"] as! [String]
-                for vid in data {
-                    let video = ["url": "https://stream.mux.com/" + vid + ".m3u8",
-                                "thumbnail": "https://image.mux.com/" + vid + "/thumbnail.png",
-                                "title": "mux id " + vid]
-                    self.assets.append(video)
-                }
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                    self.activityIndicatorView.stopAnimating()
-                }
-            } catch {
-                print("download assets error")
-                DispatchQueue.main.async {
-                    self.activityIndicatorView.stopAnimating()
-                }
-            }
-        }).resume()
+        let vid1 = "wpANXv22mHSZCsxC01N8ECKt8FPUGvwiM"
+        let vid2 = "tNrV028WTqCOa02zsveBdNwouzgZTbWx5x"
+
+        self.assets = [
+            ["url": "https://stream.mux.com/" + vid1 + ".m3u8",
+            "thumbnail": "https://image.mux.com/" + vid1 + "/thumbnail.png",
+            "title": "mux id " + vid1],
+            ["url": "https://stream.mux.com/" + vid2 + ".m3u8",
+            "thumbnail": "https://image.mux.com/" + vid2 + "/thumbnail.png",
+            "title": "mux id " + vid2]
+        ]
+
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.activityIndicatorView.stopAnimating()
+        }
+
+//        URLSession.shared.dataTask(with: request, completionHandler: { data, response, error -> Void in
+//            do {
+//                let json = try JSONSerialization.jsonObject(with: data!) as! Dictionary<String, AnyObject>
+//                let data = json["data"] as! [String]
+//                for vid in data {
+//                    let video = ["url": "https://stream.mux.com/" + vid + ".m3u8",
+//                                "thumbnail": "https://image.mux.com/" + vid + "/thumbnail.png",
+//                                "title": "mux id " + vid]
+//                    self.assets.append(video)
+//                }
+//                DispatchQueue.main.async {
+//                    self.tableView.reloadData()
+//                    self.activityIndicatorView.stopAnimating()
+//                }
+//            } catch {
+//                print("download assets error")
+//                DispatchQueue.main.async {
+//                    self.activityIndicatorView.stopAnimating()
+//                }
+//            }
+//        }).resume()
     }
     
     var activityIndicatorView: UIActivityIndicatorView!
@@ -74,7 +93,7 @@ class VideoDemoController: UITableViewController {
 
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 95
+        return 200
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -89,7 +108,26 @@ class VideoDemoController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "videoCell", for: indexPath) as! VideoDemoCell
         let video = assets[indexPath.row]
-        cell.title.text = video["title"]
+        cell.playerView.backgroundColor = UIColor.green
+        let videoUrl = video["url"]!
+        let url = URL(string: videoUrl)
+        let player = AVPlayer(url: url!)
+        let playerViewController = AVPlayerViewController()
+        playerViewController.player = player
+        playerViewController.view.frame = cell.playerView.bounds
+        cell.playerView.addSubview(playerViewController.view)
+        let name = "video: \(indexPath.row + 1)"
+        let playerData = MUXSDKCustomerPlayerData(environmentKey: "YOUR_ENV_KEY");
+        playerData?.playerName = "AVPlayerCell"
+        let videoData = MUXSDKCustomerVideoData();
+        videoData.videoIsLive = false;
+        videoData.videoTitle = name
+        videoData.videoStreamType = "mp4"
+        MUXSDKStats.monitorAVPlayerViewController(playerViewController, withPlayerName: name, playerData: playerData!, videoData: videoData)
+        if (indexPath.row == 1) {
+            // autoplay the second video
+            player.play()
+        }
         cell.thumbnail.downloadedFrom(url: video["thumbnail"]!)
         return cell
     }

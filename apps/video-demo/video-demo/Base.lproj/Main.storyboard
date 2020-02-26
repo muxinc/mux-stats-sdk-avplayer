@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="0Jv-1m-eyj">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="0Jv-1m-eyj">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -23,26 +21,33 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5bo-zz-f4t" id="Yvj-Ra-o7a">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rNM-SX-6xY">
-                                            <rect key="frame" x="16" y="7" width="84" height="84"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rNM-SX-6xY">
+                                            <rect key="frame" x="16" y="7" width="84" height="79"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="84" id="lno-ks-911"/>
+                                            </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kw7-Ex-rYP">
-                                            <rect key="frame" x="120" y="39" width="239" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="afR-xp-9tH" customClass="PlayerView" customModule="video_demo" customModuleProvider="target">
+                                            <rect key="frame" x="122" y="2" width="237" height="89"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        </view>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="rNM-SX-6xY" firstAttribute="top" secondItem="Yvj-Ra-o7a" secondAttribute="topMargin" constant="-4" id="6G1-Xb-o4w"/>
+                                        <constraint firstItem="rNM-SX-6xY" firstAttribute="centerY" secondItem="afR-xp-9tH" secondAttribute="centerY" id="D12-zb-882"/>
+                                        <constraint firstAttribute="bottom" secondItem="afR-xp-9tH" secondAttribute="bottom" constant="9" id="VSr-j0-AiC"/>
+                                        <constraint firstItem="rNM-SX-6xY" firstAttribute="leading" secondItem="Yvj-Ra-o7a" secondAttribute="leadingMargin" id="VzM-da-PJo"/>
+                                        <constraint firstAttribute="trailing" secondItem="afR-xp-9tH" secondAttribute="trailing" constant="16" id="eyK-Vu-2JL"/>
+                                        <constraint firstItem="afR-xp-9tH" firstAttribute="leading" secondItem="rNM-SX-6xY" secondAttribute="trailing" constant="22" id="o4Y-qG-d9K"/>
+                                        <constraint firstItem="afR-xp-9tH" firstAttribute="top" secondItem="Yvj-Ra-o7a" secondAttribute="top" constant="2" id="zHO-Vm-df4"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="playerView" destination="afR-xp-9tH" id="DqR-E5-G7Z"/>
                                     <outlet property="thumbnail" destination="rNM-SX-6xY" id="qTB-YE-kQb"/>
-                                    <outlet property="title" destination="kw7-Ex-rYP" id="m0q-qk-yFR"/>
-                                    <segue destination="BYZ-38-t0r" kind="presentation" identifier="playVideo" id="NO5-dx-xQn"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -62,7 +67,7 @@
             <objects>
                 <navigationController id="0Jv-1m-eyj" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="YYG-DB-0b2">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>

@@ -21,6 +21,7 @@
 		737F09F9211243E400B0156C /* MuxCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 737F09F7211243E400B0156C /* MuxCore.framework */; };
 		737F09FA211243E400B0156C /* MUXSDKStats.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 737F09F8211243E400B0156C /* MUXSDKStats.framework */; };
 		A6C8EC4F50076D32E90D9321 /* Pods_video_demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A191C9CF80F4F162903AAE27 /* Pods_video_demo.framework */; };
+		FAB05F062406F6DE00785B90 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB05F052406F6DE00785B90 /* PlayerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		737F09F8211243E400B0156C /* MUXSDKStats.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MUXSDKStats.framework; path = Carthage/Build/iOS/MUXSDKStats.framework; sourceTree = "<group>"; };
 		93FD14F519A790AD151F83F9 /* Pods-video-demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-video-demo.release.xcconfig"; path = "Target Support Files/Pods-video-demo/Pods-video-demo.release.xcconfig"; sourceTree = "<group>"; };
 		A191C9CF80F4F162903AAE27 /* Pods_video_demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_video_demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAB05F052406F6DE00785B90 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		FC0C6EFBC706082580A62F17 /* Pods-video-demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-video-demo.debug.xcconfig"; path = "Target Support Files/Pods-video-demo/Pods-video-demo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -64,7 +66,6 @@
 				FC0C6EFBC706082580A62F17 /* Pods-video-demo.debug.xcconfig */,
 				93FD14F519A790AD151F83F9 /* Pods-video-demo.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -96,6 +97,7 @@
 				733C31B82060C9AC00CC32F1 /* AppDelegate.swift */,
 				733C31BA2060C9AC00CC32F1 /* ViewController.swift */,
 				733C31BC2060C9AC00CC32F1 /* Main.storyboard */,
+				FAB05F052406F6DE00785B90 /* PlayerView.swift */,
 				733C31C12060C9AC00CC32F1 /* LaunchScreen.storyboard */,
 				733C31C42060C9AC00CC32F1 /* Info.plist */,
 				733C31D42060CB0E00CC32F1 /* VideoDemoCell.swift */,
@@ -195,8 +197,8 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-video-demo/Pods-video-demo-frameworks.sh",
-				"${PODS_ROOT}/../../../Frameworks/iOS/fat/MUXSDKStats.framework",
-				"${PODS_ROOT}/../../../Frameworks/iOS/fat/MUXSDKStats.framework.dSYM",
+				"${PODS_ROOT}/Mux-Stats-AVPlayer/Frameworks/iOS/fat/MUXSDKStats.framework",
+				"${PODS_ROOT}/Mux-Stats-AVPlayer/Frameworks/iOS/fat/MUXSDKStats.framework.dSYM",
 				"${PODS_ROOT}/Mux-Stats-Core/Frameworks/iOS/fat/MuxCore.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -242,6 +244,7 @@
 				733C31D72060CBCE00CC32F1 /* VideoDemoController.swift in Sources */,
 				733C31D52060CB0E00CC32F1 /* VideoDemoCell.swift in Sources */,
 				733C31BB2060C9AC00CC32F1 /* ViewController.swift in Sources */,
+				FAB05F062406F6DE00785B90 /* PlayerView.swift in Sources */,
 				733C31B92060C9AC00CC32F1 /* AppDelegate.swift in Sources */,
 				733C31D92060D0EE00CC32F1 /* VideoPlayerController.swift in Sources */,
 			);

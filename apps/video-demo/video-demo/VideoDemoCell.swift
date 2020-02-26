@@ -3,7 +3,7 @@ import UIKit
 class VideoDemoCell: UITableViewCell {
 
     @IBOutlet weak var thumbnail: UIImageView!
-    @IBOutlet weak var title: UILabel!
+    @IBOutlet weak var playerView: PlayerView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
