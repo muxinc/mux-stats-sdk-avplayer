@@ -7,7 +7,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"1.3.1";
+NSString *const MUXSDKPluginVersion = @"1.3.2";
 
 // Min number of seconds between timeupdate events. (100ms)
 double MUXSDKMaxSecsBetweenTimeUpdate = 0.1;
@@ -168,9 +168,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
        // but if use data stored in requestResponseStart/requestResponseEnd/requestBytesLoaded to compute, the value are very close.
        MUXSDKBandwidthMetricData *loadData = [[MUXSDKBandwidthMetricData alloc] init];
        loadData.requestType = @"media";
-       loadData.requestStart = [NSNumber numberWithLong: (long)(requestCompletedTime - (event.transferDuration - _lastTransferDuration) * 1000)];
+       double requestStartSecs = requestCompletedTime - (event.transferDuration - _lastTransferDuration);
+       loadData.requestStart = [NSNumber numberWithLong: (long)(requestStartSecs * 1000)];
        loadData.requestResponseStart = nil;
-       loadData.requestResponseEnd = [NSNumber numberWithLong: (long)requestCompletedTime];
+       loadData.requestResponseEnd = [NSNumber numberWithLong: (long)(requestCompletedTime * 1000)];
        loadData.requestBytesLoaded = [NSNumber numberWithLong: event.numberOfBytesTransferred - _lastTransferredBytes];
        loadData.requestResponseHeaders = nil;
        loadData.requestHostName = [self getHostName:event.URI];
