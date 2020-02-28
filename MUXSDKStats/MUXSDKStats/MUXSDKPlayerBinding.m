@@ -168,7 +168,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
        // but if use data stored in requestResponseStart/requestResponseEnd/requestBytesLoaded to compute, the value are very close.
        MUXSDKBandwidthMetricData *loadData = [[MUXSDKBandwidthMetricData alloc] init];
        loadData.requestType = @"media";
-       loadData.requestStart = [NSNumber numberWithLong: (long)(requestCompletedTime - (event.transferDuration - _lastTransferDuration) * 1000)];
+       loadData.requestStart = [NSNumber numberWithLong: ((long)(requestCompletedTime - (event.transferDuration - _lastTransferDuration)) * 1000)];
        loadData.requestResponseStart = nil;
        loadData.requestResponseEnd = [NSNumber numberWithLong: (long)requestCompletedTime];
        loadData.requestBytesLoaded = [NSNumber numberWithLong: event.numberOfBytesTransferred - _lastTransferredBytes];
