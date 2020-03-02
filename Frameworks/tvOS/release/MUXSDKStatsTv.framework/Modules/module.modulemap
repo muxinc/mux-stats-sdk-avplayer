@@ -1,0 +1,6 @@
+framework module MUXSDKStatsTv {
+  umbrella header "MUXSDKStatsTv.h"
+
+  export *
+  module * { export * }
+}
