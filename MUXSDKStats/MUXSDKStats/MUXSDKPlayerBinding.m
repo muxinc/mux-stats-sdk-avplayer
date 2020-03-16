@@ -7,7 +7,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"1.3.3";
+NSString *const MUXSDKPluginVersion = @"1.3.4";
 
 // Min number of seconds between timeupdate events. (100ms)
 double MUXSDKMaxSecsBetweenTimeUpdate = 0.1;
@@ -429,11 +429,8 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     }
 
     CGRect bounds = [self getVideoBounds];
-    CGFloat scale = [[UIScreen mainScreen] nativeScale];
-    CGFloat width = scale * bounds.size.width;
-    CGFloat height = scale * bounds.size.height;
-    [playerData setPlayerWidth:[NSNumber numberWithInt:width]];
-    [playerData setPlayerHeight:[NSNumber numberWithInt:height]];
+    [playerData setPlayerWidth:[NSNumber numberWithInt:bounds.size.width]];
+    [playerData setPlayerHeight:[NSNumber numberWithInt:bounds.size.height]];
 
     CGRect viewBounds = [self getViewBounds];
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
