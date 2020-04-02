@@ -51,6 +51,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
     float _lastPlayheadTimeMs;
     BOOL _seeking;
     BOOL _started;
+    BOOL _shouldHandleAVQueuePlayerItem;
     NSUInteger _lastTransferEventCount;
     double _lastTransferDuration;
     long long _lastTransferredBytes;
@@ -64,7 +65,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 - (void)attachAVPlayer:(AVPlayer *)player;
 - (void)detachAVPlayer;
 - (void)programChangedForPlayer;
-- (void)videoChangedForPlayaZ;
+- (void)prepareForAvQueuePlayerNextItem;
 - (CGRect)getViewBounds;
 - (void)dispatchViewInit;
 - (void)dispatchPlayerReady;
