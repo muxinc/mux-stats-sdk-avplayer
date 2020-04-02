@@ -109,6 +109,16 @@ FOUNDATION_EXPORT
 + (void)videoChangeForPlayer:(nonnull NSString *)name  withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData;
 
 /*!
+ @method      avQueuePlayerNextItemForPlayer:withVideoData
+ @abstract    Signals that an instance of AVQueuePlayer has moved to the next item
+ @param       name The name of the player to update
+ @param       videoData A MUXSDKCustomerVideoData object with video metadata
+ @discussion  Use this method to signal that the player is now playing a new video. The player name provided must been passed as the name in a monitorPlayer:withPlayerName:andConfig: call. The config provided should match the specifications in the Mux docs at https://docs.mux.com and should include all desired keys, not just those keys that are specific to this video. If the name of the player provided was not previously initialized, an exception will be raised.
+
+ */
++ (void)avQueuePlayerNextItemForPlayer:(nonnull NSString *)name withVideoData:(nullable MUXSDKCustomerVideoData *)videoData;
+
+/*!
  @method      programChangeForPlayer:withVideoData:
  @abstract    Signals that a player is now playing a different video of a playlist; or a different program of a live stream
  @param       name The name of the player to update

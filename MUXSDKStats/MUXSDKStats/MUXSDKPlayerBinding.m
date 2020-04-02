@@ -285,6 +285,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (_playerItem) {
         [self stopMonitoringAVPlayerItem];
         [self.playDispatchDelegate videoChangedForPlayer:_name];
+        NSLog(@"debug monitorAVPlayerItem %@", @(_preparingForNextItem));
+        if (_preparingForNextItem) {
+            _preparingForNextItem = false;
+            [self dispatchPlay];
+        }
     }
     if (_player && _player.currentItem) {
         _playerItem = _player.currentItem;
@@ -793,6 +798,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     return _player.status == AVPlayerStatusFailed || _playerItem.status == AVPlayerItemStatusFailed;
 }
 
+- (void)prepareForNextItem {
+    _preparingForNextItem = true;
+}
+
 - (void)observeValueForKeyPath:(NSString*) path
                       ofObject:(id)object
                         change:(NSDictionary*)change
@@ -800,6 +809,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 {
     // AVPlayer Observations
     if (context == MUXSDKAVPlayerRateObservationContext) {
+        NSLog(@"debug context MUXSDKAVPlayerRateObservationContext");
         if (_player.rate == 0 && [self isPlayingOrTryingToPlay]) {
             [self dispatchPause];
         } else if (_player.rate != 0 && ![self isPlayingOrTryingToPlay]) {
@@ -815,6 +825,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
         // AVPlayerItem Observations
     } else if (context == MUXSDKAVPlayerItemStatusObservationContext) {
+        NSLog(@"debug context MUXSDKAVPlayerItemStatusObservationContext");
         if ([self isPlayerInErrorState]) {
             [self dispatchError];
         }

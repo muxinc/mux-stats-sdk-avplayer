@@ -51,6 +51,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
     float _lastPlayheadTimeMs;
     BOOL _seeking;
     BOOL _started;
+    BOOL _preparingForNextItem;
     NSUInteger _lastTransferEventCount;
     double _lastTransferDuration;
     long long _lastTransferredBytes;
@@ -78,6 +79,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 - (void)dispatchAdEvent:(MUXSDKPlaybackEvent *)event;
 - (float)getCurrentPlayheadTimeMs;
 - (void)dispatchRenditionChange;
+- (void)prepareForNextItem;
 
 @end
 

@@ -213,6 +213,7 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
 }
 
 + (void)videoChangeForPlayer:(nonnull NSString *)name withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
+    NSLog(@"debug videoChangeForPlayer");
     if (videoData) {
         MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
         if (player) {
@@ -223,6 +224,18 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
             }
             [player videoChangedForPlayaZ];
         }
+    }
+}
+
++ (void)avQueuePlayerNextItemForPlayer:(nonnull NSString *)name withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
+    NSLog(@"debug avQueuePlayerNextItemForPlayer");
+    MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
+    if (player) {
+        [player dispatchViewEnd];
+        if (videoData) {
+            [_customerVideoDataStore setVideoData:videoData forPlayerName:name];
+        }
+        [player prepareForNextItem];
     }
 }
 
