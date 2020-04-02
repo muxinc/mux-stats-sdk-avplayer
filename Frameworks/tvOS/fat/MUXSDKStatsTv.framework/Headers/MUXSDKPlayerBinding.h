@@ -64,6 +64,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 - (void)attachAVPlayer:(AVPlayer *)player;
 - (void)detachAVPlayer;
 - (void)programChangedForPlayer;
+- (void)videoChangedForPlayaZ;
 - (CGRect)getViewBounds;
 - (void)dispatchViewInit;
 - (void)dispatchPlayerReady;

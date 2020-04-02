@@ -15,30 +15,30 @@ class VideoPlayerController: AVPlayerViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let videoUrl = video["url"]!
-        let url = URL(string: videoUrl)
-        player = AVPlayer(url: url!)
-        player?.replaceCurrentItem(with: AVPlayerItem(url: url!))
+        let item1 = AVPlayerItem(url: URL(string: "https://stream.mux.com/jY02nK1sxQKmJiQ7ltXY01w9LZQWdtNetE.m3u8")!)
+        let item2 = AVPlayerItem(url: URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.playerItemDidReachEnd),
+            name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+            object: item1
+        )
+        player = AVQueuePlayer(items: [item1, item2])
 
-        let playerData = MUXSDKCustomerPlayerData(environmentKey: "YOUR_ENVIRONMENT_KEY");
+        let playerData = MUXSDKCustomerPlayerData(environmentKey: "cqtqt2jfbq235huvso0djbn56");
         playerData?.playerName = "AVPlayer"
         let videoData = MUXSDKCustomerVideoData();
         videoData.videoIsLive = false;
-        videoData.videoTitle = video["title"]!
-        videoData.videoStreamType = "mp4"
-        videoData.videoDuration = 120000
-        MUXSDKStats.videoChange(forPlayer: "AVPlayer", with: videoData)
+        videoData.videoTitle = "Title.9.1"
         MUXSDKStats.monitorAVPlayerViewController(self, withPlayerName: playName, playerData: playerData!, videoData: videoData);
-
-        timeObserverToken = player!.addPeriodicTimeObserver(forInterval: CMTime(seconds: 0.5,
-                                                                               preferredTimescale: CMTimeScale(NSEC_PER_SEC)),
-                                                           queue: DispatchQueue.main) { time in
-                                                            let timeElapsed = Float(CMTimeGetSeconds(time))
-                                                            print ("current time " + timeElapsed.description)
-        }
-        playComplete = NotificationCenter.default.addObserver(self, selector: #selector(self.playerDidFinishPlaying(note:)),
-                                               name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: player!.currentItem)
         player!.play()
+    }
+
+    @objc func playerItemDidReachEnd (notification: NSNotification) {
+        let videoData = MUXSDKCustomerVideoData();
+        videoData.videoTitle = "Title.9.2"
+        videoData.videoId = "applekeynote2010-2"
+        MUXSDKStats.videoChange(forPlayer: playName, with: videoData)
     }
 
     override func didReceiveMemoryWarning() {
