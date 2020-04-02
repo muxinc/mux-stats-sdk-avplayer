@@ -285,9 +285,19 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (_playerItem) {
         [self stopMonitoringAVPlayerItem];
         [self.playDispatchDelegate videoChangedForPlayer:_name];
-        NSLog(@"debug monitorAVPlayerItem %@", @(_preparingForNextItem));
-        if (_preparingForNextItem) {
-            _preparingForNextItem = false;
+        //
+        // Special case for AVQueuePlayer
+        // In a normal videoChange: world - the KVO for "rate" will fire - and
+        // subsequently after that this binding will dispatchPlay. In fact, any time
+        // an AVPlayer gets an item loaded into it the KVO for "rate" changes.
+        //
+        // However, in AVQueuePlayer world - the "rate" doesn't fire when the video is
+        // changed. I don't know why, but I guess that is the intended behavior. For that
+        // reason, if we're handling a videoChange event and we're dealing with AVQueuePlayer
+        // then we have to fire the play event here.
+        //
+        if (_shouldHandleAVQueuePlayerItem) {
+            _shouldHandleAVQueuePlayerItem = false;
             [self dispatchPlay];
         }
     }
@@ -312,13 +322,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [self dispatchPlaying];
 }
 
-- (void) videoChangedForPlayaZ {
-//    if (![_player.rate isEqual:@0]) {
-//        [self monitorAVPlayerItem];
-//        [self dispatchPlay];
-//        [self dispatchPlaying];
-//    }
-    NSLog(@"debug videoChangedForPlayer %@", @(_player.rate));
+- (void) prepareForAvQueuePlayerNextItem {
+    BOOL isAVQueuePlayer = [_player isKindOfClass:[AVQueuePlayer class]];
+    if (isAVQueuePlayer) {
+        _shouldHandleAVQueuePlayerItem = true;
+    }
 }
 
 - (CMTime)getTimeObserverInternal {
@@ -549,7 +557,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)dispatchViewInit {
-    NSLog(@"debug dispatchViewInit %@", @([self isPlayerOK]));
     if (![self isPlayerOK]) {
         return;
     }
@@ -562,7 +569,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)dispatchPlayerReady {
-    NSLog(@"debug dispatchPlayerReady %@", @([self isPlayerOK]));
     if (![self isPlayerOK]) {
         return;
     }
@@ -574,7 +580,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)dispatchPlay {
-    NSLog(@"debug play %@", @([self isPlayerOK]));
     if (![self isPlayerOK]) {
         return;
     }
@@ -596,7 +601,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)dispatchPlaying {
-    NSLog(@"debug dispatchPlaying %@", @([self isPlayerOK]));
     if (![self isPlayerOK]) {
         return;
     }
@@ -798,10 +802,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     return _player.status == AVPlayerStatusFailed || _playerItem.status == AVPlayerItemStatusFailed;
 }
 
-- (void)prepareForNextItem {
-    _preparingForNextItem = true;
-}
-
 - (void)observeValueForKeyPath:(NSString*) path
                       ofObject:(id)object
                         change:(NSDictionary*)change
@@ -809,7 +809,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 {
     // AVPlayer Observations
     if (context == MUXSDKAVPlayerRateObservationContext) {
-        NSLog(@"debug context MUXSDKAVPlayerRateObservationContext");
         if (_player.rate == 0 && [self isPlayingOrTryingToPlay]) {
             [self dispatchPause];
         } else if (_player.rate != 0 && ![self isPlayingOrTryingToPlay]) {
@@ -820,12 +819,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             [self dispatchError];
         }
     } else if (context == MUXSDKAVPlayerCurrentItemObservationContext) {
-        NSLog(@"debug context MUXSDKAVPlayerCurrentItemObservationContext");
         [self monitorAVPlayerItem];
 
         // AVPlayerItem Observations
     } else if (context == MUXSDKAVPlayerItemStatusObservationContext) {
-        NSLog(@"debug context MUXSDKAVPlayerItemStatusObservationContext");
         if ([self isPlayerInErrorState]) {
             [self dispatchError];
         }
