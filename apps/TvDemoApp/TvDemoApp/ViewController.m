@@ -12,10 +12,19 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 
 @implementation ViewController
 
+//NSString *const kAdTagURLString = @"https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&"
+//@"iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&"
+//@"output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3D"
+//@"premidpostlongpod&cmsid=496&vid=short_tencue&correlator=[TIMESTAMP]";
+
+NSString *const kAdTagURLString = @"https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostpod&cmsid=496&vid=short_onecue&correlator=";
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     _avplayerController = [AVPlayerViewController new];
-    AVPlayer *player = [self testImaSDK];
+//    AVPlayer *player = [self testImaSDK];
+    AVPlayer *player = [self testAvPlayer];
     [self setupAVPlayerViewController: player];
 }
 
@@ -34,30 +43,41 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 //                                    playerData:playerData
 //                                     videoData:videoData];
 //    _imaListener = [[MuxImaListener alloc] initWithPlayerBinding:_playerBinding];
-    [_avplayer play];
 
     [self addChildViewController:_avplayerController];
     [self.view addSubview:_avplayerController.view];
     _avplayerController.view.frame = self.view.frame;
+    [_avplayer play];
 }
 
 - (AVPlayer *)testImaSDK {
     NSURL* videoURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
     AVPlayer *player = [AVPlayer playerWithURL:videoURL];
-//    _contentPlayhead = [[IMAAVPlayerContentPlayhead alloc] initWithAVPlayer:player];
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(contentDidFinishPlaying:)
-//                                                 name:AVPlayerItemDidPlayToEndTimeNotification
-//                                               object:player.currentItem];
-//    _adsLoader = [[IMAAdsLoader alloc] initWithSettings:nil];
-//    _adsLoader.delegate = self;
-//
-//    IMAAdDisplayContainer *adDisplayContainer = [[IMAAdDisplayContainer alloc] initWithAdContainer:_avplayerController.view companionSlots:nil];
-//    IMAAdsRequest *request = [[IMAAdsRequest alloc] initWithAdTagUrl:@"https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostpod&cmsid=496&vid=short_onecue&correlator="
-//                                                  adDisplayContainer:adDisplayContainer
-//                                                     contentPlayhead:_contentPlayhead
-//                                                         userContext:nil];
-//    [_adsLoader requestAdsWithRequest:request];
+    _contentPlayhead = [[IMAAVPlayerContentPlayhead alloc] initWithAVPlayer:player];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(contentDidFinishPlaying:)
+                                                 name:AVPlayerItemDidPlayToEndTimeNotification
+                                               object:player.currentItem];
+    _adsLoader = [[IMAAdsLoader alloc] initWithSettings:nil];
+    _adsLoader.delegate = self;
+
+    IMAAdDisplayContainer *adDisplayContainer = [[IMAAdDisplayContainer alloc] initWithAdContainer:_avplayerController.view companionSlots:nil];
+    IMAAdsRequest *request = [[IMAAdsRequest alloc] initWithAdTagUrl:kAdTagURLString
+                                                  adDisplayContainer:adDisplayContainer
+                                                     contentPlayhead:_contentPlayhead
+                                                         userContext:nil];
+    [_adsLoader requestAdsWithRequest:request];
+    return player;
+}
+
+- (AVPlayer *)testAvPlayer {
+    NSURL* videoURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
+    AVPlayer *player = [AVPlayer playerWithURL:videoURL];
+    _videoChangeTimer = [NSTimer scheduledTimerWithTimeInterval:20.0
+                                                         target:self
+                                                       selector:@selector(changeVideo:)
+                                                       userInfo:nil
+                                                        repeats:NO];
     return player;
 }
 
@@ -67,17 +87,21 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
     }
 }
 
+- (void)dealloc {
+  [NSNotificationCenter.defaultCenter removeObserver:self];
+}
+
 - (void)changeVideo:(NSTimer *)timer {
 //    MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
 //    videoData.videoTitle = @"Apple Keynote";
 //    videoData.videoId = @"applekeynote2010";
 //    [MUXSDKStats videoChangeForPlayer:DEMO_PLAYER_NAME
 //                        withVideoData:videoData];
-//
-//    NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
-//    AVPlayerItem *keynote = [AVPlayerItem playerItemWithURL:videoURL];
-//    [_avplayer replaceCurrentItemWithPlayerItem:keynote];
-//    [_avplayer play];
+
+    NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
+    AVPlayerItem *keynote = [AVPlayerItem playerItemWithURL:videoURL];
+    [_avplayer replaceCurrentItemWithPlayerItem:keynote];
+    [_avplayer play];
 }
 
 #pragma mark AdsManager Delegates
@@ -107,6 +131,20 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 - (void)adsManagerDidRequestContentResume:(IMAAdsManager *)adsManager {
     [_avplayer play];
 //    [_imaListener onContentPauseOrResume:false];
+}
+
+#pragma mark - IMAAdsLoaderDelegate
+
+- (void)adsLoader:(IMAAdsLoader *)loader adsLoadedWithData:(IMAAdsLoadedData *)adsLoadedData {
+  // Initialize and listen to the ads manager loaded for this request.
+  _adsManager = adsLoadedData.adsManager;
+  [_adsManager initializeWithAdsRenderingSettings:nil];
+}
+
+- (void)adsLoader:(IMAAdsLoader *)loader failedWithErrorData:(IMAAdLoadingErrorData *)adErrorData {
+  // Fall back to playing content.
+  NSLog(@"Error loading ads: %@", adErrorData.adError.message);
+  [_avplayerController.player play];
 }
 
 - (void)didReceiveMemoryWarning {
