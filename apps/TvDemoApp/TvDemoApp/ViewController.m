@@ -1,8 +1,9 @@
 #import "ViewController.h"
 #import <GoogleInteractiveMediaAds/GoogleInteractiveMediaAds.h>
 
-//@import MuxCoreTv;
-//@import MUXSDKStatsTv;
+@import MuxCoreTv;
+@import MUXSDKStatsTv;
+@import Mux_Stats_Google_IMA_TV;
 
 static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 
@@ -33,15 +34,15 @@ NSString *const kAdTagURLString = @"https://pubads.g.doubleclick.net/gampad/ads?
     _avplayerController.player = _avplayer;
 
 //    // TODO: Add your property key!
-//    MUXSDKCustomerPlayerData *playerData = [[MUXSDKCustomerPlayerData alloc] initWithPropertyKey:@"YOUR_ENV_KEY_HERE"];
-//    MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
-//    videoData.videoTitle = @"Big Buck Bunny";
-//    videoData.videoId = @"bigbuckbunny";
-//    videoData.videoSeries = @"animation";
-//    _playerBinding = [MUXSDKStats monitorAVPlayerViewController:_avplayerController
-//                                withPlayerName:DEMO_PLAYER_NAME
-//                                    playerData:playerData
-//                                     videoData:videoData];
+    MUXSDKCustomerPlayerData *playerData = [[MUXSDKCustomerPlayerData alloc] initWithPropertyKey:@"cqtqt2jfbq235huvso0djbn56"];
+    MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
+    videoData.videoTitle = @"Big Buck Bunny";
+    videoData.videoId = @"bigbuckbunny";
+    videoData.videoSeries = @"animation";
+    [MUXSDKStats monitorAVPlayerViewController:_avplayerController
+                                withPlayerName:DEMO_PLAYER_NAME
+                                    playerData:playerData
+                                     videoData:videoData];
 //    _imaListener = [[MuxImaListener alloc] initWithPlayerBinding:_playerBinding];
 
     [self addChildViewController:_avplayerController];
@@ -92,11 +93,11 @@ NSString *const kAdTagURLString = @"https://pubads.g.doubleclick.net/gampad/ads?
 }
 
 - (void)changeVideo:(NSTimer *)timer {
-//    MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
-//    videoData.videoTitle = @"Apple Keynote";
-//    videoData.videoId = @"applekeynote2010";
-//    [MUXSDKStats videoChangeForPlayer:DEMO_PLAYER_NAME
-//                        withVideoData:videoData];
+    MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
+    videoData.videoTitle = @"Apple Keynote";
+    videoData.videoId = @"applekeynote2010";
+    [MUXSDKStats videoChangeForPlayer:DEMO_PLAYER_NAME
+                        withVideoData:videoData];
 
     NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
     AVPlayerItem *keynote = [AVPlayerItem playerItemWithURL:videoURL];
