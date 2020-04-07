@@ -1,9 +1,4 @@
 #import "ViewController.h"
-#import <GoogleInteractiveMediaAds/GoogleInteractiveMediaAds.h>
-
-@import MuxCoreTv;
-@import MUXSDKStatsTv;
-@import Mux_Stats_Google_IMA_TV;
 
 static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 
@@ -24,8 +19,8 @@ NSString *const kAdTagURLString = @"https://pubads.g.doubleclick.net/gampad/ads?
 - (void)viewDidLoad {
     [super viewDidLoad];
     _avplayerController = [AVPlayerViewController new];
-//    AVPlayer *player = [self testImaSDK];
-    AVPlayer *player = [self testAvPlayer];
+    AVPlayer *player = [self testImaSDK];
+//    AVPlayer *player = [self testAvPlayer];
     [self setupAVPlayerViewController: player];
 }
 
@@ -34,7 +29,7 @@ NSString *const kAdTagURLString = @"https://pubads.g.doubleclick.net/gampad/ads?
     _avplayerController.player = _avplayer;
 
 //    // TODO: Add your property key!
-    MUXSDKCustomerPlayerData *playerData = [[MUXSDKCustomerPlayerData alloc] initWithPropertyKey:@"cqtqt2jfbq235huvso0djbn56"];
+    MUXSDKCustomerPlayerData *playerData = [[MUXSDKCustomerPlayerData alloc] initWithPropertyKey:@"ENV_KEY"];
     MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
     videoData.videoTitle = @"Big Buck Bunny";
     videoData.videoId = @"bigbuckbunny";
@@ -43,7 +38,7 @@ NSString *const kAdTagURLString = @"https://pubads.g.doubleclick.net/gampad/ads?
                                 withPlayerName:DEMO_PLAYER_NAME
                                     playerData:playerData
                                      videoData:videoData];
-//    _imaListener = [[MuxImaListener alloc] initWithPlayerBinding:_playerBinding];
+    _imaListener = [[MuxImaListener alloc] initWithPlayerBinding:_playerBinding];
 
     [self addChildViewController:_avplayerController];
     [self.view addSubview:_avplayerController.view];
@@ -112,26 +107,26 @@ NSString *const kAdTagURLString = @"https://pubads.g.doubleclick.net/gampad/ads?
     if (event.type == kIMAAdEvent_LOADED) {
         [_adsManager start];
     }
-//    if (_imaListener != nil) {
-//        [_imaListener dispatchEvent: event];
-//    }
+    if (_imaListener != nil) {
+        [_imaListener dispatchEvent: event];
+    }
 }
 
 - (void)adsManager:(IMAAdsManager *)adsManager didReceiveAdError:(IMAAdError *)error {
     [_avplayer play];
-//    if (_imaListener != nil) {
-//        [_imaListener dispatchError: error.message];
-//    }
+    if (_imaListener != nil) {
+        [_imaListener dispatchError: error.message];
+    }
 }
 
 - (void)adsManagerDidRequestContentPause:(IMAAdsManager *)adsManager {
     [_avplayer pause];
-//    [_imaListener onContentPauseOrResume:true];
+    [_imaListener onContentPauseOrResume:true];
 }
 
 - (void)adsManagerDidRequestContentResume:(IMAAdsManager *)adsManager {
     [_avplayer play];
-//    [_imaListener onContentPauseOrResume:false];
+    [_imaListener onContentPauseOrResume:false];
 }
 
 #pragma mark - IMAAdsLoaderDelegate
