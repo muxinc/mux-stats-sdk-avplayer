@@ -34,16 +34,16 @@ NSString *const kAdTagURLString = @"https://pubads.g.doubleclick.net/gampad/ads?
     videoData.videoTitle = @"Big Buck Bunny";
     videoData.videoId = @"bigbuckbunny";
     videoData.videoSeries = @"animation";
-    [MUXSDKStats monitorAVPlayerViewController:_avplayerController
+    _playerBinding = [MUXSDKStats monitorAVPlayerViewController:_avplayerController
                                 withPlayerName:DEMO_PLAYER_NAME
                                     playerData:playerData
                                      videoData:videoData];
     _imaListener = [[MuxImaListener alloc] initWithPlayerBinding:_playerBinding];
+    [_avplayer play];
 
     [self addChildViewController:_avplayerController];
     [self.view addSubview:_avplayerController.view];
     _avplayerController.view.frame = self.view.frame;
-    [_avplayer play];
 }
 
 - (AVPlayer *)testImaSDK {
@@ -133,8 +133,11 @@ NSString *const kAdTagURLString = @"https://pubads.g.doubleclick.net/gampad/ads?
 
 - (void)adsLoader:(IMAAdsLoader *)loader adsLoadedWithData:(IMAAdsLoadedData *)adsLoadedData {
   // Initialize and listen to the ads manager loaded for this request.
-  _adsManager = adsLoadedData.adsManager;
-  [_adsManager initializeWithAdsRenderingSettings:nil];
+    _adsManager = adsLoadedData.adsManager;
+    _adsManager.delegate = self;
+    IMAAdsRenderingSettings *adsRenderingSettings = [[IMAAdsRenderingSettings alloc] init];
+    adsRenderingSettings.webOpenerPresentingController = self;
+    [_adsManager initializeWithAdsRenderingSettings:adsRenderingSettings];
 }
 
 - (void)adsLoader:(IMAAdsLoader *)loader failedWithErrorData:(IMAAdLoadingErrorData *)adErrorData {

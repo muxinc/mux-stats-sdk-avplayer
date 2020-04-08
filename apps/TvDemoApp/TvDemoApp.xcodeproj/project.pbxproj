@@ -7,16 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		492F8D1ABE872B7A0A031D30 /* Pods_TvDemoApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6EBE0A0257F7D824210F31B /* Pods_TvDemoApp.framework */; };
 		7355685920F55A4C00C42440 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7355685820F55A4C00C42440 /* AppDelegate.m */; };
 		7355685C20F55A4C00C42440 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7355685B20F55A4C00C42440 /* ViewController.m */; };
 		7355685F20F55A4C00C42440 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7355685D20F55A4C00C42440 /* Main.storyboard */; };
 		7355686120F55A4E00C42440 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7355686020F55A4E00C42440 /* Assets.xcassets */; };
 		7355686420F55A4E00C42440 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7355686320F55A4E00C42440 /* main.m */; };
+		AF8EB2369AD68A19758E8A16 /* Pods_TvDemoApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0449DBA8EABD5F88BB41526A /* Pods_TvDemoApp.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		29029D2494642D89B362B5D5 /* Pods-TvDemoApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TvDemoApp.debug.xcconfig"; path = "Target Support Files/Pods-TvDemoApp/Pods-TvDemoApp.debug.xcconfig"; sourceTree = "<group>"; };
+		0449DBA8EABD5F88BB41526A /* Pods_TvDemoApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TvDemoApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5241126AD271A579769B80E5 /* Pods-TvDemoApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TvDemoApp.debug.xcconfig"; path = "Target Support Files/Pods-TvDemoApp/Pods-TvDemoApp.debug.xcconfig"; sourceTree = "<group>"; };
 		7355685420F55A4C00C42440 /* TvDemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TvDemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7355685720F55A4C00C42440 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7355685820F55A4C00C42440 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -26,8 +27,7 @@
 		7355686020F55A4E00C42440 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7355686220F55A4E00C42440 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7355686320F55A4E00C42440 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		A6EBE0A0257F7D824210F31B /* Pods_TvDemoApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TvDemoApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D66CA51524E33742AB1A7024 /* Pods-TvDemoApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TvDemoApp.release.xcconfig"; path = "Target Support Files/Pods-TvDemoApp/Pods-TvDemoApp.release.xcconfig"; sourceTree = "<group>"; };
+		93CEA8DC5717A46F0AB23B9B /* Pods-TvDemoApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TvDemoApp.release.xcconfig"; path = "Target Support Files/Pods-TvDemoApp/Pods-TvDemoApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,30 +35,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				492F8D1ABE872B7A0A031D30 /* Pods_TvDemoApp.framework in Frameworks */,
+				AF8EB2369AD68A19758E8A16 /* Pods_TvDemoApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		32F854A9936B64587734CE97 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				29029D2494642D89B362B5D5 /* Pods-TvDemoApp.debug.xcconfig */,
-				D66CA51524E33742AB1A7024 /* Pods-TvDemoApp.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		7355684B20F55A4C00C42440 = {
 			isa = PBXGroup;
 			children = (
 				7355685620F55A4C00C42440 /* TvDemoApp */,
 				7355685520F55A4C00C42440 /* Products */,
-				32F854A9936B64587734CE97 /* Pods */,
-				CC9880A604D97C4922D45DAD /* Frameworks */,
+				F364394DFDC0147EB083B6CC /* Pods */,
+				CC6B778B9F0CE4BC79832FDB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -85,12 +75,22 @@
 			path = TvDemoApp;
 			sourceTree = "<group>";
 		};
-		CC9880A604D97C4922D45DAD /* Frameworks */ = {
+		CC6B778B9F0CE4BC79832FDB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A6EBE0A0257F7D824210F31B /* Pods_TvDemoApp.framework */,
+				0449DBA8EABD5F88BB41526A /* Pods_TvDemoApp.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F364394DFDC0147EB083B6CC /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5241126AD271A579769B80E5 /* Pods-TvDemoApp.debug.xcconfig */,
+				93CEA8DC5717A46F0AB23B9B /* Pods-TvDemoApp.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -100,11 +100,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7355686720F55A4E00C42440 /* Build configuration list for PBXNativeTarget "TvDemoApp" */;
 			buildPhases = (
-				254A885F2CC66CC4ECDFD5A3 /* [CP] Check Pods Manifest.lock */,
+				54F23E9796C58FD92DB45232 /* [CP] Check Pods Manifest.lock */,
 				7355685020F55A4C00C42440 /* Sources */,
 				7355685120F55A4C00C42440 /* Frameworks */,
 				7355685220F55A4C00C42440 /* Resources */,
-				9E4B252C45595F6D04876C18 /* [CP] Embed Pods Frameworks */,
+				CFF93A0E9ADFFFA0D42A9FBC /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -160,7 +160,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		254A885F2CC66CC4ECDFD5A3 /* [CP] Check Pods Manifest.lock */ = {
+		54F23E9796C58FD92DB45232 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -182,7 +182,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9E4B252C45595F6D04876C18 /* [CP] Embed Pods Frameworks */ = {
+		CFF93A0E9ADFFFA0D42A9FBC /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -336,7 +336,7 @@
 		};
 		7355686820F55A4E00C42440 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 29029D2494642D89B362B5D5 /* Pods-TvDemoApp.debug.xcconfig */;
+			baseConfigurationReference = 5241126AD271A579769B80E5 /* Pods-TvDemoApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -355,7 +355,7 @@
 		};
 		7355686920F55A4E00C42440 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D66CA51524E33742AB1A7024 /* Pods-TvDemoApp.release.xcconfig */;
+			baseConfigurationReference = 93CEA8DC5717A46F0AB23B9B /* Pods-TvDemoApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
