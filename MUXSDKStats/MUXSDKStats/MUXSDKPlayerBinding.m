@@ -7,7 +7,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"1.3.4";
+NSString *const MUXSDKPluginVersion = @"1.3.5";
 
 // Min number of seconds between timeupdate events. (100ms)
 double MUXSDKMaxSecsBetweenTimeUpdate = 0.1;
@@ -285,6 +285,21 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (_playerItem) {
         [self stopMonitoringAVPlayerItem];
         [self.playDispatchDelegate videoChangedForPlayer:_name];
+        //
+        // Special case for AVQueuePlayer
+        // In a normal videoChange: world - the KVO for "rate" will fire - and
+        // subsequently after that this binding will dispatchPlay. In fact, any time
+        // an AVPlayer gets an item loaded into it the KVO for "rate" changes.
+        //
+        // However, in AVQueuePlayer world - the "rate" doesn't fire when the video is
+        // changed. I don't know why, but I guess that is the intended behavior. For that
+        // reason, if we're handling a videoChange event and we're dealing with AVQueuePlayer
+        // then we have to fire the play event here.
+        //
+        if (_shouldHandleAVQueuePlayerItem) {
+            _shouldHandleAVQueuePlayerItem = false;
+            [self dispatchPlay];
+        }
     }
     if (_player && _player.currentItem) {
         _playerItem = _player.currentItem;
@@ -305,6 +320,13 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [self monitorAVPlayerItem];
     [self dispatchPlay];
     [self dispatchPlaying];
+}
+
+- (void) prepareForAvQueuePlayerNextItem {
+    BOOL isAVQueuePlayer = [_player isKindOfClass:[AVQueuePlayer class]];
+    if (isAVQueuePlayer) {
+        _shouldHandleAVQueuePlayerItem = true;
+    }
 }
 
 - (CMTime)getTimeObserverInternal {

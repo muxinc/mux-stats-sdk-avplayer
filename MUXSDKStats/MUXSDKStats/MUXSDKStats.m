@@ -221,6 +221,7 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
             if (playerData) {
                 [_customerPlayerDataStore setPlayerData:playerData forPlayerName:name];
             }
+            [player prepareForAvQueuePlayerNextItem];
         }
     }
 }
