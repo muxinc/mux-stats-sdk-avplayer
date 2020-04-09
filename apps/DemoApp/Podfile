@@ -3,8 +3,7 @@ platform :ios, '9.0'
 
 target 'DemoApp' do
   use_frameworks!
-  pod 'Mux-Stats-AVPlayer', '~> 1.0'
-  pod 'Mux-Stats-Google-IMA', :git => 'https://github.com/muxinc/mux-stats-google-ima.git', :branch => 'dj/tvos'
-  # pod 'Mux-Stats-Google-IMA', :path => '../../../mux-stats-google-ima'
+  pod 'Mux-Stats-AVPlayer', :path => '../..'
+  pod 'Mux-Stats-Google-IMA', '~> 0.5'
   pod 'GoogleAds-IMA-iOS-SDK', '~> 3.9'
 end

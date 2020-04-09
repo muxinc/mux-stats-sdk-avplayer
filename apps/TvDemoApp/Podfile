@@ -6,7 +6,7 @@ target 'TvDemoApp' do
    use_frameworks!
 
   # Pods for TvDemoApp
-  pod 'Mux-Stats-AVPlayer', '~> 1.0'
-  pod 'Mux-Stats-Google-IMA', :git => 'https://github.com/muxinc/mux-stats-google-ima.git', :branch => 'dj/tvos'
+  pod 'Mux-Stats-AVPlayer', :path => '../..'
+  pod 'Mux-Stats-Google-IMA', '~> 0.5'
   pod 'GoogleAds-IMA-tvOS-SDK', '~> 4.2'
 end
