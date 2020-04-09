@@ -7,4 +7,6 @@ target 'video-demo' do
 
 #  pod 'Mux-Stats-AVPlayer', '~> 1.0'
   pod 'Mux-Stats-AVPlayer', :path => '../../'
+  pod 'Mux-Stats-Google-IMA', '~> 0.5'
+  pod 'GoogleAds-IMA-iOS-SDK', '~> 3.9'
 end
