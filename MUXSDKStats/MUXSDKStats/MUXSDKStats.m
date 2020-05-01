@@ -9,7 +9,6 @@
 @import AVFoundation;
 @import AVKit;
 @import Foundation;
-@import UIKit;
 
 // Software constants.
 NSString *const MuxPlayerSoftwareAVPlayerViewController = @"AVPlayerViewController";
