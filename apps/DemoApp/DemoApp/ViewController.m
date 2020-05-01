@@ -46,6 +46,8 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
     }
 }
 
+#pragma mark - IMAAdsLoaderDelegate
+
 - (void)adsLoader:(IMAAdsLoader *)loader adsLoadedWithData:(IMAAdsLoadedData *)adsLoadedData {
     _adsManager = adsLoadedData.adsManager;
     _adsManager.delegate = self;
@@ -56,6 +58,7 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 
 - (void)adsLoader:(IMAAdsLoader *)loader failedWithErrorData:(IMAAdLoadingErrorData *)adErrorData {
     NSLog(@"Error loading ads: %@", adErrorData.adError.message);
+    [_avplayerController.player play];
 }
 
 #pragma mark Orientation Changes

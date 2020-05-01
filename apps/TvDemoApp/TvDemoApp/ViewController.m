@@ -1,8 +1,5 @@
 #import "ViewController.h"
 
-@import MuxCoreTv;
-@import MUXSDKStatsTv;
-
 static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 
 @interface ViewController ()
@@ -11,36 +8,83 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 
 @implementation ViewController
 
+//NSString *const kAdTagURLString = @"https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&"
+//@"iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&"
+//@"output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3D"
+//@"premidpostlongpod&cmsid=496&vid=short_tencue&correlator=[TIMESTAMP]";
+
+NSString *const kAdTagURLString = @"https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostpod&cmsid=496&vid=short_onecue&correlator=";
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSURL* videoURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
-    _avplayer = [AVPlayer playerWithURL:videoURL];
     _avplayerController = [AVPlayerViewController new];
+//    AVPlayer *player = [self testImaSDK];
+    AVPlayer *player = [self testAvPlayer];
+    [self setupAVPlayerViewController: player];
+}
+
+- (void)setupAVPlayerViewController:(AVPlayer *)player {
+    _avplayer = player;
     _avplayerController.player = _avplayer;
 
-    // TODO: Add your property key!
-    MUXSDKCustomerPlayerData *playerData = [[MUXSDKCustomerPlayerData alloc] initWithPropertyKey:@"YOU_ENV_KEY_HERE"];
+//    // TODO: Add your property key!
+    MUXSDKCustomerPlayerData *playerData = [[MUXSDKCustomerPlayerData alloc] initWithPropertyKey:@"ENV_KEY"];
     MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
     videoData.videoTitle = @"Big Buck Bunny";
     videoData.videoId = @"bigbuckbunny";
     videoData.videoSeries = @"animation";
-    [MUXSDKStats monitorAVPlayerViewController:_avplayerController
+    _playerBinding = [MUXSDKStats monitorAVPlayerViewController:_avplayerController
                                 withPlayerName:DEMO_PLAYER_NAME
                                     playerData:playerData
                                      videoData:videoData];
-
+    _imaListener = [[MuxImaListener alloc] initWithPlayerBinding:_playerBinding];
     [_avplayer play];
 
     [self addChildViewController:_avplayerController];
     [self.view addSubview:_avplayerController.view];
     _avplayerController.view.frame = self.view.frame;
+}
 
-    // After 20 seconds, we'll change the video.
+- (AVPlayer *)testImaSDK {
+    NSURL* videoURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
+    AVPlayer *player = [AVPlayer playerWithURL:videoURL];
+    _contentPlayhead = [[IMAAVPlayerContentPlayhead alloc] initWithAVPlayer:player];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(contentDidFinishPlaying:)
+                                                 name:AVPlayerItemDidPlayToEndTimeNotification
+                                               object:player.currentItem];
+    _adsLoader = [[IMAAdsLoader alloc] initWithSettings:nil];
+    _adsLoader.delegate = self;
+
+    IMAAdDisplayContainer *adDisplayContainer = [[IMAAdDisplayContainer alloc] initWithAdContainer:_avplayerController.view companionSlots:nil];
+    IMAAdsRequest *request = [[IMAAdsRequest alloc] initWithAdTagUrl:kAdTagURLString
+                                                  adDisplayContainer:adDisplayContainer
+                                                     contentPlayhead:_contentPlayhead
+                                                         userContext:nil];
+    [_adsLoader requestAdsWithRequest:request];
+    return player;
+}
+
+- (AVPlayer *)testAvPlayer {
+    NSURL* videoURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
+    AVPlayer *player = [AVPlayer playerWithURL:videoURL];
     _videoChangeTimer = [NSTimer scheduledTimerWithTimeInterval:20.0
                                                          target:self
                                                        selector:@selector(changeVideo:)
                                                        userInfo:nil
                                                         repeats:NO];
+    return player;
+}
+
+- (void)contentDidFinishPlaying:(NSNotification *)notification {
+    if (notification.object == _avplayer.currentItem) {
+        [_adsLoader contentComplete];
+    }
+}
+
+- (void)dealloc {
+  [NSNotificationCenter.defaultCenter removeObserver:self];
 }
 
 - (void)changeVideo:(NSTimer *)timer {
@@ -54,6 +98,52 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
     AVPlayerItem *keynote = [AVPlayerItem playerItemWithURL:videoURL];
     [_avplayer replaceCurrentItemWithPlayerItem:keynote];
     [_avplayer play];
+}
+
+#pragma mark AdsManager Delegates
+
+- (void)adsManager:(IMAAdsManager *)adsManager didReceiveAdEvent:(IMAAdEvent *)event {
+    // When the SDK notified us that ads have been loaded, play them.
+    if (event.type == kIMAAdEvent_LOADED) {
+        [_adsManager start];
+    }
+    if (_imaListener != nil) {
+        [_imaListener dispatchEvent: event];
+    }
+}
+
+- (void)adsManager:(IMAAdsManager *)adsManager didReceiveAdError:(IMAAdError *)error {
+    [_avplayer play];
+    if (_imaListener != nil) {
+        [_imaListener dispatchError: error.message];
+    }
+}
+
+- (void)adsManagerDidRequestContentPause:(IMAAdsManager *)adsManager {
+    [_avplayer pause];
+    [_imaListener onContentPauseOrResume:true];
+}
+
+- (void)adsManagerDidRequestContentResume:(IMAAdsManager *)adsManager {
+    [_avplayer play];
+    [_imaListener onContentPauseOrResume:false];
+}
+
+#pragma mark - IMAAdsLoaderDelegate
+
+- (void)adsLoader:(IMAAdsLoader *)loader adsLoadedWithData:(IMAAdsLoadedData *)adsLoadedData {
+  // Initialize and listen to the ads manager loaded for this request.
+    _adsManager = adsLoadedData.adsManager;
+    _adsManager.delegate = self;
+    IMAAdsRenderingSettings *adsRenderingSettings = [[IMAAdsRenderingSettings alloc] init];
+    adsRenderingSettings.webOpenerPresentingController = self;
+    [_adsManager initializeWithAdsRenderingSettings:adsRenderingSettings];
+}
+
+- (void)adsLoader:(IMAAdsLoader *)loader failedWithErrorData:(IMAAdLoadingErrorData *)adErrorData {
+  // Fall back to playing content.
+  NSLog(@"Error loading ads: %@", adErrorData.adError.message);
+  [_avplayerController.player play];
 }
 
 - (void)didReceiveMemoryWarning {
