@@ -14,9 +14,9 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 - (void)viewDidLoad {
     [super viewDidLoad];
     _avplayerController = [AVPlayerViewController new];
-    AVPlayer *player = [self testImaSDK];
+//    AVPlayer *player = [self testImaSDK];
 //    AVPlayer *player = [self testAVQueuePlayer];
-//    AVPlayer *player = [self testAVPlayer];
+    AVPlayer *player = [self testAVPlayer];
     [self setupAVPlayerViewController: player];
 }
 

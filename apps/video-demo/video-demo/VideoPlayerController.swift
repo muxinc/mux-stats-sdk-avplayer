@@ -24,10 +24,10 @@ class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAd
         super.viewDidLoad()
         let videoUrl = video["url"]!
         url = URL(string: videoUrl)
-//        player = self.testAvPlayer()
+        player = self.testAvPlayer()
 //        player = self.testVideoChange()
 //        player = self.testAvQueuePlayer()
-        player = self.testImaSDK()
+//        player = self.testImaSDK()
 
         let playerData = MUXSDKCustomerPlayerData(environmentKey: "ENV_KEY");
         playerData?.playerName = "AVPlayer"

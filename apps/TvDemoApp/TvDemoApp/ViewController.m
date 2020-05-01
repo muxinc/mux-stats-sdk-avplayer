@@ -19,8 +19,8 @@ NSString *const kAdTagURLString = @"https://pubads.g.doubleclick.net/gampad/ads?
 - (void)viewDidLoad {
     [super viewDidLoad];
     _avplayerController = [AVPlayerViewController new];
-    AVPlayer *player = [self testImaSDK];
-//    AVPlayer *player = [self testAvPlayer];
+//    AVPlayer *player = [self testImaSDK];
+    AVPlayer *player = [self testAvPlayer];
     [self setupAVPlayerViewController: player];
 }
 
