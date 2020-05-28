@@ -8,7 +8,6 @@ import Mux_Stats_Google_IMA
 
 class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAdsManagerDelegate {
     var video: Dictionary<String, String>! = nil
-    var timeObserverToken: Any! = nil
     var playComplete: Any! = nil
     var controller: AVPlayerViewController! = nil
     var url: URL! = nil
@@ -120,7 +119,6 @@ class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAd
     }
 
     func cleanUp() {
-        player!.removeTimeObserver(timeObserverToken)
         NotificationCenter.default.removeObserver(playComplete)
         MUXSDKStats.destroyPlayer(playName);
         player = nil
