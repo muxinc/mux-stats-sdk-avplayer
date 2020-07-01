@@ -23,6 +23,7 @@ rm $TARGET_TV_BINARY
 
 # Make the tvOS fat binary
 lipo -create tv/Release-appletvos/MUXSDKStatsTv.framework/MUXSDKStatsTv tv/Release-appletvsimulator/MUXSDKStatsTv.framework/MUXSDKStatsTv -output $TARGET_TV_BINARY
+lipo -create tv/Release-appletvos/MUXSDKStatsTv.framework.dSYM/Contents/Resources/DWARF/MUXSDKStatsTv tv/Release-appletvsimulator/MUXSDKStatsTv.framework.dSYM/Contents/Resources/DWARF/MUXSDKStatsTv -output tv/MUXSDKStatsTv.framework.dSYM/Contents/Resources/DWARF/MUXSDKStatsTv
 
 
 # Build iOS release SDK
@@ -38,6 +39,7 @@ rm $TARGET_IOS_BINARY
 
 # Make the iOS fat binary
 lipo -create ios/Release-iphoneos/MUXSDKStats.framework/MUXSDKStats ios/Release-iphonesimulator/MUXSDKStats.framework/MUXSDKStats -output $TARGET_IOS_BINARY
+lipo -create ios/Release-iphoneos/MUXSDKStats.framework.dSYM/Contents/Resources/DWARF/MUXSDKStats ios/Release-iphonesimulator/MUXSDKStats.framework.dSYM/Contents/Resources/DWARF/MUXSDKStats -output ios/MUXSDKStats.framework.dSYM/Contents/Resources/DWARF/MUXSDKStats
 
 cd ..
 
