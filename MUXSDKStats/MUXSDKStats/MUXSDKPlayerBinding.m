@@ -36,10 +36,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 - (id)initWithName:(NSString *)name andSoftware:(NSString *)software {
     self = [super init];
-    _automaticErrorTracking = true;
     if (self) {
         _name = name;
         _software = software;
+        _automaticErrorTracking = true;
     }
     return(self);
 }
