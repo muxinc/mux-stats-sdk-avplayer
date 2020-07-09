@@ -36,11 +36,17 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 - (id)initWithName:(NSString *)name andSoftware:(NSString *)software {
     self = [super init];
+    _automaticErrorTracking = true;
     if (self) {
         _name = name;
         _software = software;
     }
     return(self);
+}
+
+- (BOOL)setAutomaticErrorTracking:(BOOL)automaticErrorTracking {
+    _automaticErrorTracking = automaticErrorTracking;
+    return _automaticErrorTracking;
 }
 
 - (void)attachAVPlayer:(AVPlayer *)player {
@@ -654,6 +660,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)dispatchError {
+    if (!_automaticErrorTracking) {
+        return;
+    }
     if (![self isPlayerOK]) {
         return;
     }
