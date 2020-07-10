@@ -93,6 +93,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     _lastTransferDuration= 0;
     _lastTransferredBytes = 0;
     _lastAdvertisedBitrate = 0.0;
+    _lastDispatchedAdvertisedBitrate = 0.0;
 }
 
 -(NSString *)getHostName:(NSString *)urlString {
@@ -128,7 +129,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     NSNumber *advertisedBitrate = renditionChangeInfo[RenditionChangeNotificationInfoAdvertisedBitrate];
     if (advertisedBitrate) {
         _lastAdvertisedBitrate = [advertisedBitrate doubleValue];
-        [self dispatchRenditionChange];
+        if(![@(_lastDispatchedAdvertisedBitrate) doubleValueIsEqual:@(_lastAdvertisedBitrate)]) {
+            [self dispatchRenditionChange];
+        }
     }
 }
 
@@ -347,11 +350,13 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 - (CGSize)getSourceDimensions {
     @try {
+        NSArray *formatDescriptions;
         for (int t = 0; t < _player.currentItem.tracks.count; t++) {
             AVPlayerItemTrack *track = [[[_player currentItem] tracks] objectAtIndex:t];
             if (track) {
-                for (int i = 0; i < track.assetTrack.formatDescriptions.count; i++) {
-                    CMFormatDescriptionRef desc = (__bridge CMFormatDescriptionRef)track.assetTrack.formatDescriptions[i];
+                formatDescriptions = track.assetTrack.formatDescriptions;
+                for (int i = 0; i < formatDescriptions.count; i++) {
+                    CMFormatDescriptionRef desc = (__bridge CMFormatDescriptionRef)formatDescriptions[i];
                     if (CMFormatDescriptionGetMediaType(desc) == kCMMediaType_Video) {
                         CMVideoDimensions dimensions = CMVideoFormatDescriptionGetDimensions(desc);
                         return CGSizeMake([[NSNumber numberWithInteger:dimensions.width] floatValue], [[NSNumber numberWithInteger:dimensions.height] floatValue]);
@@ -373,17 +378,13 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     _seeking = NO;
     _started = NO;
     _lastAdvertisedBitrate = 0.0;
+    _lastDispatchedAdvertisedBitrate = 0.0;
+    _sourceDimensionsHaveChanged = NO;
+    _lastDispatchedVideoSize = CGSizeMake(0, 0);
 }
 
 - (void)checkVideoData {
     BOOL videoDataUpdated = NO;
-    CGSize sourceDimensions = [self getSourceDimensions];
-    if (!CGSizeEqualToSize(_videoSize, sourceDimensions)) {
-        _videoSize = sourceDimensions;
-        if (sourceDimensions.width > 0 && sourceDimensions.height > 0) {
-            videoDataUpdated = YES;
-        }
-    }
     NSError *error = nil;
     AVKeyValueStatus status = [_player.currentItem.asset statusOfValueForKey:@"duration" error: &error];
     if (status == AVKeyValueStatusLoaded) {
@@ -400,13 +401,26 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if ([currentPlayerAsset isKindOfClass:AVURLAsset.class]) {
         AVURLAsset *urlAsset = (AVURLAsset *)currentPlayerAsset;
         NSString * urlString = [[urlAsset URL] absoluteString];
-        if (!_videoURL || [_videoURL isEqualToString:urlString]) {
+        if (!_videoURL || ![_videoURL isEqualToString:urlString]) {
             _videoURL = urlString;
             videoDataUpdated = YES;
         }
     }
-    if (_lastAdvertisedBitrate > 0) {
+    if (![@(_lastDispatchedAdvertisedBitrate) doubleValueIsEqual:@(_lastAdvertisedBitrate)]) {
         videoDataUpdated = YES;
+        _lastDispatchedAdvertisedBitrate = _lastAdvertisedBitrate;
+        _sourceDimensionsHaveChanged = YES;
+    }
+    if (_sourceDimensionsHaveChanged && CGSizeEqualToSize(_videoSize, _lastDispatchedVideoSize)) {
+        CGSize sourceDimensions = [self getSourceDimensions];
+        if (!CGSizeEqualToSize(_videoSize, sourceDimensions)) {
+            _videoSize = sourceDimensions;
+            if (sourceDimensions.width > 0 && sourceDimensions.height > 0) {
+                _lastDispatchedVideoSize = _videoSize;
+                _sourceDimensionsHaveChanged = NO;
+                videoDataUpdated = YES;
+            }
+        }
     }
     if (videoDataUpdated) {
         MUXSDKVideoData *videoData = [[MUXSDKVideoData alloc] init];
