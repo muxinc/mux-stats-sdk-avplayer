@@ -1,7 +1,7 @@
 ## How to release
 1. Bump versions in Mux-Stats-AVPlayer.podspec
-1. Bump version in MUXSDKStats/MUXSDKStats/Info.plist
-1. Bump version in MUXSDKStats/MUXSDKStatsTv/Info.plist
+1. Bump version in XCode "General" for target: MUXSDKStats
+1. Bump version in XCode "General" for target: MUXSDKStatsTv
 1. Bump version in MUXSDKStats/MUXSDKStats/MUXSDKPlayerBinding.m
 1. Execute `update-release-frameworks.sh` to make a full build
 1. Github - Create a PR to check in all changed files.
