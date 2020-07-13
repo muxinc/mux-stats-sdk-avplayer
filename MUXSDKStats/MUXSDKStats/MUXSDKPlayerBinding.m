@@ -688,6 +688,20 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     _state = MUXSDKPlayerStateError;
 }
 
+- (void)forceDispatchError:(nonnull NSString *)code withMessage:(nonnull NSString *)message {
+    if (![self isPlayerOK]) {
+        return;
+    }
+    [self checkVideoData];
+    MUXSDKPlayerData *playerData = [self getPlayerData];
+    [playerData setPlayerErrorCode:code];
+    [playerData setPlayerErrorMessage:message];
+    MUXSDKErrorEvent *event = [[MUXSDKErrorEvent alloc] init];
+    [event setPlayerData:playerData];
+    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    _state = MUXSDKPlayerStateError;
+}
+
 - (void)dispatchViewEnd {
     if (![self isPlayerOK]) {
         return;

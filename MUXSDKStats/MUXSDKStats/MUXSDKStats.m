@@ -291,8 +291,10 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
     [player dispatchOrientationChange:orientation];
 }
 
-+ (void)dispatchEvent:(nonnull id<MUXSDKEventTyping>)event forPlayer:(nonnull NSString *)name {
-    [MUXSDKCore dispatchEvent:event forPlayer:name];
++ (void)dispatchError:(nonnull NSString *)code withMessage:(nonnull NSString *)message forPlayer:(nonnull NSString *)name {
+    MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
+    if (!player) return;
+    [player forceDispatchError:code withMessage:message];
 }
 
 
