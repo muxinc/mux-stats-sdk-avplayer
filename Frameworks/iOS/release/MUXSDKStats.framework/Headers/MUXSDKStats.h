@@ -162,4 +162,12 @@ FOUNDATION_EXPORT
 */
 + (void) orientationChangeForPlayer:(nonnull NSString *) name  withOrientation:(MUXSDKViewOrientation) orientation;
 
+/*!
+@method      dispatchEvent:forPlayer
+@abstract    Dispatches an Mux Data event for a player with the given name
+@param       name The name of the player to update
+@param       event An event that inherits from MUXSDKEventTyping
+*/
++ (void) dispatchEvent:(nonnull id<MUXSDKEventTyping>)event forPlayer:(nonnull NSString *)name;
+
 @end

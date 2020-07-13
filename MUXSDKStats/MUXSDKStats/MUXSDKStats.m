@@ -291,5 +291,9 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
     [player dispatchOrientationChange:orientation];
 }
 
++ (void)dispatchEvent:(nonnull id<MUXSDKEventTyping>)event forPlayer:(nonnull NSString *)name {
+    [MUXSDKCore dispatchEvent:event forPlayer:name];
+}
+
 
 @end
