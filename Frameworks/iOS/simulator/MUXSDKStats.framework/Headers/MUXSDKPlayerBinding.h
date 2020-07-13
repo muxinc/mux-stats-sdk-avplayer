@@ -57,6 +57,9 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
     long long _lastTransferredBytes;
     MUXSDKViewOrientation _orientation;
     double _lastAdvertisedBitrate;
+    double _lastDispatchedAdvertisedBitrate;
+    BOOL _sourceDimensionsHaveChanged;
+    CGSize _lastDispatchedVideoSize;
     BOOL _automaticErrorTracking;
 }
 
