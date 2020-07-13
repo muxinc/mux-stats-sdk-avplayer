@@ -404,8 +404,7 @@ static NSString *Z = @"Z";
     NSString *playName = @"Player";
     [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName playerData:customerPlayerData videoData:customerVideoData];
 
-    MUXSDKErrorEvent *errorEvent = [[MUXSDKErrorEvent alloc] init];
-    [MUXSDKStats dispatchEvent:errorEvent forPlayer:playName];
+    [MUXSDKStats dispatchError:@"12345" withMessage:@"Something aint right" forPlayer:playName];
 
     NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                                     MUXSDKDataEventType,
