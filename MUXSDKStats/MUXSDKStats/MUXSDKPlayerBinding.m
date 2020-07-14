@@ -688,7 +688,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     _state = MUXSDKPlayerStateError;
 }
 
-- (void)forceDispatchError:(nonnull NSString *)code withMessage:(nonnull NSString *)message {
+- (void) dispatchError:(nonnull NSString *)code withMessage:(nonnull NSString *)message {
     if (![self isPlayerOK]) {
         return;
     }

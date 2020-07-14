@@ -114,13 +114,14 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
                          withPlayerName:name
                              playerData:playerData
                               videoData:videoData
-             withAutomaticErrorTracking: true];
+                 automaticErrorTracking: true];
 }
 
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
                                                  withPlayerName:(nonnull NSString *)name
                                                      playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
-                                                      videoData:(nullable MUXSDKCustomerVideoData *)videoData withAutomaticErrorTracking:(BOOL) automaticErrorTracking {
+                                                      videoData:(nullable MUXSDKCustomerVideoData *)videoData
+                                         automaticErrorTracking:(BOOL) automaticErrorTracking {
     [self initSDK];
     NSString *binding = [_bindings valueForKey:name];
     if (binding) {
@@ -294,7 +295,7 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
 + (void)dispatchError:(nonnull NSString *)code withMessage:(nonnull NSString *)message forPlayer:(nonnull NSString *)name {
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
     if (!player) return;
-    [player forceDispatchError:code withMessage:message];
+    [player dispatchError:code withMessage:message];
 }
 
 

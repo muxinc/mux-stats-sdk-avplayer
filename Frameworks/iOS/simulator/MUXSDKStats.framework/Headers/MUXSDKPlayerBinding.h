@@ -84,7 +84,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 - (float)getCurrentPlayheadTimeMs;
 - (void)dispatchRenditionChange;
 - (BOOL)setAutomaticErrorTracking:(BOOL)automaticErrorTracking;
-- (void)forceDispatchError:(nonnull NSString *)code withMessage:(nonnull NSString *)message;
+- (void) dispatchError:(nonnull NSString *)code withMessage:(nonnull NSString *)message;
 
 @end
 
