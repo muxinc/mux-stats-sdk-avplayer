@@ -28,8 +28,7 @@
     [MUXSDKCore resetCapturedEvents];
 }
 
-- (void)testPlayerBindingManagerStartsNewViews {
-    
+- (MUXSDKAVPlayerViewControllerBinding *) setupViewControllerPlayerBinding:(NSString *)name {
     MUXSDKPlayerBindingManager *sut = [[MUXSDKPlayerBindingManager alloc] init];
     MUXSDKCustomerPlayerDataStore *playerDataStore = [[MUXSDKCustomerPlayerDataStore alloc] init];
     MUXSDKCustomerVideoDataStore *videoDataStore = [[MUXSDKCustomerVideoDataStore alloc] init];
@@ -40,7 +39,6 @@
     sut.viewControllers = vcs;
     
     // Set up player
-    NSString *name = @"Test";
     NSString *software = @"Software";
     NSURL *url = [[NSURL alloc] initWithString:@"https://foo.mp4"];
     AVPlayer *player = [AVPlayer playerWithURL:url];
@@ -60,7 +58,14 @@
     
     [binding attachAVPlayer:player];
     [sut newViewForPlayer:name];
+    return binding;
+}
+
+- (void)testPlayerBindingManagerStartsNewViews {
+    NSString *name = @"Test";
+    [self setupViewControllerPlayerBinding:name];
     
+    XCTAssertEqual(3, [MUXSDKCore eventsCountForPlayer:name]);
     id<MUXSDKEventTyping> event0 = [MUXSDKCore eventAtIndex:0 forPlayer:name];
     id<MUXSDKEventTyping> event1 = [MUXSDKCore eventAtIndex:1 forPlayer:name];
     id<MUXSDKEventTyping> event2 = [MUXSDKCore eventAtIndex:2 forPlayer:name];
@@ -68,10 +73,30 @@
     XCTAssertEqual([event0 getType], MUXSDKPlaybackEventViewInitEventType);
     XCTAssertEqual([event1 getType], MUXSDKDataEventType);
     XCTAssertEqual([event2 getType], MUXSDKPlaybackEventPlayerReadyEventType);
-    
-    [sut newViewForPlayer:name];
-    XCTAssertEqual(3, [MUXSDKCore eventsCountForPlayer:name]);
 }
+
+- (void)testPlayerBindingAutomaticErrorTrackingEnabled {
+    NSString *name = @"awesome-player";
+    MUXSDKAVPlayerViewControllerBinding *binding = [self setupViewControllerPlayerBinding:name];
+
+    [binding dispatchError];
+    XCTAssertEqual(5, [MUXSDKCore eventsCountForPlayer:name]);
+    id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:4 forPlayer:name];
+    XCTAssertEqual([event getType], MUXSDKPlaybackEventErrorEventType);
+
+}
+
+- (void)testPlayerBindingAutomaticErrorTrackingDisabled {
+    NSString *name = @"awesome-player";
+    MUXSDKAVPlayerViewControllerBinding *binding = [self setupViewControllerPlayerBinding:name];
+    [binding setAutomaticErrorTracking:false];
+
+    [binding dispatchError];
+    XCTAssertEqual(3, [MUXSDKCore eventsCountForPlayer:name]);
+    id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:2 forPlayer:name];
+    XCTAssertEqual([event getType], MUXSDKPlaybackEventPlayerReadyEventType);
+}
+
 
 
 @end

@@ -7,7 +7,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"1.3.8";
+NSString *const MUXSDKPluginVersion = @"1.4.0";
 
 // Min number of seconds between timeupdate events. (100ms)
 double MUXSDKMaxSecsBetweenTimeUpdate = 0.1;
@@ -39,8 +39,14 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (self) {
         _name = name;
         _software = software;
+        _automaticErrorTracking = true;
     }
     return(self);
+}
+
+- (BOOL)setAutomaticErrorTracking:(BOOL)automaticErrorTracking {
+    _automaticErrorTracking = automaticErrorTracking;
+    return _automaticErrorTracking;
 }
 
 - (void)attachAVPlayer:(AVPlayer *)player {
@@ -668,11 +674,28 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)dispatchError {
+    if (!_automaticErrorTracking) {
+        return;
+    }
     if (![self isPlayerOK]) {
         return;
     }
     [self checkVideoData];
     MUXSDKPlayerData *playerData = [self getPlayerData];
+    MUXSDKErrorEvent *event = [[MUXSDKErrorEvent alloc] init];
+    [event setPlayerData:playerData];
+    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    _state = MUXSDKPlayerStateError;
+}
+
+- (void) dispatchError:(nonnull NSString *)code withMessage:(nonnull NSString *)message {
+    if (![self isPlayerOK]) {
+        return;
+    }
+    [self checkVideoData];
+    MUXSDKPlayerData *playerData = [self getPlayerData];
+    [playerData setPlayerErrorCode:code];
+    [playerData setPlayerErrorMessage:message];
     MUXSDKErrorEvent *event = [[MUXSDKErrorEvent alloc] init];
     [event setPlayerData:playerData];
     [MUXSDKCore dispatchEvent:event forPlayer:_name];

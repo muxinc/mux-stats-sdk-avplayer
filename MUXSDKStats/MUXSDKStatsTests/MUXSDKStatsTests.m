@@ -396,4 +396,23 @@ static NSString *Z = @"Z";
 
     [MUXSDKStats destroyPlayer:playName];
 }
+
+- (void) testDispatchError {
+    MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
+    MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
+    MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
+    NSString *playName = @"Player";
+    [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName playerData:customerPlayerData videoData:customerVideoData];
+
+    [MUXSDKStats dispatchError:@"12345" withMessage:@"Something aint right" forPlayer:playName];
+
+    NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventPlayerReadyEventType,
+                                    MUXSDKPlaybackEventErrorEventType,
+    ];
+    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
+
+    [MUXSDKStats destroyPlayer:playName];
+}
 @end

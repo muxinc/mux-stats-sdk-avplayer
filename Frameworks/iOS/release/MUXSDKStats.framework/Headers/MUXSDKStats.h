@@ -50,6 +50,19 @@ FOUNDATION_EXPORT
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData;
 
 /*!
+ @method      monitorAVPlayerViewController:withPlayerName:playerData:videoData:automaticErrorTracking:
+ @abstract    Starts to monitor a given AVPlayerViewController.
+ @param       player An AVPlayerViewController to monitor
+ @param       name A name for this instance of the player
+ @param       playerData A MUXSDKCustomerPlayerData object with player metadata
+ @param       videoData A MUXSDKCustomerVideoData object with video metadata
+ @param       automaticErrorTracking boolean to indicate if the SDK should automatically track player errors
+ @return      an instance of MUXSDKAVPlayerLayerBinding or null
+ @discussion  Use this method to start a Mux player monitor on the given AVPlayerViewController. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
+ */
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData automaticErrorTracking:(BOOL)automaticErrorTracking;
+
+/*!
  @method      updateAVPlayerViewController:withPlayerName
  @abstract    Updates the monitor for a player to a new AVPlayerViewController.
  @param       player The new AVPlayerViewController to monitor
@@ -69,6 +82,19 @@ FOUNDATION_EXPORT
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerLayer. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData;
+
+/*!
+ @method      monitorAVPlayerLayer:withPlayerName:playerData:videoData:automaticErrorTracking:
+ @abstract    Starts to monitor a given AVPlayerLayer.
+ @param       player An AVPlayerLayer to monitor
+ @param       name A name for this instance of the player
+ @param       playerData A MUXSDKCustomerPlayerData object with player metadata
+ @param       videoData A MUXSDKCustomerVideoData object with video metadata
+ @param       automaticErrorTracking boolean to indicate if the SDK should automatically track player errors
+ @return      an instance of MUXSDKAVPlayerLayerBinding or null
+ @discussion  Use this method to start a Mux player monitor on the given AVPlayerLayer. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
+ */
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData automaticErrorTracking:(BOOL)automaticErrorTracking;;
 
 /*!
  @method      updateAVPlayerLayer:withPlayerName:
@@ -135,5 +161,14 @@ FOUNDATION_EXPORT
 @param       orientation A MUXSDKViewOrientation enum value representing if the view has changed to portrait or landscape
 */
 + (void) orientationChangeForPlayer:(nonnull NSString *) name  withOrientation:(MUXSDKViewOrientation) orientation;
+
+/*!
+@method      dispatchError:withMessage:forPlayer
+@abstract    Dispatches an error with the specified error code and message for the given player
+@param       code The error code in string format
+@param       message The error message in string format
+@param       name The name of the player
+*/
++ (void)dispatchError:(nonnull NSString *)code withMessage:(nonnull NSString *)message forPlayer:(nonnull NSString *)name;
 
 @end
