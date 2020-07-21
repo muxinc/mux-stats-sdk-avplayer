@@ -170,7 +170,7 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
                                          withPlayerName:(nonnull NSString *)name
                                              playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
                                               videoData:(nullable MUXSDKCustomerVideoData *)videoData
-                             withAutomaticErrorTracking:(BOOL) automaticErrorTracking {
+                                 automaticErrorTracking:(BOOL) automaticErrorTracking {
     [self initSDK];
     NSString *binding = [_bindings valueForKey:name];
     if (binding) {
@@ -200,10 +200,10 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
                                             playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
                                              videoData:(nullable MUXSDKCustomerVideoData *)videoData {
     return [self monitorAVPlayerLayer:player
-                         withPlayerName:name
-                             playerData:playerData
-                              videoData:videoData
-             withAutomaticErrorTracking: true];
+                       withPlayerName:name
+                           playerData:playerData
+                            videoData:videoData
+               automaticErrorTracking: true];
 }
 
 + (void)updateAVPlayerLayer:(AVPlayerLayer *)player withPlayerName:(NSString *)name {
