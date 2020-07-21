@@ -28,6 +28,8 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
     MUXSDKViewOrientationLandscape
 };
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol MUXSDKPlayDispatchDelegate
 - (void) playbackStartedForPlayer:(NSString *) name;
 - (void) videoChangedForPlayer:(NSString *) name;
@@ -84,7 +86,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 - (float)getCurrentPlayheadTimeMs;
 - (void)dispatchRenditionChange;
 - (BOOL)setAutomaticErrorTracking:(BOOL)automaticErrorTracking;
-- (void) dispatchError:(nonnull NSString *)code withMessage:(nonnull NSString *)message;
+- (void)dispatchError:(NSString *)code withMessage:(NSString *)message;
 
 @end
 
@@ -108,5 +110,6 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 
 @end
 
+NS_ASSUME_NONNULL_END
 
 #endif
