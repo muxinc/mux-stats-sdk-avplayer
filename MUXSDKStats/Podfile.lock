@@ -2,15 +2,15 @@ PODS:
   - Mux-Stats-Core (2.2.2)
 
 DEPENDENCIES:
-  - Mux-Stats-Core (~> 2.2.0)
+  - "Mux-Stats-Core (from `~/code/@muxinc/mux-stats-sdk-objc/stats-sdk-objc`)"
 
-SPEC REPOS:
-  trunk:
-    - Mux-Stats-Core
+EXTERNAL SOURCES:
+  Mux-Stats-Core:
+    :path: "~/code/@muxinc/mux-stats-sdk-objc/stats-sdk-objc"
 
 SPEC CHECKSUMS:
   Mux-Stats-Core: 16b58f39b40a5277ab0742f2efaf544cee98792d
 
-PODFILE CHECKSUM: 424113a5d70474d84755984dcd441bbebc595369
+PODFILE CHECKSUM: 4bf55cd56ab8398fa009d6eff8d035cd63299e16
 
 COCOAPODS: 1.9.1

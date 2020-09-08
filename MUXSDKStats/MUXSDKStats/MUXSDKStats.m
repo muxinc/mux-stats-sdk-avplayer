@@ -4,6 +4,7 @@
 #import "MUXSDKCustomerPlayerDataStore.h"
 #import "MUXSDKCustomerVideoDataStore.h"
 #import <Foundation/Foundation.h>
+#import <SystemConfiguration/SystemConfiguration.h>
 #import <sys/utsname.h>
 
 @import AVFoundation;
@@ -97,6 +98,11 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
         default:
             break;
     }
+    NSString *connectionType = [self detectConnectionType];
+    if (connectionType) {
+        [viewerData setViewerConnectionType:connectionType];
+    }
+    NSLog(@"debug connectionType %@", connectionType);
     [viewerData setViewerDeviceCategory:deviceCategory];
     [viewerData setViewerOsFamily:osFamily];
     [viewerData setViewerOsVersion:[[UIDevice currentDevice] systemVersion]];
@@ -296,6 +302,27 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
     if (!player) return;
     [player dispatchError:code withMessage:message];
+}
+
++ (NSString *)detectConnectionType {
+    SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithName(NULL, "8.8.8.8");
+    SCNetworkReachabilityFlags flags;
+    BOOL success = SCNetworkReachabilityGetFlags(reachability, &flags);
+    CFRelease(reachability);
+    if (!success) {
+        return NULL;
+    }
+    BOOL isReachable = ((flags & kSCNetworkReachabilityFlagsReachable) != 0);
+    BOOL needsConnection = ((flags & kSCNetworkReachabilityFlagsConnectionRequired) != 0);
+    BOOL isNetworkReachable = (isReachable && !needsConnection);
+
+    if (!isNetworkReachable) {
+        return NULL;
+    } else if ((flags & kSCNetworkReachabilityFlagsIsWWAN) != 0) {
+        return @"cellular";
+    } else {
+        return @"wifi";
+    }
 }
 
 
