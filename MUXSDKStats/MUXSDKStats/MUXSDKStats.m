@@ -102,7 +102,6 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
     if (connectionType) {
         [viewerData setViewerConnectionType:connectionType];
     }
-    NSLog(@"debug connectionType %@", connectionType);
     [viewerData setViewerDeviceCategory:deviceCategory];
     [viewerData setViewerOsFamily:osFamily];
     [viewerData setViewerOsVersion:[[UIDevice currentDevice] systemVersion]];
