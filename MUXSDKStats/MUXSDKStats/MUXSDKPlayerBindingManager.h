@@ -15,11 +15,13 @@
 #import "MUXSDKPlayerBinding.h"
 #import "MUXSDKCustomerPlayerDataStore.h"
 #import "MUXSDKCustomerVideoDataStore.h"
+#import "MUXSDKCustomerViewDataStore.h"
 
 @interface MUXSDKPlayerBindingManager : NSObject<MUXSDKPlayDispatchDelegate>
 
 @property (nonatomic, weak) id<MUXSDKCustomerPlayerDataStoring> _Nullable customerPlayerDataStore;
 @property (nonatomic, weak) id<MUXSDKCustomerVideoDataStoring> _Nullable customerVideoDataStore;
+@property (nonatomic, weak) id<MUXSDKCustomerViewDataStoring> _Nullable customerViewDataStore;
 @property (nonatomic, weak) NSDictionary * _Nullable viewControllers;
 
 - (void) newViewForPlayer:(NSString *_Nonnull) name;

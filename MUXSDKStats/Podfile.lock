@@ -2,15 +2,21 @@ PODS:
   - Mux-Stats-Core (2.3.0)
 
 DEPENDENCIES:
-  - Mux-Stats-Core (~> 2.3)
+  - Mux-Stats-Core (from `https://github.com/muxinc/stats-sdk-objc.git`, branch `nidhik/view_session_id_remote_played`)
 
-SPEC REPOS:
-  trunk:
-    - Mux-Stats-Core
+EXTERNAL SOURCES:
+  Mux-Stats-Core:
+    :branch: nidhik/view_session_id_remote_played
+    :git: https://github.com/muxinc/stats-sdk-objc.git
+
+CHECKOUT OPTIONS:
+  Mux-Stats-Core:
+    :commit: 950e100ca646385980ff8cefbc8e820cae162dc0
+    :git: https://github.com/muxinc/stats-sdk-objc.git
 
 SPEC CHECKSUMS:
   Mux-Stats-Core: 636c325a6e2cc54fad54db0918f3da674eef694a
 
-PODFILE CHECKSUM: f1b68377b1a52580ee34e7798b983fa6e9ae8cae
+PODFILE CHECKSUM: c2d035815cabef5cff111fa86b010dce08fb26e1
 
 COCOAPODS: 1.9.3

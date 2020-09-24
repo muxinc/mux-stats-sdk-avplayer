@@ -552,6 +552,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         }
     }
     // TODO: Airplay - don't set the view if we don't actually know what is going on.
+    if (_player.externalPlaybackActive) {
+        [playerData setPlayerRemotePlayed:[NSNumber numberWithBool:YES]];
+    }
     return playerData;
 }
 
