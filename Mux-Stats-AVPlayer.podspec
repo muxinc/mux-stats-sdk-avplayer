@@ -14,9 +14,9 @@ Pod::Spec.new do |s|
   s.license          = 'Apache 2.0'
   s.author           = { 'Mux' => 'ios-sdk@mux.com' }
 
-  s.dependency 'Mux-Stats-Core', '~>2.2'
+  s.dependency 'Mux-Stats-Core', '~>2.3'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
   s.ios.vendored_frameworks = 'Frameworks/iOS/fat/MUXSDKStats.framework'
   s.ios.frameworks = 'AVKit', 'AVFoundation'
 
