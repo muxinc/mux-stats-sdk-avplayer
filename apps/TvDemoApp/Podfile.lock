@@ -1,6 +1,6 @@
 PODS:
   - GoogleAds-IMA-tvOS-SDK (4.2.1)
-  - Mux-Stats-AVPlayer (1.5.0):
+  - Mux-Stats-AVPlayer (1.6.0):
     - Mux-Stats-Core (~> 2.3)
   - Mux-Stats-Core (2.4.0)
   - Mux-Stats-Google-IMA (0.5.0):
@@ -25,7 +25,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   GoogleAds-IMA-tvOS-SDK: 2e13f90cdb893de667b12db571e5bed5a6c0ec8c
-  Mux-Stats-AVPlayer: d2f34bedebce059ae034235486c920010f075fc0
+  Mux-Stats-AVPlayer: fd10b5e14988163951477cb489c80bd1a9537818
   Mux-Stats-Core: 1d90c9f822635b364ac5eeda08214be57871aa2c
   Mux-Stats-Google-IMA: 4c2e61c1b5144fdaf4600b61acf2dce4dcaafa17
 
