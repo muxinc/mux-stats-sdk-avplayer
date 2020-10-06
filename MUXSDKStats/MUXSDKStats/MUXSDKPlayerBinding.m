@@ -120,20 +120,21 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)handleConnectionTypeDetected:(NSNotification *)notif {
-    //
-    // 2020-10-05 dylanjhaveri
-    // we can remove this notification because we don't need it again.
-    //
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"com.mux.connection-type-detected" object:nil];
-    NSString *type = [notif.userInfo valueForKey:@"type"];
-    if (type != nil) {
-        NSLog(@"debug dispatching dataEvent %@", type);
-        MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
-        MUXSDKViewerData *viewerData = [[MUXSDKViewerData alloc] init];
-        [viewerData setViewerConnectionType:type];
-        [dataEvent setViewerData:viewerData];
-        [MUXSDKCore dispatchEvent:dataEvent forPlayer:_name];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        //
+        // dylanjhaveri
+        // we only track this initial value, after we get it then we can remove the listener
+        //
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"com.mux.connection-type-detected" object:nil];
+        NSString *type = [notif.userInfo valueForKey:@"type"];
+        if (type != nil) {
+            MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
+            MUXSDKViewerData *viewerData = [[MUXSDKViewerData alloc] init];
+            [viewerData setViewerConnectionType:type];
+            [dataEvent setViewerData:viewerData];
+            [MUXSDKCore dispatchGlobalDataEvent:dataEvent];
+        }
+    });
 }
 
 # pragma mark AVPlayerItemAccessLog

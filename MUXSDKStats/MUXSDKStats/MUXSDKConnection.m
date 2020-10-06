@@ -1,14 +1,15 @@
 #import "MUXSDKConnection.h"
 #import <SystemConfiguration/SystemConfiguration.h>
-//#import <sys/utsname.h>
-//#include <ifaddrs.h>
 
 /*
+    dylanjhaveri
     Right now this class has 1 significant shortcoming and it is that on
     a wired ethernet TVOS app it will detect "wifi" as the connection type
 
     If we can bump the target iOS version for this SDK all the way up to iOS12
-    then we can use NWPathMonitor.
+    then we can use NWPathMonitor, which can nativly detect Cellular/Wifi/Ethernet,
+    until then, we have to use SCNetworkReachability which does not let us differentiate
+    between wifi/ethernet (at least not that I could figure out)
  */
 @implementation MUXSDKConnection
 
@@ -18,7 +19,7 @@
 }
 
 //
-// 2020-10-05 dylanjhaveri
+// dylanjhaveri
 // this will detect the connection type asynchronously, off the main queue
 // it's important to do this off the main queue because this check can hang
 // after it's done, it will fire a notification to NSNotificationCenter

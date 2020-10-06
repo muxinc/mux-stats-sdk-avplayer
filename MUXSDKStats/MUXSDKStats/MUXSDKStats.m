@@ -5,9 +5,7 @@
 #import "MUXSDKCustomerPlayerDataStore.h"
 #import "MUXSDKCustomerVideoDataStore.h"
 #import <Foundation/Foundation.h>
-#import <SystemConfiguration/SystemConfiguration.h>
 #import <sys/utsname.h>
-#include <ifaddrs.h>
 
 @import AVFoundation;
 @import AVKit;
@@ -280,7 +278,7 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
     if (!playerData && !videoData) return;
     MUXSDKDataEvent *dataEvent = [MUXSDKDataEvent new];
     if (playerData) {
-         [_customerPlayerDataStore setPlayerData:playerData forPlayerName:name];
+        [_customerPlayerDataStore setPlayerData:playerData forPlayerName:name];
         [dataEvent setCustomerPlayerData:playerData];
     }
     if (videoData) {

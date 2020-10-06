@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-@import Network;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,8 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
  @discussion  The SDK will use this method to detect connection type of the device
  */
 + (void)detectConnectionType;
-
-@property (nonatomic, strong) nw_path_monitor_t monitor;
 
 @end
 
