@@ -1,4 +1,5 @@
 #import "MUXSDKPlayerBinding.h"
+#import "MUXSDKConnection.h"
 #import "MUXSDKPlayerBindingConstants.h"
 #import "NSNumber+MUXSDK.h"
 #import <Foundation/Foundation.h>
@@ -94,7 +95,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAVPlayerAccess:) name:AVPlayerItemNewAccessLogEntryNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRenditionChange:) name:RenditionChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAVPlayerError:) name:AVPlayerItemNewErrorLogEntryNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNetworkDetected:) name:AVPlayerItemNewAccessLogEntryNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleConnectionTypeDetected:) name:@"com.mux.connection-type-detected" object:nil];
     
     _lastTransferEventCount = 0;
     _lastTransferDuration= 0;
@@ -118,8 +119,21 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     return notificationItem == _playerItem;
 }
 
-- (void)handleNetworkDetected:(NSNotification *)notif {
-    NSLog(@"debug network has been detected %@", notif.userInfo);
+- (void)handleConnectionTypeDetected:(NSNotification *)notif {
+    //
+    // 2020-10-05 dylanjhaveri
+    // we can remove this notification because we don't need it again.
+    //
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"com.mux.connection-type-detected" object:nil];
+    NSString *type = [notif.userInfo valueForKey:@"type"];
+    if (type != nil) {
+        NSLog(@"debug dispatching dataEvent %@", type);
+        MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
+        MUXSDKViewerData *viewerData = [[MUXSDKViewerData alloc] init];
+        [viewerData setViewerConnectionType:type];
+        [dataEvent setViewerData:viewerData];
+        [MUXSDKCore dispatchEvent:dataEvent forPlayer:_name];
+    }
 }
 
 # pragma mark AVPlayerItemAccessLog

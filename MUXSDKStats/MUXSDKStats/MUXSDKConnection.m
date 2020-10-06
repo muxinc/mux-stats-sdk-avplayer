@@ -1,66 +1,56 @@
 #import "MUXSDKConnection.h"
-@import Network;
-//#import <SystemConfiguration/SystemConfiguration.h>
+#import <SystemConfiguration/SystemConfiguration.h>
 //#import <sys/utsname.h>
 //#include <ifaddrs.h>
 
+/*
+    Right now this class has 1 significant shortcoming and it is that on
+    a wired ethernet TVOS app it will detect "wifi" as the connection type
+
+    If we can bump the target iOS version for this SDK all the way up to iOS12
+    then we can use NWPathMonitor.
+ */
 @implementation MUXSDKConnection
 
 + (void)detectConnectionType {
     MUXSDKConnection *connection = [[MUXSDKConnection alloc] init];
-    [connection startNetworkMonitoring];
+    [connection detectConnectionAsync];
 }
 
-#if defined(__IPHONE_12_0) || defined(__TVOS_12_0)
-
-- (void)startNetworkMonitoring
-{
-    self.monitor = nw_path_monitor_create();
-    nw_path_monitor_set_queue(self.monitor, dispatch_get_main_queue());
-    nw_path_monitor_set_update_handler(self.monitor, ^(nw_path_t _Nonnull path) {
-        nw_path_status_t status = nw_path_get_status(path);
-        BOOL isWiFi = nw_path_uses_interface_type(path, nw_interface_type_wifi);
-        BOOL isCellular = nw_path_uses_interface_type(path, nw_interface_type_cellular);
-        BOOL isEthernet = nw_path_uses_interface_type(path, nw_interface_type_wired);
-        BOOL isExpensive = nw_path_is_expensive(path);
-        BOOL hasIPv4 = nw_path_has_ipv4(path);
-        BOOL hasIPv6 = nw_path_has_ipv6(path);
-        BOOL hasNewDNS = nw_path_has_dns(path);
-
-        NSDictionary *userInfo = @{
-                                    @"isWiFi" : @(isWiFi),
-                                    @"isCellular" : @(isCellular),
-                                    @"isEthernet" : @(isEthernet),
-                                    @"status" : @(status),
-                                    @"isExpensive" : @(isExpensive),
-                                    @"hasIPv4" : @(hasIPv4),
-                                    @"hasIPv6" : @(hasIPv6),
-                                    @"hasNewDNS" : @(hasNewDNS)
-                                 };
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [NSNotificationCenter.defaultCenter postNotificationName:@"com.mux.network.status-change" object:nil userInfo:userInfo];
-        });
+//
+// 2020-10-05 dylanjhaveri
+// this will detect the connection type asynchronously, off the main queue
+// it's important to do this off the main queue because this check can hang
+// after it's done, it will fire a notification to NSNotificationCenter
+//
+- (void)detectConnectionAsync {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString *type = [self getConnectionType];
+        NSDictionary *userInfo = @{@"type" : type};
+        [NSNotificationCenter.defaultCenter postNotificationName:@"com.mux.connection-type-detected" object:nil userInfo:userInfo];
     });
-
-    nw_path_monitor_start(self.monitor);
 }
 
-- (void)stopNetworkMonitoring {
-    if (@available(iOS 12.0, *)) {
-        nw_path_monitor_cancel(self.monitor);
+- (NSString *) getConnectionType {
+    SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithName(NULL, "8.8.8.8");
+    SCNetworkReachabilityFlags flags;
+    BOOL success = SCNetworkReachabilityGetFlags(reachability, &flags);
+    CFRelease(reachability);
+    if (!success) {
+        return NULL;
+    }
+    BOOL isReachable = ((flags & kSCNetworkReachabilityFlagsReachable) != 0);
+    BOOL needsConnection = ((flags & kSCNetworkReachabilityFlagsConnectionRequired) != 0);
+    BOOL isNetworkReachable = (isReachable && !needsConnection);
+
+    if (!isNetworkReachable) {
+        return NULL;
+    } else if ((flags & kSCNetworkReachabilityFlagsIsWWAN) != 0) {
+        return @"cellular";
     } else {
-        // Fallback on earlier versions
+        return @"wifi";
     }
 }
-
-#else
-
-- (void)startNetworkMonitoring {}
-
-- (void)stopNetworkMonitoring {}
-
-#endif
 
 
 @end
