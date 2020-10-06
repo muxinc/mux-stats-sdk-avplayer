@@ -94,6 +94,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAVPlayerAccess:) name:AVPlayerItemNewAccessLogEntryNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRenditionChange:) name:RenditionChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAVPlayerError:) name:AVPlayerItemNewErrorLogEntryNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleNetworkDetected:) name:AVPlayerItemNewAccessLogEntryNotification object:nil];
     
     _lastTransferEventCount = 0;
     _lastTransferDuration= 0;
@@ -115,6 +116,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 - (BOOL) checkIfNotificationIsRelevant:(NSNotification *)notif {
     AVPlayerItem *notificationItem = (AVPlayerItem *)notif.object;
     return notificationItem == _playerItem;
+}
+
+- (void)handleNetworkDetected:(NSNotification *)notif {
+    NSLog(@"debug network has been detected %@", notif.userInfo);
 }
 
 # pragma mark AVPlayerItemAccessLog

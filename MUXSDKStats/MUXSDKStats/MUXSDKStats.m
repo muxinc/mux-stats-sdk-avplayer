@@ -1,11 +1,13 @@
 #import "MUXSDKStats.h"
 #import "MUXSDKPlayerBinding.h"
+#import "MUXSDKConnection.h"
 #import "MUXSDKPlayerBindingManager.h"
 #import "MUXSDKCustomerPlayerDataStore.h"
 #import "MUXSDKCustomerVideoDataStore.h"
 #import <Foundation/Foundation.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <sys/utsname.h>
+#include <ifaddrs.h>
 
 @import AVFoundation;
 @import AVKit;
@@ -98,10 +100,6 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
         default:
             break;
     }
-    NSString *connectionType = [self detectConnectionType];
-    if (connectionType) {
-        [viewerData setViewerConnectionType:connectionType];
-    }
     [viewerData setViewerDeviceCategory:deviceCategory];
     [viewerData setViewerOsFamily:osFamily];
     [viewerData setViewerOsVersion:[[UIDevice currentDevice] systemVersion]];
@@ -109,6 +107,7 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
     [dataEvent setEnvironmentData:environmentData];
     [dataEvent setViewerData:viewerData];
     [MUXSDKCore dispatchGlobalDataEvent:dataEvent];
+    [MUXSDKConnection detectConnectionType];
 }
 
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
@@ -302,27 +301,5 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
     if (!player) return;
     [player dispatchError:code withMessage:message];
 }
-
-+ (NSString *)detectConnectionType {
-    SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithName(NULL, "8.8.8.8");
-    SCNetworkReachabilityFlags flags;
-    BOOL success = SCNetworkReachabilityGetFlags(reachability, &flags);
-    CFRelease(reachability);
-    if (!success) {
-        return NULL;
-    }
-    BOOL isReachable = ((flags & kSCNetworkReachabilityFlagsReachable) != 0);
-    BOOL needsConnection = ((flags & kSCNetworkReachabilityFlagsConnectionRequired) != 0);
-    BOOL isNetworkReachable = (isReachable && !needsConnection);
-
-    if (!isNetworkReachable) {
-        return NULL;
-    } else if ((flags & kSCNetworkReachabilityFlagsIsWWAN) != 0) {
-        return @"cellular";
-    } else {
-        return @"wifi";
-    }
-}
-
 
 @end
