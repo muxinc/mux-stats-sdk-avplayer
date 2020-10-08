@@ -1,4 +1,5 @@
 #import "MUXSDKPlayerBinding.h"
+#import "MUXSDKConnection.h"
 #import "MUXSDKPlayerBindingConstants.h"
 #import "NSNumber+MUXSDK.h"
 #import <Foundation/Foundation.h>
@@ -7,7 +8,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"1.5.0";
+NSString *const MUXSDKPluginVersion = @"1.6.0";
 
 // Min number of seconds between timeupdate events. (100ms)
 double MUXSDKMaxSecsBetweenTimeUpdate = 0.1;
@@ -94,6 +95,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAVPlayerAccess:) name:AVPlayerItemNewAccessLogEntryNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRenditionChange:) name:RenditionChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAVPlayerError:) name:AVPlayerItemNewErrorLogEntryNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleConnectionTypeDetected:) name:@"com.mux.connection-type-detected" object:nil];
     
     _lastTransferEventCount = 0;
     _lastTransferDuration= 0;
@@ -115,6 +117,19 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 - (BOOL) checkIfNotificationIsRelevant:(NSNotification *)notif {
     AVPlayerItem *notificationItem = (AVPlayerItem *)notif.object;
     return notificationItem == _playerItem;
+}
+
+- (void)handleConnectionTypeDetected:(NSNotification *)notif {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSString *type = [notif.userInfo valueForKey:@"type"];
+        if (type != nil) {
+            MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
+            MUXSDKViewerData *viewerData = [[MUXSDKViewerData alloc] init];
+            [viewerData setViewerConnectionType:type];
+            [dataEvent setViewerData:viewerData];
+            [MUXSDKCore dispatchGlobalDataEvent:dataEvent];
+        }
+    });
 }
 
 # pragma mark AVPlayerItemAccessLog
@@ -228,6 +243,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemNewAccessLogEntryNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RenditionChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemNewErrorLogEntryNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"com.mux.connection-type-detected" object:nil];
 }
 
 - (void) safelyRemoveTimeObserverForPlayer {

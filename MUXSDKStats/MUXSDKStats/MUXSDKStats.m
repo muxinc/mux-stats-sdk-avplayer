@@ -1,5 +1,6 @@
 #import "MUXSDKStats.h"
 #import "MUXSDKPlayerBinding.h"
+#import "MUXSDKConnection.h"
 #import "MUXSDKPlayerBindingManager.h"
 #import "MUXSDKCustomerPlayerDataStore.h"
 #import "MUXSDKCustomerVideoDataStore.h"
@@ -104,6 +105,13 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
     [dataEvent setEnvironmentData:environmentData];
     [dataEvent setViewerData:viewerData];
     [MUXSDKCore dispatchGlobalDataEvent:dataEvent];
+    //
+    // dylanjhaveri
+    // See MUXSDKConnection.m for the tvos shortcoming
+    //
+    if (![deviceCategory isEqualToString:@"tvOS"]) {
+//        [MUXSDKConnection detectConnectionType];
+    }
 }
 
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
@@ -276,7 +284,7 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
     if (!playerData && !videoData) return;
     MUXSDKDataEvent *dataEvent = [MUXSDKDataEvent new];
     if (playerData) {
-         [_customerPlayerDataStore setPlayerData:playerData forPlayerName:name];
+        [_customerPlayerDataStore setPlayerData:playerData forPlayerName:name];
         [dataEvent setCustomerPlayerData:playerData];
     }
     if (videoData) {
@@ -297,6 +305,5 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
     if (!player) return;
     [player dispatchError:code withMessage:message];
 }
-
 
 @end
