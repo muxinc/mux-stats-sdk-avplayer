@@ -121,11 +121,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 - (void)handleConnectionTypeDetected:(NSNotification *)notif {
     dispatch_async(dispatch_get_main_queue(), ^{
-        //
-        // dylanjhaveri
-        // we only track this initial value, after we get it then we can remove the listener
-        //
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"com.mux.connection-type-detected" object:nil];
         NSString *type = [notif.userInfo valueForKey:@"type"];
         if (type != nil) {
             MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
@@ -248,6 +243,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemNewAccessLogEntryNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RenditionChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemNewErrorLogEntryNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"com.mux.connection-type-detected" object:nil];
 }
 
 - (void) safelyRemoveTimeObserverForPlayer {

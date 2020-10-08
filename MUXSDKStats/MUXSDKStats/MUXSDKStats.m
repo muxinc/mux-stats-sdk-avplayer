@@ -105,7 +105,13 @@ static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
     [dataEvent setEnvironmentData:environmentData];
     [dataEvent setViewerData:viewerData];
     [MUXSDKCore dispatchGlobalDataEvent:dataEvent];
-    [MUXSDKConnection detectConnectionType];
+    //
+    // dylanjhaveri
+    // See MUXSDKConnection.m for the tvos shortcoming
+    //
+    if (![deviceCategory isEqualToString:@"tvOS"]) {
+//        [MUXSDKConnection detectConnectionType];
+    }
 }
 
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
