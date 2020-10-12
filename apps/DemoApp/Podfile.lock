@@ -11,6 +11,7 @@ PODS:
 DEPENDENCIES:
   - GoogleAds-IMA-iOS-SDK (~> 3.9)
   - Mux-Stats-AVPlayer (from `../..`)
+  - Mux-Stats-Core (~> 2.4)
   - Mux-Stats-Google-IMA (~> 0.5)
 
 SPEC REPOS:
@@ -29,6 +30,6 @@ SPEC CHECKSUMS:
   Mux-Stats-Core: 1d90c9f822635b364ac5eeda08214be57871aa2c
   Mux-Stats-Google-IMA: 4c2e61c1b5144fdaf4600b61acf2dce4dcaafa17
 
-PODFILE CHECKSUM: 908dbe83083b89838f3058f733021c3ba118a399
+PODFILE CHECKSUM: 7d749bbcab4a1d93805afa9878ae264a0f21adce
 
 COCOAPODS: 1.9.3
