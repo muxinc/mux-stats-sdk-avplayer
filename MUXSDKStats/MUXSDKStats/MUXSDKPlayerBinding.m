@@ -8,7 +8,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"1.6.0";
+NSString *const MUXSDKPluginVersion = @"1.7.0";
 
 // Min number of seconds between timeupdate events. (100ms)
 double MUXSDKMaxSecsBetweenTimeUpdate = 0.1;
@@ -552,6 +552,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         }
     }
     // TODO: Airplay - don't set the view if we don't actually know what is going on.
+    if (_player.externalPlaybackActive) {
+        [playerData setPlayerRemotePlayed:[NSNumber numberWithBool:YES]];
+    }
     return playerData;
 }
 

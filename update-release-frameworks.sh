@@ -13,7 +13,7 @@ cd MUXSDKStats
 # Build tvOS release SDK
 xcodebuild -workspace 'MUXSDKStats.xcworkspace' -configuration Release archive -scheme 'MUXSDKStatsTv' SYMROOT=$PWD/tv
 # Build tvOS simulator SDK
-xcodebuild -workspace 'MUXSDKStats.xcworkspace' -configuration Release -scheme 'MUXSDKStatsTv' -destination 'platform=tvOS Simulator,name=Apple TV' SYMROOT=$PWD/tv
+xcodebuild -workspace 'MUXSDKStats.xcworkspace' -configuration Release -scheme 'MUXSDKStatsTv' -destination 'platform=tvOS Simulator,name=Apple TV' SYMROOT=$PWD/tv EXCLUDED_ARCHS=arm64
 
 # Prepare the release .framework
 cp -R -L tv/Release-appletvos/MUXSDKStatsTv.framework tv/MUXSDKStatsTv.framework
@@ -29,7 +29,7 @@ lipo -create tv/Release-appletvos/MUXSDKStatsTv.framework.dSYM/Contents/Resource
 # Build iOS release SDK
 xcodebuild -workspace 'MUXSDKStats.xcworkspace' -configuration Release archive -scheme 'MUXSDKStats' -sdk iphoneos SYMROOT=$PWD/ios
 # Build iOS simulator SDK
-xcodebuild -workspace 'MUXSDKStats.xcworkspace' -configuration Release -scheme 'MUXSDKStats' -destination 'platform=iOS Simulator,name=iPhone 8' SYMROOT=$PWD/ios
+xcodebuild -workspace 'MUXSDKStats.xcworkspace' -configuration Release -scheme 'MUXSDKStats' -destination 'platform=iOS Simulator,name=iPhone 8' SYMROOT=$PWD/ios EXCLUDED_ARCHS=arm64
 
 # Prepare the release .framework
 cp -R -L ios/Release-iphoneos/MUXSDKStats.framework ios/MUXSDKStats.framework

@@ -1,16 +1,16 @@
 PODS:
-  - Mux-Stats-Core (2.3.0)
+  - Mux-Stats-Core (2.4.0)
 
 DEPENDENCIES:
-  - Mux-Stats-Core (~> 2.3)
+  - Mux-Stats-Core (~> 2.4)
 
 SPEC REPOS:
   trunk:
     - Mux-Stats-Core
 
 SPEC CHECKSUMS:
-  Mux-Stats-Core: 636c325a6e2cc54fad54db0918f3da674eef694a
+  Mux-Stats-Core: 1d90c9f822635b364ac5eeda08214be57871aa2c
 
-PODFILE CHECKSUM: f1b68377b1a52580ee34e7798b983fa6e9ae8cae
+PODFILE CHECKSUM: 9b31d61681313dc023e8e62fd5de29e0e6132c1b
 
 COCOAPODS: 1.9.3

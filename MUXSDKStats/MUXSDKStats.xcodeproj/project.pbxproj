@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		021F61E423F4E0810089A882 /* MUXSDKPlayerBindingConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 021F61E323F4E07B0089A882 /* MUXSDKPlayerBindingConstants.h */; };
 		021F61E523F4E0820089A882 /* MUXSDKPlayerBindingConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 021F61E323F4E07B0089A882 /* MUXSDKPlayerBindingConstants.h */; };
+		022224BE25312D5300054D0D /* MUXSDKCustomerViewDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 022224BC25312D5300054D0D /* MUXSDKCustomerViewDataStore.m */; };
+		022224BF25312D5300054D0D /* MUXSDKCustomerViewDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 022224BD25312D5300054D0D /* MUXSDKCustomerViewDataStore.h */; };
+		022224FC253567D200054D0D /* MUXSDKCustomerViewDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 022224BD25312D5300054D0D /* MUXSDKCustomerViewDataStore.h */; };
+		02222500253567D700054D0D /* MUXSDKCustomerViewDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 022224BC25312D5300054D0D /* MUXSDKCustomerViewDataStore.m */; };
 		0243A98523E9FFC600FBF5B4 /* MUXSDKPlayerBindingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0243A98423E9FFC600FBF5B4 /* MUXSDKPlayerBindingTests.m */; };
 		02721573240D922400CF8EF1 /* NSNumber+MUXSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 02776E5D23F75A840067CBCC /* NSNumber+MUXSDK.h */; };
 		02721574240D922600CF8EF1 /* NSNumber+MUXSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 02776E5E23F75A840067CBCC /* NSNumber+MUXSDK.m */; };
@@ -27,9 +31,9 @@
 		02EB9E2E23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EB9E2C23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m */; };
 		02EB9E2F23E896A90007E1CD /* MUXSDKCustomerVideoDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 02EB9E2B23E896790007E1CD /* MUXSDKCustomerVideoDataStore.h */; };
 		02EB9E3023E896F20007E1CD /* MUXSDKCustomerVideoDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EB9E2C23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m */; };
-		8432ADF5FB4286CD8F25E44D /* libPods-MUXSDKStatsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1429B758333A7ED3FC9DE72 /* libPods-MUXSDKStatsTests.a */; };
-		AE69070B2FD80230EC77C592 /* libPods-MUXSDKStatsTv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F95B0F38442288EABA7F6B2A /* libPods-MUXSDKStatsTv.a */; };
-		BE5DB850367A856040FA012C /* libPods-MUXSDKStats.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6879A37E99468D44B153EAB8 /* libPods-MUXSDKStats.a */; };
+		AA9CAEACF9C34595AB4C1AE5 /* libPods-MUXSDKStats.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 599BC46212EA2F19CC30F505 /* libPods-MUXSDKStats.a */; };
+		E308D6407571B2743578F391 /* libPods-MUXSDKStatsTv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A1B366D82B6E4FEA3758556 /* libPods-MUXSDKStatsTv.a */; };
+		EA097666F7B5E650705174B8 /* libPods-MUXSDKStatsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 69F76EF38BD449EF1D136921 /* libPods-MUXSDKStatsTests.a */; };
 		F41E09081DDA8E530028A296 /* MUXSDKStatsTv.h in Headers */ = {isa = PBXBuildFile; fileRef = F41E09061DDA8E530028A296 /* MUXSDKStatsTv.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F41E099D1DDA8FB50028A296 /* MUXSDKStats.h in Headers */ = {isa = PBXBuildFile; fileRef = F4DCAD001DCA892E0094D94C /* MUXSDKStats.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F41E09E41DDA90DB0028A296 /* MUXSDKPlayerBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = F4572FC11DDA2FC8003FE72B /* MUXSDKPlayerBinding.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -59,6 +63,8 @@
 
 /* Begin PBXFileReference section */
 		021F61E323F4E07B0089A882 /* MUXSDKPlayerBindingConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MUXSDKPlayerBindingConstants.h; sourceTree = "<group>"; };
+		022224BC25312D5300054D0D /* MUXSDKCustomerViewDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MUXSDKCustomerViewDataStore.m; sourceTree = "<group>"; };
+		022224BD25312D5300054D0D /* MUXSDKCustomerViewDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MUXSDKCustomerViewDataStore.h; sourceTree = "<group>"; };
 		0243A98423E9FFC600FBF5B4 /* MUXSDKPlayerBindingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MUXSDKPlayerBindingTests.m; sourceTree = "<group>"; };
 		02776E5D23F75A840067CBCC /* NSNumber+MUXSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSNumber+MUXSDK.h"; sourceTree = "<group>"; };
 		02776E5E23F75A840067CBCC /* NSNumber+MUXSDK.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+MUXSDK.m"; sourceTree = "<group>"; };
@@ -70,12 +76,15 @@
 		02EB9E2623E894E70007E1CD /* MUXSDKCustomerPlayerDataStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MUXSDKCustomerPlayerDataStore.m; sourceTree = "<group>"; };
 		02EB9E2B23E896790007E1CD /* MUXSDKCustomerVideoDataStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MUXSDKCustomerVideoDataStore.h; sourceTree = "<group>"; };
 		02EB9E2C23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MUXSDKCustomerVideoDataStore.m; sourceTree = "<group>"; };
-		61F70E461E10EEAFCADF0FAC /* Pods-MUXSDKStats.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStats.debug.xcconfig"; path = "Target Support Files/Pods-MUXSDKStats/Pods-MUXSDKStats.debug.xcconfig"; sourceTree = "<group>"; };
-		6879A37E99468D44B153EAB8 /* libPods-MUXSDKStats.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MUXSDKStats.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6D72921EC81D5689CB8A7A4F /* Pods-MUXSDKStats.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStats.release.xcconfig"; path = "Target Support Files/Pods-MUXSDKStats/Pods-MUXSDKStats.release.xcconfig"; sourceTree = "<group>"; };
-		7740D2E3E479A7A97D34691A /* Pods-MUXSDKStatsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStatsTests.debug.xcconfig"; path = "Target Support Files/Pods-MUXSDKStatsTests/Pods-MUXSDKStatsTests.debug.xcconfig"; sourceTree = "<group>"; };
-		839CD46C014CBE0EEE5BB0CE /* Pods-MUXSDKStatsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStatsTests.release.xcconfig"; path = "Target Support Files/Pods-MUXSDKStatsTests/Pods-MUXSDKStatsTests.release.xcconfig"; sourceTree = "<group>"; };
-		E1429B758333A7ED3FC9DE72 /* libPods-MUXSDKStatsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MUXSDKStatsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2AC3C7413563F53E3C18E8FD /* Pods-MUXSDKStats.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStats.debug.xcconfig"; path = "Target Support Files/Pods-MUXSDKStats/Pods-MUXSDKStats.debug.xcconfig"; sourceTree = "<group>"; };
+		3A58DEADFE4A9070CDBF549A /* Pods-MUXSDKStatsTv.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStatsTv.release.xcconfig"; path = "Target Support Files/Pods-MUXSDKStatsTv/Pods-MUXSDKStatsTv.release.xcconfig"; sourceTree = "<group>"; };
+		48D76D3B6AD2A7965BC26420 /* Pods-MUXSDKStats.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStats.release.xcconfig"; path = "Target Support Files/Pods-MUXSDKStats/Pods-MUXSDKStats.release.xcconfig"; sourceTree = "<group>"; };
+		599BC46212EA2F19CC30F505 /* libPods-MUXSDKStats.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MUXSDKStats.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		69F76EF38BD449EF1D136921 /* libPods-MUXSDKStatsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MUXSDKStatsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A1B366D82B6E4FEA3758556 /* libPods-MUXSDKStatsTv.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MUXSDKStatsTv.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6ABB2F4AF1676548EA420C0F /* Pods-MUXSDKStatsTv.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStatsTv.debug.xcconfig"; path = "Target Support Files/Pods-MUXSDKStatsTv/Pods-MUXSDKStatsTv.debug.xcconfig"; sourceTree = "<group>"; };
+		AADF8FBF08E2D0553B8B9CBE /* Pods-MUXSDKStatsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStatsTests.debug.xcconfig"; path = "Target Support Files/Pods-MUXSDKStatsTests/Pods-MUXSDKStatsTests.debug.xcconfig"; sourceTree = "<group>"; };
+		AE15DA01B11B2367A0D47F68 /* Pods-MUXSDKStatsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStatsTests.release.xcconfig"; path = "Target Support Files/Pods-MUXSDKStatsTests/Pods-MUXSDKStatsTests.release.xcconfig"; sourceTree = "<group>"; };
 		F41E09041DDA8E530028A296 /* MUXSDKStatsTv.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MUXSDKStatsTv.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F41E09061DDA8E530028A296 /* MUXSDKStatsTv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MUXSDKStatsTv.h; sourceTree = "<group>"; };
 		F41E09071DDA8E530028A296 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -88,11 +97,8 @@
 		F4DCAD061DCA892E0094D94C /* MUXSDKStatsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MUXSDKStatsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4DCAD0B1DCA892E0094D94C /* MUXSDKStatsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MUXSDKStatsTests.m; sourceTree = "<group>"; };
 		F4DCAD0D1DCA892E0094D94C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F52F4D995767C0B9DA06990E /* Pods-MUXSDKStatsTv.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStatsTv.release.xcconfig"; path = "Target Support Files/Pods-MUXSDKStatsTv/Pods-MUXSDKStatsTv.release.xcconfig"; sourceTree = "<group>"; };
-		F95B0F38442288EABA7F6B2A /* libPods-MUXSDKStatsTv.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MUXSDKStatsTv.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA19C06D252BC599006AA443 /* MUXSDKConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MUXSDKConnection.h; sourceTree = "<group>"; };
 		FA19C076252BC5CE006AA443 /* MUXSDKConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MUXSDKConnection.m; sourceTree = "<group>"; };
-		FE5EBCD79400393D7C46A3DB /* Pods-MUXSDKStatsTv.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStatsTv.debug.xcconfig"; path = "Target Support Files/Pods-MUXSDKStatsTv/Pods-MUXSDKStatsTv.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,7 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AE69070B2FD80230EC77C592 /* libPods-MUXSDKStatsTv.a in Frameworks */,
+				E308D6407571B2743578F391 /* libPods-MUXSDKStatsTv.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,7 +114,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE5DB850367A856040FA012C /* libPods-MUXSDKStats.a in Frameworks */,
+				AA9CAEACF9C34595AB4C1AE5 /* libPods-MUXSDKStats.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,7 +123,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4DCAD071DCA892E0094D94C /* MUXSDKStats.framework in Frameworks */,
-				8432ADF5FB4286CD8F25E44D /* libPods-MUXSDKStatsTests.a in Frameworks */,
+				EA097666F7B5E650705174B8 /* libPods-MUXSDKStatsTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,22 +142,22 @@
 		3B3AC6F4C78AA4AB7A7F135A /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				61F70E461E10EEAFCADF0FAC /* Pods-MUXSDKStats.debug.xcconfig */,
-				6D72921EC81D5689CB8A7A4F /* Pods-MUXSDKStats.release.xcconfig */,
-				7740D2E3E479A7A97D34691A /* Pods-MUXSDKStatsTests.debug.xcconfig */,
-				839CD46C014CBE0EEE5BB0CE /* Pods-MUXSDKStatsTests.release.xcconfig */,
-				FE5EBCD79400393D7C46A3DB /* Pods-MUXSDKStatsTv.debug.xcconfig */,
-				F52F4D995767C0B9DA06990E /* Pods-MUXSDKStatsTv.release.xcconfig */,
+				2AC3C7413563F53E3C18E8FD /* Pods-MUXSDKStats.debug.xcconfig */,
+				48D76D3B6AD2A7965BC26420 /* Pods-MUXSDKStats.release.xcconfig */,
+				AADF8FBF08E2D0553B8B9CBE /* Pods-MUXSDKStatsTests.debug.xcconfig */,
+				AE15DA01B11B2367A0D47F68 /* Pods-MUXSDKStatsTests.release.xcconfig */,
+				6ABB2F4AF1676548EA420C0F /* Pods-MUXSDKStatsTv.debug.xcconfig */,
+				3A58DEADFE4A9070CDBF549A /* Pods-MUXSDKStatsTv.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		C09554900A516ACEB1B6A92F /* Frameworks */ = {
+		79D533BBF2D11471D2823920 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6879A37E99468D44B153EAB8 /* libPods-MUXSDKStats.a */,
-				E1429B758333A7ED3FC9DE72 /* libPods-MUXSDKStatsTests.a */,
-				F95B0F38442288EABA7F6B2A /* libPods-MUXSDKStatsTv.a */,
+				599BC46212EA2F19CC30F505 /* libPods-MUXSDKStats.a */,
+				69F76EF38BD449EF1D136921 /* libPods-MUXSDKStatsTests.a */,
+				6A1B366D82B6E4FEA3758556 /* libPods-MUXSDKStatsTv.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -173,7 +179,7 @@
 				F41E09051DDA8E530028A296 /* MUXSDKStatsTv */,
 				F4DCACFE1DCA892E0094D94C /* Products */,
 				3B3AC6F4C78AA4AB7A7F135A /* Pods */,
-				C09554900A516ACEB1B6A92F /* Frameworks */,
+				79D533BBF2D11471D2823920 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -204,6 +210,8 @@
 				02EB9E2623E894E70007E1CD /* MUXSDKCustomerPlayerDataStore.m */,
 				02EB9E2B23E896790007E1CD /* MUXSDKCustomerVideoDataStore.h */,
 				02EB9E2C23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m */,
+				022224BD25312D5300054D0D /* MUXSDKCustomerViewDataStore.h */,
+				022224BC25312D5300054D0D /* MUXSDKCustomerViewDataStore.m */,
 				02776E5D23F75A840067CBCC /* NSNumber+MUXSDK.h */,
 				02776E5E23F75A840067CBCC /* NSNumber+MUXSDK.m */,
 			);
@@ -233,6 +241,7 @@
 				F41E09081DDA8E530028A296 /* MUXSDKStatsTv.h in Headers */,
 				028281E623E3A17400B5531B /* MUXSDKPlayerBindingManager.h in Headers */,
 				F41E099D1DDA8FB50028A296 /* MUXSDKStats.h in Headers */,
+				022224FC253567D200054D0D /* MUXSDKCustomerViewDataStore.h in Headers */,
 				02EB9E2F23E896A90007E1CD /* MUXSDKCustomerVideoDataStore.h in Headers */,
 				021F61E523F4E0820089A882 /* MUXSDKPlayerBindingConstants.h in Headers */,
 				F41E09E41DDA90DB0028A296 /* MUXSDKPlayerBinding.h in Headers */,
@@ -246,6 +255,7 @@
 			files = (
 				02776E5F23F75A840067CBCC /* NSNumber+MUXSDK.h in Headers */,
 				02EB9E2D23E896790007E1CD /* MUXSDKCustomerVideoDataStore.h in Headers */,
+				022224BF25312D5300054D0D /* MUXSDKCustomerViewDataStore.h in Headers */,
 				F4DCAD0E1DCA892E0094D94C /* MUXSDKStats.h in Headers */,
 				028281E423E3815700B5531B /* MUXSDKPlayerBindingManager.h in Headers */,
 				FA19C06E252BC599006AA443 /* MUXSDKConnection.h in Headers */,
@@ -262,7 +272,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F41E090B1DDA8E530028A296 /* Build configuration list for PBXNativeTarget "MUXSDKStatsTv" */;
 			buildPhases = (
-				E2963597882F28109730823F /* [CP] Check Pods Manifest.lock */,
+				99E5A0C4A79276B6CA0411A1 /* [CP] Check Pods Manifest.lock */,
 				F41E08FF1DDA8E530028A296 /* Sources */,
 				F41E09001DDA8E530028A296 /* Frameworks */,
 				F41E09011DDA8E530028A296 /* Headers */,
@@ -281,7 +291,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F4DCAD111DCA892E0094D94C /* Build configuration list for PBXNativeTarget "MUXSDKStats" */;
 			buildPhases = (
-				E0DE36468F6BEF8420257B16 /* [CP] Check Pods Manifest.lock */,
+				619AEAB318023474F5D10FB4 /* [CP] Check Pods Manifest.lock */,
 				F4DCACF81DCA892E0094D94C /* Sources */,
 				F4DCACF91DCA892E0094D94C /* Frameworks */,
 				F4DCACFA1DCA892E0094D94C /* Headers */,
@@ -300,11 +310,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F4DCAD141DCA892E0094D94C /* Build configuration list for PBXNativeTarget "MUXSDKStatsTests" */;
 			buildPhases = (
-				F34F5A692D57C272435598F2 /* [CP] Check Pods Manifest.lock */,
+				E3B58F73509C8953395BABF8 /* [CP] Check Pods Manifest.lock */,
 				F4DCAD021DCA892E0094D94C /* Sources */,
 				F4DCAD031DCA892E0094D94C /* Frameworks */,
 				F4DCAD041DCA892E0094D94C /* Resources */,
-				1E9E052D9554F6D6C79B12E5 /* [CP] Embed Pods Frameworks */,
+				B78326EF89D684EDB1214CC1 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -386,25 +396,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1E9E052D9554F6D6C79B12E5 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MUXSDKStatsTests/Pods-MUXSDKStatsTests-frameworks.sh",
-				"${PODS_ROOT}/Mux-Stats-Core/Frameworks/iOS/fat/MuxCore.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MuxCore.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MUXSDKStatsTests/Pods-MUXSDKStatsTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E0DE36468F6BEF8420257B16 /* [CP] Check Pods Manifest.lock */ = {
+		619AEAB318023474F5D10FB4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -426,7 +418,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E2963597882F28109730823F /* [CP] Check Pods Manifest.lock */ = {
+		99E5A0C4A79276B6CA0411A1 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -448,7 +440,25 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F34F5A692D57C272435598F2 /* [CP] Check Pods Manifest.lock */ = {
+		B78326EF89D684EDB1214CC1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MUXSDKStatsTests/Pods-MUXSDKStatsTests-frameworks.sh",
+				"${PODS_ROOT}/Mux-Stats-Core/Frameworks/iOS/fat/MuxCore.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MuxCore.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MUXSDKStatsTests/Pods-MUXSDKStatsTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E3B58F73509C8953395BABF8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -477,6 +487,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02222500253567D700054D0D /* MUXSDKCustomerViewDataStore.m in Sources */,
 				02EB9E2A23E896650007E1CD /* MUXSDKCustomerPlayerDataStore.m in Sources */,
 				028281E723E3A17700B5531B /* MUXSDKPlayerBindingManager.m in Sources */,
 				FA19C078252BC5CE006AA443 /* MUXSDKConnection.m in Sources */,
@@ -491,6 +502,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				022224BE25312D5300054D0D /* MUXSDKCustomerViewDataStore.m in Sources */,
 				02EB9E2823E894E70007E1CD /* MUXSDKCustomerPlayerDataStore.m in Sources */,
 				028281E523E3815700B5531B /* MUXSDKPlayerBindingManager.m in Sources */,
 				FA19C077252BC5CE006AA443 /* MUXSDKConnection.m in Sources */,
@@ -524,7 +536,7 @@
 /* Begin XCBuildConfiguration section */
 		F41E09091DDA8E530028A296 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FE5EBCD79400393D7C46A3DB /* Pods-MUXSDKStatsTv.debug.xcconfig */;
+			baseConfigurationReference = 6ABB2F4AF1676548EA420C0F /* Pods-MUXSDKStatsTv.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 0.0.6;
@@ -541,7 +553,7 @@
 				INFOPLIST_FILE = MUXSDKStatsTv/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.6.0;
+				MARKETING_VERSION = 1.7.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.tvos.MUXSDKStatsTv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -554,7 +566,7 @@
 		};
 		F41E090A1DDA8E530028A296 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F52F4D995767C0B9DA06990E /* Pods-MUXSDKStatsTv.release.xcconfig */;
+			baseConfigurationReference = 3A58DEADFE4A9070CDBF549A /* Pods-MUXSDKStatsTv.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 0.0.6;
@@ -567,7 +579,7 @@
 				INFOPLIST_FILE = MUXSDKStatsTv/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.6.0;
+				MARKETING_VERSION = 1.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.tvos.MUXSDKStatsTv;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -693,7 +705,7 @@
 		};
 		F4DCAD121DCA892E0094D94C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 61F70E461E10EEAFCADF0FAC /* Pods-MUXSDKStats.debug.xcconfig */;
+			baseConfigurationReference = 2AC3C7413563F53E3C18E8FD /* Pods-MUXSDKStats.debug.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -711,7 +723,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.6.0;
+				MARKETING_VERSION = 1.7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.ios.MUXSDKStats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -723,7 +735,7 @@
 		};
 		F4DCAD131DCA892E0094D94C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6D72921EC81D5689CB8A7A4F /* Pods-MUXSDKStats.release.xcconfig */;
+			baseConfigurationReference = 48D76D3B6AD2A7965BC26420 /* Pods-MUXSDKStats.release.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_IDENTITY = "";
@@ -737,7 +749,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.6.0;
+				MARKETING_VERSION = 1.7.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.ios.MUXSDKStats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -749,7 +761,7 @@
 		};
 		F4DCAD151DCA892E0094D94C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7740D2E3E479A7A97D34691A /* Pods-MUXSDKStatsTests.debug.xcconfig */;
+			baseConfigurationReference = AADF8FBF08E2D0553B8B9CBE /* Pods-MUXSDKStatsTests.debug.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = CX6AHWLHM6;
 				INFOPLIST_FILE = MUXSDKStatsTests/Info.plist;
@@ -761,7 +773,7 @@
 		};
 		F4DCAD161DCA892E0094D94C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 839CD46C014CBE0EEE5BB0CE /* Pods-MUXSDKStatsTests.release.xcconfig */;
+			baseConfigurationReference = AE15DA01B11B2367A0D47F68 /* Pods-MUXSDKStatsTests.release.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = CX6AHWLHM6;
 				INFOPLIST_FILE = MUXSDKStatsTests/Info.plist;

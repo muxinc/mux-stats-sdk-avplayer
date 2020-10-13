@@ -38,15 +38,16 @@
            if (binding != nil) {
                MUXSDKCustomerPlayerData *playerData = [self.customerPlayerDataStore playerDataForPlayerName:name];
                MUXSDKCustomerVideoData *videoData = [self.customerVideoDataStore videoDataForPlayerName:name];
+               MUXSDKCustomerViewData *viewData = [self.customerViewDataStore viewDataForPlayerName:name];
                [binding dispatchViewInit];
-               [self dispatchDataEventForPlayerName:name playerData:playerData videoData:videoData videoChange:NO];
+               [self dispatchDataEventForPlayerName:name playerData:playerData videoData:videoData viewData: viewData videoChange:NO];
                [binding dispatchPlayerReady];
                [self.playerReadyBindings addObject:name];
            }
     }
 }
 
-- (void)dispatchDataEventForPlayerName:(NSString *)name playerData:(MUXSDKCustomerPlayerData *)customerPlayerData videoData:(MUXSDKCustomerVideoData *)customerVideoData videoChange:(BOOL) videoChange {
+- (void)dispatchDataEventForPlayerName:(NSString *)name playerData:(MUXSDKCustomerPlayerData *)customerPlayerData videoData:(MUXSDKCustomerVideoData *)customerVideoData viewData:(MUXSDKCustomerViewData *)customerViewData videoChange:(BOOL) videoChange {
     MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
     if (customerPlayerData) {
         [dataEvent setCustomerPlayerData:customerPlayerData];
@@ -54,7 +55,10 @@
     if (customerVideoData) {
         [dataEvent setCustomerVideoData:customerVideoData];
     }
-    if (customerPlayerData || customerVideoData) {
+    if (customerViewData) {
+        [dataEvent setCustomerViewData:customerViewData];
+    }
+    if (customerPlayerData || customerVideoData || customerViewData) {
         dataEvent.videoChange = videoChange;
         [MUXSDKCore dispatchEvent:dataEvent forPlayer:name];
     }
@@ -75,7 +79,8 @@
         [binding dispatchViewInit];
         MUXSDKCustomerPlayerData *playerData = [self.customerPlayerDataStore playerDataForPlayerName:name];
         MUXSDKCustomerVideoData *videoData = [self.customerVideoDataStore videoDataForPlayerName:name];
-        [self dispatchDataEventForPlayerName:name playerData:playerData videoData:videoData videoChange:YES];
+        MUXSDKCustomerViewData *viewData = [self.customerViewDataStore viewDataForPlayerName:name];
+        [self dispatchDataEventForPlayerName:name playerData:playerData videoData:videoData viewData: viewData videoChange:YES];
     }
 }
 

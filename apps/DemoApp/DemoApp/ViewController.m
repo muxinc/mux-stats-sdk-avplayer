@@ -142,10 +142,13 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
     videoData.videoTitle = @"Big Buck Bunny";
     videoData.videoId = @"bigbuckbunny";
     videoData.videoSeries = @"animation";
+    MUXSDKCustomerViewData *viewData= [[MUXSDKCustomerViewData alloc] init];
+    viewData.viewSessionId = @"some session id";
     _playerBinding = [MUXSDKStats monitorAVPlayerViewController:_avplayerController
-                                withPlayerName:DEMO_PLAYER_NAME
-                                    playerData:playerData
-                                     videoData:videoData];
+                                                 withPlayerName:DEMO_PLAYER_NAME
+                                                     playerData:playerData
+                                                      videoData:videoData
+                                                       viewData: viewData];
     _imaListener = [[MuxImaListener alloc] initWithPlayerBinding:_playerBinding];
     [_avplayer play];
 
