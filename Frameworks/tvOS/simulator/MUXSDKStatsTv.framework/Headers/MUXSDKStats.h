@@ -50,7 +50,7 @@ FOUNDATION_EXPORT
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData;
 
 /*!
- @method      monitorAVPlayerViewController:withPlayerName:playerData:videoData:
+ @method      monitorAVPlayerViewController:withPlayerName:playerData:videoData:viewData:
  @abstract    Starts to monitor a given AVPlayerViewController.
  @param       player An AVPlayerViewController to monitor
  @param       name A name for this instance of the player
@@ -76,7 +76,7 @@ FOUNDATION_EXPORT
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData automaticErrorTracking:(BOOL)automaticErrorTracking;
 
 /*!
- @method      monitorAVPlayerViewController:withPlayerName:playerData:videoData:automaticErrorTracking:
+ @method      monitorAVPlayerViewController:withPlayerName:playerData:videoData:viewData:automaticErrorTracking:
  @abstract    Starts to monitor a given AVPlayerViewController.
  @param       player An AVPlayerViewController to monitor
  @param       name A name for this instance of the player
@@ -111,7 +111,7 @@ FOUNDATION_EXPORT
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData;
 
 /*!
- @method      monitorAVPlayerLayer:withPlayerName:playerData:videoData:
+ @method      monitorAVPlayerLayer:withPlayerName:playerData:videoData:viewData:
  @abstract    Starts to monitor a given AVPlayerLayer.
  @param       player An AVPlayerLayer to monitor
  @param       name A name for this instance of the player
@@ -137,7 +137,7 @@ FOUNDATION_EXPORT
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData automaticErrorTracking:(BOOL)automaticErrorTracking;
 
 /*!
- @method      monitorAVPlayerLayer:withPlayerName:playerData:videoData:automaticErrorTracking:
+ @method      monitorAVPlayerLayer:withPlayerName:playerData:videoData:viewData:automaticErrorTracking:
  @abstract    Starts to monitor a given AVPlayerLayer.
  @param       player An AVPlayerLayer to monitor
  @param       name A name for this instance of the player
@@ -189,7 +189,7 @@ FOUNDATION_EXPORT
 + (void)videoChangeForPlayer:(nonnull NSString *)name  withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData;
 
 /*!
- @method      videoChangeForPlayer:withPlayerData:withVideoData
+ @method      videoChangeForPlayer:withPlayerData:withVideoData:viewData:
  @abstract    Signals that a player is now playing a different video.
  @param       name The name of the player to update
  @param       playerData A MUXSDKCustomerPlayerData object with video metadata
@@ -220,7 +220,7 @@ FOUNDATION_EXPORT
 + (void)updateCustomerDataForPlayer:(nonnull NSString *)name withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData;
 
 /*!
- @method      updateCustomerData:forPlayer:withPlayerData:withVideoData
+ @method      updateCustomerData:forPlayer:withPlayerData:withVideoData:viewData:
  @abstract    allows videoData to be set or updated for the player
  @param       name The name of the player to update
  @param       playerData A MUXSDKCustomerPlayerData object with video metadata
