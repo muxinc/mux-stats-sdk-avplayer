@@ -135,6 +135,7 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 - (void)setupAVPlayerViewController:(AVPlayer *)player {
     _avplayer = player;
     _avplayerController.player = _avplayer;
+
     // TODO: Add your property key!
     MUXSDKCustomerPlayerData *playerData = [[MUXSDKCustomerPlayerData alloc] initWithPropertyKey:@"YOUR_ENV_KEY_HERE"];
     MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
@@ -149,6 +150,7 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
                                                       videoData:videoData
                                                        viewData: viewData];
     _imaListener = [[MuxImaListener alloc] initWithPlayerBinding:_playerBinding];
+
     [_avplayer play];
     [self addChildViewController:_avplayerController];
     [self.view addSubview:_avplayerController.view];
