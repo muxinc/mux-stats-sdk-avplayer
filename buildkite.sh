@@ -1,3 +1,6 @@
+#!/bin/bash
+set -euo pipefail
+
 cd MUXSDKStats
 pod deintegrate && pod install
 cd ..
