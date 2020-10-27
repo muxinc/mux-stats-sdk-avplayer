@@ -1,5 +1,5 @@
 cd MUXSDKStats
 pod deintegrate && pod install
 cd ..
-./update-realease-frameworks.sh
+./update-release-frameworks.sh
 ls MUXSDKStats
