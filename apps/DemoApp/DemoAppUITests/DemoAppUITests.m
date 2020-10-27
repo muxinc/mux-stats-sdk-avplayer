@@ -27,14 +27,15 @@
     // Put teardown code here. This method is called after the invocation of each test method in the class.
 }
 
-- (void)testExample {
-    // UI tests must launch the application that they test.
+- (void)testPlayVideo {
     XCUIApplication *app = [[XCUIApplication alloc] init];
+    [app setLaunchEnvironment:@{@"ENV_KEY": @"is1368012c267a34rk0rhhr4u"}];
     [app launch];
-    XCTestExpectation *exp = [[XCTestExpectation alloc] initWithDescription:@"Just wait for 10 seconds."];
-    XCTWaiterResult result = [XCTWaiter waitForExpectations:@[exp] timeout:10.0];
-    // Use recording to get started writing UI tests.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+    XCTestExpectation *exp = [[XCTestExpectation alloc] initWithDescription:@"Just wait for 20 seconds."];
+    XCTWaiterResult result = [XCTWaiter waitForExpectations:@[exp] timeout:20.0];
+    if(result != XCTWaiterResultTimedOut) {
+        XCTFail(@"Interrupted while playing video.");
+    }
 }
 
 @end
