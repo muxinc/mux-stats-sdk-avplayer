@@ -1,7 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-buildkite-agent artifact download "Frameworks/**/*" "Frameworks" --step "buildkite.sh"
+buildkite-agent artifact download "MUXSDKStats.framework.zip" . --step "buildkite.sh"
+unzip MUXSDKStats.framework.zip -d Frameworks
 cd apps/DemoApp
 pod deintegrate && pod install
 xcodebuild -workspace DemoApp.xcworkspace \
