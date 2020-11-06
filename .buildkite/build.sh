@@ -6,4 +6,3 @@ pod deintegrate && pod install
 cd ..
 ./update-release-frameworks.sh
 zip -r MUXSDKStats.framework.zip Frameworks
-buildkite-agent artifact upload "MUXSDKStats.framework.zip"
