@@ -1,5 +1,5 @@
 steps:
-  - command: "build.sh"
+  - command: ".buildkite/build.sh"
     label: ":hammer: Build"
     artifact_paths:
         - "MUXSDKStats.framework.zip"
