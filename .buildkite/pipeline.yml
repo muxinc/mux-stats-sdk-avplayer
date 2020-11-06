@@ -1,0 +1,10 @@
+steps:
+  - command: "buildkite.sh"
+    label: ":hammer: Build"
+    agents:
+      queue: "iOS"
+  - wait
+  - command: "apps/DemoApp/run-tests.sh"
+    label: "Tests"
+    agents:
+      queue: "iOS"
