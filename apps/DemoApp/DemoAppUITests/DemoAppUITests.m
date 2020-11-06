@@ -29,7 +29,7 @@
 
 - (void)testPlayVideo {
     XCUIApplication *app = [[XCUIApplication alloc] init];
-    [app setLaunchEnvironment:@{@"ENV_KEY": @"72j9sdhp80p89p1l659smj69m"}];
+    [app setLaunchEnvironment:@{@"ENV_KEY": @"tr4q3qahs0gflm8b1c75h49ln"}];
     [app launch];
     XCTestExpectation *exp = [[XCTestExpectation alloc] initWithDescription:@"Just wait for 20 seconds."];
     XCTWaiterResult result = [XCTWaiter waitForExpectations:@[exp] timeout:20.0];
