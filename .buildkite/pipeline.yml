@@ -1,0 +1,12 @@
+steps:
+  - command: ".buildkite/build.sh"
+    label: ":hammer: Build"
+    artifact_paths:
+        - "MUXSDKStats.framework.zip"
+    agents:
+      queue: "iOS"
+  - wait
+  - command: "apps/DemoApp/run-tests.sh"
+    label: "Tests"
+    agents:
+      queue: "iOS"
