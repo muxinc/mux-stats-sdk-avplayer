@@ -17,10 +17,10 @@ Pod::Spec.new do |s|
   s.dependency 'Mux-Stats-Core', '~>2.4'
 
   s.ios.deployment_target = '9.0'
-  s.ios.vendored_frameworks = 'Frameworks/iOS/fat/MUXSDKStats.framework'
+  s.ios.vendored_frameworks = 'XCFramework/MUXSDKStats.xcframework'
   s.ios.frameworks = 'AVKit', 'AVFoundation'
 
   s.tvos.deployment_target = '9.0'
-  s.tvos.vendored_frameworks = 'Frameworks/tvOS/fat/MUXSDKStatsTv.framework'
+  s.tvos.vendored_frameworks = 'XCFramework/MUXSDKStats.xcframework'
   s.tvos.frameworks = 'AVKit', 'AVFoundation'
 end
