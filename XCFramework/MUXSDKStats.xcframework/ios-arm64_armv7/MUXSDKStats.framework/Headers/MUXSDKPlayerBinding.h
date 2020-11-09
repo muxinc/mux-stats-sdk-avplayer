@@ -5,10 +5,7 @@
 
 @import AVKit;
 @import AVFoundation;
-#if TARGET_OS_IOS
 @import MuxCore;
-#else
-@import MuxCoreTv;
 #endif
 
 typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
@@ -27,8 +24,6 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
     MUXSDKViewOrientationPortrait,
     MUXSDKViewOrientationLandscape
 };
-
-NS_ASSUME_NONNULL_BEGIN
 
 @protocol MUXSDKPlayDispatchDelegate
 - (void) playbackStartedForPlayer:(NSString *) name;
@@ -109,7 +104,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (id)initWithName:(NSString *)name software:(NSString *)software andView:(AVPlayerLayer *)view;
 
 @end
-
-NS_ASSUME_NONNULL_END
-
-#endif
