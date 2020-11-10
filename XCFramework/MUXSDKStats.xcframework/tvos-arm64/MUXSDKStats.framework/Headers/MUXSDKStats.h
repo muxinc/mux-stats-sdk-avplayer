@@ -24,11 +24,7 @@
 
 @import AVKit;
 @import AVFoundation;
-#if TARGET_OS_IOS
 @import MuxCore;
-#else
-@import MuxCoreTv;
-#endif
 #import "MUXSDKPlayerBinding.h"
 
 FOUNDATION_EXPORT
