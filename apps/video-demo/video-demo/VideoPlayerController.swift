@@ -4,7 +4,7 @@ import AVFoundation
 import MuxCore
 import MUXSDKStats
 import GoogleInteractiveMediaAds
-import Mux_Stats_Google_IMA
+//import Mux_Stats_Google_IMA
 
 class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAdsManagerDelegate {
     var video: Dictionary<String, String>! = nil
@@ -14,7 +14,7 @@ class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAd
     var contentPlayhead: IMAContentPlayhead! = nil
     var adsLoader: IMAAdsLoader! = nil
     var adsManager: IMAAdsManager! = nil
-    var imaListener: MuxImaListener! = nil
+//    var imaListener: MuxImaListener! = nil
 
     let playName = "iOS AVPlayer"
     let adUrl = "https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostpod&cmsid=496&vid=short_onecue&correlator="
@@ -28,13 +28,13 @@ class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAd
 //        player = self.testAvQueuePlayer()
 //        player = self.testImaSDK()
 
-        let playerData = MUXSDKCustomerPlayerData(environmentKey: "ENV_KEY");
+        let playerData = MUXSDKCustomerPlayerData(environmentKey: "cqtqt2jfbq235huvso0djbn56");
         playerData?.playerName = "AVPlayer"
         let videoData = MUXSDKCustomerVideoData();
         videoData.videoIsLive = false;
         videoData.videoTitle = "Title1"
         let playerBinding = MUXSDKStats.monitorAVPlayerViewController(self, withPlayerName: playName, playerData: playerData!, videoData: videoData);
-        imaListener = MuxImaListener.init(playerBinding: playerBinding!)
+//        imaListener = MuxImaListener.init(playerBinding: playerBinding!)
         player!.play()
     }
 
@@ -142,9 +142,9 @@ class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAd
         if (event.type == IMAAdEventType.LOADED) {
             adsManager.start()
         }
-        if (imaListener != nil) {
-            imaListener.dispatchEvent(event)
-        }
+//        if (imaListener != nil) {
+//            imaListener.dispatchEvent(event)
+//        }
     }
 
     func adsManager(_ adsManager: IMAAdsManager!, didReceive error: IMAAdError!) {
@@ -152,24 +152,24 @@ class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAd
       // error and play the content.
         NSLog("AdsManager error: \(String(describing: error.message))")
         player!.play()
-        if (imaListener != nil) {
-            imaListener.dispatchError(error.message)
-        }
+//        if (imaListener != nil) {
+//            imaListener.dispatchError(error.message)
+//        }
     }
 
     func adsManagerDidRequestContentPause(_ adsManager: IMAAdsManager!) {
       // The SDK is going to play ads, so pause the content.
         player!.pause()
-        if (imaListener != nil) {
-            imaListener.onContentPauseOrResume(true)
-        }
+//        if (imaListener != nil) {
+//            imaListener.onContentPauseOrResume(true)
+//        }
     }
 
     func adsManagerDidRequestContentResume(_ adsManager: IMAAdsManager!) {
       // The SDK is done playing ads (at least for now), so resume the content.
         player!.play()
-        if (imaListener != nil) {
-            imaListener.onContentPauseOrResume(false)
-        }
+//        if (imaListener != nil) {
+//            imaListener.onContentPauseOrResume(false)
+//        }
     }
 }
