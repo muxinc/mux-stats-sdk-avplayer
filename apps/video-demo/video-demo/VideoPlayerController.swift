@@ -85,13 +85,13 @@ class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAd
         )
         adsLoader = IMAAdsLoader.init()
         adsLoader.delegate = self;
-        let adDisplayContainer = IMAAdDisplayContainer.init(adContainer: self.view)
-        let request = IMAAdsRequest.init(
-            adTagUrl: adUrl,
-            adDisplayContainer: adDisplayContainer,
-            contentPlayhead: (contentPlayhead as! IMAContentPlayhead & NSObjectProtocol),
-            userContext: nil)
-        adsLoader.requestAds(with: request)
+//        let adDisplayContainer = IMAAdDisplayContainer.init(adContainer: self.view)
+//        let request = IMAAdsRequest.init(
+//            adTagUrl: adUrl,
+//            adDisplayContainer: adDisplayContainer,
+//            contentPlayhead: (contentPlayhead as! IMAContentPlayhead & NSObjectProtocol),
+//            userContext: nil)
+//        adsLoader.requestAds(with: request)
         return player!
     }
 
