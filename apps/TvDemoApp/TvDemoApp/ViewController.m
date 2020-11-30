@@ -57,12 +57,12 @@ NSString *const kAdTagURLString = @"https://pubads.g.doubleclick.net/gampad/ads?
     _adsLoader = [[IMAAdsLoader alloc] initWithSettings:nil];
     _adsLoader.delegate = self;
 
-    IMAAdDisplayContainer *adDisplayContainer = [[IMAAdDisplayContainer alloc] initWithAdContainer:_avplayerController.view companionSlots:nil];
-    IMAAdsRequest *request = [[IMAAdsRequest alloc] initWithAdTagUrl:kAdTagURLString
-                                                  adDisplayContainer:adDisplayContainer
-                                                     contentPlayhead:_contentPlayhead
-                                                         userContext:nil];
-    [_adsLoader requestAdsWithRequest:request];
+//    IMAAdDisplayContainer *adDisplayContainer = [[IMAAdDisplayContainer alloc] initWithAdContainer:_avplayerController.view companionSlots:nil];
+//    IMAAdsRequest *request = [[IMAAdsRequest alloc] initWithAdTagUrl:kAdTagURLString
+//                                                  adDisplayContainer:adDisplayContainer
+//                                                     contentPlayhead:_contentPlayhead
+//                                                         userContext:nil];
+//    [_adsLoader requestAdsWithRequest:request];
     return player;
 }
 
