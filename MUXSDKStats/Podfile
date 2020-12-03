@@ -7,13 +7,13 @@ target 'MUXSDKStats' do
 
   # Pods for MUXSDKStats
 #  pod 'Mux-Stats-Core', '~>2.4'
-  pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'nidhik/distribute-xcframework'
+  pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'nidhik/xcframework-mux-core'
   
 
   target 'MUXSDKStatsTests' do
     inherit! :search_paths
     # Pods for testing
-    pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'nidhik/distribute-xcframework'
+    pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'nidhik/xcframework-mux-core'
   end
 
 end
@@ -24,5 +24,5 @@ target 'MUXSDKStatsTv' do
   # use_frameworks!
 
   # Pods for MUXSDKStatsTv
-  pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'nidhik/distribute-xcframework'
+  pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'nidhik/xcframework-mux-core'
 end
