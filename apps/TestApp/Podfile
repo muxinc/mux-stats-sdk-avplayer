@@ -1,0 +1,20 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '9.0'
+
+target 'TestApp' do
+  use_frameworks!
+  pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'nidhik/testing-local-server'
+  pod 'Mux-Stats-AVPlayer', :path => '../..'
+  pod 'Mux-Stats-Google-IMA', '~> 0.5'
+  pod 'GoogleAds-IMA-iOS-SDK', '~> 3.9'
+  pod 'GCDWebServer', '~> 3.5.4'
+end
+
+target 'TestAppUITests' do
+  use_frameworks!
+  pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'nidhik/testing-local-server'
+  pod 'Mux-Stats-AVPlayer', :path => '../..'
+  pod 'Mux-Stats-Google-IMA', '~> 0.5'
+  pod 'GoogleAds-IMA-iOS-SDK', '~> 3.9'
+  pod 'GCDWebServer', '~> 3.5.4'
+end
