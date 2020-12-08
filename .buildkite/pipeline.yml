@@ -6,7 +6,7 @@ steps:
     agents:
       queue: "iOS"
   - wait
-  - command: "apps/DemoApp/run-tests.sh"
+  - command: "apps/TestApp/run-tests.sh"
     label: "Tests"
     agents:
       queue: "iOS"
