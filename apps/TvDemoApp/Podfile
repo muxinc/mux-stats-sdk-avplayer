@@ -6,6 +6,9 @@ target 'TvDemoApp' do
    use_frameworks!
 
   # Pods for TvDemoApp
-  pod 'Mux-Stats-AVPlayer', '~> 2.0.0-beta.0'
+  # pod 'Mux-Stats-AVPlayer', '~> 2.0'
+  pod 'Mux-Stats-AVPlayer', :path => '../../'
+
   pod 'GoogleAds-IMA-tvOS-SDK', '~> 4.2'
+#  pod 'Mux-Stats-Google-IMA', '~> 0.5'
 end
