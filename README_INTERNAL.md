@@ -9,13 +9,8 @@
 1. Pull master locally and `git tag [YOUR NEW VERSION]` and `git push --tags`
 1. Cocoapod - Run `pod spec lint` to local check pod validity
 1. Cocoapod - Run `pod trunk push Mux-Stats-AVPlayer.podspec`
-1. Github UI - Make a new release with the new version
+1. Github UI - Make a new release with the new version. Run `zip -r XCFramework.zip XCFramework` and attach the zip file to the Github release
 1. Update the release notes in the [AVPlayer Integration Guide](https://docs.mux.com/docs/avplayer-integration-guide)
-
-Create Carthage framework:
-
-1. Run `./carthage-archive.sh` and attach the generated .zip file to the release.
-1. Delete the generate .zip file after uploading
 
 After release:
 
