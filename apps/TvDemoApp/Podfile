@@ -10,5 +10,6 @@ target 'TvDemoApp' do
   pod 'Mux-Stats-AVPlayer', :path => '../../'
 
   pod 'GoogleAds-IMA-tvOS-SDK', '~> 4.2'
-#  pod 'Mux-Stats-Google-IMA', '~> 0.5'
+  # pod 'Mux-Stats-Google-IMA', '~> 0.6
+  pod 'Mux-Stats-Google-IMA', :git => 'https://github.com/muxinc/mux-stats-google-ima.git', :branch => 'dj/xcframework-dependencies'
 end
