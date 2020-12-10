@@ -3,7 +3,7 @@
 1. Bump version in XCode "General" for target: MUXSDKStats
 1. Bump version in XCode "General" for target: MUXSDKStatsTv
 1. Bump version in MUXSDKStats/MUXSDKStats/MUXSDKPlayerBinding.m
-1. Execute `update-release-frameworks.sh` to make a full build
+1. Execute `update-release-xcframeworks.sh` to make a full build
 1. Github - Create a PR to check in all changed files.
 1. If approved, squash & merge into master
 1. Pull master locally and `git tag [YOUR NEW VERSION]` and `git push --tags`

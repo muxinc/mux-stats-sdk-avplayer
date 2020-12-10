@@ -2,10 +2,10 @@
 set -euo pipefail
 
 # Delete the old stuff
-rm -Rf Frameworks
+rm -Rf XCFramework
 
-buildkite-agent artifact download "MUXSDKStats.framework.zip" . --step ".buildkite/build.sh"
-unzip MUXSDKStats.framework.zip
+buildkite-agent artifact download "MUXSDKStats.xcframework.zip" . --step ".buildkite/build.sh"
+unzip MUXSDKStats.xcframework.zip
 cd apps/DemoApp
 pod deintegrate && pod install
 xcodebuild -workspace DemoApp.xcworkspace \

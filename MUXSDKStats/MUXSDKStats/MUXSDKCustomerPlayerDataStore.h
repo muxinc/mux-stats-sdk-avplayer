@@ -7,11 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#if TARGET_OS_IOS
 @import MuxCore;
-#else
-@import MuxCoreTv;
-#endif
 
 @protocol MUXSDKCustomerPlayerDataStoring
 
