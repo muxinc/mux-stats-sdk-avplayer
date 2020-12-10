@@ -196,12 +196,14 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-video-demo/Pods-video-demo-frameworks.sh",
 				"${PODS_ROOT}/GoogleAds-IMA-iOS-SDK/GoogleInteractiveMediaAds.framework",
+				"${BUILT_PRODUCTS_DIR}/Mux-Stats-Google-IMA/Mux_Stats_Google_IMA.framework",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/MUXSDKStats/MUXSDKStats.framework/MUXSDKStats",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/MuxCore/MuxCore.framework/MuxCore",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleInteractiveMediaAds.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mux_Stats_Google_IMA.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MUXSDKStats.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MuxCore.framework",
 			);
