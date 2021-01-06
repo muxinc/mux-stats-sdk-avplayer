@@ -5,7 +5,7 @@ set -euo pipefail
 rm -Rf Frameworks
 
 buildkite-agent artifact download "MUXSDKStats.xcframework.zip" . --step ".buildkite/build.sh"
-unzip MUXSDKStats.xcframework.zip
+unzip -o MUXSDKStats.xcframework.zip
 cd apps/TestApp
 pod deintegrate && pod install
 xcodebuild -workspace TestApp.xcworkspace \
