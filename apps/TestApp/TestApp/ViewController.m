@@ -1,7 +1,7 @@
 #import "ViewController.h"
 #import "LocalHTTPServer.h"
 @import MUXSDKStats;
-@import Mux_Stats_Google_IMA;
+//@import Mux_Stats_Google_IMA;
 
 static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 
@@ -22,25 +22,25 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
     [self setupAVPlayerViewController: player];
 }
 
-- (AVPlayer *)testImaSDK {
-    NSURL* videoURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
-    AVPlayer *player = [AVPlayer playerWithURL:videoURL];
-    _contentPlayhead = [[IMAAVPlayerContentPlayhead alloc] initWithAVPlayer:player];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(contentDidFinishPlaying:)
-                                                 name:AVPlayerItemDidPlayToEndTimeNotification
-                                               object:player.currentItem];
-    _adsLoader = [[IMAAdsLoader alloc] initWithSettings:nil];
-    _adsLoader.delegate = self;
-
-    IMAAdDisplayContainer *adDisplayContainer = [[IMAAdDisplayContainer alloc] initWithAdContainer:_avplayerController.view companionSlots:nil];
-    IMAAdsRequest *request = [[IMAAdsRequest alloc] initWithAdTagUrl:@"https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostpod&cmsid=496&vid=short_onecue&correlator="
-                                                  adDisplayContainer:adDisplayContainer
-                                                     contentPlayhead:_contentPlayhead
-                                                         userContext:nil];
-    [_adsLoader requestAdsWithRequest:request];
-    return player;
-}
+//- (AVPlayer *)testImaSDK {
+//    NSURL* videoURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
+//    AVPlayer *player = [AVPlayer playerWithURL:videoURL];
+//    _contentPlayhead = [[IMAAVPlayerContentPlayhead alloc] initWithAVPlayer:player];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(contentDidFinishPlaying:)
+//                                                 name:AVPlayerItemDidPlayToEndTimeNotification
+//                                               object:player.currentItem];
+//    _adsLoader = [[IMAAdsLoader alloc] initWithSettings:nil];
+//    _adsLoader.delegate = self;
+//
+//    IMAAdDisplayContainer *adDisplayContainer = [[IMAAdDisplayContainer alloc] initWithAdContainer:_avplayerController.view companionSlots:nil];
+//    IMAAdsRequest *request = [[IMAAdsRequest alloc] initWithAdTagUrl:@"https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostpod&cmsid=496&vid=short_onecue&correlator="
+//                                                  adDisplayContainer:adDisplayContainer
+//                                                     contentPlayhead:_contentPlayhead
+//                                                         userContext:nil];
+//    [_adsLoader requestAdsWithRequest:request];
+//    return player;
+//}
 
 - (void)contentDidFinishPlaying:(NSNotification *)notification {
     if (notification.object == _avplayer.currentItem) {
@@ -85,26 +85,26 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
     if (event.type == kIMAAdEvent_LOADED) {
         [_adsManager start];
     }
-    if (_imaListener != nil) {
-        [_imaListener dispatchEvent: event];
-    }
+//    if (_imaListener != nil) {
+//        [_imaListener dispatchEvent: event];
+//    }
 }
 
 - (void)adsManager:(IMAAdsManager *)adsManager didReceiveAdError:(IMAAdError *)error {
     [_avplayer play];
-    if (_imaListener != nil) {
-        [_imaListener dispatchError: error.message];
-    }
+//    if (_imaListener != nil) {
+//        [_imaListener dispatchError: error.message];
+//    }
 }
 
 - (void)adsManagerDidRequestContentPause:(IMAAdsManager *)adsManager {
     [_avplayer pause];
-    [_imaListener onContentPauseOrResume:true];
+//    [_imaListener onContentPauseOrResume:true];
 }
 
 - (void)adsManagerDidRequestContentResume:(IMAAdsManager *)adsManager {
     [_avplayer play];
-    [_imaListener onContentPauseOrResume:false];
+//    [_imaListener onContentPauseOrResume:false];
 }
 
 - (AVPlayer *)testAVQueuePlayer {
@@ -161,7 +161,7 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
                                                      playerData:playerData
                                                       videoData:videoData
                                                        viewData: viewData];
-    _imaListener = [[MuxImaListener alloc] initWithPlayerBinding:_playerBinding];
+//    _imaListener = [[MuxImaListener alloc] initWithPlayerBinding:_playerBinding];
     [_avplayer play];
 
     [self addChildViewController:_avplayerController];
