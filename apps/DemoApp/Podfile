@@ -5,5 +5,5 @@ target 'DemoApp' do
   use_frameworks!
   pod 'Mux-Stats-AVPlayer', :path => '../../'
   pod 'GoogleAds-IMA-iOS-SDK', '~> 3.9'
-#  pod 'Mux-Stats-Google-IMA', '~> 0.5'
+  pod 'Mux-Stats-Google-IMA', :path => '../../../mux-stats-google-ima'
 end

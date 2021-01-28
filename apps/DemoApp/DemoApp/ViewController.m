@@ -82,26 +82,26 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
     if (event.type == kIMAAdEvent_LOADED) {
         [_adsManager start];
     }
-//    if (_imaListener != nil) {
-//        [_imaListener dispatchEvent: event];
-//    }
+    if (_imaListener != nil) {
+        [_imaListener dispatchEvent: event];
+    }
 }
 
 - (void)adsManager:(IMAAdsManager *)adsManager didReceiveAdError:(IMAAdError *)error {
     [_avplayer play];
-//    if (_imaListener != nil) {
-//        [_imaListener dispatchError: error.message];
-//    }
+    if (_imaListener != nil) {
+        [_imaListener dispatchError: error.message];
+    }
 }
 
 - (void)adsManagerDidRequestContentPause:(IMAAdsManager *)adsManager {
     [_avplayer pause];
-//    [_imaListener onContentPauseOrResume:true];
+    [_imaListener onContentPauseOrResume:true];
 }
 
 - (void)adsManagerDidRequestContentResume:(IMAAdsManager *)adsManager {
     [_avplayer play];
-//    [_imaListener onContentPauseOrResume:false];
+    [_imaListener onContentPauseOrResume:false];
 }
 
 - (AVPlayer *)testAVQueuePlayer {
@@ -138,7 +138,7 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
     // TODO: Add your property key!
     NSString *envKey = [NSProcessInfo.processInfo.environment objectForKey:@"ENV_KEY"];
     if(envKey == nil) {
-        envKey = @"YOUR_ENV_KEY_HERE";
+        envKey = @"ENV_KEY";
     }
     MUXSDKCustomerPlayerData *playerData = [[MUXSDKCustomerPlayerData alloc] initWithPropertyKey:envKey];
     MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
@@ -152,7 +152,7 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
                                                      playerData:playerData
                                                       videoData:videoData
                                                        viewData: viewData];
-//    _imaListener = [[MuxImaListener alloc] initWithPlayerBinding:_playerBinding];
+    _imaListener = [[MuxImaListener alloc] initWithPlayerBinding:_playerBinding];
     [_avplayer play];
 
     [self addChildViewController:_avplayerController];
