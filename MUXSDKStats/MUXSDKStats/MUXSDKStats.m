@@ -116,7 +116,7 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
     // See MUXSDKConnection.m for the tvos shortcoming
     //
     if (![deviceCategory isEqualToString:@"tvOS"]) {
-//        [MUXSDKConnection detectConnectionType];
+        [MUXSDKConnection detectConnectionType];
     }
 }
 
