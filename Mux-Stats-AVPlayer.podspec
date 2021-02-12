@@ -23,4 +23,7 @@ Pod::Spec.new do |s|
   s.tvos.deployment_target = '9.0'
   s.tvos.vendored_frameworks = 'XCFramework/MUXSDKStats.xcframework'
   s.tvos.frameworks = 'AVKit', 'AVFoundation'
+
+  # if the use_frameworks! declaration is set in the Podfile, the Pod should be built as a static framework
+  s.static_framework = true
 end
