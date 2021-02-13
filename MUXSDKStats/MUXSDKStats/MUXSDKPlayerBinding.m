@@ -1,7 +1,6 @@
 #import "MUXSDKPlayerBinding.h"
 #import "MUXSDKConnection.h"
 #import "MUXSDKPlayerBindingConstants.h"
-#import "NSNumber+MUXSDK.h"
 #import <Foundation/Foundation.h>
 
 @import CoreMedia;
@@ -150,7 +149,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     NSNumber *advertisedBitrate = renditionChangeInfo[RenditionChangeNotificationInfoAdvertisedBitrate];
     if (advertisedBitrate) {
         _lastAdvertisedBitrate = [advertisedBitrate doubleValue];
-        if(![@(_lastDispatchedAdvertisedBitrate) doubleValueIsEqual:@(_lastAdvertisedBitrate)]) {
+        if(![self doubleValueIsEqual:@(_lastDispatchedAdvertisedBitrate)  toOther:@(_lastAdvertisedBitrate)]) {
             [self dispatchRenditionChange];
         }
     }
@@ -159,8 +158,8 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 - (void) handleRenditionChangeInAccessLog:(AVPlayerItemAccessLog *) log {
     AVPlayerItemAccessLogEvent *lastEvent = log.events.lastObject;
     float advertisedBitrate = lastEvent.indicatedBitrate;
-    BOOL bitrateHasChanged = ![@(_lastAdvertisedBitrate) doubleValueIsEqual:@(advertisedBitrate)];
-    BOOL isStartingPlayback = [@(_lastAdvertisedBitrate) doubleValueIsEqual:@(0)];
+    BOOL bitrateHasChanged = ![self doubleValueIsEqual:@(_lastAdvertisedBitrate) toOther:@(advertisedBitrate)];
+    BOOL isStartingPlayback = [self doubleValueIsEqual:@(_lastAdvertisedBitrate) toOther:@(0)];
 
     if (bitrateHasChanged) {
         if(isStartingPlayback) {
@@ -428,7 +427,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             videoDataUpdated = YES;
         }
     }
-    if (![@(_lastDispatchedAdvertisedBitrate) doubleValueIsEqual:@(_lastAdvertisedBitrate)]) {
+    if (![self doubleValueIsEqual:@(_lastDispatchedAdvertisedBitrate)  toOther:@(_lastAdvertisedBitrate)]) {
         videoDataUpdated = YES;
         _lastDispatchedAdvertisedBitrate = _lastAdvertisedBitrate;
         _sourceDimensionsHaveChanged = YES;
@@ -893,6 +892,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     MUXSDKPlayerData *playerData = [self getPlayerData];
     [event setPlayerData:playerData];
     [MUXSDKCore dispatchEvent:event forPlayer:_name];
+}
+
+- (BOOL) doubleValueIsEqual:(NSNumber *) x toOther:(NSNumber *) n {
+    return fabs([x doubleValue] - [n doubleValue]) < FLT_EPSILON;
 }
 
 @end
