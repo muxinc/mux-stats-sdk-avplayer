@@ -1,9 +1,10 @@
 # Uncomment the next line to define a global platform for your project
 platform :ios, '9.0'
-
+use_frameworks!(:linkage => :static)
 target 'DemoApp' do
   use_frameworks!
   pod 'Mux-Stats-AVPlayer', :path => '../../'
+  pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'sk-statically-linked-library'
   pod 'GoogleAds-IMA-iOS-SDK', '~> 3.9'
 #  pod 'Mux-Stats-Google-IMA', '~> 0.5'
 end
