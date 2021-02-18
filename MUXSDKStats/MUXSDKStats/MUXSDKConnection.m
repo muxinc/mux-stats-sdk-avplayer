@@ -27,8 +27,10 @@
 - (void)detectConnectionAsync {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSString *type = [self getConnectionType];
-        NSDictionary *userInfo = @{@"type" : type};
-        [NSNotificationCenter.defaultCenter postNotificationName:@"com.mux.connection-type-detected" object:nil userInfo:userInfo];
+        if (type != nil) {
+            NSDictionary *userInfo = @{@"type" : type};
+            [NSNotificationCenter.defaultCenter postNotificationName:@"com.mux.connection-type-detected" object:nil userInfo:userInfo];
+        }
     });
 }
 
@@ -38,14 +40,14 @@
     BOOL success = SCNetworkReachabilityGetFlags(reachability, &flags);
     CFRelease(reachability);
     if (!success) {
-        return NULL;
+        return nil;
     }
     BOOL isReachable = ((flags & kSCNetworkReachabilityFlagsReachable) != 0);
     BOOL needsConnection = ((flags & kSCNetworkReachabilityFlagsConnectionRequired) != 0);
     BOOL isNetworkReachable = (isReachable && !needsConnection);
 
     if (!isNetworkReachable) {
-        return NULL;
+        return nil;
     } else if ((flags & kSCNetworkReachabilityFlagsIsWWAN) != 0) {
         return @"cellular";
     } else {
