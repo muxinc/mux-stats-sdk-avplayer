@@ -1,7 +1,6 @@
 #import "MUXSDKPlayerBinding.h"
 #import "MUXSDKConnection.h"
 #import "MUXSDKPlayerBindingConstants.h"
-#import "NSNumber+MUXSDK.h"
 
 #if __has_feature(modules)
 @import Foundation;
