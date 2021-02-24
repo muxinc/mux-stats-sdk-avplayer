@@ -1,9 +1,15 @@
 #import "MUXSDKPlayerBinding.h"
 #import "MUXSDKConnection.h"
 #import "MUXSDKPlayerBindingConstants.h"
-#import <Foundation/Foundation.h>
+#import "NSNumber+MUXSDK.h"
 
+#if __has_feature(modules)
+@import Foundation;
 @import CoreMedia;
+#else
+#import <Foundation/Foundation.h>
+#import <CoreMedia/CoreMedia.h>
+#endif
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";

@@ -1,11 +1,17 @@
 #ifndef MUXSDKPlayerBinding_h
 #define MUXSDKPlayerBinding_h
 
-#import <Foundation/Foundation.h>
-
+#if __has_feature(modules)
 @import AVKit;
 @import AVFoundation;
+@import Foundation;
 @import MuxCore;
+#else
+#import <Foundation/Foundation.h>
+#import <AVKit/AVKit.h>
+#import <AVFoundation/AVFoundation.h>
+#import <MuxCore/MuxCore.h>
+#endif
 #endif
 
 typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
