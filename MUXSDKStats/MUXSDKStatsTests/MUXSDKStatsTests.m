@@ -10,7 +10,11 @@
 #import "MUXSDKStats.h"
 #import "MUXSDKCore+Mock.h"
 #import "MUXSDKPlayerBindingConstants.h"
+#if __has_feature(modules)
 @import MuxCore;
+#else
+#import <MuxCore/MuxCore.h>
+#endif
 
 @interface MuxMockAVPlayerViewController : AVPlayerViewController
 @end
