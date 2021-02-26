@@ -9,7 +9,7 @@
 1. Pull master locally and `git tag [YOUR NEW VERSION]` and `git push --tags`
 1. Cocoapod - Run `pod spec lint` to local check pod validity
 1. Cocoapod - Run `pod trunk push Mux-Stats-AVPlayer.podspec`
-1. Github UI - Make a new release with the new version. Run `zip -r XCFramework.zip XCFramework` and attach the zip file to the Github release
+1. Github UI - Make a new release with the new version. Attach the XCFramework artifacts from the automated build to the release.
 1. Update the release notes in the [AVPlayer Integration Guide](https://docs.mux.com/docs/avplayer-integration-guide)
 
 After release:

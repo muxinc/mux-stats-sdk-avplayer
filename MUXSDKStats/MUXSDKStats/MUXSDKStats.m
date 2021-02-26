@@ -5,12 +5,17 @@
 #import "MUXSDKCustomerPlayerDataStore.h"
 #import "MUXSDKCustomerVideoDataStore.h"
 #import "MUXSDKCustomerViewDataStore.h"
-#import <Foundation/Foundation.h>
 #import <sys/utsname.h>
 
+#if __has_feature(modules)
 @import AVFoundation;
 @import AVKit;
 @import Foundation;
+#else
+#import <AVKit/AVKit.h>
+#import <AVFoundation/AVFoundation.h>
+#import <Foundation/Foundation.h>
+#endif
 
 // Software constants.
 NSString *const MuxPlayerSoftwareAVPlayerViewController = @"AVPlayerViewController";
@@ -116,7 +121,7 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
     // See MUXSDKConnection.m for the tvos shortcoming
     //
     if (![deviceCategory isEqualToString:@"tvOS"]) {
-//        [MUXSDKConnection detectConnectionType];
+        [MUXSDKConnection detectConnectionType];
     }
 }
 

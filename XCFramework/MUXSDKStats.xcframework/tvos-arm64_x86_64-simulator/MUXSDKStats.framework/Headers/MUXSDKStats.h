@@ -20,11 +20,18 @@
  If you change the video that is playing in an AVPlayer, you should call videoChangeForPlayer:withVideoData to provide the updated video information. Not calling videoChangeForPlayer:withVideoData when the video changes will cause tracking pings to be associated with the last video that was playing.
  */
 
-#import <Foundation/Foundation.h>
 
+#if __has_feature(modules)
+@import Foundation;
 @import AVKit;
 @import AVFoundation;
 @import MuxCore;
+#else
+#import <Foundation/Foundation.h>
+#import <AVKit/AVKit.h>
+#import <AVFoundation/AVFoundation.h>
+#import <MuxCore/MuxCore.h>
+#endif
 #import "MUXSDKPlayerBinding.h"
 
 FOUNDATION_EXPORT
