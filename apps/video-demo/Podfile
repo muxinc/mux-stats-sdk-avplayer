@@ -9,6 +9,5 @@ target 'video-demo' do
   pod 'Mux-Stats-AVPlayer', :path => '../../'
 
   pod 'GoogleAds-IMA-iOS-SDK', '~> 3.9'
-#  pod 'Mux-Stats-Google-IMA', '~> 0.6'
-  pod 'Mux-Stats-Google-IMA', :git => 'https://github.com/muxinc/mux-stats-google-ima.git', :branch => 'dj/xcframework-dependencies'
+  pod 'Mux-Stats-Google-IMA', '~> 0.6'
 end
