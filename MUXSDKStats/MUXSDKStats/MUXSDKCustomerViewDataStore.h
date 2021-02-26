@@ -6,8 +6,13 @@
 //  Copyright © 2020 Mux, Inc. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#if __has_feature(modules)
+@import Foundation;
 @import MuxCore;
+#else
+#import <Foundation/Foundation.h>
+#import <MuxCore/MuxCore.h>
+#endif
 
 @protocol MUXSDKCustomerViewDataStoring
 

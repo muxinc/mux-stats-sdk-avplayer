@@ -2,13 +2,18 @@
 #import "MUXSDKConnection.h"
 #import "MUXSDKPlayerBindingConstants.h"
 #import "NSNumber+MUXSDK.h"
-#import <Foundation/Foundation.h>
 
+#if __has_feature(modules)
+@import Foundation;
 @import CoreMedia;
+#else
+#import <Foundation/Foundation.h>
+#import <CoreMedia/CoreMedia.h>
+#endif
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"2.0.2";
+NSString *const MUXSDKPluginVersion = @"2.0.3";
 
 // Min number of seconds between timeupdate events. (100ms)
 double MUXSDKMaxSecsBetweenTimeUpdate = 0.1;
