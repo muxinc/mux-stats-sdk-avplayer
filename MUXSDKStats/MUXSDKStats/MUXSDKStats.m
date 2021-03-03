@@ -86,7 +86,7 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
     [viewerData setViewerDeviceManufacturer:@"Apple"];
     struct utsname systemInfo;
     uname(&systemInfo);
-    [viewerData setViewerDeviceName:[NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding]];
+    [viewerData setViewerDeviceModel:[NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding]];
     NSString *deviceCategory = @"unknown";
     NSString *osFamily = @"unknown";
     switch ([[UIDevice currentDevice] userInterfaceIdiom]) {
