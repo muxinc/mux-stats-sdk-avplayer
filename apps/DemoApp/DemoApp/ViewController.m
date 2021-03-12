@@ -172,7 +172,6 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
                                                        viewData: viewData];
     _imaListener = [[MuxImaListener alloc] initWithPlayerBinding:_playerBinding];
     [_avplayer play];
-    
     [self addChildViewController:_avplayerController];
     _avplayerController.view.frame = self.view.bounds;
     [self.view insertSubview:_avplayerController.view atIndex:0];
