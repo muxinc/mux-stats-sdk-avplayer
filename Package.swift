@@ -9,7 +9,7 @@ let package = Package(
         .tvOS(.v9)
     ],
     products: [
-        .library(name: "MUXSDKStats", targets: ["MUXSDKStats"])
+        .library(name: "MUXSDKStats", targets: ["MUXSDKStatsTargets"])
     ],
     dependencies: [
         .package(
