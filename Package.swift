@@ -13,7 +13,7 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            name: "Mux-Stats-Core",
+            name: "MuxCore",
             url: "https://github.com/AndrewBarba/stats-sdk-objc.git",
             .branch("master")
         )
