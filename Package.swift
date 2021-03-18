@@ -22,6 +22,14 @@ let package = Package(
         .binaryTarget(
             name: "MUXSDKStats",
             path: "XCFramework/MUXSDKStats.xcframework"
+        ),
+        .target(
+            name: "MUXSDKStatsTargets",
+            dependencies: [
+                "MuxCore",
+                .target(name: "MUXSDKStats")
+            ],
+            path: "SwiftPM"
         )
     ]
 )
