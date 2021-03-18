@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Mux-Stats-Core",
+        "repositoryURL": "https://github.com/AndrewBarba/stats-sdk-objc.git",
+        "state": {
+          "branch": "master",
+          "revision": "68b8a60b5294e36b686b4c1da68a85f5883c2a18",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
