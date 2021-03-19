@@ -2,21 +2,21 @@ PODS:
   - Mux-Stats-Core (3.0.3)
 
 DEPENDENCIES:
-  - Mux-Stats-Core (from `https://github.com/muxinc/stats-sdk-objc.git`, branch `nidhik/viewer-device-model`)
+  - Mux-Stats-Core (from `https://github.com/muxinc/stats-sdk-objc.git`, branch `v3.0.4`)
 
 EXTERNAL SOURCES:
   Mux-Stats-Core:
-    :branch: nidhik/viewer-device-model
+    :branch: v3.0.4
     :git: https://github.com/muxinc/stats-sdk-objc.git
 
 CHECKOUT OPTIONS:
   Mux-Stats-Core:
-    :commit: dc7f7e76c9781152b3514803c733bda2e34499bd
+    :commit: 2c547294971232f6806286f6d64aaf6a0366a474
     :git: https://github.com/muxinc/stats-sdk-objc.git
 
 SPEC CHECKSUMS:
   Mux-Stats-Core: 0619aad49cf1b5f193a463ac6c48e0ea211b6733
 
-PODFILE CHECKSUM: 12193fe52094bd5cdea592856dc58a1557801b18
+PODFILE CHECKSUM: b5ba6a3e7b9a300c0a4308585f0cd23db517a194
 
 COCOAPODS: 1.10.1
