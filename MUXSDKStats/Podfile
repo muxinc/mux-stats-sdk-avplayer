@@ -6,13 +6,15 @@ target 'MUXSDKStats' do
   # use_frameworks!
 
   # Pods for MUXSDKStats
-  pod 'Mux-Stats-Core', '~>3.0.3'
+  #pod 'Mux-Stats-Core', '~>3.0.3'
+  pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'nidhik/viewer-device-model'
   
 
   target 'MUXSDKStatsTests' do
     inherit! :search_paths
     # Pods for testing
-    pod 'Mux-Stats-Core', '~>3.0.3'
+    #pod 'Mux-Stats-Core', '~>3.0.3'
+    pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'nidhik/viewer-device-model'
   end
 
 end
@@ -23,5 +25,6 @@ target 'MUXSDKStatsTv' do
   # use_frameworks!
 
   # Pods for MUXSDKStatsTv
-  pod 'Mux-Stats-Core', '~>3.0.3'
+  #pod 'Mux-Stats-Core', '~>3.0.3'
+  pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'nidhik/viewer-device-model'
 end
