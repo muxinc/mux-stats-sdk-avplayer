@@ -24,9 +24,14 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 - (void)viewDidLoad {
     [super viewDidLoad];
     _avplayerController = [AVPlayerViewController new];
-    AVPlayer *player = [self testImaSDK];
+    AVPlayer *player;
+    NSString *testScenario = [NSProcessInfo.processInfo.environment objectForKey:@"TEST_SCENARIO"];
+    if ([testScenario isEqualToString:@"IMA"]) {
+       player = [self testImaSDK];
+    } else {
+        player = [self testAVPlayer];
+    }
 //    AVPlayer *player = [self testAVQueuePlayer];
-//    AVPlayer *player = [self testAVPlayer];
     [self setupAVPlayerViewController: player];
 }
 
@@ -46,7 +51,6 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
                                                object:player.currentItem];
     return player;
 }
-
 
 - (void) requestAds {
     IMAAdDisplayContainer *adDisplayContainer = [[IMAAdDisplayContainer alloc] initWithAdContainer:self.view viewController:self];
