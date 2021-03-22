@@ -14,22 +14,26 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 //@"premidpostlongpod&cmsid=496&vid=short_tencue&correlator=[TIMESTAMP]";
 
 NSString *const kAdTagURLString = @"https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostpod&cmsid=496&vid=short_onecue&correlator=";
-
+NSString *const kAdTagURLStringPostRoll = @"https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpostonly&cmsid=496&vid=short_onecue&correlator=";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     _avplayerController = [AVPlayerViewController new];
-    AVPlayer *player = [self testAvPlayer];
-//    AVPlayer *player = [self testImaSDK];
+//    AVPlayer *player = [self testAvPlayer];
+    AVPlayer *player = [self testImaSDK];
     [self setupAVPlayerViewController: player];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    [self requestAds];
 }
 
 - (void)setupAVPlayerViewController:(AVPlayer *)player {
     _avplayer = player;
     _avplayerController.player = _avplayer;
-
+    
 //    // TODO: Add your property key!
-    MUXSDKCustomerPlayerData *playerData = [[MUXSDKCustomerPlayerData alloc] initWithPropertyKey:@"ENV_KEY"];
+    MUXSDKCustomerPlayerData *playerData = [[MUXSDKCustomerPlayerData alloc] initWithPropertyKey:@"YOUR_ENV_KEY_HERE"];
     MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
     videoData.videoTitle = @"Big Buck Bunny";
     videoData.videoId = @"bigbuckbunny";
@@ -41,29 +45,34 @@ NSString *const kAdTagURLString = @"https://pubads.g.doubleclick.net/gampad/ads?
     _imaListener = [[MuxImaListener alloc] initWithPlayerBinding:_playerBinding];
     [_avplayer play];
 
+    
+    _avplayerController.view.frame = self.view.bounds;
+    _avplayerController.showsPlaybackControls = YES;
     [self addChildViewController:_avplayerController];
-    [self.view addSubview:_avplayerController.view];
-    _avplayerController.view.frame = self.view.frame;
+    [self.view insertSubview:_avplayerController.view atIndex:0];
+    [_avplayerController didMoveToParentViewController:self];
 }
 
 - (AVPlayer *)testImaSDK {
-    NSURL* videoURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
-    AVPlayer *player = [AVPlayer playerWithURL:videoURL];
+    _adsLoader = [[IMAAdsLoader alloc] initWithSettings:nil];
+    _adsLoader.delegate = self;
+    NSURL *contentURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
+    AVPlayer *player = [AVPlayer playerWithURL:contentURL];
     _contentPlayhead = [[IMAAVPlayerContentPlayhead alloc] initWithAVPlayer:player];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(contentDidFinishPlaying:)
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
                                                object:player.currentItem];
-    _adsLoader = [[IMAAdsLoader alloc] initWithSettings:nil];
-    _adsLoader.delegate = self;
+    return player;
+}
 
-    IMAAdDisplayContainer *adDisplayContainer = [[IMAAdDisplayContainer alloc] initWithAdContainer:_avplayerController.view viewController:_avplayerController];
-    IMAAdsRequest *request = [[IMAAdsRequest alloc] initWithAdTagUrl:kAdTagURLString
+- (void) requestAds {
+    IMAAdDisplayContainer *adDisplayContainer = [[IMAAdDisplayContainer alloc] initWithAdContainer:self.view viewController:self];
+    IMAAdsRequest *request = [[IMAAdsRequest alloc] initWithAdTagUrl:kAdTagURLStringPostRoll
                                                   adDisplayContainer:adDisplayContainer
                                                      contentPlayhead:_contentPlayhead
                                                          userContext:nil];
     [_adsLoader requestAdsWithRequest:request];
-    return player;
 }
 
 - (AVPlayer *)testAvPlayer {
