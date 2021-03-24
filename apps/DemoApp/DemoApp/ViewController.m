@@ -4,6 +4,7 @@
 @import Mux_Stats_Google_IMA;
 
 static NSString *DEMO_PLAYER_NAME = @"demoplayer";
+NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostpod&cmsid=496&vid=short_onecue&correlator=";
 
 @interface ViewController () {
     AVPlayer *_avplayer;
@@ -25,18 +26,28 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
     [super viewDidLoad];
     _avplayerController = [AVPlayerViewController new];
     AVPlayer *player;
-    NSString *testScenario = [NSProcessInfo.processInfo.environment objectForKey:@"TEST_SCENARIO"];
-    if ([testScenario isEqualToString:@"IMA"]) {
+    if ([self isTestingAds]) {
        player = [self testImaSDK];
     } else {
         player = [self testAVPlayer];
     }
-//    AVPlayer *player = [self testAVQueuePlayer];
+//    player = [self testAVQueuePlayer];
     [self setupAVPlayerViewController: player];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
-    [self requestAds];
+    if ([self isTestingAds]) {
+        NSString *adTagURL = [NSProcessInfo.processInfo.environment objectForKey:@"AD_TAG_URL"];
+        if (adTagURL == nil) {
+            adTagURL = kAdTagURLStringPreRollMidRollPostRoll;        }
+        [self requestAdsWithURL:adTagURL];
+    }
+    
+}
+
+- (BOOL) isTestingAds {
+    NSString *testScenario = [NSProcessInfo.processInfo.environment objectForKey:@"TEST_SCENARIO"];
+    return [testScenario isEqualToString:@"IMA"];
 }
 
 - (AVPlayer *)testImaSDK {
@@ -52,9 +63,9 @@ static NSString *DEMO_PLAYER_NAME = @"demoplayer";
     return player;
 }
 
-- (void) requestAds {
+- (void) requestAdsWithURL:(NSString *) adTagURL {
     IMAAdDisplayContainer *adDisplayContainer = [[IMAAdDisplayContainer alloc] initWithAdContainer:self.view viewController:self];
-    IMAAdsRequest *request = [[IMAAdsRequest alloc] initWithAdTagUrl:@"https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostpod&cmsid=496&vid=short_onecue&correlator="
+    IMAAdsRequest *request = [[IMAAdsRequest alloc] initWithAdTagUrl:adTagURL
                                                   adDisplayContainer:adDisplayContainer
                                                      contentPlayhead:_contentPlayhead
                                                          userContext:nil];
