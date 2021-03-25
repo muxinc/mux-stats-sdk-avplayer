@@ -68,28 +68,4 @@ NSString *const kAdTagURLStringPostRoll = @"https://pubads.g.doubleclick.net/gam
     
 }
 
-- (void)testIMASDKPostRollOnly {
-    XCUIApplication *app = [[XCUIApplication alloc] init];
-    [app setLaunchEnvironment:@{@"ENV_KEY": @"tr4q3qahs0gflm8b1c75h49ln", @"TEST_SCENARIO": @"IMA", @"AD_TAG_URL": kAdTagURLStringPostRoll}];
-    [app launch];
-    XCTestExpectation *exp = [[XCTestExpectation alloc] initWithDescription:@"Wait for launch (~5 sec)"];
-    XCTWaiterResult result = [XCTWaiter waitForExpectations:@[exp] timeout:5];
-    if(result != XCTWaiterResultTimedOut) {
-        XCTFail(@"Interrupted while playing video.");
-    }
-        
-    XCUIElement *element = [[[app.windows childrenMatchingType:XCUIElementTypeOther].element childrenMatchingType:XCUIElementTypeOther].element childrenMatchingType:XCUIElementTypeOther].element;
-    [element tap];
-    
-    XCUIElement *skipForwardButton = app/*@START_MENU_TOKEN@*/.buttons[@"Skip Forward"]/*[[".buttons[@\"Skip 15 seconds forward\"]",".buttons[@\"Skip Forward\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/;
-    for (int i=0; i < 58; i++) {
-        [skipForwardButton tap];
-    }
-    exp = [[XCTestExpectation alloc] initWithDescription:@"Wait for postroll (10 sec)"];
-    result = [XCTWaiter waitForExpectations:@[exp] timeout:20.0];
-    if(result != XCTWaiterResultTimedOut) {
-        XCTFail(@"Interrupted while playing video.");
-    }
-}
-
 @end
