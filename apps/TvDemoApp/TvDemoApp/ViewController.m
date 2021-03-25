@@ -145,7 +145,7 @@ NSString *const kAdTagURLStringPostRoll = @"https://pubads.g.doubleclick.net/gam
     _adsManager = adsLoadedData.adsManager;
     _adsManager.delegate = self;
     IMAAdsRenderingSettings *adsRenderingSettings = [[IMAAdsRenderingSettings alloc] init];
-    adsRenderingSettings.webOpenerPresentingController = self;
+    adsRenderingSettings.linkOpenerPresentingController = self;
     [_adsManager initializeWithAdsRenderingSettings:adsRenderingSettings];
 }
 

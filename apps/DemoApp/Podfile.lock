@@ -11,25 +11,17 @@ PODS:
 DEPENDENCIES:
   - GoogleAds-IMA-iOS-SDK (~> 3.14)
   - Mux-Stats-AVPlayer (from `../../`)
-  - Mux-Stats-Core (from `https://github.com/muxinc/stats-sdk-objc.git`, branch `v3.1.0`)
   - Mux-Stats-Google-IMA (~> 0.6)
 
 SPEC REPOS:
   trunk:
     - GoogleAds-IMA-iOS-SDK
+    - Mux-Stats-Core
     - Mux-Stats-Google-IMA
 
 EXTERNAL SOURCES:
   Mux-Stats-AVPlayer:
     :path: "../../"
-  Mux-Stats-Core:
-    :branch: v3.1.0
-    :git: https://github.com/muxinc/stats-sdk-objc.git
-
-CHECKOUT OPTIONS:
-  Mux-Stats-Core:
-    :commit: 4e38ffae06aa02f9e83a0947bc8dc25d16d061eb
-    :git: https://github.com/muxinc/stats-sdk-objc.git
 
 SPEC CHECKSUMS:
   GoogleAds-IMA-iOS-SDK: cc10f58c94fe19664f223e290099624f4696001f
@@ -37,6 +29,6 @@ SPEC CHECKSUMS:
   Mux-Stats-Core: b45bb101d0ea629bd443de0e690f9a7eedd7b5b8
   Mux-Stats-Google-IMA: 688a43ff921bd467f92072479af0160ec9090e0b
 
-PODFILE CHECKSUM: b868b70b34bb8d7467b7b58ad1ff04dc251474bf
+PODFILE CHECKSUM: d1aa08986e99c423a5f3ca3784bcfd3ff90aafbf
 
 COCOAPODS: 1.10.1
