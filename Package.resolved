@@ -5,9 +5,9 @@
         "package": "MuxCore",
         "repositoryURL": "https://github.com/AndrewBarba/stats-sdk-objc.git",
         "state": {
-          "branch": "master",
+          "branch": null,
           "revision": "58b0304cc236cbb638fcdfb1071713e99a399482",
-          "version": null
+          "version": "3.1.0"
         }
       }
     ]
