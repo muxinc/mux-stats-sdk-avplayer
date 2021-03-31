@@ -6,13 +6,15 @@ target 'MUXSDKStats' do
   # use_frameworks!
 
   # Pods for MUXSDKStats
-  pod 'Mux-Stats-Core', '~>3.1.0'
+  # pod 'Mux-Stats-Core', '~>3.1.0'
+  pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'swift-pm-support'
   
 
   target 'MUXSDKStatsTests' do
     inherit! :search_paths
     # Pods for testing
-    pod 'Mux-Stats-Core', '~>3.1.0'
+    # pod 'Mux-Stats-Core', '~>3.1.0'
+    pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'swift-pm-support'
   end
 
 end
@@ -23,5 +25,6 @@ target 'MUXSDKStatsTv' do
   # use_frameworks!
 
   # Pods for MUXSDKStatsTv
-  pod 'Mux-Stats-Core', '~>3.1.0'
+  # pod 'Mux-Stats-Core', '~>3.1.0'
+  pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'swift-pm-support'
 end
