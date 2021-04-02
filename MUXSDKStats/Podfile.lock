@@ -2,21 +2,15 @@ PODS:
   - Mux-Stats-Core (3.2.0)
 
 DEPENDENCIES:
-  - Mux-Stats-Core (from `https://github.com/muxinc/stats-sdk-objc.git`, branch `swift-pm-support`)
+  - Mux-Stats-Core (~> 3.2)
 
-EXTERNAL SOURCES:
-  Mux-Stats-Core:
-    :branch: swift-pm-support
-    :git: https://github.com/muxinc/stats-sdk-objc.git
-
-CHECKOUT OPTIONS:
-  Mux-Stats-Core:
-    :commit: 9fa7005c49ffae46061083fe534724467a266682
-    :git: https://github.com/muxinc/stats-sdk-objc.git
+SPEC REPOS:
+  trunk:
+    - Mux-Stats-Core
 
 SPEC CHECKSUMS:
   Mux-Stats-Core: 83cb64ed6b77b1885e61beeffac2995abf984d3f
 
-PODFILE CHECKSUM: 23dc127db4ad65a59bd9747bd10f44cc6c4c7bd5
+PODFILE CHECKSUM: 03bb2b034ee12140a31c01cabb14b36a41d1fd56
 
 COCOAPODS: 1.10.1
