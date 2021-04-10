@@ -30,6 +30,7 @@ static void *MUXSDKAVPlayerCurrentItemObservationContext = &MUXSDKAVPlayerCurren
 
 // AVPlayerItem observation contexts.
 static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusObservationContext;
+static void *MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext = &MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext;
 
 // This is the name of the exception that gets thrown when we remove an observer that
 // is not registered. In theory, this should not really happen, but there is one async condition
@@ -69,9 +70,12 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     _timeObserver = [_player addPeriodicTimeObserverForInterval:[self getTimeObserverInternal]
                                                           queue:NULL
                                                      usingBlock:^(CMTime time) {
+        
                                                          if ([weakSelf isTryingToPlay]) {
+                                                             NSLog(@"MUXSDKAVPlayer-INFO - isTryingToPlay is true so calling startBuffering");
                                                              [weakSelf startBuffering];
                                                          } else if ([weakSelf isBuffering]) {
+                                                             NSLog(@"MUXSDKAVPlayer-INFO - isBuffering is true so calling dispatchPlaying");
                                                              [weakSelf dispatchPlaying];
                                                          } else {
                                                              [weakSelf dispatchTimeUpdateEvent:time];
@@ -337,6 +341,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
                       forKeyPath:@"status"
                          options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
                          context:MUXSDKAVPlayerItemStatusObservationContext];
+        [_playerItem addObserver:self
+                      forKeyPath:@"playbackBufferEmpty"
+                         options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
+                         context:MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext];
     }
 }
 
@@ -592,8 +600,16 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     return _state == MUXSDKPlayerStatePlay;
 }
 
+- (BOOL) isPaused {
+    return _state = MUXSDKPlayerStatePaused;
+}
+
 - (BOOL)isPlayingOrTryingToPlay {
     return [self isPlaying] || [self isTryingToPlay];
+}
+
+- (BOOL) isPausedWhileAirPlaying {
+    return _player.externalPlaybackActive && [self isPaused];
 }
 
 - (void)startBuffering {
@@ -663,6 +679,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)dispatchPause {
+    
     if (![self isPlayerOK]) {
         return;
     }
@@ -871,6 +888,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     // AVPlayer Observations
     if (context == MUXSDKAVPlayerRateObservationContext) {
         if (_player.rate == 0 && [self isPlayingOrTryingToPlay]) {
+            NSLog(@"MUXSDKAVPlayer-INFO - rate is 0 and isPlayingOrTryingToPlay so dispatching pause. isPlaybackBufferEmpty: %@", @([_playerItem isPlaybackBufferEmpty]));
             [self dispatchPause];
         } else if (_player.rate != 0 && ![self isPlayingOrTryingToPlay]) {
             [self dispatchPlay];
@@ -886,6 +904,14 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     } else if (context == MUXSDKAVPlayerItemStatusObservationContext) {
         if ([self isPlayerInErrorState]) {
             [self dispatchError];
+        }
+    } else if (context == MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext) {
+        NSLog(@"MUXSDKAVPlayer-INFO -KVO for MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext. isPlaybackBufferEmpty: %@", @([_playerItem isPlaybackBufferEmpty]));
+        if ([_playerItem isPlaybackBufferEmpty] && [self isPausedWhileAirPlaying]) {
+            NSLog(@"should really be rebuffering. Dispatching play");
+            // We erroneously detected a pause when in fact we are rebuffering. This *only* happens in AirPlay mode
+            [self dispatchPlay];
+            NSLog(@"Hopefully we now detect the rebuffer...");
         }
     }
 }
