@@ -911,6 +911,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             NSLog(@"should really be rebuffering. Dispatching play");
             // We erroneously detected a pause when in fact we are rebuffering. This *only* happens in AirPlay mode
             [self dispatchPlay];
+            [self dispatchPlaying];
             NSLog(@"Hopefully we now detect the rebuffer...");
         }
     }
