@@ -70,7 +70,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     _timeObserver = [_player addPeriodicTimeObserverForInterval:[self getTimeObserverInternal]
                                                           queue:NULL
                                                      usingBlock:^(CMTime time) {
-        
                                                          if ([weakSelf isTryingToPlay]) {
                                                              [weakSelf startBuffering];
                                                          } else if ([weakSelf isBuffering]) {
@@ -677,7 +676,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)dispatchPause {
-    
     if (![self isPlayerOK]) {
         return;
     }
