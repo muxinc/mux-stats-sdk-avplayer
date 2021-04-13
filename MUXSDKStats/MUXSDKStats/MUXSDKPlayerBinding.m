@@ -72,10 +72,8 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
                                                      usingBlock:^(CMTime time) {
         
                                                          if ([weakSelf isTryingToPlay]) {
-                                                             NSLog(@"MUXSDKAVPlayer-INFO - isTryingToPlay is true so calling startBuffering");
                                                              [weakSelf startBuffering];
                                                          } else if ([weakSelf isBuffering]) {
-                                                             NSLog(@"MUXSDKAVPlayer-INFO - isBuffering is true so calling dispatchPlaying");
                                                              [weakSelf dispatchPlaying];
                                                          } else {
                                                              [weakSelf dispatchTimeUpdateEvent:time];
@@ -888,7 +886,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     // AVPlayer Observations
     if (context == MUXSDKAVPlayerRateObservationContext) {
         if (_player.rate == 0 && [self isPlayingOrTryingToPlay]) {
-            NSLog(@"MUXSDKAVPlayer-INFO - rate is 0 and isPlayingOrTryingToPlay so dispatching pause. isPlaybackBufferEmpty: %@", @([_playerItem isPlaybackBufferEmpty]));
             [self dispatchPause];
         } else if (_player.rate != 0 && ![self isPlayingOrTryingToPlay]) {
             [self dispatchPlay];
@@ -906,13 +903,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             [self dispatchError];
         }
     } else if (context == MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext) {
-        NSLog(@"MUXSDKAVPlayer-INFO -KVO for MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext. isPlaybackBufferEmpty: %@", @([_playerItem isPlaybackBufferEmpty]));
-        if ([_playerItem isPlaybackBufferEmpty] && [self isPausedWhileAirPlaying]) {
-            NSLog(@"should really be rebuffering. Dispatching play");
+        if ([_playerItem isPlaybackBufferEmpty] && _player.timeControlStatus != AVPlayerTimeControlStatusPlaying && [self isPausedWhileAirPlaying]) {
             // We erroneously detected a pause when in fact we are rebuffering. This *only* happens in AirPlay mode
             [self dispatchPlay];
             [self dispatchPlaying];
-            NSLog(@"Hopefully we now detect the rebuffer...");
         }
     }
 }
