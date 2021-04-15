@@ -58,7 +58,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (BOOL)setAutomaticVideoChange:(BOOL)automaticVideoChange {
-    NSLog(@"MUXSDK-JAMES - YEAH ROY!");
     _automaticVideoChange = automaticVideoChange;
     return _automaticVideoChange;
 }
