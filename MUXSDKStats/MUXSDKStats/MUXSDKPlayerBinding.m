@@ -668,7 +668,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [self checkVideoData];
     MUXSDKPlayerData *playerData = [self getPlayerData];
     if (_seeking) {
-        NSLog(@"About to dispatch playing but we are seeking. Dispatching seeked first. Playhead (ms) %f. Last playhead time: %f. Last playhead time on pause %f Last playhead time on paused updated at %f", [self getCurrentPlayheadTimeMs], _lastPlayheadTimeMs, _lastPlayheadTimeMsOnPause, _lastPlayheadTimeOnPauseUpdated);
         _seeking = NO;
         MUXSDKSeekedEvent *seekedEvent = [[MUXSDKSeekedEvent alloc] init];
         [seekedEvent setPlayerData:playerData];
@@ -827,15 +826,12 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     float playheadTimeElapsed = ([self getCurrentPlayheadTimeMs] - _lastPlayheadTimeMs) / 1000;
     float wallTimeElapsed = CFAbsoluteTimeGetCurrent() - _lastPlayheadTimeUpdated;
     float drift = playheadTimeElapsed - wallTimeElapsed;
-    NSLog(@"Computing drift. current playhead (ms): %f, playheadTimeElapsed: %f drift: %f timeControlStatus: %li", [self getCurrentPlayheadTimeMs] , playheadTimeElapsed, drift, (long)_player.timeControlStatus);
     // The playhead has to have moved > 500ms and we have to have signifigantly drifted in comparision to wall time.
     // We check both positive and negative to account for seeking forward and backward respectively.
     // Unbuffered seeks seem to update the playhead time when transitioning into play where as buffered seeks update the playhead time when paused.
     if (fabsf(playheadTimeElapsed) > MUXSDKMaxSecsSeekPlayheadShift &&
         fabsf(drift) > MUXSDKMaxSecsSeekClockDrift &&
         (_state == MUXSDKPlayerStatePaused || _state == MUXSDKPlayerStatePlay)) {
-        NSLog(@"Detected seeking current playhead (ms): %f, playheadTimeElapsed: %f drift: %f", [self getCurrentPlayheadTimeMs] , playheadTimeElapsed, drift);
-        NSLog(@"Last playhead time on pause %f Last playhead time on paused updated at %f", _lastPlayheadTimeMsOnPause, _lastPlayheadTimeOnPauseUpdated);
         _seeking = YES;
         MUXSDKInternalSeekingEvent *event = [[MUXSDKInternalSeekingEvent alloc] init];
         MUXSDKPlayerData *playerData = [self getPlayerData];
@@ -902,7 +898,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     // AVPlayer Observations
     if (context == MUXSDKAVPlayerRateObservationContext) {
         if (_player.rate == 0 && [self isPlayingOrTryingToPlay]) {
-            NSLog(@"Detected pause. Playhead (ms) %f", [self getCurrentPlayheadTimeMs]);
             [self dispatchPause];
         } else if (_player.rate != 0 && ![self isPlayingOrTryingToPlay]) {
             [self dispatchPlay];
