@@ -373,7 +373,7 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
     }
 }
 
-+ (void)setAutomaticVideoChange:(NSString *)name  enabled:(nullable Boolean *)enabled {
++ (void)setAutomaticVideoChange:(NSString *)name  enabled:(Boolean)enabled {
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
     if(player) {
         [player setAutomaticVideoChange:enabled];

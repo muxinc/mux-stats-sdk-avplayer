@@ -22,8 +22,7 @@ float MUXSDKMaxSecsSeekClockDrift = 0.2f;
 // Number of seconds the playhead has to move from the last known playhead position when
 // restarting play to consider the transition to play a seek. (500ms)
 float MUXSDKMaxSecsSeekPlayheadShift = 0.5f;
-// Default to allowing automaticVideoChange to take place
-bool _automaticVideoChange = true;
+
 
 // AVPlayer observation contexts.
 static void *MUXSDKAVPlayerRateObservationContext = &MUXSDKAVPlayerRateObservationContext;
@@ -56,6 +55,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     _automaticErrorTracking = automaticErrorTracking;
     return _automaticErrorTracking;
 }
+
+// Default to allowing automaticVideoChange to take place
+bool _automaticVideoChange = true;
 
 - (BOOL)setAutomaticVideoChange:(BOOL)automaticVideoChange {
     _automaticVideoChange = automaticVideoChange;
@@ -319,33 +321,34 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)monitorAVPlayerItem {
-    if (_automaticVideoChange) {
-        if (_playerItem) {
-            [self stopMonitoringAVPlayerItem];
-            [self.playDispatchDelegate videoChangedForPlayer:_name];
-            //
-            // Special case for AVQueuePlayer
-            // In a normal videoChange: world - the KVO for "rate" will fire - and
-            // subsequently after that this binding will dispatchPlay. In fact, any time
-            // an AVPlayer gets an item loaded into it the KVO for "rate" changes.
-            //
-            // However, in AVQueuePlayer world - the "rate" doesn't fire when the video is
-            // changed. I don't know why, but I guess that is the intended behavior. For that
-            // reason, if we're handling a videoChange event and we're dealing with AVQueuePlayer
-            // then we have to fire the play event here.
-            //
-            if (_shouldHandleAVQueuePlayerItem) {
-                _shouldHandleAVQueuePlayerItem = false;
-                [self dispatchPlay];
-            }
+    if (!_automaticVideoChange) {
+        return;
+    }
+    if (_playerItem) {
+        [self stopMonitoringAVPlayerItem];
+        [self.playDispatchDelegate videoChangedForPlayer:_name];
+        //
+        // Special case for AVQueuePlayer
+        // In a normal videoChange: world - the KVO for "rate" will fire - and
+        // subsequently after that this binding will dispatchPlay. In fact, any time
+        // an AVPlayer gets an item loaded into it the KVO for "rate" changes.
+        //
+        // However, in AVQueuePlayer world - the "rate" doesn't fire when the video is
+        // changed. I don't know why, but I guess that is the intended behavior. For that
+        // reason, if we're handling a videoChange event and we're dealing with AVQueuePlayer
+        // then we have to fire the play event here.
+        //
+        if (_shouldHandleAVQueuePlayerItem) {
+            _shouldHandleAVQueuePlayerItem = false;
+            [self dispatchPlay];
         }
-        if (_player && _player.currentItem) {
-            _playerItem = _player.currentItem;
-            [_playerItem addObserver:self
-                          forKeyPath:@"status"
-                             options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
-                             context:MUXSDKAVPlayerItemStatusObservationContext];
-        }
+    }
+    if (_player && _player.currentItem) {
+        _playerItem = _player.currentItem;
+        [_playerItem addObserver:self
+                        forKeyPath:@"status"
+                        options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
+                        context:MUXSDKAVPlayerItemStatusObservationContext];
     }
 }
 
