@@ -3,7 +3,9 @@ set -euo pipefail
 
 # Delete the old stuff
 rm -Rf XCFramework
-
+# reset simulators
+xcrun -v simctl shutdown all
+xcrun -v simctl erase all
 buildkite-agent artifact download "MUXSDKStats.xcframework.zip" . --step ".buildkite/build.sh"
 unzip MUXSDKStats.xcframework.zip
 cd apps/DemoApp
