@@ -97,7 +97,7 @@ FOUNDATION_EXPORT
  @abstract    Updates the monitor for a player to a new AVPlayerViewController.
  @param       player The new AVPlayerViewController to monitor
  @param       name The name of the player instance to update
- @discussion  Use this method to modify the AVPlayerViewController a Mux player monitor is watching. The player monitor must previously have been created via a monitorAVPlayerViewController call.
+ @discussion  Use this method to change which AVPlayerViewController a Mux player monitor is watching. The player monitor must previously have been created via a monitorAVPlayerViewController call.
  */
 + (void)updateAVPlayerViewController:(nonnull AVPlayerViewController *)player withPlayerName:(nonnull NSString *)name;
 
@@ -158,7 +158,7 @@ FOUNDATION_EXPORT
  @abstract    Updates the monitor for a player to a new AVPlayerLayer.
  @param       player The new AVPlayerLayer to monitor
  @param       name The name of the player instance to update
- @discussion  Use this method to modify the AVPlayerLayer a Mux player monitor is watching. The player monitor must previously have been created via a monitorAVPlayerViewController call.
+ @discussion  Use this method to change which AVPlayerLayer a Mux player monitor is watching. The player monitor must previously have been created via a monitorAVPlayerLayer call.
  */
 + (void)updateAVPlayerLayer:(nonnull AVPlayerLayer *)player withPlayerName:(nonnull NSString *)name;
 
