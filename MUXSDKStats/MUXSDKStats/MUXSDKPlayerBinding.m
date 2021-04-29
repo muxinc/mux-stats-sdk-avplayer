@@ -23,7 +23,6 @@ float MUXSDKMaxSecsSeekClockDrift = 0.2f;
 // restarting play to consider the transition to play a seek. (500ms)
 float MUXSDKMaxSecsSeekPlayheadShift = 0.5f;
 
-
 // AVPlayer observation contexts.
 static void *MUXSDKAVPlayerRateObservationContext = &MUXSDKAVPlayerRateObservationContext;
 static void *MUXSDKAVPlayerStatusObservationContext = &MUXSDKAVPlayerStatusObservationContext;
@@ -346,9 +345,9 @@ bool _automaticVideoChange = true;
     if (_player && _player.currentItem) {
         _playerItem = _player.currentItem;
         [_playerItem addObserver:self
-                        forKeyPath:@"status"
-                        options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
-                        context:MUXSDKAVPlayerItemStatusObservationContext];
+                      forKeyPath:@"status"
+                         options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
+                         context:MUXSDKAVPlayerItemStatusObservationContext];
     }
 }
 
