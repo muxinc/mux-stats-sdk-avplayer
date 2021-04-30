@@ -46,6 +46,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         _name = name;
         _software = software;
         _automaticErrorTracking = true;
+        _automaticVideoChange = true;
     }
     return(self);
 }
@@ -54,9 +55,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     _automaticErrorTracking = automaticErrorTracking;
     return _automaticErrorTracking;
 }
-
-// Default to allowing automaticVideoChange to take place
-bool _automaticVideoChange = true;
 
 - (BOOL)setAutomaticVideoChange:(BOOL)automaticVideoChange {
     _automaticVideoChange = automaticVideoChange;
