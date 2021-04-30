@@ -348,6 +348,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 - (void)stopMonitoringAVPlayerItem {
     [MUXSDKCore destroyPlayer: _name];
     [self safelyRemovePlayerItemObserverForKeyPath:@"status"];
+    [self safelyRemovePlayerItemObserverForKeyPath:@"playbackBufferEmpty"];
     _playerItem = nil;
 }
 
