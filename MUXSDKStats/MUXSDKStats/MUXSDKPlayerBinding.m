@@ -835,9 +835,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         _seeking = YES;
         MUXSDKInternalSeekingEvent *event = [[MUXSDKInternalSeekingEvent alloc] init];
         MUXSDKPlayerData *playerData = [self getPlayerData];
-# if TVOS
-        [self setPlayerPlayheadTime:_lastPlayheadTimeMsOnPause onPlayerData:playerData];
-#endif
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomTV) {
+            [self setPlayerPlayheadTime:_lastPlayheadTimeMsOnPause onPlayerData:playerData];
+        }
         [event setPlayerData:playerData];
         [MUXSDKCore dispatchEvent:event forPlayer:_name];
     }
