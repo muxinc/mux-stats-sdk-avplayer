@@ -13,7 +13,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"2.2.1";
+NSString *const MUXSDKPluginVersion = @"2.2.2";
 
 // Min number of seconds between timeupdate events. (100ms)
 double MUXSDKMaxSecsBetweenTimeUpdate = 0.1;
@@ -348,6 +348,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 - (void)stopMonitoringAVPlayerItem {
     [MUXSDKCore destroyPlayer: _name];
     [self safelyRemovePlayerItemObserverForKeyPath:@"status"];
+    [self safelyRemovePlayerItemObserverForKeyPath:@"playbackBufferEmpty"];
     _playerItem = nil;
 }
 
@@ -544,8 +545,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             [playerData setPlayerIsPaused:[NSNumber numberWithBool:NO]];
         }
         float ms = CMTimeGetSeconds(_player.currentTime) * 1000;
-        NSNumber *timeMs = [NSNumber numberWithFloat:ms];
-        [playerData setPlayerPlayheadTime:[NSNumber numberWithLongLong:[timeMs longLongValue]]];
+        [self setPlayerPlayheadTime:ms onPlayerData:playerData];
     }
     if ([errors count] > 0 && defaultMsg) {
         // Hard coded default value for now. Error codes on iOS have no meaning for now.
@@ -566,6 +566,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         [playerData setPlayerRemotePlayed:[NSNumber numberWithBool:YES]];
     }
     return playerData;
+}
+
+- (void) setPlayerPlayheadTime:(float) playheadTimeMs onPlayerData:(MUXSDKPlayerData *) playerData {
+    NSNumber *timeMs = [NSNumber numberWithFloat:playheadTimeMs];
+    [playerData setPlayerPlayheadTime:[NSNumber numberWithLongLong:[timeMs longLongValue]]];
 }
 
 - (NSDictionary *)buildError:(NSString *)level domain:(NSString *)domain code:(NSInteger)code message:(NSString *)message {
@@ -680,6 +685,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         return;
     }
     [self checkVideoData];
+    [self updateLastPlayheadTimeOnPause];
     MUXSDKPlayerData *playerData = [self getPlayerData];
     MUXSDKPauseEvent *event = [[MUXSDKPauseEvent alloc] init];
     [event setPlayerData:playerData];
@@ -807,6 +813,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     _lastPlayheadTimeUpdated = CFAbsoluteTimeGetCurrent();
 }
 
+- (void)updateLastPlayheadTimeOnPause {
+    _lastPlayheadTimeMsOnPause = [self getCurrentPlayheadTimeMs];
+    _lastPlayheadTimeOnPauseUpdated = CFAbsoluteTimeGetCurrent();
+}
+
 - (void)computeDrift {
     if (!_started) {
         // Avoid computing drift until playback has started (meaning play has been called).
@@ -824,7 +835,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         (_state == MUXSDKPlayerStatePaused || _state == MUXSDKPlayerStatePlay)) {
         _seeking = YES;
         MUXSDKInternalSeekingEvent *event = [[MUXSDKInternalSeekingEvent alloc] init];
-        [event setPlayerData:[self getPlayerData]];
+        MUXSDKPlayerData *playerData = [self getPlayerData];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomTV) {
+            [self setPlayerPlayheadTime:_lastPlayheadTimeMsOnPause onPlayerData:playerData];
+        }
+        [event setPlayerData:playerData];
         [MUXSDKCore dispatchEvent:event forPlayer:_name];
     }
 }

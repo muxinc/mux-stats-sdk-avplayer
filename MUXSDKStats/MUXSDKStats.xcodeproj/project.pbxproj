@@ -343,7 +343,6 @@
 					};
 					F4DCACFC1DCA892E0094D94C = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = GFDDVAVUVC;
 						ProvisioningStyle = Automatic;
 					};
 					F4DCAD051DCA892E0094D94C = {
@@ -555,7 +554,7 @@
 				INFOPLIST_FILE = MUXSDKStatsTv/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				MODULEMAP_FILE = "$(SRCROOT)/MUXSDKStatsTv/module.modulemap";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.tvos.MUXSDKStatsTv;
@@ -582,7 +581,7 @@
 				INFOPLIST_FILE = MUXSDKStatsTv/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				MODULEMAP_FILE = "$(SRCROOT)/MUXSDKStatsTv/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.tvos.MUXSDKStatsTv;
 				PRODUCT_NAME = MUXSDKStats;
@@ -744,7 +743,7 @@
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = GFDDVAVUVC;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -757,7 +756,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.ios.MUXSDKStats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -773,7 +772,7 @@
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = GFDDVAVUVC;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -782,7 +781,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 2.2.1;
+				MARKETING_VERSION = 2.2.2;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.ios.MUXSDKStats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
