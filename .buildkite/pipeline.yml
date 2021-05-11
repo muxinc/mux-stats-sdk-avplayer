@@ -10,3 +10,10 @@ steps:
     label: "Tests"
     agents:
       queue: "iOS"
+  - wait
+  - command: ".buildkite/build-static.sh"
+    label: ":hammer: Build Static"
+    artifact_paths:
+        - "MUXSDKStats.xcframework.zip"
+    agents:
+      queue: "iOS"

@@ -1,6 +1,6 @@
 BUILD_DIR=$PWD/MUXSDKStats/xc
 PROJECT=$PWD/MUXSDKStats/MUXSDKStats.xcworkspace
-TARGET_DIR=$PWD/XCFramework/static
+TARGET_DIR=$PWD/XCFramework
 
 
 # Delete the old stuff                                                                                                                                                                         
