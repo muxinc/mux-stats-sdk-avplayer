@@ -52,6 +52,8 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
     NSTimer *_timeUpdateTimer;
     CFAbsoluteTime _lastPlayheadTimeUpdated;
     float _lastPlayheadTimeMs;
+    CFAbsoluteTime _lastPlayheadTimeOnPauseUpdated;
+    float _lastPlayheadTimeMsOnPause;
     BOOL _seeking;
     BOOL _started;
     BOOL _shouldHandleAVQueuePlayerItem;

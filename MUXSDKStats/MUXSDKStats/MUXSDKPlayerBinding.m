@@ -13,7 +13,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"2.2.0";
+NSString *const MUXSDKPluginVersion = @"2.2.2";
 
 // Min number of seconds between timeupdate events. (100ms)
 double MUXSDKMaxSecsBetweenTimeUpdate = 0.1;
@@ -30,6 +30,7 @@ static void *MUXSDKAVPlayerCurrentItemObservationContext = &MUXSDKAVPlayerCurren
 
 // AVPlayerItem observation contexts.
 static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusObservationContext;
+static void *MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext = &MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext;
 
 // This is the name of the exception that gets thrown when we remove an observer that
 // is not registered. In theory, this should not really happen, but there is one async condition
@@ -346,12 +347,17 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
                       forKeyPath:@"status"
                          options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
                          context:MUXSDKAVPlayerItemStatusObservationContext];
+        [_playerItem addObserver:self
+                      forKeyPath:@"playbackBufferEmpty"
+                         options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
+                         context:MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext];
     }
 }
 
 - (void)stopMonitoringAVPlayerItem {
     [MUXSDKCore destroyPlayer: _name];
     [self safelyRemovePlayerItemObserverForKeyPath:@"status"];
+    [self safelyRemovePlayerItemObserverForKeyPath:@"playbackBufferEmpty"];
     _playerItem = nil;
 }
 
@@ -548,8 +554,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             [playerData setPlayerIsPaused:[NSNumber numberWithBool:NO]];
         }
         float ms = CMTimeGetSeconds(_player.currentTime) * 1000;
-        NSNumber *timeMs = [NSNumber numberWithFloat:ms];
-        [playerData setPlayerPlayheadTime:[NSNumber numberWithLongLong:[timeMs longLongValue]]];
+        [self setPlayerPlayheadTime:ms onPlayerData:playerData];
     }
     if ([errors count] > 0 && defaultMsg) {
         // Hard coded default value for now. Error codes on iOS have no meaning for now.
@@ -570,6 +575,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         [playerData setPlayerRemotePlayed:[NSNumber numberWithBool:YES]];
     }
     return playerData;
+}
+
+- (void) setPlayerPlayheadTime:(float) playheadTimeMs onPlayerData:(MUXSDKPlayerData *) playerData {
+    NSNumber *timeMs = [NSNumber numberWithFloat:playheadTimeMs];
+    [playerData setPlayerPlayheadTime:[NSNumber numberWithLongLong:[timeMs longLongValue]]];
 }
 
 - (NSDictionary *)buildError:(NSString *)level domain:(NSString *)domain code:(NSInteger)code message:(NSString *)message {
@@ -601,8 +611,16 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     return _state == MUXSDKPlayerStatePlay;
 }
 
+- (BOOL) isPaused {
+    return _state = MUXSDKPlayerStatePaused;
+}
+
 - (BOOL)isPlayingOrTryingToPlay {
     return [self isPlaying] || [self isTryingToPlay];
+}
+
+- (BOOL) isPausedWhileAirPlaying {
+    return _player.externalPlaybackActive && [self isPaused];
 }
 
 - (void)startBuffering {
@@ -676,6 +694,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         return;
     }
     [self checkVideoData];
+    [self updateLastPlayheadTimeOnPause];
     MUXSDKPlayerData *playerData = [self getPlayerData];
     MUXSDKPauseEvent *event = [[MUXSDKPauseEvent alloc] init];
     [event setPlayerData:playerData];
@@ -803,6 +822,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     _lastPlayheadTimeUpdated = CFAbsoluteTimeGetCurrent();
 }
 
+- (void)updateLastPlayheadTimeOnPause {
+    _lastPlayheadTimeMsOnPause = [self getCurrentPlayheadTimeMs];
+    _lastPlayheadTimeOnPauseUpdated = CFAbsoluteTimeGetCurrent();
+}
+
 - (void)computeDrift {
     if (!_started) {
         // Avoid computing drift until playback has started (meaning play has been called).
@@ -820,7 +844,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         (_state == MUXSDKPlayerStatePaused || _state == MUXSDKPlayerStatePlay)) {
         _seeking = YES;
         MUXSDKInternalSeekingEvent *event = [[MUXSDKInternalSeekingEvent alloc] init];
-        [event setPlayerData:[self getPlayerData]];
+        MUXSDKPlayerData *playerData = [self getPlayerData];
+        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomTV) {
+            [self setPlayerPlayheadTime:_lastPlayheadTimeMsOnPause onPlayerData:playerData];
+        }
+        [event setPlayerData:playerData];
         [MUXSDKCore dispatchEvent:event forPlayer:_name];
     }
 }
@@ -895,6 +923,12 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     } else if (context == MUXSDKAVPlayerItemStatusObservationContext) {
         if ([self isPlayerInErrorState]) {
             [self dispatchError];
+        }
+    } else if (context == MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext) {
+        if ([_playerItem isPlaybackBufferEmpty] && _player.timeControlStatus != AVPlayerTimeControlStatusPlaying && [self isPausedWhileAirPlaying]) {
+            // We erroneously detected a pause when in fact we are rebuffering. This *only* happens in AirPlay mode
+            [self dispatchPlay];
+            [self dispatchPlaying];
         }
     }
 }
