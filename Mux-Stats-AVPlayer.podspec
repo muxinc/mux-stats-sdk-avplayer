@@ -25,5 +25,5 @@ Pod::Spec.new do |s|
   s.tvos.frameworks = 'AVKit', 'AVFoundation'
   
   # if the use_frameworks! declaration is set in the Podfile, the Pod should be built as a static framework
-  s.static_framework = true
+  # s.static_framework = true
 end
