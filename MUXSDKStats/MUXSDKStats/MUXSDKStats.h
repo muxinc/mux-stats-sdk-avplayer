@@ -178,6 +178,17 @@ FOUNDATION_EXPORT
  @discussion  Use this method to signal that the player is now playing a new video. The player name provided must been passed as the name in a monitorPlayer:withPlayerName:andConfig: call. The config provided should match the specifications in the Mux docs at https://docs.mux.com and should include all desired keys, not just those keys that are specific to this video. If the name of the player provided was not previously initialized, an exception will be raised.
 
  */
++ (void)setAutomaticVideoChange:(nonnull NSString *)name enabled:(Boolean)enabled;
+
+/*!
+ @method      setAutomaticVideoChange:forPlayer:enabled
+ @abstract    Allows default videochange functionality to be disabled.
+ @param       name The name of the player to update
+ @param       enabled Whether to enabled or disable the automatic videochange functionality
+ @discussion  Use this method to disable built in videochange calls when using AVQueuePlayer. The player name provided must been passed as the name in a monitorPlayer:withPlayerName:andConfig: call. The config provided should match the specifications in the Mux docs at https://docs.mux.com and should set the enabled value to false. The default setting is true. 
+
+ */
+
 + (void)videoChangeForPlayer:(nonnull NSString *)name withVideoData:(nullable MUXSDKCustomerVideoData *)videoData;
 
 /*!
