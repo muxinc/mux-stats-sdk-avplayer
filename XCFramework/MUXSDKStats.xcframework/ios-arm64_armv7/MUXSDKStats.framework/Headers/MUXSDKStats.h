@@ -185,7 +185,7 @@ FOUNDATION_EXPORT
  @abstract    Allows default videochange functionality to be disabled.
  @param       name The name of the player to update
  @param       enabled Whether to enabled or disable the automatic videochange functionality
- @discussion  Use this method to disable built in videochange calls when using AVQueuePlayer.. The player name provided must been passed as the name in a monitorPlayer:withPlayerName:andConfig: call. The config provided should match the specifications in the Mux docs at https://docs.mux.com and should set the enabled value to false. The default setting is true. 
+ @discussion  Use this method to disable built in videochange calls when using AVQueuePlayer. The player name provided must been passed as the name in a monitorPlayer:withPlayerName:andConfig: call. The config provided should match the specifications in the Mux docs at https://docs.mux.com and should set the enabled value to false. The default setting is true. 
 
  */
 
