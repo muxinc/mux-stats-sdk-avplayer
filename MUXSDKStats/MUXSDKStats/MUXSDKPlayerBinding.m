@@ -12,7 +12,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"2.2.2";
+NSString *const MUXSDKPluginVersion = @"2.3.2";
 
 // Min number of seconds between timeupdate events. (100ms)
 double MUXSDKMaxSecsBetweenTimeUpdate = 0.1;
@@ -46,6 +46,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         _name = name;
         _software = software;
         _automaticErrorTracking = true;
+        _automaticVideoChange = true;
     }
     return(self);
 }
@@ -53,6 +54,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 - (BOOL)setAutomaticErrorTracking:(BOOL)automaticErrorTracking {
     _automaticErrorTracking = automaticErrorTracking;
     return _automaticErrorTracking;
+}
+
+- (BOOL)setAutomaticVideoChange:(BOOL)automaticVideoChange {
+    _automaticVideoChange = automaticVideoChange;
+    return _automaticVideoChange;
 }
 
 - (void)attachAVPlayer:(AVPlayer *)player {
@@ -312,6 +318,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)monitorAVPlayerItem {
+    if (!_automaticVideoChange) {
+        return;
+    }
     if (_playerItem) {
         [self stopMonitoringAVPlayerItem];
         [self.playDispatchDelegate videoChangedForPlayer:_name];
