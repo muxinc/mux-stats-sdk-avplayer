@@ -26,10 +26,12 @@
 @import AVKit;
 @import AVFoundation;
 @import MuxCore;
+@import SystemConfiguration;
 #else
 #import <Foundation/Foundation.h>
 #import <AVKit/AVKit.h>
 #import <AVFoundation/AVFoundation.h>
+#import <SystemConfiguration/SystemConfiguration.h>
 #if TVOS
 #import <MuxCore/MuxCoreTv.h>
 #else
