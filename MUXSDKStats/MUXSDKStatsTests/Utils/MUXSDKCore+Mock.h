@@ -11,7 +11,11 @@
 @import MuxCore;
 #else
 #import <Foundation/Foundation.h>
+#if TVOS
+#import <MuxCore/MuxCoreTv.h>
+#else
 #import <MuxCore/MuxCore.h>
+#endif
 #endif
 
 @interface MUXSDKCore (Mock)

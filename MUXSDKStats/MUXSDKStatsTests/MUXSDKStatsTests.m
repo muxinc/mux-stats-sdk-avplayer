@@ -13,7 +13,11 @@
 #if __has_feature(modules)
 @import MuxCore;
 #else
+#if TVOS
+#import <MuxCore/MuxCoreTv.h>
+#else
 #import <MuxCore/MuxCore.h>
+#endif
 #endif
 
 @interface MuxMockAVPlayerViewController : AVPlayerViewController
