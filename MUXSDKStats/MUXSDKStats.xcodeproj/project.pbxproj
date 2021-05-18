@@ -14,10 +14,6 @@
 		022224FC253567D200054D0D /* MUXSDKCustomerViewDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 022224BD25312D5300054D0D /* MUXSDKCustomerViewDataStore.h */; };
 		02222500253567D700054D0D /* MUXSDKCustomerViewDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 022224BC25312D5300054D0D /* MUXSDKCustomerViewDataStore.m */; };
 		0243A98523E9FFC600FBF5B4 /* MUXSDKPlayerBindingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0243A98423E9FFC600FBF5B4 /* MUXSDKPlayerBindingTests.m */; };
-		02721573240D922400CF8EF1 /* NSNumber+MUXSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 02776E5D23F75A840067CBCC /* NSNumber+MUXSDK.h */; };
-		02721574240D922600CF8EF1 /* NSNumber+MUXSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 02776E5E23F75A840067CBCC /* NSNumber+MUXSDK.m */; };
-		02776E5F23F75A840067CBCC /* NSNumber+MUXSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 02776E5D23F75A840067CBCC /* NSNumber+MUXSDK.h */; };
-		02776E6023F75A840067CBCC /* NSNumber+MUXSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 02776E5E23F75A840067CBCC /* NSNumber+MUXSDK.m */; };
 		028281E423E3815700B5531B /* MUXSDKPlayerBindingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 028281E223E3815700B5531B /* MUXSDKPlayerBindingManager.h */; };
 		028281E523E3815700B5531B /* MUXSDKPlayerBindingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 028281E323E3815700B5531B /* MUXSDKPlayerBindingManager.m */; };
 		028281E623E3A17400B5531B /* MUXSDKPlayerBindingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 028281E223E3815700B5531B /* MUXSDKPlayerBindingManager.h */; };
@@ -67,8 +63,6 @@
 		022224BC25312D5300054D0D /* MUXSDKCustomerViewDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MUXSDKCustomerViewDataStore.m; sourceTree = "<group>"; };
 		022224BD25312D5300054D0D /* MUXSDKCustomerViewDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MUXSDKCustomerViewDataStore.h; sourceTree = "<group>"; };
 		0243A98423E9FFC600FBF5B4 /* MUXSDKPlayerBindingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MUXSDKPlayerBindingTests.m; sourceTree = "<group>"; };
-		02776E5D23F75A840067CBCC /* NSNumber+MUXSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSNumber+MUXSDK.h"; sourceTree = "<group>"; };
-		02776E5E23F75A840067CBCC /* NSNumber+MUXSDK.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+MUXSDK.m"; sourceTree = "<group>"; };
 		0281BD1C253FF1CA003E4908 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		028281E223E3815700B5531B /* MUXSDKPlayerBindingManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MUXSDKPlayerBindingManager.h; sourceTree = "<group>"; };
 		028281E323E3815700B5531B /* MUXSDKPlayerBindingManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MUXSDKPlayerBindingManager.m; sourceTree = "<group>"; };
@@ -214,8 +208,6 @@
 				02EB9E2C23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m */,
 				022224BD25312D5300054D0D /* MUXSDKCustomerViewDataStore.h */,
 				022224BC25312D5300054D0D /* MUXSDKCustomerViewDataStore.m */,
-				02776E5D23F75A840067CBCC /* NSNumber+MUXSDK.h */,
-				02776E5E23F75A840067CBCC /* NSNumber+MUXSDK.m */,
 			);
 			path = MUXSDKStats;
 			sourceTree = "<group>";
@@ -238,7 +230,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				02721573240D922400CF8EF1 /* NSNumber+MUXSDK.h in Headers */,
 				FA19C072252BC5BB006AA443 /* MUXSDKConnection.h in Headers */,
 				F41E09081DDA8E530028A296 /* MUXSDKStatsTv.h in Headers */,
 				028281E623E3A17400B5531B /* MUXSDKPlayerBindingManager.h in Headers */,
@@ -255,7 +246,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				02776E5F23F75A840067CBCC /* NSNumber+MUXSDK.h in Headers */,
 				02EB9E2D23E896790007E1CD /* MUXSDKCustomerVideoDataStore.h in Headers */,
 				022224BF25312D5300054D0D /* MUXSDKCustomerViewDataStore.h in Headers */,
 				F4DCAD0E1DCA892E0094D94C /* MUXSDKStats.h in Headers */,
@@ -495,7 +485,6 @@
 				02EB9E3023E896F20007E1CD /* MUXSDKCustomerVideoDataStore.m in Sources */,
 				F41E0A261DDA91110028A296 /* MUXSDKStats.m in Sources */,
 				F41E0A291DDA91110028A296 /* MUXSDKPlayerBinding.m in Sources */,
-				02721574240D922600CF8EF1 /* NSNumber+MUXSDK.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -510,7 +499,6 @@
 				02EB9E2E23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m in Sources */,
 				F4572FC41DDA2FE9003FE72B /* MUXSDKPlayerBinding.m in Sources */,
 				F4572FB51DDA2F05003FE72B /* MUXSDKStats.m in Sources */,
-				02776E6023F75A840067CBCC /* NSNumber+MUXSDK.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -554,7 +542,7 @@
 				INFOPLIST_FILE = MUXSDKStatsTv/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 2.3.2;
+				MARKETING_VERSION = 2.4.0;
 				MODULEMAP_FILE = "$(SRCROOT)/MUXSDKStatsTv/module.modulemap";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.tvos.MUXSDKStatsTv;
@@ -581,7 +569,7 @@
 				INFOPLIST_FILE = MUXSDKStatsTv/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 2.3.2;
+				MARKETING_VERSION = 2.4.0;
 				MODULEMAP_FILE = "$(SRCROOT)/MUXSDKStatsTv/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.tvos.MUXSDKStatsTv;
 				PRODUCT_NAME = MUXSDKStats;
@@ -756,7 +744,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 2.3.2;
+				MARKETING_VERSION = 2.4.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.ios.MUXSDKStats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -781,7 +769,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 2.3.2;
+				MARKETING_VERSION = 2.4.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.ios.MUXSDKStats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
