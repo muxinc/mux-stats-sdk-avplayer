@@ -10,7 +10,11 @@
 #import <Foundation/Foundation.h>
 #import <AVKit/AVKit.h>
 #import <AVFoundation/AVFoundation.h>
+#if TVOS
+#import <MuxCore/MuxCoreTv.h>
+#else
 #import <MuxCore/MuxCore.h>
+#endif
 #endif
 #endif
 
