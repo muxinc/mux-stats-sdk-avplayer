@@ -62,8 +62,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     return _automaticVideoChange;
 }
 
-
-
 - (void)attachAVPlayer:(AVPlayer *)player {
     if (_player) {
         [self detachAVPlayer];
@@ -952,7 +950,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 - (void)didTriggerManualVideoChange {
     _didTriggerManualVideoChange = true;
 }
-
 @end
 
 
