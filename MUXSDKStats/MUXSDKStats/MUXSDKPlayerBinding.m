@@ -47,6 +47,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         _software = software;
         _automaticErrorTracking = true;
         _automaticVideoChange = true;
+        _didTriggerManualVideoChange = false;
     }
     return(self);
 }
@@ -60,6 +61,8 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     _automaticVideoChange = automaticVideoChange;
     return _automaticVideoChange;
 }
+
+
 
 - (void)attachAVPlayer:(AVPlayer *)player {
     if (_player) {
@@ -318,7 +321,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)monitorAVPlayerItem {
-    if (!_automaticVideoChange) {
+    if (!_automaticVideoChange && !_didTriggerManualVideoChange) {
         return;
     }
     if (_playerItem) {
@@ -944,6 +947,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 - (BOOL) doubleValueIsEqual:(NSNumber *) x toOther:(NSNumber *) n {
     return fabs([x doubleValue] - [n doubleValue]) < FLT_EPSILON;
+}
+
+- (void)didTriggerManualVideoChange {
+    _didTriggerManualVideoChange = true;
 }
 
 @end

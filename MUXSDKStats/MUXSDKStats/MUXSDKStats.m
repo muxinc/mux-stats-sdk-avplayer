@@ -342,6 +342,7 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
     }
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
     if (player) {
+        [player didTriggerManualVideoChange];
         [player dispatchViewEnd];
         if (videoData) {
             [_customerVideoDataStore setVideoData:videoData forPlayerName:name];
