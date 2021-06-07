@@ -320,10 +320,12 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 - (void)monitorAVPlayerItem {
     if (!_automaticVideoChange && !_didTriggerManualVideoChange) {
-        _didTriggerManualVideoChange = false;
         return;
     }
     if (_playerItem) {
+        if (_didTriggerManualVideoChange) {
+            _didTriggerManualVideoChange = false;
+        }
         [self stopMonitoringAVPlayerItem];
         [self.playDispatchDelegate videoChangedForPlayer:_name];
         //
