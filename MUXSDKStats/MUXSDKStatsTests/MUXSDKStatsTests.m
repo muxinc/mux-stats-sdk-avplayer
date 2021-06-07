@@ -128,6 +128,14 @@ static NSString *Z = @"Z";
     XCTAssertTrue([[videoData toQuery] isEqualToDictionary:expected]);
 }
 
+- (void) assertPlayer:(NSString *)name dispatchedDataEventsAtIndex: (int) index withVideoData:(NSDictionary *) expected {
+    MUXSDKDataEvent *dataEvent;
+    MUXSDKVideoData *videoData;
+    dataEvent = (MUXSDKDataEvent * ) [MUXSDKCore eventAtIndex:index forPlayer:name];
+    videoData = [dataEvent videoData];
+    XCTAssertTrue([[videoData toQuery] isEqualToDictionary:expected]);
+}
+
 - (void)testVideoChangeForAVPlayerViewControllerWithCustomerViewData{
     MuxMockAVPlayerViewController *controller = [[MuxMockAVPlayerViewController alloc] init];
     MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
@@ -167,6 +175,52 @@ static NSString *Z = @"Z";
     ];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomerVideoData:@{@"vtt": @"56789"}];
+    [MUXSDKStats destroyPlayer:playName];
+}
+
+- (void)testManualVideoChangeForAVPlayerViewController{
+    MuxMockAVPlayerViewController *controller = [[MuxMockAVPlayerViewController alloc] init];
+    MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
+    MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
+    [customerVideoData setVideoTitle:@"01234"];
+    NSURL* firstVideoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
+    AVPlayerItem *firstItem = [AVPlayerItem playerItemWithURL:firstVideoURL];
+    [controller.player replaceCurrentItemWithPlayerItem:firstItem];
+    NSString *playName = @"Player";
+    MUXSDKPlayerBinding *playerBinding = [MUXSDKStats monitorAVPlayerViewController:controller withPlayerName:playName playerData:customerPlayerData videoData:customerVideoData];
+    XCTAssertNotNil(playerBinding, "expected monitorAVPlayerViewController to return a playerBinding");
+    
+    NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventPlayerReadyEventType
+    ];
+    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
+    [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomerVideoData:@{@"vtt": @"01234"}];
+    
+    // set the automatic video change to false and manually trigger videoChangeForPlayer:withVideoData
+    // we expect this to be treated as a new view
+    [playerBinding setAutomaticVideoChange:false];
+    // Change video metadata
+    MUXSDKCustomerVideoData *newCustomerVideoData = [[MUXSDKCustomerVideoData alloc] init];
+    [newCustomerVideoData setVideoTitle:@"56789"];
+    // It is required to call videoChangeForPlayer: immediately before telling the player which new source to play.
+    [MUXSDKStats videoChangeForPlayer:playName withVideoData:newCustomerVideoData];
+    NSURL* videoURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
+    AVPlayerItem *item = [AVPlayerItem playerItemWithURL:videoURL];
+    [controller.player replaceCurrentItemWithPlayerItem:item];
+
+    
+    expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
+                           MUXSDKDataEventType,
+                           MUXSDKPlaybackEventPlayerReadyEventType,
+                           MUXSDKDataEventType, // this gets triggered by dispatchViewEnd
+                           MUXSDKPlaybackEventViewEndEventType,
+                           MUXSDKPlaybackEventViewInitEventType, // the new view
+                           MUXSDKDataEventType
+    ];
+    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
+    [self assertPlayer:playName dispatchedDataEventsAtIndex:3 withVideoData:@{@"vsour": firstVideoURL.absoluteString, @"vsoisli": @"false"}];
+    [self assertPlayer:playName dispatchedDataEventsAtIndex:6 withCustomerVideoData:@{@"vtt": @"56789"}];
     [MUXSDKStats destroyPlayer:playName];
 }
 
