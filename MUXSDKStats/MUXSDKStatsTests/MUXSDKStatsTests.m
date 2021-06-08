@@ -349,7 +349,6 @@ static NSString *Z = @"Z";
     [MUXSDKStats destroyPlayer:playName];
 }
 
-
 - (void)testProgramChangeForAVPlayerViewController{
     MuxMockAVPlayerViewController *controller = [[MuxMockAVPlayerViewController alloc] init];
     MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"ENV_KEY"];
