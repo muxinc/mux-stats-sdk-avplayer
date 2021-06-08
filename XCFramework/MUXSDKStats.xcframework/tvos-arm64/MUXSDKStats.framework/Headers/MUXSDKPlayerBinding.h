@@ -71,6 +71,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
     CGSize _lastDispatchedVideoSize;
     BOOL _automaticErrorTracking;
     BOOL _automaticVideoChange;
+    BOOL _didTriggerManualVideoChange;
 }
 
 @property (nonatomic, weak) id<MUXSDKPlayDispatchDelegate>  playDispatchDelegate;
@@ -96,6 +97,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 - (BOOL)setAutomaticErrorTracking:(BOOL)automaticErrorTracking;
 - (BOOL)setAutomaticVideoChange:(BOOL)automaticVideoChange;
 - (void)dispatchError:(NSString *)code withMessage:(NSString *)message;
+- (void)didTriggerManualVideoChange;
 
 @end
 
