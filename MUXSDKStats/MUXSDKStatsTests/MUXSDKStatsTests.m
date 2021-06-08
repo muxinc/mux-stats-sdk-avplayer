@@ -220,6 +220,26 @@ static NSString *Z = @"Z";
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:3 withVideoData:@{@"vsour": firstVideoURL.absoluteString, @"vsoisli": @"false"}];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:6 withCustomerVideoData:@{@"vtt": @"56789"}];
+
+    // now replace the player item with the same source again
+    // but do not manually call videochange. This should result in no viewend and no viewinit events
+    AVPlayerItem *newItem = [AVPlayerItem playerItemWithURL:videoURL];
+    [controller.player replaceCurrentItemWithPlayerItem:newItem];
+    // call play in order to force emitting events
+    [controller.player play];
+    expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
+                           MUXSDKDataEventType,
+                           MUXSDKPlaybackEventPlayerReadyEventType,
+                           MUXSDKDataEventType, // this gets triggered by dispatchViewEnd
+                           MUXSDKPlaybackEventViewEndEventType,
+                           MUXSDKPlaybackEventViewInitEventType, // the new view
+                           MUXSDKDataEventType,
+                           MUXSDKDataEventType, // from replacing the player item with the same source
+                           MUXSDKPlaybackEventPlayEventType
+    ];
+    [self assertPlayer:playName dispatchedDataEventsAtIndex:7 withVideoData:@{@"vsour": videoURL.absoluteString, @"vsoisli": @"false"}];
+    [self assertPlayer:playName dispatchedDataEventsAtIndex:6 withCustomerVideoData:@{@"vtt": @"56789"}];
+    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [MUXSDKStats destroyPlayer:playName];
 }
 
@@ -307,6 +327,27 @@ static NSString *Z = @"Z";
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:3 withVideoData:@{@"vsour": firstVideoURL.absoluteString, @"vsoisli": @"false"}];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:6 withCustomerVideoData:@{@"vtt": @"56789"}];
+    
+    // now replace the player item with the same source again
+    // but do not manually call videochange. This should result in no viewend and no viewinit events
+    AVPlayerItem *newItem = [AVPlayerItem playerItemWithURL:videoURL];
+    [controller.player replaceCurrentItemWithPlayerItem:newItem];
+    // call play in order to force emitting events
+    [controller.player play];
+    expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
+                           MUXSDKDataEventType,
+                           MUXSDKPlaybackEventPlayerReadyEventType,
+                           MUXSDKDataEventType, // this gets triggered by dispatchViewEnd
+                           MUXSDKPlaybackEventViewEndEventType,
+                           MUXSDKPlaybackEventViewInitEventType, // the new view
+                           MUXSDKDataEventType,
+                           MUXSDKDataEventType, // from replacing the player item with the same source
+                           MUXSDKPlaybackEventPlayEventType
+    ];
+    [self assertPlayer:playName dispatchedDataEventsAtIndex:7 withVideoData:@{@"vsour": videoURL.absoluteString, @"vsoisli": @"false"}];
+    [self assertPlayer:playName dispatchedDataEventsAtIndex:6 withCustomerVideoData:@{@"vtt": @"56789"}];
+    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
+    [MUXSDKStats destroyPlayer:playName];
     [MUXSDKStats destroyPlayer:playName];
 }
 
