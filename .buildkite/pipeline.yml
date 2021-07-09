@@ -17,3 +17,8 @@ steps:
         - "MUXSDKStats-static.xcframework.zip"
     agents:
       queue: "iOS"
+  - wait
+  - command: ".buildkite/unit-tests.sh"
+    label: "Unit Tests"
+    agents:
+      queue: "iOS"
