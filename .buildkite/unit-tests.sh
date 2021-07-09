@@ -1,4 +1,11 @@
-PROJECT=$PWD/MUXSDKStats/MUXSDKStats.xcworkspace
+#!/bin/bash
+set -euo pipefail
+
+cd MUXSDKStats
+pod repo update
+pod deintegrate && pod install
+cd ..
+PROJECT=MUXSDKStats/MUXSDKStats.xcworkspace
 
 xcodebuild clean test \
   -project $PROJECT \
