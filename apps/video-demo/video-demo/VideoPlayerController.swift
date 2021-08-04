@@ -38,6 +38,11 @@ class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAd
         player!.play()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        self.requestAds();
+        super.viewDidAppear(animated);
+    }
+
     func testAvPlayer () -> AVPlayer {
         let item = AVPlayerItem(url: url!)
         player = AVPlayer(playerItem: item)
@@ -48,7 +53,7 @@ class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAd
         let item1 = AVPlayerItem(url: url!)
         let item2 = AVPlayerItem(url: URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!)
         player = AVPlayer(playerItem: item1)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) { // Change `2.0` to the desired number of seconds.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) { // Change `5.0` to the desired number of seconds.
            // Code you want to be delayed
             let videoData = MUXSDKCustomerVideoData();
             videoData.videoTitle = "Title2"
@@ -85,6 +90,10 @@ class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAd
         )
         adsLoader = IMAAdsLoader.init()
         adsLoader.delegate = self;
+        return player!
+    }
+
+    func requestAds() {
         let adDisplayContainer = IMAAdDisplayContainer.init(adContainer: self.view, viewController: self)
         let request = IMAAdsRequest.init(
             adTagUrl: adUrl,
@@ -92,7 +101,6 @@ class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAd
             contentPlayhead: (contentPlayhead as! IMAContentPlayhead & NSObjectProtocol),
             userContext: nil)
         adsLoader.requestAds(with: request)
-        return player!
     }
 
     @objc func playerItemDidReachEnd (notification: NSNotification) {
@@ -121,6 +129,7 @@ class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAd
     func cleanUp() {
         NotificationCenter.default.removeObserver(playComplete)
         MUXSDKStats.destroyPlayer(playName);
+        player?.pause()
         player = nil
     }
 
@@ -129,7 +138,7 @@ class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAd
         adsManager = adsLoadedData.adsManager;
         adsManager.delegate = self;
         let adsRenderingSettings = IMAAdsRenderingSettings.init()
-        adsRenderingSettings.webOpenerPresentingController = self;
+        adsRenderingSettings.linkOpenerPresentingController = self;
         adsManager.initialize(with: adsRenderingSettings)
     }
 
