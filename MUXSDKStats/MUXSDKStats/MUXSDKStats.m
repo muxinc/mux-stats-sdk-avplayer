@@ -116,13 +116,6 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
     [dataEvent setEnvironmentData:environmentData];
     [dataEvent setViewerData:viewerData];
     [MUXSDKCore dispatchGlobalDataEvent:dataEvent];
-    //
-    // dylanjhaveri
-    // See MUXSDKConnection.m for the tvos shortcoming
-    //
-    if (![deviceCategory isEqualToString:@"tvOS"]) {
-        [MUXSDKConnection detectConnectionType];
-    }
 }
 
 #pragma mark Monitor AVPlayerViewController
