@@ -1,6 +1,5 @@
 #import "MUXSDKStats.h"
 #import "MUXSDKPlayerBinding.h"
-#import "MUXSDKConnection.h"
 #import "MUXSDKPlayerBindingManager.h"
 #import "MUXSDKCustomerPlayerDataStore.h"
 #import "MUXSDKCustomerVideoDataStore.h"
