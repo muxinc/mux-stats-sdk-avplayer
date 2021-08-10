@@ -4,6 +4,7 @@ platform :ios, '10.0'
 target 'DemoApp' do
   use_frameworks!
   pod 'Mux-Stats-AVPlayer', :path => '../../'
+  pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'nidhik/customer-data'
   pod 'GoogleAds-IMA-iOS-SDK', '~> 3.14'
   pod 'Mux-Stats-Google-IMA', '~> 0.6'
 end
