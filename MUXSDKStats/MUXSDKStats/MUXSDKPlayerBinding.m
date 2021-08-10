@@ -109,6 +109,14 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAVPlayerError:) name:AVPlayerItemNewErrorLogEntryNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleConnectionTypeDetected:) name:@"com.mux.connection-type-detected" object:nil];
     
+    //
+    // dylanjhaveri
+    // See MUXSDKConnection.m for the tvos shortcoming
+    //
+    if ([[UIDevice currentDevice] userInterfaceIdiom] != UIUserInterfaceIdiomTV) {
+        [MUXSDKConnection detectConnectionType];
+    }
+    
     _lastTransferEventCount = 0;
     _lastTransferDuration= 0;
     _lastTransferredBytes = 0;
