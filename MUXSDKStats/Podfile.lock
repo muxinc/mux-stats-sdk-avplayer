@@ -2,15 +2,21 @@ PODS:
   - Mux-Stats-Core (3.3.0)
 
 DEPENDENCIES:
-  - Mux-Stats-Core (~> 3.3)
+  - Mux-Stats-Core (from `https://github.com/muxinc/stats-sdk-objc.git`, branch `nidhik/customer-data`)
 
-SPEC REPOS:
-  trunk:
-    - Mux-Stats-Core
+EXTERNAL SOURCES:
+  Mux-Stats-Core:
+    :branch: nidhik/customer-data
+    :git: https://github.com/muxinc/stats-sdk-objc.git
+
+CHECKOUT OPTIONS:
+  Mux-Stats-Core:
+    :commit: d280deb3821e6ce9f75a1b7a793583aca6972ac9
+    :git: https://github.com/muxinc/stats-sdk-objc.git
 
 SPEC CHECKSUMS:
   Mux-Stats-Core: edd64a5cf21858bb5ea7b860ee35eb07c3e417ba
 
-PODFILE CHECKSUM: 015c44cbf541abecb476a60455503fba68caa979
+PODFILE CHECKSUM: d794dede9ce184cdedd37c922953fad30e407be9
 
 COCOAPODS: 1.10.1

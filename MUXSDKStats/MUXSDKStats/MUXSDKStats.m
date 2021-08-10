@@ -127,6 +127,11 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
 
 #pragma mark Monitor AVPlayerViewController
 
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player withPlayerName:(nonnull NSString *)name customerData:(nonnull MUXSDKCustomerData *)customerData {
+    //TODO
+    return nil;
+}
+
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
                                                  withPlayerName:(nonnull NSString *)name
                                                      playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
@@ -221,6 +226,11 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
 }
 
 #pragma mark Monitor AVPlayerLayer
+
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player withPlayerName:(nonnull NSString *)name customerData:(nonnull MUXSDKCustomerData *)customerData {
+    // TODO
+    return nil;
+}
 
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
                                         withPlayerName:(nonnull NSString *)name
@@ -382,6 +392,10 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
 }
 
 #pragma mark Update Customer Data
+
++ (void)setCustomerData:(nullable MUXSDKCustomerData *)customerData forPlayer:(nonnull NSString *)name {
+    // TODO
+}
 
 + (void)updateCustomerDataForPlayer:(nonnull NSString *)name withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
     [self updateCustomerDataForPlayer:name withPlayerData:playerData withVideoData:videoData viewData:nil];
