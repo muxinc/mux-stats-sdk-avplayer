@@ -94,11 +94,13 @@ class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAd
     }
 
     func requestAds() {
+        guard let adsLoader = adsLoader else { return }
+
         let adDisplayContainer = IMAAdDisplayContainer.init(adContainer: self.view, viewController: self)
         let request = IMAAdsRequest.init(
             adTagUrl: adUrl,
             adDisplayContainer: adDisplayContainer,
-            contentPlayhead: (contentPlayhead as! IMAContentPlayhead & NSObjectProtocol),
+            contentPlayhead: (contentPlayhead as? IMAContentPlayhead & NSObjectProtocol),
             userContext: nil)
         adsLoader.requestAds(with: request)
     }
