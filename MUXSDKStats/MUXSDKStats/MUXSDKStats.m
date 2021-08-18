@@ -1,6 +1,5 @@
 #import "MUXSDKStats.h"
 #import "MUXSDKPlayerBinding.h"
-#import "MUXSDKConnection.h"
 #import "MUXSDKPlayerBindingManager.h"
 #import "MUXSDKCustomerPlayerDataStore.h"
 #import "MUXSDKCustomerVideoDataStore.h"
@@ -20,6 +19,7 @@
 // Software constants.
 NSString *const MuxPlayerSoftwareAVPlayerViewController = @"AVPlayerViewController";
 NSString *const MuxPlayerSoftwareAVPlayerLayer = @"AVPlayerLayer";
+NSString *const MuxDeviceIDUserDefaultsKey = @"MUX_DEVICE_ID";
 
 
 @implementation MUXSDKStats
@@ -61,7 +61,7 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
 
     // Provide EnvironmentData and ViewerData to Core.
     MUXSDKEnvironmentData *environmentData = [[MUXSDKEnvironmentData alloc] init];
-    [environmentData setMuxViewerId:[[[UIDevice currentDevice] identifierForVendor] UUIDString]];
+    [environmentData setMuxViewerId:[self getUUIDString]];
     /*
     NSString *debugData = [MUXSDKConfigParser getNSStringForKey:@"debug" fromDictionary:config];
     if (debugData) {
@@ -116,13 +116,6 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
     [dataEvent setEnvironmentData:environmentData];
     [dataEvent setViewerData:viewerData];
     [MUXSDKCore dispatchGlobalDataEvent:dataEvent];
-    //
-    // dylanjhaveri
-    // See MUXSDKConnection.m for the tvos shortcoming
-    //
-    if (![deviceCategory isEqualToString:@"tvOS"]) {
-        [MUXSDKConnection detectConnectionType];
-    }
 }
 
 #pragma mark Monitor AVPlayerViewController
@@ -313,6 +306,18 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
     } else {
         NSLog(@"MUXSDK-ERROR - Mux failed to update the monitor because no player exists with the player name: %@", name);
     }
+}
+
+#pragma mark UUID
+
++ (NSString *)getUUIDString {
+    NSString *uuid = [[NSUserDefaults standardUserDefaults] stringForKey:MuxDeviceIDUserDefaultsKey];
+    if (uuid == nil) {
+        uuid = [[NSUUID UUID] UUIDString];
+        [[NSUserDefaults standardUserDefaults] setObject:uuid forKey:MuxDeviceIDUserDefaultsKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    return uuid;
 }
 
 #pragma mark Destroy Player
