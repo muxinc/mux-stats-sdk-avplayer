@@ -34,6 +34,12 @@ static MUXSDKPlayerBindingManager *_playerBindingManager;
 static MUXSDKCustomerPlayerDataStore *_customerPlayerDataStore;
 static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
 static MUXSDKCustomerViewDataStore *_customerViewDataStore;
+static MUXSDKCustomerViewerData *_customerViewerData;
+
++ (void)initSDK:(MUXSDKCustomerViewerData*)viewerData {
+    _customerViewerData = viewerData;
+    [self initSDK];
+}
 
 + (void)initSDK {
     if (!_bindings) {
@@ -68,11 +74,15 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
         [environmentData setDebug:debugData];
     }
     */
+
     MUXSDKViewerData *viewerData = [[MUXSDKViewerData alloc] init];
-    NSString *bundleId = [[NSBundle mainBundle] bundleIdentifier];
-    if (bundleId) {
-        [viewerData setViewerApplicationName:bundleId];
+
+    NSString *viewerApplicationName = [_customerViewerData viewerApplicationName];
+    if (viewerApplicationName == nil) {
+        viewerApplicationName = [[NSBundle mainBundle] bundleIdentifier];
     }
+    [viewerData setViewerApplicationName:viewerApplicationName];
+
     NSString *bundleShortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
     if (bundleShortVersion && bundleVersion) {
@@ -141,7 +151,7 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
                                                    customerData:(nonnull MUXSDKCustomerData *)customerData
                                          automaticErrorTracking:(BOOL)automaticErrorTracking {
 
-    [self initSDK];
+    [self initSDK:[customerData customerViewerData]];
     NSString *binding = [_bindings valueForKey:name];
     if (binding) {
         // Destroy any previously existing player with this name.
@@ -265,7 +275,7 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
                                           customerData:(nonnull MUXSDKCustomerData *)customerData
                                 automaticErrorTracking:(BOOL) automaticErrorTracking {
 
-    [self initSDK];
+    [self initSDK:[customerData customerViewerData]];
     NSString *binding = [_bindings valueForKey:name];
     if (binding) {
         // Destroy any previously existing player with this name.
@@ -346,7 +356,8 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:playerData
                                                                                     videoData:videoData
                                                                                      viewData:viewData
-                                                                                   viewerData:nil];    return [self monitorAVPlayerLayer:player
+                                                                                   viewerData:nil];
+    return [self monitorAVPlayerLayer:player
                        withPlayerName:name
                          customerData:customerData
                automaticErrorTracking:automaticErrorTracking];
@@ -441,16 +452,14 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
 #pragma mark Update Customer Data
 
 + (void)setCustomerData:(nullable MUXSDKCustomerData *)customerData forPlayer:(nonnull NSString *)name {
-    // TODO
-}
-
-+ (void)updateCustomerDataForPlayer:(nonnull NSString *)name withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
-    [self updateCustomerDataForPlayer:name withPlayerData:playerData withVideoData:videoData viewData:nil];
-}
-
-+ (void)updateCustomerDataForPlayer:(nonnull NSString *)name withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData viewData: (nullable MUXSDKCustomerViewData *) viewData {
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
     if (!player) return;
+
+    MUXSDKCustomerPlayerData *playerData = [customerData customerPlayerData];
+    MUXSDKCustomerViewData *viewData = [customerData customerViewData];
+    MUXSDKCustomerVideoData *videoData = [customerData customerVideoData];
+    _customerViewerData = [customerData customerViewerData]; // call initSDK?
+
     if (!playerData && !videoData && !viewData) return;
     MUXSDKDataEvent *dataEvent = [MUXSDKDataEvent new];
     if (playerData) {
@@ -466,6 +475,19 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
         [dataEvent setCustomerViewData:viewData];
     }
     [MUXSDKCore dispatchEvent:dataEvent forPlayer:name];
+
+}
+
++ (void)updateCustomerDataForPlayer:(nonnull NSString *)name withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
+    [self updateCustomerDataForPlayer:name withPlayerData:playerData withVideoData:videoData viewData:nil];
+}
+
++ (void)updateCustomerDataForPlayer:(nonnull NSString *)name withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData viewData: (nullable MUXSDKCustomerViewData *) viewData {
+    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:playerData
+                                                                                    videoData:videoData
+                                                                                     viewData:viewData
+                                                                                   viewerData:_customerViewerData];
+    [self setCustomerData:customerData forPlayer:name];
 }
 
 #pragma mark Orientation Change

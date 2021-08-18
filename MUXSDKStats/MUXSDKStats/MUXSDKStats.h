@@ -303,7 +303,7 @@ FOUNDATION_EXPORT
  @param       videoData A MUXSDKCustomerVideoData object with video metadata
  @discussion  Use this method after you have already initialized the Mux SDK at any time before the player has been destroyed. Pass in either videoData or playerData.
  */
-+ (void)updateCustomerDataForPlayer:(nonnull NSString *)name withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData;
++ (void)updateCustomerDataForPlayer:(nonnull NSString *)name withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData __attribute__((deprecated("Please migrate to setCustomerData:forPlayer:")));
 
 /*!
  @method      updateCustomerData:forPlayer:withPlayerData:withVideoData:viewData:
@@ -314,7 +314,8 @@ FOUNDATION_EXPORT
  @param       viewData A MUXSDKCustomerViewData object with view metadata
  @discussion  Use this method after you have already initialized the Mux SDK at any time before the player has been destroyed. Pass in either videoData, playerData, or viewData.
  */
-+ (void)updateCustomerDataForPlayer:(nonnull NSString *)name withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData viewData: (nullable MUXSDKCustomerViewData *) viewData;
++ (void)updateCustomerDataForPlayer:(nonnull NSString *)name withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData viewData: (nullable MUXSDKCustomerViewData *) viewData __attribute__((deprecated("Please migrate to setCustomerData:forPlayer:")));
+
 
 /*!
 @method      orientationChangeForPlayer:withOrientation:
