@@ -2,15 +2,21 @@ PODS:
   - Mux-Stats-Core (3.3.0)
 
 DEPENDENCIES:
-  - Mux-Stats-Core (~> 3.3)
+  - Mux-Stats-Core (from `https://github.com/muxinc/stats-sdk-objc.git`, branch `bmulligan/customerdata-without-customerviewerdata`)
 
-SPEC REPOS:
-  trunk:
-    - Mux-Stats-Core
+EXTERNAL SOURCES:
+  Mux-Stats-Core:
+    :branch: bmulligan/customerdata-without-customerviewerdata
+    :git: https://github.com/muxinc/stats-sdk-objc.git
+
+CHECKOUT OPTIONS:
+  Mux-Stats-Core:
+    :commit: 1255f14e057b35ed6660afeb28835760dc2e3ed1
+    :git: https://github.com/muxinc/stats-sdk-objc.git
 
 SPEC CHECKSUMS:
   Mux-Stats-Core: edd64a5cf21858bb5ea7b860ee35eb07c3e417ba
 
-PODFILE CHECKSUM: 015c44cbf541abecb476a60455503fba68caa979
+PODFILE CHECKSUM: dbf1452e616cc54aaf9d0c9cbaccecb64f7c60f8
 
 COCOAPODS: 1.10.1

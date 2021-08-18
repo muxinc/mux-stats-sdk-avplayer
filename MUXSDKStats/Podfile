@@ -5,12 +5,14 @@ target 'MUXSDKStats' do
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
   # use_frameworks!
   # Pods for MUXSDKStats
-  pod 'Mux-Stats-Core', '~>3.3'
+#  pod 'Mux-Stats-Core', '~>3.3'
+  pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'bmulligan/customerdata-without-customerviewerdata'
   
   target 'MUXSDKStatsTests' do
     inherit! :search_paths
     # Pods for testing
-    pod 'Mux-Stats-Core', '~>3.3'
+#    pod 'Mux-Stats-Core', '~>3.3'
+    pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'bmulligan/customerdata-without-customerviewerdata'
   end
 
 end
@@ -20,5 +22,6 @@ target 'MUXSDKStatsTv' do
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
   # use_frameworks!
   # Pods for MUXSDKStatsTv
-  pod 'Mux-Stats-Core', '~>3.3'
+#  pod 'Mux-Stats-Core', '~>3.3'
+  pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'bmulligan/customerdata-without-customerviewerdata'
 end
