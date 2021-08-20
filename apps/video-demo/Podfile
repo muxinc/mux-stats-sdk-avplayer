@@ -5,9 +5,8 @@ target 'video-demo' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
 
-  # pod 'Mux-Stats-AVPlayer', '~> 2.0'
   pod 'Mux-Stats-AVPlayer', :path => '../../'
-
+  pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'release'
   pod 'GoogleAds-IMA-iOS-SDK', '~> 3.9'
   pod 'Mux-Stats-Google-IMA', '~> 0.6'
 end
