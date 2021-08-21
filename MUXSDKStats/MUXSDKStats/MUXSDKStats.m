@@ -151,6 +151,7 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
         MUXSDKCustomerVideoData *videoData = customerData.customerVideoData;
         MUXSDKCustomerViewData *viewData = customerData.customerViewData;
         MUXSDKCustomData *customData = customerData.customData;
+        NSLog(@"MUXSDKSTATS: %@", [customData toQuery]);
 
         MUXSDKAVPlayerViewControllerBinding *newBinding = [[MUXSDKAVPlayerViewControllerBinding alloc] initWithName:name software:MuxPlayerSoftwareAVPlayerViewController andView:player];
         [newBinding setAutomaticErrorTracking:automaticErrorTracking];

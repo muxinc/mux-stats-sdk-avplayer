@@ -39,15 +39,16 @@
                MUXSDKCustomerPlayerData *playerData = [self.customerPlayerDataStore playerDataForPlayerName:name];
                MUXSDKCustomerVideoData *videoData = [self.customerVideoDataStore videoDataForPlayerName:name];
                MUXSDKCustomerViewData *viewData = [self.customerViewDataStore viewDataForPlayerName:name];
+               MUXSDKCustomData *customData = [self.customerCustomDataStore customDataForPlayerName:name];
                [binding dispatchViewInit];
-               [self dispatchDataEventForPlayerName:name playerData:playerData videoData:videoData viewData: viewData videoChange:NO];
+               [self dispatchDataEventForPlayerName:name playerData:playerData videoData:videoData viewData: viewData customData:customData videoChange:NO];
                [binding dispatchPlayerReady];
                [self.playerReadyBindings addObject:name];
            }
     }
 }
 
-- (void)dispatchDataEventForPlayerName:(NSString *)name playerData:(MUXSDKCustomerPlayerData *)customerPlayerData videoData:(MUXSDKCustomerVideoData *)customerVideoData viewData:(MUXSDKCustomerViewData *)customerViewData videoChange:(BOOL) videoChange {
+- (void)dispatchDataEventForPlayerName:(NSString *)name playerData:(MUXSDKCustomerPlayerData *)customerPlayerData videoData:(MUXSDKCustomerVideoData *)customerVideoData viewData:(MUXSDKCustomerViewData *)customerViewData customData:(MUXSDKCustomData *)customData videoChange:(BOOL) videoChange {
     MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
     if (customerPlayerData) {
         [dataEvent setCustomerPlayerData:customerPlayerData];
@@ -58,7 +59,10 @@
     if (customerViewData) {
         [dataEvent setCustomerViewData:customerViewData];
     }
-    if (customerPlayerData || customerVideoData || customerViewData) {
+    if (customData) {
+        [dataEvent setCustomData:customData];
+    }
+    if (customerPlayerData || customerVideoData || customerViewData || customData) {
         dataEvent.videoChange = videoChange;
         [MUXSDKCore dispatchEvent:dataEvent forPlayer:name];
     }
@@ -80,7 +84,8 @@
         MUXSDKCustomerPlayerData *playerData = [self.customerPlayerDataStore playerDataForPlayerName:name];
         MUXSDKCustomerVideoData *videoData = [self.customerVideoDataStore videoDataForPlayerName:name];
         MUXSDKCustomerViewData *viewData = [self.customerViewDataStore viewDataForPlayerName:name];
-        [self dispatchDataEventForPlayerName:name playerData:playerData videoData:videoData viewData: viewData videoChange:YES];
+        MUXSDKCustomData *customData = [self.customerCustomDataStore customDataForPlayerName:name];
+        [self dispatchDataEventForPlayerName:name playerData:playerData videoData:videoData viewData: viewData customData:customData videoChange:YES];
     }
 }
 
