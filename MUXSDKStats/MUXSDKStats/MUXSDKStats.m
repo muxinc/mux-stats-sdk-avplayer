@@ -151,7 +151,6 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
         MUXSDKCustomerVideoData *videoData = customerData.customerVideoData;
         MUXSDKCustomerViewData *viewData = customerData.customerViewData;
         MUXSDKCustomData *customData = customerData.customData;
-        NSLog(@"MUXSDKSTATS: %@", [customData toQuery]);
 
         MUXSDKAVPlayerViewControllerBinding *newBinding = [[MUXSDKAVPlayerViewControllerBinding alloc] initWithName:name software:MuxPlayerSoftwareAVPlayerViewController andView:player];
         [newBinding setAutomaticErrorTracking:automaticErrorTracking];
@@ -412,7 +411,15 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
 
 #pragma mark Video Change
 
-+ (void)videoChangeForPlayer:(nonnull NSString *)name  withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData viewData: (nullable MUXSDKCustomerViewData *) viewData {
++ (void)videoChangeForPlayer:(nonnull NSString *)name withCustomerData:(nullable MUXSDKCustomerData *)customerData {
+    MUXSDKCustomerPlayerData *playerData = [customerData customerPlayerData];
+    if (!playerData) {
+        playerData = [_customerPlayerDataStore playerDataForPlayerName:name];
+    }
+    MUXSDKCustomerViewData *viewData = [customerData customerViewData];
+    MUXSDKCustomerVideoData *videoData = [customerData customerVideoData];
+    MUXSDKCustomData *customData = [customerData customData];
+    
     if (!(videoData || viewData)) {
         return;
     }
@@ -429,17 +436,27 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
         if (playerData) {
             [_customerPlayerDataStore setPlayerData:playerData forPlayerName:name];
         }
+        if (customData) {
+            [_customerCustomDataStore setCustomData:customData forPlayerName:name];
+        }
         [player prepareForAvQueuePlayerNextItem];
     }
 }
 
++ (void)videoChangeForPlayer:(nonnull NSString *)name  withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData viewData: (nullable MUXSDKCustomerViewData *) viewData {
+    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:playerData videoData:videoData viewData:viewData];
+    [self videoChangeForPlayer:name withCustomerData:customerData];
+}
+
 + (void)videoChangeForPlayer:(nonnull NSString *)name withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
-    [self videoChangeForPlayer:name withPlayerData:playerData withVideoData:videoData viewData:nil];
+    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:playerData videoData:videoData viewData:nil];
+    [self videoChangeForPlayer:name withCustomerData:customerData];
 }
 
 + (void)videoChangeForPlayer:(nonnull NSString *)name withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
-    MUXSDKCustomerPlayerData *playerData = [_customerPlayerDataStore playerDataForPlayerName:name];
-    [self videoChangeForPlayer:name withPlayerData:playerData withVideoData:videoData];
+    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] init];
+    customerData.customerVideoData = videoData;
+    [self videoChangeForPlayer:name withCustomerData:customerData];
 }
 
 + (void)programChangeForPlayer:(nonnull NSString *)name withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {

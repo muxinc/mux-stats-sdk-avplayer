@@ -174,7 +174,7 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
         envKey = @"YOUR_ENV_KEY_HERE";
     }
     MUXSDKCustomData *customData = [[MUXSDKCustomData alloc] init];
-    [customData setCustomData1:@"my-custom-dimension-1"];
+    [customData setCustomData1:@"playing-big-buck-bunny"];
     MUXSDKCustomerPlayerData *playerData = [[MUXSDKCustomerPlayerData alloc] initWithPropertyKey:envKey];
     MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
     videoData.videoTitle = @"Big Buck Bunny";
@@ -196,8 +196,14 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
     MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
     videoData.videoTitle = @"Apple Keynote";
     videoData.videoId = @"applekeynote2010";
+    MUXSDKCustomData *customData = [[MUXSDKCustomData alloc] init];
+    [customData setCustomData1:@"change-video-to-apple-keynote"];
+    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] init];
+    customerData.customData = customData;
+    customerData.customerVideoData = videoData;
+    
     [MUXSDKStats videoChangeForPlayer:DEMO_PLAYER_NAME
-                        withVideoData:videoData];
+                        withCustomerData:customerData];
     NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
     AVPlayerItem *keynote = [AVPlayerItem playerItemWithURL:videoURL];
     [_avplayer replaceCurrentItemWithPlayerItem:keynote];
