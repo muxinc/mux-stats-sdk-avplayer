@@ -31,7 +31,7 @@ NSString *const kAdTagURLStringPostRoll = @"https://pubads.g.doubleclick.net/gam
 
 - (void)testPlayVideo {
     XCUIApplication *app = [[XCUIApplication alloc] init];
-    [app setLaunchEnvironment:@{@"ENV_KEY": @"tr4q3qahs0gflm8b1c75h49ln", @"TEST_SCENARIO": @"AV_PLAYER"}];
+    [app setLaunchEnvironment:@{@"ENV_KEY": @"tr4q3qahs0gflm8b1c75h49ln", @"TEST_SCENARIO": @"NORMAL_VIEW"}];
     [app launch];
     XCTestExpectation *exp = [[XCTestExpectation alloc] initWithDescription:@"Just wait for 20 seconds."];
     XCTWaiterResult result = [XCTWaiter waitForExpectations:@[exp] timeout:20.0];

@@ -26,9 +26,9 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
     [super viewDidLoad];
     _avplayerController = [AVPlayerViewController new];
     AVPlayer *player;
-    if ([self isTestingAds]) {
+    if ([[self testScenario] isEqual:@"IMA"]) {
         player = [self testImaSDK];
-    } if ([self isTestingUpdateCustomDimensions]) {
+    } if ([[self testScenario] isEqual:@"UPDATE_CUSTOM_DIMENSIONS"]) {
         player = [self testUpdateCustomDimensions];
     } else {
         player = [self testAVPlayer];
@@ -37,7 +37,7 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
 }
 
 - (void) viewDidAppear:(BOOL)animated {
-    if ([self isTestingAds]) {
+    if ([[self testScenario] isEqual:@"IMA"]) {
         NSString *adTagURL = [NSProcessInfo.processInfo.environment objectForKey:@"AD_TAG_URL"];
         if (adTagURL == nil) {
             adTagURL = kAdTagURLStringPreRollMidRollPostRoll;        }
@@ -124,11 +124,6 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
 
 #pragma mark Test Cases
 
-- (BOOL) isTestingAds {
-    NSString *testScenario = [NSProcessInfo.processInfo.environment objectForKey:@"TEST_SCENARIO"];
-    return [testScenario isEqualToString:@"IMA"];
-}
-
 - (AVPlayer *)testImaSDK {
     _adsLoader = [[IMAAdsLoader alloc] initWithSettings:nil];
     _adsLoader.delegate = self;
@@ -142,10 +137,6 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
     return player;
 }
 
-- (BOOL) isTestingAVQueuePlayer {
-    NSString *testScenario = [NSProcessInfo.processInfo.environment objectForKey:@"TEST_SCENARIO"];
-    return [testScenario isEqualToString:@"AV_QUEUE_PLAYER"];
-}
 - (AVPlayer *)testAVQueuePlayer {
     AVPlayerItem *item1 = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"]];
     AVPlayerItem *item2 = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"]];
@@ -153,21 +144,12 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
     return player;
 }
 
-- (BOOL) isTestingAVPlayer {
-    NSString *testScenario = [NSProcessInfo.processInfo.environment objectForKey:@"TEST_SCENARIO"];
-    return [testScenario isEqualToString:@"AV_PLAYER"];
-}
 - (AVPlayer *)testAVPlayer {
     NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
     AVPlayer *player = [AVPlayer playerWithURL:videoURL];
     return player;
 }
 
-
-- (BOOL) isTestingVideoChange {
-    NSString *testScenario = [NSProcessInfo.processInfo.environment objectForKey:@"TEST_SCENARIO"];
-    return [testScenario isEqualToString:@"VIDEO_CHANGE"];
-}
 - (AVPlayer *)testVideoChange {
     NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
     AVPlayer *player = [AVPlayer playerWithURL:videoURL];
@@ -181,10 +163,6 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
     return player;
 }
 
-- (BOOL) isTestingProgramChange {
-    NSString *testScenario = [NSProcessInfo.processInfo.environment objectForKey:@"TEST_SCENARIO"];
-    return [testScenario isEqualToString:@"PROGRAM_CHANGE"];
-}
 - (AVPlayer *)testProgramChange{
     NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
     AVPlayer *player = [AVPlayer playerWithURL:videoURL];
@@ -198,10 +176,6 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
     return player;
 }
 
-- (BOOL) isTestingUpdateCustomDimensions {
-    NSString *testScenario = [NSProcessInfo.processInfo.environment objectForKey:@"TEST_SCENARIO"];
-    return [testScenario isEqualToString:@"UPDATE_CUSTOM_DIMENSIONS"];
-}
 - (AVPlayer *)testUpdateCustomDimensions {
     NSURL *videoURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
     AVPlayer *player = [AVPlayer playerWithURL:videoURL];
@@ -224,7 +198,7 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
         envKey = @"YOUR_ENV_KEY_HERE";
     }
     MUXSDKCustomData *customData = [[MUXSDKCustomData alloc] init];
-    [customData setCustomData1:@"playing-big-buck-bunny"];
+    [customData setCustomData1:[self testScenario]];
     MUXSDKCustomerPlayerData *playerData = [[MUXSDKCustomerPlayerData alloc] initWithPropertyKey:envKey];
     MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
     videoData.videoTitle = @"Big Buck Bunny";
@@ -276,10 +250,8 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
     [MUXSDKStats setCustomerData:customerData forPlayer:DEMO_PLAYER_NAME];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (NSString *) testScenario {
+    return [NSProcessInfo.processInfo.environment objectForKey:@"TEST_SCENARIO"];
 }
-
 
 @end
