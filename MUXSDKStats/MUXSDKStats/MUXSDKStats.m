@@ -420,7 +420,7 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
     MUXSDKCustomerVideoData *videoData = [customerData customerVideoData];
     MUXSDKCustomData *customData = [customerData customData];
     
-    if (!(videoData || viewData)) {
+    if (!(videoData || viewData || customData)) {
         return;
     }
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
@@ -485,7 +485,7 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
     MUXSDKCustomerVideoData *videoData = [customerData customerVideoData];
     MUXSDKCustomData *customData = [customerData customData];
 
-    if (!playerData && !videoData && !viewData) return;
+    if (!playerData && !videoData && !viewData && !customData) return;
     MUXSDKDataEvent *dataEvent = [MUXSDKDataEvent new];
     if (playerData) {
         [_customerPlayerDataStore setPlayerData:playerData forPlayerName:name];
