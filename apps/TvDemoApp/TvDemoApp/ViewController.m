@@ -38,7 +38,10 @@ NSString *const kAdTagURLStringPostRoll = @"https://pubads.g.doubleclick.net/gam
     videoData.videoTitle = @"Big Buck Bunny";
     videoData.videoId = @"bigbuckbunny";
     videoData.videoSeries = @"animation";
-    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:playerData videoData:videoData viewData:nil];
+    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:playerData
+                                                                                    videoData:videoData
+                                                                                     viewData:nil
+                                                                                   viewerData:nil];
     _playerBinding = [MUXSDKStats monitorAVPlayerViewController:_avplayerController
                                                  withPlayerName:DEMO_PLAYER_NAME
                                                    customerData:customerData];

@@ -33,7 +33,7 @@ class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAd
         let videoData = MUXSDKCustomerVideoData();
         videoData.videoIsLive = false;
         videoData.videoTitle = "Title1"
-        guard let customerData = MUXSDKCustomerData(customerPlayerData: playerData, videoData: videoData, viewData: nil) else {
+        guard let customerData = MUXSDKCustomerData(customerPlayerData: playerData, videoData: videoData, viewData: nil, viewerData: nil) else {
             return;
         }
         let playerBinding = MUXSDKStats.monitorAVPlayerViewController(self, withPlayerName: playName, customerData: customerData)
