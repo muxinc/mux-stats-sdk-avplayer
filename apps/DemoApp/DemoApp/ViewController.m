@@ -180,7 +180,7 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
 - (AVPlayer *)testUpdateCustomDimensions {
     NSURL *videoURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
     AVPlayer *player = [AVPlayer playerWithURL:videoURL];
-    // After 15 seconds, we'll update the custom dimensions
+    // After 5 seconds, we'll update the custom dimensions
     _timer = [NSTimer scheduledTimerWithTimeInterval:5.0
                                               target:self
                                             selector:@selector(updateCustomData:)
