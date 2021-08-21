@@ -28,10 +28,11 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
     AVPlayer *player;
     if ([self isTestingAds]) {
         player = [self testImaSDK];
+    } if ([self isTestingUpdateCustomDimensions]) {
+        player = [self testUpdateCustomDimensions];
     } else {
         player = [self testAVPlayer];
     }
-    //    player = [self testAVQueuePlayer];
     [self setupAVPlayerViewController: player];
 }
 
@@ -141,6 +142,10 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
     return player;
 }
 
+- (BOOL) isTestingAVQueuePlayer {
+    NSString *testScenario = [NSProcessInfo.processInfo.environment objectForKey:@"TEST_SCENARIO"];
+    return [testScenario isEqualToString:@"AV_QUEUE_PLAYER"];
+}
 - (AVPlayer *)testAVQueuePlayer {
     AVPlayerItem *item1 = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"]];
     AVPlayerItem *item2 = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"]];
@@ -148,12 +153,21 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
     return player;
 }
 
+- (BOOL) isTestingAVPlayer {
+    NSString *testScenario = [NSProcessInfo.processInfo.environment objectForKey:@"TEST_SCENARIO"];
+    return [testScenario isEqualToString:@"AV_PLAYER"];
+}
 - (AVPlayer *)testAVPlayer {
     NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
     AVPlayer *player = [AVPlayer playerWithURL:videoURL];
     return player;
 }
 
+
+- (BOOL) isTestingVideoChange {
+    NSString *testScenario = [NSProcessInfo.processInfo.environment objectForKey:@"TEST_SCENARIO"];
+    return [testScenario isEqualToString:@"VIDEO_CHANGE"];
+}
 - (AVPlayer *)testVideoChange {
     NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
     AVPlayer *player = [AVPlayer playerWithURL:videoURL];
@@ -167,6 +181,10 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
     return player;
 }
 
+- (BOOL) isTestingProgramChange {
+    NSString *testScenario = [NSProcessInfo.processInfo.environment objectForKey:@"TEST_SCENARIO"];
+    return [testScenario isEqualToString:@"PROGRAM_CHANGE"];
+}
 - (AVPlayer *)testProgramChange{
     NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
     AVPlayer *player = [AVPlayer playerWithURL:videoURL];
@@ -180,11 +198,15 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
     return player;
 }
 
+- (BOOL) isTestingUpdateCustomDimensions {
+    NSString *testScenario = [NSProcessInfo.processInfo.environment objectForKey:@"TEST_SCENARIO"];
+    return [testScenario isEqualToString:@"UPDATE_CUSTOM_DIMENSIONS"];
+}
 - (AVPlayer *)testUpdateCustomDimensions {
     NSURL *videoURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
     AVPlayer *player = [AVPlayer playerWithURL:videoURL];
-    // After 20 seconds, we'll update the custom dimensions
-    _timer = [NSTimer scheduledTimerWithTimeInterval:20.0
+    // After 5 seconds, we'll update the custom dimensions
+    _timer = [NSTimer scheduledTimerWithTimeInterval:5.0
                                               target:self
                                             selector:@selector(updateCustomData:)
                                             userInfo:nil

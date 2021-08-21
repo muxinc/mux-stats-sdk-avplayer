@@ -31,7 +31,7 @@ NSString *const kAdTagURLStringPostRoll = @"https://pubads.g.doubleclick.net/gam
 
 - (void)testPlayVideo {
     XCUIApplication *app = [[XCUIApplication alloc] init];
-    [app setLaunchEnvironment:@{@"ENV_KEY": @"tr4q3qahs0gflm8b1c75h49ln"}];
+    [app setLaunchEnvironment:@{@"ENV_KEY": @"tr4q3qahs0gflm8b1c75h49ln", @"TEST_SCENARIO": @"AV_PLAYER"}];
     [app launch];
     XCTestExpectation *exp = [[XCTestExpectation alloc] initWithDescription:@"Just wait for 20 seconds."];
     XCTWaiterResult result = [XCTWaiter waitForExpectations:@[exp] timeout:20.0];
@@ -65,7 +65,17 @@ NSString *const kAdTagURLStringPostRoll = @"https://pubads.g.doubleclick.net/gam
     if(result != XCTWaiterResultTimedOut) {
         XCTFail(@"Interrupted while playing video.");
     }
-    
+}
+
+- (void)testUpdateCustomDimensions {
+    XCUIApplication *app = [[XCUIApplication alloc] init];
+    [app setLaunchEnvironment:@{@"ENV_KEY": @"tr4q3qahs0gflm8b1c75h49ln", @"TEST_SCENARIO": @"UPDATE_CUSTOM_DIMENSIONS"}];
+    [app launch];
+    XCTestExpectation *exp = [[XCTestExpectation alloc] initWithDescription:@"Just wait for 20 seconds."];
+    XCTWaiterResult result = [XCTWaiter waitForExpectations:@[exp] timeout:20.0];
+    if(result != XCTWaiterResultTimedOut) {
+        XCTFail(@"Interrupted while playing video.");
+    }
 }
 
 @end
