@@ -244,7 +244,7 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
 
 - (void) updateCustomData:(NSTimer *)timer {
     MUXSDKCustomData *customData = [[MUXSDKCustomData alloc] init];
-    [customData setCustomData1:@"update-custom-dimension"];
+    [customData setCustomData2:@"update-custom-dimension"];
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] init];
     customerData.customData = customData;
     [MUXSDKStats setCustomerData:customerData forPlayer:DEMO_PLAYER_NAME];
