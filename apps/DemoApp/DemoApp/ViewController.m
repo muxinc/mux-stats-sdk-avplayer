@@ -224,6 +224,7 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
     videoData.videoTitle = @"Apple Keynote";
     videoData.videoId = @"applekeynote2010";
     MUXSDKCustomData *customData = [[MUXSDKCustomData alloc] init];
+    [customData setCustomData1:[self testScenario]];
     [customData setCustomData2:@"change-video-to-apple-keynote"];
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] init];
     customerData.customData = customData;
