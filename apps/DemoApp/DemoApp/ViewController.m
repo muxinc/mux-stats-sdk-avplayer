@@ -4,7 +4,7 @@
 @import Mux_Stats_Google_IMA;
 
 static NSString *DEMO_PLAYER_NAME = @"demoplayer";
-NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostpod&cmsid=496&vid=short_onecue&correlator=";
+NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostlongpod&cmsid=496&vid=short_tencue&correlator=";
 
 @interface ViewController () {
     AVPlayer *_avplayer;
@@ -26,9 +26,9 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
     [super viewDidLoad];
     _avplayerController = [AVPlayerViewController new];
     AVPlayer *player;
-    if ([[self testScenario] isEqual:@"IMA"]) {
+    if ([[self testScenario] isEqualToString:@"IMA"]) {
         player = [self testImaSDK];
-    } if ([[self testScenario] isEqual:@"UPDATE_CUSTOM_DIMENSIONS"]) {
+    } else if ([[self testScenario] isEqual:@"UPDATE_CUSTOM_DIMENSIONS"]) {
         player = [self testUpdateCustomDimensions];
     } else {
         player = [self testAVPlayer];
@@ -37,13 +37,12 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
 }
 
 - (void) viewDidAppear:(BOOL)animated {
-    if ([[self testScenario] isEqual:@"IMA"]) {
+    if ([[self testScenario] isEqualToString:@"IMA"]) {
         NSString *adTagURL = [NSProcessInfo.processInfo.environment objectForKey:@"AD_TAG_URL"];
         if (adTagURL == nil) {
             adTagURL = kAdTagURLStringPreRollMidRollPostRoll;        }
         [self requestAdsWithURL:adTagURL];
     }
-    
 }
 
 #pragma mark - Request Ads
@@ -179,8 +178,8 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
 - (AVPlayer *)testUpdateCustomDimensions {
     NSURL *videoURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
     AVPlayer *player = [AVPlayer playerWithURL:videoURL];
-    // After 5 seconds, we'll update the custom dimensions
-    _timer = [NSTimer scheduledTimerWithTimeInterval:5.0
+    // After 15 seconds, we'll update the custom dimensions
+    _timer = [NSTimer scheduledTimerWithTimeInterval:15.0
                                               target:self
                                             selector:@selector(updateCustomData:)
                                             userInfo:nil
