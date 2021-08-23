@@ -783,7 +783,6 @@
 			baseConfigurationReference = 724162C20BF5162D6FEBFFE5 /* Pods-MUXSDKStatsTests.debug.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = CX6AHWLHM6;
-				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = MUXSDKStatsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.ios.MUXSDKStatsTests;
@@ -796,7 +795,6 @@
 			baseConfigurationReference = 38E1399E529DCC74A764D20E /* Pods-MUXSDKStatsTests.release.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = CX6AHWLHM6;
-				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = MUXSDKStatsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.ios.MUXSDKStatsTests;
