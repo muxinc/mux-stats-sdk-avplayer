@@ -6,13 +6,13 @@ target 'MUXSDKStats' do
   # use_frameworks!
   # Pods for MUXSDKStats
 #  pod 'Mux-Stats-Core', '~>3.3'
-  pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'nidhik/custom-dimensions-to-customer-data'
+  pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'release'
   
   target 'MUXSDKStatsTests' do
     inherit! :search_paths
     # Pods for testing
 #    pod 'Mux-Stats-Core', '~>3.3'
-    pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'nidhik/custom-dimensions-to-customer-data'
+    pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'release'
   end
 
 end
@@ -23,5 +23,5 @@ target 'MUXSDKStatsTv' do
   # use_frameworks!
   # Pods for MUXSDKStatsTv
 #  pod 'Mux-Stats-Core', '~>3.3'
-  pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'nidhik/custom-dimensions-to-customer-data'
+  pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'release'
 end
