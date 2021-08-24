@@ -4,6 +4,7 @@
 #import "MUXSDKCustomerPlayerDataStore.h"
 #import "MUXSDKCustomerVideoDataStore.h"
 #import "MUXSDKCustomerViewDataStore.h"
+#import "MUXSDKCustomerCustomDataStore.h"
 #import <sys/utsname.h>
 
 #if __has_feature(modules)
@@ -34,6 +35,7 @@ static MUXSDKPlayerBindingManager *_playerBindingManager;
 static MUXSDKCustomerPlayerDataStore *_customerPlayerDataStore;
 static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
 static MUXSDKCustomerViewDataStore *_customerViewDataStore;
+static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
 
 + (void)initSDK {
     if (!_bindings) {
@@ -51,11 +53,15 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
     if (!_customerViewDataStore) {
         _customerViewDataStore = [[MUXSDKCustomerViewDataStore alloc] init];
     }
+    if (!_customerCustomDataStore) {
+        _customerCustomDataStore = [[MUXSDKCustomerCustomDataStore alloc] init];
+    }
     if (!_playerBindingManager) {
         _playerBindingManager = [[MUXSDKPlayerBindingManager alloc] init];
         _playerBindingManager.customerPlayerDataStore = _customerPlayerDataStore;
         _playerBindingManager.customerVideoDataStore = _customerVideoDataStore;
         _playerBindingManager.customerViewDataStore = _customerViewDataStore;
+        _playerBindingManager.customerCustomDataStore = _customerCustomDataStore;
         _playerBindingManager.viewControllers = _viewControllers;
     }
 
@@ -144,6 +150,7 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
         MUXSDKCustomerPlayerData *playerData = customerData.customerPlayerData;
         MUXSDKCustomerVideoData *videoData = customerData.customerVideoData;
         MUXSDKCustomerViewData *viewData = customerData.customerViewData;
+        MUXSDKCustomData *customData = customerData.customData;
 
         MUXSDKAVPlayerViewControllerBinding *newBinding = [[MUXSDKAVPlayerViewControllerBinding alloc] initWithName:name software:MuxPlayerSoftwareAVPlayerViewController andView:player];
         [newBinding setAutomaticErrorTracking:automaticErrorTracking];
@@ -154,6 +161,9 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
         }
         if (viewData) {
             [_customerViewDataStore setViewData:viewData forPlayerName:name];
+        }
+        if (customData) {
+            [_customerCustomDataStore setCustomData:customData forPlayerName:name];
         }
         [_viewControllers setValue:newBinding forKey:name];
         [_bindings setValue:MuxPlayerSoftwareAVPlayerViewController forKey:name];
@@ -267,6 +277,7 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
         MUXSDKCustomerPlayerData *playerData = customerData.customerPlayerData;
         MUXSDKCustomerVideoData *videoData = customerData.customerVideoData;
         MUXSDKCustomerViewData *viewData = customerData.customerViewData;
+        MUXSDKCustomData *customData = customerData.customData;
 
         MUXSDKAVPlayerLayerBinding *newBinding = [[MUXSDKAVPlayerLayerBinding alloc] initWithName:name software:MuxPlayerSoftwareAVPlayerLayer andView:player];
         newBinding.playDispatchDelegate = _playerBindingManager;
@@ -277,6 +288,9 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
         }
         if (viewData) {
             [_customerViewDataStore setViewData:viewData forPlayerName:name];
+        }
+        if (customData) {
+            [_customerCustomDataStore setCustomData:customData forPlayerName:name];
         }
         [_viewControllers setValue:newBinding forKey:name];
         [_bindings setValue:MuxPlayerSoftwareAVPlayerLayer forKey:name];
@@ -397,8 +411,16 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
 
 #pragma mark Video Change
 
-+ (void)videoChangeForPlayer:(nonnull NSString *)name  withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData viewData: (nullable MUXSDKCustomerViewData *) viewData {
-    if (!(videoData || viewData)) {
++ (void)videoChangeForPlayer:(nonnull NSString *)name withCustomerData:(nullable MUXSDKCustomerData *)customerData {
+    MUXSDKCustomerPlayerData *playerData = [customerData customerPlayerData];
+    if (!playerData) {
+        playerData = [_customerPlayerDataStore playerDataForPlayerName:name];
+    }
+    MUXSDKCustomerViewData *viewData = [customerData customerViewData];
+    MUXSDKCustomerVideoData *videoData = [customerData customerVideoData];
+    MUXSDKCustomData *customData = [customerData customData];
+    
+    if (!(videoData || viewData || customData)) {
         return;
     }
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
@@ -414,17 +436,27 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
         if (playerData) {
             [_customerPlayerDataStore setPlayerData:playerData forPlayerName:name];
         }
+        if (customData) {
+            [_customerCustomDataStore setCustomData:customData forPlayerName:name];
+        }
         [player prepareForAvQueuePlayerNextItem];
     }
 }
 
++ (void)videoChangeForPlayer:(nonnull NSString *)name  withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData viewData: (nullable MUXSDKCustomerViewData *) viewData {
+    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:playerData videoData:videoData viewData:viewData];
+    [self videoChangeForPlayer:name withCustomerData:customerData];
+}
+
 + (void)videoChangeForPlayer:(nonnull NSString *)name withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
-    [self videoChangeForPlayer:name withPlayerData:playerData withVideoData:videoData viewData:nil];
+    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:playerData videoData:videoData viewData:nil];
+    [self videoChangeForPlayer:name withCustomerData:customerData];
 }
 
 + (void)videoChangeForPlayer:(nonnull NSString *)name withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
-    MUXSDKCustomerPlayerData *playerData = [_customerPlayerDataStore playerDataForPlayerName:name];
-    [self videoChangeForPlayer:name withPlayerData:playerData withVideoData:videoData];
+    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] init];
+    customerData.customerVideoData = videoData;
+    [self videoChangeForPlayer:name withCustomerData:customerData];
 }
 
 + (void)programChangeForPlayer:(nonnull NSString *)name withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
@@ -451,8 +483,9 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
     MUXSDKCustomerPlayerData *playerData = [customerData customerPlayerData];
     MUXSDKCustomerViewData *viewData = [customerData customerViewData];
     MUXSDKCustomerVideoData *videoData = [customerData customerVideoData];
+    MUXSDKCustomData *customData = [customerData customData];
 
-    if (!playerData && !videoData && !viewData) return;
+    if (!playerData && !videoData && !viewData && !customData) return;
     MUXSDKDataEvent *dataEvent = [MUXSDKDataEvent new];
     if (playerData) {
         [_customerPlayerDataStore setPlayerData:playerData forPlayerName:name];
@@ -465,6 +498,10 @@ static MUXSDKCustomerViewDataStore *_customerViewDataStore;
     if (viewData) {
         [_customerViewDataStore setViewData:viewData forPlayerName:name];
         [dataEvent setCustomerViewData:viewData];
+    }
+    if (customData) {
+        [_customerCustomDataStore setCustomData:customData forPlayerName:name];
+        [dataEvent setCustomData:customData];
     }
     [MUXSDKCore dispatchEvent:dataEvent forPlayer:name];
 

@@ -4,13 +4,13 @@
 @import Mux_Stats_Google_IMA;
 
 static NSString *DEMO_PLAYER_NAME = @"demoplayer";
-NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostpod&cmsid=496&vid=short_onecue&correlator=";
+NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostlongpod&cmsid=496&vid=short_tencue&correlator=";
 
 @interface ViewController () {
     AVPlayer *_avplayer;
     AVPlayerViewController *_avplayerController;
-    NSTimer *_videoChangeTimer;
-
+    NSTimer *_timer;
+    
     // IMA SDK variables
     IMAAdsLoader *_adsLoader;
     IMAAdsManager *_adsManager;
@@ -26,42 +26,28 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
     [super viewDidLoad];
     _avplayerController = [AVPlayerViewController new];
     AVPlayer *player;
-    if ([self isTestingAds]) {
-       player = [self testImaSDK];
+    if ([[self testScenario] isEqualToString:@"IMA"]) {
+        player = [self testImaSDK];
+    } else if ([[self testScenario] isEqual:@"UPDATE_CUSTOM_DIMENSIONS"]) {
+        player = [self testUpdateCustomDimensions];
+    } else if ([[self testScenario] isEqual:@"CHANGE_VIDEO"]) {
+        player = [self testVideoChange];
     } else {
         player = [self testAVPlayer];
     }
-//    player = [self testAVQueuePlayer];
     [self setupAVPlayerViewController: player];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
-    if ([self isTestingAds]) {
+    if ([[self testScenario] isEqualToString:@"IMA"]) {
         NSString *adTagURL = [NSProcessInfo.processInfo.environment objectForKey:@"AD_TAG_URL"];
         if (adTagURL == nil) {
             adTagURL = kAdTagURLStringPreRollMidRollPostRoll;        }
         [self requestAdsWithURL:adTagURL];
     }
-    
 }
 
-- (BOOL) isTestingAds {
-    NSString *testScenario = [NSProcessInfo.processInfo.environment objectForKey:@"TEST_SCENARIO"];
-    return [testScenario isEqualToString:@"IMA"];
-}
-
-- (AVPlayer *)testImaSDK {
-    _adsLoader = [[IMAAdsLoader alloc] initWithSettings:nil];
-    _adsLoader.delegate = self;
-    NSURL *contentURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
-    AVPlayer *player = [AVPlayer playerWithURL:contentURL];
-    _contentPlayhead = [[IMAAVPlayerContentPlayhead alloc] initWithAVPlayer:player];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(contentDidFinishPlaying:)
-                                                 name:AVPlayerItemDidPlayToEndTimeNotification
-                                               object:player.currentItem];
-    return player;
-}
+#pragma mark - Request Ads
 
 - (void) requestAdsWithURL:(NSString *) adTagURL {
     IMAAdDisplayContainer *adDisplayContainer = [[IMAAdDisplayContainer alloc] initWithAdContainer:self.view viewController:self];
@@ -99,7 +85,6 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
        withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {} completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         [MUXSDKStats orientationChangeForPlayer:DEMO_PLAYER_NAME withOrientation:[self viewOrientationForSize:size]];
-
     }];
 }
 
@@ -137,6 +122,21 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
     [_imaListener onContentPauseOrResume:false];
 }
 
+#pragma mark Test Cases
+
+- (AVPlayer *)testImaSDK {
+    _adsLoader = [[IMAAdsLoader alloc] initWithSettings:nil];
+    _adsLoader.delegate = self;
+    NSURL *contentURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
+    AVPlayer *player = [AVPlayer playerWithURL:contentURL];
+    _contentPlayhead = [[IMAAVPlayerContentPlayhead alloc] initWithAVPlayer:player];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(contentDidFinishPlaying:)
+                                                 name:AVPlayerItemDidPlayToEndTimeNotification
+                                               object:player.currentItem];
+    return player;
+}
+
 - (AVPlayer *)testAVQueuePlayer {
     AVPlayerItem *item1 = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"]];
     AVPlayerItem *item2 = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"]];
@@ -147,32 +147,60 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
 - (AVPlayer *)testAVPlayer {
     NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
     AVPlayer *player = [AVPlayer playerWithURL:videoURL];
-    
-    // After 20 seconds, we'll change the video.
-    _videoChangeTimer = [NSTimer scheduledTimerWithTimeInterval:20.0
-                                                         target:self
-                                                       selector:@selector(changeVideo:)
-                                                       userInfo:nil
-                                                        repeats:NO];
+    return player;
+}
 
-//    // After 20 seconds, we'll change the program
-//    _videoChangeTimer = [NSTimer scheduledTimerWithTimeInterval:20.0
-//                                                         target:self
-//                                                       selector:@selector(changeProgram:)
-//                                                       userInfo:nil
-//                                                        repeats:NO];
+- (AVPlayer *)testVideoChange {
+    NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
+    AVPlayer *player = [AVPlayer playerWithURL:videoURL];
+    
+    // After 5 seconds, we'll change the video.
+    _timer = [NSTimer scheduledTimerWithTimeInterval:5.0
+                                              target:self
+                                            selector:@selector(changeVideo:)
+                                            userInfo:nil
+                                             repeats:NO];
+    return player;
+}
+
+- (AVPlayer *)testProgramChange{
+    NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
+    AVPlayer *player = [AVPlayer playerWithURL:videoURL];
+    
+    // After 5 seconds, we'll change the program
+    _timer = [NSTimer scheduledTimerWithTimeInterval:5.0
+                                              target:self
+                                            selector:@selector(changeProgram:)
+                                            userInfo:nil
+                                             repeats:NO];
+    return player;
+}
+
+- (AVPlayer *)testUpdateCustomDimensions {
+    NSURL *videoURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
+    AVPlayer *player = [AVPlayer playerWithURL:videoURL];
+    // After 5 seconds, we'll update the custom dimensions
+    _timer = [NSTimer scheduledTimerWithTimeInterval:5.0
+                                              target:self
+                                            selector:@selector(updateCustomData:)
+                                            userInfo:nil
+                                             repeats:NO];
     return player;
 }
 
 - (void)setupAVPlayerViewController:(AVPlayer *)player {
     _avplayer = player;
     _avplayerController.player = _avplayer;
-
+    
     // TODO: Add your property key!
     NSString *envKey = [NSProcessInfo.processInfo.environment objectForKey:@"ENV_KEY"];
     if(envKey == nil) {
         envKey = @"YOUR_ENV_KEY_HERE";
     }
+    MUXSDKCustomData *customData = [[MUXSDKCustomData alloc] init];
+    // We use c1 to tag which views were generated by which test cases
+    [customData setCustomData1:[self testScenario]];
+    [customData setCustomData2:@"my-custom-dimension-2"];
     MUXSDKCustomerPlayerData *playerData = [[MUXSDKCustomerPlayerData alloc] initWithPropertyKey:envKey];
     MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
     videoData.videoTitle = @"Big Buck Bunny";
@@ -180,7 +208,7 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
     videoData.videoSeries = @"animation";
     MUXSDKCustomerViewData *viewData= [[MUXSDKCustomerViewData alloc] init];
     viewData.viewSessionId = @"some session id";
-    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:playerData videoData:videoData viewData:viewData];
+    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:playerData videoData:videoData viewData:viewData customData: customData];
     _playerBinding = [MUXSDKStats monitorAVPlayerViewController:_avplayerController withPlayerName:DEMO_PLAYER_NAME customerData:customerData];
     _imaListener = [[MuxImaListener alloc] initWithPlayerBinding:_playerBinding];
     [_avplayer play];
@@ -194,8 +222,15 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
     MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
     videoData.videoTitle = @"Apple Keynote";
     videoData.videoId = @"applekeynote2010";
+    MUXSDKCustomData *customData = [[MUXSDKCustomData alloc] init];
+    [customData setCustomData1:[self testScenario]];
+    [customData setCustomData2:@"change-video-to-apple-keynote"];
+    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] init];
+    customerData.customData = customData;
+    customerData.customerVideoData = videoData;
+    
     [MUXSDKStats videoChangeForPlayer:DEMO_PLAYER_NAME
-                        withVideoData:videoData];
+                     withCustomerData:customerData];
     NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
     AVPlayerItem *keynote = [AVPlayerItem playerItemWithURL:videoURL];
     [_avplayer replaceCurrentItemWithPlayerItem:keynote];
@@ -206,14 +241,19 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
     MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
     videoData.videoTitle = @"Apple Keynote";
     videoData.videoId = @"applekeynote2010";
-    [MUXSDKStats programChangeForPlayer:DEMO_PLAYER_NAME
-                        withVideoData:videoData];
+    [MUXSDKStats programChangeForPlayer:DEMO_PLAYER_NAME withVideoData:videoData];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void) updateCustomData:(NSTimer *)timer {
+    MUXSDKCustomData *customData = [[MUXSDKCustomData alloc] init];
+    [customData setCustomData2:@"update-custom-dimension-2"];
+    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] init];
+    customerData.customData = customData;
+    [MUXSDKStats setCustomerData:customerData forPlayer:DEMO_PLAYER_NAME];
 }
 
+- (NSString *) testScenario {
+    return [NSProcessInfo.processInfo.environment objectForKey:@"TEST_SCENARIO"];
+}
 
 @end
