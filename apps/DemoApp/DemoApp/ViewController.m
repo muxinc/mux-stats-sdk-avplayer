@@ -85,7 +85,6 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
        withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {} completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         [MUXSDKStats orientationChangeForPlayer:DEMO_PLAYER_NAME withOrientation:[self viewOrientationForSize:size]];
-        
     }];
 }
 
@@ -242,8 +241,7 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
     MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
     videoData.videoTitle = @"Apple Keynote";
     videoData.videoId = @"applekeynote2010";
-    [MUXSDKStats programChangeForPlayer:DEMO_PLAYER_NAME
-                          withVideoData:videoData];
+    [MUXSDKStats programChangeForPlayer:DEMO_PLAYER_NAME withVideoData:videoData];
 }
 
 - (void) updateCustomData:(NSTimer *)timer {
