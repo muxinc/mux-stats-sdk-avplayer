@@ -1,5 +1,5 @@
 PODS:
-  - Mux-Stats-Core (3.3.0)
+  - Mux-Stats-Core (3.4.0)
 
 DEPENDENCIES:
   - Mux-Stats-Core (from `https://github.com/muxinc/stats-sdk-objc.git`, branch `bmulligan/customer-viewer-data`)
@@ -11,12 +11,12 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Mux-Stats-Core:
-    :commit: 8a4a6c9de5493c4ef242b85ed9434710f4bed70a
+    :commit: 49ed04297d73d1be61fadab11eb1d929291b1952
     :git: https://github.com/muxinc/stats-sdk-objc.git
 
 SPEC CHECKSUMS:
-  Mux-Stats-Core: edd64a5cf21858bb5ea7b860ee35eb07c3e417ba
+  Mux-Stats-Core: 95905303d4b7fdf3996afef5d203b69becc08c5a
 
-PODFILE CHECKSUM: a9ecb1fef62ed7f4f6bc1a696170438ddcbfadb5
+PODFILE CHECKSUM: 97d4dbc9ec812a01c7f4495443e6355ac3d09bc2
 
 COCOAPODS: 1.10.1

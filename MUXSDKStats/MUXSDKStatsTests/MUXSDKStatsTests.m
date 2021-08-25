@@ -48,11 +48,11 @@
 @end
 
 @implementation MUXSDKStatsTests
-static const NSString *BANDWIDTH = @"BANDWIDTH";
-static const NSString *FRAMERATE = @"FRAME-RATE";
-static const NSString *X = @"X";
-static const NSString *Y = @"Y";
-static const NSString *Z = @"Z";
+static NSString *BANDWIDTH = @"BANDWIDTH";
+static NSString *FRAMERATE = @"FRAME-RATE";
+static NSString *X = @"X";
+static NSString *Y = @"Y";
+static NSString *Z = @"Z";
 
 - (void) setUp {
     [super setUp];
@@ -124,6 +124,14 @@ static const NSString *Z = @"Z";
     }
 }
 
+- (void) assertPlayer:(NSString *)name dispatchedDataEventsAtIndex: (int) index withCustomData:(NSDictionary *) expected {
+    MUXSDKDataEvent *dataEvent;
+    MUXSDKCustomData *customData;
+    dataEvent = (MUXSDKDataEvent * ) [MUXSDKCore eventAtIndex:index forPlayer:name];
+    customData = [dataEvent customData];
+    XCTAssertTrue([[customData toQuery] isEqualToDictionary:expected]);
+}
+
 - (void) assertPlayer:(NSString *)name dispatchedDataEventsAtIndex: (int) index withCustomerViewData:(NSDictionary *) expected {
     MUXSDKDataEvent *dataEvent;
     MUXSDKCustomerViewData *viewData;
@@ -148,7 +156,32 @@ static const NSString *Z = @"Z";
     XCTAssertTrue([[videoData toQuery] isEqualToDictionary:expected]);
 }
 
-#pragma mark - Video Change tests
+- (void)testVideoChangeForAVPlayerViewControllerWithCustomData{
+    MuxMockAVPlayerViewController *controller = [[MuxMockAVPlayerViewController alloc] init];
+    MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
+    MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
+    [customerVideoData setVideoTitle:@"01234"];
+    MUXSDKCustomData *customData = [[MUXSDKCustomData alloc] init];
+    [customData setCustomData1:@"foo"];
+    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
+                                                                                    videoData:customerVideoData
+                                                                                     viewData:nil
+                                                                                   customData:customData];
+
+    NSString *playName = @"Player";
+    MUXSDKPlayerBinding *playerBinding = [MUXSDKStats monitorAVPlayerViewController:controller withPlayerName:playName customerData:customerData];
+    XCTAssertNotNil(playerBinding, "expected monitorAVPlayerViewController to return a playerBinding");
+    [customData setCustomData1:@"bar"];
+    [MUXSDKStats videoChangeForPlayer:playName withCustomerData:customerData];
+    NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventPlayerReadyEventType,
+                                    MUXSDKPlaybackEventViewEndEventType
+    ];
+    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
+    [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomData:@{@"c1": @"bar"}];
+    [MUXSDKStats destroyPlayer:playName];
+}
 
 - (void)testVideoChangeForAVPlayerViewControllerWithCustomerViewData{
     MuxMockAVPlayerViewController *controller = [[MuxMockAVPlayerViewController alloc] init];
@@ -159,8 +192,7 @@ static const NSString *Z = @"Z";
     [customerViewData setViewSessionId:@"foo"];
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
                                                                                     videoData:customerVideoData
-                                                                                     viewData:customerViewData
-                                                                                   viewerData:nil];
+                                                                                     viewData:customerViewData];
 
     NSString *playName = @"Player";
     MUXSDKPlayerBinding *playerBinding = [MUXSDKStats monitorAVPlayerViewController:controller withPlayerName:playName customerData:customerData];
@@ -184,8 +216,7 @@ static const NSString *Z = @"Z";
     [customerVideoData setVideoTitle:@"01234"];
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
                                                                                     videoData:customerVideoData
-                                                                                     viewData:nil
-                                                                                   viewerData:nil];
+                                                                                     viewData:nil];
 
     NSString *playName = @"Player";
     MUXSDKPlayerBinding *playerBinding = [MUXSDKStats monitorAVPlayerViewController:controller withPlayerName:playName customerData:customerData];
@@ -209,8 +240,7 @@ static const NSString *Z = @"Z";
     [customerVideoData setVideoTitle:@"01234"];
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
                                                                                     videoData:customerVideoData
-                                                                                     viewData:nil
-                                                                                   viewerData:nil];
+                                                                                     viewData:nil];
 
     NSURL* firstVideoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
     AVPlayerItem *firstItem = [AVPlayerItem playerItemWithURL:firstVideoURL];
@@ -280,8 +310,7 @@ static const NSString *Z = @"Z";
     [customerViewData setViewSessionId:@"foo"];
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
                                                                                     videoData:customerVideoData
-                                                                                     viewData:customerViewData
-                                                                                   viewerData:nil];
+                                                                                     viewData:customerViewData];
 
     NSString *playName = @"Player";
     MUXSDKPlayerBinding *playerBinding = [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
@@ -305,8 +334,7 @@ static const NSString *Z = @"Z";
     [customerVideoData setVideoTitle:@"01234"];
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
                                                                                     videoData:customerVideoData
-                                                                                     viewData:nil
-                                                                                   viewerData:nil];
+                                                                                     viewData:nil];
 
     NSString *playName = @"Player";
     MUXSDKPlayerBinding *playerBinding = [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
@@ -330,8 +358,7 @@ static const NSString *Z = @"Z";
     [customerVideoData setVideoTitle:@"01234"];
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
                                                                                     videoData:customerVideoData
-                                                                                     viewData:nil
-                                                                                   viewerData:nil];
+                                                                                     viewData:nil];
 
     NSURL* firstVideoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
     AVPlayerItem *firstItem = [AVPlayerItem playerItemWithURL:firstVideoURL];
@@ -400,8 +427,7 @@ static const NSString *Z = @"Z";
     [customerVideoData setVideoTitle:@"01234"];
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
                                                                                     videoData:customerVideoData
-                                                                                     viewData:nil
-                                                                                   viewerData:nil];
+                                                                                     viewData:nil];
 
     NSString *playName = @"Player";
     MUXSDKPlayerBinding *playerBinding = [MUXSDKStats monitorAVPlayerViewController:controller withPlayerName:playName customerData:customerData];
@@ -419,9 +445,31 @@ static const NSString *Z = @"Z";
     [MUXSDKStats destroyPlayer:playName];
 }
 
-#pragma mark - CustomerData tests
+- (void)testUpdateCustomerDataWithCustomData {
+    MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
+    MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
+    MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
+    MUXSDKCustomData *customData = [[MUXSDKCustomData alloc] init];
+    [customData setCustomData1:@"foo"];
+    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
+                                                                                    videoData:customerVideoData
+                                                                                     viewData:nil
+                                                                                   customData:customData];
+    NSString *playName = @"Player";
+    [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
+    customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:nil videoData:nil viewData:nil];
+    [MUXSDKStats setCustomerData:customerData forPlayer:playName];
+    NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventPlayerReadyEventType
+    ];
+    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
+    [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomerVideoData:@{}];
+    [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomData:@{@"c1" : @"foo"}];
+    [MUXSDKStats destroyPlayer:playName];
+}
 
-- (void)testUpdateCustomerDataWithNulls{
+- (void)testupdateCustomerDataWithNulls{
     MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
     MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
     MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
@@ -429,14 +477,10 @@ static const NSString *Z = @"Z";
     [customerViewData setViewSessionId:@"foo"];
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
                                                                                     videoData:customerVideoData
-                                                                                     viewData:customerViewData
-                                                                                   viewerData:nil];
+                                                                                     viewData:customerViewData];
     NSString *playName = @"Player";
     [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
-     customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:nil
-                                                                 videoData:nil
-                                                                  viewData:nil
-                                                                viewerData:nil];
+    customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:nil videoData:nil viewData:nil];
     [MUXSDKStats setCustomerData:customerData forPlayer:playName];
     NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                                     MUXSDKDataEventType,
@@ -457,16 +501,12 @@ static const NSString *Z = @"Z";
     [customerViewData setViewSessionId:@"foo"];
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
                                                                                     videoData:customerVideoData
-                                                                                     viewData:customerViewData
-                                                                                   viewerData:nil];
+                                                                                     viewData:customerViewData];
     NSString *playName = @"Player";
     [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
     [customerPlayerData setPlayerVersion:@"playerVersionV1"];
     [customerViewData setViewSessionId:@"baz"];
-    customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
-                                                                videoData:nil
-                                                                 viewData:customerViewData
-                                                               viewerData:nil];
+    customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData videoData:nil viewData:customerViewData];
     [MUXSDKStats setCustomerData:customerData forPlayer:playName];
     NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                                     MUXSDKDataEventType,
@@ -485,16 +525,11 @@ static const NSString *Z = @"Z";
     MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
                                                                                     videoData:customerVideoData
-                                                                                     viewData:nil
-                                                                                   viewerData:nil];
+                                                                                     viewData:nil];
     NSString *playName = @"Player";
     [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
     [customerPlayerData setPlayerVersion:@"playerVersionV1"];
-     customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
-                                                                 videoData:nil
-                                                                  viewData:nil
-                                                                viewerData:nil];
-
+    customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData videoData:nil viewData:nil];
     [MUXSDKStats setCustomerData:customerData forPlayer:playName];
     NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                                     MUXSDKDataEventType,
@@ -511,17 +546,14 @@ static const NSString *Z = @"Z";
     MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
                                                                                     videoData:customerVideoData
-                                                                                     viewData:nil
-                                                                                   viewerData:nil];
+                                                                                     viewData:nil];
 
     NSString *playName = @"Player";
     [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
     [customerVideoData setVideoTitle:@"Updated VideoTitle"];
     customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:nil
                                                                 videoData:customerVideoData
-                                                                 viewData:nil
-                                                               viewerData:nil];
-
+                                                                 viewData:nil];
     [MUXSDKStats setCustomerData:customerData forPlayer:playName];
     NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                                     MUXSDKDataEventType,
@@ -544,6 +576,7 @@ static const NSString *Z = @"Z";
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:nil
                                                                                     videoData:nil
                                                                                      viewData:nil
+                                                                                   customData:nil
                                                                                    viewerData:customerViewerData];
     [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
 
@@ -551,6 +584,7 @@ static const NSString *Z = @"Z";
     customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:nil
                                                                 videoData:nil
                                                                  viewData:nil
+                                                               customData:nil
                                                                viewerData:nil];
     [MUXSDKStats setCustomerData:customerData forPlayer:playName];
 
@@ -558,6 +592,7 @@ static const NSString *Z = @"Z";
     customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:nil
                                                                 videoData:nil
                                                                  viewData:nil
+                                                               customData:nil
                                                                viewerData:customerViewerData];
     [MUXSDKStats setCustomerData:customerData forPlayer:playName];
 
@@ -577,8 +612,7 @@ static const NSString *Z = @"Z";
     MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
                                                                                     videoData:customerVideoData
-                                                                                     viewData:nil
-                                                                                   viewerData:nil];
+                                                                                     viewData:nil];
     [customerVideoData setVideoTitle:@"01234"];
     NSString *playName = @"Player";
     [MUXSDKStats monitorAVPlayerViewController:controller withPlayerName:playName customerData:customerData];
@@ -599,8 +633,7 @@ static const NSString *Z = @"Z";
     MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
                                                                                     videoData:customerVideoData
-                                                                                     viewData:nil
-                                                                                   viewerData:nil];
+                                                                                     viewData:nil];
 
     NSString *playName = @"Player";
     [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
@@ -638,8 +671,7 @@ static const NSString *Z = @"Z";
     MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
                                                                                     videoData:customerVideoData
-                                                                                     viewData:nil
-                                                                                   viewerData:nil];
+                                                                                     viewData:nil];
 
     NSString *playName = @"Player";
     [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
@@ -685,8 +717,7 @@ static const NSString *Z = @"Z";
     MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
                                                                                     videoData:customerVideoData
-                                                                                     viewData:nil
-                                                                                   viewerData:nil];
+                                                                                     viewData:nil];
 
     NSString *playName = @"Player";
     [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
@@ -724,8 +755,7 @@ static const NSString *Z = @"Z";
     MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
                                                                                     videoData:customerVideoData
-                                                                                     viewData:nil
-                                                                                   viewerData:nil];
+                                                                                     viewData:nil];
 
     NSString *playName = @"Player";
     [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
@@ -788,8 +818,7 @@ static const NSString *Z = @"Z";
     MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
                                                                                     videoData:customerVideoData
-                                                                                     viewData:nil
-                                                                                   viewerData:nil];
+                                                                                     viewData:nil];
 
     NSString *playName = @"Player";
     [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
