@@ -208,7 +208,13 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
     videoData.videoSeries = @"animation";
     MUXSDKCustomerViewData *viewData= [[MUXSDKCustomerViewData alloc] init];
     viewData.viewSessionId = @"some session id";
-    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:playerData videoData:videoData viewData:viewData customData: customData];
+    MUXSDKCustomerViewerData *viewerData = [[MUXSDKCustomerViewerData alloc] init];
+    viewerData.viewerApplicationName = @"MUX DemoApp";
+    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:playerData
+                                                                                    videoData:videoData
+                                                                                     viewData:viewData
+                                                                                   customData:customData
+                                                                                   viewerData:viewerData];
     _playerBinding = [MUXSDKStats monitorAVPlayerViewController:_avplayerController withPlayerName:DEMO_PLAYER_NAME customerData:customerData];
     _imaListener = [[MuxImaListener alloc] initWithPlayerBinding:_playerBinding];
     [_avplayer play];

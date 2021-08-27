@@ -28,13 +28,16 @@ class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAd
 //        player = self.testAvQueuePlayer()
 //        player = self.testImaSDK()
 
-        let playerData = MUXSDKCustomerPlayerData(environmentKey: "ENV_KEY");
+        let playerData = MUXSDKCustomerPlayerData(environmentKey: "ENV_KEY")
         playerData?.playerName = "AVPlayer"
-        let videoData = MUXSDKCustomerVideoData();
-        videoData.videoIsLive = false;
+        let videoData = MUXSDKCustomerVideoData()
+        videoData.videoIsLive = false
         videoData.videoTitle = "Title1"
-        guard let customerData = MUXSDKCustomerData(customerPlayerData: playerData, videoData: videoData, viewData: nil) else {
-            return;
+        let viewerData = MUXSDKCustomerViewerData()
+        viewerData.viewerApplicationName = "MUX video-demo"
+
+        guard let customerData = MUXSDKCustomerData(customerPlayerData: playerData, videoData: videoData, viewData: nil, customData: nil, viewerData: viewerData) else {
+            return
         }
         let playerBinding = MUXSDKStats.monitorAVPlayerViewController(self, withPlayerName: playName, customerData: customerData)
         imaListener = MuxImaListener.init(playerBinding: playerBinding!)
@@ -42,8 +45,8 @@ class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAd
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        self.requestAds();
-        super.viewDidAppear(animated);
+        self.requestAds()
+        super.viewDidAppear(animated)
     }
 
     func testAvPlayer () -> AVPlayer {
@@ -58,7 +61,7 @@ class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAd
         player = AVPlayer(playerItem: item1)
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) { // Change `5.0` to the desired number of seconds.
            // Code you want to be delayed
-            let videoData = MUXSDKCustomerVideoData();
+            let videoData = MUXSDKCustomerVideoData()
             videoData.videoTitle = "Title2"
             videoData.videoId = "applekeynote2010-2"
             MUXSDKStats.videoChange(forPlayer: self.playName, with: videoData)
@@ -109,7 +112,7 @@ class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAd
     }
 
     @objc func playerItemDidReachEnd (notification: NSNotification) {
-        let videoData = MUXSDKCustomerVideoData();
+        let videoData = MUXSDKCustomerVideoData()
         videoData.videoTitle = "Title2"
         videoData.videoId = "applekeynote2010-2"
         MUXSDKStats.videoChange(forPlayer: self.playName, with: videoData)
@@ -133,17 +136,17 @@ class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAd
 
     func cleanUp() {
         NotificationCenter.default.removeObserver(playComplete)
-        MUXSDKStats.destroyPlayer(playName);
+        MUXSDKStats.destroyPlayer(playName)
         player?.pause()
         player = nil
     }
 
     // pragma mark - IMAAdsLoaderDelegate
     func adsLoader(_ loader: IMAAdsLoader!, adsLoadedWith adsLoadedData: IMAAdsLoadedData!) {
-        adsManager = adsLoadedData.adsManager;
-        adsManager.delegate = self;
+        adsManager = adsLoadedData.adsManager
+        adsManager.delegate = self
         let adsRenderingSettings = IMAAdsRenderingSettings.init()
-        adsRenderingSettings.linkOpenerPresentingController = self;
+        adsRenderingSettings.linkOpenerPresentingController = self
         adsManager.initialize(with: adsRenderingSettings)
     }
 
