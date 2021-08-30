@@ -36,6 +36,7 @@ static MUXSDKCustomerPlayerDataStore *_customerPlayerDataStore;
 static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
 static MUXSDKCustomerViewDataStore *_customerViewDataStore;
 static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
+static MUXSDKCustomerViewerData *_customerViewerData;
 
 + (void)initSDK {
     if (!_bindings) {
@@ -66,6 +67,15 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
     }
 
     // Provide EnvironmentData and ViewerData to Core.
+    MUXSDKEnvironmentData *environmentData = [self buildEnvironmentData];
+    MUXSDKViewerData *viewerData = [self buildViewerData];
+    MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
+    [dataEvent setEnvironmentData:environmentData];
+    [dataEvent setViewerData:viewerData];
+    [MUXSDKCore dispatchGlobalDataEvent:dataEvent];
+}
+
++ (MUXSDKEnvironmentData *)buildEnvironmentData {
     MUXSDKEnvironmentData *environmentData = [[MUXSDKEnvironmentData alloc] init];
     [environmentData setMuxViewerId:[self getUUIDString]];
     /*
@@ -74,11 +84,20 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
         [environmentData setDebug:debugData];
     }
     */
+    return environmentData;
+}
+
++ (MUXSDKViewerData *)buildViewerData {
     MUXSDKViewerData *viewerData = [[MUXSDKViewerData alloc] init];
-    NSString *bundleId = [[NSBundle mainBundle] bundleIdentifier];
-    if (bundleId) {
-        [viewerData setViewerApplicationName:bundleId];
+
+    NSString *applicationName = [_customerViewerData viewerApplicationName];
+    if (applicationName == nil) {
+        applicationName = [[NSBundle mainBundle] bundleIdentifier];
     }
+    if (applicationName != nil) {
+        [viewerData setViewerApplicationName:applicationName];
+    }
+
     NSString *bundleShortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
     if (bundleShortVersion && bundleVersion) {
@@ -118,10 +137,7 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
     [viewerData setViewerDeviceCategory:deviceCategory];
     [viewerData setViewerOsFamily:osFamily];
     [viewerData setViewerOsVersion:[[UIDevice currentDevice] systemVersion]];
-    MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
-    [dataEvent setEnvironmentData:environmentData];
-    [dataEvent setViewerData:viewerData];
-    [MUXSDKCore dispatchGlobalDataEvent:dataEvent];
+    return viewerData;
 }
 
 #pragma mark Monitor AVPlayerViewController
@@ -139,6 +155,11 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
                                                  withPlayerName:(nonnull NSString *)name
                                                    customerData:(nonnull MUXSDKCustomerData *)customerData
                                          automaticErrorTracking:(BOOL)automaticErrorTracking {
+    
+    MUXSDKCustomerViewerData *viewerData = [customerData customerViewerData];
+    if (viewerData != nil) {
+        _customerViewerData = viewerData;
+    }
 
     [self initSDK];
     NSString *binding = [_bindings valueForKey:name];
@@ -186,7 +207,7 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
                                     playerData:playerData
                                      videoData:videoData
                                       viewData:nil
-                        automaticErrorTracking: true];
+                        automaticErrorTracking:true];
 }
 
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
@@ -199,7 +220,7 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
                                     playerData:playerData
                                      videoData:videoData
                                       viewData:viewData
-                        automaticErrorTracking: true];
+                        automaticErrorTracking:true];
 }
 
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
@@ -266,6 +287,11 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
                                         withPlayerName:(nonnull NSString *)name
                                           customerData:(nonnull MUXSDKCustomerData *)customerData
                                 automaticErrorTracking:(BOOL) automaticErrorTracking {
+    
+    MUXSDKCustomerViewerData *viewerData = [customerData customerViewerData];
+    if (viewerData != nil) {
+        _customerViewerData = viewerData;
+    }
 
     [self initSDK];
     NSString *binding = [_bindings valueForKey:name];
@@ -485,25 +511,36 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
     MUXSDKCustomerVideoData *videoData = [customerData customerVideoData];
     MUXSDKCustomData *customData = [customerData customData];
 
-    if (!playerData && !videoData && !viewData && !customData) return;
-    MUXSDKDataEvent *dataEvent = [MUXSDKDataEvent new];
-    if (playerData) {
-        [_customerPlayerDataStore setPlayerData:playerData forPlayerName:name];
-        [dataEvent setCustomerPlayerData:playerData];
+    if (playerData || videoData || viewData || customData) {
+        MUXSDKDataEvent *dataEvent = [MUXSDKDataEvent new];
+        if (playerData) {
+            [_customerPlayerDataStore setPlayerData:playerData forPlayerName:name];
+            [dataEvent setCustomerPlayerData:playerData];
+        }
+        if (videoData) {
+            [_customerVideoDataStore setVideoData:videoData forPlayerName:name];
+            [dataEvent setCustomerVideoData:videoData];
+        }
+        if (viewData) {
+            [_customerViewDataStore setViewData:viewData forPlayerName:name];
+            [dataEvent setCustomerViewData:viewData];
+        }
+        if (customData) {
+            [_customerCustomDataStore setCustomData:customData forPlayerName:name];
+            [dataEvent setCustomData:customData];
+        }
+        [MUXSDKCore dispatchEvent:dataEvent forPlayer:name];
     }
-    if (videoData) {
-        [_customerVideoDataStore setVideoData:videoData forPlayerName:name];
-        [dataEvent setCustomerVideoData:videoData];
+    
+    // Dispatch global data event if viewer data provided
+    MUXSDKCustomerViewerData *customerViewerData = [customerData customerViewerData];
+    if (customerViewerData) {
+        _customerViewerData = customerViewerData;
+        MUXSDKViewerData *viewerData = [self buildViewerData];
+        MUXSDKDataEvent *dataEvent = [MUXSDKDataEvent new];
+        [dataEvent setViewerData:viewerData];
+        [MUXSDKCore dispatchGlobalDataEvent:dataEvent];
     }
-    if (viewData) {
-        [_customerViewDataStore setViewData:viewData forPlayerName:name];
-        [dataEvent setCustomerViewData:viewData];
-    }
-    if (customData) {
-        [_customerCustomDataStore setCustomData:customData forPlayerName:name];
-        [dataEvent setCustomData:customData];
-    }
-    [MUXSDKCore dispatchEvent:dataEvent forPlayer:name];
 
 }
 

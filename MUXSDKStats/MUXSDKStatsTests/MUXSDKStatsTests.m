@@ -66,6 +66,18 @@ static NSString *Z = @"Z";
     [MUXSDKCore resetCapturedEvents];
 }
 
+- (void) assertDispatchedGlobalEventTypes:(NSArray *) expectedEventTypes {
+    NSInteger expectedCount = expectedEventTypes.count;
+    NSInteger actualCount = [MUXSDKCore globalEventsCount];
+    XCTAssertEqual(expectedCount, actualCount, @"expected: %ld events got: %ld events.", (long)expectedCount, (long)actualCount);
+    for (int i = 0; i < expectedEventTypes.count; i++) {
+        MUXSDKDataEvent *event = [MUXSDKCore globalEventAtIndex:i];
+        NSString *expectedType = [expectedEventTypes objectAtIndex:i];
+        NSString *actualType = [event getType];
+        XCTAssertEqual(expectedType, actualType, @"index [%d] expected event type: %@ got event type: %@", i, expectedType, actualType);
+    }
+}
+
 - (void) assertPlayer:(NSString *)name dispatchedPlaybackEvents:(NSDictionary *) expectedViewData {
     MUXSDKPlaybackEvent *playbackEvent;
     MUXSDKViewData *viewData;
@@ -528,7 +540,7 @@ static NSString *Z = @"Z";
     [MUXSDKStats destroyPlayer:playName];
 }
 
-- (void)testupdateCustomerDataWithNullPlayerDataAndVideoData{
+- (void)testUpdateCustomerDataWithNullPlayerDataAndVideoData{
     MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
     MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
     MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
@@ -552,6 +564,48 @@ static NSString *Z = @"Z";
     [MUXSDKStats destroyPlayer:playName];
 }
 
+- (void)testUpdateCustomerDataViewerData {
+    NSString *playName = @"Player";
+    NSString *applicationName1 = @"appName1";
+    NSString *applicationName2 = @"appName2";
+
+    MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
+    MUXSDKCustomerViewerData *customerViewerData = [[MUXSDKCustomerViewerData alloc] init];
+    [customerViewerData setViewerApplicationName:applicationName1];
+
+    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:nil
+                                                                                    videoData:nil
+                                                                                     viewData:nil
+                                                                                   customData:nil
+                                                                                   viewerData:customerViewerData];
+    [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
+
+    // Sending CustomerData with nil viewerData should not emit an event
+    customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:nil
+                                                                videoData:nil
+                                                                 viewData:nil
+                                                               customData:nil
+                                                               viewerData:nil];
+    [MUXSDKStats setCustomerData:customerData forPlayer:playName];
+
+    [customerViewerData setViewerApplicationName:applicationName2];
+    customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:nil
+                                                                videoData:nil
+                                                                 viewData:nil
+                                                               customData:nil
+                                                               viewerData:customerViewerData];
+    [MUXSDKStats setCustomerData:customerData forPlayer:playName];
+
+    NSArray *expectedEventTypes = @[MUXSDKDataEventType,
+                                    MUXSDKDataEventType
+    ];
+    [self assertDispatchedGlobalEventTypes:expectedEventTypes];
+    XCTAssertEqual([[MUXSDKCore globalEventAtIndex:0] viewerData].viewerApplicationName, applicationName1);
+    XCTAssertEqual([[MUXSDKCore globalEventAtIndex:1] viewerData].viewerApplicationName, applicationName2);
+    [MUXSDKStats destroyPlayer:playName];
+}
+
+
 - (void)testDestroyPlayer {
     MuxMockAVPlayerViewController *controller = [[MuxMockAVPlayerViewController alloc] init];
     MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"ENV_KEY"];
@@ -570,6 +624,8 @@ static NSString *Z = @"Z";
     ];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
 }
+
+#pragma mark - Orientation & Rendition tests
 
 - (void) testOrientationChangeEvent {
     MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];

@@ -24,6 +24,8 @@
 + (void) resetCapturedEvents;
 + (id<MUXSDKEventTyping>) eventAtIndex:(NSUInteger) index forPlayer:(NSString *)playerId;
 + (NSUInteger) eventsCountForPlayer:(NSString *)playerId;
++ (MUXSDKDataEvent *) globalEventAtIndex:(NSUInteger)index;
++ (NSUInteger) globalEventsCount;
 
 @end
 
