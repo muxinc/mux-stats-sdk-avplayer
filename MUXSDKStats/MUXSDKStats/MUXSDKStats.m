@@ -144,18 +144,10 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
                                                  withPlayerName:(nonnull NSString *)name
-                                                   customerData:(nonnull MUXSDKCustomerData *)customerData {
-    return [self monitorAVPlayerViewController:player
-                                withPlayerName:name
-                                  customerData:customerData
-                        automaticErrorTracking:true];
-}
-
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
-                                                 withPlayerName:(nonnull NSString *)name
                                                    customerData:(nonnull MUXSDKCustomerData *)customerData
-                                         automaticErrorTracking:(BOOL)automaticErrorTracking {
-    
+                                         automaticErrorTracking:(BOOL)automaticErrorTracking
+                                               collectionDomain:(nullable NSString *)domain {
+
     MUXSDKCustomerViewerData *viewerData = [customerData customerViewerData];
     if (viewerData != nil) {
         _customerViewerData = viewerData;
@@ -176,6 +168,10 @@ static MUXSDKCustomerViewerData *_customerViewerData;
         MUXSDKAVPlayerViewControllerBinding *newBinding = [[MUXSDKAVPlayerViewControllerBinding alloc] initWithName:name software:MuxPlayerSoftwareAVPlayerViewController andView:player];
         [newBinding setAutomaticErrorTracking:automaticErrorTracking];
         newBinding.playDispatchDelegate = _playerBindingManager;
+        if (domain != nil && domain.length > 0) {
+            [MUXSDKCore setCollectionDomain:domain forPlayer:name];
+        }
+
         [_customerPlayerDataStore setPlayerData:playerData forPlayerName:name];
         if (videoData) {
             [_customerVideoDataStore setVideoData:videoData forPlayerName:name];
@@ -196,6 +192,30 @@ static MUXSDKCustomerViewerData *_customerViewerData;
         NSLog(@"MUXSDK-ERROR - Mux failed to configure the monitor because AVPlayerViewController.player was NULL for player name: %@", name);
         return NULL;
     }
+}
+
+
+
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
+                                                 withPlayerName:(nonnull NSString *)name
+                                                   customerData:(nonnull MUXSDKCustomerData *)customerData
+                                         automaticErrorTracking:(BOOL)automaticErrorTracking {
+    return [self monitorAVPlayerViewController:player
+                                withPlayerName:name
+                                  customerData:customerData
+                        automaticErrorTracking:true
+                              collectionDomain:nil];
+
+}
+
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
+                                                 withPlayerName:(nonnull NSString *)name
+                                                   customerData:(nonnull MUXSDKCustomerData *)customerData {
+    return [self monitorAVPlayerViewController:player
+                                withPlayerName:name
+                                  customerData:customerData
+                        automaticErrorTracking:true
+                              collectionDomain:nil];
 }
 
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
@@ -275,19 +295,9 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
                                         withPlayerName:(nonnull NSString *)name
-                                          customerData:(nonnull MUXSDKCustomerData *)customerData {
-
-    return [self monitorAVPlayerLayer:player
-                       withPlayerName:name
-                         customerData:customerData
-               automaticErrorTracking:true];
-}
-
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
-                                        withPlayerName:(nonnull NSString *)name
                                           customerData:(nonnull MUXSDKCustomerData *)customerData
-                                automaticErrorTracking:(BOOL) automaticErrorTracking {
-    
+                                automaticErrorTracking:(BOOL)automaticErrorTracking
+                                      collectionDomain:(nullable NSString *)domain {
     MUXSDKCustomerViewerData *viewerData = [customerData customerViewerData];
     if (viewerData != nil) {
         _customerViewerData = viewerData;
@@ -308,6 +318,10 @@ static MUXSDKCustomerViewerData *_customerViewerData;
         MUXSDKAVPlayerLayerBinding *newBinding = [[MUXSDKAVPlayerLayerBinding alloc] initWithName:name software:MuxPlayerSoftwareAVPlayerLayer andView:player];
         newBinding.playDispatchDelegate = _playerBindingManager;
         [newBinding setAutomaticErrorTracking:automaticErrorTracking];
+        if (domain != nil && domain.length > 0) {
+            [MUXSDKCore setCollectionDomain:domain forPlayer:name];
+        }
+
         [_customerPlayerDataStore setPlayerData:playerData forPlayerName:name];
         if (videoData) {
             [_customerVideoDataStore setVideoData:videoData forPlayerName:name];
@@ -328,7 +342,28 @@ static MUXSDKCustomerViewerData *_customerViewerData;
         NSLog(@"MUXSDK-ERROR - Mux failed to configure the monitor because AVPlayerLayer.player was NULL for player name: %@", name);
         return NULL;
     }
+}
 
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
+                                        withPlayerName:(nonnull NSString *)name
+                                          customerData:(nonnull MUXSDKCustomerData *)customerData
+                                automaticErrorTracking:(BOOL)automaticErrorTracking {
+
+    return [self monitorAVPlayerLayer:player
+                       withPlayerName:name
+                         customerData:customerData
+               automaticErrorTracking:true
+                     collectionDomain:nil];
+}
+
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
+                                        withPlayerName:(nonnull NSString *)name
+                                          customerData:(nonnull MUXSDKCustomerData *)customerData {
+
+    return [self monitorAVPlayerLayer:player
+                       withPlayerName:name
+                         customerData:customerData
+               automaticErrorTracking:true];
 }
 
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
