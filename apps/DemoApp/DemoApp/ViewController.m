@@ -25,6 +25,7 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
 - (void)viewDidLoad {
     [super viewDidLoad];
     _avplayerController = [AVPlayerViewController new];
+    _avplayerController.view.accessibilityIdentifier = @"AVPlayerView";
     AVPlayer *player;
     if ([[self testScenario] isEqualToString:@"IMA"]) {
         player = [self testImaSDK];
@@ -32,6 +33,8 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
         player = [self testUpdateCustomDimensions];
     } else if ([[self testScenario] isEqual:@"CHANGE_VIDEO"]) {
         player = [self testVideoChange];
+    } else if ([[self testScenario] isEqual:@"AV_QUEUE"]) {
+        player = [self testAVQueuePlayer];
     } else {
         player = [self testAVPlayer];
     }
@@ -140,6 +143,10 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
 - (AVPlayer *)testAVQueuePlayer {
     AVPlayerItem *item1 = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"]];
     AVPlayerItem *item2 = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"]];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(playerItemDidReachEnd:)
+                                                 name:AVPlayerItemDidPlayToEndTimeNotification
+                                               object:item1];
     AVQueuePlayer *player = [[AVQueuePlayer alloc] initWithItems:@[item1, item2]];
     return player;
 }
@@ -248,6 +255,13 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
     videoData.videoTitle = @"Apple Keynote";
     videoData.videoId = @"applekeynote2010";
     [MUXSDKStats programChangeForPlayer:DEMO_PLAYER_NAME withVideoData:videoData];
+}
+
+- (void)playerItemDidReachEnd:(NSNotification *)notification {
+    MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
+    videoData.videoTitle = @"Apple Keynote";
+    videoData.videoId = @"applekeynote2010";
+    [MUXSDKStats videoChangeForPlayer:DEMO_PLAYER_NAME withVideoData:videoData];
 }
 
 - (void) updateCustomData:(NSTimer *)timer {
