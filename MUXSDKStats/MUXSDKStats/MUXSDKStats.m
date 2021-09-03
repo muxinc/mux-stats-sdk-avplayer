@@ -146,7 +146,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                                                  withPlayerName:(nonnull NSString *)name
                                                    customerData:(nonnull MUXSDKCustomerData *)customerData
                                          automaticErrorTracking:(BOOL)automaticErrorTracking
-                                               collectionDomain:(nullable NSString *)domain {
+                                                   beaconDomain:(nullable NSString *)domain {
 
     MUXSDKCustomerViewerData *viewerData = [customerData customerViewerData];
     if (viewerData != nil) {
@@ -169,7 +169,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
         [newBinding setAutomaticErrorTracking:automaticErrorTracking];
         newBinding.playDispatchDelegate = _playerBindingManager;
         if (domain != nil && domain.length > 0) {
-            [MUXSDKCore setCollectionDomain:domain forPlayer:name];
+            [MUXSDKCore setBeaconDomain:domain forPlayer:name];
         }
 
         [_customerPlayerDataStore setPlayerData:playerData forPlayerName:name];
@@ -204,7 +204,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                                 withPlayerName:name
                                   customerData:customerData
                         automaticErrorTracking:true
-                              collectionDomain:nil];
+                                  beaconDomain:nil];
 
 }
 
@@ -215,7 +215,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                                 withPlayerName:name
                                   customerData:customerData
                         automaticErrorTracking:true
-                              collectionDomain:nil];
+                                  beaconDomain:nil];
 }
 
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
@@ -297,7 +297,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                                         withPlayerName:(nonnull NSString *)name
                                           customerData:(nonnull MUXSDKCustomerData *)customerData
                                 automaticErrorTracking:(BOOL)automaticErrorTracking
-                                      collectionDomain:(nullable NSString *)domain {
+                                          beaconDomain:(nullable NSString *)domain {
     MUXSDKCustomerViewerData *viewerData = [customerData customerViewerData];
     if (viewerData != nil) {
         _customerViewerData = viewerData;
@@ -319,7 +319,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
         newBinding.playDispatchDelegate = _playerBindingManager;
         [newBinding setAutomaticErrorTracking:automaticErrorTracking];
         if (domain != nil && domain.length > 0) {
-            [MUXSDKCore setCollectionDomain:domain forPlayer:name];
+            [MUXSDKCore setBeaconDomain:domain forPlayer:name];
         }
 
         [_customerPlayerDataStore setPlayerData:playerData forPlayerName:name];
@@ -353,7 +353,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                        withPlayerName:name
                          customerData:customerData
                automaticErrorTracking:true
-                     collectionDomain:nil];
+                         beaconDomain:nil];
 }
 
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player

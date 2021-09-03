@@ -81,7 +81,7 @@ FOUNDATION_EXPORT
  @param       name A name for this instance of the player
  @param       customerData A MUXSDKCustomerData object with player, video, and view metadata
  @param       automaticErrorTracking boolean to indicate if the SDK should automatically track player errors
- @param       domain Domain to send tracking data to, if you want to use a custom collection domain. Optional.
+ @param       domain Domain to send tracking data to, if you want to use a custom beacon domain. Optional.
  @return      an instance of MUXSDKAVPlayerLayerBinding or null
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerViewController. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
@@ -89,7 +89,7 @@ FOUNDATION_EXPORT
                                                  withPlayerName:(nonnull NSString *)name
                                                    customerData:(nonnull MUXSDKCustomerData *)customerData
                                          automaticErrorTracking:(BOOL)automaticErrorTracking
-                                               collectionDomain:(nullable NSString *)domain;
+                                                   beaconDomain:(nullable NSString *)domain;
 
 /*!
  @method      monitorAVPlayerViewController:withPlayerName:playerData:videoData:
@@ -179,6 +179,23 @@ FOUNDATION_EXPORT
                                         withPlayerName:(nonnull NSString *)name
                                           customerData:(nonnull MUXSDKCustomerData *)customerData
                                 automaticErrorTracking:(BOOL)automaticErrorTracking;
+/*!
+ @method      monitorAVPlayerLayer:withPlayerName:customerData:automaticErrorTracking:
+ @abstract    Starts to monitor a given AVPlayerLayer.
+ @param       player An AVPlayerLayer to monitor
+ @param       name A name for this instance of the player
+ @param       customerData A MUXSDKCustomerData object with player, video, and view metadata
+ @param       automaticErrorTracking boolean to indicate if the SDK should automatically track player errors
+ @param       domain Domain to send tracking data to, if you want to use a custom beacon domain. Optional.
+ @return      an instance of MUXSDKAVPlayerLayerBinding or null
+ @discussion  Use this method to start a Mux player monitor on the given AVPlayerLayer. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
+ */
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
+                                        withPlayerName:(nonnull NSString *)name
+                                          customerData:(nonnull MUXSDKCustomerData *)customerData
+                                automaticErrorTracking:(BOOL)automaticErrorTracking
+                                          beaconDomain:(nullable NSString *)domain;
+
 
 /*!
  @method      monitorAVPlayerLayer:withPlayerName:playerData:videoData:
