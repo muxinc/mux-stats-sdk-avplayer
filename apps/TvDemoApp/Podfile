@@ -5,7 +5,7 @@ target 'TvDemoApp' do
   # Pods for TvDemoApp
   # pod 'Mux-Stats-AVPlayer', '~> 2.0'
   pod 'Mux-Stats-AVPlayer', :path => '../../'
-  pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'release'
+  pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'szuniga/add_nullability_specifiers'
   pod 'GoogleAds-IMA-tvOS-SDK', '~> 4.2'
   pod 'Mux-Stats-Google-IMA', '~> 0.6'
 end

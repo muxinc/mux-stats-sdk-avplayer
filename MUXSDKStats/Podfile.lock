@@ -2,21 +2,21 @@ PODS:
   - Mux-Stats-Core (3.4.0)
 
 DEPENDENCIES:
-  - Mux-Stats-Core (from `https://github.com/muxinc/stats-sdk-objc.git`, branch `release`)
+  - Mux-Stats-Core (from `https://github.com/muxinc/stats-sdk-objc.git`, branch `szuniga/add_nullability_specifiers`)
 
 EXTERNAL SOURCES:
   Mux-Stats-Core:
-    :branch: release
+    :branch: szuniga/add_nullability_specifiers
     :git: https://github.com/muxinc/stats-sdk-objc.git
 
 CHECKOUT OPTIONS:
   Mux-Stats-Core:
-    :commit: 2a9476821c1d12f3a3d142cd73f562d39042ff2f
+    :commit: 3c7ec32e13f607abb27dae4a5715b11d3ff3afd1
     :git: https://github.com/muxinc/stats-sdk-objc.git
 
 SPEC CHECKSUMS:
   Mux-Stats-Core: 95905303d4b7fdf3996afef5d203b69becc08c5a
 
-PODFILE CHECKSUM: 7b7ac5ef32066a1cf15b8c7f1319b5fa1c2cd174
+PODFILE CHECKSUM: 00775a6ed93b46d191f991fae8db684fe87a77d3
 
 COCOAPODS: 1.10.1
