@@ -36,9 +36,14 @@ class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAd
         let viewerData = MUXSDKCustomerViewerData()
         viewerData.viewerApplicationName = "MUX video-demo"
 
-        guard let customerData = MUXSDKCustomerData(customerPlayerData: playerData, videoData: videoData, viewData: nil, customData: nil, viewerData: viewerData) else {
-            return
-        }
+        let customerData = MUXSDKCustomerData(
+            customerPlayerData: playerData,
+            videoData: videoData,
+            viewData: nil,
+            customData: nil,
+            viewerData: viewerData
+        )
+        
         let playerBinding = MUXSDKStats.monitorAVPlayerViewController(self, withPlayerName: playName, customerData: customerData)
         imaListener = MuxImaListener.init(playerBinding: playerBinding!)
         player!.play()

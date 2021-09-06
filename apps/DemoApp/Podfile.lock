@@ -28,7 +28,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Mux-Stats-Core:
-    :commit: 3c7ec32e13f607abb27dae4a5715b11d3ff3afd1
+    :commit: 9921b47f50b0b8db10647afeaa635883bf06c801
     :git: https://github.com/muxinc/stats-sdk-objc.git
 
 SPEC CHECKSUMS:
