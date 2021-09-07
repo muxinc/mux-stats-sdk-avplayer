@@ -50,7 +50,7 @@ NSString *const kAdTagURLStringPostRoll = @"https://pubads.g.doubleclick.net/gam
         XCTFail(@"Interrupted while playing video.");
     }
         
-    XCUIElement *element = [[[app.windows childrenMatchingType:XCUIElementTypeOther].element childrenMatchingType:XCUIElementTypeOther].element childrenMatchingType:XCUIElementTypeOther].element;
+    XCUIElement *element = app.otherElements[@"AVPlayerView"];
     [element tap];
     
     XCUIElement *skipForwardButton = app/*@START_MENU_TOKEN@*/.buttons[@"Skip Forward"]/*[[".buttons[@\"Skip 15 seconds forward\"]",".buttons[@\"Skip Forward\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/;
@@ -64,6 +64,36 @@ NSString *const kAdTagURLStringPostRoll = @"https://pubads.g.doubleclick.net/gam
     result = [XCTWaiter waitForExpectations:@[exp] timeout:10.0];
     if(result != XCTWaiterResultTimedOut) {
         XCTFail(@"Interrupted while playing video.");
+    }
+}
+
+- (void)testAVQueuePlayer {
+    XCUIApplication *app = [[XCUIApplication alloc] init];
+    [app setLaunchEnvironment:@{@"ENV_KEY": @"tr4q3qahs0gflm8b1c75h49ln", @"TEST_SCENARIO": @"AV_QUEUE"}];
+    [app launch];
+    
+    // Play the first video in the queue
+    XCTestExpectation *exp = [[XCTestExpectation alloc] initWithDescription:@"Wait for 10 seconds, playing first video in queue."];
+    XCTWaiterResult result = [XCTWaiter waitForExpectations:@[exp] timeout:10.0];
+    if(result != XCTWaiterResultTimedOut) {
+        XCTFail(@"Interrupted while playing first video.");
+    }
+    
+    // Tap on AVPlayerView to get the controls section to display
+    XCUIElement *element = app.otherElements[@"AVPlayerView"];
+    [element tap];
+    
+    // Forward the video near the end
+    XCUIElement *slider = app.sliders.firstMatch;
+    XCUICoordinate *start = [slider coordinateWithNormalizedOffset:CGVectorMake(0, 0)];
+    XCUICoordinate *finish = [slider coordinateWithNormalizedOffset:CGVectorMake(0.99, 0)];
+    [start pressForDuration:1 thenDragToCoordinate:finish];
+    
+    // Play the second video in the queue
+    exp = [[XCTestExpectation alloc] initWithDescription:@"Wait for 10 seconds, playing second video in queue."];
+    result = [XCTWaiter waitForExpectations:@[exp] timeout:15.0];
+    if(result != XCTWaiterResultTimedOut) {
+        XCTFail(@"Interrupted while playing second video.");
     }
 }
 
