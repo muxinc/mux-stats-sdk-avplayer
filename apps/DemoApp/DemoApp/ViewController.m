@@ -35,6 +35,8 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
         player = [self testVideoChange];
     } else if ([[self testScenario] isEqual:@"AV_QUEUE"]) {
         player = [self testAVQueuePlayer];
+    } else if ([[self testScenario] isEqual:@"PROGRAM_CHANGE"]) {
+        player = [self testProgramChange];
     } else {
         player = [self testAVPlayer];
     }
@@ -45,7 +47,8 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
     if ([[self testScenario] isEqualToString:@"IMA"]) {
         NSString *adTagURL = [NSProcessInfo.processInfo.environment objectForKey:@"AD_TAG_URL"];
         if (adTagURL == nil) {
-            adTagURL = kAdTagURLStringPreRollMidRollPostRoll;        }
+            adTagURL = kAdTagURLStringPreRollMidRollPostRoll;
+        }
         [self requestAdsWithURL:adTagURL];
     }
 }
@@ -174,13 +177,42 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
     NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
     AVPlayer *player = [AVPlayer playerWithURL:videoURL];
     
-    // After 5 seconds, we'll change the program
-    _timer = [NSTimer scheduledTimerWithTimeInterval:5.0
+
+    // Schedue two program change events, in 30s and 60s
+    _timer = [NSTimer scheduledTimerWithTimeInterval:30.0
                                               target:self
                                             selector:@selector(changeProgram:)
-                                            userInfo:nil
+                                            userInfo:[self testCustomerData:@"ProgramChange1"]
                                              repeats:NO];
+
+    _timer = [NSTimer scheduledTimerWithTimeInterval:60.0
+                                              target:self
+                                            selector:@selector(changeProgram:)
+                                            userInfo:[self testCustomerData:@"ProgramChange2"]
+                                             repeats:NO];
+
     return player;
+}
+
+- (MUXSDKCustomerData *)testCustomerData:(nonnull NSString *)prefix {
+    MUXSDKCustomerPlayerData *playerData = nil;
+
+    MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
+    videoData.videoTitle = [NSString stringWithFormat:@"%@ Test VideoTitle", prefix];
+    videoData.videoId = [NSString stringWithFormat:@"%@ Test VideoID", prefix];
+    videoData.videoSeries = [NSString stringWithFormat:@"%@ Test VideoSeries", prefix];
+
+    MUXSDKCustomerViewData *viewData = [MUXSDKCustomerViewData new];
+    viewData.viewSessionId = [NSString stringWithFormat:@"%@ Test SessionID", prefix];
+
+    MUXSDKCustomData *customData = [MUXSDKCustomData new];
+    customData.customData1 = [NSString stringWithFormat:@"%@ Custom1", prefix];
+    customData.customData2 = [NSString stringWithFormat:@"%@ Custom2", prefix];
+    customData.customData3 = [NSString stringWithFormat:@"%@ Custom3", prefix];
+    customData.customData4 = [NSString stringWithFormat:@"%@ Custom4", prefix];
+    customData.customData5 = [NSString stringWithFormat:@"%@ Custom5", prefix];
+
+    return [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:playerData videoData:videoData viewData:viewData customData:customData];
 }
 
 - (AVPlayer *)testUpdateCustomDimensions {
@@ -251,10 +283,8 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
 }
 
 - (void)changeProgram:(NSTimer *)timer {
-    MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
-    videoData.videoTitle = @"Apple Keynote";
-    videoData.videoId = @"applekeynote2010";
-    [MUXSDKStats programChangeForPlayer:DEMO_PLAYER_NAME withVideoData:videoData];
+    MUXSDKCustomerData *customerData = (MUXSDKCustomerData *) timer.userInfo;
+    [MUXSDKStats programChangeForPlayer:DEMO_PLAYER_NAME withCustomerData:customerData];
 }
 
 - (void)playerItemDidReachEnd:(NSNotification *)notification {

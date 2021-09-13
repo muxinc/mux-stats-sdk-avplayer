@@ -485,17 +485,26 @@ static MUXSDKCustomerViewerData *_customerViewerData;
     [self videoChangeForPlayer:name withCustomerData:customerData];
 }
 
-+ (void)programChangeForPlayer:(nonnull NSString *)name withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
-    [MUXSDKStats videoChangeForPlayer: name withVideoData:videoData];
+#pragma mark Program Change
+
++ (void)programChangeForPlayer:(nonnull NSString *)name
+              withCustomerData:(nullable MUXSDKCustomerData *)customerData {
+    [MUXSDKStats videoChangeForPlayer:name withCustomerData:customerData];
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
     if (player) {
         [player programChangedForPlayer];
     }
 }
 
-+ (void)setAutomaticVideoChange:(NSString *)name  enabled:(Boolean)enabled {
++ (void)programChangeForPlayer:(nonnull NSString *)name
+                 withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
+    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:nil videoData:videoData viewData:nil];
+    [self programChangeForPlayer:name withCustomerData:customerData];
+}
+
++ (void)setAutomaticVideoChange:(NSString *)name enabled:(Boolean)enabled {
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
-    if(player) {
+    if (player) {
         [player setAutomaticVideoChange:enabled];
     }
 }
