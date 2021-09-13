@@ -203,7 +203,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
     return [self monitorAVPlayerViewController:player
                                 withPlayerName:name
                                   customerData:customerData
-                        automaticErrorTracking:true
+                        automaticErrorTracking:automaticErrorTracking
                                   beaconDomain:nil];
 
 }
@@ -352,7 +352,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
     return [self monitorAVPlayerLayer:player
                        withPlayerName:name
                          customerData:customerData
-               automaticErrorTracking:true
+               automaticErrorTracking:automaticErrorTracking
                          beaconDomain:nil];
 }
 
