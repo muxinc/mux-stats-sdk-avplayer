@@ -13,6 +13,7 @@
 @implementation MUXSDKCore (Mock)
 
 static NSMutableDictionary *events;
+static NSMutableArray *globalEvents;
 
 + (void) swizzleDispatchEvents {
     static dispatch_once_t once_token;
@@ -22,15 +23,35 @@ static NSMutableDictionary *events;
 }
 
 + (void) _swizzle {
+    [self _swizzleEvent];
+    [self _swizzleGlobalEvent];
+}
+
++ (void) _swizzleEvent {
     SEL dispatchEventsSelector = @selector(dispatchEvent:forPlayer:);
     SEL dispatchEventsMockSelector = @selector(mock_dispatchEvent:forPlayer:);
+
     Method originalMethod = class_getClassMethod(self, dispatchEventsSelector);
     Method extendedMethod = class_getClassMethod(self, dispatchEventsMockSelector);
     method_exchangeImplementations(originalMethod, extendedMethod);
 }
 
++ (void) _swizzleGlobalEvent {
+    SEL dispatchGlobalEventsSelector = @selector(dispatchGlobalDataEvent:);
+    SEL dispatchGlobalEventsMockSelector = @selector(mock_dispatchGlobalDataEvent:);
+
+    Method originalMethod = class_getClassMethod(self, dispatchGlobalEventsSelector);
+    Method extendedMethod = class_getClassMethod(self, dispatchGlobalEventsMockSelector);
+    method_exchangeImplementations(originalMethod, extendedMethod);
+}
+
 + (void) resetCapturedEvents {
     events = [[NSMutableDictionary alloc] init];
+    globalEvents = [[NSMutableArray alloc] init];
+}
+
++ (void) mock_dispatchGlobalDataEvent:(MUXSDKDataEvent *)event {
+    [globalEvents addObject:event];
 }
 
 + (void) mock_dispatchEvent:(id<MUXSDKEventTyping>)event forPlayer:(NSString *)playerId {
@@ -55,7 +76,14 @@ static NSMutableDictionary *events;
         return 0;
     }
     return eventsForPlayer.count;
-    
+}
+
++ (MUXSDKDataEvent *) globalEventAtIndex:(NSUInteger)index {
+    return [globalEvents objectAtIndex:index];
+}
+
++ (NSUInteger) globalEventsCount {
+    return globalEvents.count;
 }
 
 @end

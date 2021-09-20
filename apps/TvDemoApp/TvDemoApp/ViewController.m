@@ -34,11 +34,14 @@ NSString *const kAdTagURLStringPostRoll = @"https://pubads.g.doubleclick.net/gam
     
 //    // TODO: Add your property key!
     MUXSDKCustomerPlayerData *playerData = [[MUXSDKCustomerPlayerData alloc] initWithPropertyKey:@"YOUR_ENV_KEY_HERE"];
+    // TODO: Add your property key!
     MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
     videoData.videoTitle = @"Big Buck Bunny";
     videoData.videoId = @"bigbuckbunny";
     videoData.videoSeries = @"animation";
-    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:playerData videoData:videoData viewData:nil];
+    MUXSDKCustomerViewerData *viewerData = [[MUXSDKCustomerViewerData alloc] init];
+    viewerData.viewerApplicationName = @"MUX TvDemoApp";
+    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:playerData videoData:videoData viewData:nil customData:nil viewerData:viewerData];
     _playerBinding = [MUXSDKStats monitorAVPlayerViewController:_avplayerController
                                                  withPlayerName:DEMO_PLAYER_NAME
                                                    customerData:customerData];
