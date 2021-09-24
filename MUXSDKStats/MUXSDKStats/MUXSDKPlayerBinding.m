@@ -623,7 +623,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (BOOL) isPaused {
-    return _state = MUXSDKPlayerStatePaused;
+    return _state == MUXSDKPlayerStatePaused;
 }
 
 - (BOOL)isPlayingOrTryingToPlay {
