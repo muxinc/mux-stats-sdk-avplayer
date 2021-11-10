@@ -75,6 +75,23 @@ FOUNDATION_EXPORT
                                          automaticErrorTracking:(BOOL)automaticErrorTracking;
 
 /*!
+ @method      monitorAVPlayerViewController:withPlayerName:customerData:automaticErrorTracking:
+ @abstract    Starts to monitor a given AVPlayerViewController.
+ @param       player An AVPlayerViewController to monitor
+ @param       name A name for this instance of the player
+ @param       customerData A MUXSDKCustomerData object with player, video, and view metadata
+ @param       automaticErrorTracking boolean to indicate if the SDK should automatically track player errors
+ @param       domain Domain to send tracking data to, if you want to use a custom beacon domain. Optional.
+ @return      an instance of MUXSDKAVPlayerLayerBinding or null
+ @discussion  Use this method to start a Mux player monitor on the given AVPlayerViewController. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
+ */
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
+                                                 withPlayerName:(nonnull NSString *)name
+                                                   customerData:(nonnull MUXSDKCustomerData *)customerData
+                                         automaticErrorTracking:(BOOL)automaticErrorTracking
+                                                   beaconDomain:(nullable NSString *)domain;
+
+/*!
  @method      monitorAVPlayerViewController:withPlayerName:playerData:videoData:
  @abstract    Starts to monitor a given AVPlayerViewController.
  @param       player An AVPlayerViewController to monitor
@@ -162,6 +179,23 @@ FOUNDATION_EXPORT
                                         withPlayerName:(nonnull NSString *)name
                                           customerData:(nonnull MUXSDKCustomerData *)customerData
                                 automaticErrorTracking:(BOOL)automaticErrorTracking;
+/*!
+ @method      monitorAVPlayerLayer:withPlayerName:customerData:automaticErrorTracking:
+ @abstract    Starts to monitor a given AVPlayerLayer.
+ @param       player An AVPlayerLayer to monitor
+ @param       name A name for this instance of the player
+ @param       customerData A MUXSDKCustomerData object with player, video, and view metadata
+ @param       automaticErrorTracking boolean to indicate if the SDK should automatically track player errors
+ @param       domain Domain to send tracking data to, if you want to use a custom beacon domain. Optional.
+ @return      an instance of MUXSDKAVPlayerLayerBinding or null
+ @discussion  Use this method to start a Mux player monitor on the given AVPlayerLayer. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
+ */
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
+                                        withPlayerName:(nonnull NSString *)name
+                                          customerData:(nonnull MUXSDKCustomerData *)customerData
+                                automaticErrorTracking:(BOOL)automaticErrorTracking
+                                          beaconDomain:(nullable NSString *)domain;
+
 
 /*!
  @method      monitorAVPlayerLayer:withPlayerName:playerData:videoData:
@@ -248,6 +282,7 @@ FOUNDATION_EXPORT
  @method      videoChangeForPlayer:withCustomerData:
  @abstract    Signals that a player is now playing a different video.
  @param       name The name of the player to update
+ @param       customerData A MUXSDKCustomerData object with player, video, and view metadata
  @discussion  Use this method to signal that the player is now playing a new video. The player name provided must been passed as the name in a monitorPlayer:withPlayerName:andConfig: call. The config provided should match the specifications in the Mux docs at https://docs.mux.com and should include all desired keys, not just those keys that are specific to this video. If the name of the player provided was not previously initialized, an exception will be raised.
 
  */
@@ -258,11 +293,12 @@ FOUNDATION_EXPORT
  @method      videoChangeForPlayer:withVideoData:
  @abstract    Signals that a player is now playing a different video.
  @param       name The name of the player to update
+ @param       videoData A MUXSDKCustomerVideoData object with video metadata
  @discussion  Use this method to signal that the player is now playing a new video. The player name provided must been passed as the name in a monitorPlayer:withPlayerName:andConfig: call. The config provided should match the specifications in the Mux docs at https://docs.mux.com and should include all desired keys, not just those keys that are specific to this video. If the name of the player provided was not previously initialized, an exception will be raised.
 
  */
 + (void)videoChangeForPlayer:(nonnull NSString *)name
-               withVideoData:(nullable MUXSDKCustomerVideoData *)videoData;
+               withVideoData:(nullable MUXSDKCustomerVideoData *)videoData __attribute__((deprecated("Please migrate to videoChangeForPlayer:withCustomerData:")));
 
 /*!
  @method      videoChangeForPlayer:withPlayerData:withVideoData
@@ -275,7 +311,7 @@ FOUNDATION_EXPORT
  */
 + (void)videoChangeForPlayer:(nonnull NSString *)name
               withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData
-               withVideoData:(nullable MUXSDKCustomerVideoData *)videoData;
+               withVideoData:(nullable MUXSDKCustomerVideoData *)videoData __attribute__((deprecated("Please migrate to videoChangeForPlayer:withCustomerData:")));
 
 /*!
  @method      videoChangeForPlayer:withPlayerData:withVideoData:viewData:
@@ -290,7 +326,7 @@ FOUNDATION_EXPORT
 + (void)videoChangeForPlayer:(nonnull NSString *)name
               withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData
                withVideoData:(nullable MUXSDKCustomerVideoData *)videoData
-                    viewData:(nullable MUXSDKCustomerViewData *) viewData;
+                    viewData:(nullable MUXSDKCustomerViewData *)viewData __attribute__((deprecated("Please migrate to videoChangeForPlayer:withCustomerData:")));
 
 /*!
  @method      programChangeForPlayer:withCustomerData:
@@ -310,33 +346,7 @@ FOUNDATION_EXPORT
  @discussion  Use this method to signal that the player is now playing a differnt video of a playlist, or a different program of a live stream. The player name provided must been passed as the name in a monitorPlayer:withPlayerName:andConfig: call. The config provided should match the specifications in the Mux docs at https://docs.mux.com and should include all desired keys, not just those keys that are specific to this video. If the name of the player provided was not previously initialized, an exception will be raised.
  */
 + (void)programChangeForPlayer:(nonnull NSString *)name
-                 withVideoData:(nullable MUXSDKCustomerVideoData *)videoData;
-
-/*!
- @method      programChangeForPlayer:withPlayerData:videoData:
- @abstract    Signals that a player is now playing a different video of a playlist; or a different program of a live stream
- @param       name The name of the player to update
- @param       playerData A MUXSDKCustomerPlayerData object with player metadata
- @param       videoData A MUXSDKCustomerVideoData object with video metadata
- @discussion  Use this method to signal that the player is now playing a differnt video of a playlist, or a different program of a live stream. The player name provided must been passed as the name in a monitorPlayer:withPlayerName:andConfig: call. The config provided should match the specifications in the Mux docs at https://docs.mux.com and should include all desired keys, not just those keys that are specific to this video. If the name of the player provided was not previously initialized, an exception will be raised.
- */
-+ (void)programChangeForPlayer:(nonnull NSString *)name
-                withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData
-                     videoData:(nullable MUXSDKCustomerVideoData *)videoData;
-
-/*!
- @method      programChangeForPlayer:withPlayerData:videoData:viewData:
- @abstract    Signals that a player is now playing a different video of a playlist; or a different program of a live stream
- @param       name The name of the player to update
- @param       playerData A MUXSDKCustomerPlayerData object with player metadata
- @param       videoData A MUXSDKCustomerVideoData object with video metadata
- @param       viewData A MUXSDKCustomerViewData object with view metadata
- @discussion  Use this method to signal that the player is now playing a differnt video of a playlist, or a different program of a live stream. The player name provided must been passed as the name in a monitorPlayer:withPlayerName:andConfig: call. The config provided should match the specifications in the Mux docs at https://docs.mux.com and should include all desired keys, not just those keys that are specific to this video. If the name of the player provided was not previously initialized, an exception will be raised.
- */
-+ (void)programChangeForPlayer:(nonnull NSString *)name
-                withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData
-                     videoData:(nullable MUXSDKCustomerVideoData *)videoData
-                      viewData:(nullable MUXSDKCustomerViewData *)viewData;
+                 withVideoData:(nullable MUXSDKCustomerVideoData *)videoData __attribute__((deprecated("Please migrate to programChangeForPlayer:withCustomerData:")));
 
 /*!
  @method      setCustomerData:forPlayer:
