@@ -48,6 +48,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         _automaticErrorTracking = true;
         _automaticVideoChange = true;
         _didTriggerManualVideoChange = false;
+        _playbackIsLivestream = false;
     }
     return(self);
 }
@@ -161,6 +162,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             AVPlayerItemAccessLog *accessLog = [((AVPlayerItem *)notif.object) accessLog];
             [self handleRenditionChangeInAccessLog:accessLog];
             [self calculateBandwidthMetricFromAccessLog:accessLog];
+            [self updateViewingLivestream:accessLog];
         }
     });
 }
@@ -229,6 +231,12 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
        _lastTransferredBytes = event.numberOfBytesTransferred;
        _lastTransferDuration = event.transferDuration;
     }
+}
+
+- (void) updateViewingLivestream:(AVPlayerItemAccessLog *) log {
+    AVPlayerItemAccessLogEvent *lastEvent = log.events.lastObject;
+    NSString *playbackType = lastEvent.playbackType;
+    _playbackIsLivestream = [playbackType isEqualToString:@"LIVE"];
 }
 
 # pragma mark AVPlayerItemErrorLog
@@ -581,10 +589,34 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
                                                                     encoding:NSUTF8StringEncoding]];
         }
     }
+
+    // Only report sampling data if the playback is live
+    if (_playbackIsLivestream) {
+        // Sampling Data
+        NSTimeInterval currentDate = [_player.currentItem.currentDate timeIntervalSince1970];
+        playerData.playerProgramTime = [NSNumber numberWithDouble: currentDate];
+
+        if ([_player.currentItem.seekableTimeRanges count] > 0) {
+            // seekableTimeRanges is ordered, so we only need to look at the last one
+            CMTimeRange seekableRange = [_player.currentItem.seekableTimeRanges.lastObject CMTimeRangeValue];
+            CGFloat start = CMTimeGetSeconds(seekableRange.start);
+            CGFloat duration = CMTimeGetSeconds(seekableRange.duration);
+            CGFloat timeOfVideo = CMTimeGetSeconds([[_player currentItem] currentTime]);
+            CGFloat livePosition = start + duration;
+            NSTimeInterval viewStartDate = currentDate - timeOfVideo;
+            NSTimeInterval newestProgramDate = viewStartDate + livePosition;
+
+            playerData.playerManifestNewestProgramTime = [NSNumber numberWithDouble: newestProgramDate];
+            NSLog(@"⏰ pmfnepgti: %f       ppgti: %f", newestProgramDate, currentDate);
+        }
+    }
+
     // TODO: Airplay - don't set the view if we don't actually know what is going on.
+
     if (_player.externalPlaybackActive) {
         [playerData setPlayerRemotePlayed:[NSNumber numberWithBool:YES]];
     }
+
     return playerData;
 }
 

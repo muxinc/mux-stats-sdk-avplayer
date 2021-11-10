@@ -6,6 +6,9 @@
 static NSString *DEMO_PLAYER_NAME = @"demoplayer";
 NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostlongpod&cmsid=496&vid=short_tencue&correlator=";
 
+NSString *const livestreamTestURL = @"https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8";
+NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8";
+
 @interface ViewController () {
     AVPlayer *_avplayer;
     AVPlayerViewController *_avplayerController;
@@ -37,6 +40,8 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
         player = [self testAVQueuePlayer];
     } else if ([[self testScenario] isEqual:@"PROGRAM_CHANGE"]) {
         player = [self testProgramChange];
+    } else if ([[self testScenario] isEqual:@"LIVESTREAM"]) {
+        player = [self testAVPlayer: livestreamTestURL];
     } else {
         player = [self testAVPlayer];
     }
@@ -154,8 +159,13 @@ NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubl
     return player;
 }
 
+
 - (AVPlayer *)testAVPlayer {
-    NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
+    return [self testAVPlayer:vodTestURL];
+}
+
+- (AVPlayer *)testAVPlayer: (NSString *) testURL {
+    NSURL* videoURL = [NSURL URLWithString:testURL];
     AVPlayer *player = [AVPlayer playerWithURL:videoURL];
     return player;
 }
