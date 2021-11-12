@@ -17,7 +17,7 @@ NSString *const kAdTagURLStringPostRoll = @"https://pubads.g.doubleclick.net/gam
 @implementation DemoAppUITests
 
 // Set this key to your environment key to have the tests generate data on your dashboard
-static NSString *envKey = @"tr4q3qahs0gflm8b1c75h49ln";
+static NSString *envKey = @"clkgm13uf3b3j7ggat0qui8r3";
 
 - (void)setUp {
     // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -32,9 +32,20 @@ static NSString *envKey = @"tr4q3qahs0gflm8b1c75h49ln";
     // Put teardown code here. This method is called after the invocation of each test method in the class.
 }
 
-- (void)testPlayVideo {
+- (void)testPlayOnDemandVideo {
     XCUIApplication *app = [[XCUIApplication alloc] init];
     [app setLaunchEnvironment:@{@"ENV_KEY": envKey, @"TEST_SCENARIO": @"NORMAL_VIEW"}];
+    [app launch];
+    XCTestExpectation *exp = [[XCTestExpectation alloc] initWithDescription:@"Just wait for 20 seconds."];
+    XCTWaiterResult result = [XCTWaiter waitForExpectations:@[exp] timeout:20.0];
+    if(result != XCTWaiterResultTimedOut) {
+        XCTFail(@"Interrupted while playing video.");
+    }
+}
+
+- (void)testPlayLivestreamVideo {
+    XCUIApplication *app = [[XCUIApplication alloc] init];
+    [app setLaunchEnvironment:@{@"ENV_KEY": envKey, @"TEST_SCENARIO": @"LIVESTREAM"}];
     [app launch];
     XCTestExpectation *exp = [[XCTestExpectation alloc] initWithDescription:@"Just wait for 20 seconds."];
     XCTWaiterResult result = [XCTWaiter waitForExpectations:@[exp] timeout:20.0];

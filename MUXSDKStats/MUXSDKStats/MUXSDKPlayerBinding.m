@@ -594,10 +594,14 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (_playbackIsLivestream) {
         // Sampling Data
         NSTimeInterval currentDate = [_player.currentItem.currentDate timeIntervalSince1970];
-        playerData.playerProgramTime = [NSNumber numberWithDouble: currentDate];
+        playerData.playerProgramTime = [NSNumber numberWithLongLong: (long long)(currentDate * 1000)];
+
 
         if ([_player.currentItem.seekableTimeRanges count] > 0) {
             // seekableTimeRanges is ordered, so we only need to look at the last one
+            // Note about seekableTimeRanges: the meaning of the values in seekableTimeRanges appears to change
+            // across OS versions and device types. Sometimes the duration appears to take holdbacks from the HLS
+            // manifest into consideration, and other times not. Use this value with caution.
             CMTimeRange seekableRange = [_player.currentItem.seekableTimeRanges.lastObject CMTimeRangeValue];
             CGFloat start = CMTimeGetSeconds(seekableRange.start);
             CGFloat duration = CMTimeGetSeconds(seekableRange.duration);
@@ -606,8 +610,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             NSTimeInterval viewStartDate = currentDate - timeOfVideo;
             NSTimeInterval newestProgramDate = viewStartDate + livePosition;
 
-            playerData.playerManifestNewestProgramTime = [NSNumber numberWithDouble: newestProgramDate];
-            NSLog(@"⏰ pmfnepgti: %f       ppgti: %f", newestProgramDate, currentDate);
+            playerData.playerLiveEdgeProgramTime = [NSNumber numberWithLongLong:(long long)(newestProgramDate * 1000)];
         }
     }
 
