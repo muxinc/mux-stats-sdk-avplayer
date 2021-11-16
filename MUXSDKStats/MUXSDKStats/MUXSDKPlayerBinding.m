@@ -590,11 +590,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         }
     }
 
-    // Only report sampling data if the playback is live
+    // Only report program time metrics if this is a live stream
     if (_playbackIsLivestream) {
         // Sampling Data
-        NSTimeInterval currentDate = [_player.currentItem.currentDate timeIntervalSince1970];
-        playerData.playerProgramTime = [NSNumber numberWithLongLong: (long long)(currentDate * 1000)];
+        NSTimeInterval currentTimestamp = [_player.currentItem.currentDate timeIntervalSince1970];
+        playerData.playerProgramTime = [NSNumber numberWithLongLong: (long long)(currentTimestamp * 1000)];
 
 
         if ([_player.currentItem.seekableTimeRanges count] > 0) {
@@ -605,21 +605,19 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             CMTimeRange seekableRange = [_player.currentItem.seekableTimeRanges.lastObject CMTimeRangeValue];
             CGFloat start = CMTimeGetSeconds(seekableRange.start);
             CGFloat duration = CMTimeGetSeconds(seekableRange.duration);
-            CGFloat timeOfVideo = CMTimeGetSeconds([[_player currentItem] currentTime]);
+            CGFloat currentTimeOfVideo = CMTimeGetSeconds([[_player currentItem] currentTime]);
             CGFloat livePosition = start + duration;
-            NSTimeInterval viewStartDate = currentDate - timeOfVideo;
-            NSTimeInterval newestProgramDate = viewStartDate + livePosition;
+            NSTimeInterval viewStartTimestamp = currentTimestamp - currentTimeOfVideo;
+            NSTimeInterval liveEdgeProgramTimestamp = viewStartTimestamp + livePosition;
 
-            playerData.playerLiveEdgeProgramTime = [NSNumber numberWithLongLong:(long long)(newestProgramDate * 1000)];
+            playerData.playerLiveEdgeProgramTime = [NSNumber numberWithLongLong:(long long)(liveEdgeProgramTimestamp * 1000)];
         }
     }
 
     // TODO: Airplay - don't set the view if we don't actually know what is going on.
-
     if (_player.externalPlaybackActive) {
         [playerData setPlayerRemotePlayed:[NSNumber numberWithBool:YES]];
     }
-
     return playerData;
 }
 

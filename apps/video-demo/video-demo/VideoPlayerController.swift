@@ -28,7 +28,7 @@ class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAd
 //        player = self.testAvQueuePlayer()
 //        player = self.testImaSDK()
 
-        let playerData = MUXSDKCustomerPlayerData(environmentKey: "clkgm13uf3b3j7ggat0qui8r3")
+        let playerData = MUXSDKCustomerPlayerData(environmentKey: "ENV_KEY")
         playerData?.playerName = "AVPlayer"
         let videoData = MUXSDKCustomerVideoData()
         videoData.videoIsLive = false
