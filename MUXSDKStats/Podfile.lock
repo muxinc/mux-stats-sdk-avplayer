@@ -2,21 +2,21 @@ PODS:
   - Mux-Stats-Core (3.5.0)
 
 DEPENDENCIES:
-  - Mux-Stats-Core (from `https://github.com/muxinc/stats-sdk-objc.git`, branch `bmulligan/latency`)
+  - Mux-Stats-Core (from `https://github.com/muxinc/stats-sdk-objc.git`, branch `release`)
 
 EXTERNAL SOURCES:
   Mux-Stats-Core:
-    :branch: bmulligan/latency
+    :branch: release
     :git: https://github.com/muxinc/stats-sdk-objc.git
 
 CHECKOUT OPTIONS:
   Mux-Stats-Core:
-    :commit: e083b58b375dbe457c6cd73fdc0a36b0128c4a5e
+    :commit: 681ca689b9e2692a8c45b114b28ce5d4a585899e
     :git: https://github.com/muxinc/stats-sdk-objc.git
 
 SPEC CHECKSUMS:
   Mux-Stats-Core: b92c5fa07eab73564fe43f3b2dc1d3d4e74791c4
 
-PODFILE CHECKSUM: 9968f225b4caee823644fca3a030d36e27fc0c35
+PODFILE CHECKSUM: 7b2520c5df93d7fe0feaa00b341f38a4c08da5e1
 
 COCOAPODS: 1.10.1
