@@ -72,6 +72,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
     BOOL _automaticErrorTracking;
     BOOL _automaticVideoChange;
     BOOL _didTriggerManualVideoChange;
+    BOOL _playbackIsLivestream;
 }
 
 @property (nonatomic, weak) id<MUXSDKPlayDispatchDelegate>  playDispatchDelegate;

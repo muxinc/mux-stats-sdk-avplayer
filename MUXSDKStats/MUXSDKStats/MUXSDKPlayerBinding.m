@@ -12,7 +12,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"2.6.0";
+NSString *const MUXSDKPluginVersion = @"2.7.0";
 
 // Min number of seconds between timeupdate events. (100ms)
 double MUXSDKMaxSecsBetweenTimeUpdate = 0.1;
@@ -48,6 +48,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         _automaticErrorTracking = true;
         _automaticVideoChange = true;
         _didTriggerManualVideoChange = false;
+        _playbackIsLivestream = false;
     }
     return(self);
 }
@@ -161,6 +162,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             AVPlayerItemAccessLog *accessLog = [((AVPlayerItem *)notif.object) accessLog];
             [self handleRenditionChangeInAccessLog:accessLog];
             [self calculateBandwidthMetricFromAccessLog:accessLog];
+            [self updateViewingLivestream:accessLog];
         }
     });
 }
@@ -229,6 +231,12 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
        _lastTransferredBytes = event.numberOfBytesTransferred;
        _lastTransferDuration = event.transferDuration;
     }
+}
+
+- (void) updateViewingLivestream:(AVPlayerItemAccessLog *) log {
+    AVPlayerItemAccessLogEvent *lastEvent = log.events.lastObject;
+    NSString *playbackType = lastEvent.playbackType;
+    _playbackIsLivestream = [playbackType isEqualToString:@"LIVE"];
 }
 
 # pragma mark AVPlayerItemErrorLog
@@ -581,6 +589,31 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
                                                                     encoding:NSUTF8StringEncoding]];
         }
     }
+
+    // Only report program time metrics if this is a live stream
+    if (_playbackIsLivestream) {
+        // Sampling Data
+        NSTimeInterval currentTimestamp = [_player.currentItem.currentDate timeIntervalSince1970];
+        playerData.playerProgramTime = [NSNumber numberWithLongLong: (long long)(currentTimestamp * 1000)];
+
+
+        if ([_player.currentItem.seekableTimeRanges count] > 0) {
+            // seekableTimeRanges is ordered, so we only need to look at the last one
+            // Note about seekableTimeRanges: the meaning of the values in seekableTimeRanges appears to change
+            // across OS versions and device types. Sometimes the duration appears to take holdbacks from the HLS
+            // manifest into consideration, and other times not. Use this value with caution.
+            CMTimeRange seekableRange = [_player.currentItem.seekableTimeRanges.lastObject CMTimeRangeValue];
+            CGFloat start = CMTimeGetSeconds(seekableRange.start);
+            CGFloat duration = CMTimeGetSeconds(seekableRange.duration);
+            CGFloat currentTimeOfVideo = CMTimeGetSeconds([[_player currentItem] currentTime]);
+            CGFloat livePosition = start + duration;
+            NSTimeInterval viewStartTimestamp = currentTimestamp - currentTimeOfVideo;
+            NSTimeInterval liveEdgeProgramTimestamp = viewStartTimestamp + livePosition;
+
+            playerData.playerLiveEdgeProgramTime = [NSNumber numberWithLongLong:(long long)(liveEdgeProgramTimestamp * 1000)];
+        }
+    }
+
     // TODO: Airplay - don't set the view if we don't actually know what is going on.
     if (_player.externalPlaybackActive) {
         [playerData setPlayerRemotePlayed:[NSNumber numberWithBool:YES]];
