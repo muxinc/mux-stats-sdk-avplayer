@@ -43,7 +43,7 @@ class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAd
         imaListener = MuxImaListener.init(playerBinding: playerBinding!)
         player!.play()
         
-        self.testSeekingProgramatically()
+//        self.testSeekingProgramatically()
     }
     
     func testSeekingProgramatically() {

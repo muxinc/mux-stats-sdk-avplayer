@@ -12,7 +12,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"2.6.0";
+NSString *const MUXSDKPluginVersion = @"2.7.0";
 
 // Min number of seconds between timeupdate events. (100ms)
 double MUXSDKMaxSecsBetweenTimeUpdate = 0.1;
@@ -594,7 +594,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (_playbackIsLivestream) {
         // Sampling Data
         NSTimeInterval currentTimestamp = [_player.currentItem.currentDate timeIntervalSince1970];
-        playerData.playerLoadTime = [NSNumber numberWithLongLong: (long long)(currentTimestamp * 1000)];
+        playerData.playerProgramTime = [NSNumber numberWithLongLong: (long long)(currentTimestamp * 1000)];
 
 
         if ([_player.currentItem.seekableTimeRanges count] > 0) {
@@ -610,7 +610,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             NSTimeInterval viewStartTimestamp = currentTimestamp - currentTimeOfVideo;
             NSTimeInterval liveEdgeProgramTimestamp = viewStartTimestamp + livePosition;
 
-            playerData.playerLoadTime = [NSNumber numberWithLongLong:(long long)(liveEdgeProgramTimestamp * 1000)];
+            playerData.playerLiveEdgeProgramTime = [NSNumber numberWithLongLong:(long long)(liveEdgeProgramTimestamp * 1000)];
         }
     }
 
