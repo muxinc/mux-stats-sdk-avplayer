@@ -47,7 +47,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
     AVPlayer *_player;
     AVPlayerItem *_playerItem;
     id _timeObserver;
-    MUXSDKPlayerState _state;
+    volatile MUXSDKPlayerState _state;
     CGSize _videoSize;
     CMTime _videoDuration;
     BOOL _videoIsLive;

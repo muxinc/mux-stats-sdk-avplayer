@@ -594,7 +594,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (_playbackIsLivestream) {
         // Sampling Data
         NSTimeInterval currentTimestamp = [_player.currentItem.currentDate timeIntervalSince1970];
-        playerData.playerProgramTime = [NSNumber numberWithLongLong: (long long)(currentTimestamp * 1000)];
+        playerData.playerLoadTime = [NSNumber numberWithLongLong: (long long)(currentTimestamp * 1000)];
 
 
         if ([_player.currentItem.seekableTimeRanges count] > 0) {
@@ -610,7 +610,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             NSTimeInterval viewStartTimestamp = currentTimestamp - currentTimeOfVideo;
             NSTimeInterval liveEdgeProgramTimestamp = viewStartTimestamp + livePosition;
 
-            playerData.playerLiveEdgeProgramTime = [NSNumber numberWithLongLong:(long long)(liveEdgeProgramTimestamp * 1000)];
+            playerData.playerLoadTime = [NSNumber numberWithLongLong:(long long)(liveEdgeProgramTimestamp * 1000)];
         }
     }
 
@@ -880,20 +880,35 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     float playheadTimeElapsed = ([self getCurrentPlayheadTimeMs] - _lastPlayheadTimeMs) / 1000;
     float wallTimeElapsed = CFAbsoluteTimeGetCurrent() - _lastPlayheadTimeUpdated;
     float drift = playheadTimeElapsed - wallTimeElapsed;
+    
     // The playhead has to have moved > 500ms and we have to have signifigantly drifted in comparision to wall time.
     // We check both positive and negative to account for seeking forward and backward respectively.
     // Unbuffered seeks seem to update the playhead time when transitioning into play where as buffered seeks update the playhead time when paused.
     if (fabsf(playheadTimeElapsed) > MUXSDKMaxSecsSeekPlayheadShift &&
-        fabsf(drift) > MUXSDKMaxSecsSeekClockDrift &&
-        (_state == MUXSDKPlayerStatePaused || _state == MUXSDKPlayerStatePlay)) {
-        _seeking = YES;
-        MUXSDKInternalSeekingEvent *event = [[MUXSDKInternalSeekingEvent alloc] init];
-        MUXSDKPlayerData *playerData = [self getPlayerData];
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomTV) {
-            [self setPlayerPlayheadTime:_lastPlayheadTimeMsOnPause onPlayerData:playerData];
+        fabsf(drift) > MUXSDKMaxSecsSeekClockDrift) {
+        if (_state == MUXSDKPlayerStatePaused || _state == MUXSDKPlayerStatePlay) {
+            _seeking = YES;
+            MUXSDKInternalSeekingEvent *event = [[MUXSDKInternalSeekingEvent alloc] init];
+            MUXSDKPlayerData *playerData = [self getPlayerData];
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomTV) {
+                [self setPlayerPlayheadTime:_lastPlayheadTimeMsOnPause onPlayerData:playerData];
+            }
+            [event setPlayerData:playerData];
+            [MUXSDKCore dispatchEvent:event forPlayer:_name];
+        } else if (_state == MUXSDKPlayerStatePlaying) {
+            // Programatically called seek
+            _seeking = YES;
+            MUXSDKInternalSeekingEvent *seekingEvent = [[MUXSDKInternalSeekingEvent alloc] init];
+            MUXSDKPlayerData *playerData = [self getPlayerData];
+            [self setPlayerPlayheadTime:_lastPlayheadTimeMs onPlayerData:playerData];
+            [seekingEvent setPlayerData:playerData];
+            [MUXSDKCore dispatchEvent:seekingEvent forPlayer:_name];
+            
+            _seeking = NO;
+            MUXSDKSeekedEvent *seekedEvent = [[MUXSDKSeekedEvent alloc] init];
+            [seekedEvent setPlayerData:[self getPlayerData]];
+            [MUXSDKCore dispatchEvent:seekedEvent forPlayer:_name];
         }
-        [event setPlayerData:playerData];
-        [MUXSDKCore dispatchEvent:event forPlayer:_name];
     }
 }
 
