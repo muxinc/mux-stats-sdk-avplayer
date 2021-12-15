@@ -11,17 +11,24 @@ PODS:
 DEPENDENCIES:
   - GoogleAds-IMA-iOS-SDK (~> 3.14)
   - Mux-Stats-AVPlayer (from `../../`)
-  - Mux-Stats-Google-IMA (~> 0.6)
+  - Mux-Stats-Google-IMA (from `https://github.com/muxinc/mux-stats-google-ima.git`, branch `szuniga/fix_pip`)
 
 SPEC REPOS:
   trunk:
     - GoogleAds-IMA-iOS-SDK
     - Mux-Stats-Core
-    - Mux-Stats-Google-IMA
 
 EXTERNAL SOURCES:
   Mux-Stats-AVPlayer:
     :path: "../../"
+  Mux-Stats-Google-IMA:
+    :branch: szuniga/fix_pip
+    :git: https://github.com/muxinc/mux-stats-google-ima.git
+
+CHECKOUT OPTIONS:
+  Mux-Stats-Google-IMA:
+    :commit: 71d27f1aaadf3592294522b3a2a491384841d122
+    :git: https://github.com/muxinc/mux-stats-google-ima.git
 
 SPEC CHECKSUMS:
   GoogleAds-IMA-iOS-SDK: 2a9b7b14bda4993306f05287f952dce41b5be4ad
@@ -29,6 +36,6 @@ SPEC CHECKSUMS:
   Mux-Stats-Core: 03cde928286545cf8dfe77fad0ebbb11a1b040f3
   Mux-Stats-Google-IMA: 688a43ff921bd467f92072479af0160ec9090e0b
 
-PODFILE CHECKSUM: 7a53c423287576c674f81707a4bcf502e5102ad9
+PODFILE CHECKSUM: 9137d3d5b9007905b4229e98ce329647db80517e
 
 COCOAPODS: 1.11.2

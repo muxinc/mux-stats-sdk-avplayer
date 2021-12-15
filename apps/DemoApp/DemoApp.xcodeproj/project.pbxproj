@@ -194,7 +194,7 @@
 					};
 					F444D4371DDB8EBF00FE804F = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = CX6AHWLHM6;
+						DevelopmentTeam = UH7BDR2X9D;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -301,8 +301,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F444D4431DDB8EBF00FE804F /* ViewController.m in Sources */,
 				F444D4401DDB8EBF00FE804F /* AppDelegate.m in Sources */,
+				F444D4431DDB8EBF00FE804F /* ViewController.m in Sources */,
 				F444D43D1DDB8EBF00FE804F /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -495,7 +495,7 @@
 			baseConfigurationReference = 116BD73FDFF6D8885DBD1730 /* Pods-DemoApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = CX6AHWLHM6;
+				DEVELOPMENT_TEAM = UH7BDR2X9D;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
