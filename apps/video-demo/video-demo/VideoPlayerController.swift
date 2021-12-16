@@ -42,6 +42,22 @@ class VideoPlayerController: AVPlayerViewController, IMAAdsLoaderDelegate, IMAAd
         let playerBinding = MUXSDKStats.monitorAVPlayerViewController(self, withPlayerName: playName, customerData: customerData)
         imaListener = MuxImaListener.init(playerBinding: playerBinding!)
         player!.play()
+        
+//        self.testSeekingProgramatically()
+    }
+    
+    func testSeekingProgramatically() {
+        Timer.scheduledTimer(
+            timeInterval: 15.0,
+            target: self,
+            selector: #selector(self.testSeek),
+            userInfo: nil,
+            repeats: false
+        )
+    }
+    
+    @objc func testSeek() {
+        self.player?.seek(to: CMTime(seconds: 2.0, preferredTimescale: 1))
     }
 
     override func viewDidAppear(_ animated: Bool) {
