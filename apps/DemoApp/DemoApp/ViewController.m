@@ -193,6 +193,13 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
                                              selector:@selector(contentDidFinishPlaying:)
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
                                                object:player.currentItem];
+    
+    // Wait for launch and preroll
+    _timer = [NSTimer scheduledTimerWithTimeInterval:15.0
+                                              target:self
+                                            selector:@selector(skipForward:)
+                                            userInfo:nil
+                                             repeats:NO];
     return player;
 }
 
@@ -343,6 +350,12 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
 - (void)changeProgram:(NSTimer *)timer {
     MUXSDKCustomerData *customerData = (MUXSDKCustomerData *) timer.userInfo;
     [MUXSDKStats programChangeForPlayer:DEMO_PLAYER_NAME withCustomerData:customerData];
+}
+
+- (void)skipForward:(NSTimer *)timer {
+    CMTime currentTime = _avplayer.currentItem.currentTime;
+    
+    [_avplayer seekToTime: CMTimeMakeWithSeconds(CMTimeGetSeconds(currentTime) + 15, 60000)];
 }
 
 - (void)playerItemDidReachEnd:(NSNotification *)notification {
