@@ -182,11 +182,14 @@ static NSString *envKey = @"tr4q3qahs0gflm8b1c75h49ln";
     XCUIElement *element = app.otherElements[@"AVPlayerView"];
     [element tap];
     
-    XCUIElement *skipForwardButton = app/*@START_MENU_TOKEN@*/.buttons[@"Skip Forward"]/*[[".buttons[@\"Skip 15 seconds forward\"]",".buttons[@\"Skip Forward\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/;
-    [skipForwardButton tap];
+    // Seek
+    XCUIElement *slider = app.sliders.firstMatch;
+    XCUICoordinate *start = [slider coordinateWithNormalizedOffset:CGVectorMake(0, 0)];
+    XCUICoordinate *finish = [slider coordinateWithNormalizedOffset:CGVectorMake(0.25, 0)];
+    [start pressForDuration:1 thenDragToCoordinate:finish];
     
-    exp = [[XCTestExpectation alloc] initWithDescription:@"Just wait for 10 seconds."];
-    result = [XCTWaiter waitForExpectations:@[exp] timeout:10.0];
+    exp = [[XCTestExpectation alloc] initWithDescription:@"Just wait for 20 seconds."];
+    result = [XCTWaiter waitForExpectations:@[exp] timeout:20.0];
     if(result != XCTWaiterResultTimedOut) {
         XCTFail(@"Interrupted while playing video.");
     }
