@@ -12,7 +12,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"2.7.0";
+NSString *const MUXSDKPluginVersion = @"2.8.0";
 
 // Min number of seconds between timeupdate events. (100ms)
 double MUXSDKMaxSecsBetweenTimeUpdate = 0.1;
@@ -902,20 +902,35 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     float playheadTimeElapsed = ([self getCurrentPlayheadTimeMs] - _lastPlayheadTimeMs) / 1000;
     float wallTimeElapsed = CFAbsoluteTimeGetCurrent() - _lastPlayheadTimeUpdated;
     float drift = playheadTimeElapsed - wallTimeElapsed;
+    
     // The playhead has to have moved > 500ms and we have to have signifigantly drifted in comparision to wall time.
     // We check both positive and negative to account for seeking forward and backward respectively.
     // Unbuffered seeks seem to update the playhead time when transitioning into play where as buffered seeks update the playhead time when paused.
     if (fabsf(playheadTimeElapsed) > MUXSDKMaxSecsSeekPlayheadShift &&
-        fabsf(drift) > MUXSDKMaxSecsSeekClockDrift &&
-        (_state == MUXSDKPlayerStatePaused || _state == MUXSDKPlayerStatePlay)) {
-        _seeking = YES;
-        MUXSDKInternalSeekingEvent *event = [[MUXSDKInternalSeekingEvent alloc] init];
-        MUXSDKPlayerData *playerData = [self getPlayerData];
-        if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomTV) {
-            [self setPlayerPlayheadTime:_lastPlayheadTimeMsOnPause onPlayerData:playerData];
+        fabsf(drift) > MUXSDKMaxSecsSeekClockDrift) {
+        if (_state == MUXSDKPlayerStatePaused || _state == MUXSDKPlayerStatePlay) {
+            _seeking = YES;
+            MUXSDKInternalSeekingEvent *event = [[MUXSDKInternalSeekingEvent alloc] init];
+            MUXSDKPlayerData *playerData = [self getPlayerData];
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomTV) {
+                [self setPlayerPlayheadTime:_lastPlayheadTimeMsOnPause onPlayerData:playerData];
+            }
+            [event setPlayerData:playerData];
+            [MUXSDKCore dispatchEvent:event forPlayer:_name];
+        } else if (_state == MUXSDKPlayerStatePlaying) {
+            // If seek is called programatically on play/playing it will enter this block, otherwise it will run the upper branch logic
+            _seeking = YES;
+            MUXSDKInternalSeekingEvent *seekingEvent = [[MUXSDKInternalSeekingEvent alloc] init];
+            MUXSDKPlayerData *playerData = [self getPlayerData];
+            [self setPlayerPlayheadTime:_lastPlayheadTimeMs onPlayerData:playerData];
+            [seekingEvent setPlayerData:playerData];
+            [MUXSDKCore dispatchEvent:seekingEvent forPlayer:_name];
+            
+            _seeking = NO;
+            MUXSDKSeekedEvent *seekedEvent = [[MUXSDKSeekedEvent alloc] init];
+            [seekedEvent setPlayerData:[self getPlayerData]];
+            [MUXSDKCore dispatchEvent:seekedEvent forPlayer:_name];
         }
-        [event setPlayerData:playerData];
-        [MUXSDKCore dispatchEvent:event forPlayer:_name];
     }
 }
 
