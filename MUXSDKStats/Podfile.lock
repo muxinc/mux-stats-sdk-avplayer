@@ -2,15 +2,21 @@ PODS:
   - Mux-Stats-Core (3.6.0)
 
 DEPENDENCIES:
-  - Mux-Stats-Core (~> 3.6)
+  - Mux-Stats-Core (from `https://github.com/muxinc/stats-sdk-objc.git`, branch `szuniga/device_info_overrides`)
 
-SPEC REPOS:
-  trunk:
-    - Mux-Stats-Core
+EXTERNAL SOURCES:
+  Mux-Stats-Core:
+    :branch: szuniga/device_info_overrides
+    :git: https://github.com/muxinc/stats-sdk-objc.git
+
+CHECKOUT OPTIONS:
+  Mux-Stats-Core:
+    :commit: aae671a1c8ee2e81d5c5c40dfd077ab33a7812c5
+    :git: https://github.com/muxinc/stats-sdk-objc.git
 
 SPEC CHECKSUMS:
   Mux-Stats-Core: 03cde928286545cf8dfe77fad0ebbb11a1b040f3
 
-PODFILE CHECKSUM: 2463956ba68f1f0de0fc1f3f9d41972d515d7345
+PODFILE CHECKSUM: cf0780f3cf5c1d5df091dde59ba3373702357770
 
 COCOAPODS: 1.11.2
