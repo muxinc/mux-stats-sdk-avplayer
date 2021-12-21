@@ -158,4 +158,37 @@ static NSString *envKey = @"tr4q3qahs0gflm8b1c75h49ln";
         XCTFail(@"Interrupted while playing video.");
     }
 }
+
+- (void)testAutomaticSeek {
+    XCUIApplication *app = [[XCUIApplication alloc] init];
+    [app setLaunchEnvironment:@{@"ENV_KEY": envKey, @"TEST_SCENARIO": @"AUTO_SEEK"}];
+    [app launch];
+    XCTestExpectation *exp = [[XCTestExpectation alloc] initWithDescription:@"Just wait for 20 seconds."];
+    XCTWaiterResult result = [XCTWaiter waitForExpectations:@[exp] timeout:20.0];
+    if(result != XCTWaiterResultTimedOut) {
+        XCTFail(@"Interrupted while playing video.");
+    }
+}
+
+- (void)testUISeek {
+    XCUIApplication *app = [[XCUIApplication alloc] init];
+    [app setLaunchEnvironment:@{@"ENV_KEY": envKey, @"TEST_SCENARIO": @"UI_SEEK"}];
+    [app launch];
+    XCTestExpectation *exp = [[XCTestExpectation alloc] initWithDescription:@"Just wait for 10 seconds."];
+    XCTWaiterResult result = [XCTWaiter waitForExpectations:@[exp] timeout:10.0];
+    if(result != XCTWaiterResultTimedOut) {
+        XCTFail(@"Interrupted while playing video.");
+    }
+    XCUIElement *element = app.otherElements[@"AVPlayerView"];
+    [element tap];
+    
+    XCUIElement *skipForwardButton = app/*@START_MENU_TOKEN@*/.buttons[@"Skip Forward"]/*[[".buttons[@\"Skip 15 seconds forward\"]",".buttons[@\"Skip Forward\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/;
+    [skipForwardButton tap];
+    
+    exp = [[XCTestExpectation alloc] initWithDescription:@"Just wait for 10 seconds."];
+    result = [XCTWaiter waitForExpectations:@[exp] timeout:10.0];
+    if(result != XCTWaiterResultTimedOut) {
+        XCTFail(@"Interrupted while playing video.");
+    }
+}
 @end
