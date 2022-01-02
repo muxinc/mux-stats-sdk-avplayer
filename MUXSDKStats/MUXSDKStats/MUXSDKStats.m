@@ -109,11 +109,11 @@ static MUXSDKCustomerViewerData *_customerViewerData;
         [viewerData setViewerApplicationVersion:bundleVersion];
     }
     [viewerData setViewerDeviceManufacturer:@"Apple"];
-    [viewerData setMUXViewerDeviceManufacturer:@"Apple"];
+    [viewerData setMuxViewerDeviceManufacturer:@"Apple"];
     struct utsname systemInfo;
     uname(&systemInfo);
     [viewerData setViewerDeviceModel:[NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding]];
-    [viewerData setMUXViewerDeviceModel:[NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding]];
+    [viewerData setMuxViewerDeviceModel:[NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding]];
     NSString *deviceCategory = @"unknown";
     NSString *osFamily = @"unknown";
     switch ([[UIDevice currentDevice] userInterfaceIdiom]) {
@@ -140,9 +140,9 @@ static MUXSDKCustomerViewerData *_customerViewerData;
     [viewerData setViewerOsFamily:osFamily];
     [viewerData setViewerOsVersion:[[UIDevice currentDevice] systemVersion]];
     
-    [viewerData setMUXViewerDeviceCategory:deviceCategory];
-    [viewerData setMUXViewerOsFamily:osFamily];
-    [viewerData setMUXViewerOsVersion:[[UIDevice currentDevice] systemVersion]];
+    [viewerData setMuxViewerDeviceCategory:deviceCategory];
+    [viewerData setMuxViewerOsFamily:osFamily];
+    [viewerData setMuxViewerOsVersion:[[UIDevice currentDevice] systemVersion]];
     return viewerData;
 }
 
