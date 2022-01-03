@@ -21,6 +21,7 @@
 @protocol MUXSDKCustomerVideoDataStoring
 
 - (void) setVideoData:(nonnull MUXSDKCustomerVideoData *)videoData forPlayerName:(nonnull NSString *)name;
+- (void) removeDataForPlayerName:(nonnull NSString *)name;
 - (MUXSDKCustomerVideoData *_Nullable) videoDataForPlayerName:(nonnull NSString *)name;
 
 @end

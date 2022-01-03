@@ -21,6 +21,7 @@
 @protocol MUXSDKCustomerPlayerDataStoring
 
 - (void) setPlayerData:(nonnull MUXSDKCustomerPlayerData *)playerData forPlayerName:(nonnull NSString *)name;
+- (void) removeDataForPlayerName:(nonnull NSString *)name;
 - (MUXSDKCustomerPlayerData *_Nullable) playerDataForPlayerName:(nonnull NSString *)name;
 
 @end

@@ -25,6 +25,10 @@
     [self.store setValue:videoData forKey:name];
 }
 
+- (void)removeDataForPlayerName:(nonnull NSString *)name {
+    [self.store removeObjectForKey:name];
+}
+
 - (MUXSDKCustomerVideoData *_Nullable) videoDataForPlayerName:(nonnull NSString *)name {
      return [self.store valueForKey:name];
 }
