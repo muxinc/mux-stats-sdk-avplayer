@@ -473,8 +473,6 @@ static NSString *Z = @"Z";
     [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomData:@{@"c1" : @"foo"}];
     
     [MUXSDKStats destroyPlayer:playName];
-    MUXSDKCustomData *updatedCustomData = [[MUXSDKCustomData alloc] init];
-    [updatedCustomData setCustomData1:@"bar"];
     MUXSDKCustomerVideoData *updatedVideoData = [[MUXSDKCustomerVideoData alloc] init];
     [updatedVideoData setVideoId:@"my-video-id-2"];
     MUXSDKCustomerData *updatedCustomerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
