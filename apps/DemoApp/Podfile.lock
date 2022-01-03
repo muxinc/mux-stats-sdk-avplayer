@@ -28,7 +28,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Mux-Stats-Core:
-    :commit: aae671a1c8ee2e81d5c5c40dfd077ab33a7812c5
+    :commit: 803978cabb27b9d95e01e457e333a097a4534948
     :git: https://github.com/muxinc/stats-sdk-objc.git
 
 SPEC CHECKSUMS:
@@ -37,6 +37,6 @@ SPEC CHECKSUMS:
   Mux-Stats-Core: 03cde928286545cf8dfe77fad0ebbb11a1b040f3
   Mux-Stats-Google-IMA: 688a43ff921bd467f92072479af0160ec9090e0b
 
-PODFILE CHECKSUM: af6d33e99a01a39507980920aa26707e4a7d09d0
+PODFILE CHECKSUM: 78c5f8f8b9543ee8857f3fb16ba45ddbf3ec5506
 
 COCOAPODS: 1.11.2
