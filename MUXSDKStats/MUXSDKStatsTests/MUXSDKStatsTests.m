@@ -129,7 +129,11 @@ static NSString *Z = @"Z";
     MUXSDKCustomData *customData;
     dataEvent = (MUXSDKDataEvent * ) [MUXSDKCore eventAtIndex:index forPlayer:name];
     customData = [dataEvent customData];
-    XCTAssertTrue([[customData toQuery] isEqualToDictionary:expected]);
+    if (expected != nil) {
+        XCTAssertTrue([[customData toQuery] isEqualToDictionary:expected]);
+    } else{
+        XCTAssertNil(customData);
+    }
 }
 
 - (void) assertPlayer:(NSString *)name dispatchedDataEventsAtIndex: (int) index withCustomerViewData:(NSDictionary *) expected {
@@ -476,7 +480,7 @@ static NSString *Z = @"Z";
     MUXSDKCustomerData *updatedCustomerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
                                                                                     videoData:updatedVideoData
                                                                                      viewData:nil
-                                                                                   customData:updatedCustomData];
+                                                                                   customData:nil];
     [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:updatedCustomerData];
     expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                            MUXSDKDataEventType,
@@ -488,7 +492,7 @@ static NSString *Z = @"Z";
     ];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:5 withCustomerVideoData:@{@"vid": @"my-video-id-2"}];
-    [self assertPlayer:playName dispatchedDataEventsAtIndex:5 withCustomData:@{@"c1" : @"bar"}];
+    [self assertPlayer:playName dispatchedDataEventsAtIndex:5 withCustomData:nil];
 }
 
 - (void)testUpdateCustomerDataWithCustomData {
