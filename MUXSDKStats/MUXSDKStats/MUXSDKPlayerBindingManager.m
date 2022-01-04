@@ -26,6 +26,10 @@
 
 - (void) onPlayerDestroyed:(NSString *_Nonnull) name {
     [self.playerReadyBindings removeObject:name];
+    [self.customerPlayerDataStore removeDataForPlayerName:name];
+    [self.customerVideoDataStore removeDataForPlayerName:name];
+    [self.customerViewDataStore removeDataForPlayerName:name];
+    [self.customerCustomDataStore removeDataForPlayerName:name];
 }
 
 - (BOOL) hasInitializedPlayerBinding:(NSString *) name {

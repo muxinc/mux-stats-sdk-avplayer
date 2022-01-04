@@ -129,7 +129,11 @@ static NSString *Z = @"Z";
     MUXSDKCustomData *customData;
     dataEvent = (MUXSDKDataEvent * ) [MUXSDKCore eventAtIndex:index forPlayer:name];
     customData = [dataEvent customData];
-    XCTAssertTrue([[customData toQuery] isEqualToDictionary:expected]);
+    if (expected != nil) {
+        XCTAssertTrue([[customData toQuery] isEqualToDictionary:expected]);
+    } else{
+        XCTAssertNil(customData);
+    }
 }
 
 - (void) assertPlayer:(NSString *)name dispatchedDataEventsAtIndex: (int) index withCustomerViewData:(NSDictionary *) expected {
@@ -442,6 +446,51 @@ static NSString *Z = @"Z";
                                     MUXSDKPlaybackEventPlayingEventType
     ];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
+    [MUXSDKStats destroyPlayer:playName];
+}
+
+- (void)testClearsCustomerMetadataOnDestroy {
+    MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
+    MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
+    MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
+    [customerVideoData setVideoId:@"my-video-id"];
+    MUXSDKCustomData *customData = [[MUXSDKCustomData alloc] init];
+    [customData setCustomData1:@"foo"];
+    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
+                                                                                    videoData:customerVideoData
+                                                                                     viewData:nil
+                                                                                   customData:customData];
+    NSString *playName = @"Player";
+    [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
+    customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:nil videoData:nil viewData:nil];
+    [MUXSDKStats setCustomerData:customerData forPlayer:playName];
+    NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventPlayerReadyEventType
+    ];
+    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
+    [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomerVideoData:@{@"vid": @"my-video-id"}];
+    [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomData:@{@"c1" : @"foo"}];
+    
+    [MUXSDKStats destroyPlayer:playName];
+    MUXSDKCustomerVideoData *updatedVideoData = [[MUXSDKCustomerVideoData alloc] init];
+    [updatedVideoData setVideoId:@"my-video-id-2"];
+    MUXSDKCustomerData *updatedCustomerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
+                                                                                    videoData:updatedVideoData
+                                                                                     viewData:nil
+                                                                                   customData:nil];
+    [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:updatedCustomerData];
+    expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
+                           MUXSDKDataEventType,
+                           MUXSDKPlaybackEventPlayerReadyEventType,
+                           MUXSDKPlaybackEventViewEndEventType,
+                           MUXSDKPlaybackEventViewInitEventType,
+                           MUXSDKDataEventType,
+                           MUXSDKPlaybackEventPlayerReadyEventType
+    ];
+    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
+    [self assertPlayer:playName dispatchedDataEventsAtIndex:5 withCustomerVideoData:@{@"vid": @"my-video-id-2"}];
+    [self assertPlayer:playName dispatchedDataEventsAtIndex:5 withCustomData:nil];
     [MUXSDKStats destroyPlayer:playName];
 }
 
