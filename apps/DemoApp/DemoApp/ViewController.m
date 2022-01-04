@@ -246,7 +246,7 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
 
 - (AVPlayer *)testAutoSeek {
     AVPlayer *player = [AVPlayer playerWithURL:[NSURL URLWithString:vodTestURL]];
-    _timer = [NSTimer scheduledTimerWithTimeInterval:10.0
+    _timer = [NSTimer scheduledTimerWithTimeInterval:15.0
                                               target:self
                                             selector:@selector(autoSeek:)
                                             userInfo:nil
