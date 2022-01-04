@@ -29,4 +29,7 @@
     return [self.store valueForKey:name];
 }
 
+- (void)removeDataForPlayerName:(nonnull NSString *)name {
+    [self.store removeObjectForKey:name];
+}
 @end
