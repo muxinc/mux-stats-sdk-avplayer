@@ -3,8 +3,6 @@ platform :ios, '10.0'
 
 target 'DemoApp' do
   use_frameworks!
-  # TODO: Remove for next release but upgrade dependency to 3.8.0 
-  pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'release/3.8.0'
   pod 'Mux-Stats-AVPlayer', :path => '../../'
   pod 'GoogleAds-IMA-iOS-SDK', '~> 3.14'
   pod 'Mux-Stats-Google-IMA', '~> 0.6'
