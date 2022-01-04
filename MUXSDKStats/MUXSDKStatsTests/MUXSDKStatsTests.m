@@ -491,6 +491,7 @@ static NSString *Z = @"Z";
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:5 withCustomerVideoData:@{@"vid": @"my-video-id-2"}];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:5 withCustomData:nil];
+    [MUXSDKStats destroyPlayer:playName];
 }
 
 - (void)testUpdateCustomerDataWithCustomData {
