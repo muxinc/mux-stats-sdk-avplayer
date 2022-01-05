@@ -158,4 +158,40 @@ static NSString *envKey = @"tr4q3qahs0gflm8b1c75h49ln";
         XCTFail(@"Interrupted while playing video.");
     }
 }
+
+- (void)testAutomaticSeek {
+    XCUIApplication *app = [[XCUIApplication alloc] init];
+    [app setLaunchEnvironment:@{@"ENV_KEY": envKey, @"TEST_SCENARIO": @"AUTO_SEEK"}];
+    [app launch];
+    XCTestExpectation *exp = [[XCTestExpectation alloc] initWithDescription:@"Just wait for 20 seconds."];
+    XCTWaiterResult result = [XCTWaiter waitForExpectations:@[exp] timeout:20.0];
+    if(result != XCTWaiterResultTimedOut) {
+        XCTFail(@"Interrupted while playing video.");
+    }
+}
+
+- (void)testUISeek {
+    XCUIApplication *app = [[XCUIApplication alloc] init];
+    [app setLaunchEnvironment:@{@"ENV_KEY": envKey, @"TEST_SCENARIO": @"UI_SEEK"}];
+    [app launch];
+    XCTestExpectation *exp = [[XCTestExpectation alloc] initWithDescription:@"Just wait for 10 seconds."];
+    XCTWaiterResult result = [XCTWaiter waitForExpectations:@[exp] timeout:10.0];
+    if(result != XCTWaiterResultTimedOut) {
+        XCTFail(@"Interrupted while playing video.");
+    }
+    XCUIElement *element = app.otherElements[@"AVPlayerView"];
+    [element tap];
+    
+    // Seek
+    XCUIElement *slider = app.sliders.firstMatch;
+    XCUICoordinate *start = [slider coordinateWithNormalizedOffset:CGVectorMake(0, 0)];
+    XCUICoordinate *finish = [slider coordinateWithNormalizedOffset:CGVectorMake(0.25, 0)];
+    [start pressForDuration:1 thenDragToCoordinate:finish];
+    
+    exp = [[XCTestExpectation alloc] initWithDescription:@"Just wait for 20 seconds."];
+    result = [XCTWaiter waitForExpectations:@[exp] timeout:20.0];
+    if(result != XCTWaiterResultTimedOut) {
+        XCTFail(@"Interrupted while playing video.");
+    }
+}
 @end

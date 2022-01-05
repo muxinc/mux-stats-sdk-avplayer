@@ -25,6 +25,10 @@
     [self.store setValue:viewData forKey:name];
 }
 
+- (void)removeDataForPlayerName:(nonnull NSString *)name {
+    [self.store removeObjectForKey:name];
+}
+
 - (MUXSDKCustomerViewData *_Nullable) viewDataForPlayerName:(nonnull NSString *)name {
      return [self.store valueForKey:name];
 }

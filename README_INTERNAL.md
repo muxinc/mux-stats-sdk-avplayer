@@ -3,7 +3,8 @@
 1. Bump version in XCode "General" for target: MUXSDKStats
 1. Bump version in XCode "General" for target: MUXSDKStatsTv
 1. Bump version in MUXSDKStats/MUXSDKStats/MUXSDKPlayerBinding.m
-1. Bump version in Package.swift (if the dependecy on Mux-Stats-Core has changed)
+1. Bump version in Package.swift (if the dependency on Mux-Stats-Core has changed)
+1. Update the version and url in project specification file MUXSDKStats.json for Carthage
 1. Push to your feature branch in Github
 1. Download artifact from the Build step of the [Buildkite pipeline](https://buildkite.com/mux/stats-sdk-avplayer).
 ![Screen Shot 2021-04-13 at 8 27 29 PM](https://user-images.githubusercontent.com/1444681/114637753-14089180-9c98-11eb-87df-05e894d066d9.png) Make sure this is from the latest commit on your branch. 
