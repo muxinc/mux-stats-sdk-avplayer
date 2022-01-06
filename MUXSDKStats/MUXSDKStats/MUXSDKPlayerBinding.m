@@ -12,7 +12,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"2.8.0";
+NSString *const MUXSDKPluginVersion = @"2.9.0";
 
 // Min number of seconds between timeupdate events. (100ms)
 double MUXSDKMaxSecsBetweenTimeUpdate = 0.1;
@@ -925,11 +925,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             [self setPlayerPlayheadTime:_lastPlayheadTimeMs onPlayerData:playerData];
             [seekingEvent setPlayerData:playerData];
             [MUXSDKCore dispatchEvent:seekingEvent forPlayer:_name];
-            
-            _seeking = NO;
-            MUXSDKSeekedEvent *seekedEvent = [[MUXSDKSeekedEvent alloc] init];
-            [seekedEvent setPlayerData:[self getPlayerData]];
-            [MUXSDKCore dispatchEvent:seekedEvent forPlayer:_name];
         }
     }
 }
@@ -997,6 +992,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             [self dispatchPlay];
         }
     } else if (context == MUXSDKAVPlayerStatusObservationContext) {
+        if (_seeking && _state == MUXSDKPlayerStatePlaying && _player.currentItem.status == AVPlayerItemStatusReadyToPlay) {
+            // Dispatch seeked and playing events for programmatic seeks on playing status
+            [self dispatchPlaying];
+        }
+        
         if ([self isPlayerInErrorState]) {
             [self dispatchError];
         }

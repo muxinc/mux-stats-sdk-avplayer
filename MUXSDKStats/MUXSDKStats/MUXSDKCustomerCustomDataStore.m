@@ -25,6 +25,10 @@
     [self.store setValue:customData forKey:name];
 }
 
+- (void)removeDataForPlayerName:(nonnull NSString *)name {
+    [self.store removeObjectForKey:name];
+}
+
 - (MUXSDKCustomData *_Nullable) customDataForPlayerName:(nonnull NSString *)name {
      return [self.store valueForKey:name];
 }
