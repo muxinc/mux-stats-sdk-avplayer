@@ -164,7 +164,7 @@ static NSString *envKey = @"tr4q3qahs0gflm8b1c75h49ln";
     [app setLaunchEnvironment:@{@"ENV_KEY": envKey, @"TEST_SCENARIO": @"AUTO_SEEK"}];
     [app launch];
     XCTestExpectation *exp = [[XCTestExpectation alloc] initWithDescription:@"Just wait for 20 seconds."];
-    XCTWaiterResult result = [XCTWaiter waitForExpectations:@[exp] timeout:20.0];
+    XCTWaiterResult result = [XCTWaiter waitForExpectations:@[exp] timeout:25.0];
     if(result != XCTWaiterResultTimedOut) {
         XCTFail(@"Interrupted while playing video.");
     }

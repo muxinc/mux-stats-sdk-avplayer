@@ -26,6 +26,7 @@ float MUXSDKMaxSecsSeekPlayheadShift = 0.5f;
 static void *MUXSDKAVPlayerRateObservationContext = &MUXSDKAVPlayerRateObservationContext;
 static void *MUXSDKAVPlayerStatusObservationContext = &MUXSDKAVPlayerStatusObservationContext;
 static void *MUXSDKAVPlayerCurrentItemObservationContext = &MUXSDKAVPlayerCurrentItemObservationContext;
+static void *MUXSDKAVPlayerTimeControlStatusObservationContext = &MUXSDKAVPlayerTimeControlStatusObservationContext;
 
 // AVPlayerItem observation contexts.
 static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusObservationContext;
@@ -104,6 +105,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
               forKeyPath:@"currentItem"
                  options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
                  context:MUXSDKAVPlayerCurrentItemObservationContext];
+    [_player addObserver:self
+              forKeyPath:@"timeControlStatus"
+                 options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
+                 context:MUXSDKAVPlayerTimeControlStatusObservationContext];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAVPlayerAccess:) name:AVPlayerItemNewAccessLogEntryNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRenditionChange:) name:RenditionChangeNotification object:nil];
@@ -324,6 +329,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [self safelyRemovePlayerObserverForKeyPath:@"rate"];
     [self safelyRemovePlayerObserverForKeyPath:@"status"];
     [self safelyRemovePlayerObserverForKeyPath:@"currentItem"];
+    [self safelyRemovePlayerObserverForKeyPath:@"timeControlStatus"];
     _player = nil;
     if (_playerItem) {
         [self stopMonitoringAVPlayerItem];
@@ -967,11 +973,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             [self dispatchPlay];
         }
     } else if (context == MUXSDKAVPlayerStatusObservationContext) {
-        if (_seeking && _state == MUXSDKPlayerStatePlaying && _player.currentItem.status == AVPlayerItemStatusReadyToPlay) {
-            // Dispatch seeked and playing events for programmatic seeks on playing status
-            [self dispatchPlaying];
-        }
-        
         if ([self isPlayerInErrorState]) {
             [self dispatchError];
         }
@@ -987,6 +988,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         if ([_playerItem isPlaybackBufferEmpty] && _player.timeControlStatus != AVPlayerTimeControlStatusPlaying && [self isPausedWhileAirPlaying]) {
             // We erroneously detected a pause when in fact we are rebuffering. This *only* happens in AirPlay mode
             [self dispatchPlay];
+            [self dispatchPlaying];
+        }
+    } else if (context == MUXSDKAVPlayerTimeControlStatusObservationContext) {
+        if (_seeking && _state == MUXSDKPlayerStatePlaying && _player.timeControlStatus != AVPlayerTimeControlStatusPlaying) {
+            // Dispatch seeked and playing events for programmatic seeks on playing status
             [self dispatchPlaying];
         }
     }
