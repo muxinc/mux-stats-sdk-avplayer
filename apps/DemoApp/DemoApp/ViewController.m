@@ -21,6 +21,7 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
     IMAAVPlayerContentPlayhead *_contentPlayhead;
     MuxImaListener *_imaListener;
     MUXSDKPlayerBinding *_playerBinding;
+    IMAPictureInPictureProxy *_pictureInPictureProxy;
 }
 @end
 
@@ -30,10 +31,13 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
     [super viewDidLoad];
     _avplayerController = [AVPlayerViewController new];
     _avplayerController.view.accessibilityIdentifier = @"AVPlayerView";
+    _avplayerController.delegate = self;
     
     AVPlayer *player;
     if ([[self testScenario] isEqualToString:@"IMA"]) {
         player = [self testImaSDK];
+    } else if ([[self testScenario] isEqualToString:@"IMAPIP"]) {
+        player = [self testImaPIPSDK];
     } else if ([[self testScenario] isEqual:@"UPDATE_CUSTOM_DIMENSIONS"]) {
         player = [self testUpdateCustomDimensions];
     } else if ([[self testScenario] isEqual:@"CHANGE_VIDEO"]) {
@@ -57,7 +61,7 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
 }
 
 - (void) viewDidAppear:(BOOL)animated {
-    if ([[self testScenario] isEqualToString:@"IMA"]) {
+    if ([[self testScenario] isEqualToString:@"IMA"] || [[self testScenario] isEqualToString:@"IMAPIP"]) {
         NSString *adTagURL = [NSProcessInfo.processInfo.environment objectForKey:@"AD_TAG_URL"];
         if (adTagURL == nil) {
             adTagURL = kAdTagURLStringPreRollMidRollPostRoll;
@@ -70,10 +74,26 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
 
 - (void) requestAdsWithURL:(NSString *) adTagURL {
     IMAAdDisplayContainer *adDisplayContainer = [[IMAAdDisplayContainer alloc] initWithAdContainer:self.view viewController:self];
-    IMAAdsRequest *request = [[IMAAdsRequest alloc] initWithAdTagUrl:adTagURL
-                                                      adDisplayContainer:adDisplayContainer
-                                                         contentPlayhead:_contentPlayhead
-                                                             userContext:nil];
+    IMAAdsRequest *request;
+    
+    if ([[self testScenario] isEqualToString:@"IMAPIP"]) {
+        [_imaListener setPictureInPicture:YES];
+        _pictureInPictureProxy =
+            [[IMAPictureInPictureProxy alloc] initWithAVPictureInPictureControllerDelegate:self];
+        
+        IMAAVPlayerVideoDisplay *avPlayerVideoDisplay = [[IMAAVPlayerVideoDisplay alloc] initWithAVPlayer:_avplayer];
+        
+        request = [[IMAAdsRequest alloc] initWithAdTagUrl:adTagURL
+                                       adDisplayContainer:adDisplayContainer
+                                     avPlayerVideoDisplay:avPlayerVideoDisplay
+                                    pictureInPictureProxy:_pictureInPictureProxy
+                                              userContext:nil];
+    } else {
+        request = [[IMAAdsRequest alloc] initWithAdTagUrl:adTagURL
+                                       adDisplayContainer:adDisplayContainer
+                                          contentPlayhead:_contentPlayhead
+                                              userContext:nil];
+    }
     
     [_adsLoader requestAdsWithRequest:request];
 }
@@ -154,6 +174,36 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
                                              selector:@selector(contentDidFinishPlaying:)
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
                                                object:player.currentItem];
+    return player;
+}
+
+- (AVPlayer *)testImaPIPSDK {
+    // Set the AVAudioSession properties to support background playback
+    [[AVAudioSession sharedInstance] setActive:YES error:nil];
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
+    
+    // Enable background playback in IMASettings
+    IMASettings *settings = [[IMASettings alloc] init];
+    settings.enableBackgroundPlayback = YES;
+    
+    // Setup Ads Loader
+    _adsLoader = [[IMAAdsLoader alloc] initWithSettings:settings];
+    _adsLoader.delegate = self;
+    NSURL *contentURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
+    AVPlayer *player = [AVPlayer playerWithURL:contentURL];
+    _contentPlayhead = [[IMAAVPlayerContentPlayhead alloc] initWithAVPlayer:player];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(contentDidFinishPlaying:)
+                                                 name:AVPlayerItemDidPlayToEndTimeNotification
+                                               object:player.currentItem];
+    
+    // Wait for launch and preroll
+    _timer = [NSTimer scheduledTimerWithTimeInterval:15.0
+                                              target:self
+                                            selector:@selector(skipForward:)
+                                            userInfo:nil
+                                             repeats:NO];
     return player;
 }
 
@@ -314,6 +364,12 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
 - (void)changeProgram:(NSTimer *)timer {
     MUXSDKCustomerData *customerData = (MUXSDKCustomerData *) timer.userInfo;
     [MUXSDKStats programChangeForPlayer:DEMO_PLAYER_NAME withCustomerData:customerData];
+}
+
+- (void)skipForward:(NSTimer *)timer {
+    CMTime currentTime = _avplayer.currentItem.currentTime;
+    
+    [_avplayer seekToTime: CMTimeMakeWithSeconds(CMTimeGetSeconds(currentTime) + 15, 60000)];
 }
 
 - (void)playerItemDidReachEnd:(NSNotification *)notification {

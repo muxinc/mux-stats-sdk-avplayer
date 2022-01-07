@@ -5,7 +5,7 @@
 @import GoogleInteractiveMediaAds;
 @import Mux_Stats_Google_IMA;
 
-@interface ViewController : UIViewController <IMAAdsLoaderDelegate, IMAAdsManagerDelegate>
+@interface ViewController : UIViewController <IMAAdsLoaderDelegate, IMAAdsManagerDelegate, AVPlayerViewControllerDelegate, AVPictureInPictureControllerDelegate>
 
 @end
 

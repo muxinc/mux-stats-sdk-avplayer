@@ -5,5 +5,6 @@ target 'DemoApp' do
   use_frameworks!
   pod 'Mux-Stats-AVPlayer', :path => '../../'
   pod 'GoogleAds-IMA-iOS-SDK', '~> 3.14'
-  pod 'Mux-Stats-Google-IMA', '~> 0.6'
+  #Update before release
+  pod 'Mux-Stats-Google-IMA', :git => 'https://github.com/muxinc/mux-stats-google-ima.git', :branch => 'release/0.7.0'
 end
