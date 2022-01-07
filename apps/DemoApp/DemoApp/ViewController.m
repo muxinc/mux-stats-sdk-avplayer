@@ -30,6 +30,7 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
     [super viewDidLoad];
     _avplayerController = [AVPlayerViewController new];
     _avplayerController.view.accessibilityIdentifier = @"AVPlayerView";
+    
     AVPlayer *player;
     if ([[self testScenario] isEqualToString:@"IMA"]) {
         player = [self testImaSDK];
@@ -70,9 +71,10 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
 - (void) requestAdsWithURL:(NSString *) adTagURL {
     IMAAdDisplayContainer *adDisplayContainer = [[IMAAdDisplayContainer alloc] initWithAdContainer:self.view viewController:self];
     IMAAdsRequest *request = [[IMAAdsRequest alloc] initWithAdTagUrl:adTagURL
-                                                  adDisplayContainer:adDisplayContainer
-                                                     contentPlayhead:_contentPlayhead
-                                                         userContext:nil];
+                                                      adDisplayContainer:adDisplayContainer
+                                                         contentPlayhead:_contentPlayhead
+                                                             userContext:nil];
+    
     [_adsLoader requestAdsWithRequest:request];
 }
 
