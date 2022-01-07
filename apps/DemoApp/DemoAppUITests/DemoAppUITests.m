@@ -92,29 +92,6 @@ static NSString *envKey = @"tr4q3qahs0gflm8b1c75h49ln";
     }
 }
 
-- (void)testIMAPIPSDK {
-    XCUIApplication *app = [[XCUIApplication alloc] init];
-    [app setLaunchEnvironment:@{@"ENV_KEY": envKey, @"TEST_SCENARIO": @"IMAPIP"}];
-    [app launch];
-    XCTestExpectation *exp = [[XCTestExpectation alloc] initWithDescription:@"Wait for launch (~5 sec) and preroll (10 sec)"];
-    XCTWaiterResult result = [XCTWaiter waitForExpectations:@[exp] timeout:15.0];
-    if(result != XCTWaiterResultTimedOut) {
-        XCTFail(@"Interrupted while playing video.");
-    }
-        
-    exp = [[XCTestExpectation alloc] initWithDescription:@"Wait for midroll (30 sec)"];
-    result = [XCTWaiter waitForExpectations:@[exp] timeout:30.0];
-    if(result != XCTWaiterResultTimedOut) {
-        XCTFail(@"Interrupted while playing video.");
-    }
-    
-    exp = [[XCTestExpectation alloc] initWithDescription:@"Wait for (10 sec)"];
-    result = [XCTWaiter waitForExpectations:@[exp] timeout:10.0];
-    if(result != XCTWaiterResultTimedOut) {
-        XCTFail(@"Interrupted while playing video.");
-    }
-}
-
 - (void)testAVQueuePlayer {
     XCUIApplication *app = [[XCUIApplication alloc] init];
     [app setLaunchEnvironment:@{@"ENV_KEY": envKey, @"TEST_SCENARIO": @"AV_QUEUE"}];
