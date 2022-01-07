@@ -320,7 +320,16 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
     MUXSDKCustomerVideoData *videoData = [MUXSDKCustomerVideoData new];
     videoData.videoTitle = @"Apple Keynote";
     videoData.videoId = @"applekeynote2010";
-    [MUXSDKStats videoChangeForPlayer:DEMO_PLAYER_NAME withVideoData:videoData];
+    
+    MUXSDKCustomerData *customerData = [
+        [MUXSDKCustomerData alloc] initWithCustomerPlayerData:nil
+        videoData:videoData
+        viewData:nil
+        customData:nil
+        viewerData:nil
+    ];
+    
+    [MUXSDKStats videoChangeForPlayer:DEMO_PLAYER_NAME withCustomerData:customerData];
 }
 
 - (void) updateCustomData:(NSTimer *)timer {
