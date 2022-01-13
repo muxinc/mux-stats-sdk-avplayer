@@ -70,6 +70,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
     BOOL _sourceDimensionsHaveChanged;
     CGSize _lastDispatchedVideoSize;
     BOOL _automaticErrorTracking;
+    BOOL _isAdPlaying;
     BOOL _automaticVideoChange;
     BOOL _didTriggerManualVideoChange;
     BOOL _playbackIsLivestream;
@@ -95,6 +96,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 - (void)dispatchAdEvent:(MUXSDKPlaybackEvent *)event;
 - (float)getCurrentPlayheadTimeMs;
 - (void)dispatchRenditionChange;
+- (void)setAdPlaying:(BOOL)isAdPlaying;
 - (BOOL)setAutomaticErrorTracking:(BOOL)automaticErrorTracking;
 - (BOOL)setAutomaticVideoChange:(BOOL)automaticVideoChange;
 - (void)dispatchError:(NSString *)code withMessage:(NSString *)message;

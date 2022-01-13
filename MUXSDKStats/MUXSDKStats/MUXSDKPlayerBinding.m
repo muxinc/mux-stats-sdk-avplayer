@@ -12,7 +12,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"2.9.0";
+NSString *const MUXSDKPluginVersion = @"2.10.0";
 
 // Min number of seconds between timeupdate events. (100ms)
 double MUXSDKMaxSecsBetweenTimeUpdate = 0.1;
@@ -26,6 +26,7 @@ float MUXSDKMaxSecsSeekPlayheadShift = 0.5f;
 static void *MUXSDKAVPlayerRateObservationContext = &MUXSDKAVPlayerRateObservationContext;
 static void *MUXSDKAVPlayerStatusObservationContext = &MUXSDKAVPlayerStatusObservationContext;
 static void *MUXSDKAVPlayerCurrentItemObservationContext = &MUXSDKAVPlayerCurrentItemObservationContext;
+static void *MUXSDKAVPlayerTimeControlStatusObservationContext = &MUXSDKAVPlayerTimeControlStatusObservationContext;
 
 // AVPlayerItem observation contexts.
 static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusObservationContext;
@@ -53,6 +54,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     return(self);
 }
 
+- (void)setAdPlaying:(BOOL)isAdPlaying {
+    _isAdPlaying = isAdPlaying;
+}
+
 - (BOOL)setAutomaticErrorTracking:(BOOL)automaticErrorTracking {
     _automaticErrorTracking = automaticErrorTracking;
     return _automaticErrorTracking;
@@ -77,16 +82,20 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     _timeObserver = [_player addPeriodicTimeObserverForInterval:[self getTimeObserverInternal]
                                                           queue:NULL
                                                      usingBlock:^(CMTime time) {
-                                                         if ([weakSelf isTryingToPlay]) {
-                                                             [weakSelf startBuffering];
-                                                         } else if ([weakSelf isBuffering]) {
-                                                             [weakSelf dispatchPlaying];
-                                                         } else {
-                                                             [weakSelf dispatchTimeUpdateEvent:time];
-                                                         }
-                                                         [weakSelf computeDrift];
-                                                         [weakSelf updateLastPlayheadTime];
-                                                     }];
+            if([weakSelf isAdPlaying]) {
+                return;
+            } else if ([weakSelf isTryingToPlay]) {
+                [weakSelf startBuffering];
+            } else if ([weakSelf isBuffering]) {
+                [weakSelf dispatchPlaying];
+            } else {
+                [weakSelf dispatchTimeUpdateEvent:time];
+            }
+            
+            [weakSelf computeDrift];
+            [weakSelf updateLastPlayheadTime];
+        }
+    ];
     _timeUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:0.05
                                                         target:self
                                                       selector:@selector(timeUpdateTimer:)
@@ -104,6 +113,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
               forKeyPath:@"currentItem"
                  options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
                  context:MUXSDKAVPlayerCurrentItemObservationContext];
+    [_player addObserver:self
+              forKeyPath:@"timeControlStatus"
+                 options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
+                 context:MUXSDKAVPlayerTimeControlStatusObservationContext];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAVPlayerAccess:) name:AVPlayerItemNewAccessLogEntryNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRenditionChange:) name:RenditionChangeNotification object:nil];
@@ -261,7 +274,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)timeUpdateTimer:(NSTimer *)timer {
-    if (![self isTryingToPlay] && ![self isBuffering]) {
+    if (![self isTryingToPlay] && ![self isBuffering] && !_isAdPlaying) {
         [self dispatchTimeUpdateFromTimer];
     }
 }
@@ -324,6 +337,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [self safelyRemovePlayerObserverForKeyPath:@"rate"];
     [self safelyRemovePlayerObserverForKeyPath:@"status"];
     [self safelyRemovePlayerObserverForKeyPath:@"currentItem"];
+    [self safelyRemovePlayerObserverForKeyPath:@"timeControlStatus"];
     _player = nil;
     if (_playerItem) {
         [self stopMonitoringAVPlayerItem];
@@ -335,7 +349,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)monitorAVPlayerItem {
-    if (!_automaticVideoChange && !_didTriggerManualVideoChange) {
+    if ((!_automaticVideoChange && !_didTriggerManualVideoChange) || _isAdPlaying) {
         return;
     }
     if (_playerItem) {
@@ -343,7 +357,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             _didTriggerManualVideoChange = false;
         }
         [self stopMonitoringAVPlayerItem];
+        
         [self.playDispatchDelegate videoChangedForPlayer:_name];
+        
         //
         // Special case for AVQueuePlayer
         // In a normal videoChange: world - the KVO for "rate" will fire - and
@@ -374,7 +390,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)stopMonitoringAVPlayerItem {
-    [MUXSDKCore destroyPlayer: _name];
+    if (!_isAdPlaying) {
+        [MUXSDKCore destroyPlayer: _name];
+    }
+    
     [self safelyRemovePlayerItemObserverForKeyPath:@"status"];
     [self safelyRemovePlayerItemObserverForKeyPath:@"playbackBufferEmpty"];
     _playerItem = nil;
@@ -572,9 +591,12 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         } else {
             [playerData setPlayerIsPaused:[NSNumber numberWithBool:NO]];
         }
-        float ms = CMTimeGetSeconds(_player.currentTime) * 1000;
-        [self setPlayerPlayheadTime:ms onPlayerData:playerData];
+        if (!_isAdPlaying) {
+            float ms = CMTimeGetSeconds(_player.currentTime) * 1000;
+            [self setPlayerPlayheadTime:ms onPlayerData:playerData];
+        }
     }
+    
     if ([errors count] > 0 && defaultMsg) {
         // Hard coded default value for now. Error codes on iOS have no meaning for now.
         // We'll reclassify/recode errors on the backend as we learn more.
@@ -667,6 +689,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     return _player.externalPlaybackActive && [self isPaused];
 }
 
+- (BOOL) isAdPlaying {
+    return _isAdPlaying;
+}
+
 - (void)startBuffering {
     _state = MUXSDKPlayerStateBuffering;
 }
@@ -711,8 +737,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     _state = MUXSDKPlayerStatePlay;
     // Note that this computation is done in response to an observed rate change and not a time update
     // so we have to both compute our drift and update the playhead time as we do in the time update handler.
-    [self computeDrift];
-    [self updateLastPlayheadTime];
+    if(!_isAdPlaying) {
+        [self computeDrift];
+        [self updateLastPlayheadTime];
+    }
 }
 
 - (void)dispatchPlaying {
@@ -961,17 +989,15 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 {
     // AVPlayer Observations
     if (context == MUXSDKAVPlayerRateObservationContext) {
+        if(_isAdPlaying) {
+            return;
+        }
         if (_player.rate == 0 && [self isPlayingOrTryingToPlay]) {
             [self dispatchPause];
         } else if (_player.rate != 0 && ![self isPlayingOrTryingToPlay]) {
             [self dispatchPlay];
         }
     } else if (context == MUXSDKAVPlayerStatusObservationContext) {
-        if (_seeking && _state == MUXSDKPlayerStatePlaying && _player.currentItem.status == AVPlayerItemStatusReadyToPlay) {
-            // Dispatch seeked and playing events for programmatic seeks on playing status
-            [self dispatchPlaying];
-        }
-        
         if ([self isPlayerInErrorState]) {
             [self dispatchError];
         }
@@ -984,9 +1010,14 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             [self dispatchError];
         }
     } else if (context == MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext) {
-        if ([_playerItem isPlaybackBufferEmpty] && _player.timeControlStatus != AVPlayerTimeControlStatusPlaying && [self isPausedWhileAirPlaying]) {
+        if ([_playerItem isPlaybackBufferEmpty] && _player.timeControlStatus != AVPlayerTimeControlStatusPlaying && [self isPausedWhileAirPlaying] && !_isAdPlaying) {
             // We erroneously detected a pause when in fact we are rebuffering. This *only* happens in AirPlay mode
             [self dispatchPlay];
+            [self dispatchPlaying];
+        }
+    } else if (context == MUXSDKAVPlayerTimeControlStatusObservationContext) {
+        if (_seeking && _state == MUXSDKPlayerStatePlaying) {
+            // Dispatch seeked and playing events for programmatic seeks on playing status
             [self dispatchPlaying];
         }
     }
