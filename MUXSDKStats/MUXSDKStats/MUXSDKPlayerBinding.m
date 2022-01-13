@@ -1016,7 +1016,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             [self dispatchPlaying];
         }
     } else if (context == MUXSDKAVPlayerTimeControlStatusObservationContext) {
-        if (_seeking && _state == MUXSDKPlayerStatePlaying && _player.timeControlStatus != AVPlayerTimeControlStatusPlaying) {
+        if (_seeking && _state == MUXSDKPlayerStatePlaying) {
             // Dispatch seeked and playing events for programmatic seeks on playing status
             [self dispatchPlaying];
         }
