@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     name: Build and test the SDK
-    runs-on: macos-latest
+    runs-on: macos-10.15
 
     steps:
       - name: Checkout
