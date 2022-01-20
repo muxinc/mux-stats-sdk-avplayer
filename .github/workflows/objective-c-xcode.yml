@@ -20,25 +20,30 @@ jobs:
           sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
           echo "Creating symlink of the iOS 14.1 runtime..."
           sudo ln -s /Applications/Xcode_12.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 14.1.simruntime
-      - name: List runtimes
-        run: |
-          xcrun simctl list runtimes
       - name: "Unit Tests"
         run: ".buildkite/unit-tests.sh"
       - name: ":hammer: Build"
         run: ".buildkite/build.sh"
-      
-#      - name: Set Default Scheme
-#        run: |
-#          scheme_list=$(xcodebuild -list -json | tr -d "\n")
-#          default=$(echo $scheme_list | ruby -e "require 'json'; puts JSON.parse(STDIN.gets)['project']['targets'][0]")
-#          echo $default | cat >default
-#          echo Using default scheme: $default
-#      - name: Build
-#        env:
-#          scheme: ${{ 'default' }}
-#        run: |
-#          if [ $scheme = default ]; then scheme=$(cat default); fi
-#          if [ "`ls -A | grep -i \\.xcworkspace\$`" ]; then filetype_parameter="workspace" && file_to_build="`ls -A | grep -i \\.xcworkspace\$`"; else filetype_parameter="project" && file_to_build="`ls -A | grep -i \\.xcodeproj\$`"; fi
-#          file_to_build=`echo $file_to_build | awk '{$1=$1;print}'`
-#          xcodebuild clean build analyze -scheme "$scheme" -"$filetype_parameter" "$file_to_build" | xcpretty && exit ${PIPESTATUS[0]}
+      - name: "Upload framework artifact"
+        uses: actions/upload-artifact@v2
+        with: 
+          name: "MUXSDKStats.xcframework.zip"
+          path: "MUXSDKStats.xcframework.zip"
+  tests:
+    name: Tests
+    runs-on: macos-10.15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Link to older simulator(s)
+        run: |
+          echo "Creating Runtimes folder if needed..."
+          sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
+          echo "Creating symlink of the iOS 14.1 runtime..."
+          sudo ln -s /Applications/Xcode_12.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 14.1.simruntime
+      - name: Download framework artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: "MUXSDKStats.xcframework.zip"
+      - name: Run tests
+        run: "apps/DemoApp/run-tests.sh"
