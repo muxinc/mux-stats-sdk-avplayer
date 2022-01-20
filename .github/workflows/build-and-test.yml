@@ -1,0 +1,68 @@
+name: Build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    name: Run unit tests and build the SDK
+    runs-on: macos-10.15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Link to older simulator(s)
+        run: |
+          echo "Creating Runtimes folder if needed..."
+          sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
+          echo "Creating symlink of the iOS 14.1 runtime..."
+          sudo ln -s /Applications/Xcode_12.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 14.1.simruntime
+      - name: "Unit Tests"
+        run: ".buildkite/unit-tests.sh"
+      - name: "🔨 Build"
+        run: ".buildkite/build.sh"
+      - name: "Upload framework artifact"
+        uses: actions/upload-artifact@v2
+        with: 
+          name: "MUXSDKStats.xcframework.zip"
+          path: "MUXSDKStats.xcframework.zip"
+  tests:
+    name: Test the SDK with a Demo App
+    needs: build
+    runs-on: macos-10.15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Link to older simulator(s)
+        run: |
+          echo "Creating Runtimes folder if needed..."
+          sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
+          echo "Creating symlink of the iOS 14.1 runtime..."
+          sudo ln -s /Applications/Xcode_12.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 14.1.simruntime
+      - name: Download framework artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: "MUXSDKStats.xcframework.zip"
+      - name: Run tests
+        run: "apps/DemoApp/run-tests.sh"
+  build-static:
+    name: Build static SDK
+    runs-on: macos-10.15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Link to older simulator(s)
+        run: |
+          echo "Creating Runtimes folder if needed..."
+          sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
+          echo "Creating symlink of the iOS 14.1 runtime..."
+          sudo ln -s /Applications/Xcode_12.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 14.1.simruntime
+      - name: "🔨 Build Static"
+        run: ".buildkite/build-static.sh"
+      - name: "Upload framework artifact"
+        uses: actions/upload-artifact@v2
+        with: 
+          name: "MUXSDKStats-static.xcframework.zip"
+          path: "MUXSDKStats-static.xcframework.zip"
