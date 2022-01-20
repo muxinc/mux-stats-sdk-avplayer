@@ -19,7 +19,10 @@ jobs:
           echo "Creating Runtimes folder if needed..."
           sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
           echo "Creating symlink of the iOS 14.1 runtime..."
-          sudo ln -s /Applications/Xcode_12.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 14.1.simruntime    
+          sudo ln -s /Applications/Xcode_12.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 14.1.simruntime
+      - name: List runtimes
+        run: |
+          xcrun simctl list runtimes
       - name: "Unit Tests"
         run: ".buildkite/unit-tests.sh"
       - name: ":hammer: Build"
