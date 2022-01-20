@@ -8,12 +8,18 @@ on:
 
 jobs:
   build:
-    name: Build and analyse default scheme using xcodebuild command
+    name: Build and test the SDK
     runs-on: macos-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Link to older simulator(s)
+        run: |
+          echo "Creating Runtimes folder if needed..."
+          sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
+          echo "Creating symlink of the iOS 14.1 runtime..."
+          sudo ln -s /Applications/Xcode_12.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 14.1.simruntime    
       - name: "Unit Tests"
         run: ".buildkite/unit-tests.sh"
       - name: ":hammer: Build"
