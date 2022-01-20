@@ -10,4 +10,4 @@ PROJECT=MUXSDKStats/MUXSDKStats.xcworkspace
 xcodebuild clean test \
   -workspace $PROJECT \
   -scheme MUXSDKStats \
-  -destination 'platform=iOS Simulator,name=iPhone 12,OS=15.2' \
+  -destination 'platform=iOS Simulator,name=iPhone 12,OS=15.0' \
