@@ -8,7 +8,7 @@ xcrun -v simctl shutdown all
 xcrun -v simctl erase all
 
 # Fetch artifact if running via buildkite (GitHub Actions fetches the artifact in a prior step)
-if command -v buildkit-agent > /dev/null 2>&1;
+if command -v buildkite-agent > /dev/null 2>&1;
 then
     buildkite-agent artifact download "MUXSDKStats.xcframework.zip" . --step ".buildkite/build.sh"
 fi
