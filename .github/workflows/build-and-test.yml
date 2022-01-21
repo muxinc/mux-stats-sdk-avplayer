@@ -64,13 +64,11 @@ jobs:
           name: "MUXSDKStats-static.xcframework.zip"
           path: "MUXSDKStats-static.xcframework.zip"
   build-big-sur:
-    name: Run unit tests and build the SDK
+    name: (Big Sur) Build the SDK
     runs-on: macos-11
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: "Unit Tests"
-        run: ".buildkite/unit-tests-big-sur.sh"
       - name: "🔨 Build"
         run: ".buildkite/build.sh"
       - name: "Upload framework artifact"
@@ -79,7 +77,7 @@ jobs:
           name: "MUXSDKStats-Big-Sur.xcframework.zip"
           path: "MUXSDKStats.xcframework.zip"
   tests-big-sur:
-    name: Test the SDK with a Demo App
+    name: (Big Sur) Test the SDK with a Demo App
     needs: build-big-sur
     runs-on: macos-11
     steps:
