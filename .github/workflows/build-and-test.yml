@@ -76,7 +76,7 @@ jobs:
       - name: "Upload framework artifact"
         uses: actions/upload-artifact@v2
         with:
-          name: "MUXSDKStats.xcframework.zip"
+          name: "MUXSDKStats-Big-Sur.xcframework.zip"
           path: "MUXSDKStats.xcframework.zip"
   tests-big-sur:
     name: Test the SDK with a Demo App
@@ -88,6 +88,6 @@ jobs:
       - name: Download framework artifact
         uses: actions/download-artifact@v2
         with:
-          name: "MUXSDKStats.xcframework.zip"
+          name: "MUXSDKStats-Big-Sur.xcframework.zip"
       - name: Run tests
         run: "apps/DemoApp/run-tests-big-sur.sh"
