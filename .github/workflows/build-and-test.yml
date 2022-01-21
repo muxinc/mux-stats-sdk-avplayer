@@ -63,3 +63,16 @@ jobs:
         with: 
           name: "MUXSDKStats-static.xcframework.zip"
           path: "MUXSDKStats-static.xcframework.zip"
+  tests-iOS-15:
+    name: (iOS 15) Test the SDK with a Demo App
+    needs: build
+    runs-on: macos-11
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Download framework artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: "MUXSDKStats.xcframework.zip"
+      - name: Run tests
+        run: "apps/DemoApp/run-tests-big-sur.sh"
