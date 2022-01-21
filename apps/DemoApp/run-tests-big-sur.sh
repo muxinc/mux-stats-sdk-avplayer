@@ -13,7 +13,7 @@ then
     buildkite-agent artifact download "MUXSDKStats.xcframework.zip" . --step ".buildkite/build.sh"
 fi
 
-unzip MUXSDKStats-Big-Sur.xcframework.zip
+unzip MUXSDKStats.xcframework.zip
 cd apps/DemoApp
 pod deintegrate && pod update
 xcodebuild -workspace DemoApp.xcworkspace \
