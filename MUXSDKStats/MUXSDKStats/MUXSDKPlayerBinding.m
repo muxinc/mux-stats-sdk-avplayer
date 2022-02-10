@@ -194,19 +194,20 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 - (void) handleRenditionChangeInAccessLog:(AVPlayerItemAccessLog *) log {
     AVPlayerItemAccessLogEvent *lastEvent = log.events.lastObject;
     float advertisedBitrate = lastEvent.indicatedBitrate;
-    BOOL bitrateHasChanged = ![self doubleValueIsEqual:@(_lastAdvertisedBitrate) toOther:@(advertisedBitrate)];
-    BOOL isStartingPlayback = [self doubleValueIsEqual:@(_lastAdvertisedBitrate) toOther:@(0)];
-
-    if (bitrateHasChanged) {
-        if(isStartingPlayback) {
-            // This is not a renditionchange but the player playing the first rendition.
-            _lastAdvertisedBitrate = advertisedBitrate;
+    
+    if (advertisedBitrate != 0 && _started) {
+        //Dispatch rendition change event only when playback began
+        if (lastEvent.playbackStartDate != nil) {
+            NSLog(@"MUXSDK-INFO - Switch advertised bitrate from: %f to: %f", _lastAdvertisedBitrate, advertisedBitrate);
+            [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object: @{
+                RenditionChangeNotificationInfoAdvertisedBitrate: @(advertisedBitrate)
+            }];
+        } else {
             return;
         }
-        NSLog(@"MUXSDK-INFO - Switch advertised bitrate from: %f to: %f", _lastAdvertisedBitrate, advertisedBitrate);
-        [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object: @{
-            RenditionChangeNotificationInfoAdvertisedBitrate: @(advertisedBitrate)
-        }];
+    } else {
+        _lastAdvertisedBitrate = advertisedBitrate;
+        return;
     }
 }
 
@@ -488,7 +489,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     }
     if (![self doubleValueIsEqual:@(_lastDispatchedAdvertisedBitrate) toOther:@(_lastAdvertisedBitrate)]) {
         videoDataUpdated = YES;
-        _lastDispatchedAdvertisedBitrate = _lastAdvertisedBitrate;
         _sourceDimensionsHaveChanged = YES;
     }
     if (_sourceDimensionsHaveChanged && CGSizeEqualToSize(_videoSize, _lastDispatchedVideoSize)) {
@@ -522,8 +522,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         if (_videoURL) {
             [videoData setVideoSourceUrl:_videoURL];
         }
-        if (_lastAdvertisedBitrate > 0) {
+        if (_lastAdvertisedBitrate > 0 && _started) {
             [videoData setVideoSourceAdvertisedBitrate:@(_lastAdvertisedBitrate)];
+            _lastDispatchedAdvertisedBitrate = _lastAdvertisedBitrate;
         }
         MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
         [dataEvent setVideoData:videoData];
