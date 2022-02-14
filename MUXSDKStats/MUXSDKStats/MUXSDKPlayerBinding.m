@@ -194,20 +194,17 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 - (void) handleRenditionChangeInAccessLog:(AVPlayerItemAccessLog *) log {
     AVPlayerItemAccessLogEvent *lastEvent = log.events.lastObject;
     float advertisedBitrate = lastEvent.indicatedBitrate;
-    
-    if (advertisedBitrate != 0 && _started) {
-        //Dispatch rendition change event only when playback began
-        if (lastEvent.playbackStartDate != nil) {
-            NSLog(@"MUXSDK-INFO - Switch advertised bitrate from: %f to: %f", _lastAdvertisedBitrate, advertisedBitrate);
-            [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object: @{
-                RenditionChangeNotificationInfoAdvertisedBitrate: @(advertisedBitrate)
-            }];
-        } else {
-            return;
-        }
-    } else {
+    if (advertisedBitrate <= 0 && !_started) {
         _lastAdvertisedBitrate = advertisedBitrate;
         return;
+    }
+    
+    //Dispatch rendition change event only when playback began
+    if (lastEvent.playbackStartDate != nil) {
+        NSLog(@"MUXSDK-INFO - Switch advertised bitrate from: %f to: %f", _lastAdvertisedBitrate, advertisedBitrate);
+        [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object: @{
+            RenditionChangeNotificationInfoAdvertisedBitrate: @(advertisedBitrate)
+        }];
     }
 }
 
@@ -502,6 +499,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             }
         }
     }
+    
+    if ([self IsTesting]) {
+        _started = YES;
+    }
+    
     if (videoDataUpdated) {
         MUXSDKVideoData *videoData = [[MUXSDKVideoData alloc] init];
         if (_videoSize.width > 0 && _videoSize.height > 0) {
@@ -664,6 +666,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         return NO;
     }
     return YES;
+}
+
+-(BOOL)IsTesting {
+    return [[NSProcessInfo processInfo].arguments containsObject:@"TEST"];
 }
 
 - (BOOL)isPlaying {
