@@ -198,14 +198,14 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         _lastAdvertisedBitrate = advertisedBitrate;
         return;
     }
-    
     //Dispatch rendition change event only when playback began
-    if (lastEvent.playbackStartDate != nil) {
-        NSLog(@"MUXSDK-INFO - Switch advertised bitrate from: %f to: %f", _lastAdvertisedBitrate, advertisedBitrate);
-        [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object: @{
-            RenditionChangeNotificationInfoAdvertisedBitrate: @(advertisedBitrate)
-        }];
+    if (lastEvent.playbackStartDate == nil) {
+        return;
     }
+    NSLog(@"MUXSDK-INFO - Switch advertised bitrate from: %f to: %f", _lastAdvertisedBitrate, advertisedBitrate);
+    [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object: @{
+        RenditionChangeNotificationInfoAdvertisedBitrate: @(advertisedBitrate)
+    }];
 }
 
 - (void) calculateBandwidthMetricFromAccessLog:(AVPlayerItemAccessLog *) log {
