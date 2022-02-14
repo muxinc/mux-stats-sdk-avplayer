@@ -194,7 +194,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 - (void) handleRenditionChangeInAccessLog:(AVPlayerItemAccessLog *) log {
     AVPlayerItemAccessLogEvent *lastEvent = log.events.lastObject;
     float advertisedBitrate = lastEvent.indicatedBitrate;
-    if (advertisedBitrate != 0 && !_started) {
+    BOOL bitrateHasChanged = ![self doubleValueIsEqual:@(_lastAdvertisedBitrate) toOther:@(advertisedBitrate)];
+    if (!bitrateHasChanged) {
+        return;
+    }
+    if (_lastAdvertisedBitrate == 0 || !_started) {
         _lastAdvertisedBitrate = advertisedBitrate;
         return;
     }
