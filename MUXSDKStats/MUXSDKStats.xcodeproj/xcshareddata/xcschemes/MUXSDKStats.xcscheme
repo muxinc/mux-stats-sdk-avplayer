@@ -26,13 +26,7 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "NO">
-      <CommandLineArguments>
-         <CommandLineArgument
-            argument = "TEST"
-            isEnabled = "YES">
-         </CommandLineArgument>
-      </CommandLineArguments>
+      shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
             skipped = "NO">

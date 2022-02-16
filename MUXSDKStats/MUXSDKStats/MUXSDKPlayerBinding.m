@@ -504,9 +504,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             }
         }
     }
-    if ([self IsTesting]) {
-        _started = YES;
-    }
     
     if (videoDataUpdated) {
         MUXSDKVideoData *videoData = [[MUXSDKVideoData alloc] init];
@@ -669,10 +666,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         return NO;
     }
     return YES;
-}
-
--(BOOL)IsTesting {
-    return [[NSProcessInfo processInfo].arguments containsObject:@"TEST"];
 }
 
 - (BOOL)isPlaying {
