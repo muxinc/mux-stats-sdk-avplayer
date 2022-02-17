@@ -195,19 +195,21 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     AVPlayerItemAccessLogEvent *lastEvent = log.events.lastObject;
     float advertisedBitrate = lastEvent.indicatedBitrate;
     BOOL bitrateHasChanged = ![self doubleValueIsEqual:@(_lastAdvertisedBitrate) toOther:@(advertisedBitrate)];
-    BOOL isStartingPlayback = [self doubleValueIsEqual:@(_lastAdvertisedBitrate) toOther:@(0)];
-
-    if (bitrateHasChanged) {
-        if(isStartingPlayback) {
-            // This is not a renditionchange but the player playing the first rendition.
-            _lastAdvertisedBitrate = advertisedBitrate;
-            return;
-        }
-        NSLog(@"MUXSDK-INFO - Switch advertised bitrate from: %f to: %f", _lastAdvertisedBitrate, advertisedBitrate);
-        [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object: @{
-            RenditionChangeNotificationInfoAdvertisedBitrate: @(advertisedBitrate)
-        }];
+    if (!bitrateHasChanged) {
+        return;
     }
+    if (_lastAdvertisedBitrate == 0 || !_started) {
+        _lastAdvertisedBitrate = advertisedBitrate;
+        return;
+    }
+    //Dispatch rendition change event only when playback began
+    if (lastEvent.playbackStartDate == nil) {
+        return;
+    }
+    NSLog(@"MUXSDK-INFO - Switch advertised bitrate from: %f to: %f", _lastAdvertisedBitrate, advertisedBitrate);
+    [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object: @{
+        RenditionChangeNotificationInfoAdvertisedBitrate: @(advertisedBitrate)
+    }];
 }
 
 - (void) calculateBandwidthMetricFromAccessLog:(AVPlayerItemAccessLog *) log {
@@ -502,6 +504,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             }
         }
     }
+    
     if (videoDataUpdated) {
         MUXSDKVideoData *videoData = [[MUXSDKVideoData alloc] init];
         if (_videoSize.width > 0 && _videoSize.height > 0) {
@@ -522,7 +525,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         if (_videoURL) {
             [videoData setVideoSourceUrl:_videoURL];
         }
-        if (_lastAdvertisedBitrate > 0) {
+        if (_lastAdvertisedBitrate > 0 && _started) {
             [videoData setVideoSourceAdvertisedBitrate:@(_lastAdvertisedBitrate)];
         }
         MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
