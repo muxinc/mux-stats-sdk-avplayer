@@ -403,9 +403,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
                 }
             }
             
-            MUXSDKSessionDataEvent *dataEvent = [MUXSDKSessionDataEvent new];
-            [dataEvent setSessionData: sessionData];
-            [MUXSDKCore dispatchEvent:dataEvent forPlayer:[weakSelf name]];
+            if ([sessionData count] > 0) {
+                MUXSDKSessionDataEvent *dataEvent = [MUXSDKSessionDataEvent new];
+                [dataEvent setSessionData: sessionData];
+                [MUXSDKCore dispatchEvent:dataEvent forPlayer:[weakSelf name]];
+            }
         }];
     }
 }
