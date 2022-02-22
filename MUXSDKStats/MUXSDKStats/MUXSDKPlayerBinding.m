@@ -386,6 +386,25 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
                       forKeyPath:@"playbackBufferEmpty"
                          options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
                          context:MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext];
+        
+        AVAsset *asset = _player.currentItem.asset;
+        // Load Session Data from HLS manifest
+        __weak MUXSDKPlayerBinding *weakSelf = self;
+        [asset loadValuesAsynchronouslyForKeys:@[@"metadata"] completionHandler:^{
+            NSMutableDictionary *sessionData = [[NSMutableDictionary alloc] init];
+            for (AVMetadataItem *item in asset.metadata) {
+                NSString *keyString = (NSString *)[item key];
+                NSString *prefix = @"io.litix.data.";
+                if ([keyString hasPrefix:prefix]) {
+                    NSString *itemKey = [keyString substringFromIndex:[prefix length]];
+                    [sessionData setObject:[item value] forKey:itemKey];
+                }
+            }
+            
+            MUXSDKSessionDataEvent *dataEvent = [MUXSDKSessionDataEvent new];
+            [dataEvent setSessionData: sessionData];
+            [MUXSDKCore dispatchEvent:dataEvent forPlayer:[weakSelf name]];
+        }];
     }
 }
 
@@ -691,6 +710,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 - (BOOL) isAdPlaying {
     return _isAdPlaying;
+}
+
+- (NSString *) name {
+    return _name;
 }
 
 - (void)startBuffering {
