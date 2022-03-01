@@ -927,7 +927,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             [event setPlayerData:playerData];
             [MUXSDKCore dispatchEvent:event forPlayer:_name];
         } else if (_state == MUXSDKPlayerStatePlaying || _state == MUXSDKPlayerStateBuffering) {
-            // If seek is called programatically on play/playing it will enter this block, otherwise it will run the upper branch logic
+            // If seek is called programmatically while the player is playing or buffering it will enter this block, otherwise it will run the upper branch logic
             _seeking = YES;
             MUXSDKInternalSeekingEvent *seekingEvent = [[MUXSDKInternalSeekingEvent alloc] init];
             MUXSDKPlayerData *playerData = [self getPlayerData];
