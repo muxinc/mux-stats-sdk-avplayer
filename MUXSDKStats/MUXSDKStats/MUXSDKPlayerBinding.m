@@ -13,6 +13,7 @@
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
 NSString *const MUXSDKPluginVersion = @"2.11.0";
+NSString *const MUXSessionDataPrefix = @"io.litix.data.";
 
 // Min number of seconds between timeupdate events. (100ms)
 double MUXSDKMaxSecsBetweenTimeUpdate = 0.1;
@@ -388,7 +389,31 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
                       forKeyPath:@"playbackBufferEmpty"
                          options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
                          context:MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext];
+        
+        [self dispatchSessionData];
     }
+}
+
+- (void)dispatchSessionData {
+    AVAsset *asset = _player.currentItem.asset;
+    // Load Session Data from HLS manifest
+    __weak MUXSDKPlayerBinding *weakSelf = self;
+    [asset loadValuesAsynchronouslyForKeys:@[@"metadata"] completionHandler:^{
+        NSMutableDictionary *sessionData = [[NSMutableDictionary alloc] init];
+        for (AVMetadataItem *item in asset.metadata) {
+            NSString *keyString = (NSString *)[item key];
+            if ([keyString hasPrefix:MUXSessionDataPrefix]) {
+                NSString *itemKey = [keyString substringFromIndex:[MUXSessionDataPrefix length]];
+                [sessionData setObject:[item value] forKey:itemKey];
+            }
+        }
+        
+        if ([sessionData count] > 0) {
+            MUXSDKSessionDataEvent *dataEvent = [MUXSDKSessionDataEvent new];
+            [dataEvent setSessionData: sessionData];
+            [MUXSDKCore dispatchEvent:dataEvent forPlayer:[weakSelf name]];
+        }
+    }];
 }
 
 - (void)stopMonitoringAVPlayerItem {
@@ -694,6 +719,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 - (BOOL) isAdPlaying {
     return _isAdPlaying;
+}
+
+- (NSString *) name {
+    return _name;
 }
 
 - (void)startBuffering {
