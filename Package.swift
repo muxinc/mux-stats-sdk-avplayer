@@ -15,7 +15,7 @@ let package = Package(
         .package(
             name: "MuxCore",
             url: "https://github.com/muxinc/stats-sdk-objc.git",
-            from: "3.8.0"
+            from: "3.10.0"
         )
     ],
     targets: [
