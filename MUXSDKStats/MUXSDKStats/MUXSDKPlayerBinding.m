@@ -12,7 +12,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"2.12.0";
+NSString *const MUXSDKPluginVersion = @"2.12.1";
 NSString *const MUXSessionDataPrefix = @"io.litix.data.";
 
 // Min number of seconds between timeupdate events. (100ms)
@@ -401,10 +401,13 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [asset loadValuesAsynchronouslyForKeys:@[@"metadata"] completionHandler:^{
         NSMutableDictionary *sessionData = [[NSMutableDictionary alloc] init];
         for (AVMetadataItem *item in asset.metadata) {
-            NSString *keyString = (NSString *)[item key];
-            if ([keyString hasPrefix:MUXSessionDataPrefix]) {
-                NSString *itemKey = [keyString substringFromIndex:[MUXSessionDataPrefix length]];
-                [sessionData setObject:[item value] forKey:itemKey];
+            id<NSObject, NSCopying> key = [item key];
+            if ([key isKindOfClass:[NSString class]]) {
+                NSString *keyString = (NSString *)key;
+                if ([keyString hasPrefix:MUXSessionDataPrefix]) {
+                    NSString *itemKey = [keyString substringFromIndex:[MUXSessionDataPrefix length]];
+                    [sessionData setObject:[item value] forKey:itemKey];
+                }
             }
         }
         
@@ -706,7 +709,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (BOOL) isPaused {
-    return _state = MUXSDKPlayerStatePaused;
+    return _state == MUXSDKPlayerStatePaused;
 }
 
 - (BOOL)isPlayingOrTryingToPlay {
