@@ -4,7 +4,7 @@ platform :ios, '10.0'
 target 'DemoApp' do
   use_frameworks!
   #FIXME: Remove next line before release
-  pod 'Mux-Stats-Core', :path => '../../../stats-sdk-objc'
+  pod 'Mux-Stats-Core' , :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'szuniga/beacon_collection_domain'
   pod 'Mux-Stats-AVPlayer', :path => '../../'
   pod 'GoogleAds-IMA-iOS-SDK', '~> 3.14'
   pod 'Mux-Stats-Google-IMA', '~> 0.6'

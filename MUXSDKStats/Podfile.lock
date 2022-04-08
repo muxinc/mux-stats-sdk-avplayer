@@ -2,15 +2,21 @@ PODS:
   - Mux-Stats-Core (3.11.0)
 
 DEPENDENCIES:
-  - Mux-Stats-Core (from `../../stats-sdk-objc`)
+  - Mux-Stats-Core (from `https://github.com/muxinc/stats-sdk-objc.git`, branch `szuniga/beacon_collection_domain`)
 
 EXTERNAL SOURCES:
   Mux-Stats-Core:
-    :path: "../../stats-sdk-objc"
+    :branch: szuniga/beacon_collection_domain
+    :git: https://github.com/muxinc/stats-sdk-objc.git
+
+CHECKOUT OPTIONS:
+  Mux-Stats-Core:
+    :commit: 1bafa4714e13fa24eb1d9c6f89280d94e8451bad
+    :git: https://github.com/muxinc/stats-sdk-objc.git
 
 SPEC CHECKSUMS:
   Mux-Stats-Core: 0415ae94508651e151f0e82e2d954955059d5b67
 
-PODFILE CHECKSUM: 94c04356618f8123df9dbe1a7521b0127f75d7ef
+PODFILE CHECKSUM: a3c6106cd754d25682517b14d5de5514d20f6e04
 
 COCOAPODS: 1.11.3
