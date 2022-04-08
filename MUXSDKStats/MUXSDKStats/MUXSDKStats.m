@@ -152,8 +152,60 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                                                  withPlayerName:(nonnull NSString *)name
                                                    customerData:(nonnull MUXSDKCustomerData *)customerData
                                          automaticErrorTracking:(BOOL)automaticErrorTracking
-                                                   beaconDomain:(nullable NSString *)domain {
+                                         beaconCollectionDomain:(nullable NSString *)collectionDomain {
 
+    MUXSDKCustomerViewerData *viewerData = [customerData customerViewerData];
+    if (viewerData != nil) {
+        _customerViewerData = viewerData;
+    }
+
+    [self initSDK];
+    NSString *binding = [_bindings valueForKey:name];
+    if (binding) {
+        // Destroy any previously existing player with this name.
+        [self destroyPlayer:name];
+    }
+    if (player.player) {
+        MUXSDKCustomerPlayerData *playerData = customerData.customerPlayerData;
+        MUXSDKCustomerVideoData *videoData = customerData.customerVideoData;
+        MUXSDKCustomerViewData *viewData = customerData.customerViewData;
+        MUXSDKCustomData *customData = customerData.customData;
+
+        MUXSDKAVPlayerViewControllerBinding *newBinding = [[MUXSDKAVPlayerViewControllerBinding alloc] initWithName:name software:MuxPlayerSoftwareAVPlayerViewController andView:player];
+        [newBinding setAutomaticErrorTracking:automaticErrorTracking];
+        newBinding.playDispatchDelegate = _playerBindingManager;
+        if (collectionDomain != nil && collectionDomain.length > 0) {
+            [MUXSDKCore setBeaconCollectionDomain:collectionDomain forPlayer:name];
+        }
+
+        [_customerPlayerDataStore setPlayerData:playerData forPlayerName:name];
+        if (videoData) {
+            [_customerVideoDataStore setVideoData:videoData forPlayerName:name];
+        }
+        if (viewData) {
+            [_customerViewDataStore setViewData:viewData forPlayerName:name];
+        }
+        if (customData) {
+            [_customerCustomDataStore setCustomData:customData forPlayerName:name];
+        }
+        [_viewControllers setValue:newBinding forKey:name];
+        [_bindings setValue:MuxPlayerSoftwareAVPlayerViewController forKey:name];
+
+        [newBinding attachAVPlayer:player.player];
+        [_playerBindingManager newViewForPlayer:name];
+        return newBinding;
+    } else {
+        NSLog(@"MUXSDK-ERROR - Mux failed to configure the monitor because AVPlayerViewController.player was NULL for player name: %@", name);
+        return NULL;
+    }
+}
+
+// Deprecated: Legacy beacon domain implementation
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
+                                                 withPlayerName:(nonnull NSString *)name
+                                                   customerData:(nonnull MUXSDKCustomerData *)customerData
+                                         automaticErrorTracking:(BOOL)automaticErrorTracking
+                                                   beaconDomain:(nullable NSString *)domain {
     MUXSDKCustomerViewerData *viewerData = [customerData customerViewerData];
     if (viewerData != nil) {
         _customerViewerData = viewerData;
@@ -210,7 +262,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                                 withPlayerName:name
                                   customerData:customerData
                         automaticErrorTracking:automaticErrorTracking
-                                  beaconDomain:nil];
+                        beaconCollectionDomain:nil];
 
 }
 
@@ -221,7 +273,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                                 withPlayerName:name
                                   customerData:customerData
                         automaticErrorTracking:true
-                                  beaconDomain:nil];
+                        beaconCollectionDomain:nil];
 }
 
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
@@ -303,6 +355,58 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                                         withPlayerName:(nonnull NSString *)name
                                           customerData:(nonnull MUXSDKCustomerData *)customerData
                                 automaticErrorTracking:(BOOL)automaticErrorTracking
+                                          beaconCollectionDomain:(nullable NSString *)collectionDomain {
+    MUXSDKCustomerViewerData *viewerData = [customerData customerViewerData];
+    if (viewerData != nil) {
+        _customerViewerData = viewerData;
+    }
+
+    [self initSDK];
+    NSString *binding = [_bindings valueForKey:name];
+    if (binding) {
+        // Destroy any previously existing player with this name.
+        [self destroyPlayer:name];
+    }
+    if (player.player) {
+        MUXSDKCustomerPlayerData *playerData = customerData.customerPlayerData;
+        MUXSDKCustomerVideoData *videoData = customerData.customerVideoData;
+        MUXSDKCustomerViewData *viewData = customerData.customerViewData;
+        MUXSDKCustomData *customData = customerData.customData;
+
+        MUXSDKAVPlayerLayerBinding *newBinding = [[MUXSDKAVPlayerLayerBinding alloc] initWithName:name software:MuxPlayerSoftwareAVPlayerLayer andView:player];
+        newBinding.playDispatchDelegate = _playerBindingManager;
+        [newBinding setAutomaticErrorTracking:automaticErrorTracking];
+        if (collectionDomain != nil && collectionDomain.length > 0) {
+            [MUXSDKCore setBeaconCollectionDomain:collectionDomain forPlayer:name];
+        }
+
+        [_customerPlayerDataStore setPlayerData:playerData forPlayerName:name];
+        if (videoData) {
+            [_customerVideoDataStore setVideoData:videoData forPlayerName:name];
+        }
+        if (viewData) {
+            [_customerViewDataStore setViewData:viewData forPlayerName:name];
+        }
+        if (customData) {
+            [_customerCustomDataStore setCustomData:customData forPlayerName:name];
+        }
+        [_viewControllers setValue:newBinding forKey:name];
+        [_bindings setValue:MuxPlayerSoftwareAVPlayerLayer forKey:name];
+
+        [newBinding attachAVPlayer:player.player];
+        [_playerBindingManager newViewForPlayer:name];
+        return newBinding;
+    } else {
+        NSLog(@"MUXSDK-ERROR - Mux failed to configure the monitor because AVPlayerLayer.player was NULL for player name: %@", name);
+        return NULL;
+    }
+}
+
+// Deprecated: Legacy beacon domain implementation
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
+                                        withPlayerName:(nonnull NSString *)name
+                                          customerData:(nonnull MUXSDKCustomerData *)customerData
+                                automaticErrorTracking:(BOOL)automaticErrorTracking
                                           beaconDomain:(nullable NSString *)domain {
     MUXSDKCustomerViewerData *viewerData = [customerData customerViewerData];
     if (viewerData != nil) {
@@ -359,7 +463,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                        withPlayerName:name
                          customerData:customerData
                automaticErrorTracking:automaticErrorTracking
-                         beaconDomain:nil];
+                         beaconCollectionDomain:nil];
 }
 
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
