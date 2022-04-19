@@ -283,7 +283,7 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
                                                                                      viewData:viewData
                                                                                    customData:customData
                                                                                    viewerData:viewerData];
-    _playerBinding = [MUXSDKStats monitorAVPlayerViewController:_avplayerController withPlayerName:DEMO_PLAYER_NAME customerData:customerData automaticErrorTracking:YES beaconCollectionDomain:@"myDomain.com"];
+    _playerBinding = [MUXSDKStats monitorAVPlayerViewController:_avplayerController withPlayerName:DEMO_PLAYER_NAME customerData:customerData];
     _imaListener = [[MuxImaListener alloc] initWithPlayerBinding:_playerBinding];
     [_avplayer play];
     [self addChildViewController:_avplayerController];
