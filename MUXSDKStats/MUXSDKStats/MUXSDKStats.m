@@ -152,8 +152,35 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                                                  withPlayerName:(nonnull NSString *)name
                                                    customerData:(nonnull MUXSDKCustomerData *)customerData
                                          automaticErrorTracking:(BOOL)automaticErrorTracking
-                                                   beaconDomain:(nullable NSString *)domain {
+                                         beaconCollectionDomain:(nullable NSString *)collectionDomain {
+    return [self monitorAVPlayerViewController:player
+                                withPlayerName:name
+                                  customerData:customerData
+                        automaticErrorTracking:automaticErrorTracking
+                        beaconCollectionDomain:collectionDomain
+                                  beaconDomain:nil];
+}
 
+// Legacy deprecated implementation
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
+                                                 withPlayerName:(nonnull NSString *)name
+                                                   customerData:(nonnull MUXSDKCustomerData *)customerData
+                                         automaticErrorTracking:(BOOL)automaticErrorTracking
+                                                   beaconDomain:(nullable NSString *)domain {
+    return [self monitorAVPlayerViewController:player
+                                withPlayerName:name
+                                  customerData:customerData
+                        automaticErrorTracking:automaticErrorTracking
+                        beaconCollectionDomain:nil
+                                  beaconDomain:domain];
+}
+
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
+                                                 withPlayerName:(nonnull NSString *)name
+                                                   customerData:(nonnull MUXSDKCustomerData *)customerData
+                                         automaticErrorTracking:(BOOL)automaticErrorTracking
+                                         beaconCollectionDomain:(nullable NSString *)collectionDomain
+                                                   beaconDomain:(nullable NSString *)domain {
     MUXSDKCustomerViewerData *viewerData = [customerData customerViewerData];
     if (viewerData != nil) {
         _customerViewerData = viewerData;
@@ -174,7 +201,10 @@ static MUXSDKCustomerViewerData *_customerViewerData;
         MUXSDKAVPlayerViewControllerBinding *newBinding = [[MUXSDKAVPlayerViewControllerBinding alloc] initWithName:name software:MuxPlayerSoftwareAVPlayerViewController andView:player];
         [newBinding setAutomaticErrorTracking:automaticErrorTracking];
         newBinding.playDispatchDelegate = _playerBindingManager;
-        if (domain != nil && domain.length > 0) {
+        
+        if (collectionDomain != nil && collectionDomain.length > 0) {
+            [MUXSDKCore setBeaconCollectionDomain:collectionDomain forPlayer:name];
+        } else if (domain != nil && domain.length > 0) {
             [MUXSDKCore setBeaconDomain:domain forPlayer:name];
         }
 
@@ -200,8 +230,6 @@ static MUXSDKCustomerViewerData *_customerViewerData;
     }
 }
 
-
-
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
                                                  withPlayerName:(nonnull NSString *)name
                                                    customerData:(nonnull MUXSDKCustomerData *)customerData
@@ -210,7 +238,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                                 withPlayerName:name
                                   customerData:customerData
                         automaticErrorTracking:automaticErrorTracking
-                                  beaconDomain:nil];
+                        beaconCollectionDomain:nil];
 
 }
 
@@ -221,7 +249,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                                 withPlayerName:name
                                   customerData:customerData
                         automaticErrorTracking:true
-                                  beaconDomain:nil];
+                        beaconCollectionDomain:nil];
 }
 
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
@@ -303,6 +331,34 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                                         withPlayerName:(nonnull NSString *)name
                                           customerData:(nonnull MUXSDKCustomerData *)customerData
                                 automaticErrorTracking:(BOOL)automaticErrorTracking
+                                          beaconCollectionDomain:(nullable NSString *)collectionDomain {
+    return [self monitorAVPlayerLayer:player
+                       withPlayerName:name
+                         customerData:customerData
+               automaticErrorTracking:automaticErrorTracking
+               beaconCollectionDomain:collectionDomain
+                         beaconDomain:nil];
+}
+
+// Deprecated: Legacy beacon domain implementation
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
+                                        withPlayerName:(nonnull NSString *)name
+                                          customerData:(nonnull MUXSDKCustomerData *)customerData
+                                automaticErrorTracking:(BOOL)automaticErrorTracking
+                                          beaconDomain:(nullable NSString *)domain {
+    return [self monitorAVPlayerLayer:player
+                       withPlayerName:name
+                         customerData:customerData
+               automaticErrorTracking:automaticErrorTracking
+               beaconCollectionDomain:nil
+                         beaconDomain:domain];
+}
+
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
+                                        withPlayerName:(nonnull NSString *)name
+                                          customerData:(nonnull MUXSDKCustomerData *)customerData
+                                automaticErrorTracking:(BOOL)automaticErrorTracking
+                                beaconCollectionDomain:(nullable NSString *)collectionDomain
                                           beaconDomain:(nullable NSString *)domain {
     MUXSDKCustomerViewerData *viewerData = [customerData customerViewerData];
     if (viewerData != nil) {
@@ -324,7 +380,9 @@ static MUXSDKCustomerViewerData *_customerViewerData;
         MUXSDKAVPlayerLayerBinding *newBinding = [[MUXSDKAVPlayerLayerBinding alloc] initWithName:name software:MuxPlayerSoftwareAVPlayerLayer andView:player];
         newBinding.playDispatchDelegate = _playerBindingManager;
         [newBinding setAutomaticErrorTracking:automaticErrorTracking];
-        if (domain != nil && domain.length > 0) {
+        if (collectionDomain != nil && collectionDomain.length > 0) {
+            [MUXSDKCore setBeaconCollectionDomain:collectionDomain forPlayer:name];
+        } else if (domain != nil && domain.length > 0) {
             [MUXSDKCore setBeaconDomain:domain forPlayer:name];
         }
 
@@ -359,7 +417,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                        withPlayerName:name
                          customerData:customerData
                automaticErrorTracking:automaticErrorTracking
-                         beaconDomain:nil];
+                         beaconCollectionDomain:nil];
 }
 
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
