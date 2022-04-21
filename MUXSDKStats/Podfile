@@ -5,14 +5,12 @@ target 'MUXSDKStats' do
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
   # use_frameworks!
   # Pods for MUXSDKStats
-#  pod 'Mux-Stats-Core', '~>3.12.0'
-  pod 'Mux-Stats-Core' , :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'szuniga/beacon_collection_domain'
+  pod 'Mux-Stats-Core', '~>3.12.0'
   
   target 'MUXSDKStatsTests' do
     inherit! :search_paths
     # Pods for testing
-#    pod 'Mux-Stats-Core', '~>3.12.0'
-  pod 'Mux-Stats-Core' , :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'szuniga/beacon_collection_domain'
+    pod 'Mux-Stats-Core', '~>3.12.0'
   end
   
 end
@@ -22,6 +20,5 @@ target 'MUXSDKStatsTv' do
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
   # use_frameworks!
   # Pods for MUXSDKStatsTv
-#  pod 'Mux-Stats-Core', '~>3.12.0'
-  pod 'Mux-Stats-Core' , :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'szuniga/beacon_collection_domain'
+  pod 'Mux-Stats-Core', '~>3.12.0'
 end
