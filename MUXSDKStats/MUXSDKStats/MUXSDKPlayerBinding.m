@@ -1014,7 +1014,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (!_player || !_playerItem) {
         return NO;
     }
-    return _player.status == AVPlayerStatusFailed || _playerItem.status == AVPlayerItemStatusFailed;
+    return _player.error || _playerItem.error;
 }
 
 - (void)observeValueForKeyPath:(NSString*) path
