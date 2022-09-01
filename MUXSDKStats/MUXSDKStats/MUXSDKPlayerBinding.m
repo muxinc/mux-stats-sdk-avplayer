@@ -1014,6 +1014,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (!_player || !_playerItem) {
         return NO;
     }
+    // check for presence of errors rather than player status
     return _player.error || _playerItem.error;
 }
 
