@@ -12,7 +12,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"2.13.1";
+NSString *const MUXSDKPluginVersion = @"2.13.2";
 NSString *const MUXSessionDataPrefix = @"io.litix.data.";
 
 // Min number of seconds between timeupdate events. (100ms)
@@ -1014,7 +1014,8 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (!_player || !_playerItem) {
         return NO;
     }
-    return _player.status == AVPlayerStatusFailed || _playerItem.status == AVPlayerItemStatusFailed;
+    // check for presence of errors rather than player status
+    return _player.error || _playerItem.error;
 }
 
 - (void)observeValueForKeyPath:(NSString*) path
