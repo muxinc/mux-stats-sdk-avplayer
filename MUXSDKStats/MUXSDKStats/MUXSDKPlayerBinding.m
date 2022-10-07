@@ -237,6 +237,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
        loadData.requestBytesLoaded = [NSNumber numberWithLong: event.numberOfBytesTransferred - _lastTransferredBytes];
        loadData.requestResponseHeaders = nil;
        loadData.requestHostName = [self getHostName:event.URI];
+       loadData.requestUrl = event.URI;
        loadData.requestCurrentLevel = nil;
        loadData.requestMediaStartTime = nil;
        loadData.requestMediaDuration = nil;
