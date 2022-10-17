@@ -108,41 +108,56 @@ static MUXSDKCustomerViewerData *_customerViewerData;
     } else if (bundleVersion) {
         [viewerData setViewerApplicationVersion:bundleVersion];
     }
-    [viewerData setViewerDeviceManufacturer:@"Apple"];
-    [viewerData setMuxViewerDeviceManufacturer:@"Apple"];
+    NSString *systemDeviceCategory = @"unknown";
+    NSString *systemOsFamily = @"unknown";
     struct utsname systemInfo;
     uname(&systemInfo);
-    [viewerData setViewerDeviceModel:[NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding]];
-    [viewerData setMuxViewerDeviceModel:[NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding]];
-    NSString *deviceCategory = @"unknown";
-    NSString *osFamily = @"unknown";
+    NSString *systemDeviceModel = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+    NSString *systemOsVersion = [[UIDevice currentDevice] systemVersion];
     switch ([[UIDevice currentDevice] userInterfaceIdiom]) {
         case UIUserInterfaceIdiomTV:
-            deviceCategory = @"tv";
-            osFamily = @"tvOS";
+            systemDeviceCategory = @"tv";
+            systemOsFamily = @"tvOS";
             break;
         case UIUserInterfaceIdiomPad:
-            deviceCategory = @"tablet";
-            osFamily = @"iOS";
+            systemDeviceCategory = @"tablet";
+            systemOsFamily = @"iOS";
             break;
         case UIUserInterfaceIdiomPhone:
-            deviceCategory = @"phone";
-            osFamily = @"iOS";
+            systemDeviceCategory = @"phone";
+            systemOsFamily = @"iOS";
             break;
         case UIUserInterfaceIdiomCarPlay:
-            deviceCategory = @"car";
-            osFamily = @"CarPlay";
+            systemDeviceCategory = @"car";
+            systemOsFamily = @"CarPlay";
             break;
         default:
             break;
     }
-    [viewerData setViewerDeviceCategory:deviceCategory];
-    [viewerData setViewerOsFamily:osFamily];
-    [viewerData setViewerOsVersion:[[UIDevice currentDevice] systemVersion]];
     
-    [viewerData setMuxViewerDeviceCategory:deviceCategory];
-    [viewerData setMuxViewerOsFamily:osFamily];
-    [viewerData setMuxViewerOsVersion:[[UIDevice currentDevice] systemVersion]];
+    // Detected values for device metadata
+    [viewerData setMuxViewerDeviceModel:systemDeviceModel];
+    [viewerData setMuxViewerDeviceCategory:systemDeviceCategory];
+    [viewerData setMuxViewerOsFamily:systemOsFamily];
+    [viewerData setMuxViewerOsVersion:systemOsVersion];
+    [viewerData setMuxViewerDeviceManufacturer:@"Apple"];
+    
+    // Overridden values for device metadata
+    if(_customerViewerData.viewerDeviceModel) {
+        [viewerData setViewerDeviceModel:_customerViewerData.viewerDeviceModel];
+    }
+    if(_customerViewerData.viewerDeviceCategory) {
+        [viewerData setViewerDeviceCategory:_customerViewerData.viewerDeviceCategory];
+    }
+    if(_customerViewerData.viewerOsFamily) {
+        [viewerData setViewerOsFamily:_customerViewerData.viewerOsFamily];
+    }
+    if(_customerViewerData.viewerOsVersion) {
+        [viewerData setViewerOsVersion:_customerViewerData.viewerOsVersion];
+    }
+    if(_customerViewerData.viewerDeviceManufacturer) {
+        [viewerData setViewerDeviceManufacturer:_customerViewerData.viewerDeviceManufacturer];
+    }
     return viewerData;
 }
 
