@@ -693,4 +693,5 @@ static MUXSDKCustomerViewerData *_customerViewerData;
     if (!player) return;
     [player dispatchError:code withMessage:message];
 }
+
 @end
