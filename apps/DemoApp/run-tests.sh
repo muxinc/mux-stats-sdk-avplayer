@@ -13,6 +13,10 @@ then
     buildkite-agent artifact download "MUXSDKStats.xcframework.zip" . --step ".buildkite/build.sh"
 fi
 
+echo "========= test xcode version"
+xcodebuild -version
+
+
 unzip MUXSDKStats.xcframework.zip
 cd apps/DemoApp
 pod deintegrate && pod update
