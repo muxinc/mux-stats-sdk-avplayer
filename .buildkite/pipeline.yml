@@ -2,23 +2,23 @@ steps:
   - command: ".buildkite/unit-tests.sh"
     label: "Unit Tests"
     agents:
-      queue: "iOS"
+      queue: "macOS-Monterey-12-4"
   - wait
   - command: ".buildkite/build.sh"
     label: ":hammer: Build"
     artifact_paths:
         - "MUXSDKStats.xcframework.zip"
     agents:
-      queue: "iOS"
+      queue: "macOS-Monterey-12-4"
   - wait
   - command: "apps/DemoApp/run-tests.sh"
     label: "Tests"
     agents:
-      queue: "iOS"
+      queue: "macOS-Monterey-12-4"
   - wait
   - command: ".buildkite/build-static.sh"
     label: ":hammer: Build Static"
     artifact_paths:
         - "MUXSDKStats-static.xcframework.zip"
     agents:
-      queue: "iOS"
+      queue: "macOS-Monterey-12-4"
