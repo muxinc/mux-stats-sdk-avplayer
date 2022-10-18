@@ -1,16 +1,22 @@
 PODS:
-  - Mux-Stats-Core (3.14.0)
+  - Mux-Stats-Core (4.0.0)
 
 DEPENDENCIES:
-  - Mux-Stats-Core (~> 3.12)
+  - "Mux-Stats-Core (from `git@github.com:muxinc/stats-sdk-objc.git`, branch `release/4.0.0`)"
 
-SPEC REPOS:
-  trunk:
-    - Mux-Stats-Core
+EXTERNAL SOURCES:
+  Mux-Stats-Core:
+    :branch: release/4.0.0
+    :git: "git@github.com:muxinc/stats-sdk-objc.git"
+
+CHECKOUT OPTIONS:
+  Mux-Stats-Core:
+    :commit: 2abe39187fccbdcb8344f006cbc4882611f4f7dc
+    :git: "git@github.com:muxinc/stats-sdk-objc.git"
 
 SPEC CHECKSUMS:
-  Mux-Stats-Core: 222a9b4607728d6a770f81e061669f706f90a2e4
+  Mux-Stats-Core: 619b7da5505ef3420560577ec8bb4cab258ba30d
 
-PODFILE CHECKSUM: b91679b298bd9cd5ce8c4be2ffda66512e28b3bd
+PODFILE CHECKSUM: 70bafa78c3fe79624141fef108b9a4d5429b9c5d
 
 COCOAPODS: 1.11.3
