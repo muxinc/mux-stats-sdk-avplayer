@@ -20,6 +20,6 @@ cd apps/DemoApp
 pod deintegrate && pod update
 xcodebuild -workspace DemoApp.xcworkspace \
            -scheme "DemoApp" \
-           -destination 'platform=iOS,name=Any iOS Device' \
+           -destination 'id=0E28F889-6EE9-4757-B094-F96116A0B2A1' \
            test
            #-destination 'platform=iOS Simulator,OS=15.2,name=iPhone 13 Pro Max' \
