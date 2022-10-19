@@ -16,6 +16,14 @@ xcrun -v simctl erase all
 unzip MUXSDKStats.xcframework.zip
 cd apps/DemoApp
 pod deintegrate && pod update
+
+echo "======"
+pwd
+ls -lisa
+ls -lisa ..
+ls -lisa ../..
+echo "======"
+
 xcodebuild -workspace DemoApp.xcworkspace \
            -scheme "DemoApp" \
            -destination 'platform=iOS Simulator,name=iPhone 11,OS=14.1' \
