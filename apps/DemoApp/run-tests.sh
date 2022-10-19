@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
+brew install xcbeautify
+
 # Delete the old stuff
 rm -Rf XCFramework
 # reset simulators
@@ -18,6 +20,8 @@ unzip MUXSDKStats.xcframework.zip
 echo "+++++"
 ls -lisa 
 ls -lisa XCFramework
+echo "AND THE ARTIFACT ZIP"
+zipinfo -l MUXSDKStats.xcframework.zip
 echo "+++++"
 
 cd apps/DemoApp
