@@ -4,6 +4,7 @@ pwd
 ls -lisa
 ls -lisa ..
 ls -lisa ../..
+ls -lisa ../../MUXSDKStats
 echo "======"
 
 set -euo pipefail
@@ -20,7 +21,12 @@ xcrun -v simctl erase all
 #    buildkite-agent artifact download "MUXSDKStats.xcframework.zip" . --step ".github/workflows/scripts/build.sh"
 #fi
 
+cd MUXSDKStats
+cp ../MUXSDKStats.xcframework.zip .
 unzip MUXSDKStats.xcframework.zip
+cd ..
+
+
 cd apps/DemoApp
 pod deintegrate && pod update
 
