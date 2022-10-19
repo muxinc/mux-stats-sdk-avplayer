@@ -89,8 +89,6 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 
 + (MUXSDKViewerData *)buildViewerData {
     MUXSDKViewerData *viewerData = [[MUXSDKViewerData alloc] init];
-
-    _customerViewerData.viewerOsFamily = @"osfam";
     
     NSString *applicationName = [_customerViewerData viewerApplicationName];
     if (applicationName == nil) {
