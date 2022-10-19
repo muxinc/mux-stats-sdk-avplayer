@@ -14,6 +14,12 @@ xcrun -v simctl erase all
 #fi
 
 unzip MUXSDKStats.xcframework.zip
+
+echo "+++++"
+ls -lisa 
+ls -lisa XCFramework
+echo "+++++"
+
 cd apps/DemoApp
 pod deintegrate && pod update
 
@@ -27,4 +33,5 @@ echo "======"
 xcodebuild -workspace DemoApp.xcworkspace \
            -scheme "DemoApp" \
            -destination 'platform=iOS Simulator,OS=14.4,name=iPhone 12 Pro Max' \
-           test
+           test \
+           | xcbeautify
