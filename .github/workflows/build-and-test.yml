@@ -17,9 +17,9 @@ jobs:
           echo "Creating symlink of the iOS 14.1 runtime..."
           sudo ln -s /Applications/Xcode_12.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 14.1.simruntime
       - name: "Unit Tests"
-        run: ".buildkite/unit-tests.sh"
+        run: ".github/workflows/scripts/unit-tests.sh"
       - name: "🔨 Build"
-        run: ".buildkite/build.sh"
+        run: ".github/workflows/scripts/build.sh"
       - name: "Upload framework artifact"
         uses: actions/upload-artifact@v2
         with: 
@@ -57,7 +57,7 @@ jobs:
           echo "Creating symlink of the iOS 14.1 runtime..."
           sudo ln -s /Applications/Xcode_12.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 14.1.simruntime
       - name: "🔨 Build Static"
-        run: ".buildkite/build-static.sh"
+        run: ".github/workflows/scripts/build-static.sh"
       - name: "Upload framework artifact"
         uses: actions/upload-artifact@v2
         with: 
