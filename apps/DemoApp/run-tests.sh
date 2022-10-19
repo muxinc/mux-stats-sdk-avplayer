@@ -26,5 +26,5 @@ echo "======"
 
 xcodebuild -workspace DemoApp.xcworkspace \
            -scheme "DemoApp" \
-           -destination 'platform=iOS Simulator,name=iPhone 11,OS=14.1' \
+           -destination 'platform=iOS Simulator,OS=14.4,name=iPhone 12 Pro Max' \
            test
