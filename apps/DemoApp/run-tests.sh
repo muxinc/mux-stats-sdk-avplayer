@@ -36,7 +36,7 @@ echo "======"
 
 xcodebuild -workspace DemoApp.xcworkspace \
            -scheme "DemoApp" \
-           -destination 'platform=iOS,name=Any iOS Device' \
+           -destination 'id=53C7091D-5C64-4101-BF87-F40A2BDBA390' \
            test \
            | xcbeautify
            #-destination 'platform=iOS Simulator,OS=15.2,name=iPhone 13 Pro Max' \
