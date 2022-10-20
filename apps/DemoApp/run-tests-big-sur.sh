@@ -20,5 +20,5 @@ cd apps/DemoApp
 pod deintegrate && pod update
 xcodebuild -workspace DemoApp.xcworkspace \
            -scheme "DemoApp" \
-           -destination 'id=0E28F889-6EE9-4757-B094-F96116A0B2A1' \
+           -destination 'id=7EDC75D2-89BC-4138-88C2-F5538F273DFF' \
            test
