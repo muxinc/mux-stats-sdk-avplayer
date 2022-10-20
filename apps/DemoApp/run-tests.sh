@@ -17,6 +17,9 @@ xcrun -v simctl erase all
 
 unzip MUXSDKStats.xcframework.zip
 
+cd apps/DemoApp
+pod deintegrate && pod update
+
 xcodebuild -workspace DemoApp.xcworkspace \
            -scheme "DemoApp" \
            -destination 'id=53C7091D-5C64-4101-BF87-F40A2BDBA390' \
