@@ -108,10 +108,15 @@ static NSString *envKey = @"rhhn9fph0nog346n4tqb6bqda";
     XCUIElement *element = app.otherElements[@"AVPlayerView"];
     [element tap];
     
-    
-    
     // Forward the video near the end
-    XCUIElement *slider = app.otherElements[@"Current position"]; //app.sliders.firstMatch;
+    // Starting on iOS 16, the slider is some custom view with a label
+    NSString *systemVer = [[UIDevice currentDevice] systemVersion];
+    XCUIElement *slider;
+    if([systemVer containsString:@"16"]) {
+        slider = app.otherElements[@"Current position"]; //app.sliders.firstMatch;
+    } else {
+        slider = app.sliders.firstMatch;
+    }
     XCUICoordinate *start = [slider coordinateWithNormalizedOffset:CGVectorMake(0, 0)];
     XCUICoordinate *finish = [slider coordinateWithNormalizedOffset:CGVectorMake(0.99, 0)];
     [start pressForDuration:1 thenDragToCoordinate:finish];
@@ -185,7 +190,14 @@ static NSString *envKey = @"rhhn9fph0nog346n4tqb6bqda";
     [element tap];
     
     // Seek
-    XCUIElement *slider = app.sliders.firstMatch;
+    // Starting on iOS 16, the slider is some custom view with a label
+    NSString *systemVer = [[UIDevice currentDevice] systemVersion];
+    XCUIElement *slider;
+    if([systemVer containsString:@"16"]) {
+        slider = app.otherElements[@"Current position"]; //app.sliders.firstMatch;
+    } else {
+        slider = app.sliders.firstMatch;
+    }
     XCUICoordinate *start = [slider coordinateWithNormalizedOffset:CGVectorMake(0, 0)];
     XCUICoordinate *finish = [slider coordinateWithNormalizedOffset:CGVectorMake(0.25, 0)];
     [start pressForDuration:1 thenDragToCoordinate:finish];
