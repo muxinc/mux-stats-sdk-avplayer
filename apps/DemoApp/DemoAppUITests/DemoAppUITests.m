@@ -108,8 +108,10 @@ static NSString *envKey = @"rhhn9fph0nog346n4tqb6bqda";
     XCUIElement *element = app.otherElements[@"AVPlayerView"];
     [element tap];
     
+    
+    
     // Forward the video near the end
-    XCUIElement *slider = app.sliders.firstMatch;
+    XCUIElement *slider = app.otherElements[@"Current position"]; //app.sliders.firstMatch;
     XCUICoordinate *start = [slider coordinateWithNormalizedOffset:CGVectorMake(0, 0)];
     XCUICoordinate *finish = [slider coordinateWithNormalizedOffset:CGVectorMake(0.99, 0)];
     [start pressForDuration:1 thenDragToCoordinate:finish];
