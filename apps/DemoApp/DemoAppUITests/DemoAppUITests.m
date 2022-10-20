@@ -113,7 +113,7 @@ static NSString *envKey = @"rhhn9fph0nog346n4tqb6bqda";
     NSString *systemVer = [[UIDevice currentDevice] systemVersion];
     XCUIElement *slider;
     if([systemVer containsString:@"16"]) {
-        slider = app.otherElements[@"Current position"]; //app.sliders.firstMatch;
+        slider = app.otherElements[@"Current position"];
     } else {
         slider = app.sliders.firstMatch;
     }
@@ -194,7 +194,7 @@ static NSString *envKey = @"rhhn9fph0nog346n4tqb6bqda";
     NSString *systemVer = [[UIDevice currentDevice] systemVersion];
     XCUIElement *slider;
     if([systemVer containsString:@"16"]) {
-        slider = app.otherElements[@"Current position"]; //app.sliders.firstMatch;
+        slider = app.otherElements[@"Current position"];
     } else {
         slider = app.sliders.firstMatch;
     }
