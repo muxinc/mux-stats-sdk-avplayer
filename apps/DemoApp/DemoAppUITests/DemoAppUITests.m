@@ -17,7 +17,7 @@ NSString *const kAdTagURLStringPostRoll = @"https://pubads.g.doubleclick.net/gam
 @implementation DemoAppUITests
 
 // Set this key to your environment key to have the tests generate data on your dashboard
-static NSString *envKey = @"rhhn9fph0nog346n4tqb6bqda";
+static NSString *envKey = @"tr4q3qahs0gflm8b1c75h49ln";
 
 - (void)setUp {
     // Put setup code here. This method is called before the invocation of each test method in the class.
