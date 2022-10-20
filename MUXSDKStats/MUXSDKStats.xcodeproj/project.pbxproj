@@ -31,8 +31,6 @@
 		02EB9E2E23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EB9E2C23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m */; };
 		02EB9E2F23E896A90007E1CD /* MUXSDKCustomerVideoDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 02EB9E2B23E896790007E1CD /* MUXSDKCustomerVideoDataStore.h */; };
 		02EB9E3023E896F20007E1CD /* MUXSDKCustomerVideoDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EB9E2C23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m */; };
-		350F766428FDCD8D008F520F /* MUXSDKStats+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 350F766328FDCD8D008F520F /* MUXSDKStats+Internal.h */; };
-		350F766528FDCD8D008F520F /* MUXSDKStats+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 350F766328FDCD8D008F520F /* MUXSDKStats+Internal.h */; };
 		7F7A14B0E8E50D502FEDEAED /* libPods-MUXSDKStatsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E83ED48E98E5C3BB2EFEA8E /* libPods-MUXSDKStatsTests.a */; };
 		D954C77B528AB126466C408E /* libPods-MUXSDKStats.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4ACE603C2A2252A081F5DE /* libPods-MUXSDKStats.a */; };
 		F41E09081DDA8E530028A296 /* MUXSDKStatsTv.h in Headers */ = {isa = PBXBuildFile; fileRef = F41E09061DDA8E530028A296 /* MUXSDKStatsTv.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -219,7 +217,6 @@
 				022224BC25312D5300054D0D /* MUXSDKCustomerViewDataStore.m */,
 				02D28F2F26D0972200D152EF /* MUXSDKCustomerCustomDataStore.h */,
 				02D28F3026D0972200D152EF /* MUXSDKCustomerCustomDataStore.m */,
-				350F766328FDCD8D008F520F /* MUXSDKStats+Internal.h */,
 			);
 			path = MUXSDKStats;
 			sourceTree = "<group>";
@@ -227,6 +224,7 @@
 		F4DCAD0A1DCA892E0094D94C /* MUXSDKStatsTests */ = {
 			isa = PBXGroup;
 			children = (
+				350F766328FDCD8D008F520F /* MUXSDKStats+Internal.h */,
 				02729E1A23E8F31B0037F0E9 /* Utils */,
 				F4DCAD0B1DCA892E0094D94C /* MUXSDKStatsTests.m */,
 				F4DCAD0D1DCA892E0094D94C /* Info.plist */,
@@ -245,7 +243,6 @@
 				FA19C072252BC5BB006AA443 /* MUXSDKConnection.h in Headers */,
 				F41E09081DDA8E530028A296 /* MUXSDKStatsTv.h in Headers */,
 				028281E623E3A17400B5531B /* MUXSDKPlayerBindingManager.h in Headers */,
-				350F766528FDCD8D008F520F /* MUXSDKStats+Internal.h in Headers */,
 				F41E099D1DDA8FB50028A296 /* MUXSDKStats.h in Headers */,
 				022224FC253567D200054D0D /* MUXSDKCustomerViewDataStore.h in Headers */,
 				02EB9E2F23E896A90007E1CD /* MUXSDKCustomerVideoDataStore.h in Headers */,
@@ -262,7 +259,6 @@
 			files = (
 				02EB9E2D23E896790007E1CD /* MUXSDKCustomerVideoDataStore.h in Headers */,
 				022224BF25312D5300054D0D /* MUXSDKCustomerViewDataStore.h in Headers */,
-				350F766428FDCD8D008F520F /* MUXSDKStats+Internal.h in Headers */,
 				F4DCAD0E1DCA892E0094D94C /* MUXSDKStats.h in Headers */,
 				028281E423E3815700B5531B /* MUXSDKPlayerBindingManager.h in Headers */,
 				FA19C06E252BC599006AA443 /* MUXSDKConnection.h in Headers */,
