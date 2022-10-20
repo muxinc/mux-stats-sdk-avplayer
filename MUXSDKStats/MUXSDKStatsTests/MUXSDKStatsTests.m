@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "MUXSDKStats.h"
+#import "MUXSDKStats+Internal.h"
 #import "MUXSDKCore+Mock.h"
 #import "MUXSDKPlayerBindingConstants.h"
 #if __has_feature(modules)
@@ -890,4 +891,79 @@ static NSString *Z = @"Z";
 
     [MUXSDKStats destroyPlayer:playName];
 }
+
+-(void)testOverrideAllDeviceMetadata {
+    NSString *customerOsVersion = @"1.2.3-dev";
+    NSString *customerOsFamily = @"OS/2";
+    NSString *customerDeviceModel = @"PS/2";
+    NSString *customerDeviceManufacturer = @"IBM";
+    NSString *customDeviceCategory = @"Personal Computer";
+    
+    MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
+    MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
+    MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
+    
+    MUXSDKCustomerViewerData *customerViewerData = [[MUXSDKCustomerViewerData alloc] init];
+    customerViewerData.viewerOsVersion = customerOsVersion;
+    customerViewerData.viewerOsFamily = customerOsFamily;
+    customerViewerData.viewerDeviceModel = customerDeviceModel;
+    customerViewerData.viewerDeviceManufacturer = customerDeviceManufacturer;
+    customerViewerData.viewerDeviceCategory = customDeviceCategory;
+    
+    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
+                                                                                    videoData:customerVideoData
+                                                                                     viewData:nil
+                                                                                   customData:[[MUXSDKCustomData alloc] init]
+                                                                                   viewerData:customerViewerData
+    ];
+
+    NSString *playerName = @"Player";
+    [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playerName customerData:customerData];
+
+    MUXSDKViewerData *finalViewerData = [MUXSDKStats buildViewerData];
+    XCTAssertEqual(finalViewerData.viewerOsVersion, customerOsVersion);
+    XCTAssertEqual(finalViewerData.viewerOsFamily, customerOsFamily);
+    XCTAssertEqual(finalViewerData.viewerDeviceModel, customerDeviceModel);
+    XCTAssertEqual(finalViewerData.viewerDeviceManufacturer, customerDeviceManufacturer);
+    XCTAssertEqual(finalViewerData.viewerDeviceCategory, customDeviceCategory);
+    
+    [MUXSDKStats destroyPlayer:playerName];
+}
+    
+-(void)testOverrideSomeDeviceMetadata {
+    NSString *customerOsVersion = @"1.2.3-dev";
+    NSString *customerOsFamily = @"OS/2";
+    NSString *customerDeviceModel = @"PS/2";
+    NSString *customerDeviceManufacturer = @"IBM";
+    NSString *customDeviceCategory = @"Personal Computer";
+    
+    MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
+    MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
+    MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
+    
+    MUXSDKCustomerViewerData *customerViewerData = [[MUXSDKCustomerViewerData alloc] init];
+    customerViewerData.viewerOsVersion = customerOsVersion;
+    customerViewerData.viewerOsFamily = customerOsFamily;
+    customerViewerData.viewerDeviceModel = customerDeviceModel;
+    
+    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
+                                                                                    videoData:customerVideoData
+                                                                                     viewData:nil
+                                                                                   customData:[[MUXSDKCustomData alloc] init]
+                                                                                   viewerData:customerViewerData
+    ];
+
+    NSString *playerName = @"Player";
+    [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playerName customerData:customerData];
+
+    MUXSDKViewerData *finalViewerData = [MUXSDKStats buildViewerData];
+    XCTAssertEqual(finalViewerData.viewerOsVersion, customerOsVersion);
+    XCTAssertEqual(finalViewerData.viewerOsFamily, customerOsFamily);
+    XCTAssertEqual(finalViewerData.viewerDeviceModel, customerDeviceModel);
+    XCTAssertNotEqual(finalViewerData.viewerDeviceManufacturer, customerDeviceManufacturer);
+    XCTAssertNotEqual(finalViewerData.viewerDeviceCategory, customDeviceCategory);
+    
+    [MUXSDKStats destroyPlayer:playerName];
+}
+
 @end
