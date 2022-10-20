@@ -89,7 +89,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 
 + (MUXSDKViewerData *)buildViewerData {
     MUXSDKViewerData *viewerData = [[MUXSDKViewerData alloc] init];
-    
+
     NSString *applicationName = [_customerViewerData viewerApplicationName];
     if (applicationName == nil) {
         applicationName = [[NSBundle mainBundle] bundleIdentifier];

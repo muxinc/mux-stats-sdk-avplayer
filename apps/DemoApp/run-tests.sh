@@ -17,26 +17,8 @@ xcrun -v simctl erase all
 
 unzip MUXSDKStats.xcframework.zip
 
-echo "+++++"
-ls -lisa 
-ls -lisa XCFramework
-echo "AND THE ARTIFACT ZIP"
-zipinfo -l MUXSDKStats.xcframework.zip
-echo "+++++"
-
-cd apps/DemoApp
-pod deintegrate && pod update
-
-echo "======"
-pwd
-ls -lisa
-ls -lisa ..
-ls -lisa ../..
-echo "======"
-
 xcodebuild -workspace DemoApp.xcworkspace \
            -scheme "DemoApp" \
            -destination 'id=53C7091D-5C64-4101-BF87-F40A2BDBA390' \
            test \
            | xcbeautify
-           #-destination 'platform=iOS Simulator,OS=15.2,name=iPhone 13 Pro Max' \
