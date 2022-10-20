@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
+brew install xcbeautify
+
 # Delete the old stuff
 rm -Rf XCFramework
 # reset simulators
@@ -18,5 +20,5 @@ cd apps/DemoApp
 pod deintegrate && pod update
 xcodebuild -workspace DemoApp.xcworkspace \
            -scheme "DemoApp" \
-           -destination 'platform=iOS Simulator,name=iPhone 12,OS=15.2' \
+           -destination 'id=0E28F889-6EE9-4757-B094-F96116A0B2A1' \
            test
