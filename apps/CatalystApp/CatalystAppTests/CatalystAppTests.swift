@@ -1,14 +1,14 @@
 //
-//  Mux_Catalyst_DemoTests.swift
-//  Mux Catalyst DemoTests
+//  CatalystAppTests.swift
+//  CatalystAppTests
 //
 //  Created by Emily Dixon on 10/21/22.
 //
 
 import XCTest
-@testable import Mux_Catalyst_Demo
+@testable import CatalystApp
 
-final class Mux_Catalyst_DemoTests: XCTestCase {
+final class CatalystAppTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

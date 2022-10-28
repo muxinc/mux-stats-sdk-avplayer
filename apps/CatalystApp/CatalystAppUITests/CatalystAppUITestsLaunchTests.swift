@@ -1,13 +1,13 @@
 //
-//  Mux_Catalyst_DemoUITestsLaunchTests.swift
-//  Mux Catalyst DemoUITests
+//  CatalystAppUITestsLaunchTests.swift
+//  CatalystAppUITests
 //
 //  Created by Emily Dixon on 10/21/22.
 //
 
 import XCTest
 
-final class Mux_Catalyst_DemoUITestsLaunchTests: XCTestCase {
+final class CatalystAppUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

@@ -1,6 +1,6 @@
 //
-//  Mux_Catalyst_DemoApp.swift
-//  Mux Catalyst Demo
+//  CatalystAppApp.swift
+//  CatalystApp
 //
 //  Created by Emily Dixon on 10/21/22.
 //
@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct Mux_Catalyst_DemoApp: App {
+struct CatalystAppApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
