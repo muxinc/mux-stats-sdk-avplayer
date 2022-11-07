@@ -43,8 +43,12 @@ struct ContentView: View {
         playerData.propertyKey = ContentView.MUX_DATA_ENV_KEY
         let viewData = MUXSDKCustomerViewData()
         viewData.viewSessionId = "1"
+        let viewerData = MUXSDKCustomerViewerData()
+        viewerData.viewerDeviceCategory = "kiosk"
+        viewerData.viewerDeviceModel = "ABC-12345"
+        viewerData.viewerDeviceManufacturer = "Example Display Systems, Inc"
         
-        return MUXSDKCustomerData(customerPlayerData: playerData, videoData: videoData, viewData: viewData)!
+        return MUXSDKCustomerData(customerPlayerData: playerData, videoData: videoData, viewData: viewData, customData: MUXSDKCustomData(), viewerData: viewerData)!
     }
 }
 

@@ -278,6 +278,9 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
     viewData.viewSessionId = @"some session id";
     MUXSDKCustomerViewerData *viewerData = [[MUXSDKCustomerViewerData alloc] init];
     viewerData.viewerApplicationName = @"MUX DemoApp";
+    viewerData.viewerDeviceCategory = "kiosk";
+    viewerData.viewerDeviceModel = "ABC-12345";
+    viewerData.viewerDeviceManufacturer = "Example Display Systems, Inc";
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:playerData
                                                                                     videoData:videoData
                                                                                      viewData:viewData
