@@ -79,6 +79,7 @@
 		02EB9E2C23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MUXSDKCustomerVideoDataStore.m; sourceTree = "<group>"; };
 		0E83ED48E98E5C3BB2EFEA8E /* libPods-MUXSDKStatsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MUXSDKStatsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		19014A7CD740B7E3AC1FEACE /* Pods-MUXSDKStatsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStatsTests.release.xcconfig"; path = "Target Support Files/Pods-MUXSDKStatsTests/Pods-MUXSDKStatsTests.release.xcconfig"; sourceTree = "<group>"; };
+		350F766328FDCD8D008F520F /* MUXSDKStats+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MUXSDKStats+Internal.h"; sourceTree = "<group>"; };
 		6F30D4F978B53C0CE033EBB7 /* Pods-MUXSDKStats.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStats.debug.xcconfig"; path = "Target Support Files/Pods-MUXSDKStats/Pods-MUXSDKStats.debug.xcconfig"; sourceTree = "<group>"; };
 		7A31A9BB4AB17C7F23036EBB /* Pods-MUXSDKStatsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStatsTests.debug.xcconfig"; path = "Target Support Files/Pods-MUXSDKStatsTests/Pods-MUXSDKStatsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		83CD318BE8A3940DA9B8905C /* Pods-MUXSDKStats.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStats.release.xcconfig"; path = "Target Support Files/Pods-MUXSDKStats/Pods-MUXSDKStats.release.xcconfig"; sourceTree = "<group>"; };
@@ -223,6 +224,7 @@
 		F4DCAD0A1DCA892E0094D94C /* MUXSDKStatsTests */ = {
 			isa = PBXGroup;
 			children = (
+				350F766328FDCD8D008F520F /* MUXSDKStats+Internal.h */,
 				02729E1A23E8F31B0037F0E9 /* Utils */,
 				F4DCAD0B1DCA892E0094D94C /* MUXSDKStatsTests.m */,
 				F4DCAD0D1DCA892E0094D94C /* Info.plist */,
@@ -316,7 +318,7 @@
 				F4DCAD021DCA892E0094D94C /* Sources */,
 				F4DCAD031DCA892E0094D94C /* Frameworks */,
 				F4DCAD041DCA892E0094D94C /* Resources */,
-				F5876A42AC3B9F00CB932EB4 /* [CP] Embed Pods Frameworks */,
+				3AA3507C3DDFD40977FB6B6C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -419,6 +421,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		3AA3507C3DDFD40977FB6B6C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MUXSDKStatsTests/Pods-MUXSDKStatsTests-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Mux-Stats-Core/MuxCore.framework/MuxCore",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MuxCore.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MUXSDKStatsTests/Pods-MUXSDKStatsTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		BC82C7A77B5183ED420EE64C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -461,24 +481,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F5876A42AC3B9F00CB932EB4 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MUXSDKStatsTests/Pods-MUXSDKStatsTests-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Mux-Stats-Core/MuxCore.framework/MuxCore",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MuxCore.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MUXSDKStatsTests/Pods-MUXSDKStatsTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -554,7 +556,7 @@
 				INFOPLIST_FILE = MUXSDKStatsTv/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 2.13.2;
+				MARKETING_VERSION = 3.0.0;
 				MODULEMAP_FILE = "$(SRCROOT)/MUXSDKStatsTv/module.modulemap";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.tvos.MUXSDKStatsTv;
@@ -562,7 +564,7 @@
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
+				TVOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Debug;
 		};
@@ -581,14 +583,14 @@
 				INFOPLIST_FILE = MUXSDKStatsTv/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 2.13.2;
+				MARKETING_VERSION = 3.0.0;
 				MODULEMAP_FILE = "$(SRCROOT)/MUXSDKStatsTv/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.tvos.MUXSDKStatsTv;
 				PRODUCT_NAME = MUXSDKStats;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
+				TVOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Release;
 		};
@@ -756,9 +758,9 @@
 				);
 				INFOPLIST_FILE = MUXSDKStats/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 2.13.2;
+				MARKETING_VERSION = 3.0.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.ios.MUXSDKStats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -781,9 +783,9 @@
 				"GCC_PREPROCESSOR_DEFINITIONS[sdk=appletvos*]" = "TVOS=1";
 				INFOPLIST_FILE = MUXSDKStats/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 2.13.2;
+				MARKETING_VERSION = 3.0.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.ios.MUXSDKStats;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -12,7 +12,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"2.13.2";
+NSString *const MUXSDKPluginVersion = @"3.0.0";
 NSString *const MUXSessionDataPrefix = @"io.litix.data.";
 
 // Min number of seconds between timeupdate events. (100ms)
@@ -237,6 +237,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
        loadData.requestBytesLoaded = [NSNumber numberWithLong: event.numberOfBytesTransferred - _lastTransferredBytes];
        loadData.requestResponseHeaders = nil;
        loadData.requestHostName = [self getHostName:event.URI];
+       loadData.requestUrl = event.URI;
        loadData.requestCurrentLevel = nil;
        loadData.requestMediaStartTime = nil;
        loadData.requestMediaDuration = nil;
