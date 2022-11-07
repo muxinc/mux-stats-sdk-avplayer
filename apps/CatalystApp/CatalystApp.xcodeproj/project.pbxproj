@@ -14,6 +14,8 @@
 		358E3E842919C66B00E08636 /* CatalystAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358E3E832919C66B00E08636 /* CatalystAppTests.swift */; };
 		358E3E8E2919C66B00E08636 /* CatalystAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358E3E8D2919C66B00E08636 /* CatalystAppUITests.swift */; };
 		358E3E902919C66B00E08636 /* CatalystAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358E3E8F2919C66B00E08636 /* CatalystAppUITestsLaunchTests.swift */; };
+		358E3EA22919C88C00E08636 /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 358E3EA12919C88C00E08636 /* MUXSDKStats */; };
+		358E3EA42919C8FE00E08636 /* AVPlayerViewSwiftUi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358E3EA32919C8FE00E08636 /* AVPlayerViewSwiftUi.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,7 +46,9 @@
 		358E3E892919C66B00E08636 /* CatalystAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CatalystAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		358E3E8D2919C66B00E08636 /* CatalystAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalystAppUITests.swift; sourceTree = "<group>"; };
 		358E3E8F2919C66B00E08636 /* CatalystAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalystAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		358E3E9D2919C70A00E08636 /* mux-stats-sdk-avplayer */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "mux-stats-sdk-avplayer"; path = ../..; sourceTree = "<group>"; };
+		358E3E9E2919C79D00E08636 /* mux-stats-sdk-avplayer */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "mux-stats-sdk-avplayer"; path = ../..; sourceTree = "<group>"; };
+		358E3E9F2919C86400E08636 /* CatalystApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CatalystApp.entitlements; sourceTree = "<group>"; };
+		358E3EA32919C8FE00E08636 /* AVPlayerViewSwiftUi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerViewSwiftUi.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				358E3EA22919C88C00E08636 /* MUXSDKStats in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,6 +85,7 @@
 				358E3E822919C66B00E08636 /* CatalystAppTests */,
 				358E3E8C2919C66B00E08636 /* CatalystAppUITests */,
 				358E3E702919C66A00E08636 /* Products */,
+				358E3EA02919C88C00E08636 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -96,10 +102,12 @@
 		358E3E712919C66A00E08636 /* CatalystApp */ = {
 			isa = PBXGroup;
 			children = (
+				358E3E9F2919C86400E08636 /* CatalystApp.entitlements */,
 				358E3E722919C66A00E08636 /* CatalystAppApp.swift */,
 				358E3E742919C66A00E08636 /* ContentView.swift */,
 				358E3E762919C66A00E08636 /* Assets.xcassets */,
 				358E3E782919C66A00E08636 /* Preview Content */,
+				358E3EA32919C8FE00E08636 /* AVPlayerViewSwiftUi.swift */,
 			);
 			path = CatalystApp;
 			sourceTree = "<group>";
@@ -132,9 +140,16 @@
 		358E3E9C2919C70A00E08636 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				358E3E9D2919C70A00E08636 /* mux-stats-sdk-avplayer */,
+				358E3E9E2919C79D00E08636 /* mux-stats-sdk-avplayer */,
 			);
 			name = Packages;
+			sourceTree = "<group>";
+		};
+		358E3EA02919C88C00E08636 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -153,6 +168,9 @@
 			dependencies = (
 			);
 			name = CatalystApp;
+			packageProductDependencies = (
+				358E3EA12919C88C00E08636 /* MUXSDKStats */,
+			);
 			productName = CatalystApp;
 			productReference = 358E3E6F2919C66A00E08636 /* CatalystApp.app */;
 			productType = "com.apple.product-type.application";
@@ -267,6 +285,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				358E3EA42919C8FE00E08636 /* AVPlayerViewSwiftUi.swift in Sources */,
 				358E3E752919C66A00E08636 /* ContentView.swift in Sources */,
 				358E3E732919C66A00E08636 /* CatalystAppApp.swift in Sources */,
 			);
@@ -424,6 +443,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CatalystApp/CatalystApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CatalystApp/Preview Content\"";
@@ -435,6 +455,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -442,9 +463,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.example.CatalystApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Debug;
 		};
@@ -453,6 +477,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CatalystApp/CatalystApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CatalystApp/Preview Content\"";
@@ -464,6 +489,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -471,9 +497,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.example.CatalystApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Release;
 		};
@@ -593,6 +622,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		358E3EA12919C88C00E08636 /* MUXSDKStats */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MUXSDKStats;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 358E3E672919C66A00E08636 /* Project object */;
 }
