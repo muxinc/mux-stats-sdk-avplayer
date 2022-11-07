@@ -23,5 +23,5 @@ cd apps/DemoApp
 pod deintegrate && pod update
 xcodebuild -workspace DemoApp.xcworkspace \
            -scheme "DemoApp" \
-           -destination 'id=367F9736-5C05-4524-B7DA-6AB5245D0044' \
+           -destination 'OS=15.2' \
            test
