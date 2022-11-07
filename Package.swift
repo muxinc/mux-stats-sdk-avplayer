@@ -5,8 +5,8 @@ import PackageDescription
 let package = Package(
     name: "MUXSDKStats",
     platforms: [
-        .iOS(.v9),
-        .tvOS(.v9)
+        .iOS(.v11),
+        .tvOS(.v11)
     ],
     products: [
         .library(name: "MUXSDKStats", targets: ["MUXSDKStatsTargets"])
@@ -15,7 +15,7 @@ let package = Package(
         .package(
             name: "MuxCore",
             url: "https://github.com/muxinc/stats-sdk-objc.git",
-            from: "3.12.0"
+            from: "4.0.0"
         )
     ],
     targets: [
