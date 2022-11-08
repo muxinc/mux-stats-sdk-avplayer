@@ -19,6 +19,6 @@ pod deintegrate && pod update
 
 xcodebuild -workspace DemoApp.xcworkspace \
            -scheme "DemoApp" \
-           -destination 'id=dvtdevice-DVTiOSDeviceSimulatorPlaceholder-iphonesimulator:placeholder' \
+           -destination 'platform=iOS Simulator,name=iPhone 13,OS=16.0' \
            test \
            | xcbeautify
