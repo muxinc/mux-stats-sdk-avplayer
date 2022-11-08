@@ -13,7 +13,7 @@ import MUXSDKStats
 struct ContentView: View {
     
     private static let MEDIA_URL = "https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8"
-    private static let MUX_DATA_ENV_KEY = "jp06n8nvbl6u8g3u40cpvi9u2" // TODO: Your Key Here
+    private static let MUX_DATA_ENV_KEY = "YOUR ENV KEY HERE"
     
     private let viewController = AVPlayerViewController()
     private let player = AVPlayer(url: URL(string: MEDIA_URL)!)
