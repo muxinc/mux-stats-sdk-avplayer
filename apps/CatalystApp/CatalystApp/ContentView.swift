@@ -22,7 +22,7 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            AVPlayerViewSwiftUi(player: player, viewController: viewController)
+            PlayerView(player: player, viewController: viewController)
                 .onAppear() {
                     playerBinding = MUXSDKStats.monitorAVPlayerViewController(viewController, withPlayerName: "player", customerData: customerData())
                     player.play()

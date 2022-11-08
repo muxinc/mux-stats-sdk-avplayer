@@ -15,7 +15,7 @@
 		358E3E8E2919C66B00E08636 /* CatalystAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358E3E8D2919C66B00E08636 /* CatalystAppUITests.swift */; };
 		358E3E902919C66B00E08636 /* CatalystAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358E3E8F2919C66B00E08636 /* CatalystAppUITestsLaunchTests.swift */; };
 		358E3EA22919C88C00E08636 /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 358E3EA12919C88C00E08636 /* MUXSDKStats */; };
-		358E3EA42919C8FE00E08636 /* AVPlayerViewSwiftUi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358E3EA32919C8FE00E08636 /* AVPlayerViewSwiftUi.swift */; };
+		358E3EA42919C8FE00E08636 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358E3EA32919C8FE00E08636 /* PlayerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,7 +48,7 @@
 		358E3E8F2919C66B00E08636 /* CatalystAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalystAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		358E3E9E2919C79D00E08636 /* mux-stats-sdk-avplayer */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "mux-stats-sdk-avplayer"; path = ../..; sourceTree = "<group>"; };
 		358E3E9F2919C86400E08636 /* CatalystApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CatalystApp.entitlements; sourceTree = "<group>"; };
-		358E3EA32919C8FE00E08636 /* AVPlayerViewSwiftUi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerViewSwiftUi.swift; sourceTree = "<group>"; };
+		358E3EA32919C8FE00E08636 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +107,7 @@
 				358E3E742919C66A00E08636 /* ContentView.swift */,
 				358E3E762919C66A00E08636 /* Assets.xcassets */,
 				358E3E782919C66A00E08636 /* Preview Content */,
-				358E3EA32919C8FE00E08636 /* AVPlayerViewSwiftUi.swift */,
+				358E3EA32919C8FE00E08636 /* PlayerView.swift */,
 			);
 			path = CatalystApp;
 			sourceTree = "<group>";
@@ -285,7 +285,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				358E3EA42919C8FE00E08636 /* AVPlayerViewSwiftUi.swift in Sources */,
+				358E3EA42919C8FE00E08636 /* PlayerView.swift in Sources */,
 				358E3E752919C66A00E08636 /* ContentView.swift in Sources */,
 				358E3E732919C66A00E08636 /* CatalystAppApp.swift in Sources */,
 			);

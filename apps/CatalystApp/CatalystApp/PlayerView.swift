@@ -9,9 +9,9 @@ import SwiftUI
 import AVKit
 
 /**
- * Wraps an `AVPlayerViewController` with SwiftUI, providing accwss to its `AVPlayer`
+ * Wraps an `AVPlayerViewController` with SwiftUI, providing access to its `AVPlayer`
  */
-struct AVPlayerViewSwiftUi : UIViewControllerRepresentable {
+struct PlayerView : UIViewControllerRepresentable {
 
     /**
      * The `AVPlayerViewController` wrapped by this object
