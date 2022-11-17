@@ -34,7 +34,8 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
     AVPlayer *player;
     if ([[self testScenario] isEqualToString:@"IMA"]) {
         player = [self testImaSDK];
-    } else if ([[self testScenario] isEqual:@"UPDATE_CUSTOM_DIMENSIONS"]) {
+    }
+    else if ([[self testScenario] isEqual:@"UPDATE_CUSTOM_DIMENSIONS"]) {
         player = [self testUpdateCustomDimensions];
     } else if ([[self testScenario] isEqual:@"CHANGE_VIDEO"]) {
         player = [self testVideoChange];
@@ -74,7 +75,7 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
                                                       adDisplayContainer:adDisplayContainer
                                                          contentPlayhead:_contentPlayhead
                                                              userContext:nil];
-    
+    [_imaListener clientAdRequest:request];
     [_adsLoader requestAdsWithRequest:request];
 }
 

@@ -1,9 +1,11 @@
 #Uncomment the next line to define a global platform for your project
+# TODO: Undo? I seem to need this to link with the ads sdk
 platform :ios, '12.0'
 
 target 'DemoApp' do
   use_frameworks!
   pod 'Mux-Stats-AVPlayer', :path => '../../'
-  pod 'GoogleAds-IMA-iOS-SDK', '~> 3.14'
-  pod 'Mux-Stats-Google-IMA', '~> 0.9'
+  pod 'GoogleAds-IMA-iOS-SDK', '~> 3.16'
+  #pod 'Mux-Stats-Google-IMA', '~> 0.9'
+  pod 'Mux-Stats-Google-IMA', :path => '/Users/edixon/repos/mux-stats-google-ima/'
 end
