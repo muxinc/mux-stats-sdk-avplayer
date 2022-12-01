@@ -2,10 +2,9 @@
 
 @import AVKit;
 @import AVFoundation;
-@import GoogleInteractiveMediaAds;
-@import Mux_Stats_Google_IMA;
+@import MUXSDKStats;
 
-@interface ViewController : UIViewController <IMAAdsLoaderDelegate, IMAAdsManagerDelegate>
+@interface ViewController : UIViewController
 
 @end
 

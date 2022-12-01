@@ -1,10 +1,8 @@
 #import "ViewController.h"
 
 @import MUXSDKStats;
-@import Mux_Stats_Google_IMA;
 
 static NSString *DEMO_PLAYER_NAME = @"demoplayer";
-NSString *const kAdTagURLStringPreRollMidRollPostRoll = @"https://pubads.g.doubleclick.net/gampad/ads?sz=640x480&iu=/124319096/external/ad_rule_samples&ciu_szs=300x250&ad_rule=1&impl=s&gdfp_req=1&env=vp&output=vmap&unviewed_position_start=1&cust_params=deployment%3Ddevsite%26sample_ar%3Dpremidpostlongpod&cmsid=496&vid=short_tencue&correlator=";
 
 NSString *const livestreamTestURL = @"https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8?low_latency=false";
 NSString *const livestreamLowLatencyTestURL = @"https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8";
@@ -14,12 +12,6 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
     AVPlayer *_avplayer;
     AVPlayerViewController *_avplayerController;
     NSTimer *_timer;
-    
-    // IMA SDK variables
-    IMAAdsLoader *_adsLoader;
-    IMAAdsManager *_adsManager;
-    IMAAVPlayerContentPlayhead *_contentPlayhead;
-    MuxImaListener *_imaListener;
     MUXSDKPlayerBinding *_playerBinding;
 }
 @end
@@ -32,10 +24,7 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
     _avplayerController.view.accessibilityIdentifier = @"AVPlayerView";
     
     AVPlayer *player;
-    if ([[self testScenario] isEqualToString:@"IMA"]) {
-        player = [self testImaSDK];
-    }
-    else if ([[self testScenario] isEqual:@"UPDATE_CUSTOM_DIMENSIONS"]) {
+    if ([[self testScenario] isEqual:@"UPDATE_CUSTOM_DIMENSIONS"]) {
         player = [self testUpdateCustomDimensions];
     } else if ([[self testScenario] isEqual:@"CHANGE_VIDEO"]) {
         player = [self testVideoChange];
@@ -57,49 +46,6 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
     [self setupAVPlayerViewController: player];
 }
 
-- (void) viewDidAppear:(BOOL)animated {
-    if ([[self testScenario] isEqualToString:@"IMA"]) {
-        NSString *adTagURL = [NSProcessInfo.processInfo.environment objectForKey:@"AD_TAG_URL"];
-        if (adTagURL == nil) {
-            adTagURL = kAdTagURLStringPreRollMidRollPostRoll;
-        }
-        [self requestAdsWithURL:adTagURL];
-    }
-}
-
-#pragma mark - Request Ads
-
-- (void) requestAdsWithURL:(NSString *) adTagURL {
-    IMAAdDisplayContainer *adDisplayContainer = [[IMAAdDisplayContainer alloc] initWithAdContainer:self.view viewController:self];
-    IMAAdsRequest *request = [[IMAAdsRequest alloc] initWithAdTagUrl:adTagURL
-                                                      adDisplayContainer:adDisplayContainer
-                                                         contentPlayhead:_contentPlayhead
-                                                             userContext:nil];
-    [_imaListener clientAdRequest:request];
-    [_adsLoader requestAdsWithRequest:request];
-}
-
-- (void)contentDidFinishPlaying:(NSNotification *)notification {
-    if (notification.object == _avplayer.currentItem) {
-        [_adsLoader contentComplete];
-    }
-}
-
-#pragma mark - IMAAdsLoaderDelegate
-
-- (void)adsLoader:(IMAAdsLoader *)loader adsLoadedWithData:(IMAAdsLoadedData *)adsLoadedData {
-    _adsManager = adsLoadedData.adsManager;
-    _adsManager.delegate = self;
-    IMAAdsRenderingSettings *adsRenderingSettings = [[IMAAdsRenderingSettings alloc] init];
-    adsRenderingSettings.linkOpenerPresentingController = self;
-    [_adsManager initializeWithAdsRenderingSettings:adsRenderingSettings];
-}
-
-- (void)adsLoader:(IMAAdsLoader *)loader failedWithErrorData:(IMAAdLoadingErrorData *)adErrorData {
-    NSLog(@"Error loading ads: %@", adErrorData.adError.message);
-    [_avplayerController.player play];
-}
-
 #pragma mark Orientation Changes
 
 - (void)viewWillTransitionToSize:(CGSize)size
@@ -113,50 +59,7 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
     return (size.width > size.height) ? MUXSDKViewOrientationLandscape : MUXSDKViewOrientationPortrait;
 }
 
-
-#pragma mark AdsManager Delegates
-
-- (void)adsManager:(IMAAdsManager *)adsManager didReceiveAdEvent:(IMAAdEvent *)event {
-    // When the SDK notified us that ads have been loaded, play them.
-    if (event.type == kIMAAdEvent_LOADED) {
-        [_adsManager start];
-    }
-    if (_imaListener != nil) {
-        [_imaListener dispatchEvent: event];
-    }
-}
-
-- (void)adsManager:(IMAAdsManager *)adsManager didReceiveAdError:(IMAAdError *)error {
-    [_avplayer play];
-    if (_imaListener != nil) {
-        [_imaListener dispatchError: error.message];
-    }
-}
-
-- (void)adsManagerDidRequestContentPause:(IMAAdsManager *)adsManager {
-    [_avplayer pause];
-    [_imaListener onContentPauseOrResume:true];
-}
-
-- (void)adsManagerDidRequestContentResume:(IMAAdsManager *)adsManager {
-    [_avplayer play];
-    [_imaListener onContentPauseOrResume:false];
-}
-
 #pragma mark Test Cases
-
-- (AVPlayer *)testImaSDK {
-    _adsLoader = [[IMAAdsLoader alloc] initWithSettings:nil];
-    _adsLoader.delegate = self;
-    NSURL *contentURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
-    AVPlayer *player = [AVPlayer playerWithURL:contentURL];
-    _contentPlayhead = [[IMAAVPlayerContentPlayhead alloc] initWithAVPlayer:player];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(contentDidFinishPlaying:)
-                                                 name:AVPlayerItemDidPlayToEndTimeNotification
-                                               object:player.currentItem];
-    return player;
-}
 
 - (AVPlayer *)testAVQueuePlayer {
     AVPlayerItem *item1 = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"]];
@@ -288,7 +191,6 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
                                                                                    customData:customData
                                                                                    viewerData:viewerData];
     _playerBinding = [MUXSDKStats monitorAVPlayerViewController:_avplayerController withPlayerName:DEMO_PLAYER_NAME customerData:customerData];
-    _imaListener = [[MuxImaListener alloc] initWithPlayerBinding:_playerBinding];
     [_avplayer play];
     [self addChildViewController:_avplayerController];
     _avplayerController.view.frame = self.view.bounds;

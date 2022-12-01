@@ -5,7 +5,5 @@ platform :ios, '12.0'
 target 'DemoApp' do
   use_frameworks!
   pod 'Mux-Stats-AVPlayer', :path => '../../'
-  pod 'GoogleAds-IMA-iOS-SDK', '~> 3.16'
-  #pod 'Mux-Stats-Google-IMA', '~> 0.9'
-  pod 'Mux-Stats-Google-IMA', :path => '/Users/edixon/repos/mux-stats-google-ima/'
+  
 end
