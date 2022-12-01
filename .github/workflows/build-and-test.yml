@@ -32,6 +32,8 @@ jobs:
     needs: build
     runs-on: macos-12
     steps:
+      - name: Install xcbeautify
+        run: brew install xcbeautify
       - name: Checkout
         uses: actions/checkout@v2
       - name: Link to older simulator(s)
@@ -70,6 +72,8 @@ jobs:
     needs: build
     runs-on: macos-11
     steps:
+      - name: Install xcbeautify
+        run: brew install xcbeautify
       - name: Checkout
         uses: actions/checkout@v2
       - name: Download framework artifact
