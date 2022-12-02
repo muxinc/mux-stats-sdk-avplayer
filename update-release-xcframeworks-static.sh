@@ -23,7 +23,8 @@ UTION=YES CLANG_ENABLE_MODULES=NO MACH_O_TYPE=staticlib
 _LIBRARY_FOR_DISTRIBUTION=YES CLANG_ENABLE_MODULES=NO MACH_O_TYPE=staticlib
 
   xcodebuild archive -scheme MUXSDKStats -workspace $PROJECT  -destination "generic/platform=macOS,variant=Mac Catalyst" -archivePath "$BUILD_DIR/MUXSDKStats.macOS.xcarchive" SKIP_INSTALL=NO\
- BUILD_LIBRARY_FOR_DISTRIBUTION=YES CLANG_ENABLE_MODULES=NO MACH_O_TYPE=staticlib
+ BUILD_LIBRARY_FOR_DISTRIBUTION=YES CLANG_ENABLE_MODULES=NO MACH_O_TYPE=staticlib \
+| xcbeautify
 
  xcodebuild -create-xcframework -framework "$BUILD_DIR/MUXSDKStatsTv.tvOS.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
                                 -framework "$BUILD_DIR/MUXSDKStatsTv.tvOS-simulator.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \

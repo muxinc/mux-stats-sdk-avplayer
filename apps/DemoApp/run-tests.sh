@@ -22,3 +22,4 @@ xcodebuild -workspace DemoApp.xcworkspace \
            -destination 'platform=iOS Simulator,name=iPhone 13,OS=16.0' \
            test \
            | xcbeautify
+
