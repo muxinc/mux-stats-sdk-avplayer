@@ -65,33 +65,6 @@ static NSString *envKey = @"tr4q3qahs0gflm8b1c75h49ln";
     }
 }
 
-- (void)testIMASDK {
-    XCUIApplication *app = [[XCUIApplication alloc] init];
-    [app setLaunchEnvironment:@{@"ENV_KEY": envKey, @"TEST_SCENARIO": @"IMA"}];
-    [app launch];
-    XCTestExpectation *exp = [[XCTestExpectation alloc] initWithDescription:@"Wait for launch (~5 sec) and preroll (10 sec)"];
-    XCTWaiterResult result = [XCTWaiter waitForExpectations:@[exp] timeout:15.0];
-    if(result != XCTWaiterResultTimedOut) {
-        XCTFail(@"Interrupted while playing video.");
-    }
-        
-    XCUIElement *element = app.otherElements[@"AVPlayerView"];
-    [element tap];
-    
-    XCUIElement *skipForwardButton = app/*@START_MENU_TOKEN@*/.buttons[@"Skip Forward"]/*[[".buttons[@\"Skip 15 seconds forward\"]",".buttons[@\"Skip Forward\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/;
-    [skipForwardButton tap];
-    exp = [[XCTestExpectation alloc] initWithDescription:@"Wait for midroll (30 sec)"];
-    result = [XCTWaiter waitForExpectations:@[exp] timeout:30.0];
-    if(result != XCTWaiterResultTimedOut) {
-        XCTFail(@"Interrupted while playing video.");
-    }
-    exp = [[XCTestExpectation alloc] initWithDescription:@"Wait for (10 sec)"];
-    result = [XCTWaiter waitForExpectations:@[exp] timeout:10.0];
-    if(result != XCTWaiterResultTimedOut) {
-        XCTFail(@"Interrupted while playing video.");
-    }
-}
-
 - (void)testAVQueuePlayer {
     XCUIApplication *app = [[XCUIApplication alloc] init];
     [app setLaunchEnvironment:@{@"ENV_KEY": envKey, @"TEST_SCENARIO": @"AV_QUEUE"}];
