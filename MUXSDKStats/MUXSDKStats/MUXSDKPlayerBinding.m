@@ -177,8 +177,18 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             [self handleRenditionChangeInAccessLog:accessLog];
             [self calculateBandwidthMetricFromAccessLog:accessLog];
             [self updateViewingLivestream:accessLog];
+            [self updateFrameDropsFromAccessLog:accessLog];
         }
     });
+}
+
+- (void)updateFrameDropsFromAccessLog:(AVPlayerItemAccessLog *)accessLog {
+    AVPlayerItemAccessLogEvent *event = accessLog.events.lastObject;
+    NSInteger loggedFrameDrops = event.numberOfDroppedVideoFrames;
+    if(loggedFrameDrops != _totalFrameDrops) {
+        _totalFrameDrops = loggedFrameDrops;
+        _totalFrameDropsHasChanged = YES;
+    }
 }
 
 - (void) handleRenditionChange:(NSNotification *) notif {
@@ -533,6 +543,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             }
         }
     }
+    if(_totalFrameDropsHasChanged) {
+        _totalFrameDropsHasChanged = NO;
+        videoDataUpdated = YES;
+    }
     
     if (videoDataUpdated) {
         MUXSDKVideoData *videoData = [[MUXSDKVideoData alloc] init];
@@ -556,6 +570,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         }
         if (_lastAdvertisedBitrate > 0 && _started) {
             [videoData setVideoSourceAdvertisedBitrate:@(_lastAdvertisedBitrate)];
+        }
+        if (_totalFrameDrops > 0) {
+            [videoData setVideoSourceFrameDrops:[NSNumber numberWithLong:_totalFrameDrops]];
         }
         MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
         [dataEvent setVideoData:videoData];
