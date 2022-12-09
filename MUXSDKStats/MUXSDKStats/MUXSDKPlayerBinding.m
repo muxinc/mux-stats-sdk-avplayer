@@ -543,9 +543,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             }
         }
     }
+    NSNumber *checkedFrameDrops = nil;
     if(_totalFrameDropsHasChanged && _totalFrameDrops > 0) {
         _totalFrameDropsHasChanged = NO;
         videoDataUpdated = YES;
+        checkedFrameDrops = [NSNumber numberWithLong:_totalFrameDrops];
     }
     
     if (videoDataUpdated) {
@@ -571,7 +573,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         if (_lastAdvertisedBitrate > 0 && _started) {
             [videoData setVideoSourceAdvertisedBitrate:@(_lastAdvertisedBitrate)];
         }
-        [videoData setVideoSourceFrameDrops:[NSNumber numberWithLong:_totalFrameDrops]];
+        if(checkedFrameDrops) {
+            [videoData setVideoSourceFrameDrops:checkedFrameDrops];
+        }
         
         MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
         [dataEvent setVideoData:videoData];
