@@ -1,7 +1,7 @@
 PODS:
   - Mux-Stats-AVPlayer (3.0.0):
     - Mux-Stats-Core (~> 4.1)
-  - Mux-Stats-Core (4.1.0)
+  - Mux-Stats-Core (4.1.1)
 
 DEPENDENCIES:
   - Mux-Stats-AVPlayer (from `../../`)
@@ -16,7 +16,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Mux-Stats-AVPlayer: efed805601f608f02e9b1675b8f8a5f617c8d1ed
-  Mux-Stats-Core: fdf943bc0c5e76b161fa5db701881329b513c336
+  Mux-Stats-Core: f96c143897f5b3e3376bd163eecc8bf114b2c460
 
 PODFILE CHECKSUM: 31f9788cc24c31d60bbc4777bc911958ae4ce788
 
