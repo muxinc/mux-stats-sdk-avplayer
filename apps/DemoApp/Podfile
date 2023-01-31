@@ -3,6 +3,6 @@ platform :ios, '12.0'
 target 'DemoApp' do
   use_frameworks!
   pod 'Mux-Stats-AVPlayer', :path => '../../'
-  pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git', :branch => 'release/v4.3.1'
   
 end
+

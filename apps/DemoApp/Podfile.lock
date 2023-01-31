@@ -1,28 +1,23 @@
 PODS:
   - Mux-Stats-AVPlayer (3.1.0):
     - Mux-Stats-Core (~> 4.2)
-  - Mux-Stats-Core (4.2.0)
+  - Mux-Stats-Core (4.3.0)
 
 DEPENDENCIES:
   - Mux-Stats-AVPlayer (from `../../`)
-  - "Mux-Stats-Core (from `git@github.com:muxinc/stats-sdk-objc.git`, branch `release/4.2.0`)"
+
+SPEC REPOS:
+  trunk:
+    - Mux-Stats-Core
 
 EXTERNAL SOURCES:
   Mux-Stats-AVPlayer:
     :path: "../../"
-  Mux-Stats-Core:
-    :branch: release/4.2.0
-    :git: "git@github.com:muxinc/stats-sdk-objc.git"
-
-CHECKOUT OPTIONS:
-  Mux-Stats-Core:
-    :commit: 2d91c9bc958678e55b672e88d65c4a1700a4b68b
-    :git: "git@github.com:muxinc/stats-sdk-objc.git"
 
 SPEC CHECKSUMS:
   Mux-Stats-AVPlayer: 669b2454e52700623f2ee89397cb77b1885ce600
-  Mux-Stats-Core: 7ea0bed4685c18d7a77119be68b8adc776840d25
+  Mux-Stats-Core: 57b0292b8e85224c4955595b777fcd8b352c116f
 
-PODFILE CHECKSUM: 63a6e7c58c9cbf7be208d265c5297a918ab4a3a0
+PODFILE CHECKSUM: b6c82582045b1b52019d090c6ac9a859f3ea21cb
 
 COCOAPODS: 1.11.3
