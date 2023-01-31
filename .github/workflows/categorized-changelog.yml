@@ -1,0 +1,23 @@
+name: Add Changelog to a Release PR
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - ready_for_review
+  # Also only if the branch is 'releases/v*' but that has to be checked below
+
+jobs:
+  changelog:
+    name: Generate Formatted Changelog
+    runs-on: ubuntu-latest
+    # Change the branch name here to match your release branch convention
+    if: startsWith(github.head_ref, 'releases/v')
+
+    steps:
+      - uses: daytime-em/changelog-on-pr@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          labels: breaking,new,updates,fixes,deprecated
+
