@@ -1,4 +1,5 @@
 ## How to release
+1. Starting from the release branch you've been merging to (eg, `releases/v4.4.1`)
 1. Bump versions in Mux-Stats-AVPlayer.podspec
 1. Bump version in XCode "General" for target: MUXSDKStats
 1. Bump version in XCode "General" for target: MUXSDKStatsTv
