@@ -5,3 +5,4 @@ target 'DemoApp' do
   pod 'Mux-Stats-AVPlayer', :path => '../../'
   
 end
+
