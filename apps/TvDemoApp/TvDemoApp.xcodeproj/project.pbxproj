@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -48,7 +48,6 @@
 				241CB8033010C1061F88670A /* Pods-TvDemoApp.debug.xcconfig */,
 				184A5FE4427BBA4DABAD1F67 /* Pods-TvDemoApp.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -350,6 +349,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.TvDemoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Debug;
 		};
@@ -369,6 +369,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.TvDemoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Release;
 		};

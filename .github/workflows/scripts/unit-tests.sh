@@ -10,5 +10,5 @@ PROJECT=MUXSDKStats/MUXSDKStats.xcworkspace
 xcodebuild clean test \
   -workspace $PROJECT \
   -scheme MUXSDKStats \
-  -destination 'platform=iOS Simulator,OS=16.0,name=iPhone 14 Pro Max' \
+  -destination 'platform=iOS Simulator,OS=16.2,name=iPhone 14 Pro Max' \
   | xcbeautify
