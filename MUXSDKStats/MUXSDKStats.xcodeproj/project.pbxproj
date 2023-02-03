@@ -31,9 +31,8 @@
 		02EB9E2E23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EB9E2C23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m */; };
 		02EB9E2F23E896A90007E1CD /* MUXSDKCustomerVideoDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 02EB9E2B23E896790007E1CD /* MUXSDKCustomerVideoDataStore.h */; };
 		02EB9E3023E896F20007E1CD /* MUXSDKCustomerVideoDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EB9E2C23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m */; };
-		08FF60582DFAB2A29B8107F7 /* libPods-MUXSDKStatsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F826C544B47B20103DA2B6F /* libPods-MUXSDKStatsTests.a */; };
-		98B5C8F1EAA48DDB2CE03708 /* libPods-MUXSDKStatsTv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B3AF7FB77FD075472C4AFC41 /* libPods-MUXSDKStatsTv.a */; };
-		D9989F58D9496409BAEC0F38 /* libPods-MUXSDKStats.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31C55602B4FAD32B4FAD60D /* libPods-MUXSDKStats.a */; };
+		12C43ADDFA76EC5BD952737E /* Pods_MUXSDKStatsTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CF39B9E5E3642B2DE659773 /* Pods_MUXSDKStatsTests.framework */; };
+		6E324FA9AE988B95F3DBC7FC /* Pods_MUXSDKStats.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12DFBEF92AF1ED7E82C2A28D /* Pods_MUXSDKStats.framework */; };
 		F41E09081DDA8E530028A296 /* MUXSDKStatsTv.h in Headers */ = {isa = PBXBuildFile; fileRef = F41E09061DDA8E530028A296 /* MUXSDKStatsTv.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F41E099D1DDA8FB50028A296 /* MUXSDKStats.h in Headers */ = {isa = PBXBuildFile; fileRef = F4DCAD001DCA892E0094D94C /* MUXSDKStats.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F41E09E41DDA90DB0028A296 /* MUXSDKPlayerBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = F4572FC11DDA2FC8003FE72B /* MUXSDKPlayerBinding.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -49,6 +48,7 @@
 		FA19C072252BC5BB006AA443 /* MUXSDKConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = FA19C06D252BC599006AA443 /* MUXSDKConnection.h */; };
 		FA19C077252BC5CE006AA443 /* MUXSDKConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = FA19C076252BC5CE006AA443 /* MUXSDKConnection.m */; };
 		FA19C078252BC5CE006AA443 /* MUXSDKConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = FA19C076252BC5CE006AA443 /* MUXSDKConnection.m */; };
+		FE6660AFC688ACB31DD862AB /* Pods_MUXSDKStatsTv.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC8FEA6AC526058AAC44CDFF /* Pods_MUXSDKStatsTv.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,15 +77,15 @@
 		02EB9E2623E894E70007E1CD /* MUXSDKCustomerPlayerDataStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MUXSDKCustomerPlayerDataStore.m; sourceTree = "<group>"; };
 		02EB9E2B23E896790007E1CD /* MUXSDKCustomerVideoDataStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MUXSDKCustomerVideoDataStore.h; sourceTree = "<group>"; };
 		02EB9E2C23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MUXSDKCustomerVideoDataStore.m; sourceTree = "<group>"; };
+		12DFBEF92AF1ED7E82C2A28D /* Pods_MUXSDKStats.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MUXSDKStats.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		154336948D6C92AD1D9E2C0E /* Pods-MUXSDKStatsTv.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStatsTv.release.xcconfig"; path = "Target Support Files/Pods-MUXSDKStatsTv/Pods-MUXSDKStatsTv.release.xcconfig"; sourceTree = "<group>"; };
 		2BCA0D809AFA716D265CDE68 /* Pods-MUXSDKStatsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStatsTests.release.xcconfig"; path = "Target Support Files/Pods-MUXSDKStatsTests/Pods-MUXSDKStatsTests.release.xcconfig"; sourceTree = "<group>"; };
 		350F766328FDCD8D008F520F /* MUXSDKStats+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MUXSDKStats+Internal.h"; sourceTree = "<group>"; };
-		8F826C544B47B20103DA2B6F /* libPods-MUXSDKStatsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MUXSDKStatsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		B3AF7FB77FD075472C4AFC41 /* libPods-MUXSDKStatsTv.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MUXSDKStatsTv.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3CF39B9E5E3642B2DE659773 /* Pods_MUXSDKStatsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MUXSDKStatsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC8FEA6AC526058AAC44CDFF /* Pods_MUXSDKStatsTv.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MUXSDKStatsTv.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0DF48BBA71DCCEF2DFBF9A2 /* Pods-MUXSDKStats.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStats.release.xcconfig"; path = "Target Support Files/Pods-MUXSDKStats/Pods-MUXSDKStats.release.xcconfig"; sourceTree = "<group>"; };
 		E61FA8F0C8DBA82F4D80AB5C /* Pods-MUXSDKStatsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStatsTests.debug.xcconfig"; path = "Target Support Files/Pods-MUXSDKStatsTests/Pods-MUXSDKStatsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E9B1F72C59DA411ACAC385D8 /* Pods-MUXSDKStats.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MUXSDKStats.debug.xcconfig"; path = "Target Support Files/Pods-MUXSDKStats/Pods-MUXSDKStats.debug.xcconfig"; sourceTree = "<group>"; };
-		F31C55602B4FAD32B4FAD60D /* libPods-MUXSDKStats.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MUXSDKStats.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F41E09041DDA8E530028A296 /* MUXSDKStats.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MUXSDKStats.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F41E09061DDA8E530028A296 /* MUXSDKStatsTv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MUXSDKStatsTv.h; sourceTree = "<group>"; };
 		F41E09071DDA8E530028A296 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -108,7 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98B5C8F1EAA48DDB2CE03708 /* libPods-MUXSDKStatsTv.a in Frameworks */,
+				FE6660AFC688ACB31DD862AB /* Pods_MUXSDKStatsTv.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,7 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9989F58D9496409BAEC0F38 /* libPods-MUXSDKStats.a in Frameworks */,
+				6E324FA9AE988B95F3DBC7FC /* Pods_MUXSDKStats.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,7 +125,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F4DCAD071DCA892E0094D94C /* MUXSDKStats.framework in Frameworks */,
-				08FF60582DFAB2A29B8107F7 /* libPods-MUXSDKStatsTests.a in Frameworks */,
+				12C43ADDFA76EC5BD952737E /* Pods_MUXSDKStatsTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,9 +157,9 @@
 		72507B4484268D1C69457A99 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F31C55602B4FAD32B4FAD60D /* libPods-MUXSDKStats.a */,
-				8F826C544B47B20103DA2B6F /* libPods-MUXSDKStatsTests.a */,
-				B3AF7FB77FD075472C4AFC41 /* libPods-MUXSDKStatsTv.a */,
+				12DFBEF92AF1ED7E82C2A28D /* Pods_MUXSDKStats.framework */,
+				3CF39B9E5E3642B2DE659773 /* Pods_MUXSDKStatsTests.framework */,
+				CC8FEA6AC526058AAC44CDFF /* Pods_MUXSDKStatsTv.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

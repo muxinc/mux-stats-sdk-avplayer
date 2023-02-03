@@ -2,8 +2,7 @@
 
 target 'MUXSDKStats' do
   platform :ios, '11.0'
-  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
-  # use_frameworks!
+  use_frameworks!
   # Pods for MUXSDKStats
   pod 'Mux-Stats-Core', '~>4.4'
   
@@ -17,8 +16,7 @@ end
 
 target 'MUXSDKStatsTv' do
   platform :tvos, '11.0'
-  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
-  # use_frameworks!
+  use_frameworks!
   # Pods for MUXSDKStatsTv
   pod 'Mux-Stats-Core', '~>4.4'
 end
