@@ -1,22 +1,33 @@
 # Uncomment the next line to define a global platform for your project
 
-target 'MUXSDKStats' do
-  platform :ios, '11.0'
-  use_frameworks!
+abstract_target :StatsSdk do
+  #use_frameworks! :linkage => :dynamic
+  
   # Pods for MUXSDKStats
   pod 'Mux-Stats-Core', '~>4.4'
   
-  target 'MUXSDKStatsTests' do
-    inherit! :search_paths
-    # Pods for testing
-    pod 'Mux-Stats-Core', '~>4.4'
+  target 'MUXSDKStats' do
+    platform :ios, '11.0'
+    use_frameworks! :linkage => :dynamic
+    # Pods for MUXSDKStats
+    #pod 'Mux-Stats-Core', '~>4.4'
+    
+    target 'MUXSDKStatsTests' do
+      inherit! :search_paths
+      # Pods for testing
+      #pod 'Mux-Stats-Core', '~>4.4'
+    end
   end
   
-end
+  target 'MUXSDKStats-Static' do
+    platform :ios, '11.0'
+    #use_frameworks! :linkage => :static
+  end
 
-target 'MUXSDKStatsTv' do
-  platform :tvos, '11.0'
-  use_frameworks!
-  # Pods for MUXSDKStatsTv
-  pod 'Mux-Stats-Core', '~>4.4'
+  target 'MUXSDKStatsTv' do
+    platform :tvos, '11.0'
+    use_frameworks! :linkage => :dynamic
+    # Pods for MUXSDKStatsTv
+    pod 'Mux-Stats-Core', '~>4.4'
+  end
 end
