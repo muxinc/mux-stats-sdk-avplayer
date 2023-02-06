@@ -1,5 +1,5 @@
 PODS:
-  - Mux-Stats-AVPlayer (3.1.0):
+  - Mux-Stats-AVPlayer (3.2.0):
     - Mux-Stats-Core (~> 4.2)
   - Mux-Stats-Core (4.4.0)
 
@@ -15,7 +15,7 @@ EXTERNAL SOURCES:
     :path: "../../"
 
 SPEC CHECKSUMS:
-  Mux-Stats-AVPlayer: 669b2454e52700623f2ee89397cb77b1885ce600
+  Mux-Stats-AVPlayer: df0316ba73ad2d05dd1349ed39de2e9efdb42356
   Mux-Stats-Core: 27b28bc277a891190753869600c5e01e2188125c
 
 PODFILE CHECKSUM: 35eab01d94a38094a6bb1bb1e7e920a612443c89

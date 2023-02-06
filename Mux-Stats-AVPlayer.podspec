@@ -18,9 +18,9 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '11.0'
   s.ios.vendored_frameworks = 'XCFramework/MUXSDKStats.xcframework'
-  s.ios.frameworks = 'AVKit', 'AVFoundation'
+  s.ios.frameworks = 'AVKit', 'AVFoundation', 'SystemConfiguration', 'CoreMedia'
 
   s.tvos.deployment_target = '11.0'
   s.tvos.vendored_frameworks = 'XCFramework/MUXSDKStats.xcframework'
-  s.tvos.frameworks = 'AVKit', 'AVFoundation'
+  s.tvos.frameworks = 'AVKit', 'AVFoundation', 'SystemConfiguration', 'CoreMedia'
 end
