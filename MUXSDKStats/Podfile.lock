@@ -1,16 +1,16 @@
 PODS:
-  - Mux-Stats-Core (4.4.2)
+  - Mux-Stats-Core (4.5.0)
 
 DEPENDENCIES:
-  - Mux-Stats-Core (~> 4.4)
+  - Mux-Stats-Core (from `/Users/edixon/repos/mux-stats-sdk-objc/stats-sdk-objc`)
 
-SPEC REPOS:
-  trunk:
-    - Mux-Stats-Core
+EXTERNAL SOURCES:
+  Mux-Stats-Core:
+    :path: "/Users/edixon/repos/mux-stats-sdk-objc/stats-sdk-objc"
 
 SPEC CHECKSUMS:
-  Mux-Stats-Core: d06b1470457f287c4b3aad3b06f9a6c173dfe38f
+  Mux-Stats-Core: 22753df19259a0954d21d5bcb860b64d39825ee0
 
-PODFILE CHECKSUM: b09b8c24fa8f77f8b8913e611fdd967db5b109ae
+PODFILE CHECKSUM: c21ada6976dd8ff8baa665015e4338bf596a4079
 
 COCOAPODS: 1.12.0
