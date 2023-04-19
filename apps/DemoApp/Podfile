@@ -3,6 +3,7 @@ platform :ios, '12.0'
 target 'DemoApp' do
   use_frameworks!
   pod 'Mux-Stats-AVPlayer', :path => '../../'
+  pod 'Mux-Stats-Core', :path => '/Users/edixon/repos/mux-stats-sdk-objc/stats-sdk-objc'
   
 end
 

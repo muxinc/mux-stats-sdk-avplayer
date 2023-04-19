@@ -1,23 +1,22 @@
 PODS:
-  - Mux-Stats-AVPlayer (3.2.1):
-    - Mux-Stats-Core (~> 4.4)
-  - Mux-Stats-Core (4.4.2)
+  - Mux-Stats-AVPlayer (3.3.0):
+    - Mux-Stats-Core (~> 4.5)
+  - Mux-Stats-Core (4.5.0)
 
 DEPENDENCIES:
   - Mux-Stats-AVPlayer (from `../../`)
-
-SPEC REPOS:
-  trunk:
-    - Mux-Stats-Core
+  - Mux-Stats-Core (from `/Users/edixon/repos/mux-stats-sdk-objc/stats-sdk-objc`)
 
 EXTERNAL SOURCES:
   Mux-Stats-AVPlayer:
     :path: "../../"
+  Mux-Stats-Core:
+    :path: "/Users/edixon/repos/mux-stats-sdk-objc/stats-sdk-objc"
 
 SPEC CHECKSUMS:
-  Mux-Stats-AVPlayer: f89f946203e70c3a54e605a4b2b31ba425ff3cd2
-  Mux-Stats-Core: d06b1470457f287c4b3aad3b06f9a6c173dfe38f
+  Mux-Stats-AVPlayer: 9bffe60bf3fae24dfd19ccaed0f8a62f71bb253f
+  Mux-Stats-Core: 22753df19259a0954d21d5bcb860b64d39825ee0
 
-PODFILE CHECKSUM: 35eab01d94a38094a6bb1bb1e7e920a612443c89
+PODFILE CHECKSUM: ecf6e3b59d5508e5da5d9c9a1826c34c27185595
 
 COCOAPODS: 1.12.0
