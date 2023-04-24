@@ -1,5 +1,5 @@
 PODS:
-  - Mux-Stats-Core (4.5.0)
+  - Mux-Stats-Core (4.9.11)
 
 DEPENDENCIES:
   - Mux-Stats-Core (from `/Users/edixon/repos/mux-stats-sdk-objc/stats-sdk-objc`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "/Users/edixon/repos/mux-stats-sdk-objc/stats-sdk-objc"
 
 SPEC CHECKSUMS:
-  Mux-Stats-Core: 22753df19259a0954d21d5bcb860b64d39825ee0
+  Mux-Stats-Core: 20faff85aeca9cb3d95e0f3233223327965258c1
 
 PODFILE CHECKSUM: c21ada6976dd8ff8baa665015e4338bf596a4079
 
