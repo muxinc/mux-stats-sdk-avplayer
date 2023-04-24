@@ -222,7 +222,8 @@ static MUXSDKCustomerViewerData *_customerViewerData;
         } else if (domain != nil && domain.length > 0) {
             [MUXSDKCore setBeaconDomain:domain forPlayer:name];
         }
-
+        [MUXSDKCore setDeviceId:[MUXSDKStats getUUIDString] forPlayer:name];
+        
         [_customerPlayerDataStore setPlayerData:playerData forPlayerName:name];
         if (videoData) {
             [_customerVideoDataStore setVideoData:videoData forPlayerName:name];
@@ -400,6 +401,8 @@ static MUXSDKCustomerViewerData *_customerViewerData;
         } else if (domain != nil && domain.length > 0) {
             [MUXSDKCore setBeaconDomain:domain forPlayer:name];
         }
+        [MUXSDKCore setDeviceId:[MUXSDKStats getUUIDString] forPlayer:name];
+
 
         [_customerPlayerDataStore setPlayerData:playerData forPlayerName:name];
         if (videoData) {
