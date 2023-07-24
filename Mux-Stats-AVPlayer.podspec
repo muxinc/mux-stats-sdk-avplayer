@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.license          = 'Apache 2.0'
   s.author           = { 'Mux' => 'ios-sdk@mux.com' }
 
-  s.dependency 'Mux-Stats-Core', '~>4.5'
+  s.dependency 'Mux-Stats-Core', '~>4.5.2'
 
   s.ios.deployment_target = '11.0'
   s.ios.vendored_frameworks = 'XCFramework/MUXSDKStats.xcframework'
