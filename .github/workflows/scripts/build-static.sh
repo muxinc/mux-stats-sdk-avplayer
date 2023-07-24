@@ -3,7 +3,7 @@ set -euo pipefail
 
 cd MUXSDKStats
 pod repo update
-pod deintegrate && pod install
+pod deintegrate && pod install --repo-update
 cd ..
 ./update-release-xcframeworks-static.sh
 zip -ry MUXSDKStats-static.xcframework.zip XCFramework
