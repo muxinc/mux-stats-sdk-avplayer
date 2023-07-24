@@ -4,12 +4,12 @@ target 'MUXSDKStats' do
   platform :ios, '11.0'
   use_frameworks!
   # Pods for MUXSDKStats
-  pod 'Mux-Stats-Core', '~> 4.5'
+  pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git'
   
   target 'MUXSDKStatsTests' do
     inherit! :search_paths
     # Pods for testing
-    pod 'Mux-Stats-Core', '~> 4.5'
+    pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git'
   end
   
 end
@@ -18,5 +18,5 @@ target 'MUXSDKStatsTv' do
   platform :tvos, '11.0'
   use_frameworks!
   # Pods for MUXSDKStatsTv
-  pod 'Mux-Stats-Core', '~> 4.5'
+  pod 'Mux-Stats-Core', :git => 'https://github.com/muxinc/stats-sdk-objc.git'
 end
