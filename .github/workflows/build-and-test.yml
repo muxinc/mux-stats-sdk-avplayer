@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     name: Run unit tests and build the SDK
-    runs-on: macos-12
+    runs-on: macos-13
     steps:
       - name: Install xcbeautify
         run: brew install xcbeautify
@@ -30,18 +30,12 @@ jobs:
   tests:
     name: Test the SDK with a Demo App
     needs: build
-    runs-on: macos-12
+    runs-on: macos-13
     steps:
       - name: Install xcbeautify
         run: brew install xcbeautify
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Link to older simulator(s)
-        run: |
-          echo "Creating Runtimes folder if needed..."
-          sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
-          echo "Creating symlink of the iOS 14.1 runtime..."
-          sudo ln -s /Applications/Xcode_12.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 14.1.simruntime
       - name: Download framework artifact
         uses: actions/download-artifact@v2
         with:
@@ -50,16 +44,10 @@ jobs:
         run: "apps/DemoApp/run-tests.sh"
   build-static:
     name: Build static SDK
-    runs-on: macos-12
+    runs-on: macos-13
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Link to older simulator(s)
-        run: |
-          echo "Creating Runtimes folder if needed..."
-          sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
-          echo "Creating symlink of the iOS 14.1 runtime..."
-          sudo ln -s /Applications/Xcode_12.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 14.1.simruntime
       - name: "🔨 Build Static"
         run: ".github/workflows/scripts/build-static.sh"
       - name: "Upload framework artifact"
@@ -70,7 +58,7 @@ jobs:
   tests-iOS-15:
     name: (iOS 15) Test the SDK with a Demo App
     needs: build
-    runs-on: macos-11
+    runs-on: macos-12
     steps:
       - name: Install xcbeautify
         run: brew install xcbeautify
@@ -80,5 +68,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: "MUXSDKStats.xcframework.zip"
+      - name: Select Xcode version
+        run: sudo xcode-select -s '/Applications/Xcode_13.4.1.app/Contents/Developer'
       - name: Run tests
         run: "apps/DemoApp/run-tests-big-sur.sh"
