@@ -209,9 +209,9 @@ static NSString *Z = @"Z";
                                     MUXSDKPlaybackEventPlayerReadyEventType,
                                     MUXSDKPlaybackEventViewEndEventType
     ];
+    [MUXSDKStats destroyPlayer:playName];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomerViewData:@{@"xseid": @"bar"}];
-    [MUXSDKStats destroyPlayer:playName];
 }
 
 - (void)testVideoChangeForAVPlayerViewController{
@@ -233,9 +233,9 @@ static NSString *Z = @"Z";
                                     MUXSDKPlaybackEventPlayerReadyEventType,
                                     MUXSDKPlaybackEventViewEndEventType
     ];
+    [MUXSDKStats destroyPlayer:playName];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomerVideoData:@{@"vtt": @"56789"}];
-    [MUXSDKStats destroyPlayer:playName];
 }
 
 - (void)testManualVideoChangeForAVPlayerViewController{
@@ -327,9 +327,9 @@ static NSString *Z = @"Z";
                                     MUXSDKPlaybackEventPlayerReadyEventType,
                                     MUXSDKPlaybackEventViewEndEventType
     ];
+    [MUXSDKStats destroyPlayer:playName];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomerViewData:@{@"xseid": @"bar"}];
-    [MUXSDKStats destroyPlayer:playName];
 }
 
 - (void)testVideoChangeForAVPlayerLayer{
@@ -351,9 +351,9 @@ static NSString *Z = @"Z";
                                     MUXSDKPlaybackEventPlayerReadyEventType,
                                     MUXSDKPlaybackEventViewEndEventType
     ];
+    [MUXSDKStats destroyPlayer:playName];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomerVideoData:@{@"vtt": @"56789"}];
-    [MUXSDKStats destroyPlayer:playName];
 }
 
 - (void)testManualVideoChangeForAVPlayerLayer{
@@ -417,12 +417,13 @@ static NSString *Z = @"Z";
                            MUXSDKPlaybackEventViewInitEventType, // the new view
                            MUXSDKDataEventType,
                            MUXSDKDataEventType, // from replacing the player item with the same source
-                           MUXSDKPlaybackEventPlayEventType
+                           MUXSDKPlaybackEventPlayEventType,
+                           MUXSDKPlaybackEventViewEndEventType,
     ];
+    [MUXSDKStats destroyPlayer:playName];
+    [MUXSDKStats destroyPlayer:playName];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:7 withVideoData:@{@"vsour": videoURL.absoluteString, @"vsoisli": @"false"}];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
-    [MUXSDKStats destroyPlayer:playName];
-    [MUXSDKStats destroyPlayer:playName];
 }
 
 - (void)testProgramChangeForAVPlayerViewController{
@@ -444,10 +445,11 @@ static NSString *Z = @"Z";
                                     MUXSDKPlaybackEventPlayerReadyEventType,
                                     MUXSDKPlaybackEventViewEndEventType,
                                     MUXSDKPlaybackEventPlayEventType,
-                                    MUXSDKPlaybackEventPlayingEventType
+                                    MUXSDKPlaybackEventPlayingEventType,
+                                    MUXSDKPlaybackEventViewEndEventType,
     ];
-    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [MUXSDKStats destroyPlayer:playName];
+    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
 }
 
 - (void)testClearsCustomerMetadataOnDestroy {
@@ -487,12 +489,13 @@ static NSString *Z = @"Z";
                            MUXSDKPlaybackEventViewEndEventType,
                            MUXSDKPlaybackEventViewInitEventType,
                            MUXSDKDataEventType,
-                           MUXSDKPlaybackEventPlayerReadyEventType
+                           MUXSDKPlaybackEventPlayerReadyEventType,
+                           MUXSDKPlaybackEventViewEndEventType
     ];
+    [MUXSDKStats destroyPlayer:playName];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:5 withCustomerVideoData:@{@"vid": @"my-video-id-2"}];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:5 withCustomData:nil];
-    [MUXSDKStats destroyPlayer:playName];
 }
 
 - (void)testUpdateCustomerDataWithCustomData {
@@ -511,12 +514,13 @@ static NSString *Z = @"Z";
     [MUXSDKStats setCustomerData:customerData forPlayer:playName];
     NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                                     MUXSDKDataEventType,
-                                    MUXSDKPlaybackEventPlayerReadyEventType
+                                    MUXSDKPlaybackEventPlayerReadyEventType,
+                                    MUXSDKPlaybackEventViewEndEventType,
     ];
+    [MUXSDKStats destroyPlayer:playName];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomerVideoData:@{}];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomData:@{@"c1" : @"foo"}];
-    [MUXSDKStats destroyPlayer:playName];
 }
 
 - (void)testupdateCustomerDataWithNulls{
@@ -534,12 +538,13 @@ static NSString *Z = @"Z";
     [MUXSDKStats setCustomerData:customerData forPlayer:playName];
     NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                                     MUXSDKDataEventType,
-                                    MUXSDKPlaybackEventPlayerReadyEventType
+                                    MUXSDKPlaybackEventPlayerReadyEventType,
+                                    MUXSDKPlaybackEventViewEndEventType,
     ];
+    [MUXSDKStats destroyPlayer:playName];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomerVideoData:@{}];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomerViewData:@{@"xseid" : @"foo"}];
-    [MUXSDKStats destroyPlayer:playName];
 }
 
 - (void)testUpdateCustomerDataWithPlayerDataViewDataAndNullVideoData{
@@ -561,12 +566,13 @@ static NSString *Z = @"Z";
     NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                                     MUXSDKDataEventType,
                                     MUXSDKPlaybackEventPlayerReadyEventType,
-                                    MUXSDKDataEventType
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventViewEndEventType,
     ];
+    [MUXSDKStats destroyPlayer:playName];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
 //    [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomerVideoData:@{@"vtt": @"1234"}];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomerViewData:@{@"xseid" : @"baz"}];
-    [MUXSDKStats destroyPlayer:playName];
 }
 
 - (void)testupdateCustomerDataWithPlayerDataAndNullVideoData{
@@ -584,10 +590,11 @@ static NSString *Z = @"Z";
     NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                                     MUXSDKDataEventType,
                                     MUXSDKPlaybackEventPlayerReadyEventType,
-                                    MUXSDKDataEventType
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventViewEndEventType,
     ];
-    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [MUXSDKStats destroyPlayer:playName];
+    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
 }
 
 - (void)testUpdateCustomerDataWithNullPlayerDataAndVideoData{
@@ -608,10 +615,11 @@ static NSString *Z = @"Z";
     NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                                     MUXSDKDataEventType,
                                     MUXSDKPlaybackEventPlayerReadyEventType,
-                                    MUXSDKDataEventType
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventViewEndEventType,
     ];
-    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [MUXSDKStats destroyPlayer:playName];
+    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
 }
 
 - (void)testUpdateCustomerDataViewerData {
@@ -649,10 +657,10 @@ static NSString *Z = @"Z";
     NSArray *expectedEventTypes = @[MUXSDKDataEventType,
                                     MUXSDKDataEventType
     ];
+    [MUXSDKStats destroyPlayer:playName];
     [self assertDispatchedGlobalEventTypes:expectedEventTypes];
     XCTAssertEqual([[MUXSDKCore globalEventAtIndex:0] viewerData].viewerApplicationName, applicationName1);
     XCTAssertEqual([[MUXSDKCore globalEventAtIndex:1] viewerData].viewerApplicationName, applicationName2);
-    [MUXSDKStats destroyPlayer:playName];
 }
 
 
