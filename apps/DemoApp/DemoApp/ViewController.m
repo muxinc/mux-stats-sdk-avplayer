@@ -8,20 +8,12 @@ NSString *const livestreamTestURL = @"https://stream.mux.com/v69RSHhFelSm4701snP
 NSString *const livestreamLowLatencyTestURL = @"https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8";
 NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8";
 
-@interface ViewController () {
-    AVPlayer *_avplayer;
-    AVPlayerViewController *_avplayerController;
-    NSTimer *_timer;
-    MUXSDKPlayerBinding *_playerBinding;
-}
-@end
-
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _avplayerController = [AVPlayerViewController new];
-    _avplayerController.view.accessibilityIdentifier = @"AVPlayerView";
+    self.playerViewController = [[AVPlayerViewController alloc] init];
+    self.playerViewController.view.accessibilityIdentifier = @"AVPlayerView";
     
     AVPlayer *player;
     if ([[self testScenario] isEqual:@"UPDATE_CUSTOM_DIMENSIONS"]) {
@@ -39,7 +31,7 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
     } else if ([[self testScenario] isEqual:@"AUTO_SEEK"]) {
         player = [self testAutoSeek];
     } else if ([[self testScenario] isEqual:@"UI_SEEK"]) {
-        player = [self testAVPlayer:vodTestURL];
+        player = [self testAVPlayer: vodTestURL];
     } else {
         player = [self testAVPlayer];
     }
@@ -161,8 +153,8 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
 }
 
 - (void)setupAVPlayerViewController:(AVPlayer *)player {
-    _avplayer = player;
-    _avplayerController.player = _avplayer;
+    _player = player;
+    _playerViewController.player = player;
     
     // TODO: Add your property key!
     NSString *envKey = [NSProcessInfo.processInfo.environment objectForKey:@"ENV_KEY"];
@@ -190,12 +182,14 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
                                                                                      viewData:viewData
                                                                                    customData:customData
                                                                                    viewerData:viewerData];
-    _playerBinding = [MUXSDKStats monitorAVPlayerViewController:_avplayerController withPlayerName:DEMO_PLAYER_NAME customerData:customerData];
-    [_avplayer play];
-    [self addChildViewController:_avplayerController];
-    _avplayerController.view.frame = self.view.bounds;
-    [self.view insertSubview:_avplayerController.view atIndex:0];
-    [_avplayerController didMoveToParentViewController:self];
+    _playerBinding = [MUXSDKStats monitorAVPlayerViewController:_playerViewController
+                                                 withPlayerName:DEMO_PLAYER_NAME
+                                                   customerData:customerData];
+    [_player play];
+    [self addChildViewController:_playerViewController];
+    _playerViewController.view.frame = self.view.bounds;
+    [self.view insertSubview:_playerViewController.view atIndex:0];
+    [_playerViewController didMoveToParentViewController:self];
 }
 
 - (void)changeVideo:(NSTimer *)timer {
@@ -213,8 +207,8 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
                      withCustomerData:customerData];
     NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
     AVPlayerItem *keynote = [AVPlayerItem playerItemWithURL:videoURL];
-    [_avplayer replaceCurrentItemWithPlayerItem:keynote];
-    [_avplayer play];
+    [_player replaceCurrentItemWithPlayerItem:keynote];
+    [_player play];
 }
 
 - (void)changeProgram:(NSTimer *)timer {
@@ -247,7 +241,7 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
 }
 
 - (void)autoSeek:(NSTimer *)timer {
-    [_avplayer.currentItem seekToTime:CMTimeMakeWithSeconds(15, 60000)];
+    [_player.currentItem seekToTime:CMTimeMakeWithSeconds(15, 60000)];
 }
 
 - (NSString *) testScenario {

@@ -6,5 +6,11 @@
 
 @interface ViewController : UIViewController
 
+@property (nonatomic) AVPlayer *player;
+@property (nonatomic) AVPlayerViewController *playerViewController;
+
+@property (nonatomic) NSTimer *timer;
+@property (nonatomic) MUXSDKPlayerBinding *playerBinding;
+
 @end
 
