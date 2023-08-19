@@ -55,7 +55,7 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
 
 - (AVPlayer *)testAVQueuePlayer {
     AVPlayerItem *item1 = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"]];
-    AVPlayerItem *item2 = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"]];
+    AVPlayerItem *item2 = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:vodTestURL]];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(playerItemDidReachEnd:)
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
@@ -76,7 +76,7 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
 }
 
 - (AVPlayer *)testVideoChange {
-    NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
+    NSURL* videoURL = [NSURL URLWithString:vodTestURL];
     AVPlayer *player = [AVPlayer playerWithURL:videoURL];
     
     // After 5 seconds, we'll change the video.
@@ -89,7 +89,7 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
 }
 
 - (AVPlayer *)testProgramChange{
-    NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
+    NSURL* videoURL = [NSURL URLWithString:vodTestURL];
     AVPlayer *player = [AVPlayer playerWithURL:videoURL];
     
 
@@ -205,7 +205,7 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
     
     [MUXSDKStats videoChangeForPlayer:DEMO_PLAYER_NAME
                      withCustomerData:customerData];
-    NSURL* videoURL = [NSURL URLWithString:@"http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"];
+    NSURL* videoURL = [NSURL URLWithString:vodTestURL];
     AVPlayerItem *keynote = [AVPlayerItem playerItemWithURL:videoURL];
     [_player replaceCurrentItemWithPlayerItem:keynote];
     [_player play];
