@@ -38,6 +38,11 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
     [self setupAVPlayerViewController: player];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [MUXSDKStats destroyPlayer:DEMO_PLAYER_NAME];
+    [super viewWillDisappear: animated];
+}
+
 #pragma mark Orientation Changes
 
 - (void)viewWillTransitionToSize:(CGSize)size
