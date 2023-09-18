@@ -1,0 +1,16 @@
+name: Validate release
+
+on:
+  push:
+    branches:
+      - 'releases/**'
+
+jobs:
+  versioncheck:
+    runs-on: macos-latest
+    name: Validate Versions
+    steps:
+      - name: Compare Podspec Version
+        uses: actions/checkout@v3
+      - name: Run Version Check Script
+        run: ./scripts/version-check.sh
