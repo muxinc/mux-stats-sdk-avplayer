@@ -13,4 +13,4 @@ jobs:
       - name: Compare Podspec Version
         uses: actions/checkout@v3
       - name: Run Version Check Script
-        run: ./scripts/version-check.sh
+        run: ./scripts/version-check.sh Mux-Stats-AVPlayer.podspec
