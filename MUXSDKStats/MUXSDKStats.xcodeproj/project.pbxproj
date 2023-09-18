@@ -810,7 +810,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AE924DCEA80787BCE1CF9384 /* Pods-MUXSDKStatsTests.debug.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = XX95P4Y787;
 				INFOPLIST_FILE = MUXSDKStatsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -826,7 +826,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A9D848A6E8ED974641D4D4DD /* Pods-MUXSDKStatsTests.release.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = CX6AHWLHM6;
+				DEVELOPMENT_TEAM = XX95P4Y787;
 				INFOPLIST_FILE = MUXSDKStatsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
