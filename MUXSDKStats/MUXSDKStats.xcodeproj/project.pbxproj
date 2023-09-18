@@ -349,7 +349,6 @@
 					};
 					F4DCAD051DCA892E0094D94C = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = CX6AHWLHM6;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -811,7 +810,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AE924DCEA80787BCE1CF9384 /* Pods-MUXSDKStatsTests.debug.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = CX6AHWLHM6;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = MUXSDKStatsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
