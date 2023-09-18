@@ -1,6 +1,13 @@
 #!/bin/bash
 
-readonly COCOAPOD_SPEC=Mux-Stats-AVPlayer.podspec
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 path to the podspec"
+    exit 1
+fi
+
+readonly COCOAPOD_SPEC="$1"
+
+echo "Validating ${COCOAPOD_SPEC}"
 
 # Extracts the pod spec version in the form of a MAJOR.MINOR.PATCH string
 cocoapod_spec_version=$(grep -Eo '\b[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z-]+)?(\+[0-9A-Za-z-]+)?\b' $COCOAPOD_SPEC | awk 'NR==1')
