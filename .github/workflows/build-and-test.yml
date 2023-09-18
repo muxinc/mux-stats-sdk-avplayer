@@ -11,7 +11,7 @@ jobs:
       - name: Install xcbeautify
         run: brew install xcbeautify
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Link to older simulator(s)
         run: |
           echo "Creating Runtimes folder if needed..."
@@ -35,7 +35,7 @@ jobs:
       - name: Install xcbeautify
         run: brew install xcbeautify
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Download framework artifact
         uses: actions/download-artifact@v2
         with:
@@ -47,7 +47,7 @@ jobs:
     runs-on: macos-13
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: "🔨 Build Static"
         run: ".github/workflows/scripts/build-static.sh"
       - name: "Upload framework artifact"
@@ -63,7 +63,7 @@ jobs:
       - name: Install xcbeautify
         run: brew install xcbeautify
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Download framework artifact
         uses: actions/download-artifact@v2
         with:

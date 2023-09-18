@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Create the Release on the destination branch
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Parse the tag name out of the release branch
         id: version
         run: >
