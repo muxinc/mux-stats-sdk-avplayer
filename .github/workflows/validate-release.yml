@@ -10,7 +10,27 @@ jobs:
     runs-on: macos-latest
     name: Validate Versions
     steps:
-      - name: Compare Podspec Version
+      - name: Checkout Repository
         uses: actions/checkout@v3
       - name: Run Version Check Script
         run: ./scripts/version-check.sh Mux-Stats-AVPlayer.podspec
+  unittestventura:
+    runs-on: macos-13
+    name: Complete Unit Test Pass on macOS Ventura
+    steps:
+      - name: Install xcbeautify
+        run: brew install xcbeautify
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Run Complete Unit Test Pass
+        run: ./scripts/run-complete-unit-test-pass-ventura.sh
+  unittestmonterey:
+    runs-on: macos-12
+    name: Complete Unit Test Pass macOS Monterey
+    steps:
+      - name: Install xcbeautify
+        run: brew install xcbeautify
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Run Complete Unit Test Pass
+        run: ./scripts/run-complete-unit-test-pass-monterey.sh

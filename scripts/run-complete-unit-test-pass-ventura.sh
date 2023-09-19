@@ -3,6 +3,7 @@ set -euo pipefail
 
 readonly PROJECT=MUXSDKStats.xcworkspace
 readonly SCHEME=MUXSDKStats
+readonly SCHEME_TVOS=MUXSDKStatsTv
 
 cd MUXSDKStats
 
@@ -33,6 +34,30 @@ xcodebuild clean test \
   -destination 'platform=iOS Simulator,OS=16.4,name=iPad Pro (12.9-inch) (6th generation)' \
   | xcbeautify
 
+echo "▸ Testing SDK on tvOS 16.4 - Apple TV"
+
+xcodebuild clean test \
+  -workspace $PROJECT \
+  -scheme $SCHEME_TVOS \
+  -destination 'platform=tvOS Simulator,OS=16.4,name=Apple TV' \
+  | xcbeautify
+
+echo "▸ Testing SDK on tvOS 16.4 - Apple TV 4K (3rd generation)"
+
+xcodebuild clean test \
+  -workspace $PROJECT \
+  -scheme $SCHEME_TVOS \
+  -destination 'platform=tvOS Simulator,OS=16.4,name=Apple TV 4K (3rd generation)' \
+  | xcbeautify
+
+echo "▸ Testing SDK on tvOS 16.4 - Apple TV 4K (3rd generation) (at 1080p)"
+
+xcodebuild clean test \
+  -workspace $PROJECT \
+  -scheme $SCHEME_TVOS \
+  -destination 'platform=tvOS Simulator,OS=16.4,name=Apple TV 4K (3rd generation) (at 1080p)' \
+  | xcbeautify
+
 sudo xcode-select -s /Applications/Xcode_14.2.app/
 
 echo "▸ Current Xcode: $(xcode-select -p)"
@@ -58,6 +83,30 @@ xcodebuild clean test \
   | xcbeautify
 
 
+echo "▸ Testing SDK on tvOS 16.1 - Apple TV"
+
+xcodebuild clean test \
+  -workspace $PROJECT \
+  -scheme $SCHEME_TVOS \
+  -destination 'platform=tvOS Simulator,OS=16.1,name=Apple TV' \
+  | xcbeautify
+
+echo "▸ Testing SDK on tvOS 16.1 - Apple TV 4K (3rd generation)"
+
+xcodebuild clean test \
+  -workspace $PROJECT \
+  -scheme $SCHEME_TVOS \
+  -destination 'platform=tvOS Simulator,OS=16.1,name=Apple TV 4K (3rd generation)' \
+  | xcbeautify
+
+echo "▸ Testing SDK on tvOS 16.1 - Apple TV 4K (3rd generation) (at 1080p)"
+
+xcodebuild clean test \
+  -workspace $PROJECT \
+  -scheme $SCHEME_TVOS \
+  -destination 'platform=tvOS Simulator,OS=16.1,name=Apple TV 4K (3rd generation) (at 1080p)' \
+  | xcbeautify
+
 sudo xcode-select -s /Applications/Xcode_14.1.app/
 
 echo "▸ Current Xcode: $(xcode-select -p)"
@@ -81,9 +130,5 @@ xcodebuild clean test \
   -scheme $SCHEME \
   -destination 'platform=iOS Simulator,OS=16.1,name=iPad mini (6th generation)' \
   | xcbeautify
-
-
-
-
 
 
