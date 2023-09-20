@@ -3,7 +3,7 @@ set -euo pipefail
 
 readonly PROJECT=MUXSDKStats.xcworkspace
 readonly SCHEME=MUXSDKStats
-readonly SCHEME_TVOS=MUXSDKStats
+readonly SCHEME_TVOS=MUXSDKStatsTv
 
 cd MUXSDKStats
 

@@ -26,7 +26,7 @@ jobs:
         run: ./scripts/run-complete-unit-test-pass-ventura.sh
   unittestmonterey:
     runs-on: macos-12
-    name: Complete Unit Test Pass macOS Monterey
+    name: Complete Unit Test Pass on macOS Monterey
     steps:
       - name: Install xcbeautify
         run: brew install xcbeautify
