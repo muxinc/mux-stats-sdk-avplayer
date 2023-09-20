@@ -28,6 +28,16 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1917D7B82AB97FBC009654E8"
+               BuildableName = "MUXSDKStatsTvTests.xctest"
+               BlueprintName = "MUXSDKStatsTvTests"
+               ReferencedContainer = "container:MUXSDKStats.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

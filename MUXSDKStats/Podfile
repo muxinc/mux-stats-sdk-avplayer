@@ -1,7 +1,7 @@
 # Uncomment the next line to define a global platform for your project
 
 target 'MUXSDKStats' do
-  platform :ios, '11.0'
+  platform :ios, '12.0'
   use_frameworks!
   # Pods for MUXSDKStats
   pod 'Mux-Stats-Core',  '~> 4.5.2'
@@ -15,8 +15,15 @@ target 'MUXSDKStats' do
 end
 
 target 'MUXSDKStatsTv' do
-  platform :tvos, '11.0'
+  platform :tvos, '12.0'
   use_frameworks!
   # Pods for MUXSDKStatsTv
   pod 'Mux-Stats-Core', '~> 4.5.2'
+
+  target 'MUXSDKStatsTvTests' do
+    inherit! :search_paths
+    # Pods for testing
+    pod 'Mux-Stats-Core', '~> 4.5.2'
+  end
+  
 end
