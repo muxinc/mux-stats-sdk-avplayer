@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Run Version Check Script
         run: ./scripts/version-check.sh Mux-Stats-AVPlayer.podspec
-  unittestventura:
+  unit-test-ventura:
     runs-on: macos-13
     name: Complete Unit Test Pass on macOS Ventura
     steps:
@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Run Complete Unit Test Pass
         run: ./scripts/run-complete-unit-test-pass-ventura.sh
-  unittestmonterey:
+  unit-test-monterey:
     runs-on: macos-12
     name: Complete Unit Test Pass on macOS Monterey
     steps:
