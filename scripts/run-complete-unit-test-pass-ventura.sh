@@ -7,7 +7,13 @@ readonly SCHEME_TVOS=MUXSDKStatsTv
 
 cd MUXSDKStats
 
+echo "▸ Reset Local Cocoapod Cache"
 pod cache clean --all
+
+echo "▸ Remove Podfile.lock"
+rm -rf Podfile.lock
+
+echo "▸ Reset Cocoapod Installation"
 pod deintegrate && pod install --clean-install --repo-update
 
 sudo xcode-select -s /Applications/Xcode_14.3.1.app/
