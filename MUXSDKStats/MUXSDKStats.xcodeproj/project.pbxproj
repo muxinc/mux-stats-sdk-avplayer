@@ -32,7 +32,6 @@
 		02EB9E2F23E896A90007E1CD /* MUXSDKCustomerVideoDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 02EB9E2B23E896790007E1CD /* MUXSDKCustomerVideoDataStore.h */; };
 		02EB9E3023E896F20007E1CD /* MUXSDKCustomerVideoDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EB9E2C23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m */; };
 		1917D7BC2AB97FBC009654E8 /* MUXSDKStatsTvTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1917D7BB2AB97FBC009654E8 /* MUXSDKStatsTvTests.m */; };
-		1917D7BD2AB97FBC009654E8 /* MUXSDKStats.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F41E09041DDA8E530028A296 /* MUXSDKStats.framework */; };
 		1917D7C32AB97FC5009654E8 /* MUXSDKStats.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F41E09041DDA8E530028A296 /* MUXSDKStats.framework */; };
 		19E4EA2C2AB984580068E1EE /* MUXSDKCore+Mock.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EA754B23EA074800B06715 /* MUXSDKCore+Mock.m */; };
 		19E4EA2D2AB9845F0068E1EE /* MUXSDKPlayerBindingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0243A98423E9FFC600FBF5B4 /* MUXSDKPlayerBindingTests.m */; };
@@ -135,7 +134,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1917D7C32AB97FC5009654E8 /* MUXSDKStats.framework in Frameworks */,
-				1917D7BD2AB97FBC009654E8 /* MUXSDKStats.framework in Frameworks */,
 				F5C5A77AFFF9A0278B4C5B19 /* Pods_MUXSDKStatsTvTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
