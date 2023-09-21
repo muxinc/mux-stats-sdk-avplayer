@@ -40,6 +40,7 @@ xcodebuild clean test \
   -workspace $PROJECT \
   -scheme $SCHEME_TVOS \
   -destination 'platform=tvOS Simulator,OS=16.4,name=Apple TV' \
+  -verbose \
   | xcbeautify
 
 echo "▸ Testing SDK on tvOS 16.4 - Apple TV 4K (3rd generation)"
@@ -48,6 +49,7 @@ xcodebuild clean test \
   -workspace $PROJECT \
   -scheme $SCHEME_TVOS \
   -destination 'platform=tvOS Simulator,OS=16.4,name=Apple TV 4K (3rd generation)' \
+  -verbose \
   | xcbeautify
 
 echo "▸ Testing SDK on tvOS 16.4 - Apple TV 4K (3rd generation) (at 1080p)"
