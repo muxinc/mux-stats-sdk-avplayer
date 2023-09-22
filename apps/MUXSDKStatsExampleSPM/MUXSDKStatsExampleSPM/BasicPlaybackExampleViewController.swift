@@ -38,6 +38,7 @@ class BasicPlaybackExampleViewController: UIViewController {
         let player = AVPlayer(url: playbackURL)
         playerViewController.player = player
         playerViewController.delegate = self
+        playerViewController.allowsPictureInPicturePlayback = false
 
         displayPlayerViewController()
 
@@ -116,5 +117,3 @@ extension BasicPlaybackExampleViewController: AVPlayerViewControllerDelegate {
         }
     }
 }
-
-
