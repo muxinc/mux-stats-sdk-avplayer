@@ -5,8 +5,8 @@ import PackageDescription
 let package = Package(
     name: "MUXSDKStats",
     platforms: [
-        .iOS(.v11),
-        .tvOS(.v11)
+        .iOS(.v12),
+        .tvOS(.v12)
     ],
     products: [
         .library(name: "MUXSDKStats", targets: ["MUXSDKStatsTargets"])
