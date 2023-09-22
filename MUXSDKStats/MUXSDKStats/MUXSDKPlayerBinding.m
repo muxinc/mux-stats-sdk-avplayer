@@ -12,7 +12,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"3.3.1";
+NSString *const MUXSDKPluginVersion = @"3.3.2";
 NSString *const MUXSessionDataPrefix = @"io.litix.data.";
 
 // Min number of seconds between timeupdate events. (100ms)
@@ -302,9 +302,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void) safelyRemoveTimeObserverForPlayer {
-    if (_player) {
+    if (_player != nil && _timeObserver != nil) {
         @try {
             [_player removeTimeObserver:_timeObserver];
+            _timeObserver = nil;
         } @catch (NSException * e) {
             if ([[e name] isEqualToString:RemoveObserverExceptionName]) {
                 NSLog(@"MUXSDK-ERROR removing timeObserver (no observer registered, this can be ignored): %@ %@", e.name, e.reason);

@@ -11,13 +11,7 @@ jobs:
       - name: Install xcbeautify
         run: brew install xcbeautify
       - name: Checkout
-        uses: actions/checkout@v2
-      - name: Link to older simulator(s)
-        run: |
-          echo "Creating Runtimes folder if needed..."
-          sudo mkdir -p /Library/Developer/CoreSimulator/Profiles/Runtimes
-          echo "Creating symlink of the iOS 14.1 runtime..."
-          sudo ln -s /Applications/Xcode_12.1.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime /Library/Developer/CoreSimulator/Profiles/Runtimes/iOS\ 14.1.simruntime
+        uses: actions/checkout@v3
       - name: "Unit Tests"
         run: ".github/workflows/scripts/unit-tests.sh"
       - name: "🔨 Build"
@@ -35,7 +29,7 @@ jobs:
       - name: Install xcbeautify
         run: brew install xcbeautify
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Download framework artifact
         uses: actions/download-artifact@v2
         with:
@@ -47,7 +41,7 @@ jobs:
     runs-on: macos-13
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: "🔨 Build Static"
         run: ".github/workflows/scripts/build-static.sh"
       - name: "Upload framework artifact"
@@ -63,7 +57,7 @@ jobs:
       - name: Install xcbeautify
         run: brew install xcbeautify
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Download framework artifact
         uses: actions/download-artifact@v2
         with:

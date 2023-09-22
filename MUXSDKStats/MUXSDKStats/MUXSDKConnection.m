@@ -1,5 +1,10 @@
 #import "MUXSDKConnection.h"
+
+#if __has_feature(modules)
+@import SystemConfiguration;
+#else
 #import <SystemConfiguration/SystemConfiguration.h>
+#endif
 
 /*
     dylanjhaveri
