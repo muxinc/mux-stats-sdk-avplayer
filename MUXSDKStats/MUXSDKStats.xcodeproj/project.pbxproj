@@ -579,7 +579,7 @@
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 12.0;
+				TVOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Debug;
 		};
@@ -607,7 +607,7 @@
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 12.0;
+				TVOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Release;
 		};
@@ -682,6 +682,7 @@
 				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 11.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -751,6 +752,7 @@
 				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 11.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -774,7 +776,7 @@
 				);
 				INFOPLIST_FILE = MUXSDKStats/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -802,7 +804,7 @@
 				"GCC_PREPROCESSOR_DEFINITIONS[sdk=appletvos*]" = "TVOS=1";
 				INFOPLIST_FILE = MUXSDKStats/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

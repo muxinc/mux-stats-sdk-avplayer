@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -39,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		194C6D432ABD518A003F965E /* mux-stats-sdk-avplayer */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "mux-stats-sdk-avplayer"; path = ../..; sourceTree = "<group>"; };
 		19CB35CC2ABD2B5C002DF48C /* MUXSDKStatsExampleSPM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MUXSDKStatsExampleSPM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		19CB35CF2ABD2B5C002DF48C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		19CB35D12ABD2B5C002DF48C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -82,9 +83,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		194C6D422ABD518A003F965E /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				194C6D432ABD518A003F965E /* mux-stats-sdk-avplayer */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
 		19CB35C32ABD2B5C002DF48C = {
 			isa = PBXGroup;
 			children = (
+				194C6D422ABD518A003F965E /* Packages */,
 				19CB35CE2ABD2B5C002DF48C /* MUXSDKStatsExampleSPM */,
 				19CB35E52ABD2B5D002DF48C /* MUXSDKStatsExampleSPMTests */,
 				19CB35EF2ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITests */,
@@ -227,7 +237,6 @@
 			);
 			mainGroup = 19CB35C32ABD2B5C002DF48C;
 			packageReferences = (
-				19CB35FF2ABD2B88002DF48C /* XCLocalSwiftPackageReference "../.." */,
 			);
 			productRefGroup = 19CB35CD2ABD2B5C002DF48C /* Products */;
 			projectDirPath = "";
@@ -625,13 +634,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCLocalSwiftPackageReference section */
-		19CB35FF2ABD2B88002DF48C /* XCLocalSwiftPackageReference "../.." */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../..;
-		};
-/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		19CB36002ABD2B88002DF48C /* MUXSDKStats */ = {

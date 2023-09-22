@@ -1,6 +1,6 @@
 framework module MUXSDKStats {
   umbrella header "MUXSDKStats.h"
-  export *
 
+  export *
   module * { export * }
 }
