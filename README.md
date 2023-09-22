@@ -11,3 +11,4 @@ Full integration instructions can be found here: https://docs.mux.com/docs/avpla
 * apps/DemoApp - Objective C demo
 * apps/video-demo - Swift demo
 * apps/TvDemoApp - Apple TV demo
+* apps/MUXSDKStatsExampleSPM - Swift Package Manager demo
