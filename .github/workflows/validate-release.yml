@@ -13,7 +13,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
       - name: Run Version Check Script
-        run: ./scripts/version-check.sh Mux-Stats-AVPlayer.podspec
+        run: ./scripts/version-check.sh Mux-Stats-AVPlayer.podspec MUXSDKStats.json
   validate-podspec:
     name: Validate Podspec
     runs-on: macos-13
