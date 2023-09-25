@@ -5,19 +5,19 @@ on:
 
 jobs:
   build:
-    name: Run unit tests and build the SDK
+    name: Run unit tests and build dynamic SDK binary
     runs-on: macos-13
     steps:
       - name: Install xcbeautify
         run: brew install xcbeautify
       - name: Checkout
         uses: actions/checkout@v3
-      - name: "Unit Tests"
-        run: ".github/workflows/scripts/unit-tests.sh"
-      - name: "🔨 Build"
+      - name: "Baseline Unit Test Pass"
+        run: ./scripts/run-baseline-unit-test-pass.sh
+      - name: "🔨 Build Dynamic XCFramework"
         run: ".github/workflows/scripts/build.sh"
-      - name: "Upload framework artifact"
-        uses: actions/upload-artifact@v2
+      - name: "Upload xcframework artifact"
+        uses: actions/upload-artifact@v3
         with: 
           name: "MUXSDKStats.xcframework.zip"
           path: "MUXSDKStats.xcframework.zip"
@@ -31,21 +31,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Download framework artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: "MUXSDKStats.xcframework.zip"
       - name: Run tests
-        run: "apps/DemoApp/run-tests.sh"
+        run: "scripts/run-tests-cocoapods-ventura.sh"
   build-static:
-    name: Build static SDK
+    name: Build static SDK binary
     runs-on: macos-13
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: "🔨 Build Static"
+      - name: "🔨 Build Static XCFramework"
         run: ".github/workflows/scripts/build-static.sh"
-      - name: "Upload framework artifact"
-        uses: actions/upload-artifact@v2
+      - name: "Upload xcframework artifact"
+        uses: actions/upload-artifact@v3
         with: 
           name: "MUXSDKStats-static.xcframework.zip"
           path: "MUXSDKStats-static.xcframework.zip"
@@ -59,10 +59,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Download framework artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: "MUXSDKStats.xcframework.zip"
       - name: Select Xcode version
         run: sudo xcode-select -s '/Applications/Xcode_13.4.1.app/Contents/Developer'
       - name: Run tests
-        run: "apps/DemoApp/run-tests-big-sur.sh"
+        run: "scripts/run-tests-cocoapods-monterey.sh"

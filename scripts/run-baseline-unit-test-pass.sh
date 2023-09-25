@@ -78,9 +78,3 @@ xcodebuild clean test \
   -scheme $SCHEME \
   -destination 'platform=iOS Simulator,OS=16.1,name=iPad mini (6th generation)' \
   | xcbeautify
-
-
-
-
-
-

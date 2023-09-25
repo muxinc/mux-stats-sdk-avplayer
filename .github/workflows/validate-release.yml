@@ -7,7 +7,7 @@ on:
 
 jobs:
   version-check:
-    runs-on: macos-latest
+    runs-on: macos-13
     name: Validate Versions
     steps:
       - name: Checkout Repository

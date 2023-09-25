@@ -1,3 +1,6 @@
+#!/bin/bash
+set -euo pipefail
+
 BUILD_DIR=$PWD/MUXSDKStats/xc
 PROJECT=$PWD/MUXSDKStats/MUXSDKStats.xcodeproj
 TARGET_DIR=$PWD/XCFramework

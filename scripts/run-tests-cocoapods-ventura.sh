@@ -1,8 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-brew install xcbeautify
-
 # Delete the old stuff
 rm -Rf XCFramework
 # reset simulators

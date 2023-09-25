@@ -1,8 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-brew install xcbeautify
-
 echo "Running unit tests on Xcode version: $(xcode-select -p)"
 
 # Delete the old stuff
