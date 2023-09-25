@@ -1,6 +1,12 @@
 #!/bin/bash
 set -euo pipefail
 
+if ! command -v xcbeautify &> /dev/null
+then
+  echo -e "\033[1;31m ERROR: xcbeautify could not be found please install it... \033[0m"
+    exit 1
+fi
+
 readonly PROJECT=MUXSDKStats.xcodeproj
 readonly SCHEME=MUXSDKStats
 
