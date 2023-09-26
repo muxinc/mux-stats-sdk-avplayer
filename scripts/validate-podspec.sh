@@ -15,4 +15,4 @@ pod lib lint --allow-warnings --verbose
 
 echo "▸ Back to Xcode 14.3.1"
 
-sudo xcode-select -switch /Applications/Xcode_14.3.1.app
+sudo xcode-select -switch /Applications/Xcode_14.3.1.app/Contents/Developer
