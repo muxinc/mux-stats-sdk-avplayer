@@ -12,6 +12,10 @@ readonly SCHEME=MUXSDKStats
 
 cd MUXSDKStats
 
+ls -la /Applications/Xcode_14.3.1.app
+
+ls -la /Applications/Xcode_14.3.1.app/Contents
+
 sudo xcode-select -s /Applications/Xcode_14.3.1.app/Contents/Developer
 
 echo "▸ Current Xcode: $(xcode-select -p)"
