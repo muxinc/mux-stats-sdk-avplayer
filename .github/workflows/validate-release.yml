@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'releases/**'
+      - 'ajlb/ci/more-automated-validation'
 
 jobs:
   version-check:
