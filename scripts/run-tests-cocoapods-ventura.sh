@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
+readonly XCODE=$(xcodebuild -version | grep Xcode | cut -d " " -f2)
+
 if ! command -v xcbeautify &> /dev/null
 then
     echo -e "\033[1;31m ERROR: xcbeautify could not be found please install it... \033[0m"
