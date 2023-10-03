@@ -597,11 +597,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         [playerData setPlayerLanguageCode:language];
     }
 
-    CGRect bounds = [self getVideoBounds];
-    [playerData setPlayerWidth:[NSNumber numberWithInt:bounds.size.width]];
-    [playerData setPlayerHeight:[NSNumber numberWithInt:bounds.size.height]];
-
     CGRect viewBounds = [self getViewBounds];
+    [playerData setPlayerWidth:[NSNumber numberWithInt:viewBounds.size.width]];
+    [playerData setPlayerHeight:[NSNumber numberWithInt:viewBounds.size.height]];
+
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     // TODO: setPlayerIsFullscreen - should be a boolean.
     if ((viewBounds.size.width == screenBounds.size.width && viewBounds.size.height == screenBounds.size.height) ||
