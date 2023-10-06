@@ -1,5 +1,5 @@
 #!/bin/bash
 set -euo pipefail
 
-./update-release-xcframeworks-static.sh
+./scripts/create-static-xcframework.sh
 zip -ry MUXSDKStats-static.xcframework.zip XCFramework

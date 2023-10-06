@@ -1,13 +1,19 @@
 #!/bin/bash
 set -euo pipefail
 
+if ! command -v xcbeautify &> /dev/null
+then
+  echo -e "\033[1;31m ERROR: xcbeautify could not be found please install it... \033[0m"
+    exit 1
+fi
+
 readonly PROJECT=MUXSDKStats.xcodeproj
 readonly SCHEME=MUXSDKStats
 readonly SCHEME_TVOS=MUXSDKStatsTv
 
 cd MUXSDKStats
 
-sudo xcode-select -s /Applications/Xcode_14.3.1.app/
+sudo xcode-select -s /Applications/Xcode_14.3.1.app/Contents/Developer
 
 echo "▸ Current Xcode: $(xcode-select -p)"
 

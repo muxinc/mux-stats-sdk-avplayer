@@ -1,11 +1,12 @@
 #!/bin/bash
 
-if [ $# -ne 1 ]; then
-    echo "▸ Usage: $0 path to the podspec"
+if [ $# -ne 2 ]; then
+    echo "▸ Usage: $0 MyPod.podspec MyFramework.json"
     exit 1
 fi
 
 readonly COCOAPOD_SPEC="$1"
+readonly CARTHAGE_JSON_SPECIFICATION="$2"
 
 echo "▸ Validating ${COCOAPOD_SPEC}"
 
@@ -23,6 +24,17 @@ if [ "${cocoapod_spec_version}" == "${release_version}" ]; then
 	echo "▸ ${COCOAPOD_SPEC} version matches release branch version"
 else
     echo "▸ Versions do not match, please update ${COCOAPOD_SPEC} to ${release_version}"
+    exit 1
+fi
+
+echo "▸ Validating ${CARTHAGE_JSON_SPECIFICATION}"
+
+cat $CARTHAGE_JSON_SPECIFICATION | jq -e --arg release_version "$release_version" 'has($release_version)'
+
+if [[ $? == 0 ]]; then
+    echo "▸ Carthage JSON Specification contains current version"
+else
+    echo -e "\033[1;31m ERROR: ${CARTHAGE_JSON_SPECIFICATION} is missing current version, please update it \033[0m"
     exit 1
 fi
 
@@ -54,5 +66,3 @@ for file in $files; do
         exit 0
     fi
 done
-
-

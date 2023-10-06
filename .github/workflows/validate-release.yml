@@ -6,14 +6,24 @@ on:
       - 'releases/**'
 
 jobs:
-  versioncheck:
-    runs-on: macos-latest
+  version-check:
+    runs-on: macos-13
     name: Validate Versions
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
       - name: Run Version Check Script
-        run: ./scripts/version-check.sh Mux-Stats-AVPlayer.podspec
+        run: ./scripts/version-check.sh Mux-Stats-AVPlayer.podspec MUXSDKStats.json
+  validate-podspec:
+    name: Validate Podspec
+    runs-on: macos-13
+    steps:
+      - name: Install xcbeautify
+        run: brew install xcbeautify
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: "Validate Podspec"
+        run: "scripts/validate-podspec.sh"
   unit-test-ventura:
     runs-on: macos-13
     name: Complete Unit Test Pass on macOS Ventura
