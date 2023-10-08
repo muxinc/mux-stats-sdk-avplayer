@@ -34,8 +34,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: "MUXSDKStats.xcframework.zip"
-      - name: Run tests
+      - name: Run cocoapods example application tests
         run: "scripts/run-tests-cocoapods-ventura.sh"
+      - name: Run Swift package manager example application tests
+        run: "scripts/run-tests-swift-package-manager-ventura.sh"
   build-static:
     name: Build static SDK binary
     runs-on: macos-13

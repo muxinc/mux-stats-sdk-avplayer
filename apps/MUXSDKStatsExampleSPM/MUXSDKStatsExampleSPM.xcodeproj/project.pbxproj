@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		19C386A82AD12344009AB018 /* MultiplePlayerItemPlaybackExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C386A72AD12343009AB018 /* MultiplePlayerItemPlaybackExampleViewController.swift */; };
+		19C386AA2AD3194F009AB018 /* PlayerLayerScalingExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C386A92AD3194F009AB018 /* PlayerLayerScalingExampleViewController.swift */; };
 		19CB35D02ABD2B5C002DF48C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB35CF2ABD2B5C002DF48C /* AppDelegate.swift */; };
 		19CB35D22ABD2B5C002DF48C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB35D12ABD2B5C002DF48C /* SceneDelegate.swift */; };
 		19CB35D42ABD2B5C002DF48C /* BasicPlaybackExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB35D32ABD2B5C002DF48C /* BasicPlaybackExampleViewController.swift */; };
@@ -40,6 +42,8 @@
 
 /* Begin PBXFileReference section */
 		194C6D432ABD518A003F965E /* mux-stats-sdk-avplayer */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "mux-stats-sdk-avplayer"; path = ../..; sourceTree = "<group>"; };
+		19C386A72AD12343009AB018 /* MultiplePlayerItemPlaybackExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplePlayerItemPlaybackExampleViewController.swift; sourceTree = "<group>"; };
+		19C386A92AD3194F009AB018 /* PlayerLayerScalingExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerLayerScalingExampleViewController.swift; sourceTree = "<group>"; };
 		19CB35CC2ABD2B5C002DF48C /* MUXSDKStatsExampleSPM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MUXSDKStatsExampleSPM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		19CB35CF2ABD2B5C002DF48C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		19CB35D12ABD2B5C002DF48C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -119,6 +123,8 @@
 				19CB35D12ABD2B5C002DF48C /* SceneDelegate.swift */,
 				19CB35D32ABD2B5C002DF48C /* BasicPlaybackExampleViewController.swift */,
 				19CB36022ABD2D39002DF48C /* PlayerLayerExampleViewController.swift */,
+				19C386A72AD12343009AB018 /* MultiplePlayerItemPlaybackExampleViewController.swift */,
+				19C386A92AD3194F009AB018 /* PlayerLayerScalingExampleViewController.swift */,
 				19CB36042ABD2D63002DF48C /* ProcessInfo+Mux.swift */,
 				19CB35D52ABD2B5C002DF48C /* Main.storyboard */,
 				19CB35D82ABD2B5D002DF48C /* Assets.xcassets */,
@@ -282,6 +288,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				19CB36052ABD2D63002DF48C /* ProcessInfo+Mux.swift in Sources */,
+				19C386AA2AD3194F009AB018 /* PlayerLayerScalingExampleViewController.swift in Sources */,
+				19C386A82AD12344009AB018 /* MultiplePlayerItemPlaybackExampleViewController.swift in Sources */,
 				19CB35D42ABD2B5C002DF48C /* BasicPlaybackExampleViewController.swift in Sources */,
 				19CB35D02ABD2B5C002DF48C /* AppDelegate.swift in Sources */,
 				19CB36032ABD2D39002DF48C /* PlayerLayerExampleViewController.swift in Sources */,
