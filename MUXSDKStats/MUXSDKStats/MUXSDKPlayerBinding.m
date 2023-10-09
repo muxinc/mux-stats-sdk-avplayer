@@ -12,7 +12,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"3.3.2";
+NSString *const MUXSDKPluginVersion = @"3.3.3";
 NSString *const MUXSessionDataPrefix = @"io.litix.data.";
 
 // Min number of seconds between timeupdate events. (100ms)
@@ -597,11 +597,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         [playerData setPlayerLanguageCode:language];
     }
 
-    CGRect bounds = [self getVideoBounds];
-    [playerData setPlayerWidth:[NSNumber numberWithInt:bounds.size.width]];
-    [playerData setPlayerHeight:[NSNumber numberWithInt:bounds.size.height]];
-
     CGRect viewBounds = [self getViewBounds];
+    NSLog(@"AJLB: Player View Bounds: %@", NSStringFromCGRect(viewBounds));
+    [playerData setPlayerWidth:[NSNumber numberWithInt:viewBounds.size.width]];
+    [playerData setPlayerHeight:[NSNumber numberWithInt:viewBounds.size.height]];
+
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     // TODO: setPlayerIsFullscreen - should be a boolean.
     if ((viewBounds.size.width == screenBounds.size.width && viewBounds.size.height == screenBounds.size.height) ||
