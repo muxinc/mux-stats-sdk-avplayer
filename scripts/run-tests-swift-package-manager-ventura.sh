@@ -2,8 +2,8 @@
 set -euo pipefail
 
 readonly XCODE=$(xcodebuild -version | grep Xcode | cut -d " " -f2)
-readonly WORKSPACE=DemoApp.xcworkspace
-readonly SCHEME=DemoApp
+readonly PROJECT=MUXSDKStatsExampleSPM.xcodeproj
+readonly SCHEME=MUXSDKStatsExampleSPM
 
 if ! command -v xcbeautify &> /dev/null
 then
@@ -30,22 +30,16 @@ xcrun -v simctl erase all
 echo "▸ Unzipping XCFramework"
 unzip MUXSDKStats.xcframework.zip
 
-cd apps/DemoApp
+cd apps/MUXSDKStatsExampleSPM
 
-echo "▸ Reset Local Cocoapod Cache"
-pod cache clean --all
-
-echo "▸ Remove Podfile.lock"
-rm -rf Podfile.lock
-
-echo "▸ Reset Cocoapod Installation"
-pod deintegrate && pod install --clean-install --repo-update
+echo "▸ Resolving package dependencies"
+xcodebuild -resolvePackageDependencies
 
 echo "▸ Available Schemes in $(pwd)"
-xcodebuild -list
+xcodebuild -list -json
 
-echo "▸ Running Demo App Tests"
+echo "▸ Running ${SCHEME} Tests"
 xcodebuild clean test \
-    -workspace $WORKSPACE \
+    -project $PROJECT \
     -scheme $SCHEME \
     -destination 'platform=iOS Simulator,OS=16.4,name=iPhone 14 Pro Max' | xcbeautify

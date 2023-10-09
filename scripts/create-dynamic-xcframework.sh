@@ -7,8 +7,6 @@ then
     exit 1
 fi
 
-readonly XCODE=$(xcodebuild -version | grep Xcode | cut -d " " -f2)
-
 readonly BUILD_DIR=$PWD/MUXSDKStats/xc
 readonly PROJECT=$PWD/MUXSDKStats/MUXSDKStats.xcodeproj
 readonly TARGET_DIR=$PWD/XCFramework
@@ -17,6 +15,10 @@ readonly FRAMEWORK_NAME="MUXSDKStats"
 readonly PACKAGE_NAME=${FRAMEWORK_NAME}.xcframework
 
 echo "▸ Current Xcode: $(xcode-select -p)"
+
+sudo xcode-select -switch /Applications/Xcode_14.3.1.app
+
+readonly XCODE=$(xcodebuild -version | grep Xcode | cut -d " " -f2)
 
 echo "▸ Using Xcode Version: ${XCODE}"
 

@@ -20,12 +20,133 @@ final class MUXSDKStatsExampleSPMUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
-        // UI tests must launch the application that they test.
-        let app = XCUIApplication()
-        app.launch()
+    func testBasicAVKitExample() throws {
+        let application = XCUIApplication()
 
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        try launchAndWaitUntilInForeground(
+            application: application
+        )
+
+        try tapCell(
+            cellIdentifier: "BasicAVKitExample",
+            waitFor: "BasicAVKitExampleView",
+            application: application
+        )
+    }
+
+    func testPlayerLayerExample() throws {
+        let application = XCUIApplication()
+
+        try launchAndWaitUntilInForeground(
+            application: application
+        )
+
+        try tapCell(
+            cellIdentifier: "PlayerLayerExample",
+            waitFor: "PlayerLayerExampleView",
+            application: application
+        )
+    }
+
+    func testAVQueuePlayerExample() throws {
+        let application = XCUIApplication()
+
+        try launchAndWaitUntilInForeground(
+            application: application
+        )
+
+        try tapCell(
+            cellIdentifier: "AVQueuePlayerExample",
+            waitFor: "AVQueuePlayerExampleView",
+            application: application
+        )
+    }
+
+    func testVideoChangeExample() throws {
+        let application = XCUIApplication()
+
+        try launchAndWaitUntilInForeground(
+            application: application
+        )
+
+        try tapCell(
+            cellIdentifier: "VideoChangeExample",
+            waitFor: "VideoChangeExampleView",
+            application: application
+        )
+    }
+
+    func testPlayerLayerScalingExample() throws {
+        let application = XCUIApplication()
+
+        try launchAndWaitUntilInForeground(
+            application: application
+        )
+
+        try tapCell(
+            cellIdentifier: "PlayerLayerScalingExample",
+            waitFor: "PlayerLayerScalingExampleView",
+            application: application
+        )
+    }
+
+    func launchAndWaitUntilInForeground(
+        application: XCUIApplication
+    ) throws {
+        application.launchEnvironment = [
+            "ENV_KEY": "qr9665qr78dac0hqld9bjofps",
+            "PLAYBACK_ID": "qxb01i6T202018GFS02vp9RIe01icTcDCjVzQpmaB00CUisJ4"
+        ]
+        application.launch()
+
+        let isRunningInForeground = application.wait(
+            for: .runningForeground,
+            timeout: 5.0
+        )
+
+        guard isRunningInForeground else {
+            XCTFail("Failed to launch application")
+            return
+        }
+    }
+
+    func tapCell(
+        cellIdentifier: String,
+        waitFor viewIdentifier: String,
+        application: XCUIApplication
+    ) throws {
+        let cellElement = application.cells.element(
+            matching: .cell,
+            identifier: cellIdentifier
+        )
+
+        cellElement.tap()
+
+        let viewElement = application.descendants(
+            matching: .any
+        ).element(
+            matching: .any,
+            identifier: viewIdentifier
+        )
+
+        let isViewElementOnScreen = viewElement.waitForExistence(
+            timeout: 10.0
+        )
+
+        guard isViewElementOnScreen else {
+            XCTFail("Failed to navigate to view element")
+            return
+        }
+
+        let isUnknown = application.wait(
+            for: .unknown,
+            timeout: 45.0
+        )
+
+        guard !isUnknown else {
+            XCTFail("Application interrupted while playing video")
+            return
+        }
     }
 
     func testLaunchPerformance() throws {

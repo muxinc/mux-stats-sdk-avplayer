@@ -28,34 +28,70 @@
         <!--Basic Playback Example View Controller-->
         <scene sceneID="vMu-mx-7Sb">
             <objects>
-                <viewController id="no5-un-BBl" customClass="BasicPlaybackExampleViewController" customModule="MuxExampleVideoApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="no5-un-BBl" customClass="BasicPlaybackExampleViewController" customModule="MUXSDKStatsExampleSPM" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TTA-Bl-LC0">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="HWN-fe-Yte"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <accessibility key="accessibilityConfiguration" identifier="BasicAVKitExampleView"/>
                     </view>
                     <navigationItem key="navigationItem" id="qlp-sd-gDc"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9tG-p4-g11" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2471" y="278"/>
+            <point key="canvasLocation" x="2416" y="-79"/>
         </scene>
         <!--Player Layer Example View Controller-->
         <scene sceneID="6Bb-A5-c34">
             <objects>
-                <viewController id="aTd-Xr-gYa" customClass="PlayerLayerExampleViewController" customModule="MuxExampleVideoApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="aTd-Xr-gYa" customClass="PlayerLayerExampleViewController" customModule="MUXSDKStatsExampleSPM" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JOF-Zd-8nT">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="ZaO-wj-hDo"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <accessibility key="accessibilityConfiguration" identifier="PlayerLayerExampleView"/>
                     </view>
                     <navigationItem key="navigationItem" id="zed-7d-nXf"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LEC-ST-Dvt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2538" y="1111"/>
+            <point key="canvasLocation" x="2253" y="1474"/>
+        </scene>
+        <!--Queue Player Example View Controller-->
+        <scene sceneID="JmW-5x-GAQ">
+            <objects>
+                <viewController id="Luy-lE-qQy" customClass="AVQueuePlayerExampleViewController" customModule="MUXSDKStatsExampleSPM" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Kuc-s0-Kc9">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="lTX-p6-ElA"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <accessibility key="accessibilityConfiguration" identifier="AVQueuePlayerExampleView"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="cfS-GN-K04"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JtO-nl-cfe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3398" y="226"/>
+        </scene>
+        <!--Player Layer Scaling Example View Controller-->
+        <scene sceneID="BEs-TX-8cK">
+            <objects>
+                <viewController id="s8M-MZ-OfJ" customClass="PlayerLayerScalingExampleViewController" customModule="MUXSDKStatsExampleSPM" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="nag-iI-jRG">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="xdV-gc-rLO"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <accessibility key="accessibilityConfiguration" identifier="PlayerLayerScalingExampleView"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="fxk-rV-gEe"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vhq-Mw-Bws" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4244" y="844"/>
         </scene>
         <!--MUXSDKStats Examples-->
         <scene sceneID="FL2-rc-4uX">
@@ -91,6 +127,7 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <accessibility key="accessibilityConfiguration" identifier="BasicAVKitExample"/>
                                         <connections>
                                             <segue destination="no5-un-BBl" kind="show" id="zEw-6p-aN6"/>
                                         </connections>
@@ -118,8 +155,79 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <accessibility key="accessibilityConfiguration" identifier="PlayerLayerExample"/>
                                         <connections>
                                             <segue destination="aTd-Xr-gYa" kind="show" id="exh-W1-TDG"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AVQueuePlayerExample" textLabel="gQ9-3E-FtH" detailTextLabel="WMB-VX-8HK" style="IBUITableViewCellStyleSubtitle" id="2m5-8D-TWV">
+                                        <rect key="frame" x="0.0" y="226" width="393" height="88"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2m5-8D-TWV" id="iC0-L2-zc1">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="88"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="AVQueuePlayer Example" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gQ9-3E-FtH">
+                                                    <rect key="frame" x="20" y="15.666666666666666" width="255" height="28.666666666666668"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Monitor AVQueuePlayer" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WMB-VX-8HK">
+                                                    <rect key="frame" x="20" y="48.666666666666671" width="172" height="19.333333333333332"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <accessibility key="accessibilityConfiguration" identifier="AVQueuePlayerExample"/>
+                                        <connections>
+                                            <segue destination="Luy-lE-qQy" kind="show" id="ka2-FL-ETl"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlayerLayerExample" textLabel="Xfg-qq-Ahz" style="IBUITableViewCellStyleDefault" id="UBM-Ld-zqo" userLabel="VideoChangeExample">
+                                        <rect key="frame" x="0.0" y="314" width="393" height="88"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="UBM-Ld-zqo" id="3SA-ih-HV1">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="88"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Video Change Example" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Xfg-qq-Ahz" userLabel="Video Change Example">
+                                                    <rect key="frame" x="20" y="0.0" width="353" height="88"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <accessibility key="accessibilityConfiguration" identifier="VideoChangeExample"/>
+                                        <connections>
+                                            <segue destination="xEz-tn-aNY" kind="show" id="vkC-56-ixs"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlayerLayerExample" textLabel="hma-Wv-0CY" style="IBUITableViewCellStyleDefault" id="g1Z-Ml-u8M" userLabel="PlayerLayerScalingExample">
+                                        <rect key="frame" x="0.0" y="402" width="393" height="88"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="g1Z-Ml-u8M" id="QW9-tg-UUH">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="88"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Player Layer Scaling Example" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hma-Wv-0CY">
+                                                    <rect key="frame" x="20" y="0.0" width="353" height="88"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <accessibility key="accessibilityConfiguration" identifier="PlayerLayerScalingExample"/>
+                                        <connections>
+                                            <segue destination="s8M-MZ-OfJ" kind="show" id="oFs-jl-D2b"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -135,6 +243,23 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8MQ-Ph-Ldp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1436" y="726"/>
+        </scene>
+        <!--Video Change Example View Controller-->
+        <scene sceneID="429-XC-d7M">
+            <objects>
+                <viewController id="xEz-tn-aNY" customClass="VideoChangeExampleViewController" customModule="MUXSDKStatsExampleSPM" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="s2t-uy-97Q">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="N2T-VZ-bFr"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <accessibility key="accessibilityConfiguration" identifier="VideoChangeExampleView"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="JPQ-Oh-fOK"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Npc-Hu-NdR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3190" y="1202"/>
         </scene>
     </scenes>
     <resources>

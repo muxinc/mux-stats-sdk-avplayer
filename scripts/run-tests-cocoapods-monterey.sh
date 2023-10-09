@@ -2,6 +2,8 @@
 set -euo pipefail
 
 readonly XCODE=$(xcodebuild -version | grep Xcode | cut -d " " -f2)
+readonly WORKSPACE=DemoApp.xcworkspace
+readonly SCHEME=DemoApp
 
 if ! command -v xcbeautify &> /dev/null
 then
@@ -42,9 +44,9 @@ pod deintegrate && pod install --clean-install --repo-update
 echo "▸ Available Schemes in $(pwd)"
 xcodebuild -list
 
-echo "▸ Running Demo App Tests"
+echo "▸ Running ${SCHEME} Tests"
 xcodebuild clean test \
-    -workspace DemoApp.xcworkspace \
-    -scheme "DemoApp" \
+    -workspace $WORKSPACE \
+    -scheme $SCHEME \
     -destination 'platform=iOS Simulator,name=iPhone 13,OS=15.5' | xcbeautify
 
