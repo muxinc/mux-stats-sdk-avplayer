@@ -17,6 +17,19 @@ class AVQueuePlayerExampleViewController: MultiplePlayerItemPlaybackExampleViewC
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        playerItems = [
+            AVPlayerItem(
+                url: URL(
+                    string: "https://stream.mux.com/qIy2uu9BfvomNnH02hFPysxeXvL6FkFXs63wTqnEiaYs.m3u8"
+                )!
+            ),
+            AVPlayerItem(
+                url: URL(
+                    string: "https://stream.mux.com/7Tqs5u3MoQhGOk7XoyT81bjoPFFkOPQIH32Pt4XDbyQ.m3u8"
+                )!
+            )
+        ]
+
         let player = AVQueuePlayer(
             items: playerItems
         )
