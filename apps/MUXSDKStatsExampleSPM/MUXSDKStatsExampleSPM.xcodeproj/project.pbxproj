@@ -490,7 +490,6 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats.example-project.MUXSDKStatsExampleSPM";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -519,7 +518,6 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats.example-project.MUXSDKStatsExampleSPM";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -538,7 +536,6 @@
 				DEVELOPMENT_TEAM = XX95P4Y787;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 3.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats.example-project.MUXSDKStatsExampleSPMTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -558,7 +555,6 @@
 				DEVELOPMENT_TEAM = XX95P4Y787;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 3.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats.example-project.MUXSDKStatsExampleSPMTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
