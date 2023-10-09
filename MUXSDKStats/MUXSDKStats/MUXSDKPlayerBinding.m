@@ -598,7 +598,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     }
 
     CGRect viewBounds = [self getViewBounds];
-    NSLog(@"AJLB: Player View Bounds: %@", NSStringFromCGRect(viewBounds));
     [playerData setPlayerWidth:[NSNumber numberWithInt:viewBounds.size.width]];
     [playerData setPlayerHeight:[NSNumber numberWithInt:viewBounds.size.height]];
 
