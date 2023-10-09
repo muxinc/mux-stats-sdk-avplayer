@@ -70,4 +70,15 @@ class PlayerLayerScalingExampleViewController: UIViewController {
             customerData: customerData
         )
     }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        playerView.player?.play()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        MUXSDKStats.destroyPlayer(playerName)
+        playerView.player?.pause()
+        super.viewWillDisappear(animated)
+    }
 }
