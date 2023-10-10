@@ -46,6 +46,8 @@ FOUNDATION_EXPORT
 - (_Null_unspecified instancetype)init NS_UNAVAILABLE;
 + (_Null_unspecified instancetype)new NS_UNAVAILABLE;
 
+#pragma mark - AVPlayerViewController Monitoring
+
 /*!
  @method      monitorAVPlayerViewController:withPlayerName:customerData:
  @abstract    Starts to monitor a given AVPlayerViewController.
@@ -186,6 +188,7 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerViewController:withP
 + (void)updateAVPlayerViewController:(nonnull AVPlayerViewController *)player 
                       withPlayerName:(nonnull NSString *)name;
 
+#pragma mark - AVPlayerLayer Monitoring
 
 /*!
  @method      monitorAVPlayerLayer:withPlayerName:customerData:
@@ -331,6 +334,8 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
 + (void)updateAVPlayerLayer:(nonnull AVPlayerLayer *)player 
              withPlayerName:(nonnull NSString *)name;
 
+#pragma mark - Teardown Monitoring
+
 /*!
  @method			destroyPlayer:
  @abstract    Removes any AVPlayer observers on the associated player.
@@ -338,6 +343,8 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
  @discussion  When you are done with a player, call destoryPlayer: to remove all observers that were set up when monitorPlayer:withPlayerName:andConfig: was called and to ensure that any remaining tracking pings are sent to complete the view. If the name of the player provided was not previously initialized, an exception will be raised.
  */
 + (void)destroyPlayer:(nonnull NSString *)name;
+
+#pragma mark - Automatic Video Change
 
 /*!
  @method      setAutomaticVideoChange:forPlayer:enabled
@@ -348,6 +355,8 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
  */
 + (void)setAutomaticVideoChange:(nonnull NSString *)name 
                         enabled:(Boolean)enabled;
+
+#pragma mark - Manual Video Change
 
 /*!
  @method      videoChangeForPlayer:withCustomerData:
@@ -399,6 +408,8 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
                withVideoData:(nullable MUXSDKCustomerVideoData *)videoData
                     viewData:(nullable MUXSDKCustomerViewData *)viewData __attribute__((deprecated("Please migrate to videoChangeForPlayer:withCustomerData:")));
 
+#pragma mark - Program Change
+
 /*!
  @method      programChangeForPlayer:withCustomerData:
  @abstract    Signals that a player is now playing a different video of a playlist; or a different program of a live stream
@@ -418,6 +429,8 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
  */
 + (void)programChangeForPlayer:(nonnull NSString *)name
                  withVideoData:(nullable MUXSDKCustomerVideoData *)videoData __attribute__((deprecated("Please migrate to programChangeForPlayer:withCustomerData:")));
+
+#pragma mark - Custom Data
 
 /*!
  @method      setCustomerData:forPlayer:
@@ -454,6 +467,7 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
                      withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData
                       withVideoData:(nullable MUXSDKCustomerVideoData *)videoData viewData: (nullable MUXSDKCustomerViewData *) viewData __attribute__((deprecated("Please migrate to setCustomerData:forPlayer:")));
 
+#pragma mark - Orientation Change
 
 /*!
 @method      orientationChangeForPlayer:withOrientation:
@@ -463,6 +477,8 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
 */
 + (void) orientationChangeForPlayer:(nonnull NSString *) name  
                     withOrientation:(MUXSDKViewOrientation) orientation;
+
+#pragma mark - Error Dispatch
 
 /*!
 @method      dispatchError:withMessage:forPlayer
