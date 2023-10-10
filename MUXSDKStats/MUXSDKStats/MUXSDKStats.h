@@ -54,7 +54,7 @@ FOUNDATION_EXPORT
  @param       player An AVPlayerViewController to monitor
  @param       name A name for this instance of the player
  @param       customerData A MUXSDKCustomerData object with player, video, and view metadata
- @return      an instance of MUXSDKAVPlayerLayerBinding or null
+ @return      an instance of MUXSDKAVPlayerViewControllerBinding or null
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerViewController. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
@@ -68,7 +68,7 @@ FOUNDATION_EXPORT
  @param       name A name for this instance of the player
  @param       customerData A MUXSDKCustomerData object with player, video, and view metadata
  @param       automaticErrorTracking boolean to indicate if the SDK should automatically track player errors
- @return      an instance of MUXSDKAVPlayerLayerBinding or null
+ @return      an instance of MUXSDKAVPlayerViewControllerBinding or null
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerViewController. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
@@ -84,7 +84,7 @@ FOUNDATION_EXPORT
  @param       customerData A MUXSDKCustomerData object with player, video, and view metadata
  @param       automaticErrorTracking boolean to indicate if the SDK should automatically track player errors
  @param       collectionDomain Domain to send tracking data to, if you want to use a custom beacon domain. Optional.
- @return      an instance of MUXSDKAVPlayerLayerBinding or null
+ @return      an instance of MUXSDKAVPlayerViewControllerBinding or null
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerViewController. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
@@ -101,7 +101,7 @@ FOUNDATION_EXPORT
  @param       customerData A MUXSDKCustomerData object with player, video, and view metadata
  @param       automaticErrorTracking boolean to indicate if the SDK should automatically track player errors
  @param       domain Domain to send tracking data to, if you want to use a custom beacon domain. Optional.
- @return      an instance of MUXSDKAVPlayerLayerBinding or null
+ @return      an instance of MUXSDKAVPlayerViewControllerBinding or null
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerViewController. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
@@ -118,7 +118,7 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerViewController:withP
  @param       name A name for this instance of the player
  @param       playerData A MUXSDKCustomerPlayerData object with player metadata
  @param       videoData A MUXSDKCustomerVideoData object with video metadata
- @return      an instance of MUXSDKAVPlayerLayerBinding or null
+ @return      an instance of MUXSDKAVPlayerViewControllerBinding or null
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerViewController. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player 
@@ -134,7 +134,7 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerViewController:withP
  @param       playerData A MUXSDKCustomerPlayerData object with player metadata
  @param       videoData A MUXSDKCustomerVideoData object with video metadata
  @param       viewData A MUXSDKCustomerViewData object with view metadata
- @return      an instance of MUXSDKAVPlayerLayerBinding or null
+ @return      an instance of MUXSDKAVPlayerViewControllerBinding or null
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerViewController. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player 
@@ -151,7 +151,7 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerViewController:withP
  @param       playerData A MUXSDKCustomerPlayerData object with player metadata
  @param       videoData A MUXSDKCustomerVideoData object with video metadata
  @param       automaticErrorTracking boolean to indicate if the SDK should automatically track player errors
- @return      an instance of MUXSDKAVPlayerLayerBinding or null
+ @return      an instance of MUXSDKAVPlayerViewControllerBinding or null
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerViewController. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player 
@@ -168,7 +168,7 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerViewController:withP
  @param       videoData A MUXSDKCustomerVideoData object with video metadata
  @param       viewData A MUXSDKCustomerViewData object with view metadata
  @param       automaticErrorTracking boolean to indicate if the SDK should automatically track player errors
- @return      an instance of MUXSDKAVPlayerLayerBinding or null
+ @return      an instance of MUXSDKAVPlayerViewControllerBinding or null
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerViewController. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player 
