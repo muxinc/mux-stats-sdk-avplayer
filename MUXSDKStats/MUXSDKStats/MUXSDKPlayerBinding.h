@@ -125,3 +125,14 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 - (id)initWithName:(NSString *)name software:(NSString *)software andView:(AVPlayerLayer *)view;
 
 @end
+
+@interface MUXSDKAVPlayerBinding : MUXSDKPlayerBinding {
+@private
+    CGSize _fixedPlayerSize;
+}
+
+- (id)initWithName:(NSString *)name
+          software:(NSString *)software
+   fixedPlayerSize:(CGSize)fixedPlayerSize;
+
+@end

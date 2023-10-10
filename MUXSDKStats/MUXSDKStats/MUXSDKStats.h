@@ -334,6 +334,68 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
 + (void)updateAVPlayerLayer:(nonnull AVPlayerLayer *)player 
              withPlayerName:(nonnull NSString *)name;
 
+#pragma mark - AVPlayer Monitoring
+
+/*
+ @method   monitorAVPlayer:withPlayerName:fixedPlayerSize:customerData:
+ @abstract Starts to monitor a given AVPlayer.
+ @param    player An AVPlayer to monitor
+ @param    name A name for this instance of the player
+ @param    A fixed size of your player that will not change, inclusive of any letter boxed or pillar boxed areas. If monitoring audio only media, pass in CGSizeMake(0.0, 0.0)
+ @param    customerData A MUXSDKCustomerData object with player, video, and view metadata
+ @discussion Use this method to start a Mux player monitor on the given AVPlayer. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
+*/
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayer:(nonnull AVPlayer *)player
+                                   withPlayerName:(nonnull NSString *)name
+                                  fixedPlayerSize:(CGSize)fixedPlayerSize
+                                     customerData:(nonnull MUXSDKCustomerData *)customerData;
+
+/*
+ @method   monitorAVPlayer:withPlayerName:fixedPlayerSize:customerData:
+ @abstract Starts to monitor a given AVPlayer.
+ @param    player An AVPlayer to monitor
+ @param    name A name for this instance of the player
+ @param    fixedPlayerSize A fixed size of your player that will not change, inclusive of any letter boxed or pillar boxed areas. If monitoring audio only media, pass in CGSizeMake(0.0, 0.0)
+ @param    customerData A MUXSDKCustomerData object with player, video, and view metadata
+ @param    automaticErrorTracking boolean to indicate if the SDK should automatically track player errors
+ @discussion Use this method to start a Mux player monitor on the given AVPlayer. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
+*/
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayer:(nonnull AVPlayer *)player
+                                   withPlayerName:(nonnull NSString *)name
+                                  fixedPlayerSize:(CGSize)fixedPlayerSize
+                                     customerData:(nonnull MUXSDKCustomerData *)customerData
+                           automaticErrorTracking:(BOOL)automaticErrorTracking;
+
+/*
+ @method   monitorAVPlayer:withPlayerName:fixedPlayerSize:customerData:
+ @abstract Starts to monitor a given AVPlayer.
+ @param    player An AVPlayer to monitor
+ @param    name A name for this instance of the player
+ @param    fixedPlayerSize A fixed size of your player that will not change, inclusive of any letter boxed or pillar boxed areas. If monitoring audio only media, pass in CGSizeMake(0.0, 0.0)
+ @param    customerData A MUXSDKCustomerData object with player, video, and view metadata
+ @param    automaticErrorTracking boolean to indicate if the SDK should automatically track player errors
+ @param    collectionDomain Domain to send tracking data to, if you want to use a custom beacon domain. Optional.
+ @discussion Use this method to start a Mux player monitor on the given AVPlayer. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
+*/
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayer:(nonnull AVPlayer *)player
+                                   withPlayerName:(nonnull NSString *)name
+                                  fixedPlayerSize:(CGSize)fixedPlayerSize
+                                     customerData:(nonnull MUXSDKCustomerData *)customerData
+                           automaticErrorTracking:(BOOL)automaticErrorTracking
+                           beaconCollectionDomain:(nullable NSString *)collectionDomain;
+
+/*!
+ @method      updateAVPlayer:withPlayerName:fixedPlayerSize:
+ @abstract    Updates the monitor for a player to a new AVPlayer.
+ @param       player The new AVPlayer to monitor
+ @param       name The name of the player instance to update
+ @param       fixedPlayerSize A fixed size of your player that will not change, inclusive of any letter boxed or pillar boxed areas. If monitoring audio only media, pass in CGSizeMake(0.0, 0.0)
+ @discussion  Use this method to change which AVPlayer a Mux player monitor is watching. The player monitor must previously have been created via a monitorAVPlayer call.
+ */
++ (void)updateAVPlayer:(nonnull AVPlayer *)player
+        withPlayerName:(nonnull NSString *)name
+       fixedPlayerSize:(CGSize)fixedPlayerSize;
+
 #pragma mark - Teardown Monitoring
 
 /*!
