@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name             = 'Mux-Stats-AVPlayer'
 
-  s.version          = '3.3.3'
+  s.version          = '3.4.0'
   s.source           = { :git => 'https://github.com/muxinc/mux-stats-sdk-avplayer.git',
                          :tag => "v#{s.version}" }
 
