@@ -61,7 +61,8 @@
     return binding;
 }
 
-- (MUXSDKAVPlayerBinding *) setupAVPlayerBinding:(NSString *)name {
+- (MUXSDKAVPlayerBinding *) setupAVPlayerBinding:(NSString *)name
+                                 fixedPlayerSize:(CGSize)fixedPlayerSize {
     MUXSDKPlayerBindingManager *sut = [[MUXSDKPlayerBindingManager alloc] init];
     MUXSDKCustomerPlayerDataStore *playerDataStore = [[MUXSDKCustomerPlayerDataStore alloc] init];
     MUXSDKCustomerVideoDataStore *videoDataStore = [[MUXSDKCustomerVideoDataStore alloc] init];
@@ -132,22 +133,76 @@
 
 - (void)testAVPlayerBindingAutomaticErrorTrackingEnabled {
     NSString *name = @"awesome-player";
-    MUXSDKAVPlayerBinding *binding = [self setupAVPlayerBinding:name];
+    MUXSDKAVPlayerBinding *binding = [self setupAVPlayerBinding:name
+                                                fixedPlayerSize:CGSizeMake(100.0, 100.0)];
 
-    [binding dispatchError];
-    XCTAssertEqual(5, [MUXSDKCore eventsCountForPlayer:name]);
-    id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:4 forPlayer:name];
-    XCTAssertEqual([event getType], MUXSDKPlaybackEventErrorEventType);
+    [binding dispatchViewInit];
+    [binding dispatchPlayerReady];
+    [binding dispatchPlay];
+    [binding dispatchPlaying];
+
+    NSUInteger count = [MUXSDKCore eventsCountForPlayer:name];
+
+    for (NSInteger index = 0; index < count; index++) {
+        id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:index
+                                                     forPlayer:name];
+        if (event.isPlayback) {
+            MUXSDKPlaybackEvent *playbackEvent = (MUXSDKPlaybackEvent *)event;
+
+            XCTAssertEqualWithAccuracy(
+                           playbackEvent.playerData.playerHeight.floatValue,
+                           100.0,
+                           0.01
+                           );
+            XCTAssertEqualWithAccuracy(
+                           playbackEvent.playerData.playerWidth.floatValue,
+                           100.0,
+                            0.01
+                           );
+
+        }
+
+    }
+
+    id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:2 forPlayer:name];
+    XCTAssertEqual([event getType], MUXSDKPlaybackEventPlayerReadyEventType);
 
 }
 
 - (void)testAVPlayerBindingAutomaticErrorTrackingDisabled {
     NSString *name = @"awesome-player";
-    MUXSDKAVPlayerBinding *binding = [self setupAVPlayerBinding:name];
+    MUXSDKAVPlayerBinding *binding = [self setupAVPlayerBinding:name
+                                                fixedPlayerSize:CGSizeMake(100.0, 100.0)];
     [binding setAutomaticErrorTracking:false];
 
-    [binding dispatchError];
-    XCTAssertEqual(3, [MUXSDKCore eventsCountForPlayer:name]);
+    [binding dispatchViewInit];
+    [binding dispatchPlayerReady];
+    [binding dispatchPlay];
+    [binding dispatchPlaying];
+
+    NSUInteger count = [MUXSDKCore eventsCountForPlayer:name];
+
+    for (NSInteger index = 0; index < count; index++) {
+        id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:index
+                                                     forPlayer:name];
+        if (event.isPlayback) {
+            MUXSDKPlaybackEvent *playbackEvent = (MUXSDKPlaybackEvent *)event;
+
+            XCTAssertEqualWithAccuracy(
+                           playbackEvent.playerData.playerHeight.floatValue,
+                           100.0,
+                           0.01
+                           );
+            XCTAssertEqualWithAccuracy(
+                           playbackEvent.playerData.playerWidth.floatValue,
+                           100.0,
+                            0.01
+                           );
+
+        }
+
+    }
+
     id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:2 forPlayer:name];
     XCTAssertEqual([event getType], MUXSDKPlaybackEventPlayerReadyEventType);
 }
