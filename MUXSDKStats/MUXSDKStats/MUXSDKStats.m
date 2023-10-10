@@ -214,7 +214,9 @@ static MUXSDKCustomerViewerData *_customerViewerData;
         MUXSDKCustomerViewData *viewData = customerData.customerViewData;
         MUXSDKCustomData *customData = customerData.customData;
 
-        MUXSDKAVPlayerViewControllerBinding *newBinding = [[MUXSDKAVPlayerViewControllerBinding alloc] initWithName:name software:MuxPlayerSoftwareAVPlayerViewController andView:player];
+        MUXSDKAVPlayerViewControllerBinding *newBinding = [[MUXSDKAVPlayerViewControllerBinding alloc] initWithPlayerName:name
+                                                                                                             softwareName:MuxPlayerSoftwareAVPlayerViewController
+                                                                                                     playerViewController:player];
         [newBinding setAutomaticErrorTracking:automaticErrorTracking];
         newBinding.playDispatchDelegate = _playerBindingManager;
         
@@ -573,9 +575,9 @@ static MUXSDKCustomerViewerData *_customerViewerData;
     MUXSDKCustomerViewData *viewData = customerData.customerViewData;
     MUXSDKCustomData *customData = customerData.customData;
 
-    MUXSDKAVPlayerBinding *newBinding = [[MUXSDKAVPlayerBinding alloc] initWithName:name
-                                                                           software:MuxPlayerSoftwareAVPlayer
-                                                                    fixedPlayerSize:fixedPlayerSize];
+    MUXSDKAVPlayerBinding *newBinding = [[MUXSDKAVPlayerBinding alloc] initWithPlayerName:name
+                                                                             softwareName:MuxPlayerSoftwareAVPlayer
+                                                                          fixedPlayerSize:fixedPlayerSize];
     [newBinding setAutomaticErrorTracking:automaticErrorTracking];
     newBinding.playDispatchDelegate = _playerBindingManager;
 

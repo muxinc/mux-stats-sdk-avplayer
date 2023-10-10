@@ -35,15 +35,24 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
     MUXSDKViewOrientationLandscape
 };
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnullability-completeness"
+
 @protocol MUXSDKPlayDispatchDelegate
 - (void) playbackStartedForPlayer:(NSString *) name;
 - (void) videoChangedForPlayer:(NSString *) name;
 @end
 
+#pragma clang diagnostic pop
+
 @interface MUXSDKPlayerBinding : NSObject {
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnullability-completeness"
+
 @private
     NSString *_name;
-    NSString *_software;
+    NSString *_softwareName;
     AVPlayer *_player;
     AVPlayerItem *_playerItem;
     id _timeObserver;
@@ -76,11 +85,22 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
     BOOL _playbackIsLivestream;
     NSInteger _totalFrameDrops;
     BOOL _totalFrameDropsHasChanged;
+    NSString *_softwareVersion;
 }
 
 @property (nonatomic, weak) id<MUXSDKPlayDispatchDelegate>  playDispatchDelegate;
 
-- (id)initWithName:(NSString *)name andSoftware:(NSString *)software;
+/// Player software name reported by events dispatched
+/// by this binding
+@property (nonatomic) NSString *softwareName;
+
+/// Player software version reported by events dispatched
+/// by this binding
+@property (nonatomic) NSString *softwareVersion;
+
+- (id)initWithName:(NSString *)name 
+       andSoftware:(NSString *)software;
+
 - (void)attachAVPlayer:(AVPlayer *)player;
 - (void)detachAVPlayer;
 - (void)programChangedForPlayer;
@@ -104,25 +124,64 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 - (void)dispatchError:(NSString *)code withMessage:(NSString *)message;
 - (void)didTriggerManualVideoChange;
 
-@end
+#pragma clang diagnostic pop
 
+- (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
+                    softwareName:(nullable NSString *)softwareName;
+
+- (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
+                    softwareName:(nullable NSString *)softwareName
+                 softwareVersion:(nullable NSString *)softwareVersion;
+
+@end
 
 @interface MUXSDKAVPlayerViewControllerBinding : MUXSDKPlayerBinding {
 @private
     AVPlayerViewController *_viewController;
 }
 
-- (id)initWithName:(NSString *)name software:(NSString *)software andView:(AVPlayerViewController *)view;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnullability-completeness"
+
+- (id)initWithName:(NSString *)name 
+          software:(NSString *)software
+           andView:(AVPlayerViewController *)view __attribute__((deprecated("Please migrate to initWithPlayerName:softwareName:playerViewController:")));
+
+#pragma clang diagnostic pop
+
+- (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
+                    softwareName:(nullable NSString *)softwareName
+            playerViewController:(nonnull AVPlayerViewController *)playerViewController;
+
+- (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
+                    softwareName:(nullable NSString *)softwareName
+                 softwareVersion:(nullable NSString *)softwareVersion
+            playerViewController:(nonnull AVPlayerViewController *)playerViewController;
 
 @end
-
 
 @interface MUXSDKAVPlayerLayerBinding : MUXSDKPlayerBinding {
 @private
     AVPlayerLayer *_view;
 }
 
-- (id)initWithName:(NSString *)name software:(NSString *)software andView:(AVPlayerLayer *)view;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnullability-completeness"
+
+- (id)initWithName:(NSString *)name
+          software:(NSString *)software
+           andView:(AVPlayerLayer *)view __attribute__((deprecated("Please migrate to initWithPlayerName:softwareName:playerLayer:")));;
+
+#pragma clang diagnostic pop
+
+- (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
+                    softwareName:(nullable NSString *)softwareName
+                     playerLayer:(nonnull AVPlayerLayer *)playerLayer;
+
+- (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
+                    softwareName:(nullable NSString *)softwareName
+                 softwareVersion:(nullable NSString *)softwareVersion
+                     playerLayer:(nonnull AVPlayerLayer *)playerLayer;
 
 @end
 
@@ -131,8 +190,13 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
     CGSize _fixedPlayerSize;
 }
 
-- (id)initWithName:(NSString *)name
-          software:(NSString *)software
-   fixedPlayerSize:(CGSize)fixedPlayerSize;
+- (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
+                    softwareName:(nullable NSString *)softwareName
+                 fixedPlayerSize:(CGSize)fixedPlayerSize;
+
+- (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
+                    softwareName:(nullable NSString *)softwareName
+                 softwareVersion:(nullable NSString *)softwareVersion
+                 fixedPlayerSize:(CGSize)fixedPlayerSize;
 
 @end
