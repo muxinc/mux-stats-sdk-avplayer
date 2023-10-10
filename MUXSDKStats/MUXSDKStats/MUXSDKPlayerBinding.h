@@ -143,16 +143,34 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnullability-completeness"
 
-- (id)initWithName:(NSString *)name 
+/// Initializes a binding that listens for and dispatches player events
+/// - Parameters:
+///   - name: A name for this instance of the player
+///   - software: The name of the underlying player software
+///   - view: An AVPlayerViewController to monitor using this binding
+- (id)initWithName:(NSString *)name
           software:(NSString *)software
            andView:(AVPlayerViewController *)view __attribute__((deprecated("Please migrate to initWithPlayerName:softwareName:playerViewController:")));
 
 #pragma clang diagnostic pop
 
+
+/// Initializes a binding that listens for and dispatches player events
+/// - Parameters:
+///   - playerName: A name for this instance of the player
+///   - softwareName: The name of the underlying player software
+///   - playerViewController: An AVPlayerViewController to monitor using this binding
 - (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
                     softwareName:(nullable NSString *)softwareName
             playerViewController:(nonnull AVPlayerViewController *)playerViewController;
 
+
+/// Initializes a binding that listens for and dispatches player events
+/// - Parameters:
+///   - playerName: A name for this instance of the player
+///   - softwareName: The name of the underlying player software
+///   - softwareVersion: The version of this player software
+///   - playerViewController: An AVPlayerViewController to monitor using this binding
 - (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
                     softwareName:(nullable NSString *)softwareName
                  softwareVersion:(nullable NSString *)softwareVersion
@@ -168,16 +186,35 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnullability-completeness"
 
+
+/// Initializes a binding that listens for and dispatches player events
+/// - Parameters:
+///   - name: A name for this instance of the player
+///   - software: <#software description#>
+///   - view: An AVPlayerLayer to monitor
 - (id)initWithName:(NSString *)name
           software:(NSString *)software
            andView:(AVPlayerLayer *)view __attribute__((deprecated("Please migrate to initWithPlayerName:softwareName:playerLayer:")));;
 
 #pragma clang diagnostic pop
 
+
+/// Initializes a binding that listens for and dispatches player events
+/// - Parameters:
+///   - playerName: A name for this instance of the player
+///   - softwareName: The name of the underlying player software
+///   - playerLayer: An AVPlayerLayer to monitor
 - (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
                     softwareName:(nullable NSString *)softwareName
                      playerLayer:(nonnull AVPlayerLayer *)playerLayer;
 
+
+/// Initializes a binding that listens for and dispatches player events
+/// - Parameters:
+///   - playerName: A name for this instance of the player
+///   - softwareName: The name of the underlying player software
+///   - softwareVersion: The version of this player software
+///   - playerLayer: An AVPlayerLayer to monitor
 - (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
                     softwareName:(nullable NSString *)softwareName
                  softwareVersion:(nullable NSString *)softwareVersion
@@ -190,10 +227,23 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
     CGSize _fixedPlayerSize;
 }
 
+
+/// Initializes a binding that listens for and dispatches player events
+/// - Parameters:
+///   - playerName: A name for this instance of the player
+///   - softwareName: The name of the underlying player software
+///   - fixedPlayerSize: A fixed size of your player that will not change, inclusive of any letter boxed or pillar boxed areas. If monitoring audio only media, pass in CGSizeMake(0.0, 0.0)
 - (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
                     softwareName:(nullable NSString *)softwareName
                  fixedPlayerSize:(CGSize)fixedPlayerSize;
 
+
+/// Initializes a binding that listens for and dispatches player events
+/// - Parameters:
+///   - playerName: A name for this instance of the player
+///   - softwareName: The name of the underlying player software
+///   - softwareVersion: The version of this player software
+///   - fixedPlayerSize: A fixed size of your player that will not change, inclusive of any letter boxed or pillar boxed areas. If monitoring audio only media, pass in CGSizeMake(0.0, 0.0)
 - (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
                     softwareName:(nullable NSString *)softwareName
                  softwareVersion:(nullable NSString *)softwareVersion
