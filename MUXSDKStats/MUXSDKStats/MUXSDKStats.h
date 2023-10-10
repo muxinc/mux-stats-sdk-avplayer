@@ -465,7 +465,8 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
  */
 + (void)updateCustomerDataForPlayer:(nonnull NSString *)name 
                      withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData
-                      withVideoData:(nullable MUXSDKCustomerVideoData *)videoData viewData: (nullable MUXSDKCustomerViewData *) viewData __attribute__((deprecated("Please migrate to setCustomerData:forPlayer:")));
+                      withVideoData:(nullable MUXSDKCustomerVideoData *)videoData 
+                           viewData: (nullable MUXSDKCustomerViewData *) viewData __attribute__((deprecated("Please migrate to setCustomerData:forPlayer:")));
 
 #pragma mark - Orientation Change
 
