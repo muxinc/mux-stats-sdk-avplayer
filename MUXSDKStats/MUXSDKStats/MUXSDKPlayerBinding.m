@@ -1205,8 +1205,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             softwareName:(NSString *)softwareName
          softwareVersion:(NSString *)softwareVersion
              playerLayer:(AVPlayerLayer *)playerLayer {
-    self = [super initWithName:playerName
-                   andSoftware:softwareName];
+    self = [super initWithPlayerName:playerName
+                        softwareName:softwareName
+                     softwareVersion:softwareVersion];
     if (self) {
         _view = playerLayer;
     }
