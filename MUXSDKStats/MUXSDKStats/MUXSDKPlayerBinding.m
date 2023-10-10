@@ -904,6 +904,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (![self isPlayerOK]) {
         return;
     }
+    if (_state == MUXSDKPlayerStateViewEnd) {
+        NSLog(@"MUXSDK-WARNING - Attempting to dispatch a viewend more than once before a new view is initialized");
+        return;
+    }
     [self checkVideoData];
     MUXSDKPlayerData *playerData = [self getPlayerData];
     MUXSDKViewEndEvent *event = [[MUXSDKViewEndEvent alloc] init];
