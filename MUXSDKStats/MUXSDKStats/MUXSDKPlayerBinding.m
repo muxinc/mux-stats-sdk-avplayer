@@ -1174,7 +1174,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (self) {
         _viewController = playerViewController;
     }
-    return (self);
+    return self;
 }
 
 @end
@@ -1185,33 +1185,34 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 - (id)initWithName:(NSString *)name 
           software:(NSString *)software
            andView:(AVPlayerLayer *)view {
-    self = [super initWithName:name andSoftware:software];
+    self = [super initWithName:name 
+                   andSoftware:software];
     if (self) {
         _view = view;
     }
     return (self);
 }
 
-- (id)initWithPlayerName:(NSString *)playerName 
-            softwareName:(NSString *)softwareName
-             playerLayer:(AVPlayerLayer *)playerLayer {
+- (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
+                    softwareName:(nullable NSString *)softwareName
+                     playerLayer:(nonnull AVPlayerLayer *)playerLayer {
     return [self initWithPlayerName:playerName
                        softwareName:softwareName
                     softwareVersion:nil
                         playerLayer:playerLayer];
 }
 
-- (id)initWithPlayerName:(NSString *)playerName
-            softwareName:(NSString *)softwareName
-         softwareVersion:(NSString *)softwareVersion
-             playerLayer:(AVPlayerLayer *)playerLayer {
+- (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
+                    softwareName:(nullable NSString *)softwareName
+                 softwareVersion:(nullable NSString *)softwareVersion
+                     playerLayer:(nonnull AVPlayerLayer *)playerLayer {
     self = [super initWithPlayerName:playerName
                         softwareName:softwareName
                      softwareVersion:softwareVersion];
     if (self) {
         _view = playerLayer;
     }
-    return (self);
+    return self;
 }
 
 - (CGRect)getVideoBounds {

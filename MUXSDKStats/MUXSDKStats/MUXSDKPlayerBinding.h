@@ -190,7 +190,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 /// Initializes a binding that listens for and dispatches player events
 /// - Parameters:
 ///   - name: A name for this instance of the player
-///   - software: <#software description#>
+///   - software: The name of the underlying player software
 ///   - view: An AVPlayerLayer to monitor
 - (id)initWithName:(NSString *)name
           software:(NSString *)software
