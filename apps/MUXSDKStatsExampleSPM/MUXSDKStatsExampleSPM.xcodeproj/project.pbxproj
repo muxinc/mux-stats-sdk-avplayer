@@ -15,7 +15,6 @@
 		19CB35D72ABD2B5C002DF48C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19CB35D52ABD2B5C002DF48C /* Main.storyboard */; };
 		19CB35D92ABD2B5D002DF48C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 19CB35D82ABD2B5D002DF48C /* Assets.xcassets */; };
 		19CB35DC2ABD2B5D002DF48C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19CB35DA2ABD2B5D002DF48C /* LaunchScreen.storyboard */; };
-		19CB35E72ABD2B5D002DF48C /* MUXSDKStatsExampleSPMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB35E62ABD2B5D002DF48C /* MUXSDKStatsExampleSPMTests.swift */; };
 		19CB35F12ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB35F02ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITests.swift */; };
 		19CB35F32ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB35F22ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITestsLaunchTests.swift */; };
 		19CB36012ABD2B88002DF48C /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 19CB36002ABD2B88002DF48C /* MUXSDKStats */; };
@@ -53,7 +52,6 @@
 		19CB35DB2ABD2B5D002DF48C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		19CB35DD2ABD2B5D002DF48C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		19CB35E22ABD2B5D002DF48C /* MUXSDKStatsExampleSPMTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MUXSDKStatsExampleSPMTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		19CB35E62ABD2B5D002DF48C /* MUXSDKStatsExampleSPMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUXSDKStatsExampleSPMTests.swift; sourceTree = "<group>"; };
 		19CB35EC2ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MUXSDKStatsExampleSPMUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		19CB35F02ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUXSDKStatsExampleSPMUITests.swift; sourceTree = "<group>"; };
 		19CB35F22ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUXSDKStatsExampleSPMUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -137,7 +135,6 @@
 		19CB35E52ABD2B5D002DF48C /* MUXSDKStatsExampleSPMTests */ = {
 			isa = PBXGroup;
 			children = (
-				19CB35E62ABD2B5D002DF48C /* MUXSDKStatsExampleSPMTests.swift */,
 			);
 			path = MUXSDKStatsExampleSPMTests;
 			sourceTree = "<group>";
@@ -301,7 +298,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				19CB35E72ABD2B5D002DF48C /* MUXSDKStatsExampleSPMTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
