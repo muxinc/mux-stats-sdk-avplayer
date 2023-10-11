@@ -42,11 +42,28 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 @implementation MUXSDKPlayerBinding
 
-- (id)initWithName:(NSString *)name andSoftware:(NSString *)software {
+- (id)initWithName:(NSString *)name 
+       andSoftware:(NSString *)software {
+    return [self initWithPlayerName:name
+                       softwareName:software
+                    softwareVersion:nil];
+}
+
+- (id)initWithPlayerName:(NSString *)playerName
+            softwareName:(NSString *)softwareName {
+    return [self initWithPlayerName:playerName
+                       softwareName:softwareName
+                    softwareVersion:nil];
+}
+
+- (id)initWithPlayerName:(NSString *)playerName
+            softwareName:(NSString *)softwareName
+         softwareVersion:(NSString *)softwareVersion {
     self = [super init];
     if (self) {
-        _name = name;
-        _software = software;
+        _name = playerName;
+        _softwareName = softwareName;
+        _softwareVersion = softwareVersion;
         _automaticErrorTracking = true;
         _automaticVideoChange = true;
         _didTriggerManualVideoChange = false;
@@ -67,6 +84,22 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 - (BOOL)setAutomaticVideoChange:(BOOL)automaticVideoChange {
     _automaticVideoChange = automaticVideoChange;
     return _automaticVideoChange;
+}
+
+- (NSString *)softwareName {
+    return _softwareName;
+}
+
+- (void)setSoftwareName:(NSString *)softwareName {
+    _softwareName = softwareName;
+}
+
+- (NSString *)softwareVersion {
+    return _softwareVersion;
+}
+
+- (void)setSoftwareVersion:(NSString *)softwareVersion {
+    _softwareVersion = softwareVersion;
 }
 
 - (void)attachAVPlayer:(AVPlayer *)player {
@@ -590,7 +623,8 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     // Mostly static values.
     [playerData setPlayerMuxPluginName:MUXSDKPluginName];
     [playerData setPlayerMuxPluginVersion:MUXSDKPluginVersion];
-    [playerData setPlayerSoftwareName:_software];
+    [playerData setPlayerSoftwareName:_softwareName];
+    [playerData setPlayerSoftwareVersion:_softwareVersion];
 
     NSString *language = [[NSLocale preferredLanguages] firstObject];
     if (language) {
@@ -1103,11 +1137,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 @implementation MUXSDKAVPlayerViewControllerBinding
 
 - (id)initWithName:(NSString *)name software:(NSString *)software andView:(AVPlayerViewController *)view {
-    self = [super initWithName:name andSoftware:software];
-    if (self) {
-        _viewController = view;
-    }
-    return (self);
+    return  [self initWithPlayerName:name
+                        softwareName:software
+                     softwareVersion:nil
+                playerViewController:view];
 }
 
 - (CGRect)getVideoBounds {
@@ -1122,17 +1155,64 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     return [[_viewController view] bounds];
 }
 
+- (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
+                    softwareName:(nullable NSString *)softwareName
+            playerViewController:(nonnull AVPlayerViewController *)playerViewController {
+    return  [self initWithPlayerName:playerName
+                        softwareName:softwareName
+                     softwareVersion:nil
+                playerViewController:playerViewController];
+}
+
+- (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
+                    softwareName:(nullable NSString *)softwareName
+                 softwareVersion:(nullable NSString *)softwareVersion
+            playerViewController:(nonnull AVPlayerViewController *)playerViewController {
+    self = [super initWithPlayerName:playerName
+                        softwareName:softwareName
+                     softwareVersion:softwareVersion];
+    if (self) {
+        _viewController = playerViewController;
+    }
+    return self;
+}
+
 @end
 
 
 @implementation MUXSDKAVPlayerLayerBinding
 
-- (id)initWithName:(NSString *)name software:(NSString *)software andView:(AVPlayerLayer *)view {
-    self = [super initWithName:name andSoftware:software];
+- (id)initWithName:(NSString *)name 
+          software:(NSString *)software
+           andView:(AVPlayerLayer *)view {
+    self = [super initWithName:name 
+                   andSoftware:software];
     if (self) {
         _view = view;
     }
     return (self);
+}
+
+- (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
+                    softwareName:(nullable NSString *)softwareName
+                     playerLayer:(nonnull AVPlayerLayer *)playerLayer {
+    return [self initWithPlayerName:playerName
+                       softwareName:softwareName
+                    softwareVersion:nil
+                        playerLayer:playerLayer];
+}
+
+- (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
+                    softwareName:(nullable NSString *)softwareName
+                 softwareVersion:(nullable NSString *)softwareVersion
+                     playerLayer:(nonnull AVPlayerLayer *)playerLayer {
+    self = [super initWithPlayerName:playerName
+                        softwareName:softwareName
+                     softwareVersion:softwareVersion];
+    if (self) {
+        _view = playerLayer;
+    }
+    return self;
 }
 
 - (CGRect)getVideoBounds {
@@ -1147,14 +1227,27 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 @implementation MUXSDKAVPlayerBinding
 
-- (id)initWithName:(NSString *)name
-          software:(NSString *)software
-   fixedPlayerSize:(CGSize)fixedPlayerSize {
-    self = [super initWithName:name andSoftware:software];
+- (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
+                    softwareName:(nullable NSString *)softwareName
+                 fixedPlayerSize:(CGSize)fixedPlayerSize {
+    return [self initWithPlayerName:playerName
+                       softwareName:softwareName
+                    softwareVersion:nil
+                    fixedPlayerSize:fixedPlayerSize];
+}
+
+- (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
+                    softwareName:(nullable NSString *)softwareName
+                 softwareVersion:(nullable NSString *)softwareVersion
+                 fixedPlayerSize:(CGSize)fixedPlayerSize {
+
+    self = [super initWithPlayerName:playerName
+                        softwareName:softwareName
+                     softwareVersion:softwareVersion];
     if (self) {
         _fixedPlayerSize = fixedPlayerSize;
     }
-    return (self);
+    return self;
 }
 
 - (CGRect)getVideoBounds {
