@@ -66,6 +66,8 @@
 }
 
 - (MUXSDKAVPlayerBinding *) setupAVPlayerBinding:(NSString *)name
+                                    softwareName:(NSString *)softwareName
+                                 softwareVersion:(NSString *)softwareVersion
                                  fixedPlayerSize:(CGSize)fixedPlayerSize {
     MUXSDKPlayerBindingManager *sut = [[MUXSDKPlayerBindingManager alloc] init];
     MUXSDKCustomerPlayerDataStore *playerDataStore = [[MUXSDKCustomerPlayerDataStore alloc] init];
@@ -89,7 +91,8 @@
 
     // Create Player Binding
     MUXSDKAVPlayerBinding *binding = [[MUXSDKAVPlayerBinding alloc] initWithPlayerName:name
-                                                                          softwareName:@"TestSoftware"
+                                                                          softwareName:softwareName
+                                                                       softwareVersion:softwareVersion
                                                                        fixedPlayerSize:fixedPlayerSize];
     [vcs setObject:binding forKey:name];
 
@@ -164,6 +167,8 @@
 - (void)testAVPlayerBindingAutomaticErrorTrackingEnabled {
     NSString *name = @"awesome-player";
     MUXSDKAVPlayerBinding *binding = [self setupAVPlayerBinding:name
+                                                   softwareName:@"TestSoftware"
+                                                softwareVersion:@"0.1.0"
                                                 fixedPlayerSize:CGSizeMake(100.0, 100.0)];
 
     [binding dispatchViewInit];
@@ -190,6 +195,15 @@
                             0.01
                            );
 
+            XCTAssertEqual(
+                           playbackEvent.playerData.playerSoftwareName,
+                           @"TestSoftware"
+                           );
+
+            XCTAssertEqual(
+                           playbackEvent.playerData.playerSoftwareVersion,
+                           @"0.1.0"
+                           );
         }
 
     }
@@ -202,6 +216,8 @@
 - (void)testAVPlayerBindingAutomaticErrorTrackingDisabled {
     NSString *name = @"awesome-player";
     MUXSDKAVPlayerBinding *binding = [self setupAVPlayerBinding:name
+                                                   softwareName:@"TestSoftware"
+                                                softwareVersion:@"0.1.0"
                                                 fixedPlayerSize:CGSizeMake(100.0, 100.0)];
     [binding setAutomaticErrorTracking:false];
 
@@ -229,11 +245,22 @@
                             0.01
                            );
 
+            XCTAssertEqual(
+                           playbackEvent.playerData.playerSoftwareName,
+                           @"TestSoftware"
+                           );
+
+            XCTAssertEqual(
+                           playbackEvent.playerData.playerSoftwareVersion,
+                           @"0.1.0"
+                           );
+
         }
 
     }
 
-    id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:2 forPlayer:name];
+    id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:2 
+                                                 forPlayer:name];
     XCTAssertEqual([event getType], MUXSDKPlaybackEventPlayerReadyEventType);
 }
 
