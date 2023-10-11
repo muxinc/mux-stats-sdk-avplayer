@@ -46,13 +46,15 @@ FOUNDATION_EXPORT
 - (_Null_unspecified instancetype)init NS_UNAVAILABLE;
 + (_Null_unspecified instancetype)new NS_UNAVAILABLE;
 
+#pragma mark - AVPlayerViewController Monitoring
+
 /*!
  @method      monitorAVPlayerViewController:withPlayerName:customerData:
  @abstract    Starts to monitor a given AVPlayerViewController.
  @param       player An AVPlayerViewController to monitor
  @param       name A name for this instance of the player
  @param       customerData A MUXSDKCustomerData object with player, video, and view metadata
- @return      an instance of MUXSDKAVPlayerLayerBinding or null
+ @return      an instance of MUXSDKAVPlayerViewControllerBinding or null
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerViewController. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
@@ -66,7 +68,7 @@ FOUNDATION_EXPORT
  @param       name A name for this instance of the player
  @param       customerData A MUXSDKCustomerData object with player, video, and view metadata
  @param       automaticErrorTracking boolean to indicate if the SDK should automatically track player errors
- @return      an instance of MUXSDKAVPlayerLayerBinding or null
+ @return      an instance of MUXSDKAVPlayerViewControllerBinding or null
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerViewController. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
@@ -82,7 +84,7 @@ FOUNDATION_EXPORT
  @param       customerData A MUXSDKCustomerData object with player, video, and view metadata
  @param       automaticErrorTracking boolean to indicate if the SDK should automatically track player errors
  @param       collectionDomain Domain to send tracking data to, if you want to use a custom beacon domain. Optional.
- @return      an instance of MUXSDKAVPlayerLayerBinding or null
+ @return      an instance of MUXSDKAVPlayerViewControllerBinding or null
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerViewController. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
@@ -99,7 +101,7 @@ FOUNDATION_EXPORT
  @param       customerData A MUXSDKCustomerData object with player, video, and view metadata
  @param       automaticErrorTracking boolean to indicate if the SDK should automatically track player errors
  @param       domain Domain to send tracking data to, if you want to use a custom beacon domain. Optional.
- @return      an instance of MUXSDKAVPlayerLayerBinding or null
+ @return      an instance of MUXSDKAVPlayerViewControllerBinding or null
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerViewController. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
@@ -116,10 +118,13 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerViewController:withP
  @param       name A name for this instance of the player
  @param       playerData A MUXSDKCustomerPlayerData object with player metadata
  @param       videoData A MUXSDKCustomerVideoData object with video metadata
- @return      an instance of MUXSDKAVPlayerLayerBinding or null
+ @return      an instance of MUXSDKAVPlayerViewControllerBinding or null
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerViewController. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData __attribute__((deprecated("Please migrate to monitorAVPlayerViewController:withPlayerName:customerData:")));
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player 
+                                                 withPlayerName:(nonnull NSString *)name
+                                                     playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
+                                                      videoData:(nullable MUXSDKCustomerVideoData *)videoData __attribute__((deprecated("Please migrate to monitorAVPlayerViewController:withPlayerName:customerData:")));
 
 /*!
  @method      monitorAVPlayerViewController:withPlayerName:playerData:videoData:viewData:
@@ -129,10 +134,14 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerViewController:withP
  @param       playerData A MUXSDKCustomerPlayerData object with player metadata
  @param       videoData A MUXSDKCustomerVideoData object with video metadata
  @param       viewData A MUXSDKCustomerViewData object with view metadata
- @return      an instance of MUXSDKAVPlayerLayerBinding or null
+ @return      an instance of MUXSDKAVPlayerViewControllerBinding or null
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerViewController. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData viewData: (nullable MUXSDKCustomerViewData *) viewData __attribute__((deprecated("Please migrate to monitorAVPlayerViewController:withPlayerName:customerData:")));
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player 
+                                                 withPlayerName:(nonnull NSString *)name
+                                                     playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
+                                                      videoData:(nullable MUXSDKCustomerVideoData *)videoData
+                                                       viewData: (nullable MUXSDKCustomerViewData *) viewData __attribute__((deprecated("Please migrate to monitorAVPlayerViewController:withPlayerName:customerData:")));
 
 /*!
  @method      monitorAVPlayerViewController:withPlayerName:playerData:videoData:automaticErrorTracking:
@@ -142,10 +151,14 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerViewController:withP
  @param       playerData A MUXSDKCustomerPlayerData object with player metadata
  @param       videoData A MUXSDKCustomerVideoData object with video metadata
  @param       automaticErrorTracking boolean to indicate if the SDK should automatically track player errors
- @return      an instance of MUXSDKAVPlayerLayerBinding or null
+ @return      an instance of MUXSDKAVPlayerViewControllerBinding or null
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerViewController. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData automaticErrorTracking:(BOOL)automaticErrorTracking __attribute__((deprecated("Please migrate to monitorAVPlayerViewController:withPlayerName:customerData:automaticErrorTracking:")));
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player 
+                                                 withPlayerName:(nonnull NSString *)name
+                                                     playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
+                                                      videoData:(nullable MUXSDKCustomerVideoData *)videoData
+                                         automaticErrorTracking:(BOOL)automaticErrorTracking __attribute__((deprecated("Please migrate to monitorAVPlayerViewController:withPlayerName:customerData:automaticErrorTracking:")));
 /*!
  @method      monitorAVPlayerViewController:withPlayerName:playerData:videoData:viewData:automaticErrorTracking:
  @abstract    Starts to monitor a given AVPlayerViewController.
@@ -155,10 +168,15 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerViewController:withP
  @param       videoData A MUXSDKCustomerVideoData object with video metadata
  @param       viewData A MUXSDKCustomerViewData object with view metadata
  @param       automaticErrorTracking boolean to indicate if the SDK should automatically track player errors
- @return      an instance of MUXSDKAVPlayerLayerBinding or null
+ @return      an instance of MUXSDKAVPlayerViewControllerBinding or null
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerViewController. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData viewData: (nullable MUXSDKCustomerViewData *) viewData automaticErrorTracking:(BOOL)automaticErrorTracking __attribute__((deprecated("Please migrate to monitorAVPlayerViewController:withPlayerName:customerData:automaticErrorTracking:")));
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player 
+                                                 withPlayerName:(nonnull NSString *)name
+                                                     playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
+                                                      videoData:(nullable MUXSDKCustomerVideoData *)videoData
+                                                       viewData: (nullable MUXSDKCustomerViewData *) viewData
+                                         automaticErrorTracking:(BOOL)automaticErrorTracking __attribute__((deprecated("Please migrate to monitorAVPlayerViewController:withPlayerName:customerData:automaticErrorTracking:")));
 
 /*!
  @method      updateAVPlayerViewController:withPlayerName
@@ -167,8 +185,10 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerViewController:withP
  @param       name The name of the player instance to update
  @discussion  Use this method to change which AVPlayerViewController a Mux player monitor is watching. The player monitor must previously have been created via a monitorAVPlayerViewController call.
  */
-+ (void)updateAVPlayerViewController:(nonnull AVPlayerViewController *)player withPlayerName:(nonnull NSString *)name;
++ (void)updateAVPlayerViewController:(nonnull AVPlayerViewController *)player 
+                      withPlayerName:(nonnull NSString *)name;
 
+#pragma mark - AVPlayerLayer Monitoring
 
 /*!
  @method      monitorAVPlayerLayer:withPlayerName:customerData:
@@ -243,7 +263,10 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
  @return      an instance of MUXSDKAVPlayerLayerBinding or null
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerLayer. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName:customerData:")));
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player 
+                                        withPlayerName:(nonnull NSString *)name
+                                            playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
+                                             videoData:(nullable MUXSDKCustomerVideoData *)videoData __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName:customerData:")));
 
 
 /*!
@@ -257,7 +280,11 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
  @return      an instance of MUXSDKAVPlayerLayerBinding or null
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerLayer. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData viewData: (nullable MUXSDKCustomerViewData *) viewData __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName:customerData:")));
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player 
+                                        withPlayerName:(nonnull NSString *)name
+                                            playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
+                                             videoData:(nullable MUXSDKCustomerVideoData *)videoData
+                                              viewData: (nullable MUXSDKCustomerViewData *) viewData __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName:customerData:")));
 
 
 /*!
@@ -271,7 +298,11 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
  @return      an instance of MUXSDKAVPlayerLayerBinding or null
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerLayer. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData automaticErrorTracking:(BOOL)automaticErrorTracking __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName:customerData:automaticErrorTracking:")));
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player 
+                                        withPlayerName:(nonnull NSString *)name
+                                            playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
+                                             videoData:(nullable MUXSDKCustomerVideoData *)videoData
+                                automaticErrorTracking:(BOOL)automaticErrorTracking __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName:customerData:automaticErrorTracking:")));
 
 /*!
  @method      monitorAVPlayerLayer:withPlayerName:playerData:videoData:viewData:automaticErrorTracking:
@@ -285,7 +316,12 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
  @return      an instance of MUXSDKAVPlayerLayerBinding or null
  @discussion  Use this method to start a Mux player monitor on the given AVPlayerLayer. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
  */
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player withPlayerName:(nonnull NSString *)name playerData:(nonnull MUXSDKCustomerPlayerData *)playerData videoData:(nullable MUXSDKCustomerVideoData *)videoData viewData: (nullable MUXSDKCustomerViewData *) viewData automaticErrorTracking:(BOOL)automaticErrorTracking __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName:customerData:automaticErrorTracking:")));
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player 
+                                        withPlayerName:(nonnull NSString *)name
+                                            playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
+                                             videoData:(nullable MUXSDKCustomerVideoData *)videoData
+                                              viewData: (nullable MUXSDKCustomerViewData *) viewData
+                                automaticErrorTracking:(BOOL)automaticErrorTracking __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName:customerData:automaticErrorTracking:")));
 
 
 /*!
@@ -295,7 +331,72 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
  @param       name The name of the player instance to update
  @discussion  Use this method to change which AVPlayerLayer a Mux player monitor is watching. The player monitor must previously have been created via a monitorAVPlayerLayer call.
  */
-+ (void)updateAVPlayerLayer:(nonnull AVPlayerLayer *)player withPlayerName:(nonnull NSString *)name;
++ (void)updateAVPlayerLayer:(nonnull AVPlayerLayer *)player 
+             withPlayerName:(nonnull NSString *)name;
+
+#pragma mark - AVPlayer Monitoring
+
+/*
+ @method   monitorAVPlayer:withPlayerName:fixedPlayerSize:customerData:
+ @abstract Starts to monitor a given AVPlayer.
+ @param    player An AVPlayer to monitor
+ @param    name A name for this instance of the player
+ @param    A fixed size of your player that will not change, inclusive of any letter boxed or pillar boxed areas. If monitoring audio only media, pass in CGSizeMake(0.0, 0.0)
+ @param    customerData A MUXSDKCustomerData object with player, video, and view metadata
+ @discussion Use this method to start a Mux player monitor on the given AVPlayer. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
+*/
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayer:(nonnull AVPlayer *)player
+                                   withPlayerName:(nonnull NSString *)name
+                                  fixedPlayerSize:(CGSize)fixedPlayerSize
+                                     customerData:(nonnull MUXSDKCustomerData *)customerData;
+
+/*
+ @method   monitorAVPlayer:withPlayerName:fixedPlayerSize:customerData:
+ @abstract Starts to monitor a given AVPlayer.
+ @param    player An AVPlayer to monitor
+ @param    name A name for this instance of the player
+ @param    fixedPlayerSize A fixed size of your player that will not change, inclusive of any letter boxed or pillar boxed areas. If monitoring audio only media, pass in CGSizeMake(0.0, 0.0)
+ @param    customerData A MUXSDKCustomerData object with player, video, and view metadata
+ @param    automaticErrorTracking boolean to indicate if the SDK should automatically track player errors
+ @discussion Use this method to start a Mux player monitor on the given AVPlayer. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
+*/
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayer:(nonnull AVPlayer *)player
+                                   withPlayerName:(nonnull NSString *)name
+                                  fixedPlayerSize:(CGSize)fixedPlayerSize
+                                     customerData:(nonnull MUXSDKCustomerData *)customerData
+                           automaticErrorTracking:(BOOL)automaticErrorTracking;
+
+/*
+ @method   monitorAVPlayer:withPlayerName:fixedPlayerSize:customerData:
+ @abstract Starts to monitor a given AVPlayer.
+ @param    player An AVPlayer to monitor
+ @param    name A name for this instance of the player
+ @param    fixedPlayerSize A fixed size of your player that will not change, inclusive of any letter boxed or pillar boxed areas. If monitoring audio only media, pass in CGSizeMake(0.0, 0.0)
+ @param    customerData A MUXSDKCustomerData object with player, video, and view metadata
+ @param    automaticErrorTracking boolean to indicate if the SDK should automatically track player errors
+ @param    collectionDomain Domain to send tracking data to, if you want to use a custom beacon domain. Optional.
+ @discussion Use this method to start a Mux player monitor on the given AVPlayer. The player must have a name which is globally unique. The config provided should match the specifications in the Mux docs at https://docs.mux.com
+*/
++ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayer:(nonnull AVPlayer *)player
+                                   withPlayerName:(nonnull NSString *)name
+                                  fixedPlayerSize:(CGSize)fixedPlayerSize
+                                     customerData:(nonnull MUXSDKCustomerData *)customerData
+                           automaticErrorTracking:(BOOL)automaticErrorTracking
+                           beaconCollectionDomain:(nullable NSString *)collectionDomain;
+
+/*!
+ @method      updateAVPlayer:withPlayerName:fixedPlayerSize:
+ @abstract    Updates the monitor for a player to a new AVPlayer.
+ @param       player The new AVPlayer to monitor
+ @param       name The name of the player instance to update
+ @param       fixedPlayerSize A fixed size of your player that will not change, inclusive of any letter boxed or pillar boxed areas. If monitoring audio only media, pass in CGSizeMake(0.0, 0.0)
+ @discussion  Use this method to change which AVPlayer a Mux player monitor is watching. The player monitor must previously have been created via a monitorAVPlayer call.
+ */
++ (void)updateAVPlayer:(nonnull AVPlayer *)player
+        withPlayerName:(nonnull NSString *)name
+       fixedPlayerSize:(CGSize)fixedPlayerSize;
+
+#pragma mark - Teardown Monitoring
 
 /*!
  @method			destroyPlayer:
@@ -305,6 +406,8 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
  */
 + (void)destroyPlayer:(nonnull NSString *)name;
 
+#pragma mark - Automatic Video Change
+
 /*!
  @method      setAutomaticVideoChange:forPlayer:enabled
  @abstract    Allows default videochange functionality to be disabled.
@@ -312,7 +415,10 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
  @discussion  Use this method to disable built in videochange calls when using AVQueuePlayer. The player name provided must been passed as the name in a monitorPlayer:withPlayerName:andConfig: call. The config provided should match the specifications in the Mux docs at https://docs.mux.com and should set the enabled value to false. The default setting is true.
 
  */
-+ (void)setAutomaticVideoChange:(nonnull NSString *)name enabled:(Boolean)enabled;
++ (void)setAutomaticVideoChange:(nonnull NSString *)name 
+                        enabled:(Boolean)enabled;
+
+#pragma mark - Manual Video Change
 
 /*!
  @method      videoChangeForPlayer:withCustomerData:
@@ -364,6 +470,8 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
                withVideoData:(nullable MUXSDKCustomerVideoData *)videoData
                     viewData:(nullable MUXSDKCustomerViewData *)viewData __attribute__((deprecated("Please migrate to videoChangeForPlayer:withCustomerData:")));
 
+#pragma mark - Program Change
+
 /*!
  @method      programChangeForPlayer:withCustomerData:
  @abstract    Signals that a player is now playing a different video of a playlist; or a different program of a live stream
@@ -384,6 +492,8 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
 + (void)programChangeForPlayer:(nonnull NSString *)name
                  withVideoData:(nullable MUXSDKCustomerVideoData *)videoData __attribute__((deprecated("Please migrate to programChangeForPlayer:withCustomerData:")));
 
+#pragma mark - Custom Data
+
 /*!
  @method      setCustomerData:forPlayer:
  @abstract    allows customerData to be set or updated for the player
@@ -391,7 +501,8 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
  @param       customerData A MUXSDKCustomerData object with player, video, and view metadata
  @discussion  Use this method after you have already initialized the Mux SDK at any time before the player has been destroyed.
  */
-+ (void)setCustomerData:(nullable MUXSDKCustomerData *)customerData forPlayer:(nonnull NSString *)name;
++ (void)setCustomerData:(nullable MUXSDKCustomerData *)customerData 
+              forPlayer:(nonnull NSString *)name;
 
 /*!
  @method      updateCustomerData:forPlayer:withPlayerData:withVideoData
@@ -401,7 +512,9 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
  @param       videoData A MUXSDKCustomerVideoData object with video metadata
  @discussion  Use this method after you have already initialized the Mux SDK at any time before the player has been destroyed. Pass in either videoData or playerData.
  */
-+ (void)updateCustomerDataForPlayer:(nonnull NSString *)name withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData __attribute__((deprecated("Please migrate to setCustomerData:forPlayer:")));
++ (void)updateCustomerDataForPlayer:(nonnull NSString *)name 
+                     withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData
+                      withVideoData:(nullable MUXSDKCustomerVideoData *)videoData __attribute__((deprecated("Please migrate to setCustomerData:forPlayer:")));
 
 /*!
  @method      updateCustomerData:forPlayer:withPlayerData:withVideoData:viewData:
@@ -412,8 +525,12 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
  @param       viewData A MUXSDKCustomerViewData object with view metadata
  @discussion  Use this method after you have already initialized the Mux SDK at any time before the player has been destroyed. Pass in either videoData, playerData, or viewData.
  */
-+ (void)updateCustomerDataForPlayer:(nonnull NSString *)name withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData viewData: (nullable MUXSDKCustomerViewData *) viewData __attribute__((deprecated("Please migrate to setCustomerData:forPlayer:")));
++ (void)updateCustomerDataForPlayer:(nonnull NSString *)name 
+                     withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData
+                      withVideoData:(nullable MUXSDKCustomerVideoData *)videoData 
+                           viewData: (nullable MUXSDKCustomerViewData *) viewData __attribute__((deprecated("Please migrate to setCustomerData:forPlayer:")));
 
+#pragma mark - Orientation Change
 
 /*!
 @method      orientationChangeForPlayer:withOrientation:
@@ -421,7 +538,10 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
 @param       name The name of the player to update
 @param       orientation A MUXSDKViewOrientation enum value representing if the view has changed to portrait or landscape
 */
-+ (void) orientationChangeForPlayer:(nonnull NSString *) name  withOrientation:(MUXSDKViewOrientation) orientation;
++ (void) orientationChangeForPlayer:(nonnull NSString *) name  
+                    withOrientation:(MUXSDKViewOrientation) orientation;
+
+#pragma mark - Error Dispatch
 
 /*!
 @method      dispatchError:withMessage:forPlayer
@@ -430,6 +550,8 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
 @param       message The error message in string format
 @param       name The name of the player
 */
-+ (void)dispatchError:(nonnull NSString *)code withMessage:(nonnull NSString *)message forPlayer:(nonnull NSString *)name;
++ (void)dispatchError:(nonnull NSString *)code 
+          withMessage:(nonnull NSString *)message
+            forPlayer:(nonnull NSString *)name;
 
 @end
