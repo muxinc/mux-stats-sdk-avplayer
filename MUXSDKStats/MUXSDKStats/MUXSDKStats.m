@@ -597,7 +597,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
         [_customerCustomDataStore setCustomData:customData forPlayerName:name];
     }
     [_viewControllers setValue:newBinding forKey:name];
-    [_bindings setValue:MuxPlayerSoftwareAVPlayerViewController forKey:name];
+    [_bindings setValue:MuxPlayerSoftwareAVPlayer forKey:name];
 
     [newBinding attachAVPlayer:player];
     [_playerBindingManager newViewForPlayer:name];
