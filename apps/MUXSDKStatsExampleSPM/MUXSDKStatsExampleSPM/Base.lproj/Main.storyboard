@@ -59,6 +59,23 @@
             </objects>
             <point key="canvasLocation" x="2253" y="1474"/>
         </scene>
+        <!--Audio Only Playback Example View Controller-->
+        <scene sceneID="Ks2-5G-dcd">
+            <objects>
+                <viewController id="OkB-KB-WOH" customClass="AudioOnlyPlaybackExampleViewController" customModule="MUXSDKStatsExampleSPM" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="iro-Hh-7Ba">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="tui-um-yYa"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <accessibility key="accessibilityConfiguration" identifier="AudioOnlyPlaybackExampleView"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Jrt-as-Ent"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2rz-U8-LyO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3547" y="613"/>
+        </scene>
         <!--Queue Player Example View Controller-->
         <scene sceneID="JmW-5x-GAQ">
             <objects>
@@ -74,7 +91,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JtO-nl-cfe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3398" y="226"/>
+            <point key="canvasLocation" x="3479" y="-32"/>
         </scene>
         <!--Player Layer Scaling Example View Controller-->
         <scene sceneID="BEs-TX-8cK">
@@ -228,6 +245,34 @@
                                         <accessibility key="accessibilityConfiguration" identifier="PlayerLayerScalingExample"/>
                                         <connections>
                                             <segue destination="s8M-MZ-OfJ" kind="show" id="oFs-jl-D2b"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlayerLayerExample" textLabel="hX9-fh-QCh" detailTextLabel="kBR-oN-Kqh" style="IBUITableViewCellStyleSubtitle" id="p53-zu-EKy" userLabel="AudioOnlyPlaybackExample">
+                                        <rect key="frame" x="0.0" y="490" width="393" height="88"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="p53-zu-EKy" id="J29-rk-rUf">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="88"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Audio-only Playback Example" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hX9-fh-QCh">
+                                                    <rect key="frame" x="20" y="15.666666666666666" width="306.66666666666669" height="28.666666666666668"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Monitor AVPlayer Audio" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kBR-oN-Kqh" userLabel="Monitor AVPlayer Audio">
+                                                    <rect key="frame" x="20" y="48.666666666666671" width="170" height="19.333333333333332"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <accessibility key="accessibilityConfiguration" identifier="AudioOnlyPlaybackExample"/>
+                                        <connections>
+                                            <segue destination="OkB-KB-WOH" kind="show" id="Hwl-df-fFA"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
