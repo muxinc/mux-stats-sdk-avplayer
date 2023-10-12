@@ -86,22 +86,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     return _automaticVideoChange;
 }
 
-- (NSString *)softwareName {
-    return _softwareName;
-}
-
-- (void)setSoftwareName:(NSString *)softwareName {
-    _softwareName = softwareName;
-}
-
-- (NSString *)softwareVersion {
-    return _softwareVersion;
-}
-
-- (void)setSoftwareVersion:(NSString *)softwareVersion {
-    _softwareVersion = softwareVersion;
-}
-
 - (void)attachAVPlayer:(AVPlayer *)player {
     if (_player) {
         [self detachAVPlayer];
