@@ -118,14 +118,6 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 
 #pragma clang diagnostic pop
 
-/// Player software name reported by events dispatched
-/// by this binding
-@property (nonatomic, nullable) NSString *softwareName;
-
-/// Player software version reported by events dispatched
-/// by this binding
-@property (nonatomic, nullable) NSString *softwareVersion;
-
 - (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
                     softwareName:(nullable NSString *)softwareName;
 
