@@ -214,9 +214,18 @@ static MUXSDKCustomerViewerData *_customerViewerData;
         MUXSDKCustomerViewData *viewData = customerData.customerViewData;
         MUXSDKCustomData *customData = customerData.customData;
 
+        // If customerData sets a custom playerSoftwareName use that
+        // If customerData playerSoftwareName is nil, use a default value
+        NSString *playerSoftwareName = customerData.customerPlayerData.playerSoftwareName ?: MuxPlayerSoftwareAVPlayerViewController;
+        // MUXSDKStats sets a nil for playerSoftwareVersion by default
+        // If customerData playerSoftware version is set, pass that along
+        // If unset, it is nil and this keeps the existing behavior as the fallback
+        NSString *playerSoftwareVersion = customerData.customerPlayerData.playerSoftwareVersion;
         MUXSDKAVPlayerViewControllerBinding *newBinding = [[MUXSDKAVPlayerViewControllerBinding alloc] initWithPlayerName:name
-                                                                                                             softwareName:MuxPlayerSoftwareAVPlayerViewController
+                                                                                                             softwareName:playerSoftwareName
+                                                                                                          softwareVersion:playerSoftwareVersion
                                                                                                      playerViewController:player];
+
         [newBinding setAutomaticErrorTracking:automaticErrorTracking];
         newBinding.playDispatchDelegate = _playerBindingManager;
         
@@ -395,8 +404,18 @@ static MUXSDKCustomerViewerData *_customerViewerData;
         MUXSDKCustomerVideoData *videoData = customerData.customerVideoData;
         MUXSDKCustomerViewData *viewData = customerData.customerViewData;
         MUXSDKCustomData *customData = customerData.customData;
-
-        MUXSDKAVPlayerLayerBinding *newBinding = [[MUXSDKAVPlayerLayerBinding alloc] initWithName:name software:MuxPlayerSoftwareAVPlayerLayer andView:player];
+        
+        // If customerData sets a custom playerSoftwareName use that
+        // If customerData playerSoftwareName is nil, use a default value
+        NSString *playerSoftwareName = customerData.customerPlayerData.playerSoftwareName ?: MuxPlayerSoftwareAVPlayerLayer;
+        // MUXSDKStats sets a nil for playerSoftwareVersion by default
+        // If customerData playerSoftware version is set, pass that along
+        // If unset, it is nil and this keeps the existing behavior as the fallback
+        NSString *playerSoftwareVersion = customerData.customerPlayerData.playerSoftwareVersion;
+        MUXSDKAVPlayerLayerBinding *newBinding = [[MUXSDKAVPlayerLayerBinding alloc] initWithPlayerName:name
+                                                                                           softwareName:playerSoftwareName
+                                                                                        softwareVersion:playerSoftwareVersion
+                                                                                            playerLayer:player];
         newBinding.playDispatchDelegate = _playerBindingManager;
         [newBinding setAutomaticErrorTracking:automaticErrorTracking];
         if (collectionDomain != nil && collectionDomain.length > 0) {
@@ -575,8 +594,16 @@ static MUXSDKCustomerViewerData *_customerViewerData;
     MUXSDKCustomerViewData *viewData = customerData.customerViewData;
     MUXSDKCustomData *customData = customerData.customData;
 
+    // If customerData sets a custom playerSoftwareName use that
+    // If customerData playerSoftwareName is nil, use a default value
+    NSString *playerSoftwareName = customerData.customerPlayerData.playerSoftwareName ?: MuxPlayerSoftwareAVPlayer;
+    // MUXSDKStats sets nil for playerSoftwareVersion by default
+    // If customerData playerSoftwareVersion is set, pass that along
+    // If unset, it is nil and this keeps the existing behavior as the fallback
+    NSString *playerSoftwareVersion = customerData.customerPlayerData.playerSoftwareVersion;
     MUXSDKAVPlayerBinding *newBinding = [[MUXSDKAVPlayerBinding alloc] initWithPlayerName:name
-                                                                             softwareName:MuxPlayerSoftwareAVPlayer
+                                                                             softwareName:playerSoftwareName
+                                                                          softwareVersion:playerSoftwareVersion
                                                                           fixedPlayerSize:fixedPlayerSize];
     [newBinding setAutomaticErrorTracking:automaticErrorTracking];
     newBinding.playDispatchDelegate = _playerBindingManager;

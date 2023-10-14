@@ -33,11 +33,13 @@
 		02EB9E3023E896F20007E1CD /* MUXSDKCustomerVideoDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EB9E2C23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m */; };
 		1917D7BC2AB97FBC009654E8 /* MUXSDKStatsTvTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1917D7BB2AB97FBC009654E8 /* MUXSDKStatsTvTests.m */; };
 		1917D7C32AB97FC5009654E8 /* MUXSDKStats.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F41E09041DDA8E530028A296 /* MUXSDKStats.framework */; };
-		19CB357A2ABBD411002DF48C /* MuxCore in Frameworks */ = {isa = PBXBuildFile; productRef = 19CB35792ABBD411002DF48C /* MuxCore */; };
-		19CB357C2ABBD41D002DF48C /* MuxCore in Frameworks */ = {isa = PBXBuildFile; productRef = 19CB357B2ABBD41D002DF48C /* MuxCore */; };
+		195762172AD8EB1500128565 /* MuxCore in Frameworks */ = {isa = PBXBuildFile; productRef = 195762162AD8EB1500128565 /* MuxCore */; };
+		195762192AD8EB2600128565 /* MuxCore in Frameworks */ = {isa = PBXBuildFile; productRef = 195762182AD8EB2600128565 /* MuxCore */; };
 		19E4EA2C2AB984580068E1EE /* MUXSDKCore+Mock.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EA754B23EA074800B06715 /* MUXSDKCore+Mock.m */; };
 		19E4EA2D2AB9845F0068E1EE /* MUXSDKPlayerBindingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0243A98423E9FFC600FBF5B4 /* MUXSDKPlayerBindingTests.m */; };
 		19E4EA2E2AB984860068E1EE /* MUXSDKStatsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DCAD0B1DCA892E0094D94C /* MUXSDKStatsTests.m */; };
+		19EE40772ADD9841007F596A /* MuxCore in Frameworks */ = {isa = PBXBuildFile; productRef = 19EE40762ADD9841007F596A /* MuxCore */; };
+		19EE40792ADD9860007F596A /* MuxCore in Frameworks */ = {isa = PBXBuildFile; productRef = 19EE40782ADD9860007F596A /* MuxCore */; };
 		F41E09081DDA8E530028A296 /* MUXSDKStatsTv.h in Headers */ = {isa = PBXBuildFile; fileRef = F41E09061DDA8E530028A296 /* MUXSDKStatsTv.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F41E099D1DDA8FB50028A296 /* MUXSDKStats.h in Headers */ = {isa = PBXBuildFile; fileRef = F4DCAD001DCA892E0094D94C /* MUXSDKStats.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F41E09E41DDA90DB0028A296 /* MUXSDKPlayerBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = F4572FC11DDA2FC8003FE72B /* MUXSDKPlayerBinding.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -120,7 +122,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				19CB357C2ABBD41D002DF48C /* MuxCore in Frameworks */,
+				19EE40792ADD9860007F596A /* MuxCore in Frameworks */,
+				195762192AD8EB2600128565 /* MuxCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,7 +131,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				19CB357A2ABBD411002DF48C /* MuxCore in Frameworks */,
+				19EE40772ADD9841007F596A /* MuxCore in Frameworks */,
+				195762172AD8EB1500128565 /* MuxCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,7 +305,8 @@
 			);
 			name = MUXSDKStatsTv;
 			packageProductDependencies = (
-				19CB357B2ABBD41D002DF48C /* MuxCore */,
+				195762182AD8EB2600128565 /* MuxCore */,
+				19EE40782ADD9860007F596A /* MuxCore */,
 			);
 			productName = MUXSDKStatsTv;
 			productReference = F41E09041DDA8E530028A296 /* MUXSDKStats.framework */;
@@ -322,7 +327,8 @@
 			);
 			name = MUXSDKStats;
 			packageProductDependencies = (
-				19CB35792ABBD411002DF48C /* MuxCore */,
+				195762162AD8EB1500128565 /* MuxCore */,
+				19EE40762ADD9841007F596A /* MuxCore */,
 			);
 			productName = MUXSDKStats;
 			productReference = F4DCACFD1DCA892E0094D94C /* MUXSDKStats.framework */;
@@ -382,7 +388,7 @@
 			);
 			mainGroup = F4DCACF31DCA892E0094D94C;
 			packageReferences = (
-				19CB35782ABBD411002DF48C /* XCRemoteSwiftPackageReference "stats-sdk-objc" */,
+				19EE40752ADD9841007F596A /* XCRemoteSwiftPackageReference "stats-sdk-objc" */,
 			);
 			productRefGroup = F4DCACFE1DCA892E0094D94C /* Products */;
 			projectDirPath = "";
@@ -569,7 +575,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.4.0;
+				MARKETING_VERSION = 3.4.1;
 				MODULEMAP_FILE = "$(SRCROOT)/MUXSDKStatsTv/module.modulemap";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.tvos.MUXSDKStatsTv;
@@ -598,7 +604,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.4.0;
+				MARKETING_VERSION = 3.4.1;
 				MODULEMAP_FILE = "$(SRCROOT)/MUXSDKStatsTv/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.tvos.MUXSDKStatsTv;
 				PRODUCT_NAME = MUXSDKStats;
@@ -780,7 +786,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.4.0;
+				MARKETING_VERSION = 3.4.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.ios.MUXSDKStats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -808,7 +814,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.4.0;
+				MARKETING_VERSION = 3.4.1;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.ios.MUXSDKStats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -900,25 +906,33 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		19CB35782ABBD411002DF48C /* XCRemoteSwiftPackageReference "stats-sdk-objc" */ = {
+		19EE40752ADD9841007F596A /* XCRemoteSwiftPackageReference "stats-sdk-objc" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/muxinc/stats-sdk-objc";
 			requirement = {
 				kind = exactVersion;
-				version = 4.5.2;
+				version = 4.6.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		19CB35792ABBD411002DF48C /* MuxCore */ = {
+		195762162AD8EB1500128565 /* MuxCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 19CB35782ABBD411002DF48C /* XCRemoteSwiftPackageReference "stats-sdk-objc" */;
 			productName = MuxCore;
 		};
-		19CB357B2ABBD41D002DF48C /* MuxCore */ = {
+		195762182AD8EB2600128565 /* MuxCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 19CB35782ABBD411002DF48C /* XCRemoteSwiftPackageReference "stats-sdk-objc" */;
+			productName = MuxCore;
+		};
+		19EE40762ADD9841007F596A /* MuxCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 19EE40752ADD9841007F596A /* XCRemoteSwiftPackageReference "stats-sdk-objc" */;
+			productName = MuxCore;
+		};
+		19EE40782ADD9860007F596A /* MuxCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 19EE40752ADD9841007F596A /* XCRemoteSwiftPackageReference "stats-sdk-objc" */;
 			productName = MuxCore;
 		};
 /* End XCSwiftPackageProductDependency section */
