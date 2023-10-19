@@ -12,7 +12,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"3.4.0";
+NSString *const MUXSDKPluginVersion = @"3.4.1";
 NSString *const MUXSessionDataPrefix = @"io.litix.data.";
 
 // Min number of seconds between timeupdate events. (100ms)
@@ -902,6 +902,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 - (void)dispatchViewEnd {
     if (![self isPlayerOK]) {
+        return;
+    }
+    if (_state == MUXSDKPlayerStateViewEnd) {
+        NSLog(@"MUXSDK-WARNING - Attempting to dispatch a viewend more than once before a new view is initialized");
         return;
     }
     [self checkVideoData];

@@ -16,8 +16,6 @@ readonly PACKAGE_NAME=${FRAMEWORK_NAME}.xcframework
 
 echo "▸ Current Xcode: $(xcode-select -p)"
 
-sudo xcode-select -switch /Applications/Xcode_14.3.1.app
-
 readonly XCODE=$(xcodebuild -version | grep Xcode | cut -d " " -f2)
 
 echo "▸ Using Xcode Version: ${XCODE}"
@@ -93,6 +91,13 @@ xcodebuild -create-xcframework \
     -framework "$BUILD_DIR/MUXSDKStats.iOS-simulator.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
     -framework "$BUILD_DIR/MUXSDKStats.macOS.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
     -output "${TARGET_DIR}/${PACKAGE_NAME}" | xcbeautify
+
+if [[ $? == 0 ]]; then
+    echo "▸ Successfully created ${FRAMEWORK_NAME} XCFramework at ${TARGET_DIR}"
+else
+    echo -e "\033[1;31m ERROR: Failed to create ${FRAMEWORK_NAME} XCFramework \033[0m"
+    exit 1
+fi
 
 echo "▸ Deleting Build Directory: ${BUILD_DIR}"
 
