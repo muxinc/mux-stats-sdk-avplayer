@@ -38,6 +38,20 @@ else
     exit 1
 fi
 
+echo "▸ Validating ${CARTHAGE_JSON_SPECIFICATION} version-specific path"
+
+carthage_path=$(cat $CARTHAGE_JSON_SPECIFICATION | jq -r -e --arg release_version "$release_version" '.[$release_version]')
+expected_path="https://github.com/muxinc/mux-stats-sdk-avplayer/releases/download/v${release_version}/MUXSDKStats.xcframework.zip"
+
+if [ "${carthage_path}" == "${expected_path}" ]; then
+    echo "▸ ${CARTHAGE_JSON_SPECIFICATION} path matches expected value"
+else
+    echo "▸ Expected ${CARTHAGE_JSON_SPECIFICATION} ${release_version} path: ${expected_path}"
+    echo "▸ Actual ${CARTHAGE_JSON_SPECIFICATION} ${release_version} path: ${carthage_path}"
+    echo "▸ Please update ${CARTHAGE_JSON_SPECIFICATION} ${release_version} path to expected value"
+    exit 1
+fi
+
 echo "▸ Checking Plugin Version Constant"
 
 search_pattern='const MUXSDKPluginVersion = '
