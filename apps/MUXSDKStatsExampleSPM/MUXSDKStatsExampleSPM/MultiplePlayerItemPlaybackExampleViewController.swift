@@ -4,8 +4,10 @@
 //
 
 import AVKit
+import AVFoundation
 import UIKit
 
+import MuxCore
 import MUXSDKStats
 
 class AVQueuePlayerExampleViewController: MultiplePlayerItemPlaybackExampleViewController {

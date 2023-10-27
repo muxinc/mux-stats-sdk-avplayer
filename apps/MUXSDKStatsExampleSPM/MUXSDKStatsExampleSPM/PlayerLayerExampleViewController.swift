@@ -3,7 +3,11 @@
 //  MUXSDKStatsExampleSPM
 //
 
+import AVFoundation
+import AVKit
 import UIKit
+
+import MuxCore
 import MUXSDKStats
 
 /// UIView container for AVPlayerLayer

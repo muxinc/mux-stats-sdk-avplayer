@@ -5,6 +5,9 @@
 
 import UIKit
 import AVKit
+import AVFoundation
+
+import MuxCore
 import MUXSDKStats
 
 class BasicPlaybackExampleViewController: UIViewController {

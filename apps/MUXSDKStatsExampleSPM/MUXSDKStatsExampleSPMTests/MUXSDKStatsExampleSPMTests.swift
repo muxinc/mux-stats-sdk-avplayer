@@ -4,7 +4,7 @@
 //
 
 import XCTest
-@testable import MUXSDKStatsExampleSPM
+@testable import MUXSDKStatsObjcExampleSPM
 
 final class MUXSDKStatsExampleSPMTests: XCTestCase {
 
