@@ -7,10 +7,7 @@ then
     exit 1
 fi
 
-readonly PROJECT=MUXSDKStats.xcodeproj
 readonly SCHEME=MUXSDKStats
-
-cd MUXSDKStats
 
 sudo xcode-select -s /Applications/Xcode_14.3.1.app/Contents/Developer
 
@@ -23,7 +20,6 @@ xcodebuild -showsdks
 echo "▸ Testing SDK on iOS 16.4 - iPhone 14 Pro Max"
 
 xcodebuild clean test \
-  -project $PROJECT \
   -scheme $SCHEME \
   -destination 'platform=iOS Simulator,OS=16.4,name=iPhone 14 Pro Max' \
   | xcbeautify
@@ -31,7 +27,6 @@ xcodebuild clean test \
 echo "▸ Testing SDK on iOS 16.4 - iPad Pro (12.9-inch) (6th generation)"
 
 xcodebuild clean test \
-  -project $PROJECT \
   -scheme $SCHEME \
   -destination 'platform=iOS Simulator,OS=16.4,name=iPad Pro (12.9-inch) (6th generation)' \
   | xcbeautify
@@ -47,7 +42,6 @@ xcodebuild -showsdks
 echo "▸ Testing SDK on iOS 16.2 - iPhone 14"
 
 xcodebuild clean test \
-  -project $PROJECT \
   -scheme $SCHEME \
   -destination 'platform=iOS Simulator,OS=16.2,name=iPhone 14' \
   | xcbeautify
@@ -55,7 +49,6 @@ xcodebuild clean test \
 echo "▸ Testing SDK on iOS 16.2 - iPad Pro (11-inch) (4th generation)"
 
 xcodebuild clean test \
-  -project $PROJECT \
   -scheme $SCHEME \
   -destination 'platform=iOS Simulator,OS=16.2,name=iPad Pro (11-inch) (4th generation)' \
   | xcbeautify
@@ -72,7 +65,6 @@ xcodebuild -showsdks
 echo "▸ Testing SDK on iOS 16.1 - iPhone 14 Pro"
 
 xcodebuild clean test \
-  -project $PROJECT \
   -scheme $SCHEME \
   -destination 'platform=iOS Simulator,OS=16.1,name=iPhone 14 Pro' \
   | xcbeautify
@@ -80,7 +72,6 @@ xcodebuild clean test \
 echo "▸ Testing SDK on iOS 16.1 - iPad mini (6th generation)"
 
 xcodebuild clean test \
-  -project $PROJECT \
   -scheme $SCHEME \
   -destination 'platform=iOS Simulator,OS=16.1,name=iPad mini (6th generation)' \
   | xcbeautify
