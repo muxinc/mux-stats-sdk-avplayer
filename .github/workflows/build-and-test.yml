@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    name: Run unit tests and build dynamic SDK binary
+    name: Run unit tests
     runs-on: macos-13
     steps:
       - name: Install xcbeautify
