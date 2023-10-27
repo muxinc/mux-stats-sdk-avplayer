@@ -9,8 +9,6 @@ fi
 
 readonly SCHEME=MUXSDKStats
 
-sudo xcode-select -s /Applications/Xcode_14.3.1.app/Contents/Developer
-
 echo "▸ Current Xcode: $(xcode-select -p)"
 
 echo "▸ Available Xcode SDKs"
