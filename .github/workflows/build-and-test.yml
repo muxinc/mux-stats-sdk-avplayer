@@ -4,8 +4,8 @@ on:
   push:
 
 jobs:
-  build:
-    name: Run unit tests
+  unit-tests:
+    name: Run SDK unit tests
     runs-on: macos-13
     steps:
       - name: Install xcbeautify
@@ -14,9 +14,8 @@ jobs:
         uses: actions/checkout@v3
       - name: "Baseline Unit Test Pass"
         run: ./scripts/run-baseline-unit-test-pass.sh
-  tests:
-    name: Test the SDK with a Demo App
-    needs: build
+  demo-application-tests-ventura:
+    name: (macOS Ventura) Test the SDK with a Demo App
     runs-on: macos-13
     steps:
       - name: Install xcbeautify
@@ -27,9 +26,8 @@ jobs:
         run: "scripts/run-tests-cocoapods-ventura.sh"
       - name: Run Swift package manager example application tests
         run: "scripts/run-tests-swift-package-manager-ventura.sh"
-  tests-iOS-15:
-    name: (iOS 15) Test the SDK with a Demo App
-    needs: build
+  demo-application-tests-monterey:
+    name: (macOS Monterey) Test the SDK with a Demo App
     runs-on: macos-12
     steps:
       - name: Install xcbeautify
