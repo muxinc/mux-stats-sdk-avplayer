@@ -140,7 +140,7 @@ final class MUXSDKStatsExampleSPMUITests: XCTestCase {
 
         let isUnknown = application.wait(
             for: .unknown,
-            timeout: 45.0
+            timeout: 25.0
         )
 
         guard !isUnknown else {
