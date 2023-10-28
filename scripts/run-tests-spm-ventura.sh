@@ -28,12 +28,12 @@ xcodebuild -resolvePackageDependencies \
 
 echo "▸ Running Swift Package Manager Tests"
 echo ""
-echo "▸ Testing SDK on iOS 16.4 - iPhone 14 Pro Max"
+echo "▸ Testing SDK on iOS 17.0.1 - iPhone 15 Pro Max"
 
 xcodebuild clean test \
     -project MUXSDKStatsExampleSPM.xcodeproj \
     -scheme "MUXSDKStatsExampleSPM" \
-    -destination 'platform=iOS Simulator,OS=16.4,name=iPhone 14 Pro Max' | xcbeautify
+    -destination 'platform=iOS Simulator,OS=17.0.1,name=iPhone 15 Pro Max' | xcbeautify
 
 echo "▸ Testing Mac Catalyst - Designed for iPad variant"
 
@@ -41,6 +41,3 @@ xcodebuild clean test \
 	-project MUXSDKStatsExampleSPM.xcodeproj \
 	-scheme "MUXSDKStatsExampleSPM" \
 	-destination 'generic/platform=macOS,arch=arm64,variant=Designed for iPad' | xcbeautify
-
-
-
