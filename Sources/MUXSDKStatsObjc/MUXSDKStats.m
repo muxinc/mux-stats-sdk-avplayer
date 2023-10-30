@@ -276,35 +276,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                                         withPlayerName:(nonnull NSString *)name
                                           customerData:(nonnull MUXSDKCustomerData *)customerData
                                 automaticErrorTracking:(BOOL)automaticErrorTracking
-                                          beaconCollectionDomain:(nullable NSString *)collectionDomain {
-    return [self monitorAVPlayerLayer:player
-                       withPlayerName:name
-                         customerData:customerData
-               automaticErrorTracking:automaticErrorTracking
-               beaconCollectionDomain:collectionDomain
-                         beaconDomain:nil];
-}
-
-// Deprecated: Legacy beacon domain implementation
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
-                                        withPlayerName:(nonnull NSString *)name
-                                          customerData:(nonnull MUXSDKCustomerData *)customerData
-                                automaticErrorTracking:(BOOL)automaticErrorTracking
-                                          beaconDomain:(nullable NSString *)domain {
-    return [self monitorAVPlayerLayer:player
-                       withPlayerName:name
-                         customerData:customerData
-               automaticErrorTracking:automaticErrorTracking
-               beaconCollectionDomain:nil
-                         beaconDomain:domain];
-}
-
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
-                                        withPlayerName:(nonnull NSString *)name
-                                          customerData:(nonnull MUXSDKCustomerData *)customerData
-                                automaticErrorTracking:(BOOL)automaticErrorTracking
-                                beaconCollectionDomain:(nullable NSString *)collectionDomain
-                                          beaconDomain:(nullable NSString *)domain {
+                                beaconCollectionDomain:(nullable NSString *)collectionDomain {
     MUXSDKCustomerViewerData *viewerData = [customerData customerViewerData];
     if (viewerData != nil) {
         _customerViewerData = viewerData;
@@ -337,8 +309,6 @@ static MUXSDKCustomerViewerData *_customerViewerData;
         [newBinding setAutomaticErrorTracking:automaticErrorTracking];
         if (collectionDomain != nil && collectionDomain.length > 0) {
             [MUXSDKCore setBeaconCollectionDomain:collectionDomain forPlayer:name];
-        } else if (domain != nil && domain.length > 0) {
-            [MUXSDKCore setBeaconDomain:domain forPlayer:name];
         }
         [MUXSDKCore setDeviceId:[MUXSDKStats getUUIDString] forPlayer:name];
 
