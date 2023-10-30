@@ -26,6 +26,8 @@ jobs:
         uses: actions/checkout@v3
       - name: Select Xcode version
         run: sudo xcode-select -s '/Applications/Xcode_15.0.1.app/Contents/Developer'
+      - name: Update Cocoapods to 1.14
+        run: gem install cocoapods
       - name: Run cocoapods example application tests
         run: "scripts/run-tests-cocoapods-ventura.sh"
       - name: Run Swift package manager example application tests
