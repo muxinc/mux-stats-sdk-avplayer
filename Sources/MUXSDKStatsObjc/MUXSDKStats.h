@@ -49,9 +49,9 @@ FOUNDATION_EXPORT
 /// Starts to monitor a given AVPlayerViewController.
 ///
 /// Use this method to start a Mux player monitor on the
-/// given AVPlayerViewController. The player must have a name
-/// which is globally unique. The config provided should match
-/// the specifications in the Mux docs at https://docs.mux.com
+/// given AVPlayerViewController. The player must have a 
+/// globally unique name.
+///
 /// - Parameters:
 ///   - player: An AVPlayerViewController to monitor
 ///   - name: A name for this instance of the player
@@ -321,12 +321,12 @@ FOUNDATION_EXPORT
 ///
 /// Use this method to signal that the player is now playing
 /// a new video. The player name provided must been passed
-/// as the name in a monitorPlayer:withPlayerName:andConfig:
-/// call. The config provided should match the specifications
-/// in the Mux docs at https://docs.mux.com and should include
-/// all desired keys, not just those keys that are specific
-/// to this video. If the name of the player provided was not
-/// previously initialized, an exception will be raised.
+/// as the name in a `monitor*` call. If the player name
+/// hasn't been previously passed, an exception will be raised.
+///
+/// The customer data provided should include all applicable
+/// fields and not just those that are specific to the video.
+///
 /// - Parameters:
 ///   - name: The name of the player to update
 ///   - customerData: A MUXSDKCustomerData object with player,
@@ -340,14 +340,14 @@ FOUNDATION_EXPORT
 /// of a playlist; or a different program of a live stream
 ///
 /// Use this method to signal that the player is now playing
-/// a differnt video of a playlist, or a different program
-/// of a live stream. The player name provided must been
-/// passed as the name in a monitorPlayer:withPlayerName:andConfig:
-/// call. The config provided should match the specifications
-/// in the Mux docs at https://docs.mux.com and should include
-/// all desired keys, not just those keys that are specific
-/// to this video. If the name of the player provided was
-/// not previously initialized, an exception will be raised.
+/// a different video of a playlist, or a different program
+/// of a live stream. The player name must previously have been
+/// passed in a `monitor*` call call. If the player name
+/// hasn't been previously passed, an exception will be raised.
+///
+/// The customer data provided should include all applicable
+/// fields and not just those that are specific to the video.
+///
 /// - Parameters:
 ///   - name: The name of the player to update
 ///   - customerData: A MUXSDKCustomerData object with player,
@@ -369,13 +369,6 @@ FOUNDATION_EXPORT
               forPlayer:(nonnull NSString *)name;
 
 #pragma mark - Orientation Change
-
-/*!
-@method      orientationChangeForPlayer:withOrientation:
-@abstract    Notifies the Mux SDK that the view's orientation has changed.
-@param       name The name of the player to update
-@param       orientation A MUXSDKViewOrientation enum value representing if the view has changed to portrait or landscape
-*/
 
 /// Notifies the Mux SDK that the view's orientation has changed.
 /// - Parameters:
