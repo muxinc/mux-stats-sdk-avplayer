@@ -99,6 +99,8 @@ final class MUXSDKStatsExampleSPMUITests: XCTestCase {
         ]
         application.launch()
 
+        application.activate()
+
         let isRunningInForeground = application.wait(
             for: .runningForeground,
             timeout: 5.0
