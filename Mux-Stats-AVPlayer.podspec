@@ -24,4 +24,5 @@ Pod::Spec.new do |s|
   s.tvos.frameworks = 'AVKit', 'AVFoundation', 'SystemConfiguration', 'CoreMedia'
 
   s.source_files = 'Sources/MUXSDKStatsObjc/**/*'
+  s.exclude_files = 'Sources/MUXSDKStatsObjc/include/**/*'
 end
