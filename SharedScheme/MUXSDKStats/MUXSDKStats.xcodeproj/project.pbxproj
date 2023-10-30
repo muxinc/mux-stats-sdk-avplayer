@@ -1,0 +1,553 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		195E01E02AF04CFA00F6DDAC /* MUXSDKStats.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 195E01D72AF04CFA00F6DDAC /* MUXSDKStats.framework */; };
+		195E01E52AF04CFA00F6DDAC /* MUXSDKStatsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 195E01E42AF04CFA00F6DDAC /* MUXSDKStatsTests.m */; };
+		195E02002AF04D2C00F6DDAC /* MUXSDKStats.m in Sources */ = {isa = PBXBuildFile; fileRef = 195E01EF2AF04D2C00F6DDAC /* MUXSDKStats.m */; };
+		195E02012AF04D2C00F6DDAC /* MUXSDKCustomerViewDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 195E01F02AF04D2C00F6DDAC /* MUXSDKCustomerViewDataStore.m */; };
+		195E02022AF04D2C00F6DDAC /* MUXSDKPlayerBindingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 195E01F12AF04D2C00F6DDAC /* MUXSDKPlayerBindingManager.m */; };
+		195E02032AF04D2C00F6DDAC /* MUXSDKConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 195E01F22AF04D2C00F6DDAC /* MUXSDKConnection.m */; };
+		195E02042AF04D2C00F6DDAC /* MUXSDKCustomerViewDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 195E01F32AF04D2C00F6DDAC /* MUXSDKCustomerViewDataStore.h */; };
+		195E02052AF04D2C00F6DDAC /* MUXSDKPlayerBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 195E01F42AF04D2C00F6DDAC /* MUXSDKPlayerBinding.m */; };
+		195E02062AF04D2C00F6DDAC /* MUXSDKCustomerCustomDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 195E01F52AF04D2C00F6DDAC /* MUXSDKCustomerCustomDataStore.m */; };
+		195E02072AF04D2C00F6DDAC /* MUXSDKPlayerBindingConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 195E01F62AF04D2C00F6DDAC /* MUXSDKPlayerBindingConstants.h */; };
+		195E02082AF04D2C00F6DDAC /* MUXSDKPlayerBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = 195E01F72AF04D2C00F6DDAC /* MUXSDKPlayerBinding.h */; };
+		195E02092AF04D2C00F6DDAC /* MUXSDKCustomerCustomDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 195E01F82AF04D2C00F6DDAC /* MUXSDKCustomerCustomDataStore.h */; };
+		195E020A2AF04D2C00F6DDAC /* MUXSDKConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 195E01F92AF04D2C00F6DDAC /* MUXSDKConnection.h */; };
+		195E020B2AF04D2C00F6DDAC /* MUXSDKCustomerPlayerDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 195E01FA2AF04D2C00F6DDAC /* MUXSDKCustomerPlayerDataStore.m */; };
+		195E020C2AF04D2C00F6DDAC /* MUXSDKCustomerVideoDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 195E01FB2AF04D2C00F6DDAC /* MUXSDKCustomerVideoDataStore.m */; };
+		195E020D2AF04D2C00F6DDAC /* MUXSDKCustomerPlayerDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 195E01FC2AF04D2C00F6DDAC /* MUXSDKCustomerPlayerDataStore.h */; };
+		195E020E2AF04D2C00F6DDAC /* MUXSDKCustomerVideoDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 195E01FD2AF04D2C00F6DDAC /* MUXSDKCustomerVideoDataStore.h */; };
+		195E020F2AF04D2C00F6DDAC /* MUXSDKPlayerBindingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 195E01FE2AF04D2C00F6DDAC /* MUXSDKPlayerBindingManager.h */; };
+		195E02102AF04D2C00F6DDAC /* MUXSDKStats.h in Headers */ = {isa = PBXBuildFile; fileRef = 195E01FF2AF04D2C00F6DDAC /* MUXSDKStats.h */; };
+		195E02132AF04D6C00F6DDAC /* MuxCore in Frameworks */ = {isa = PBXBuildFile; productRef = 195E02122AF04D6C00F6DDAC /* MuxCore */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		195E01E12AF04CFA00F6DDAC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 195E01CE2AF04CFA00F6DDAC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 195E01D62AF04CFA00F6DDAC;
+			remoteInfo = MUXSDKStats;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		195E01D72AF04CFA00F6DDAC /* MUXSDKStats.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MUXSDKStats.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		195E01DF2AF04CFA00F6DDAC /* MUXSDKStatsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MUXSDKStatsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		195E01E42AF04CFA00F6DDAC /* MUXSDKStatsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MUXSDKStatsTests.m; sourceTree = "<group>"; };
+		195E01EF2AF04D2C00F6DDAC /* MUXSDKStats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MUXSDKStats.m; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKStats.m; sourceTree = "<group>"; };
+		195E01F02AF04D2C00F6DDAC /* MUXSDKCustomerViewDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MUXSDKCustomerViewDataStore.m; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKCustomerViewDataStore.m; sourceTree = "<group>"; };
+		195E01F12AF04D2C00F6DDAC /* MUXSDKPlayerBindingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MUXSDKPlayerBindingManager.m; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKPlayerBindingManager.m; sourceTree = "<group>"; };
+		195E01F22AF04D2C00F6DDAC /* MUXSDKConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MUXSDKConnection.m; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKConnection.m; sourceTree = "<group>"; };
+		195E01F32AF04D2C00F6DDAC /* MUXSDKCustomerViewDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MUXSDKCustomerViewDataStore.h; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKCustomerViewDataStore.h; sourceTree = "<group>"; };
+		195E01F42AF04D2C00F6DDAC /* MUXSDKPlayerBinding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MUXSDKPlayerBinding.m; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKPlayerBinding.m; sourceTree = "<group>"; };
+		195E01F52AF04D2C00F6DDAC /* MUXSDKCustomerCustomDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MUXSDKCustomerCustomDataStore.m; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKCustomerCustomDataStore.m; sourceTree = "<group>"; };
+		195E01F62AF04D2C00F6DDAC /* MUXSDKPlayerBindingConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MUXSDKPlayerBindingConstants.h; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKPlayerBindingConstants.h; sourceTree = "<group>"; };
+		195E01F72AF04D2C00F6DDAC /* MUXSDKPlayerBinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MUXSDKPlayerBinding.h; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKPlayerBinding.h; sourceTree = "<group>"; };
+		195E01F82AF04D2C00F6DDAC /* MUXSDKCustomerCustomDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MUXSDKCustomerCustomDataStore.h; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKCustomerCustomDataStore.h; sourceTree = "<group>"; };
+		195E01F92AF04D2C00F6DDAC /* MUXSDKConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MUXSDKConnection.h; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKConnection.h; sourceTree = "<group>"; };
+		195E01FA2AF04D2C00F6DDAC /* MUXSDKCustomerPlayerDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MUXSDKCustomerPlayerDataStore.m; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKCustomerPlayerDataStore.m; sourceTree = "<group>"; };
+		195E01FB2AF04D2C00F6DDAC /* MUXSDKCustomerVideoDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MUXSDKCustomerVideoDataStore.m; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKCustomerVideoDataStore.m; sourceTree = "<group>"; };
+		195E01FC2AF04D2C00F6DDAC /* MUXSDKCustomerPlayerDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MUXSDKCustomerPlayerDataStore.h; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKCustomerPlayerDataStore.h; sourceTree = "<group>"; };
+		195E01FD2AF04D2C00F6DDAC /* MUXSDKCustomerVideoDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MUXSDKCustomerVideoDataStore.h; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKCustomerVideoDataStore.h; sourceTree = "<group>"; };
+		195E01FE2AF04D2C00F6DDAC /* MUXSDKPlayerBindingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MUXSDKPlayerBindingManager.h; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKPlayerBindingManager.h; sourceTree = "<group>"; };
+		195E01FF2AF04D2C00F6DDAC /* MUXSDKStats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MUXSDKStats.h; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKStats.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		195E01D42AF04CFA00F6DDAC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				195E02132AF04D6C00F6DDAC /* MuxCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		195E01DC2AF04CFA00F6DDAC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				195E01E02AF04CFA00F6DDAC /* MUXSDKStats.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		195E01CD2AF04CFA00F6DDAC = {
+			isa = PBXGroup;
+			children = (
+				195E01D92AF04CFA00F6DDAC /* MUXSDKStats */,
+				195E01E32AF04CFA00F6DDAC /* MUXSDKStatsTests */,
+				195E01D82AF04CFA00F6DDAC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		195E01D82AF04CFA00F6DDAC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				195E01D72AF04CFA00F6DDAC /* MUXSDKStats.framework */,
+				195E01DF2AF04CFA00F6DDAC /* MUXSDKStatsTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		195E01D92AF04CFA00F6DDAC /* MUXSDKStats */ = {
+			isa = PBXGroup;
+			children = (
+				195E01F92AF04D2C00F6DDAC /* MUXSDKConnection.h */,
+				195E01F22AF04D2C00F6DDAC /* MUXSDKConnection.m */,
+				195E01F82AF04D2C00F6DDAC /* MUXSDKCustomerCustomDataStore.h */,
+				195E01F52AF04D2C00F6DDAC /* MUXSDKCustomerCustomDataStore.m */,
+				195E01FC2AF04D2C00F6DDAC /* MUXSDKCustomerPlayerDataStore.h */,
+				195E01FA2AF04D2C00F6DDAC /* MUXSDKCustomerPlayerDataStore.m */,
+				195E01FD2AF04D2C00F6DDAC /* MUXSDKCustomerVideoDataStore.h */,
+				195E01FB2AF04D2C00F6DDAC /* MUXSDKCustomerVideoDataStore.m */,
+				195E01F32AF04D2C00F6DDAC /* MUXSDKCustomerViewDataStore.h */,
+				195E01F02AF04D2C00F6DDAC /* MUXSDKCustomerViewDataStore.m */,
+				195E01F72AF04D2C00F6DDAC /* MUXSDKPlayerBinding.h */,
+				195E01F42AF04D2C00F6DDAC /* MUXSDKPlayerBinding.m */,
+				195E01F62AF04D2C00F6DDAC /* MUXSDKPlayerBindingConstants.h */,
+				195E01FE2AF04D2C00F6DDAC /* MUXSDKPlayerBindingManager.h */,
+				195E01F12AF04D2C00F6DDAC /* MUXSDKPlayerBindingManager.m */,
+				195E01FF2AF04D2C00F6DDAC /* MUXSDKStats.h */,
+				195E01EF2AF04D2C00F6DDAC /* MUXSDKStats.m */,
+			);
+			path = MUXSDKStats;
+			sourceTree = "<group>";
+		};
+		195E01E32AF04CFA00F6DDAC /* MUXSDKStatsTests */ = {
+			isa = PBXGroup;
+			children = (
+				195E01E42AF04CFA00F6DDAC /* MUXSDKStatsTests.m */,
+			);
+			path = MUXSDKStatsTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		195E01D22AF04CFA00F6DDAC /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				195E02042AF04D2C00F6DDAC /* MUXSDKCustomerViewDataStore.h in Headers */,
+				195E02102AF04D2C00F6DDAC /* MUXSDKStats.h in Headers */,
+				195E020F2AF04D2C00F6DDAC /* MUXSDKPlayerBindingManager.h in Headers */,
+				195E020A2AF04D2C00F6DDAC /* MUXSDKConnection.h in Headers */,
+				195E02092AF04D2C00F6DDAC /* MUXSDKCustomerCustomDataStore.h in Headers */,
+				195E020E2AF04D2C00F6DDAC /* MUXSDKCustomerVideoDataStore.h in Headers */,
+				195E02082AF04D2C00F6DDAC /* MUXSDKPlayerBinding.h in Headers */,
+				195E02072AF04D2C00F6DDAC /* MUXSDKPlayerBindingConstants.h in Headers */,
+				195E020D2AF04D2C00F6DDAC /* MUXSDKCustomerPlayerDataStore.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		195E01D62AF04CFA00F6DDAC /* MUXSDKStats */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 195E01E92AF04CFA00F6DDAC /* Build configuration list for PBXNativeTarget "MUXSDKStats" */;
+			buildPhases = (
+				195E01D22AF04CFA00F6DDAC /* Headers */,
+				195E01D32AF04CFA00F6DDAC /* Sources */,
+				195E01D42AF04CFA00F6DDAC /* Frameworks */,
+				195E01D52AF04CFA00F6DDAC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MUXSDKStats;
+			packageProductDependencies = (
+				195E02122AF04D6C00F6DDAC /* MuxCore */,
+			);
+			productName = MUXSDKStats;
+			productReference = 195E01D72AF04CFA00F6DDAC /* MUXSDKStats.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		195E01DE2AF04CFA00F6DDAC /* MUXSDKStatsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 195E01EC2AF04CFA00F6DDAC /* Build configuration list for PBXNativeTarget "MUXSDKStatsTests" */;
+			buildPhases = (
+				195E01DB2AF04CFA00F6DDAC /* Sources */,
+				195E01DC2AF04CFA00F6DDAC /* Frameworks */,
+				195E01DD2AF04CFA00F6DDAC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				195E01E22AF04CFA00F6DDAC /* PBXTargetDependency */,
+			);
+			name = MUXSDKStatsTests;
+			productName = MUXSDKStatsTests;
+			productReference = 195E01DF2AF04CFA00F6DDAC /* MUXSDKStatsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		195E01CE2AF04CFA00F6DDAC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					195E01D62AF04CFA00F6DDAC = {
+						CreatedOnToolsVersion = 15.0.1;
+					};
+					195E01DE2AF04CFA00F6DDAC = {
+						CreatedOnToolsVersion = 15.0.1;
+					};
+				};
+			};
+			buildConfigurationList = 195E01D12AF04CFA00F6DDAC /* Build configuration list for PBXProject "MUXSDKStats" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 195E01CD2AF04CFA00F6DDAC;
+			packageReferences = (
+				195E02112AF04D6C00F6DDAC /* XCRemoteSwiftPackageReference "stats-sdk-objc" */,
+			);
+			productRefGroup = 195E01D82AF04CFA00F6DDAC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				195E01D62AF04CFA00F6DDAC /* MUXSDKStats */,
+				195E01DE2AF04CFA00F6DDAC /* MUXSDKStatsTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		195E01D52AF04CFA00F6DDAC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		195E01DD2AF04CFA00F6DDAC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		195E01D32AF04CFA00F6DDAC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				195E02062AF04D2C00F6DDAC /* MUXSDKCustomerCustomDataStore.m in Sources */,
+				195E02022AF04D2C00F6DDAC /* MUXSDKPlayerBindingManager.m in Sources */,
+				195E02052AF04D2C00F6DDAC /* MUXSDKPlayerBinding.m in Sources */,
+				195E02032AF04D2C00F6DDAC /* MUXSDKConnection.m in Sources */,
+				195E020B2AF04D2C00F6DDAC /* MUXSDKCustomerPlayerDataStore.m in Sources */,
+				195E020C2AF04D2C00F6DDAC /* MUXSDKCustomerVideoDataStore.m in Sources */,
+				195E02012AF04D2C00F6DDAC /* MUXSDKCustomerViewDataStore.m in Sources */,
+				195E02002AF04D2C00F6DDAC /* MUXSDKStats.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		195E01DB2AF04CFA00F6DDAC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				195E01E52AF04CFA00F6DDAC /* MUXSDKStatsTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		195E01E22AF04CFA00F6DDAC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 195E01D62AF04CFA00F6DDAC /* MUXSDKStats */;
+			targetProxy = 195E01E12AF04CFA00F6DDAC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		195E01E72AF04CFA00F6DDAC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		195E01E82AF04CFA00F6DDAC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		195E01EA2AF04CFA00F6DDAC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = XX95P4Y787;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mux.data.MUXSDKStats;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		195E01EB2AF04CFA00F6DDAC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = XX95P4Y787;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mux.data.MUXSDKStats;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		195E01ED2AF04CFA00F6DDAC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XX95P4Y787;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mux.data.MUXSDKStatsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		195E01EE2AF04CFA00F6DDAC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XX95P4Y787;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mux.data.MUXSDKStatsTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		195E01D12AF04CFA00F6DDAC /* Build configuration list for PBXProject "MUXSDKStats" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				195E01E72AF04CFA00F6DDAC /* Debug */,
+				195E01E82AF04CFA00F6DDAC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		195E01E92AF04CFA00F6DDAC /* Build configuration list for PBXNativeTarget "MUXSDKStats" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				195E01EA2AF04CFA00F6DDAC /* Debug */,
+				195E01EB2AF04CFA00F6DDAC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		195E01EC2AF04CFA00F6DDAC /* Build configuration list for PBXNativeTarget "MUXSDKStatsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				195E01ED2AF04CFA00F6DDAC /* Debug */,
+				195E01EE2AF04CFA00F6DDAC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		195E02112AF04D6C00F6DDAC /* XCRemoteSwiftPackageReference "stats-sdk-objc" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/muxinc/stats-sdk-objc";
+			requirement = {
+				kind = exactVersion;
+				version = 4.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		195E02122AF04D6C00F6DDAC /* MuxCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 195E02112AF04D6C00F6DDAC /* XCRemoteSwiftPackageReference "stats-sdk-objc" */;
+			productName = MuxCore;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 195E01CE2AF04CFA00F6DDAC /* Project object */;
+}
