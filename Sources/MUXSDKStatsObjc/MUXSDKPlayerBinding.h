@@ -132,21 +132,6 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
     AVPlayerViewController *_viewController;
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnullability-completeness"
-
-/// Initializes a binding that listens for and dispatches player events
-/// - Parameters:
-///   - name: A name for this instance of the player
-///   - software: The name of the underlying player software
-///   - view: An AVPlayerViewController to monitor using this binding
-- (id)initWithName:(NSString *)name
-          software:(NSString *)software
-           andView:(AVPlayerViewController *)view __attribute__((deprecated("Please migrate to initWithPlayerName:softwareName:playerViewController:")));
-
-#pragma clang diagnostic pop
-
-
 /// Initializes a binding that listens for and dispatches player events
 /// - Parameters:
 ///   - playerName: A name for this instance of the player
@@ -175,22 +160,6 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
     AVPlayerLayer *_view;
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnullability-completeness"
-
-
-/// Initializes a binding that listens for and dispatches player events
-/// - Parameters:
-///   - name: A name for this instance of the player
-///   - software: The name of the underlying player software
-///   - view: An AVPlayerLayer to monitor
-- (id)initWithName:(NSString *)name
-          software:(NSString *)software
-           andView:(AVPlayerLayer *)view __attribute__((deprecated("Please migrate to initWithPlayerName:softwareName:playerLayer:")));;
-
-#pragma clang diagnostic pop
-
-
 /// Initializes a binding that listens for and dispatches player events
 /// - Parameters:
 ///   - playerName: A name for this instance of the player
@@ -218,7 +187,6 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 @private
     CGSize _fixedPlayerSize;
 }
-
 
 /// Initializes a binding that listens for and dispatches player events
 /// - Parameters:
