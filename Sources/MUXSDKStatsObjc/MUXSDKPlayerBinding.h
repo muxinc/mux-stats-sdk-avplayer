@@ -114,6 +114,8 @@ typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
 
 #pragma clang diagnostic pop
 
+@property (nonatomic, strong, nonnull, readonly) NSString *playerName;
+
 - (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
                     softwareName:(nullable NSString *)softwareName;
 

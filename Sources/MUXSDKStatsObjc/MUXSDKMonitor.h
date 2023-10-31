@@ -188,7 +188,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///   - playerLayer: The new AVPlayerLayer to monitor
 ///   - playerName: The name of the player instance to update
 - (void)updatePlayerLayer:(nonnull AVPlayerLayer *)playerLayer
-           withPlayerName:(nonnull NSString *)name;
+           withPlayerName:(nonnull NSString *)playerName;
 
 #pragma mark - Start Monitoring AVPlayer
 

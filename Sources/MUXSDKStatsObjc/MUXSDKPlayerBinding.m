@@ -67,6 +67,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     return(self);
 }
 
+- (nonnull NSString *)playerName {
+    return _name;
+}
+
 - (void)setAdPlaying:(BOOL)isAdPlaying {
     _isAdPlaying = isAdPlaying;
 }
