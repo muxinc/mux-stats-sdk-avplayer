@@ -29,15 +29,43 @@
 @end
 @implementation MUXSDKPlayerBindingManager
 
-- (id)init {
+- (nonnull instancetype)init {
     self = [super init];
     if (self) {
-        self.playerReadyBindings = [[NSMutableSet alloc] init];
+        _playerReadyBindings = [[NSMutableSet alloc] init];
+        _customerPlayerDataStore = [[MUXSDKCustomerPlayerDataStore alloc] init];
+        _customerVideoDataStore = [[MUXSDKCustomerVideoDataStore alloc] init];
+        _customerViewDataStore = [[MUXSDKCustomerViewDataStore alloc] init];
+        _customerCustomDataStore = [[MUXSDKCustomerCustomDataStore alloc] init];
+        _playerBindings = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
 
-- (void) onPlayerDestroyed:(NSString *_Nonnull) name {
+- (void)setCustomerData:(nonnull MUXSDKCustomerData *)customerData
+          forPlayerName:(nonnull NSString *)name {
+    MUXSDKCustomerPlayerData *playerData = customerData.customerPlayerData;
+    MUXSDKCustomerVideoData *videoData = customerData.customerVideoData;
+    MUXSDKCustomerViewData *viewData = customerData.customerViewData;
+    MUXSDKCustomData *customData = customerData.customData;
+
+    [_customerPlayerDataStore setPlayerData:playerData
+                              forPlayerName:name];
+    if (videoData) {
+        [_customerVideoDataStore setVideoData:videoData
+                                forPlayerName:name];
+    }
+    if (viewData) {
+        [_customerViewDataStore setViewData:viewData
+                              forPlayerName:name];
+    }
+    if (customData) {
+        [_customerCustomDataStore setCustomData:customData
+                                  forPlayerName:name];
+    }
+}
+
+- (void)removeBindingsForPlayerName:(NSString *_Nonnull) name {
     [self.playerReadyBindings removeObject:name];
     [self.customerPlayerDataStore removeDataForPlayerName:name];
     [self.customerVideoDataStore removeDataForPlayerName:name];
@@ -49,19 +77,19 @@
     return [self.playerReadyBindings containsObject:name];
 }
 
-- (void) newViewForPlayer:(NSString *_Nonnull) name {
+- (void)dispatchNewViewForPlayerName:(NSString *_Nonnull) name {
     if (![self hasInitializedPlayerBinding: name]) {
-        MUXSDKPlayerBinding *binding = [self.viewControllers valueForKey:name];
-           if (binding != nil) {
-               MUXSDKCustomerPlayerData *playerData = [self.customerPlayerDataStore playerDataForPlayerName:name];
-               MUXSDKCustomerVideoData *videoData = [self.customerVideoDataStore videoDataForPlayerName:name];
-               MUXSDKCustomerViewData *viewData = [self.customerViewDataStore viewDataForPlayerName:name];
-               MUXSDKCustomData *customData = [self.customerCustomDataStore customDataForPlayerName:name];
-               [binding dispatchViewInit];
-               [self dispatchDataEventForPlayerName:name playerData:playerData videoData:videoData viewData: viewData customData:customData videoChange:NO];
-               [binding dispatchPlayerReady];
-               [self.playerReadyBindings addObject:name];
-           }
+        MUXSDKPlayerBinding *binding = [self.playerBindings valueForKey:name];
+        if (binding != nil) {
+            MUXSDKCustomerPlayerData *playerData = [self.customerPlayerDataStore playerDataForPlayerName:name];
+            MUXSDKCustomerVideoData *videoData = [self.customerVideoDataStore videoDataForPlayerName:name];
+            MUXSDKCustomerViewData *viewData = [self.customerViewDataStore viewDataForPlayerName:name];
+            MUXSDKCustomData *customData = [self.customerCustomDataStore customDataForPlayerName:name];
+            [binding dispatchViewInit];
+            [self dispatchDataEventForPlayerName:name playerData:playerData videoData:videoData viewData: viewData customData:customData videoChange:NO];
+            [binding dispatchPlayerReady];
+            [self.playerReadyBindings addObject:name];
+        }
     }
 }
 
@@ -90,12 +118,12 @@
 - (void)playbackStartedForPlayer:(NSString *) name {
     if (![self hasInitializedPlayerBinding: name]) {
         NSLog(@"MUXSDK-WARNING - Detected SDK initialized after playback has started.");
-        [self newViewForPlayer:name];
+        [self dispatchNewViewForPlayerName:name];
     }
 }
 
 - (void) videoChangedForPlayer:(NSString *_Nonnull) name {
-    MUXSDKPlayerBinding *binding = [self.viewControllers valueForKey:name];
+    MUXSDKPlayerBinding *binding = [self.playerBindings valueForKey:name];
     if (binding != nil) {
         [binding dispatchViewInit];
         MUXSDKCustomerPlayerData *playerData = [self.customerPlayerDataStore playerDataForPlayerName:name];
