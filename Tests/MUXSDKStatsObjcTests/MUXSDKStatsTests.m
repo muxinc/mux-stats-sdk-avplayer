@@ -195,7 +195,7 @@ static NSString *Z = @"Z";
     MUXSDKPlayerBinding *playerBinding = [MUXSDKStats monitorAVPlayerViewController:controller withPlayerName:playName customerData:customerData];
     XCTAssertNotNil(playerBinding, "expected monitorAVPlayerViewController to return a playerBinding");
     [customerViewData setViewSessionId:@"bar"];
-    [MUXSDKStats videoChangeForPlayer:playName withPlayerData:customerPlayerData withVideoData:nil viewData:customerViewData];
+    [MUXSDKStats videoChangeForPlayer:playName withCustomerData:customerData];
     NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                                     MUXSDKDataEventType,
                                     MUXSDKPlaybackEventPlayerReadyEventType,
@@ -219,7 +219,7 @@ static NSString *Z = @"Z";
     MUXSDKPlayerBinding *playerBinding = [MUXSDKStats monitorAVPlayerViewController:controller withPlayerName:playName customerData:customerData];
     XCTAssertNotNil(playerBinding, "expected monitorAVPlayerViewController to return a playerBinding");
     [customerVideoData setVideoTitle:@"56789"];
-    [MUXSDKStats videoChangeForPlayer:playName withVideoData:customerVideoData];
+    [MUXSDKStats videoChangeForPlayer:playName withCustomerData:customerData];
     NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                                     MUXSDKDataEventType,
                                     MUXSDKPlaybackEventPlayerReadyEventType,
@@ -259,8 +259,10 @@ static NSString *Z = @"Z";
     // Change video metadata
     MUXSDKCustomerVideoData *newCustomerVideoData = [[MUXSDKCustomerVideoData alloc] init];
     [newCustomerVideoData setVideoTitle:@"56789"];
+    MUXSDKCustomerData *newCustomerData = [[MUXSDKCustomerData alloc] init];
+    newCustomerData.customerVideoData = newCustomerVideoData;
     // It is required to call videoChangeForPlayer: immediately before telling the player which new source to play.
-    [MUXSDKStats videoChangeForPlayer:playName withVideoData:newCustomerVideoData];
+    [MUXSDKStats videoChangeForPlayer:playName withCustomerData:newCustomerData];
     NSURL* videoURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
     AVPlayerItem *item = [AVPlayerItem playerItemWithURL:videoURL];
     [controller.player replaceCurrentItemWithPlayerItem:item];
@@ -313,7 +315,7 @@ static NSString *Z = @"Z";
     MUXSDKPlayerBinding *playerBinding = [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
     XCTAssertNotNil(playerBinding, "expected monitorAVPlayerLayer to return a playerBinding");
     [customerViewData setViewSessionId:@"bar"];
-    [MUXSDKStats videoChangeForPlayer:playName withPlayerData:customerPlayerData withVideoData:nil viewData:customerViewData];
+    [MUXSDKStats videoChangeForPlayer:playName withCustomerData:customerData];
     NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                                     MUXSDKDataEventType,
                                     MUXSDKPlaybackEventPlayerReadyEventType,
@@ -337,7 +339,7 @@ static NSString *Z = @"Z";
     MUXSDKPlayerBinding *playerBinding = [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
     XCTAssertNotNil(playerBinding, "expected monitorAVPlayerLayer to return a playerBinding");
     [customerVideoData setVideoTitle:@"56789"];
-    [MUXSDKStats videoChangeForPlayer:playName withVideoData:customerVideoData];
+    [MUXSDKStats videoChangeForPlayer:playName withCustomerData:customerData];
     NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                                     MUXSDKDataEventType,
                                     MUXSDKPlaybackEventPlayerReadyEventType,
@@ -377,8 +379,9 @@ static NSString *Z = @"Z";
     // Change video metadata
     MUXSDKCustomerVideoData *newCustomerVideoData = [[MUXSDKCustomerVideoData alloc] init];
     [newCustomerVideoData setVideoTitle:@"56789"];
+    customerData.customerVideoData = newCustomerVideoData;
     // It is required to call videoChangeForPlayer: immediately before telling the player which new source to play.
-    [MUXSDKStats videoChangeForPlayer:playName withVideoData:newCustomerVideoData];
+    [MUXSDKStats videoChangeForPlayer:playName withCustomerData:customerData];
     NSURL* videoURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
     AVPlayerItem *item = [AVPlayerItem playerItemWithURL:videoURL];
     [controller.player replaceCurrentItemWithPlayerItem:item];
@@ -431,7 +434,7 @@ static NSString *Z = @"Z";
     MUXSDKPlayerBinding *playerBinding = [MUXSDKStats monitorAVPlayerViewController:controller withPlayerName:playName customerData:customerData];
     XCTAssertNotNil(playerBinding, "expected monitorAVPlayerViewController to return a playerBinding");
     [customerVideoData setVideoTitle:@"56789"];
-    [MUXSDKStats programChangeForPlayer:playName withVideoData:customerVideoData];
+    [MUXSDKStats programChangeForPlayer:playName withCustomerData:customerData];
     NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                                     MUXSDKDataEventType,
                                     MUXSDKPlaybackEventPlayerReadyEventType,
