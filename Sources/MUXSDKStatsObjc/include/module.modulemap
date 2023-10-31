@@ -1,6 +1,7 @@
 module MUXSDKStats {
     header "MUXSDKStats.h"
     header "MUXSDKPlayerBinding.h"
+    header "MUXSDKMonitor.h"
     export *
 
     explicit module Internal {

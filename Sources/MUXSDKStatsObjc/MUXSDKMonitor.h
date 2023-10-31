@@ -52,6 +52,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// Retrieves a shared monitor reference.
 + (nonnull instancetype)sharedMonitor;
 
+#pragma mark - SDK Metadata
+
+- (nonnull NSString *)pluginVersion;
+
 #pragma mark - Start Monitoring AVPlayerViewController
 
 /// Starts to monitor a given AVPlayerViewController instance.
@@ -313,7 +317,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)disableAutomaticVideoChangeDetectionForPlayerName:(nonnull NSString *)playerName;
 
 #pragma mark - Manual Video Change
-
 
 /// Signals that a player is now playing a different video.
 ///
