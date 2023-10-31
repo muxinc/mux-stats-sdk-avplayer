@@ -18,17 +18,11 @@ echo "▸ Using Xcode Version: ${XCODE}"
 echo "▸ Available Xcode SDKs"
 xcodebuild -showsdks
 
-echo "▸ Removing XCFramework folder"
-rm -Rf XCFramework
-
 echo "▸ Shutdown all simulators"
 xcrun -v simctl shutdown all
 
 echo "▸ Erase all simulators"
 xcrun -v simctl erase all
-
-echo "▸ Unzipping XCFramework"
-unzip MUXSDKStats.xcframework.zip
 
 cd apps/DemoApp
 

@@ -1,9 +1,10 @@
 Pod::Spec.new do |s|
   s.name             = 'Mux-Stats-AVPlayer'
 
-  s.version          = '3.4.2'
+  s.version          = '4.0.0'
   s.source           = { :git => 'https://github.com/muxinc/mux-stats-sdk-avplayer.git',
                          :tag => "v#{s.version}" }
+  s.module_name      = 'MUXSDKStats'
 
   s.summary          = 'The Mux Stats SDK'
   s.description      = 'The Mux stats SDK connect with AVPlayer to performance analytics and QoS monitoring for video.'
@@ -16,11 +17,12 @@ Pod::Spec.new do |s|
 
   s.dependency 'Mux-Stats-Core', '4.6.0'
 
-  s.ios.deployment_target = '11.0'
-  s.ios.vendored_frameworks = 'XCFramework/MUXSDKStats.xcframework'
+  s.ios.deployment_target = '12.0'
   s.ios.frameworks = 'AVKit', 'AVFoundation', 'SystemConfiguration', 'CoreMedia'
 
-  s.tvos.deployment_target = '11.0'
-  s.tvos.vendored_frameworks = 'XCFramework/MUXSDKStats.xcframework'
+  s.tvos.deployment_target = '12.0'
   s.tvos.frameworks = 'AVKit', 'AVFoundation', 'SystemConfiguration', 'CoreMedia'
+
+  s.source_files = 'Sources/MUXSDKStatsObjc/**/*'
+  s.exclude_files = 'Sources/MUXSDKStatsObjc/include/**/*'
 end

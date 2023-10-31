@@ -99,6 +99,8 @@ final class MUXSDKStatsExampleSPMUITests: XCTestCase {
         ]
         application.launch()
 
+        application.activate()
+
         let isRunningInForeground = application.wait(
             for: .runningForeground,
             timeout: 5.0
@@ -140,7 +142,7 @@ final class MUXSDKStatsExampleSPMUITests: XCTestCase {
 
         let isUnknown = application.wait(
             for: .unknown,
-            timeout: 45.0
+            timeout: 25.0
         )
 
         guard !isUnknown else {

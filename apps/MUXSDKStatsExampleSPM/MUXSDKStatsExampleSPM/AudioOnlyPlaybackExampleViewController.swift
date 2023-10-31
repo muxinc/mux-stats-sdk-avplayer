@@ -39,7 +39,7 @@ class AudioOnlyPlaybackExampleViewController: UIViewController {
         MUXSDKStats.monitorAVPlayer(
             player,
             withPlayerName: playerName, 
-            fixedPlayerSize: .zero,
+            fixedPlayerSize: CGSize.zero,
             customerData: customerData
         )
     }
