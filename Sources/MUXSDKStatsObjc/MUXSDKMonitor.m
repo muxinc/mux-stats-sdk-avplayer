@@ -530,6 +530,19 @@
       withPlayerName:(nonnull NSString *)playerName
      fixedPlayerSize:(CGSize)fixedPlayerSize {
     [self dispatchInitialInstanceMonitoringDetailsWithCustomerViewerData:_customerViewerData];
+
+    NSString *binding = [_bindings valueForKey:playerName];
+    if (binding) {
+        if (binding == MUXSDKPlayerSoftwareAVPlayer) {
+            MUXSDKAVPlayerBinding *playerBinding = [_viewControllers valueForKey:playerName];
+            [playerBinding detachAVPlayer];
+            [playerBinding attachAVPlayer:player];
+        } else {
+            NSLog(@"MUXSDK-ERROR - Mux failed to update the monitor because the previous player with name %@ was not set up via monitorAVPlayer", playerName);
+        }
+    } else {
+        NSLog(@"MUXSDK-ERROR - Mux failed to update the monitor because no player exists with the player name: %@", playerName);
+    }
 }
 
 #pragma mark - Stop Monitoring
