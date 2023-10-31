@@ -5,6 +5,7 @@
 #import "MUXSDKMonitor.h"
 
 #import "MUXSDKPlayerBindingManager.h"
+#import "MUXSDKConstants.h"
 
 #import <sys/utsname.h>
 
@@ -150,14 +151,13 @@
     dispatch_once(&onceToken, ^{
         sharedMonitor = [[MUXSDKMonitor alloc] init];
     });
+    return sharedMonitor;
 }
 
 #pragma mark - SDK Metadata
 
 - (nonnull NSString *)pluginVersion {
-    // TODO: Move MUXSDKPluginVersion to its own header
-//    return MUXSDKPluginVersion;
-    return @"4.0.0";;
+    return MUXSDKPluginVersion;
 }
 
 #pragma mark - Start Monitoring AVPlayerViewController

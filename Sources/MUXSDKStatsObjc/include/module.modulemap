@@ -2,6 +2,7 @@ module MUXSDKStats {
     header "MUXSDKStats.h"
     header "MUXSDKPlayerBinding.h"
     header "MUXSDKMonitor.h"
+    header "MUXSDKViewOrientation.h"
     export *
 
     explicit module Internal {
@@ -10,7 +11,7 @@ module MUXSDKStats {
         header "../MUXSDKCustomerPlayerDataStore.h"
         header "../MUXSDKCustomerVideoDataStore.h"
         header "../MUXSDKCustomerViewDataStore.h"
-        header "../MUXSDKPlayerBindingConstants.h"
+        header "../MUXSDKConstants.h"
         header "../MUXSDKPlayerBindingManager.h"
     }
 }

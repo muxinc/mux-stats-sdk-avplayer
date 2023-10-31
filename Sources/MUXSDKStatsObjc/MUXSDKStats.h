@@ -13,13 +13,13 @@
 #import <AVKit/AVKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import <SystemConfiguration/SystemConfiguration.h>
-#if TVOS
-#import <MuxCore/MuxCoreTv.h>
-#else
-#import <MuxCore/MuxCore.h>
 #endif
-#endif
-#import "MUXSDKPlayerBinding.h"
+
+#import "MUXSDKViewOrientation.h"
+
+@class MUXSDKCustomerData;
+
+@class MUXSDKPlayerBinding;
 
 /// MUXSDKStats monitors an AVPlayer performance by sending
 /// tracking pings to Mux servers. 
