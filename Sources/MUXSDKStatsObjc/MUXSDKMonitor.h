@@ -368,8 +368,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Orientation Change
 
-// TODO: Move MUXSDKViewOrientation to its own header
-
 // TODO: We should probably allow a starting orientation to be set when calling startMonitoring on an AVPlayer
 
 /// Signals that the player's visual orientation has changed.
