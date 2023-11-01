@@ -4,6 +4,7 @@
 
 #import "MUXSDKMonitor.h"
 
+#import "MUXSDKPlaceholderViewerData.h"
 #import "MUXSDKPlayerBindingManager.h"
 #import "MUXSDKConstants.h"
 
@@ -36,6 +37,9 @@
 @property (nonatomic, strong) MUXSDKCustomerVideoDataStore *customerVideoDataStore;
 @property (nonatomic, strong) MUXSDKCustomerViewDataStore *customerViewDataStore;
 @property (nonatomic, strong) MUXSDKCustomerCustomDataStore *customerCustomDataStore;
+
+@property (nonatomic, strong) MUXSDKPlaceholderViewerData *placeholderViewData;
+
 @property (nonatomic, strong, nullable) MUXSDKCustomerViewerData *customerViewerData;
 
 @end
@@ -61,6 +65,8 @@
         _playerBindingManager.customerViewDataStore = _customerViewDataStore;
         _playerBindingManager.customerCustomDataStore = _customerCustomDataStore;
         _playerBindingManager.viewControllers = _viewControllers;
+
+        _placeholderViewData = [[MUXSDKPlaceholderViewerData alloc] init];
     }
 
     return self;
@@ -93,84 +99,6 @@
     return deviceIdentifier;
 }
 
-- (nullable NSString *)viewerApplicationVersion {
-    NSString *bundleShortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-    NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
-    if (bundleShortVersion && bundleVersion) {
-        NSString *fullVersion = [NSString stringWithFormat:@"%@ (%@)", bundleShortVersion, bundleVersion];
-        return fullVersion;
-    } else if (bundleShortVersion) {
-        return bundleShortVersion;
-    } else if (bundleVersion) {
-        return bundleVersion;
-    } else {
-        return nil;
-    }
-}
-
-- (nonnull NSString *)viewerDeviceModel {
-    struct utsname systemInfo;
-    uname(&systemInfo);
-    NSString *systemDeviceModel = [NSString stringWithCString:systemInfo.machine
-                                                     encoding:NSUTF8StringEncoding];
-}
-
-- (nonnull NSString *)viewerDeviceCategory {
-    NSString *systemDeviceCategory = @"unknown";
-
-    switch ([[UIDevice currentDevice] userInterfaceIdiom]) {
-        case UIUserInterfaceIdiomTV:
-            systemDeviceCategory = @"tv";
-            break;
-        case UIUserInterfaceIdiomPad:
-            systemDeviceCategory = @"tablet";
-            break;
-        case UIUserInterfaceIdiomPhone:
-            systemDeviceCategory = @"phone";
-            break;
-        case UIUserInterfaceIdiomCarPlay:
-            systemDeviceCategory = @"car";
-            break;
-        default:
-            break;
-    }
-
-    return systemDeviceCategory;
-}
-
-- (nonnull NSString *)viewerOsFamily {
-    NSString *systemOsFamily = @"unknown";
-
-    switch ([[UIDevice currentDevice] userInterfaceIdiom]) {
-        case UIUserInterfaceIdiomTV:
-            systemOsFamily = @"tvOS";
-            break;
-        case UIUserInterfaceIdiomPad:
-            // FIXME: This should be iPadOS, keeping iOS for
-            // consistency across versions
-            systemOsFamily = @"iOS";
-            break;
-        case UIUserInterfaceIdiomPhone:
-            systemOsFamily = @"iOS";
-            break;
-        case UIUserInterfaceIdiomCarPlay:
-            systemOsFamily = @"CarPlay";
-            break;
-        default:
-            break;
-    }
-
-    return systemOsFamily;
-}
-
-- (nonnull NSString *)viewerOsVersion {
-    return [[UIDevice currentDevice] systemVersion];
-}
-
-- (nonnull NSString *)viewerDeviceManufacturer {
-    return @"Apple";
-}
-
 #pragma mark - Internal Methods
 
 - (void)configureBeaconCollectionDomain:(nullable NSString *)beaconCollectionDomain
@@ -199,27 +127,27 @@
 
     if (customerViewerData.viewerApplicationName != nil) {
         [viewerData setViewerApplicationName:customerViewerData.viewerApplicationName];
-    } else if ([[NSBundle mainBundle] bundleIdentifier] != nil) {
-        [viewerData setViewerApplicationName:[[NSBundle mainBundle] bundleIdentifier]];
+    } else if ([self.placeholderViewData viewerApplicationName] != nil) {
+        [viewerData setViewerApplicationName:[self.placeholderViewData viewerApplicationName]];
     }
 
-    if ([self viewerApplicationVersion] != nil) {
-        [viewerData setViewerApplicationVersion:[self viewerApplicationVersion]];
+    if ([self.placeholderViewData viewerApplicationVersion] != nil) {
+        [viewerData setViewerApplicationVersion:[self.placeholderViewData viewerApplicationVersion]];
     }
 
-    NSString *viewerDeviceModel = customerViewerData.viewerDeviceModel ?: [self viewerDeviceModel];
+    NSString *viewerDeviceModel = customerViewerData.viewerDeviceModel ?: [self.placeholderViewData viewerDeviceModel];
     [viewerData setViewerDeviceModel:viewerDeviceModel];
 
-    NSString *viewerDeviceCategory = customerViewerData.viewerDeviceCategory ?: [self viewerDeviceCategory];
+    NSString *viewerDeviceCategory = customerViewerData.viewerDeviceCategory ?: [self.placeholderViewData viewerDeviceCategory];
     [viewerData setViewerDeviceCategory:viewerDeviceCategory];
 
-    NSString *viewerOsFamily = customerViewerData.viewerOsFamily ?: [self viewerOsFamily];
+    NSString *viewerOsFamily = customerViewerData.viewerOsFamily ?: [self.placeholderViewData viewerOsFamily];
     [viewerData setViewerOsFamily:viewerOsFamily];
 
-    NSString *viewerOsVersion = customerViewerData.viewerOsVersion ?: [self viewerOsVersion];
+    NSString *viewerOsVersion = customerViewerData.viewerOsVersion ?: [self.placeholderViewData viewerOsVersion];
     [viewerData setViewerOsVersion:viewerOsVersion];
 
-    NSString *viewerDeviceManufacturer = customerViewerData.viewerDeviceManufacturer ?: [self viewerDeviceManufacturer];
+    NSString *viewerDeviceManufacturer = customerViewerData.viewerDeviceManufacturer ?: [self.placeholderViewData viewerDeviceManufacturer];
     [viewerData setViewerDeviceManufacturer:viewerDeviceManufacturer];
 
     [dataEvent setViewerData:viewerData];
