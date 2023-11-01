@@ -173,6 +173,20 @@
 
 #pragma mark - Internal Methods
 
+- (void)configureBeaconCollectionDomain:(nullable NSString *)beaconCollectionDomain
+                         forPlayerName:(nonnull NSString *)playerName {
+    if (beaconCollectionDomain != nil && beaconCollectionDomain.length > 0) {
+        [MUXSDKCore setBeaconCollectionDomain:beaconCollectionDomain
+                                    forPlayer:playerName];
+    }
+}
+
+- (void)configureDeviceID:(nonnull NSString *)deviceID
+           forPlayerName:(nonnull NSString *)playerName {
+    [MUXSDKCore setDeviceId:deviceID
+                  forPlayer:playerName];
+}
+
 - (void)dispatchInitialInstanceMonitoringDetailsWithCustomerViewerData:(nullable MUXSDKCustomerViewerData *)customerViewerData {
     MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
 
@@ -271,10 +285,10 @@
         [newBinding setAutomaticErrorTracking:automaticErrorTracking];
         newBinding.playDispatchDelegate = _playerBindingManager;
 
-        if (beaconCollectionDomain != nil && beaconCollectionDomain.length > 0) {
-            [MUXSDKCore setBeaconCollectionDomain:beaconCollectionDomain forPlayer:playerName];
-        }
-        [MUXSDKCore setDeviceId:[self deviceIdentifier] forPlayer:playerName];
+        [self configureBeaconCollectionDomain:beaconCollectionDomain
+                               forPlayerName:playerName];
+        [self configureDeviceID:[self deviceIdentifier]
+                  forPlayerName:playerName];
 
         [_customerPlayerDataStore setPlayerData:playerData forPlayerName:playerName];
         if (videoData) {
@@ -376,12 +390,10 @@
                                                                                             playerLayer:playerLayer];
         newBinding.playDispatchDelegate = _playerBindingManager;
         [newBinding setAutomaticErrorTracking:automaticErrorTracking];
-        if (beaconCollectionDomain != nil && beaconCollectionDomain.length > 0) {
-            [MUXSDKCore setBeaconCollectionDomain:beaconCollectionDomain 
-                                        forPlayer:playerName];
-        }
-        [MUXSDKCore setDeviceId:[self deviceIdentifier] 
-                      forPlayer:playerName];
+        [self configureBeaconCollectionDomain:beaconCollectionDomain
+                               forPlayerName:playerName];
+        [self configureDeviceID:[self deviceIdentifier]
+                  forPlayerName:playerName];
 
 
         [_customerPlayerDataStore setPlayerData:playerData 
@@ -495,12 +507,10 @@
     [newBinding setAutomaticErrorTracking:automaticErrorTracking];
     newBinding.playDispatchDelegate = _playerBindingManager;
 
-    if (beaconCollectionDomain != nil && beaconCollectionDomain.length > 0) {
-        [MUXSDKCore setBeaconCollectionDomain:beaconCollectionDomain 
-                                    forPlayer:playerName];
-    }
-    [MUXSDKCore setDeviceId:[self deviceIdentifier] 
-                  forPlayer:playerName];
+    [self configureBeaconCollectionDomain:beaconCollectionDomain
+                           forPlayerName:playerName];
+    [self configureDeviceID:[self deviceIdentifier]
+              forPlayerName:playerName];
 
     [_customerPlayerDataStore setPlayerData:playerData 
                               forPlayerName:playerName];
