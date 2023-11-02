@@ -36,7 +36,7 @@ class AudioOnlyPlaybackExampleViewController: UIViewController {
             viewData: nil
         )!
 
-        MUXSDKMonitor.shared().startMonitoring(
+        MUXSDKMonitor.shared.startMonitoring(
             player: player,
             playerName: playerName,
             fixedPlayerSize: CGSize.zero,
@@ -50,7 +50,7 @@ class AudioOnlyPlaybackExampleViewController: UIViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        MUXSDKMonitor.shared().stopMonitoring(
+        MUXSDKMonitor.shared.stopMonitoring(
             playerName: playerName
         )
         player.pause()

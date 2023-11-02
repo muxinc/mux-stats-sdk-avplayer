@@ -45,7 +45,7 @@ class BasicPlaybackExampleViewController: UIViewController {
 
         displayPlayerViewController()
 
-        MUXSDKMonitor.shared().startMonitoring(
+        MUXSDKMonitor.shared.startMonitoring(
             playerViewController: playerViewController,
             playerName: playerName,
             customerData: customerData!
@@ -98,7 +98,7 @@ class BasicPlaybackExampleViewController: UIViewController {
         if !playerViewController.allowsPictureInPicturePlayback {
             playerViewController.player?.pause()
 
-            MUXSDKMonitor.shared().stopMonitoring(
+            MUXSDKMonitor.shared.stopMonitoring(
                 playerName: playerName
             )
         }

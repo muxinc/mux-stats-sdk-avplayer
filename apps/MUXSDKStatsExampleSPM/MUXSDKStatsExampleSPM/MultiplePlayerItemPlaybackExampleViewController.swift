@@ -59,7 +59,7 @@ class VideoChangeExampleViewController: MultiplePlayerItemPlaybackExampleViewCon
         customerData.customerVideoData = videoData
         customerData.customData = customData
 
-        MUXSDKMonitor.shared().signalVideoChange(
+        MUXSDKMonitor.shared.signalVideoChange(
             playerName: playerName,
             updatedCustomerData: customerData
         )
@@ -124,7 +124,7 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
             viewData: nil
         )
 
-        MUXSDKMonitor.shared().startMonitoring(
+        MUXSDKMonitor.shared.startMonitoring(
             playerViewController: playerViewController,
             playerName: playerName,
             customerData: customerData!
@@ -138,7 +138,7 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        MUXSDKMonitor.shared().stopMonitoring(
+        MUXSDKMonitor.shared.stopMonitoring(
             playerName: playerName
         )
 
@@ -183,7 +183,7 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
         let customerData = MUXSDKCustomerData()
         customerData.customerVideoData = videoData
 
-        MUXSDKMonitor.shared().signalVideoChange(
+        MUXSDKMonitor.shared.signalVideoChange(
             playerName: playerName,
             updatedCustomerData: customerData
         )

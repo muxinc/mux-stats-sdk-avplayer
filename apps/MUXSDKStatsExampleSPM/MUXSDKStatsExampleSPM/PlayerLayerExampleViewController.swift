@@ -84,7 +84,7 @@ class PlayerLayerExampleViewController: UIViewController {
             return
         }
 
-        MUXSDKMonitor.shared().startMonitoring(
+        MUXSDKMonitor.shared.startMonitoring(
             playerLayer: playerLayer,
             playerName: playerName,
             customerData: customerData
@@ -97,7 +97,7 @@ class PlayerLayerExampleViewController: UIViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        MUXSDKMonitor.shared().stopMonitoring(
+        MUXSDKMonitor.shared.stopMonitoring(
             playerName: playerName
         )
         playerView.player?.pause()
