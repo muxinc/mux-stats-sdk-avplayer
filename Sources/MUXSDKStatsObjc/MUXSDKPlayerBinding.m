@@ -37,13 +37,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 @implementation MUXSDKPlayerBinding
 
-- (id)initWithName:(NSString *)name 
-       andSoftware:(NSString *)software {
-    return [self initWithPlayerName:name
-                       softwareName:software
-                    softwareVersion:nil];
-}
-
 - (id)initWithPlayerName:(NSString *)playerName
             softwareName:(NSString *)softwareName {
     return [self initWithPlayerName:playerName

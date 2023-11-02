@@ -86,9 +86,6 @@ typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
 
 @property (nonatomic, weak) id<MUXSDKPlayDispatchDelegate>  playDispatchDelegate;
 
-- (id)initWithName:(NSString *)name 
-       andSoftware:(NSString *)software;
-
 - (void)attachAVPlayer:(AVPlayer *)player;
 - (void)detachAVPlayer;
 - (void)programChangedForPlayer;
