@@ -284,7 +284,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// provided player name
 ///
 /// - Parameter playerName: The player name to stop monitoring
-- (void)stopMonitoringWithPlayerName:(nonnull NSString *)playerName;
+- (void)stopMonitoringWithPlayerName:(nonnull NSString *)playerName NS_SWIFT_NAME(stopMonitoring(playerName:));
 
 
 /// Removes any observers monitoring the instance associated
@@ -292,7 +292,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// - Parameter playerBinding: The player binding for the
 /// instance to stop monitoring
-- (void)stopMonitoringWithPlayerBinding:(nonnull MUXSDKPlayerBinding *)playerBinding;
+- (void)stopMonitoringWithPlayerBinding:(nonnull MUXSDKPlayerBinding *)playerBinding NS_SWIFT_NAME(stopMonitoring(playerBinding:));
 
 #pragma mark - Automatic Video Change
 
@@ -331,7 +331,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///   - customerData: A MUXSDKCustomerData object with player,
 ///   video, and view metadata
 - (void)signalVideoChangeForPlayerName:(nonnull NSString *)playerName
-               withUpdatedCustomerData:(nullable MUXSDKCustomerData *)customerData;
+               withUpdatedCustomerData:(nullable MUXSDKCustomerData *)customerData NS_SWIFT_NAME(signalVideoChange(playerName:updatedCustomerData:));
 
 #pragma mark - Program Change
 
@@ -351,7 +351,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///   - customerData: A MUXSDKCustomerData object with player,
 ///   video, and view metadata
 - (void)signalProgramChangeForPlayerName:(nonnull NSString *)playerName
-                 withUpdatedCustomerData:(nullable MUXSDKCustomerData *)customerData;
+                 withUpdatedCustomerData:(nullable MUXSDKCustomerData *)customerData NS_SWIFT_NAME(signalProgramChange(playerName:updatedCustomerData:));
 
 #pragma mark - Customer Data
 
@@ -364,7 +364,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///   - customerData: A MUXSDKCustomerData object with player,
 ///   video, and view metadata
 - (void)updatePlayerName:(nonnull NSString *)playerName
-        withCustomerData:(nullable MUXSDKCustomerData *)customerData;
+        withCustomerData:(nullable MUXSDKCustomerData *)customerData NS_SWIFT_NAME(update(playerName:customerData:));
 
 #pragma mark - Orientation Change
 
@@ -378,7 +378,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///   - orientation: A ``MUXSDKViewOrientation`` enum representing
 ///   the new orientation of the player's view
 - (void)signalOrientationChangeForPlayerName:(nonnull NSString *)playerName
-                          updatedOrientation:(MUXSDKViewOrientation)orientation;
+                          updatedOrientation:(MUXSDKViewOrientation)orientation NS_SWIFT_NAME(signalOrientationChange(playerName:updatedOrientation:));
 
 #pragma mark - Error Dispatch
 
@@ -391,7 +391,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///   - errorMessage: The error message in string format
 - (void)dispatchErrorForPlayerName:(nonnull NSString *)playerName
                          errorCode:(nonnull NSString *)errorCode
-                      errorMessage:(nonnull NSString *)errorMessage;
+                      errorMessage:(nonnull NSString *)errorMessage NS_SWIFT_NAME(dispatchError(playerName:errorCode:errorMessage:));
 
 @end
 
