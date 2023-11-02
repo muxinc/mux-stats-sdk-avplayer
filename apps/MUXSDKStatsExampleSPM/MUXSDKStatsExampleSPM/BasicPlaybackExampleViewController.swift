@@ -45,9 +45,9 @@ class BasicPlaybackExampleViewController: UIViewController {
 
         displayPlayerViewController()
 
-        MUXSDKMonitor.shared().startMonitoringPlayerViewController(
-            playerViewController,
-            withPlayerName: playerName,
+        MUXSDKMonitor.shared().startMonitoring(
+            playerViewController: playerViewController,
+            playerName: playerName,
             customerData: customerData!
         )
     }

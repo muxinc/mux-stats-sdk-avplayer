@@ -67,9 +67,9 @@ class PlayerLayerScalingExampleViewController: UIViewController {
             return
         }
 
-        MUXSDKMonitor.shared().startMonitoringPlayerLayer(
-            playerLayer,
-            withPlayerName: playerName,
+        MUXSDKMonitor.shared().startMonitoring(
+            playerLayer: playerLayer,
+            playerName: playerName,
             customerData: customerData
         )
     }

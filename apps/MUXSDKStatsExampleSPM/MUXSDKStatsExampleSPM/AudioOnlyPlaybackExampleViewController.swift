@@ -36,9 +36,9 @@ class AudioOnlyPlaybackExampleViewController: UIViewController {
             viewData: nil
         )!
 
-        MUXSDKMonitor.shared().startMonitoringPlayer(
-            player,
-            withPlayerName: playerName,
+        MUXSDKMonitor.shared().startMonitoring(
+            player: player,
+            playerName: playerName,
             fixedPlayerSize: CGSize.zero,
             customerData: customerData
         )

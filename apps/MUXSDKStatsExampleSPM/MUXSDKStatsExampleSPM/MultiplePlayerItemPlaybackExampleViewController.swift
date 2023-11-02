@@ -124,9 +124,9 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
             viewData: nil
         )
 
-        MUXSDKMonitor.shared().startMonitoringPlayerViewController(
-            playerViewController,
-            withPlayerName: playerName,
+        MUXSDKMonitor.shared().startMonitoring(
+            playerViewController: playerViewController,
+            playerName: playerName,
             customerData: customerData!
         )
     }
