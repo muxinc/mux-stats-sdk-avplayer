@@ -4,7 +4,6 @@
 
 #import "MUXSDKMonitor.h"
 
-#import "MUXSDKPlaceholderViewerData.h"
 #import "MUXSDKPlayerBindingManager.h"
 #import "MUXSDKConstants.h"
 
@@ -38,8 +37,6 @@
 @property (nonatomic, strong) MUXSDKCustomerViewDataStore *customerViewDataStore;
 @property (nonatomic, strong) MUXSDKCustomerCustomDataStore *customerCustomDataStore;
 
-@property (nonatomic, strong) MUXSDKPlaceholderViewerData *placeholderViewData;
-
 @property (nonatomic, strong, nullable) MUXSDKCustomerViewerData *customerViewerData;
 
 @end
@@ -65,8 +62,6 @@
         _playerBindingManager.customerViewDataStore = _customerViewDataStore;
         _playerBindingManager.customerCustomDataStore = _customerCustomDataStore;
         _playerBindingManager.viewControllers = _viewControllers;
-
-        _placeholderViewData = [[MUXSDKPlaceholderViewerData alloc] init];
     }
 
     return self;
