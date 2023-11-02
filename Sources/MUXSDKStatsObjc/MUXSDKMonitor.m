@@ -211,11 +211,8 @@
 
 #pragma mark - Automatic Video Change
 
-- (void)enableAutomaticVideoChangeDetectionForPlayerName:(nonnull NSString *)playerName {
-    [self doesNotRecognizeSelector:_cmd];
-}
-
-- (void)disableAutomaticVideoChangeDetectionForPlayerName:(nonnull NSString *)playerName {
+- (void)updateAutomaticVideoChangeForPlayerName:(nonnull NSString *)playerName
+                                        enabled:(BOOL)enabled {
     [self doesNotRecognizeSelector:_cmd];
 }
 

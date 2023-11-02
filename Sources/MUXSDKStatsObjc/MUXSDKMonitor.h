@@ -296,25 +296,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Automatic Video Change
 
-// TODO: Consider whether to use a single method with BOOL parameter vs separate methods here. Should this also be exposed as a parameter for the startMonitoring methods?
-
-/// Enables automatic video change detection, if automatic
-/// video change detection is already enabled then this method
-/// does nothing. Automatic video change detection is enabled
-/// by default.
-///
-/// - Parameter playerName: The name of the player for which
-/// automatic video change detection should be enabled.
-- (void)enableAutomaticVideoChangeDetectionForPlayerName:(nonnull NSString *)playerName;
-
-/// Disables automatic video change detection, if automatic
-/// video change detection is already disabled then this method
-/// does nothing. Automatic video change detection is enabled
-/// by default.
-///
-/// - Parameter playerName: The name of the player for which
-/// automatic video change detection should be disabled.
-- (void)disableAutomaticVideoChangeDetectionForPlayerName:(nonnull NSString *)playerName;
+/// Updates automatic video change detection. Automatic video 
+/// change detection is enabled by default.
+/// - Parameters:
+///   - playerName: The name of the player whose automatic
+///   video change detection setting is updated
+///   - enabled: a boolean indicating if automatic video
+///   change detection is enabled or not
+- (void)updateAutomaticVideoChangeForPlayerName:(nonnull NSString *)playerName
+                                        enabled:(BOOL)enabled NS_SWIFT_NAME(updateAutomaticVideoChange(playerName:enabled:));
 
 #pragma mark - Manual Video Change
 
