@@ -1153,15 +1153,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 @implementation MUXSDKAVPlayerLayerBinding
 
-- (id)initWithName:(NSString *)name 
-          software:(NSString *)software
-           andView:(AVPlayerLayer *)view {
-    return [self initWithPlayerName:name
-                       softwareName:software
-                    softwareVersion:nil
-                        playerLayer:view];
-}
-
 - (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
                     softwareName:(nullable NSString *)softwareName
                      playerLayer:(nonnull AVPlayerLayer *)playerLayer {
