@@ -81,7 +81,7 @@ class PlayerLayerScalingExampleViewController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         MUXSDKMonitor.shared().stopMonitoring(
-            withPlayerName: playerName
+            playerName: playerName
         )
         playerView.player?.pause()
         super.viewWillDisappear(animated)

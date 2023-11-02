@@ -51,7 +51,7 @@ class AudioOnlyPlaybackExampleViewController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         MUXSDKMonitor.shared().stopMonitoring(
-            withPlayerName: playerName
+            playerName: playerName
         )
         player.pause()
         super.viewWillDisappear(animated)

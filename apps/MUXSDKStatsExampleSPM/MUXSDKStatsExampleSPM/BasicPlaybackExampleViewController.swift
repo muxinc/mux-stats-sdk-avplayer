@@ -99,7 +99,7 @@ class BasicPlaybackExampleViewController: UIViewController {
             playerViewController.player?.pause()
 
             MUXSDKMonitor.shared().stopMonitoring(
-                withPlayerName: playerName
+                playerName: playerName
             )
         }
 

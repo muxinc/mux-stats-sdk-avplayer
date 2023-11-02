@@ -60,8 +60,8 @@ class VideoChangeExampleViewController: MultiplePlayerItemPlaybackExampleViewCon
         customerData.customData = customData
 
         MUXSDKMonitor.shared().signalVideoChange(
-            forPlayerName: playerName,
-            withUpdatedCustomerData: customerData
+            playerName: playerName,
+            updatedCustomerData: customerData
         )
     }
 }
@@ -139,7 +139,7 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         MUXSDKMonitor.shared().stopMonitoring(
-            withPlayerName: playerName
+            playerName: playerName
         )
 
         super.viewWillDisappear(animated)
@@ -184,8 +184,8 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
         customerData.customerVideoData = videoData
 
         MUXSDKMonitor.shared().signalVideoChange(
-            forPlayerName: playerName,
-            withUpdatedCustomerData: customerData
+            playerName: playerName,
+            updatedCustomerData: customerData
         )
     }
 }
