@@ -111,6 +111,7 @@
                                                automaticErrorTracking:(BOOL)automaticErrorTracking
                                                beaconCollectionDomain:(nullable NSString *)beaconCollectionDomain {
     [self doesNotRecognizeSelector:_cmd];
+    return nil;
 }
 
 - (void)updatePlayerViewController:(nonnull AVPlayerViewController *)playerViewController
@@ -147,6 +148,7 @@
                                       automaticErrorTracking:(BOOL)automaticErrorTracking
                                       beaconCollectionDomain:(nullable NSString *)beaconCollectionDomain {
     [self doesNotRecognizeSelector:_cmd];
+    return nil;
 }
 
 - (void)updatePlayerLayer:(nonnull AVPlayerLayer *)playerLayer
@@ -188,6 +190,7 @@
                                  automaticErrorTracking:(BOOL)automaticErrorTracking
                                  beaconCollectionDomain:(nullable NSString *)beaconCollectionDomain {
     [self doesNotRecognizeSelector:_cmd];
+    return nil;
 }
 
 - (void)updatePlayer:(nonnull AVPlayer *)player
