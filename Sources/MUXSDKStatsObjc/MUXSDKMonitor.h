@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// - Returns: an instance of MUXSDKPlayerBinding or nil
 - (nullable MUXSDKPlayerBinding *)startMonitoringPlayerViewController:(nonnull AVPlayerViewController *)playerViewController
                                                        withPlayerName:(nonnull NSString *)playerName
-                                                         customerData:(nonnull MUXSDKCustomerData *)customerData;
+                                                         customerData:(nonnull MUXSDKCustomerData *)customerData NS_SWIFT_NAME(startMonitoring(playerViewController:playerName:customerData:));
 
 /// Starts to monitor a given AVPlayerViewController instance.
 /// The instance must be identified with a globally unique
@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable MUXSDKPlayerBinding *)startMonitoringPlayerViewController:(nonnull AVPlayerViewController *)playerViewController
                                                        withPlayerName:(nonnull NSString *)playerName
                                                          customerData:(nonnull MUXSDKCustomerData *)customerData
-                                               automaticErrorTracking:(BOOL)automaticErrorTracking;
+                                               automaticErrorTracking:(BOOL)automaticErrorTracking NS_SWIFT_NAME(startMonitoring(playerViewController:playerName:customerData:automaticErrorTracking:));
 
 /// Starts to monitor a given AVPlayerViewController instance.
 /// The instance must be identified with a globally unique
@@ -110,7 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
                                                        withPlayerName:(nonnull NSString *)playerName
                                                          customerData:(nonnull MUXSDKCustomerData *)customerData
                                                automaticErrorTracking:(BOOL)automaticErrorTracking
-                                               beaconCollectionDomain:(nullable NSString *)beaconCollectionDomain;
+                                               beaconCollectionDomain:(nullable NSString *)beaconCollectionDomain NS_SWIFT_NAME(startMonitoring(playerViewController:playerName:customerData:automaticErrorTracking:beaconCollectionDomain:));
 
 /// Updates the AVPlayerViewController instance being monitored
 /// for the provided player name.
@@ -121,7 +121,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///   - playerViewController: The new AVPlayerViewController to monitor
 ///   - playerName: The name of the player instance to update
 - (void)updatePlayerViewController:(nonnull AVPlayerViewController *)playerViewController
-                    withPlayerName:(nonnull NSString *)playerName;
+                    withPlayerName:(nonnull NSString *)playerName NS_SWIFT_NAME(update(playerViewController:playerName:));
 
 #pragma mark - Start Monitoring AVPlayerLayer
 
@@ -138,7 +138,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// - Returns: an instance of MUXSDKPlayerBinding or nil
 - (nullable MUXSDKPlayerBinding *)startMonitoringPlayerLayer:(nonnull AVPlayerLayer *)playerLayer
                                               withPlayerName:(nonnull NSString *)playerName
-                                                customerData:(nonnull MUXSDKCustomerData *)customerData;
+                                                customerData:(nonnull MUXSDKCustomerData *)customerData NS_SWIFT_NAME(startMonitoring(playerLayer:playerName:customerData:));
 
 /// Starts to monitor a given AVPlayerLayer instance.
 /// The instance must be identified with a globally unique
@@ -156,7 +156,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable MUXSDKPlayerBinding *)startMonitoringPlayerLayer:(nonnull AVPlayerLayer *)playerLayer
                                               withPlayerName:(nonnull NSString *)playerName
                                                 customerData:(nonnull MUXSDKCustomerData *)customerData
-                                      automaticErrorTracking:(BOOL)automaticErrorTracking;
+                                      automaticErrorTracking:(BOOL)automaticErrorTracking NS_SWIFT_NAME(startMonitoring(playerLayer:playerName:customerData:automaticErrorTracking:));
 
 /// Starts to monitor a given AVPlayerLayer instance.
 /// The instance must be identified with a globally unique
@@ -177,7 +177,7 @@ NS_ASSUME_NONNULL_BEGIN
                                               withPlayerName:(nonnull NSString *)playerName
                                                 customerData:(nonnull MUXSDKCustomerData *)customerData
                                       automaticErrorTracking:(BOOL)automaticErrorTracking
-                                      beaconCollectionDomain:(nullable NSString *)beaconCollectionDomain;
+                                      beaconCollectionDomain:(nullable NSString *)beaconCollectionDomain NS_SWIFT_NAME(startMonitoring(playerLayer:playerName:customerData:automaticErrorTracking:beaconCollectionDomain:));
 
 /// Updates the AVPlayerLayer instance being monitored
 /// for the provided player name.
@@ -188,7 +188,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///   - playerLayer: The new AVPlayerLayer to monitor
 ///   - playerName: The name of the player instance to update
 - (void)updatePlayerLayer:(nonnull AVPlayerLayer *)playerLayer
-           withPlayerName:(nonnull NSString *)playerName;
+           withPlayerName:(nonnull NSString *)playerName NS_SWIFT_NAME(update(playerLayer:playerName:));
 
 #pragma mark - Start Monitoring AVPlayer
 
@@ -210,7 +210,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable MUXSDKPlayerBinding *)startMonitoringPlayer:(nonnull AVPlayer *)player
                                          withPlayerName:(nonnull NSString *)playerName
                                         fixedPlayerSize:(CGSize)fixedPlayerSize
-                                           customerData:(nonnull MUXSDKCustomerData *)customerData;
+                                           customerData:(nonnull MUXSDKCustomerData *)customerData NS_SWIFT_NAME(startMonitoring(player:playerName:fixedPlayerSize:customerData:));
 
 /// Starts to monitor a given AVPlayer instance.
 /// The instance must be identified with a globally unique
@@ -233,7 +233,7 @@ NS_ASSUME_NONNULL_BEGIN
                                          withPlayerName:(nonnull NSString *)playerName
                                         fixedPlayerSize:(CGSize)fixedPlayerSize
                                            customerData:(nonnull MUXSDKCustomerData *)customerData
-                                 automaticErrorTracking:(BOOL)automaticErrorTracking;
+                                 automaticErrorTracking:(BOOL)automaticErrorTracking NS_SWIFT_NAME(startMonitoring(player:playerName:fixedPlayerSize:customerData:automaticErrorTracking:));
 
 /// Starts to monitor a given AVPlayer instance.
 /// The instance must be identified with a globally unique
@@ -259,7 +259,7 @@ NS_ASSUME_NONNULL_BEGIN
                                         fixedPlayerSize:(CGSize)fixedPlayerSize
                                            customerData:(nonnull MUXSDKCustomerData *)customerData
                                  automaticErrorTracking:(BOOL)automaticErrorTracking
-                                 beaconCollectionDomain:(nullable NSString *)beaconCollectionDomain;
+                                 beaconCollectionDomain:(nullable NSString *)beaconCollectionDomain NS_SWIFT_NAME(startMonitoring(player:playerName:fixedPlayerSize:customerData:automaticErrorTracking:beaconCollectionDomain:));
 
 /// Updates the AVPlayer instance being monitored
 /// for the provided player name.
@@ -276,7 +276,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///   `CGSizeMake(0.0, 0.0)`
 - (void)updatePlayer:(nonnull AVPlayer *)player
       withPlayerName:(nonnull NSString *)playerName
-     fixedPlayerSize:(CGSize)fixedPlayerSize;
+     fixedPlayerSize:(CGSize)fixedPlayerSize NS_SWIFT_NAME(update(player:playerName:fixedPlayerSize:));
 
 #pragma mark - Stop Monitoring
 
