@@ -46,11 +46,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Initialization
 
-- (_Null_unspecified instancetype)init NS_UNAVAILABLE;
-+ (_Null_unspecified instancetype)new NS_UNAVAILABLE;
+- (_Null_unspecified instancetype)init NS_UNAVAILABLE NS_SWIFT_UNAVAILABLE("Not available for use, use MUXSDKMonitor.shared instead");
++ (_Null_unspecified instancetype)new NS_UNAVAILABLE NS_SWIFT_UNAVAILABLE("Not available for use, use MUXSDKMonitor.shared instead");
 
 /// Retrieves a shared monitor reference.
-+ (nonnull instancetype)sharedMonitor;
+@property (nonatomic, class, readonly) MUXSDKMonitor *shared;
 
 #pragma mark - SDK Metadata
 

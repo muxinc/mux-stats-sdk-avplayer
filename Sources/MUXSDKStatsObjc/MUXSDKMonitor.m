@@ -67,7 +67,7 @@
     return self;
 }
 
-+ (instancetype)sharedMonitor {
++ (nonnull MUXSDKMonitor *)shared {
     static MUXSDKMonitor *sharedMonitor = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
