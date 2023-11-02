@@ -158,7 +158,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 
 #pragma mark Monitor AVPlayerViewController
 
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
                                                  withPlayerName:(nonnull NSString *)name
                                                    customerData:(nonnull MUXSDKCustomerData *)customerData
                                          automaticErrorTracking:(BOOL)automaticErrorTracking
@@ -222,7 +222,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
     }
 }
 
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
                                                  withPlayerName:(nonnull NSString *)name
                                                    customerData:(nonnull MUXSDKCustomerData *)customerData
                                          automaticErrorTracking:(BOOL)automaticErrorTracking {
@@ -234,7 +234,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 
 }
 
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
                                                  withPlayerName:(nonnull NSString *)name
                                                    customerData:(nonnull MUXSDKCustomerData *)customerData {
     return [self monitorAVPlayerViewController:player
@@ -266,7 +266,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 
 #pragma mark Monitor AVPlayerLayer
 
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
                                         withPlayerName:(nonnull NSString *)name
                                           customerData:(nonnull MUXSDKCustomerData *)customerData
                                 automaticErrorTracking:(BOOL)automaticErrorTracking
@@ -329,7 +329,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
     }
 }
 
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
                                         withPlayerName:(nonnull NSString *)name
                                           customerData:(nonnull MUXSDKCustomerData *)customerData
                                 automaticErrorTracking:(BOOL)automaticErrorTracking {
@@ -341,7 +341,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                          beaconCollectionDomain:nil];
 }
 
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
                                         withPlayerName:(nonnull NSString *)name
                                           customerData:(nonnull MUXSDKCustomerData *)customerData {
 
@@ -373,7 +373,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 
 #pragma mark Monitor AVPlayer
 
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayer:(nonnull AVPlayer *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayer:(nonnull AVPlayer *)player
                                    withPlayerName:(nonnull NSString *)name
                                   fixedPlayerSize:(CGSize)fixedPlayerSize
                                      customerData:(nonnull MUXSDKCustomerData *)customerData {
@@ -385,7 +385,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
           beaconCollectionDomain:nil];
 }
 
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayer:(nonnull AVPlayer *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayer:(nonnull AVPlayer *)player
                                    withPlayerName:(nonnull NSString *)name
                                   fixedPlayerSize:(CGSize)fixedPlayerSize
                                      customerData:(nonnull MUXSDKCustomerData *)customerData
@@ -398,7 +398,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
           beaconCollectionDomain:nil];
 }
 
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayer:(nonnull AVPlayer *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayer:(nonnull AVPlayer *)player
                                    withPlayerName:(nonnull NSString *)name
                                   fixedPlayerSize:(CGSize)fixedPlayerSize
                                      customerData:(nonnull MUXSDKCustomerData *)customerData

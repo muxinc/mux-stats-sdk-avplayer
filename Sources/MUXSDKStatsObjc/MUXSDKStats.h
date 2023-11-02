@@ -38,7 +38,6 @@
 /// videoChangeForPlayer:withVideoData when the video changes
 /// will cause tracking pings to be associated with the last
 /// video that was playing.
-FOUNDATION_EXPORT
 @interface MUXSDKStats : NSObject
 
 - (_Null_unspecified instancetype)init NS_UNAVAILABLE;
@@ -59,7 +58,7 @@ FOUNDATION_EXPORT
 /// video, and view metadata
 /// - Returns: an instance of MUXSDKAVPlayerViewControllerBinding
 /// or nil
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
                                                  withPlayerName:(nonnull NSString *)name
                                                    customerData:(nonnull MUXSDKCustomerData *)customerData;
 
@@ -78,7 +77,7 @@ FOUNDATION_EXPORT
 /// SDK should automatically track player errors
 /// - Returns: an instance of MUXSDKAVPlayerViewControllerBinding
 /// or nil
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
                                                  withPlayerName:(nonnull NSString *)name
                                                    customerData:(nonnull MUXSDKCustomerData *)customerData
                                          automaticErrorTracking:(BOOL)automaticErrorTracking;
@@ -102,7 +101,7 @@ FOUNDATION_EXPORT
 /// if you want to use a custom beacon domain. Optional.
 /// - Returns: an instance of MUXSDKAVPlayerViewControllerBinding
 /// or nil
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
                                                  withPlayerName:(nonnull NSString *)name
                                                    customerData:(nonnull MUXSDKCustomerData *)customerData
                                          automaticErrorTracking:(BOOL)automaticErrorTracking
@@ -135,7 +134,7 @@ FOUNDATION_EXPORT
 /// video, and view metadata
 /// - Returns: an instance of MUXSDKAVPlayerLayerBinding or
 /// nil
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
                                         withPlayerName:(nonnull NSString *)name
                                           customerData:(nonnull MUXSDKCustomerData *)customerData;
 
@@ -154,7 +153,7 @@ FOUNDATION_EXPORT
 /// SDK should automatically track player errors
 /// - Returns: an instance of MUXSDKAVPlayerLayerBinding or
 /// nil
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
                                         withPlayerName:(nonnull NSString *)name
                                           customerData:(nonnull MUXSDKCustomerData *)customerData
                                 automaticErrorTracking:(BOOL)automaticErrorTracking;
@@ -176,7 +175,7 @@ FOUNDATION_EXPORT
 /// if you want to use a custom beacon domain. Optional.
 /// - Returns: an instance of MUXSDKAVPlayerLayerBinding or
 /// nil
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
                                         withPlayerName:(nonnull NSString *)name
                                           customerData:(nonnull MUXSDKCustomerData *)customerData
                                 automaticErrorTracking:(BOOL)automaticErrorTracking
@@ -212,7 +211,7 @@ FOUNDATION_EXPORT
 ///   - customerData: A MUXSDKCustomerData object with player,
 /// video, and view metadata
 /// - Returns: an instance of MUXSDKPlayerBinding or nil
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayer:(nonnull AVPlayer *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayer:(nonnull AVPlayer *)player
                                    withPlayerName:(nonnull NSString *)name
                                   fixedPlayerSize:(CGSize)fixedPlayerSize
                                      customerData:(nonnull MUXSDKCustomerData *)customerData;
@@ -235,7 +234,7 @@ FOUNDATION_EXPORT
 ///   - automaticErrorTracking: boolean to indicate if the
 ///   SDK should automatically track player errors
 /// - Returns: an instance of MUXSDKPlayerBinding or nil
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayer:(nonnull AVPlayer *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayer:(nonnull AVPlayer *)player
                                    withPlayerName:(nonnull NSString *)name
                                   fixedPlayerSize:(CGSize)fixedPlayerSize
                                      customerData:(nonnull MUXSDKCustomerData *)customerData
@@ -261,7 +260,7 @@ FOUNDATION_EXPORT
 ///   - collectionDomain: Domain to send tracking data to,
 ///   if you want to use a custom beacon domain. Optional.
 /// - Returns: an instance of MUXSDKPlayerBinding or nil
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayer:(nonnull AVPlayer *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayer:(nonnull AVPlayer *)player
                                    withPlayerName:(nonnull NSString *)name
                                   fixedPlayerSize:(CGSize)fixedPlayerSize
                                      customerData:(nonnull MUXSDKCustomerData *)customerData
