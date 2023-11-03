@@ -9,8 +9,6 @@ fi
 
 readonly SCHEME=MUXSDKStats
 
-sudo xcode-select -s /Applications/Xcode_14.3.1.app/Contents/Developer
-
 echo "▸ Current Xcode: $(xcode-select -p)"
 
 echo "▸ Available Xcode SDKs"
@@ -119,5 +117,3 @@ xcodebuild clean test \
   -scheme $SCHEME \
   -destination 'platform=iOS Simulator,OS=16.1,name=iPad mini (6th generation)' \
   | xcbeautify
-
-
