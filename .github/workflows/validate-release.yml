@@ -10,6 +10,8 @@ jobs:
     runs-on: macos-13
     name: Validate Versions
     steps:
+      - name: Select Xcode version
+        run: sudo xcode-select -s '/Applications/Xcode_15.0.1.app/Contents/Developer'
       - name: Checkout Repository
         uses: actions/checkout@v3
       - name: Run Version Check Script
@@ -18,6 +20,8 @@ jobs:
     name: Validate Podspec
     runs-on: macos-13
     steps:
+      - name: Select Xcode version
+        run: sudo xcode-select -s '/Applications/Xcode_15.0.1.app/Contents/Developer'
       - name: Install xcbeautify
         run: brew install xcbeautify
       - name: Checkout
@@ -28,6 +32,8 @@ jobs:
     name: Validate Carthage
     runs-on: macos-13
     steps:
+      - name: Select Xcode version
+        run: sudo xcode-select -s '/Applications/Xcode_15.0.1.app/Contents/Developer'
       - name: Install xcbeautify
         run: brew install xcbeautify
       - name: Checkout
@@ -38,6 +44,8 @@ jobs:
     runs-on: macos-13
     name: Complete Unit Test Pass on macOS Ventura
     steps:
+      - name: Select Xcode version
+        run: sudo xcode-select -s '/Applications/Xcode_15.0.1.app/Contents/Developer'
       - name: Install xcbeautify
         run: brew install xcbeautify
       - name: Checkout Repository
@@ -48,6 +56,8 @@ jobs:
     runs-on: macos-12
     name: Complete Unit Test Pass on macOS Monterey
     steps:
+      - name: Select Xcode version
+        run: sudo xcode-select -s '/Applications/Xcode_15.0.1.app/Contents/Developer'
       - name: Install xcbeautify
         run: brew install xcbeautify
       - name: Checkout Repository

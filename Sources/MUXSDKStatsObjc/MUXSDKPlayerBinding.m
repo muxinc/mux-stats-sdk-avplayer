@@ -1129,15 +1129,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
                      softwareVersion:nil
                 playerViewController:view];
 }
-
-- (CGRect)getVideoBounds {
-#if TVOS
-    return [[_viewController view] bounds];
-#else
-    return [_viewController videoBounds];
-#endif
-}
-
 - (CGRect)getViewBounds {
     return [[_viewController view] bounds];
 }
@@ -1200,10 +1191,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     return self;
 }
 
-- (CGRect)getVideoBounds {
-    return [_view videoRect];
-}
-
 - (CGRect)getViewBounds {
     return [_view bounds];
 }
@@ -1233,15 +1220,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         _fixedPlayerSize = fixedPlayerSize;
     }
     return self;
-}
-
-- (CGRect)getVideoBounds {
-    return CGRectMake(
-                      0.0,
-                      0.0,
-                      0.0,
-                      0.0
-                      );
 }
 
 - (CGRect)getViewBounds {
