@@ -240,7 +240,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
     return [self monitorAVPlayerViewController:player
                                 withPlayerName:name
                                   customerData:customerData
-                        automaticErrorTracking:true
+                        automaticErrorTracking:YES
                         beaconCollectionDomain:nil];
 }
 
@@ -348,7 +348,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
     return [self monitorAVPlayerLayer:player
                        withPlayerName:name
                          customerData:customerData
-               automaticErrorTracking:true];
+               automaticErrorTracking:YES];
 }
 
 + (void)updateAVPlayerLayer:(AVPlayerLayer *)player withPlayerName:(NSString *)name {
@@ -381,7 +381,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                   withPlayerName:name
                  fixedPlayerSize:fixedPlayerSize
                     customerData:customerData
-          automaticErrorTracking:true
+          automaticErrorTracking:YES
           beaconCollectionDomain:nil];
 }
 
@@ -558,7 +558,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
     }
 }
 
-+ (void)setAutomaticVideoChange:(NSString *)name enabled:(Boolean)enabled {
++ (void)setAutomaticVideoChange:(NSString *)name enabled:(BOOL)enabled {
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
     if (player) {
         [player setAutomaticVideoChange:enabled];
