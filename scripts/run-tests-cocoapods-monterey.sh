@@ -18,11 +18,11 @@ echo "▸ Using Xcode Version: ${XCODE}"
 echo "▸ Available Xcode SDKs"
 xcodebuild -showsdks
 
-# echo "▸ Shutdown all simulators"
-# xcrun -v simctl shutdown all
+echo "▸ Shutdown all simulators"
+xcrun -v simctl shutdown all
 
-# echo "▸ Erase all simulators"
-# xcrun -v simctl erase all
+echo "▸ Erase all simulators"
+xcrun -v simctl erase all
 
 cd apps/DemoApp
 
