@@ -13,13 +13,13 @@
 #import <AVKit/AVKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import <SystemConfiguration/SystemConfiguration.h>
-#if TVOS
-#import <MuxCore/MuxCoreTv.h>
-#else
-#import <MuxCore/MuxCore.h>
 #endif
-#endif
-#import "MUXSDKPlayerBinding.h"
+
+#import "MUXSDKViewOrientation.h"
+
+@class MUXSDKCustomerData;
+
+@class MUXSDKPlayerBinding;
 
 /// MUXSDKStats monitors an AVPlayer performance by sending
 /// tracking pings to Mux servers. 
@@ -38,7 +38,6 @@
 /// videoChangeForPlayer:withVideoData when the video changes
 /// will cause tracking pings to be associated with the last
 /// video that was playing.
-FOUNDATION_EXPORT
 @interface MUXSDKStats : NSObject
 
 - (_Null_unspecified instancetype)init NS_UNAVAILABLE;
@@ -49,9 +48,9 @@ FOUNDATION_EXPORT
 /// Starts to monitor a given AVPlayerViewController.
 ///
 /// Use this method to start a Mux player monitor on the
-/// given AVPlayerViewController. The player must have a name
-/// which is globally unique. The config provided should match
-/// the specifications in the Mux docs at https://docs.mux.com
+/// given AVPlayerViewController. The player must have a 
+/// globally unique name.
+///
 /// - Parameters:
 ///   - player: An AVPlayerViewController to monitor
 ///   - name: A name for this instance of the player
@@ -59,7 +58,7 @@ FOUNDATION_EXPORT
 /// video, and view metadata
 /// - Returns: an instance of MUXSDKAVPlayerViewControllerBinding
 /// or nil
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
                                                  withPlayerName:(nonnull NSString *)name
                                                    customerData:(nonnull MUXSDKCustomerData *)customerData;
 
@@ -78,7 +77,7 @@ FOUNDATION_EXPORT
 /// SDK should automatically track player errors
 /// - Returns: an instance of MUXSDKAVPlayerViewControllerBinding
 /// or nil
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
                                                  withPlayerName:(nonnull NSString *)name
                                                    customerData:(nonnull MUXSDKCustomerData *)customerData
                                          automaticErrorTracking:(BOOL)automaticErrorTracking;
@@ -102,7 +101,7 @@ FOUNDATION_EXPORT
 /// if you want to use a custom beacon domain. Optional.
 /// - Returns: an instance of MUXSDKAVPlayerViewControllerBinding
 /// or nil
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
                                                  withPlayerName:(nonnull NSString *)name
                                                    customerData:(nonnull MUXSDKCustomerData *)customerData
                                          automaticErrorTracking:(BOOL)automaticErrorTracking
@@ -135,7 +134,7 @@ FOUNDATION_EXPORT
 /// video, and view metadata
 /// - Returns: an instance of MUXSDKAVPlayerLayerBinding or
 /// nil
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
                                         withPlayerName:(nonnull NSString *)name
                                           customerData:(nonnull MUXSDKCustomerData *)customerData;
 
@@ -154,7 +153,7 @@ FOUNDATION_EXPORT
 /// SDK should automatically track player errors
 /// - Returns: an instance of MUXSDKAVPlayerLayerBinding or
 /// nil
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
                                         withPlayerName:(nonnull NSString *)name
                                           customerData:(nonnull MUXSDKCustomerData *)customerData
                                 automaticErrorTracking:(BOOL)automaticErrorTracking;
@@ -176,7 +175,7 @@ FOUNDATION_EXPORT
 /// if you want to use a custom beacon domain. Optional.
 /// - Returns: an instance of MUXSDKAVPlayerLayerBinding or
 /// nil
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
                                         withPlayerName:(nonnull NSString *)name
                                           customerData:(nonnull MUXSDKCustomerData *)customerData
                                 automaticErrorTracking:(BOOL)automaticErrorTracking
@@ -212,7 +211,7 @@ FOUNDATION_EXPORT
 ///   - customerData: A MUXSDKCustomerData object with player,
 /// video, and view metadata
 /// - Returns: an instance of MUXSDKPlayerBinding or nil
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayer:(nonnull AVPlayer *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayer:(nonnull AVPlayer *)player
                                    withPlayerName:(nonnull NSString *)name
                                   fixedPlayerSize:(CGSize)fixedPlayerSize
                                      customerData:(nonnull MUXSDKCustomerData *)customerData;
@@ -235,7 +234,7 @@ FOUNDATION_EXPORT
 ///   - automaticErrorTracking: boolean to indicate if the
 ///   SDK should automatically track player errors
 /// - Returns: an instance of MUXSDKPlayerBinding or nil
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayer:(nonnull AVPlayer *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayer:(nonnull AVPlayer *)player
                                    withPlayerName:(nonnull NSString *)name
                                   fixedPlayerSize:(CGSize)fixedPlayerSize
                                      customerData:(nonnull MUXSDKCustomerData *)customerData
@@ -261,7 +260,7 @@ FOUNDATION_EXPORT
 ///   - collectionDomain: Domain to send tracking data to,
 ///   if you want to use a custom beacon domain. Optional.
 /// - Returns: an instance of MUXSDKPlayerBinding or nil
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayer:(nonnull AVPlayer *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayer:(nonnull AVPlayer *)player
                                    withPlayerName:(nonnull NSString *)name
                                   fixedPlayerSize:(CGSize)fixedPlayerSize
                                      customerData:(nonnull MUXSDKCustomerData *)customerData
@@ -321,12 +320,12 @@ FOUNDATION_EXPORT
 ///
 /// Use this method to signal that the player is now playing
 /// a new video. The player name provided must been passed
-/// as the name in a monitorPlayer:withPlayerName:andConfig:
-/// call. The config provided should match the specifications
-/// in the Mux docs at https://docs.mux.com and should include
-/// all desired keys, not just those keys that are specific
-/// to this video. If the name of the player provided was not
-/// previously initialized, an exception will be raised.
+/// as the name in a `monitor*` call. If the player name
+/// hasn't been previously passed, an exception will be raised.
+///
+/// The customer data provided should include all applicable
+/// fields and not just those that are specific to the video.
+///
 /// - Parameters:
 ///   - name: The name of the player to update
 ///   - customerData: A MUXSDKCustomerData object with player,
@@ -340,14 +339,14 @@ FOUNDATION_EXPORT
 /// of a playlist; or a different program of a live stream
 ///
 /// Use this method to signal that the player is now playing
-/// a differnt video of a playlist, or a different program
-/// of a live stream. The player name provided must been
-/// passed as the name in a monitorPlayer:withPlayerName:andConfig:
-/// call. The config provided should match the specifications
-/// in the Mux docs at https://docs.mux.com and should include
-/// all desired keys, not just those keys that are specific
-/// to this video. If the name of the player provided was
-/// not previously initialized, an exception will be raised.
+/// a different video of a playlist, or a different program
+/// of a live stream. The player name must previously have been
+/// passed in a `monitor*` call call. If the player name
+/// hasn't been previously passed, an exception will be raised.
+///
+/// The customer data provided should include all applicable
+/// fields and not just those that are specific to the video.
+///
 /// - Parameters:
 ///   - name: The name of the player to update
 ///   - customerData: A MUXSDKCustomerData object with player,
@@ -369,13 +368,6 @@ FOUNDATION_EXPORT
               forPlayer:(nonnull NSString *)name;
 
 #pragma mark - Orientation Change
-
-/*!
-@method      orientationChangeForPlayer:withOrientation:
-@abstract    Notifies the Mux SDK that the view's orientation has changed.
-@param       name The name of the player to update
-@param       orientation A MUXSDKViewOrientation enum value representing if the view has changed to portrait or landscape
-*/
 
 /// Notifies the Mux SDK that the view's orientation has changed.
 /// - Parameters:

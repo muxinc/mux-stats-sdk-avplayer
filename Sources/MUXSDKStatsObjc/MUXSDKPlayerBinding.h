@@ -18,6 +18,8 @@
 #endif
 #endif
 
+#import "MUXSDKViewOrientation.h"
+
 typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
     MUXSDKPlayerStateReady,
     MUXSDKPlayerStateViewInit,
@@ -27,12 +29,6 @@ typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
     MUXSDKPlayerStatePaused,
     MUXSDKPlayerStateError,
     MUXSDKPlayerStateViewEnd,
-};
-
-typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
-    MUXSDKViewOrientationUnknown,
-    MUXSDKViewOrientationPortrait,
-    MUXSDKViewOrientationLandscape
 };
 
 #pragma clang diagnostic push
@@ -117,6 +113,8 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 - (void)didTriggerManualVideoChange;
 
 #pragma clang diagnostic pop
+
+@property (nonatomic, strong, nonnull, readonly) NSString *playerName;
 
 - (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
                     softwareName:(nullable NSString *)softwareName;

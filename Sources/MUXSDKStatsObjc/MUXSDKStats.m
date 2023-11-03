@@ -1,4 +1,5 @@
 #import "MUXSDKStats.h"
+#import "MUXSDKConstants.h"
 #import "MUXSDKPlayerBinding.h"
 #import "MUXSDKPlayerBindingManager.h"
 #import "MUXSDKCustomerPlayerDataStore.h"
@@ -17,17 +18,10 @@
 #import <Foundation/Foundation.h>
 #endif
 
-// Software constants.
-NSString *const MuxPlayerSoftwareAVPlayerViewController = @"AVPlayerViewController";
-NSString *const MuxPlayerSoftwareAVPlayerLayer = @"AVPlayerLayer";
-NSString *const MuxPlayerSoftwareAVPlayer = @"AVPlayer";
-NSString *const MuxDeviceIDUserDefaultsKey = @"MUX_DEVICE_ID";
-
-
 @implementation MUXSDKStats
 
 static MUXSDKDispatcher *_dispatcher;
-// Name => MuxPlayerSoftware value.
+// Name => MUXSDKPlayerSoftware value.
 static NSMutableDictionary *_bindings;
 // Name => AVPlayerViewController or AVPlayerLayer or AVPlayer
 static NSMutableDictionary *_viewControllers;
@@ -164,7 +158,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 
 #pragma mark Monitor AVPlayerViewController
 
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
                                                  withPlayerName:(nonnull NSString *)name
                                                    customerData:(nonnull MUXSDKCustomerData *)customerData
                                          automaticErrorTracking:(BOOL)automaticErrorTracking
@@ -188,7 +182,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 
         // If customerData sets a custom playerSoftwareName use that
         // If customerData playerSoftwareName is nil, use a default value
-        NSString *playerSoftwareName = customerData.customerPlayerData.playerSoftwareName ?: MuxPlayerSoftwareAVPlayerViewController;
+        NSString *playerSoftwareName = customerData.customerPlayerData.playerSoftwareName ?: MUXSDKPlayerSoftwareAVPlayerViewController;
         // MUXSDKStats sets a nil for playerSoftwareVersion by default
         // If customerData playerSoftware version is set, pass that along
         // If unset, it is nil and this keeps the existing behavior as the fallback
@@ -217,7 +211,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
             [_customerCustomDataStore setCustomData:customData forPlayerName:name];
         }
         [_viewControllers setValue:newBinding forKey:name];
-        [_bindings setValue:MuxPlayerSoftwareAVPlayerViewController forKey:name];
+        [_bindings setValue:MUXSDKPlayerSoftwareAVPlayerViewController forKey:name];
 
         [newBinding attachAVPlayer:player.player];
         [_playerBindingManager newViewForPlayer:name];
@@ -228,7 +222,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
     }
 }
 
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
                                                  withPlayerName:(nonnull NSString *)name
                                                    customerData:(nonnull MUXSDKCustomerData *)customerData
                                          automaticErrorTracking:(BOOL)automaticErrorTracking {
@@ -240,7 +234,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 
 }
 
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
                                                  withPlayerName:(nonnull NSString *)name
                                                    customerData:(nonnull MUXSDKCustomerData *)customerData {
     return [self monitorAVPlayerViewController:player
@@ -258,7 +252,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
             NSLog(@"MUXSDK-ERROR - Mux failed to configure the monitor because AVPlayerViewController.player was NULL for player name: %@", name);
             return;
         }
-        if (binding == MuxPlayerSoftwareAVPlayerViewController) {
+        if (binding == MUXSDKPlayerSoftwareAVPlayerViewController) {
             MUXSDKAVPlayerViewControllerBinding *playerController = [_viewControllers valueForKey:name];
             [playerController detachAVPlayer];
             [playerController attachAVPlayer:player.player];
@@ -272,7 +266,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 
 #pragma mark Monitor AVPlayerLayer
 
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
                                         withPlayerName:(nonnull NSString *)name
                                           customerData:(nonnull MUXSDKCustomerData *)customerData
                                 automaticErrorTracking:(BOOL)automaticErrorTracking
@@ -296,7 +290,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
         
         // If customerData sets a custom playerSoftwareName use that
         // If customerData playerSoftwareName is nil, use a default value
-        NSString *playerSoftwareName = customerData.customerPlayerData.playerSoftwareName ?: MuxPlayerSoftwareAVPlayerLayer;
+        NSString *playerSoftwareName = customerData.customerPlayerData.playerSoftwareName ?: MUXSDKPlayerSoftwareAVPlayerLayer;
         // MUXSDKStats sets a nil for playerSoftwareVersion by default
         // If customerData playerSoftware version is set, pass that along
         // If unset, it is nil and this keeps the existing behavior as the fallback
@@ -324,7 +318,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
             [_customerCustomDataStore setCustomData:customData forPlayerName:name];
         }
         [_viewControllers setValue:newBinding forKey:name];
-        [_bindings setValue:MuxPlayerSoftwareAVPlayerLayer forKey:name];
+        [_bindings setValue:MUXSDKPlayerSoftwareAVPlayerLayer forKey:name];
 
         [newBinding attachAVPlayer:player.player];
         [_playerBindingManager newViewForPlayer:name];
@@ -335,7 +329,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
     }
 }
 
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
                                         withPlayerName:(nonnull NSString *)name
                                           customerData:(nonnull MUXSDKCustomerData *)customerData
                                 automaticErrorTracking:(BOOL)automaticErrorTracking {
@@ -347,7 +341,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                          beaconCollectionDomain:nil];
 }
 
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
                                         withPlayerName:(nonnull NSString *)name
                                           customerData:(nonnull MUXSDKCustomerData *)customerData {
 
@@ -365,7 +359,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
             NSLog(@"MUXSDK-ERROR - Mux failed to configure the monitor because AVPlayerLayer.player was NULL for player name: %@", name);
             return;
         }
-        if (binding == MuxPlayerSoftwareAVPlayerLayer) {
+        if (binding == MUXSDKPlayerSoftwareAVPlayerLayer) {
             MUXSDKAVPlayerLayerBinding *playerLayer = [_viewControllers valueForKey:name];
             [playerLayer detachAVPlayer];
             [playerLayer attachAVPlayer:player.player];
@@ -379,7 +373,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 
 #pragma mark Monitor AVPlayer
 
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayer:(nonnull AVPlayer *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayer:(nonnull AVPlayer *)player
                                    withPlayerName:(nonnull NSString *)name
                                   fixedPlayerSize:(CGSize)fixedPlayerSize
                                      customerData:(nonnull MUXSDKCustomerData *)customerData {
@@ -391,7 +385,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
           beaconCollectionDomain:nil];
 }
 
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayer:(nonnull AVPlayer *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayer:(nonnull AVPlayer *)player
                                    withPlayerName:(nonnull NSString *)name
                                   fixedPlayerSize:(CGSize)fixedPlayerSize
                                      customerData:(nonnull MUXSDKCustomerData *)customerData
@@ -404,7 +398,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
           beaconCollectionDomain:nil];
 }
 
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayer:(nonnull AVPlayer *)player
++ (nullable MUXSDKPlayerBinding *)monitorAVPlayer:(nonnull AVPlayer *)player
                                    withPlayerName:(nonnull NSString *)name
                                   fixedPlayerSize:(CGSize)fixedPlayerSize
                                      customerData:(nonnull MUXSDKCustomerData *)customerData
@@ -430,7 +424,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 
     // If customerData sets a custom playerSoftwareName use that
     // If customerData playerSoftwareName is nil, use a default value
-    NSString *playerSoftwareName = customerData.customerPlayerData.playerSoftwareName ?: MuxPlayerSoftwareAVPlayer;
+    NSString *playerSoftwareName = customerData.customerPlayerData.playerSoftwareName ?: MUXSDKPlayerSoftwareAVPlayer;
     // MUXSDKStats sets nil for playerSoftwareVersion by default
     // If customerData playerSoftwareVersion is set, pass that along
     // If unset, it is nil and this keeps the existing behavior as the fallback
@@ -458,7 +452,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
         [_customerCustomDataStore setCustomData:customData forPlayerName:name];
     }
     [_viewControllers setValue:newBinding forKey:name];
-    [_bindings setValue:MuxPlayerSoftwareAVPlayer forKey:name];
+    [_bindings setValue:MUXSDKPlayerSoftwareAVPlayer forKey:name];
 
     [newBinding attachAVPlayer:player];
     [_playerBindingManager newViewForPlayer:name];
@@ -471,7 +465,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
     [self initSDK];
     NSString *binding = [_bindings valueForKey:name];
     if (binding) {
-        if (binding == MuxPlayerSoftwareAVPlayer) {
+        if (binding == MUXSDKPlayerSoftwareAVPlayer) {
             MUXSDKAVPlayerBinding *playerBinding = [_viewControllers valueForKey:name];
             [playerBinding detachAVPlayer];
             [playerBinding attachAVPlayer:player];
@@ -486,10 +480,10 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 #pragma mark UUID
 
 + (NSString *)getUUIDString {
-    NSString *uuid = [[NSUserDefaults standardUserDefaults] stringForKey:MuxDeviceIDUserDefaultsKey];
+    NSString *uuid = [[NSUserDefaults standardUserDefaults] stringForKey:MUXSDKDeviceIDUserDefaultsKey];
     if (uuid == nil) {
         uuid = [[NSUUID UUID] UUIDString];
-        [[NSUserDefaults standardUserDefaults] setObject:uuid forKey:MuxDeviceIDUserDefaultsKey];
+        [[NSUserDefaults standardUserDefaults] setObject:uuid forKey:MUXSDKDeviceIDUserDefaultsKey];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
     return uuid;
@@ -499,13 +493,18 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 
 + (void)destroyPlayer:(NSString *)name {
     NSString *binding = [_bindings valueForKey:name];
-    if (binding == MuxPlayerSoftwareAVPlayerViewController) {
+    if (binding == MUXSDKPlayerSoftwareAVPlayerViewController) {
         MUXSDKAVPlayerViewControllerBinding *player = [_viewControllers valueForKey:name];
         [player dispatchViewEnd];
         [player detachAVPlayer];
         [_viewControllers removeObjectForKey:name];
-    } else if (binding == MuxPlayerSoftwareAVPlayerLayer) {
+    } else if (binding == MUXSDKPlayerSoftwareAVPlayerLayer) {
         MUXSDKAVPlayerLayerBinding *player = [_viewControllers valueForKey:name];
+        [player dispatchViewEnd];
+        [player detachAVPlayer];
+        [_viewControllers removeObjectForKey:name];
+    } else if (binding == MUXSDKPlayerSoftwareAVPlayer) {
+        MUXSDKAVPlayerBinding *player = [_viewControllers valueForKey:name];
         [player dispatchViewEnd];
         [player detachAVPlayer];
         [_viewControllers removeObjectForKey:name];

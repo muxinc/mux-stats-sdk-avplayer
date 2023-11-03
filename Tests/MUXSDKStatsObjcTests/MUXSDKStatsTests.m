@@ -731,14 +731,14 @@ static NSString *Z = @"Z";
     [controller.player play];
     
     NSDictionary *renditionInfo = @{
-        RenditionChangeNotificationInfoAdvertisedBitrate: @(258157)
+        MUXSDKRenditionChangeNotificationInfoAdvertisedBitrate: @(258157)
     };
-    [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object:renditionInfo];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MUXSDKRenditionChangeNotification object:renditionInfo];
 
     NSDictionary *renditionInfoWithoutFrameRate = @{
-        RenditionChangeNotificationInfoAdvertisedBitrate: @(558157)
+        MUXSDKRenditionChangeNotificationInfoAdvertisedBitrate: @(558157)
     };
-    [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object:renditionInfoWithoutFrameRate];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MUXSDKRenditionChangeNotification object:renditionInfoWithoutFrameRate];
 
     NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                                     MUXSDKDataEventType,
@@ -780,14 +780,14 @@ static NSString *Z = @"Z";
     [controller.player play];
     
     NSDictionary *renditionInfo = @{
-        RenditionChangeNotificationInfoAdvertisedBitrate: @(258157)
+        MUXSDKRenditionChangeNotificationInfoAdvertisedBitrate: @(258157)
     };
-    [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object:renditionInfo];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MUXSDKRenditionChangeNotification object:renditionInfo];
 
     NSDictionary *renditionInfoWithoutFrameRate = @{
-        RenditionChangeNotificationInfoAdvertisedBitrate: @(258157)
+        MUXSDKRenditionChangeNotificationInfoAdvertisedBitrate: @(258157)
     };
-    [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object:renditionInfoWithoutFrameRate];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MUXSDKRenditionChangeNotification object:renditionInfoWithoutFrameRate];
 
     NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                                     MUXSDKDataEventType,
@@ -821,18 +821,18 @@ static NSString *Z = @"Z";
 
     [MUXSDKStats orientationChangeForPlayer:playName withOrientation:MUXSDKViewOrientationPortrait];
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object:@{
-        RenditionChangeNotificationInfoAdvertisedBitrate: @(258157)
+    [[NSNotificationCenter defaultCenter] postNotificationName:MUXSDKRenditionChangeNotification object:@{
+        MUXSDKRenditionChangeNotificationInfoAdvertisedBitrate: @(258157)
     }];
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object:@{
-        RenditionChangeNotificationInfoAdvertisedBitrate: @(1927853)
+    [[NSNotificationCenter defaultCenter] postNotificationName:MUXSDKRenditionChangeNotification object:@{
+        MUXSDKRenditionChangeNotificationInfoAdvertisedBitrate: @(1927853)
     }];
 
     [MUXSDKStats orientationChangeForPlayer:playName withOrientation:MUXSDKViewOrientationLandscape];
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object:@{
-        RenditionChangeNotificationInfoAdvertisedBitrate: @(258157)
+    [[NSNotificationCenter defaultCenter] postNotificationName:MUXSDKRenditionChangeNotification object:@{
+        MUXSDKRenditionChangeNotificationInfoAdvertisedBitrate: @(258157)
     }];
 
     // Assert sequence of playback & data events is correct

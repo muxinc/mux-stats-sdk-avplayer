@@ -1,6 +1,6 @@
 #import "MUXSDKPlayerBinding.h"
 #import "MUXSDKConnection.h"
-#import "MUXSDKPlayerBindingConstants.h"
+#import "MUXSDKConstants.h"
 
 #if __has_feature(modules)
 @import Foundation;
@@ -9,11 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <CoreMedia/CoreMedia.h>
 #endif
-
-// SDK constants.
-NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"4.0.0";
-NSString *const MUXSessionDataPrefix = @"io.litix.data.";
 
 // Min number of seconds between timeupdate events. (100ms)
 double MUXSDKMaxSecsBetweenTimeUpdate = 0.1;
@@ -70,6 +65,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         _playbackIsLivestream = false;
     }
     return(self);
+}
+
+- (nonnull NSString *)playerName {
+    return _name;
 }
 
 - (void)setAdPlaying:(BOOL)isAdPlaying {
@@ -137,7 +136,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
                  context:MUXSDKAVPlayerTimeControlStatusObservationContext];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAVPlayerAccess:) name:AVPlayerItemNewAccessLogEntryNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRenditionChange:) name:RenditionChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRenditionChange:) name:MUXSDKRenditionChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAVPlayerError:) name:AVPlayerItemNewErrorLogEntryNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleConnectionTypeDetected:) name:@"com.mux.connection-type-detected" object:nil];
     
@@ -210,7 +209,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 - (void) handleRenditionChange:(NSNotification *) notif {
     NSDictionary *renditionChangeInfo = (NSDictionary *) notif.object;
-    NSNumber *advertisedBitrate = renditionChangeInfo[RenditionChangeNotificationInfoAdvertisedBitrate];
+    NSNumber *advertisedBitrate = renditionChangeInfo[MUXSDKRenditionChangeNotificationInfoAdvertisedBitrate];
     if (advertisedBitrate) {
         _lastAdvertisedBitrate = [advertisedBitrate doubleValue];
         if(![self doubleValueIsEqual:@(_lastDispatchedAdvertisedBitrate) toOther:@(_lastAdvertisedBitrate)]) {
@@ -235,8 +234,8 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         return;
     }
     NSLog(@"MUXSDK-INFO - Switch advertised bitrate from: %f to: %f", _lastAdvertisedBitrate, advertisedBitrate);
-    [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object: @{
-        RenditionChangeNotificationInfoAdvertisedBitrate: @(advertisedBitrate)
+    [[NSNotificationCenter defaultCenter] postNotificationName:MUXSDKRenditionChangeNotification object: @{
+        MUXSDKRenditionChangeNotificationInfoAdvertisedBitrate: @(advertisedBitrate)
     }];
 }
 
@@ -313,7 +312,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 - (void)dealloc {
     [self detachAVPlayer];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemNewAccessLogEntryNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:RenditionChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MUXSDKRenditionChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemNewErrorLogEntryNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"com.mux.connection-type-detected" object:nil];
 }
