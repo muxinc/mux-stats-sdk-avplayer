@@ -25,14 +25,19 @@
 
 @interface MUXSDKPlayerBindingManager : NSObject<MUXSDKPlayDispatchDelegate>
 
-@property (nonatomic, weak) id<MUXSDKCustomerPlayerDataStoring> _Nullable customerPlayerDataStore;
-@property (nonatomic, weak) id<MUXSDKCustomerVideoDataStoring> _Nullable customerVideoDataStore;
-@property (nonatomic, weak) id<MUXSDKCustomerViewDataStoring> _Nullable customerViewDataStore;
-@property (nonatomic, weak) id<MUXSDKCustomerCustomDataStoring> _Nullable customerCustomDataStore;
-@property (nonatomic, weak) NSDictionary * _Nullable viewControllers;
+@property (nonatomic, strong, nullable) id<MUXSDKCustomerPlayerDataStoring> customerPlayerDataStore;
+@property (nonatomic, strong, nullable) id<MUXSDKCustomerVideoDataStoring> customerVideoDataStore;
+@property (nonatomic, strong, nullable) id<MUXSDKCustomerViewDataStoring> customerViewDataStore;
+@property (nonatomic, strong, nullable) id<MUXSDKCustomerCustomDataStoring> customerCustomDataStore;
 
-- (void) newViewForPlayer:(NSString *_Nonnull) name;
-- (void) onPlayerDestroyed:(NSString *_Nonnull) name;
+// Name => AVPlayerViewController or AVPlayerLayer or AVPlayer
+@property (nonatomic, strong, nullable) NSMutableDictionary *playerBindings;
+
+- (void)setCustomerData:(nonnull MUXSDKCustomerData *)customerData
+          forPlayerName:(nonnull NSString *)name;
+
+- (void)dispatchNewViewForPlayerName:(nonnull NSString *)name;
+- (void)removeBindingsForPlayerName:(nonnull NSString *)name;
 
 @end
 

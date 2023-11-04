@@ -67,9 +67,9 @@ class PlayerLayerScalingExampleViewController: UIViewController {
             return
         }
 
-        MUXSDKStats.monitorAVPlayerLayer(
-            playerLayer,
-            withPlayerName: playerName,
+        MUXSDKMonitor.shared.startMonitoring(
+            playerLayer: playerLayer,
+            playerName: playerName,
             customerData: customerData
         )
     }
@@ -80,7 +80,9 @@ class PlayerLayerScalingExampleViewController: UIViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        MUXSDKStats.destroyPlayer(playerName)
+        MUXSDKMonitor.shared.stopMonitoring(
+            playerName: playerName
+        )
         playerView.player?.pause()
         super.viewWillDisappear(animated)
     }

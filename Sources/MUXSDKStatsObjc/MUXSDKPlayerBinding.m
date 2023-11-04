@@ -37,13 +37,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 @implementation MUXSDKPlayerBinding
 
-- (id)initWithName:(NSString *)name 
-       andSoftware:(NSString *)software {
-    return [self initWithPlayerName:name
-                       softwareName:software
-                    softwareVersion:nil];
-}
-
 - (id)initWithPlayerName:(NSString *)playerName
             softwareName:(NSString *)softwareName {
     return [self initWithPlayerName:playerName
@@ -56,7 +49,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
          softwareVersion:(NSString *)softwareVersion {
     self = [super init];
     if (self) {
-        _name = playerName;
+        _playerName = playerName;
         _softwareName = softwareName;
         _softwareVersion = softwareVersion;
         _automaticErrorTracking = true;
@@ -68,7 +61,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (nonnull NSString *)playerName {
-    return _name;
+    return _playerName;
 }
 
 - (void)setAdPlaying:(BOOL)isAdPlaying {
@@ -90,7 +83,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         [self detachAVPlayer];
     }
     if (!player) {
-        NSLog(@"MUXSDK-ERROR - Cannot attach to NULL AVPlayer for player name: %@", _name);
+        NSLog(@"MUXSDK-ERROR - Cannot attach to NULL AVPlayer for player name: %@", _playerName);
         return;
     }
     _player = player;
@@ -389,7 +382,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         }
         [self stopMonitoringAVPlayerItem];
         
-        [self.playDispatchDelegate videoChangedForPlayer:_name];
+        [self.playDispatchDelegate videoChangedForPlayer:_playerName];
         
         //
         // Special case for AVQueuePlayer
@@ -449,7 +442,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 - (void)stopMonitoringAVPlayerItem {
     if (!_isAdPlaying) {
-        [MUXSDKCore destroyPlayer: _name];
+        [MUXSDKCore destroyPlayer: _playerName];
     }
     
     [self safelyRemovePlayerItemObserverForKeyPath:@"status"];
@@ -596,7 +589,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         
         MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
         [dataEvent setVideoData:videoData];
-        [MUXSDKCore dispatchEvent:dataEvent forPlayer:_name];
+        [MUXSDKCore dispatchEvent:dataEvent forPlayer:_playerName];
     }
 }
 
@@ -728,7 +721,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 - (BOOL)isPlayerOK {
     if (!_player) {
-        NSLog(@"MUXSDK-ERROR - Mux failed to find the AVPlayer for player name: %@", _name);
+        NSLog(@"MUXSDK-ERROR - Mux failed to find the AVPlayer for player name: %@", _playerName);
         return NO;
     }
     return YES;
@@ -763,7 +756,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (NSString *) name {
-    return _name;
+    return _playerName;
 }
 
 - (void)startBuffering {
@@ -778,7 +771,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     MUXSDKPlayerData *playerData = [self getPlayerData];
     MUXSDKViewInitEvent *event = [[MUXSDKViewInitEvent alloc] init];
     [event setPlayerData:playerData];
-    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    [MUXSDKCore dispatchEvent:event forPlayer:_playerName];
     _state = MUXSDKPlayerStateViewInit;
 }
 
@@ -789,7 +782,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     MUXSDKPlayerData *playerData = [self getPlayerData];
     MUXSDKPlayerReadyEvent *event = [[MUXSDKPlayerReadyEvent alloc] init];
     [event setPlayerData:playerData];
-    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    [MUXSDKCore dispatchEvent:event forPlayer:_playerName];
     _state = MUXSDKPlayerStateReady;
 }
 
@@ -797,7 +790,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (![self isPlayerOK]) {
         return;
     }
-    [self.playDispatchDelegate playbackStartedForPlayer:_name];
+    [self.playDispatchDelegate playbackStartedForPlayer:_playerName];
     if (!_started) {
         _started = YES;
         [self updateLastPlayheadTime];
@@ -806,7 +799,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     MUXSDKPlayerData *playerData = [self getPlayerData];
     MUXSDKPlayEvent *event = [[MUXSDKPlayEvent alloc] init];
     [event setPlayerData:playerData];
-    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    [MUXSDKCore dispatchEvent:event forPlayer:_playerName];
     _state = MUXSDKPlayerStatePlay;
     // Note that this computation is done in response to an observed rate change and not a time update
     // so we have to both compute our drift and update the playhead time as we do in the time update handler.
@@ -826,11 +819,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         _seeking = NO;
         MUXSDKSeekedEvent *seekedEvent = [[MUXSDKSeekedEvent alloc] init];
         [seekedEvent setPlayerData:playerData];
-        [MUXSDKCore dispatchEvent:seekedEvent forPlayer:_name];
+        [MUXSDKCore dispatchEvent:seekedEvent forPlayer:_playerName];
     }
     MUXSDKPlayingEvent *event = [[MUXSDKPlayingEvent alloc] init];
     [event setPlayerData:playerData];
-    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    [MUXSDKCore dispatchEvent:event forPlayer:_playerName];
     _state = MUXSDKPlayerStatePlaying;
 }
 
@@ -843,7 +836,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     MUXSDKPlayerData *playerData = [self getPlayerData];
     MUXSDKPauseEvent *event = [[MUXSDKPauseEvent alloc] init];
     [event setPlayerData:playerData];
-    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    [MUXSDKCore dispatchEvent:event forPlayer:_playerName];
     _state = MUXSDKPlayerStatePaused;
     [self computeDrift];
 }
@@ -867,7 +860,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     MUXSDKPlayerData *playerData = [self getPlayerData];
     MUXSDKTimeUpdateEvent *event = [[MUXSDKTimeUpdateEvent alloc] init];
     [event setPlayerData:playerData];
-    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    [MUXSDKCore dispatchEvent:event forPlayer:_playerName];
 }
 
 - (void)dispatchError {
@@ -881,7 +874,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     MUXSDKPlayerData *playerData = [self getPlayerData];
     MUXSDKErrorEvent *event = [[MUXSDKErrorEvent alloc] init];
     [event setPlayerData:playerData];
-    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    [MUXSDKCore dispatchEvent:event forPlayer:_playerName];
     _state = MUXSDKPlayerStateError;
 }
 
@@ -895,7 +888,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [playerData setPlayerErrorMessage:message];
     MUXSDKErrorEvent *event = [[MUXSDKErrorEvent alloc] init];
     [event setPlayerData:playerData];
-    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    [MUXSDKCore dispatchEvent:event forPlayer:_playerName];
     _state = MUXSDKPlayerStateError;
 }
 
@@ -911,7 +904,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     MUXSDKPlayerData *playerData = [self getPlayerData];
     MUXSDKViewEndEvent *event = [[MUXSDKViewEndEvent alloc] init];
     [event setPlayerData:playerData];
-    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    [MUXSDKCore dispatchEvent:event forPlayer:_playerName];
     _state = MUXSDKPlayerStateViewEnd;
 }
 
@@ -925,7 +918,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     event.type = type;
     [event setPlayerData:playerData];
     [event setBandwidthMetricData: loadData];
-    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    [MUXSDKCore dispatchEvent:event forPlayer:_playerName];
 }
 
 - (void) dispatchOrientationChange:(MUXSDKViewOrientation) orientation {
@@ -952,7 +945,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     MUXSDKOrientationChangeEvent *event = [[MUXSDKOrientationChangeEvent alloc] init];
     [event setPlayerData:playerData];
     [event setViewData: viewData];
-    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    [MUXSDKCore dispatchEvent:event forPlayer:_playerName];
 }
 
 - (void) dispatchRenditionChange {
@@ -963,7 +956,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     MUXSDKPlayerData *playerData = [self getPlayerData];
     MUXSDKRenditionChangeEvent *event = [[MUXSDKRenditionChangeEvent alloc] init];
     [event setPlayerData:playerData];
-    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    [MUXSDKCore dispatchEvent:event forPlayer:_playerName];
 }
 
 - (void)updateLastPlayheadTime {
@@ -999,7 +992,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
                 [self setPlayerPlayheadTime:_lastPlayheadTimeMsOnPause onPlayerData:playerData];
             }
             [event setPlayerData:playerData];
-            [MUXSDKCore dispatchEvent:event forPlayer:_name];
+            [MUXSDKCore dispatchEvent:event forPlayer:_playerName];
         } else if (_state == MUXSDKPlayerStatePlaying || _state == MUXSDKPlayerStateBuffering) {
             // If seek is called programmatically while the player is playing or buffering it will enter this block, otherwise it will run the upper branch logic
             _seeking = YES;
@@ -1007,7 +1000,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             MUXSDKPlayerData *playerData = [self getPlayerData];
             [self setPlayerPlayheadTime:_lastPlayheadTimeMs onPlayerData:playerData];
             [seekingEvent setPlayerData:playerData];
-            [MUXSDKCore dispatchEvent:seekingEvent forPlayer:_name];
+            [MUXSDKCore dispatchEvent:seekingEvent forPlayer:_playerName];
         }
     }
 }
@@ -1108,7 +1101,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [self checkVideoData];
     MUXSDKPlayerData *playerData = [self getPlayerData];
     [event setPlayerData:playerData];
-    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    [MUXSDKCore dispatchEvent:event forPlayer:_playerName];
 }
 
 - (BOOL) doubleValueIsEqual:(NSNumber *) x toOther:(NSNumber *) n {
@@ -1159,15 +1152,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 
 @implementation MUXSDKAVPlayerLayerBinding
-
-- (id)initWithName:(NSString *)name 
-          software:(NSString *)software
-           andView:(AVPlayerLayer *)view {
-    return [self initWithPlayerName:name
-                       softwareName:software
-                    softwareVersion:nil
-                        playerLayer:view];
-}
 
 - (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
                     softwareName:(nullable NSString *)softwareName

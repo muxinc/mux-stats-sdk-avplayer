@@ -47,7 +47,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
 #pragma clang diagnostic ignored "-Wnullability-completeness"
 
 @private
-    NSString *_name;
+    NSString *_playerName;
     NSString *_softwareName;
     AVPlayer *_player;
     AVPlayerItem *_playerItem;
@@ -85,9 +85,6 @@ typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
 }
 
 @property (nonatomic, weak) id<MUXSDKPlayDispatchDelegate>  playDispatchDelegate;
-
-- (id)initWithName:(NSString *)name 
-       andSoftware:(NSString *)software;
 
 - (void)attachAVPlayer:(AVPlayer *)player;
 - (void)detachAVPlayer;

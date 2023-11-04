@@ -41,7 +41,7 @@
     
     sut.customerPlayerDataStore = playerDataStore;
     sut.customerVideoDataStore = videoDataStore;
-    sut.viewControllers = vcs;
+    sut.playerBindings = vcs;
 
     NSURL *url = [[NSURL alloc] initWithString:@"https://foo.mp4"];
     AVPlayer *player = [AVPlayer playerWithURL:url];
@@ -64,7 +64,7 @@
     [vcs setObject:binding forKey:name];
 
     [binding attachAVPlayer:player];
-    [sut newViewForPlayer:name];
+    [sut dispatchNewViewForPlayerName:name];
     return binding;
 }
 
@@ -79,7 +79,7 @@
 
     sut.customerPlayerDataStore = playerDataStore;
     sut.customerVideoDataStore = videoDataStore;
-    sut.viewControllers = vcs;
+    sut.playerBindings = vcs;
 
     // Set up player
     NSURL *url = [[NSURL alloc] initWithString:@"https://foo.mp4"];
@@ -100,7 +100,7 @@
     [vcs setObject:binding forKey:name];
 
     [binding attachAVPlayer:player];
-    [sut newViewForPlayer:name];
+    [sut dispatchNewViewForPlayerName:name];
     return binding;
 }
 

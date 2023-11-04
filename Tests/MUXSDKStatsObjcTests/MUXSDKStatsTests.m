@@ -129,6 +129,21 @@ static NSString *Z = @"Z";
     }
 }
 
+- (void) assertPlayer:(NSString *)name dispatchedDataEventsAtIndex: (int) index withViewerData:(NSDictionary *) expected {
+    MUXSDKDataEvent *dataEvent = (MUXSDKDataEvent * )[MUXSDKCore globalEventAtIndex:index];
+    MUXSDKViewerData *viewerData = [dataEvent viewerData];
+    NSDictionary *viewerDataQuery = [viewerData toQuery];
+
+    NSArray *expectedKeys = [expected allKeys];
+    for (NSString *expectedKey in expectedKeys) {
+        XCTAssertEqual(
+                       viewerDataQuery[expectedKey],
+                       expected[expectedKey]
+                       );
+
+    }
+}
+
 - (void) assertPlayer:(NSString *)name dispatchedDataEventsAtIndex: (int) index withCustomerViewData:(NSDictionary *) expected {
     MUXSDKDataEvent *dataEvent;
     MUXSDKCustomerViewData *viewData;
@@ -444,7 +459,8 @@ static NSString *Z = @"Z";
                                     MUXSDKPlaybackEventViewEndEventType,
     ];
     [MUXSDKStats destroyPlayer:playName];
-    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
+    [self assertPlayer:playName 
+  dispatchedEventTypes:expectedEventTypes];
 }
 
 - (void)testClearsCustomerMetadataOnDestroy {
@@ -923,13 +939,16 @@ static NSString *Z = @"Z";
     NSString *playerName = @"Player";
     [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playerName customerData:customerData];
 
-    MUXSDKViewerData *finalViewerData = [MUXSDKStats buildViewerData];
-    XCTAssertEqual(finalViewerData.viewerOsVersion, customerOsVersion);
-    XCTAssertEqual(finalViewerData.viewerOsFamily, customerOsFamily);
-    XCTAssertEqual(finalViewerData.viewerDeviceModel, customerDeviceModel);
-    XCTAssertEqual(finalViewerData.viewerDeviceManufacturer, customerDeviceManufacturer);
-    XCTAssertEqual(finalViewerData.viewerDeviceCategory, customDeviceCategory);
-    
+    NSDictionary *expectedViewerData = @{
+        @"uosve": customerOsVersion,
+        @"uosfm": customerOsFamily,
+        @"udvmo": customerDeviceModel,
+        @"udvmn": customerDeviceManufacturer,
+        @"udvcg": customDeviceCategory
+    };
+
+    [self assertPlayer:playerName dispatchedDataEventsAtIndex:0 withViewerData:expectedViewerData];
+
     [MUXSDKStats destroyPlayer:playerName];
 }
     
@@ -937,8 +956,6 @@ static NSString *Z = @"Z";
     NSString *customerOsVersion = @"1.2.3-dev";
     NSString *customerOsFamily = @"OS/2";
     NSString *customerDeviceModel = @"PS/2";
-    NSString *customerDeviceManufacturer = @"IBM";
-    NSString *customDeviceCategory = @"Personal Computer";
     
     MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
     MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
@@ -948,7 +965,7 @@ static NSString *Z = @"Z";
     customerViewerData.viewerOsVersion = customerOsVersion;
     customerViewerData.viewerOsFamily = customerOsFamily;
     customerViewerData.viewerDeviceModel = customerDeviceModel;
-    
+
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
                                                                                     videoData:customerVideoData
                                                                                      viewData:nil
@@ -959,12 +976,13 @@ static NSString *Z = @"Z";
     NSString *playerName = @"Player";
     [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playerName customerData:customerData];
 
-    MUXSDKViewerData *finalViewerData = [MUXSDKStats buildViewerData];
-    XCTAssertEqual(finalViewerData.viewerOsVersion, customerOsVersion);
-    XCTAssertEqual(finalViewerData.viewerOsFamily, customerOsFamily);
-    XCTAssertEqual(finalViewerData.viewerDeviceModel, customerDeviceModel);
-    XCTAssertNotEqual(finalViewerData.viewerDeviceManufacturer, customerDeviceManufacturer);
-    XCTAssertNotEqual(finalViewerData.viewerDeviceCategory, customDeviceCategory);
+    NSDictionary *expectedViewerData = @{
+        @"uosve": customerOsVersion,
+        @"uosfm": customerOsFamily,
+        @"udvmo": customerDeviceModel,
+    };
+
+    [self assertPlayer:playerName dispatchedDataEventsAtIndex:0 withViewerData:expectedViewerData];
     
     [MUXSDKStats destroyPlayer:playerName];
 }
