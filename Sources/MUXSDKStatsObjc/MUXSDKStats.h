@@ -312,7 +312,7 @@
 ///   - enabled: Boolean indicating if automatic video change
 ///   is enabled or not
 + (void)setAutomaticVideoChange:(nonnull NSString *)name
-                        enabled:(Boolean)enabled;
+                        enabled:(BOOL)enabled;
 
 #pragma mark - Manual Video Change
 
