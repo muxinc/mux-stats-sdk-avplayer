@@ -15,41 +15,41 @@ echo "▸ Available Xcode SDKs"
 
 xcodebuild -showsdks
 
-echo "▸ Testing SDK on iOS 16.4 - iPhone 14 Pro Max"
+echo "▸ Testing SDK on iOS 17.0.1 - iPhone 15 Pro Max"
 
 xcodebuild clean test \
   -scheme $SCHEME \
-  -destination 'platform=iOS Simulator,OS=16.4,name=iPhone 14 Pro Max' \
+  -destination 'platform=iOS Simulator,OS=17.0.1,name=iPhone 15 Pro Max' \
   | xcbeautify
 
-echo "▸ Testing SDK on iOS 16.4 - iPad Pro (12.9-inch) (6th generation)"
+echo "▸ Testing SDK on iOS 17.0.1 - iPad Pro (12.9-inch) (6th generation)"
 
 xcodebuild clean test \
   -scheme $SCHEME \
-  -destination 'platform=iOS Simulator,OS=16.4,name=iPad Pro (12.9-inch) (6th generation)' \
+  -destination 'platform=iOS Simulator,OS=17.0.1,name=iPad Pro (12.9-inch) (6th generation)' \
   | xcbeautify
 
-echo "▸ Testing SDK on tvOS 16.4 - Apple TV"
+echo "▸ Testing SDK on tvOS 17.0 - Apple TV"
 
 xcodebuild clean test \
   -scheme $SCHEME \
-  -destination 'platform=tvOS Simulator,OS=16.4,name=Apple TV' \
+  -destination 'platform=tvOS Simulator,OS=17.0,name=Apple TV' \
   -verbose \
   | xcbeautify
 
-echo "▸ Testing SDK on tvOS 16.4 - Apple TV 4K (3rd generation)"
+echo "▸ Testing SDK on tvOS 17.0 - Apple TV 4K (3rd generation)"
 
 xcodebuild clean test \
   -scheme $SCHEME \
-  -destination 'platform=tvOS Simulator,OS=16.4,name=Apple TV 4K (3rd generation)' \
+  -destination 'platform=tvOS Simulator,OS=17.0,name=Apple TV 4K (3rd generation)' \
   -verbose \
   | xcbeautify
 
-echo "▸ Testing SDK on tvOS 16.4 - Apple TV 4K (3rd generation) (at 1080p)"
+echo "▸ Testing SDK on tvOS 17.0 - Apple TV 4K (3rd generation) (at 1080p)"
 
 xcodebuild clean test \
   -scheme $SCHEME \
-  -destination 'platform=tvOS Simulator,OS=16.4,name=Apple TV 4K (3rd generation) (at 1080p)' \
+  -destination 'platform=tvOS Simulator,OS=17.0,name=Apple TV 4K (3rd generation) (at 1080p)' \
   | xcbeautify
 
 sudo xcode-select -s /Applications/Xcode_14.2.app/
