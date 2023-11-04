@@ -32,6 +32,8 @@ final class MUXSDKStatsExampleSPMUITests: XCTestCase {
             waitFor: "BasicAVKitExampleView",
             application: application
         )
+
+        application.terminate()
     }
 
     func testPlayerLayerExample() throws {
@@ -46,6 +48,8 @@ final class MUXSDKStatsExampleSPMUITests: XCTestCase {
             waitFor: "PlayerLayerExampleView",
             application: application
         )
+
+        application.terminate()
     }
 
     func testAVQueuePlayerExample() throws {
@@ -60,6 +64,8 @@ final class MUXSDKStatsExampleSPMUITests: XCTestCase {
             waitFor: "AVQueuePlayerExampleView",
             application: application
         )
+
+        application.terminate()
     }
 
     func testVideoChangeExample() throws {
@@ -74,6 +80,8 @@ final class MUXSDKStatsExampleSPMUITests: XCTestCase {
             waitFor: "VideoChangeExampleView",
             application: application
         )
+
+        application.terminate()
     }
 
     func testPlayerLayerScalingExample() throws {
@@ -88,6 +96,8 @@ final class MUXSDKStatsExampleSPMUITests: XCTestCase {
             waitFor: "PlayerLayerScalingExampleView",
             application: application
         )
+
+        application.terminate()
     }
 
     func launchAndWaitUntilInForeground(
