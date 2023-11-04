@@ -171,11 +171,8 @@
 
 + (void)setAutomaticVideoChange:(NSString *)name
                         enabled:(BOOL)enabled {
-    if (enabled) {
-        [[MUXSDKMonitor shared] enableAutomaticVideoChangeDetectionForPlayerName:name];
-    } else {
-        [[MUXSDKMonitor shared] disableAutomaticVideoChangeDetectionForPlayerName:name];
-    }
+    [[MUXSDKMonitor shared] updateAutomaticVideoChangeForPlayerName:name
+                                                            enabled:enabled];
 }
 
 #pragma mark Update Customer Data
