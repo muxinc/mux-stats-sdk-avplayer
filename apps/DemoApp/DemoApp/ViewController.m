@@ -246,7 +246,8 @@ NSString *const vodTestURL = @"http://qthttp.apple.com.edgesuite.net/1010qwoeiur
 }
 
 - (void)autoSeek:(NSTimer *)timer {
-    [_player.currentItem seekToTime:CMTimeMakeWithSeconds(15, 60000)];
+    [_player.currentItem seekToTime:CMTimeMakeWithSeconds(15, 60000)
+                  completionHandler:nil];
 }
 
 - (NSString *) testScenario {

@@ -41,6 +41,7 @@ static NSString *envKey = @"tr4q3qahs0gflm8b1c75h49ln";
     if(result != XCTWaiterResultTimedOut) {
         XCTFail(@"Interrupted while playing video.");
     }
+    [app terminate];
 }
 
 - (void)testPlayLivestreamVideo {
@@ -52,6 +53,7 @@ static NSString *envKey = @"tr4q3qahs0gflm8b1c75h49ln";
     if(result != XCTWaiterResultTimedOut) {
         XCTFail(@"Interrupted while playing video.");
     }
+    [app terminate];
 }
 
 - (void)testPlayLowLatencyLivestreamVideo {
@@ -63,6 +65,7 @@ static NSString *envKey = @"tr4q3qahs0gflm8b1c75h49ln";
     if(result != XCTWaiterResultTimedOut) {
         XCTFail(@"Interrupted while playing video.");
     }
+    [app terminate];
 }
 
 - (void)testAVQueuePlayer {
@@ -100,6 +103,7 @@ static NSString *envKey = @"tr4q3qahs0gflm8b1c75h49ln";
     if(result != XCTWaiterResultTimedOut) {
         XCTFail(@"Interrupted while playing second video.");
     }
+    [app terminate];
 }
 
 - (void)testUpdateCustomDimensions {
@@ -111,6 +115,7 @@ static NSString *envKey = @"tr4q3qahs0gflm8b1c75h49ln";
     if(result != XCTWaiterResultTimedOut) {
         XCTFail(@"Interrupted while playing video.");
     }
+    [app terminate];
 }
 
 - (void)testChangeVideo {
@@ -122,6 +127,7 @@ static NSString *envKey = @"tr4q3qahs0gflm8b1c75h49ln";
     if(result != XCTWaiterResultTimedOut) {
         XCTFail(@"Interrupted while playing video.");
     }
+    [app terminate];
 }
 
 - (void)testProgramChange {
@@ -137,6 +143,7 @@ static NSString *envKey = @"tr4q3qahs0gflm8b1c75h49ln";
     if(result != XCTWaiterResultTimedOut) {
         XCTFail(@"Interrupted while playing video.");
     }
+    [app terminate];
 }
 
 - (void)testAutomaticSeek {
@@ -148,6 +155,7 @@ static NSString *envKey = @"tr4q3qahs0gflm8b1c75h49ln";
     if(result != XCTWaiterResultTimedOut) {
         XCTFail(@"Interrupted while playing video.");
     }
+    [app terminate];
 }
 
 - (void)testUISeek {
@@ -180,5 +188,6 @@ static NSString *envKey = @"tr4q3qahs0gflm8b1c75h49ln";
     if(result != XCTWaiterResultTimedOut) {
         XCTFail(@"Interrupted while playing video.");
     }
+    [app terminate];
 }
 @end

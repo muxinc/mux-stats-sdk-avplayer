@@ -56,8 +56,6 @@ jobs:
     runs-on: macos-12
     name: Complete Unit Test Pass on macOS Monterey
     steps:
-      - name: Select Xcode version
-        run: sudo xcode-select -s '/Applications/Xcode_15.0.1.app/Contents/Developer'
       - name: Install xcbeautify
         run: brew install xcbeautify
       - name: Checkout Repository
