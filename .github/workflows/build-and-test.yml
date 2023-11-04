@@ -5,7 +5,7 @@ on:
 
 jobs:
   unit-tests:
-    name: Run SDK unit tests
+    name: (macOS Ventura) Run MUXSDKStats Unit Tests
     runs-on: macos-13
     steps:
       - name: Install xcbeautify
@@ -17,7 +17,7 @@ jobs:
       - name: "Baseline Unit Test Pass"
         run: ./scripts/run-baseline-unit-test-pass.sh
   cocoapods-installation-tests-ventura:
-    name: (macOS Ventura) Test SDK Cocoapods Installation
+    name: (macOS Ventura) Test Cocoapods Installation
     runs-on: macos-13
     steps:
       - name: Install xcbeautify
@@ -31,7 +31,7 @@ jobs:
       - name: Run cocoapods example application tests
         run: "scripts/run-tests-cocoapods-ventura.sh"
   swift-package-manager-installation-tests-ventura:
-    name: (macOS Ventura) Test SDK Swift Package Manager Installation
+    name: (macOS Ventura) Test Swift Package Manager Installation
     runs-on: macos-13
     steps:
       - name: Install xcbeautify
@@ -42,8 +42,8 @@ jobs:
         run: sudo xcode-select -s '/Applications/Xcode_15.0.1.app/Contents/Developer'
       - name: Run Swift package manager example application tests
         run: "scripts/run-tests-swift-package-manager-ventura.sh"
-  demo-application-tests-monterey:
-    name: (macOS Monterey) Test the SDK with a Demo App
+  cocoapods-installation-tests-monterey:
+    name: (macOS Monterey) Test Cocoapods Installation
     runs-on: macos-12
     steps:
       - name: Install xcbeautify
