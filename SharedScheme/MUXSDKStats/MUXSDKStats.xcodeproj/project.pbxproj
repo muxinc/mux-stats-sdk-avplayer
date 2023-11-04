@@ -9,24 +9,28 @@
 /* Begin PBXBuildFile section */
 		195E01E02AF04CFA00F6DDAC /* MUXSDKStats.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 195E01D72AF04CFA00F6DDAC /* MUXSDKStats.framework */; };
 		195E01E52AF04CFA00F6DDAC /* MUXSDKStatsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 195E01E42AF04CFA00F6DDAC /* MUXSDKStatsTests.m */; };
-		195E02002AF04D2C00F6DDAC /* MUXSDKStats.m in Sources */ = {isa = PBXBuildFile; fileRef = 195E01EF2AF04D2C00F6DDAC /* MUXSDKStats.m */; };
-		195E02012AF04D2C00F6DDAC /* MUXSDKCustomerViewDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 195E01F02AF04D2C00F6DDAC /* MUXSDKCustomerViewDataStore.m */; };
-		195E02022AF04D2C00F6DDAC /* MUXSDKPlayerBindingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 195E01F12AF04D2C00F6DDAC /* MUXSDKPlayerBindingManager.m */; };
-		195E02032AF04D2C00F6DDAC /* MUXSDKConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 195E01F22AF04D2C00F6DDAC /* MUXSDKConnection.m */; };
-		195E02042AF04D2C00F6DDAC /* MUXSDKCustomerViewDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 195E01F32AF04D2C00F6DDAC /* MUXSDKCustomerViewDataStore.h */; };
-		195E02052AF04D2C00F6DDAC /* MUXSDKPlayerBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 195E01F42AF04D2C00F6DDAC /* MUXSDKPlayerBinding.m */; };
-		195E02062AF04D2C00F6DDAC /* MUXSDKCustomerCustomDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 195E01F52AF04D2C00F6DDAC /* MUXSDKCustomerCustomDataStore.m */; };
-		195E02072AF04D2C00F6DDAC /* MUXSDKPlayerBindingConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 195E01F62AF04D2C00F6DDAC /* MUXSDKPlayerBindingConstants.h */; };
-		195E02082AF04D2C00F6DDAC /* MUXSDKPlayerBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = 195E01F72AF04D2C00F6DDAC /* MUXSDKPlayerBinding.h */; };
-		195E02092AF04D2C00F6DDAC /* MUXSDKCustomerCustomDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 195E01F82AF04D2C00F6DDAC /* MUXSDKCustomerCustomDataStore.h */; };
-		195E020A2AF04D2C00F6DDAC /* MUXSDKConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 195E01F92AF04D2C00F6DDAC /* MUXSDKConnection.h */; };
-		195E020B2AF04D2C00F6DDAC /* MUXSDKCustomerPlayerDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 195E01FA2AF04D2C00F6DDAC /* MUXSDKCustomerPlayerDataStore.m */; };
-		195E020C2AF04D2C00F6DDAC /* MUXSDKCustomerVideoDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 195E01FB2AF04D2C00F6DDAC /* MUXSDKCustomerVideoDataStore.m */; };
-		195E020D2AF04D2C00F6DDAC /* MUXSDKCustomerPlayerDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 195E01FC2AF04D2C00F6DDAC /* MUXSDKCustomerPlayerDataStore.h */; };
-		195E020E2AF04D2C00F6DDAC /* MUXSDKCustomerVideoDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 195E01FD2AF04D2C00F6DDAC /* MUXSDKCustomerVideoDataStore.h */; };
-		195E020F2AF04D2C00F6DDAC /* MUXSDKPlayerBindingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 195E01FE2AF04D2C00F6DDAC /* MUXSDKPlayerBindingManager.h */; };
-		195E02102AF04D2C00F6DDAC /* MUXSDKStats.h in Headers */ = {isa = PBXBuildFile; fileRef = 195E01FF2AF04D2C00F6DDAC /* MUXSDKStats.h */; };
 		195E02132AF04D6C00F6DDAC /* MuxCore in Frameworks */ = {isa = PBXBuildFile; productRef = 195E02122AF04D6C00F6DDAC /* MuxCore */; };
+		19BFA2F32AF5DDA9000A6FB9 /* MUXSDKConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BFA2D82AF5DDA9000A6FB9 /* MUXSDKConstants.m */; };
+		19BFA2F42AF5DDA9000A6FB9 /* MUXSDKConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BFA2D92AF5DDA9000A6FB9 /* MUXSDKConnection.m */; };
+		19BFA2F52AF5DDA9000A6FB9 /* MUXSDKMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BFA2DA2AF5DDA9000A6FB9 /* MUXSDKMonitor.m */; };
+		19BFA2F62AF5DDA9000A6FB9 /* MUXSDKCustomerViewDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BFA2DB2AF5DDA9000A6FB9 /* MUXSDKCustomerViewDataStore.m */; };
+		19BFA2F72AF5DDA9000A6FB9 /* MUXSDKCustomerCustomDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BFA2DC2AF5DDA9000A6FB9 /* MUXSDKCustomerCustomDataStore.m */; };
+		19BFA2F82AF5DDA9000A6FB9 /* MUXSDKPlayerBindingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BFA2DD2AF5DDA9000A6FB9 /* MUXSDKPlayerBindingManager.m */; };
+		19BFA2FD2AF5DDA9000A6FB9 /* MUXSDKPlayerBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BFA2E42AF5DDA9000A6FB9 /* MUXSDKPlayerBinding.m */; };
+		19BFA2FE2AF5DDA9000A6FB9 /* MUXSDKStats.h in Headers */ = {isa = PBXBuildFile; fileRef = 19BFA2E52AF5DDA9000A6FB9 /* MUXSDKStats.h */; };
+		19BFA2FF2AF5DDA9000A6FB9 /* MUXSDKCustomerPlayerDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BFA2E62AF5DDA9000A6FB9 /* MUXSDKCustomerPlayerDataStore.m */; };
+		19BFA3002AF5DDA9000A6FB9 /* MUXSDKCustomerVideoDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 19BFA2E72AF5DDA9000A6FB9 /* MUXSDKCustomerVideoDataStore.h */; };
+		19BFA3012AF5DDA9000A6FB9 /* MUXSDKConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 19BFA2E82AF5DDA9000A6FB9 /* MUXSDKConstants.h */; };
+		19BFA3022AF5DDA9000A6FB9 /* MUXSDKCustomerViewDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 19BFA2E92AF5DDA9000A6FB9 /* MUXSDKCustomerViewDataStore.h */; };
+		19BFA3032AF5DDA9000A6FB9 /* MUXSDKViewOrientation.h in Headers */ = {isa = PBXBuildFile; fileRef = 19BFA2EA2AF5DDA9000A6FB9 /* MUXSDKViewOrientation.h */; };
+		19BFA3042AF5DDA9000A6FB9 /* MUXSDKCustomerCustomDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 19BFA2EB2AF5DDA9000A6FB9 /* MUXSDKCustomerCustomDataStore.h */; };
+		19BFA3052AF5DDA9000A6FB9 /* MUXSDKMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 19BFA2EC2AF5DDA9000A6FB9 /* MUXSDKMonitor.h */; };
+		19BFA3062AF5DDA9000A6FB9 /* MUXSDKConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 19BFA2ED2AF5DDA9000A6FB9 /* MUXSDKConnection.h */; };
+		19BFA3072AF5DDA9000A6FB9 /* MUXSDKPlayerBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = 19BFA2EE2AF5DDA9000A6FB9 /* MUXSDKPlayerBinding.h */; };
+		19BFA3082AF5DDA9000A6FB9 /* MUXSDKPlayerBindingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 19BFA2EF2AF5DDA9000A6FB9 /* MUXSDKPlayerBindingManager.h */; };
+		19BFA3092AF5DDA9000A6FB9 /* MUXSDKCustomerVideoDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BFA2F02AF5DDA9000A6FB9 /* MUXSDKCustomerVideoDataStore.m */; };
+		19BFA30A2AF5DDA9000A6FB9 /* MUXSDKCustomerPlayerDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 19BFA2F12AF5DDA9000A6FB9 /* MUXSDKCustomerPlayerDataStore.h */; };
+		19BFA30B2AF5DDA9000A6FB9 /* MUXSDKStats.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BFA2F22AF5DDA9000A6FB9 /* MUXSDKStats.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,23 +47,27 @@
 		195E01D72AF04CFA00F6DDAC /* MUXSDKStats.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MUXSDKStats.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		195E01DF2AF04CFA00F6DDAC /* MUXSDKStatsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MUXSDKStatsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		195E01E42AF04CFA00F6DDAC /* MUXSDKStatsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MUXSDKStatsTests.m; sourceTree = "<group>"; };
-		195E01EF2AF04D2C00F6DDAC /* MUXSDKStats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MUXSDKStats.m; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKStats.m; sourceTree = "<group>"; };
-		195E01F02AF04D2C00F6DDAC /* MUXSDKCustomerViewDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MUXSDKCustomerViewDataStore.m; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKCustomerViewDataStore.m; sourceTree = "<group>"; };
-		195E01F12AF04D2C00F6DDAC /* MUXSDKPlayerBindingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MUXSDKPlayerBindingManager.m; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKPlayerBindingManager.m; sourceTree = "<group>"; };
-		195E01F22AF04D2C00F6DDAC /* MUXSDKConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MUXSDKConnection.m; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKConnection.m; sourceTree = "<group>"; };
-		195E01F32AF04D2C00F6DDAC /* MUXSDKCustomerViewDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MUXSDKCustomerViewDataStore.h; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKCustomerViewDataStore.h; sourceTree = "<group>"; };
-		195E01F42AF04D2C00F6DDAC /* MUXSDKPlayerBinding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MUXSDKPlayerBinding.m; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKPlayerBinding.m; sourceTree = "<group>"; };
-		195E01F52AF04D2C00F6DDAC /* MUXSDKCustomerCustomDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MUXSDKCustomerCustomDataStore.m; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKCustomerCustomDataStore.m; sourceTree = "<group>"; };
-		195E01F62AF04D2C00F6DDAC /* MUXSDKPlayerBindingConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MUXSDKPlayerBindingConstants.h; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKPlayerBindingConstants.h; sourceTree = "<group>"; };
-		195E01F72AF04D2C00F6DDAC /* MUXSDKPlayerBinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MUXSDKPlayerBinding.h; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKPlayerBinding.h; sourceTree = "<group>"; };
-		195E01F82AF04D2C00F6DDAC /* MUXSDKCustomerCustomDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MUXSDKCustomerCustomDataStore.h; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKCustomerCustomDataStore.h; sourceTree = "<group>"; };
-		195E01F92AF04D2C00F6DDAC /* MUXSDKConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MUXSDKConnection.h; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKConnection.h; sourceTree = "<group>"; };
-		195E01FA2AF04D2C00F6DDAC /* MUXSDKCustomerPlayerDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MUXSDKCustomerPlayerDataStore.m; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKCustomerPlayerDataStore.m; sourceTree = "<group>"; };
-		195E01FB2AF04D2C00F6DDAC /* MUXSDKCustomerVideoDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MUXSDKCustomerVideoDataStore.m; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKCustomerVideoDataStore.m; sourceTree = "<group>"; };
-		195E01FC2AF04D2C00F6DDAC /* MUXSDKCustomerPlayerDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MUXSDKCustomerPlayerDataStore.h; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKCustomerPlayerDataStore.h; sourceTree = "<group>"; };
-		195E01FD2AF04D2C00F6DDAC /* MUXSDKCustomerVideoDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MUXSDKCustomerVideoDataStore.h; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKCustomerVideoDataStore.h; sourceTree = "<group>"; };
-		195E01FE2AF04D2C00F6DDAC /* MUXSDKPlayerBindingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MUXSDKPlayerBindingManager.h; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKPlayerBindingManager.h; sourceTree = "<group>"; };
-		195E01FF2AF04D2C00F6DDAC /* MUXSDKStats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MUXSDKStats.h; path = ../../../Sources/MUXSDKStatsObjc/MUXSDKStats.h; sourceTree = "<group>"; };
+		19BFA2D82AF5DDA9000A6FB9 /* MUXSDKConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MUXSDKConstants.m; sourceTree = "<group>"; };
+		19BFA2D92AF5DDA9000A6FB9 /* MUXSDKConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MUXSDKConnection.m; sourceTree = "<group>"; };
+		19BFA2DA2AF5DDA9000A6FB9 /* MUXSDKMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MUXSDKMonitor.m; sourceTree = "<group>"; };
+		19BFA2DB2AF5DDA9000A6FB9 /* MUXSDKCustomerViewDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MUXSDKCustomerViewDataStore.m; sourceTree = "<group>"; };
+		19BFA2DC2AF5DDA9000A6FB9 /* MUXSDKCustomerCustomDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MUXSDKCustomerCustomDataStore.m; sourceTree = "<group>"; };
+		19BFA2DD2AF5DDA9000A6FB9 /* MUXSDKPlayerBindingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MUXSDKPlayerBindingManager.m; sourceTree = "<group>"; };
+		19BFA2E42AF5DDA9000A6FB9 /* MUXSDKPlayerBinding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MUXSDKPlayerBinding.m; sourceTree = "<group>"; };
+		19BFA2E52AF5DDA9000A6FB9 /* MUXSDKStats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MUXSDKStats.h; sourceTree = "<group>"; };
+		19BFA2E62AF5DDA9000A6FB9 /* MUXSDKCustomerPlayerDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MUXSDKCustomerPlayerDataStore.m; sourceTree = "<group>"; };
+		19BFA2E72AF5DDA9000A6FB9 /* MUXSDKCustomerVideoDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MUXSDKCustomerVideoDataStore.h; sourceTree = "<group>"; };
+		19BFA2E82AF5DDA9000A6FB9 /* MUXSDKConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MUXSDKConstants.h; sourceTree = "<group>"; };
+		19BFA2E92AF5DDA9000A6FB9 /* MUXSDKCustomerViewDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MUXSDKCustomerViewDataStore.h; sourceTree = "<group>"; };
+		19BFA2EA2AF5DDA9000A6FB9 /* MUXSDKViewOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MUXSDKViewOrientation.h; sourceTree = "<group>"; };
+		19BFA2EB2AF5DDA9000A6FB9 /* MUXSDKCustomerCustomDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MUXSDKCustomerCustomDataStore.h; sourceTree = "<group>"; };
+		19BFA2EC2AF5DDA9000A6FB9 /* MUXSDKMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MUXSDKMonitor.h; sourceTree = "<group>"; };
+		19BFA2ED2AF5DDA9000A6FB9 /* MUXSDKConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MUXSDKConnection.h; sourceTree = "<group>"; };
+		19BFA2EE2AF5DDA9000A6FB9 /* MUXSDKPlayerBinding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MUXSDKPlayerBinding.h; sourceTree = "<group>"; };
+		19BFA2EF2AF5DDA9000A6FB9 /* MUXSDKPlayerBindingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MUXSDKPlayerBindingManager.h; sourceTree = "<group>"; };
+		19BFA2F02AF5DDA9000A6FB9 /* MUXSDKCustomerVideoDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MUXSDKCustomerVideoDataStore.m; sourceTree = "<group>"; };
+		19BFA2F12AF5DDA9000A6FB9 /* MUXSDKCustomerPlayerDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MUXSDKCustomerPlayerDataStore.h; sourceTree = "<group>"; };
+		19BFA2F22AF5DDA9000A6FB9 /* MUXSDKStats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MUXSDKStats.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,7 +93,7 @@
 		195E01CD2AF04CFA00F6DDAC = {
 			isa = PBXGroup;
 			children = (
-				195E01D92AF04CFA00F6DDAC /* MUXSDKStats */,
+				19BFA2D72AF5DDA9000A6FB9 /* MUXSDKStatsObjc */,
 				195E01E32AF04CFA00F6DDAC /* MUXSDKStatsTests */,
 				195E01D82AF04CFA00F6DDAC /* Products */,
 			);
@@ -100,36 +108,41 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		195E01D92AF04CFA00F6DDAC /* MUXSDKStats */ = {
-			isa = PBXGroup;
-			children = (
-				195E01F92AF04D2C00F6DDAC /* MUXSDKConnection.h */,
-				195E01F22AF04D2C00F6DDAC /* MUXSDKConnection.m */,
-				195E01F82AF04D2C00F6DDAC /* MUXSDKCustomerCustomDataStore.h */,
-				195E01F52AF04D2C00F6DDAC /* MUXSDKCustomerCustomDataStore.m */,
-				195E01FC2AF04D2C00F6DDAC /* MUXSDKCustomerPlayerDataStore.h */,
-				195E01FA2AF04D2C00F6DDAC /* MUXSDKCustomerPlayerDataStore.m */,
-				195E01FD2AF04D2C00F6DDAC /* MUXSDKCustomerVideoDataStore.h */,
-				195E01FB2AF04D2C00F6DDAC /* MUXSDKCustomerVideoDataStore.m */,
-				195E01F32AF04D2C00F6DDAC /* MUXSDKCustomerViewDataStore.h */,
-				195E01F02AF04D2C00F6DDAC /* MUXSDKCustomerViewDataStore.m */,
-				195E01F72AF04D2C00F6DDAC /* MUXSDKPlayerBinding.h */,
-				195E01F42AF04D2C00F6DDAC /* MUXSDKPlayerBinding.m */,
-				195E01F62AF04D2C00F6DDAC /* MUXSDKPlayerBindingConstants.h */,
-				195E01FE2AF04D2C00F6DDAC /* MUXSDKPlayerBindingManager.h */,
-				195E01F12AF04D2C00F6DDAC /* MUXSDKPlayerBindingManager.m */,
-				195E01FF2AF04D2C00F6DDAC /* MUXSDKStats.h */,
-				195E01EF2AF04D2C00F6DDAC /* MUXSDKStats.m */,
-			);
-			path = MUXSDKStats;
-			sourceTree = "<group>";
-		};
 		195E01E32AF04CFA00F6DDAC /* MUXSDKStatsTests */ = {
 			isa = PBXGroup;
 			children = (
 				195E01E42AF04CFA00F6DDAC /* MUXSDKStatsTests.m */,
 			);
 			path = MUXSDKStatsTests;
+			sourceTree = "<group>";
+		};
+		19BFA2D72AF5DDA9000A6FB9 /* MUXSDKStatsObjc */ = {
+			isa = PBXGroup;
+			children = (
+				19BFA2ED2AF5DDA9000A6FB9 /* MUXSDKConnection.h */,
+				19BFA2D92AF5DDA9000A6FB9 /* MUXSDKConnection.m */,
+				19BFA2E82AF5DDA9000A6FB9 /* MUXSDKConstants.h */,
+				19BFA2D82AF5DDA9000A6FB9 /* MUXSDKConstants.m */,
+				19BFA2EB2AF5DDA9000A6FB9 /* MUXSDKCustomerCustomDataStore.h */,
+				19BFA2DC2AF5DDA9000A6FB9 /* MUXSDKCustomerCustomDataStore.m */,
+				19BFA2F12AF5DDA9000A6FB9 /* MUXSDKCustomerPlayerDataStore.h */,
+				19BFA2E62AF5DDA9000A6FB9 /* MUXSDKCustomerPlayerDataStore.m */,
+				19BFA2E72AF5DDA9000A6FB9 /* MUXSDKCustomerVideoDataStore.h */,
+				19BFA2F02AF5DDA9000A6FB9 /* MUXSDKCustomerVideoDataStore.m */,
+				19BFA2E92AF5DDA9000A6FB9 /* MUXSDKCustomerViewDataStore.h */,
+				19BFA2DB2AF5DDA9000A6FB9 /* MUXSDKCustomerViewDataStore.m */,
+				19BFA2EC2AF5DDA9000A6FB9 /* MUXSDKMonitor.h */,
+				19BFA2DA2AF5DDA9000A6FB9 /* MUXSDKMonitor.m */,
+				19BFA2EE2AF5DDA9000A6FB9 /* MUXSDKPlayerBinding.h */,
+				19BFA2E42AF5DDA9000A6FB9 /* MUXSDKPlayerBinding.m */,
+				19BFA2EF2AF5DDA9000A6FB9 /* MUXSDKPlayerBindingManager.h */,
+				19BFA2DD2AF5DDA9000A6FB9 /* MUXSDKPlayerBindingManager.m */,
+				19BFA2E52AF5DDA9000A6FB9 /* MUXSDKStats.h */,
+				19BFA2F22AF5DDA9000A6FB9 /* MUXSDKStats.m */,
+				19BFA2EA2AF5DDA9000A6FB9 /* MUXSDKViewOrientation.h */,
+			);
+			name = MUXSDKStatsObjc;
+			path = ../../Sources/MUXSDKStatsObjc;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,15 +152,17 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				195E02042AF04D2C00F6DDAC /* MUXSDKCustomerViewDataStore.h in Headers */,
-				195E02102AF04D2C00F6DDAC /* MUXSDKStats.h in Headers */,
-				195E020F2AF04D2C00F6DDAC /* MUXSDKPlayerBindingManager.h in Headers */,
-				195E020A2AF04D2C00F6DDAC /* MUXSDKConnection.h in Headers */,
-				195E02092AF04D2C00F6DDAC /* MUXSDKCustomerCustomDataStore.h in Headers */,
-				195E020E2AF04D2C00F6DDAC /* MUXSDKCustomerVideoDataStore.h in Headers */,
-				195E02082AF04D2C00F6DDAC /* MUXSDKPlayerBinding.h in Headers */,
-				195E02072AF04D2C00F6DDAC /* MUXSDKPlayerBindingConstants.h in Headers */,
-				195E020D2AF04D2C00F6DDAC /* MUXSDKCustomerPlayerDataStore.h in Headers */,
+				19BFA3002AF5DDA9000A6FB9 /* MUXSDKCustomerVideoDataStore.h in Headers */,
+				19BFA3072AF5DDA9000A6FB9 /* MUXSDKPlayerBinding.h in Headers */,
+				19BFA30A2AF5DDA9000A6FB9 /* MUXSDKCustomerPlayerDataStore.h in Headers */,
+				19BFA3012AF5DDA9000A6FB9 /* MUXSDKConstants.h in Headers */,
+				19BFA3032AF5DDA9000A6FB9 /* MUXSDKViewOrientation.h in Headers */,
+				19BFA3062AF5DDA9000A6FB9 /* MUXSDKConnection.h in Headers */,
+				19BFA3022AF5DDA9000A6FB9 /* MUXSDKCustomerViewDataStore.h in Headers */,
+				19BFA2FE2AF5DDA9000A6FB9 /* MUXSDKStats.h in Headers */,
+				19BFA3052AF5DDA9000A6FB9 /* MUXSDKMonitor.h in Headers */,
+				19BFA3082AF5DDA9000A6FB9 /* MUXSDKPlayerBindingManager.h in Headers */,
+				19BFA3042AF5DDA9000A6FB9 /* MUXSDKCustomerCustomDataStore.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,14 +269,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				195E02062AF04D2C00F6DDAC /* MUXSDKCustomerCustomDataStore.m in Sources */,
-				195E02022AF04D2C00F6DDAC /* MUXSDKPlayerBindingManager.m in Sources */,
-				195E02052AF04D2C00F6DDAC /* MUXSDKPlayerBinding.m in Sources */,
-				195E02032AF04D2C00F6DDAC /* MUXSDKConnection.m in Sources */,
-				195E020B2AF04D2C00F6DDAC /* MUXSDKCustomerPlayerDataStore.m in Sources */,
-				195E020C2AF04D2C00F6DDAC /* MUXSDKCustomerVideoDataStore.m in Sources */,
-				195E02012AF04D2C00F6DDAC /* MUXSDKCustomerViewDataStore.m in Sources */,
-				195E02002AF04D2C00F6DDAC /* MUXSDKStats.m in Sources */,
+				19BFA2F82AF5DDA9000A6FB9 /* MUXSDKPlayerBindingManager.m in Sources */,
+				19BFA30B2AF5DDA9000A6FB9 /* MUXSDKStats.m in Sources */,
+				19BFA3092AF5DDA9000A6FB9 /* MUXSDKCustomerVideoDataStore.m in Sources */,
+				19BFA2F62AF5DDA9000A6FB9 /* MUXSDKCustomerViewDataStore.m in Sources */,
+				19BFA2F32AF5DDA9000A6FB9 /* MUXSDKConstants.m in Sources */,
+				19BFA2F52AF5DDA9000A6FB9 /* MUXSDKMonitor.m in Sources */,
+				19BFA2FF2AF5DDA9000A6FB9 /* MUXSDKCustomerPlayerDataStore.m in Sources */,
+				19BFA2F42AF5DDA9000A6FB9 /* MUXSDKConnection.m in Sources */,
+				19BFA2F72AF5DDA9000A6FB9 /* MUXSDKCustomerCustomDataStore.m in Sources */,
+				19BFA2FD2AF5DDA9000A6FB9 /* MUXSDKPlayerBinding.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
