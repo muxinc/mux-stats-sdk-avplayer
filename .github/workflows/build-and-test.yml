@@ -16,8 +16,8 @@ jobs:
         run: sudo xcode-select -s '/Applications/Xcode_15.0.1.app/Contents/Developer'
       - name: "Baseline Unit Test Pass"
         run: ./scripts/run-baseline-unit-test-pass.sh
-  demo-application-tests-ventura:
-    name: (macOS Ventura) Test the SDK with a Demo App
+  cocoapods-installation-tests-ventura:
+    name: (macOS Ventura) Test SDK Cocoapods Installation
     runs-on: macos-13
     steps:
       - name: Install xcbeautify
@@ -30,6 +30,16 @@ jobs:
         run: gem install cocoapods
       - name: Run cocoapods example application tests
         run: "scripts/run-tests-cocoapods-ventura.sh"
+  swift-package-manager-installation-tests-ventura:
+    name: (macOS Ventura) Test SDK Swift Package Manager Installation
+    runs-on: macos-13
+    steps:
+      - name: Install xcbeautify
+        run: brew install xcbeautify
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Select Xcode version
+        run: sudo xcode-select -s '/Applications/Xcode_15.0.1.app/Contents/Developer'
       - name: Run Swift package manager example application tests
         run: "scripts/run-tests-swift-package-manager-ventura.sh"
   demo-application-tests-monterey:
