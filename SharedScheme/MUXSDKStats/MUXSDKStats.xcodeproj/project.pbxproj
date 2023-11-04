@@ -31,6 +31,8 @@
 		19BFA3092AF5DDA9000A6FB9 /* MUXSDKCustomerVideoDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BFA2F02AF5DDA9000A6FB9 /* MUXSDKCustomerVideoDataStore.m */; };
 		19BFA30A2AF5DDA9000A6FB9 /* MUXSDKCustomerPlayerDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 19BFA2F12AF5DDA9000A6FB9 /* MUXSDKCustomerPlayerDataStore.h */; };
 		19BFA30B2AF5DDA9000A6FB9 /* MUXSDKStats.m in Sources */ = {isa = PBXBuildFile; fileRef = 19BFA2F22AF5DDA9000A6FB9 /* MUXSDKStats.m */; };
+		19ECE58D2AF5F77700E25F8E /* MUXSDKPlaceholderViewerData.m in Sources */ = {isa = PBXBuildFile; fileRef = 19ECE58B2AF5F77700E25F8E /* MUXSDKPlaceholderViewerData.m */; };
+		19ECE58E2AF5F77700E25F8E /* MUXSDKPlaceholderViewerData.h in Headers */ = {isa = PBXBuildFile; fileRef = 19ECE58C2AF5F77700E25F8E /* MUXSDKPlaceholderViewerData.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +70,8 @@
 		19BFA2F02AF5DDA9000A6FB9 /* MUXSDKCustomerVideoDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MUXSDKCustomerVideoDataStore.m; sourceTree = "<group>"; };
 		19BFA2F12AF5DDA9000A6FB9 /* MUXSDKCustomerPlayerDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MUXSDKCustomerPlayerDataStore.h; sourceTree = "<group>"; };
 		19BFA2F22AF5DDA9000A6FB9 /* MUXSDKStats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MUXSDKStats.m; sourceTree = "<group>"; };
+		19ECE58B2AF5F77700E25F8E /* MUXSDKPlaceholderViewerData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MUXSDKPlaceholderViewerData.m; sourceTree = "<group>"; };
+		19ECE58C2AF5F77700E25F8E /* MUXSDKPlaceholderViewerData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MUXSDKPlaceholderViewerData.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +141,8 @@
 				19BFA2E42AF5DDA9000A6FB9 /* MUXSDKPlayerBinding.m */,
 				19BFA2EF2AF5DDA9000A6FB9 /* MUXSDKPlayerBindingManager.h */,
 				19BFA2DD2AF5DDA9000A6FB9 /* MUXSDKPlayerBindingManager.m */,
+				19ECE58C2AF5F77700E25F8E /* MUXSDKPlaceholderViewerData.h */,
+				19ECE58B2AF5F77700E25F8E /* MUXSDKPlaceholderViewerData.m */,
 				19BFA2E52AF5DDA9000A6FB9 /* MUXSDKStats.h */,
 				19BFA2F22AF5DDA9000A6FB9 /* MUXSDKStats.m */,
 				19BFA2EA2AF5DDA9000A6FB9 /* MUXSDKViewOrientation.h */,
@@ -158,6 +164,7 @@
 				19BFA3012AF5DDA9000A6FB9 /* MUXSDKConstants.h in Headers */,
 				19BFA3032AF5DDA9000A6FB9 /* MUXSDKViewOrientation.h in Headers */,
 				19BFA3062AF5DDA9000A6FB9 /* MUXSDKConnection.h in Headers */,
+				19ECE58E2AF5F77700E25F8E /* MUXSDKPlaceholderViewerData.h in Headers */,
 				19BFA3022AF5DDA9000A6FB9 /* MUXSDKCustomerViewDataStore.h in Headers */,
 				19BFA2FE2AF5DDA9000A6FB9 /* MUXSDKStats.h in Headers */,
 				19BFA3052AF5DDA9000A6FB9 /* MUXSDKMonitor.h in Headers */,
@@ -277,6 +284,7 @@
 				19BFA2F52AF5DDA9000A6FB9 /* MUXSDKMonitor.m in Sources */,
 				19BFA2FF2AF5DDA9000A6FB9 /* MUXSDKCustomerPlayerDataStore.m in Sources */,
 				19BFA2F42AF5DDA9000A6FB9 /* MUXSDKConnection.m in Sources */,
+				19ECE58D2AF5F77700E25F8E /* MUXSDKPlaceholderViewerData.m in Sources */,
 				19BFA2F72AF5DDA9000A6FB9 /* MUXSDKCustomerCustomDataStore.m in Sources */,
 				19BFA2FD2AF5DDA9000A6FB9 /* MUXSDKPlayerBinding.m in Sources */,
 			);
