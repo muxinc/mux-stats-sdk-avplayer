@@ -304,8 +304,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 - (void) safelyRemoveTimeObserverForPlayer {
     if (_player != nil && _timeObserver != nil) {
         @try {
+            id timeObserverBeingRemoved = _timeObserver;
             _timeObserver = nil;
-            [_player removeTimeObserver:_timeObserver];
+            [_player removeTimeObserver:timeObserverBeingRemoved];
         } @catch (NSException * e) {
             if ([[e name] isEqualToString:RemoveObserverExceptionName]) {
                 NSLog(@"MUXSDK-ERROR removing timeObserver (no observer registered, this can be ignored): %@ %@", e.name, e.reason);
