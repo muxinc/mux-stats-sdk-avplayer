@@ -887,7 +887,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void) dispatchError:(nonnull NSString *)code withMessage:(nonnull NSString *)message {
-    [self dispatchError code:code withMessage:message withErrorContext:nil];
+    [self dispatchError:code withMessage:message withErrorContext:nil];
 }
     
 - (void) dispatchError:(nonnull NSString *)code 
