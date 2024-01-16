@@ -146,7 +146,7 @@
                                                                              softwareName:@"TestSoftware"
                                                                           softwareVersion:@"0.1.0"];
 
-    [binding dispatchError:"1" withMessage:@"message" withErrorContext:@"context"];
+    [binding dispatchError:@"1" withMessage:@"message" withErrorContext:@"context"];
     
     XCTAssertEqual(5, [MUXSDKCore eventsCountForPlayer:name]);
     id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:4 forPlayer:name];
@@ -155,7 +155,7 @@
     MUXSDKPlaybackEvent *playbackEvent = (MUXSDKPlaybackEvent *)event;
     XCTAssertEqual(
                    playbackEvent.playerData.playerErrorCode,
-                   "1"
+                   @"1"
                    );
     XCTAssertEqual(
                    playbackEvent.playerData.playerErrorMessage,
