@@ -887,6 +887,12 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void) dispatchError:(nonnull NSString *)code withMessage:(nonnull NSString *)message {
+    [self dispatchError:code withMessage:message withErrorContext:nil];
+}
+    
+- (void) dispatchError:(nonnull NSString *)code 
+           withMessage:(nonnull NSString *)message 
+      withErrorContext:(NSString *)errorContext {
     if (![self isPlayerOK]) {
         return;
     }
@@ -894,6 +900,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     MUXSDKPlayerData *playerData = [self getPlayerData];
     [playerData setPlayerErrorCode:code];
     [playerData setPlayerErrorMessage:message];
+    if (errorContext) {
+        [playerData setPlayerErrorContext:errorContext];
+    }
     MUXSDKErrorEvent *event = [[MUXSDKErrorEvent alloc] init];
     [event setPlayerData:playerData];
     [MUXSDKCore dispatchEvent:event forPlayer:_name];
