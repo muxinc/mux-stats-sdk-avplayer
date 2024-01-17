@@ -900,11 +900,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     MUXSDKPlayerData *playerData = [self getPlayerData];
     [playerData setPlayerErrorCode:code];
     [playerData setPlayerErrorMessage:message];
+    if (errorContext) {
+        [playerData setPlayerErrorContext:errorContext];
+    }
     MUXSDKErrorEvent *event = [[MUXSDKErrorEvent alloc] init];
     [event setPlayerData:playerData];
-    if (errorContext) {
-        event.errorContext = errorContext;
-    }
     [MUXSDKCore dispatchEvent:event forPlayer:_name];
     _state = MUXSDKPlayerStateError;
 }
