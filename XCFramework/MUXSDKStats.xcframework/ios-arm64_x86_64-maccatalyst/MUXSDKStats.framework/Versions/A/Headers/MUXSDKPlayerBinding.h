@@ -114,6 +114,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 - (BOOL)setAutomaticErrorTracking:(BOOL)automaticErrorTracking;
 - (BOOL)setAutomaticVideoChange:(BOOL)automaticVideoChange;
 - (void)dispatchError:(NSString *)code withMessage:(NSString *)message;
+- (void)dispatchError:(NSString *)code withMessage:(NSString *)message withErrorContext:(NSString *)errorContext;
 - (void)didTriggerManualVideoChange;
 
 #pragma clang diagnostic pop
