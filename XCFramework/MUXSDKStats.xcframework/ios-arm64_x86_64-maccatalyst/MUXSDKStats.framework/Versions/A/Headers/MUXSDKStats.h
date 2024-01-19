@@ -34,6 +34,8 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 #if TVOS
 #import <MuxCore/MuxCoreTv.h>
+#elif TARGET_OS_VISION
+#import <MuxCore/MuxCoreVision.h>
 #else
 #import <MuxCore/MuxCore.h>
 #endif

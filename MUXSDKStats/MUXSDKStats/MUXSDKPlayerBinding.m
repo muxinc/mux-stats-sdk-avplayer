@@ -5,9 +5,11 @@
 #if __has_feature(modules)
 @import Foundation;
 @import CoreMedia;
+@import UIKit;
 #else
 #import <Foundation/Foundation.h>
 #import <CoreMedia/CoreMedia.h>
+#import <UIKit/UIKit.h>
 #endif
 
 // SDK constants.
@@ -619,7 +621,17 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [playerData setPlayerWidth:[NSNumber numberWithInt:viewBounds.size.width]];
     [playerData setPlayerHeight:[NSNumber numberWithInt:viewBounds.size.height]];
 
+
+    #if TARGET_OS_VISION
+    // TODO: Call analogous vision OS API for the area containing
+    // the player window, which seems like the rough equivalent
+    // of UIScreen
+    CGRect screenBounds = [[[UIApplication shared] connectedScenes] anyObject] ;
+    CGRectMake(0.0, 0.0, 100.0, 100.0);
+    #else
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    #endif
+
     // TODO: setPlayerIsFullscreen - should be a boolean.
     if ((viewBounds.size.width == screenBounds.size.width && viewBounds.size.height == screenBounds.size.height) ||
         (viewBounds.size.width == screenBounds.size.height && viewBounds.size.height == screenBounds.size.width)) {
@@ -707,9 +719,13 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     }
 
     // TODO: Airplay - don't set the view if we don't actually know what is going on.
+    #if TARGET_OS_VISION
+
+    #else
     if (_player.externalPlaybackActive) {
         [playerData setPlayerRemotePlayed:[NSNumber numberWithBool:YES]];
     }
+    #endif
     return playerData;
 }
 
@@ -756,7 +772,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (BOOL) isPausedWhileAirPlaying {
+    #if TARGET_OS_VISION
+    return NO;
+    #else
     return _player.externalPlaybackActive && [self isPaused];
+    #endif
 }
 
 - (BOOL) isAdPlaying {
