@@ -32,6 +32,26 @@ mkdir -p $BUILD_DIR
 echo "▸ Creating Target Directory: ${TARGET_DIR}"
 mkdir -p $TARGET_DIR
 
+echo "▸ Creating visionOS archive"
+
+xcodebuild clean archive \
+    -scheme MUXSDKStatsVision \
+    -project $PROJECT \
+    -destination "generic/platform=visionOS" \
+    -archivePath "$BUILD_DIR/MUXSDKStatsVision.visionOS.xcarchive" \
+    SKIP_INSTALL=NO \
+    BUILD_LIBRARY_FOR_DISTRIBUTION=YES | xcbeautify
+
+echo "▸ Creating visionOS Simulator archive"
+
+xcodebuild clean archive \
+    -scheme MUXSDKStatsVision \
+    -project $PROJECT \
+    -destination "generic/platform=visionOS Simulator" \
+    -archivePath "$BUILD_DIR/MUXSDKStatsVision.visionOS-simulator.xcarchive" \
+    SKIP_INSTALL=NO \
+    BUILD_LIBRARY_FOR_DISTRIBUTION=YES | xcbeautify
+
 echo "▸ Creating tvOS archive"
 
 xcodebuild clean archive \
@@ -85,6 +105,8 @@ xcodebuild clean archive \
 echo "▸ Creating ${PACKAGE_NAME}"
   
 xcodebuild -create-xcframework \
+    -framework "$BUILD_DIR/MUXSDKStatsVision.visionOS.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
+    -framework "$BUILD_DIR/MUXSDKStatsVision.visionOS-simulator.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
     -framework "$BUILD_DIR/MUXSDKStatsTv.tvOS.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
     -framework "$BUILD_DIR/MUXSDKStatsTv.tvOS-simulator.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
     -framework "$BUILD_DIR/MUXSDKStats.iOS.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \

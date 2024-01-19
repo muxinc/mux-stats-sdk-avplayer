@@ -1,12 +1,13 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.9
 
 import PackageDescription
 
 let package = Package(
     name: "MUXSDKStats",
     platforms: [
-        .iOS(.v11),
-        .tvOS(.v11)
+        .iOS(.v12),
+        .tvOS(.v12),
+        .visionOS(.v1),
     ],
     products: [
         .library(name: "MUXSDKStats", targets: ["MUXSDKStatsTargets"])
@@ -15,7 +16,7 @@ let package = Package(
         .package(
             name: "MuxCore",
             url: "https://github.com/muxinc/stats-sdk-objc.git",
-            .exactItem("4.6.0")
+            .exactItem("4.7.0")
         )
     ],
     targets: [

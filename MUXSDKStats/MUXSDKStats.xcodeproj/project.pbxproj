@@ -35,11 +35,35 @@
 		1917D7C32AB97FC5009654E8 /* MUXSDKStats.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F41E09041DDA8E530028A296 /* MUXSDKStats.framework */; };
 		195762172AD8EB1500128565 /* MuxCore in Frameworks */ = {isa = PBXBuildFile; productRef = 195762162AD8EB1500128565 /* MuxCore */; };
 		195762192AD8EB2600128565 /* MuxCore in Frameworks */ = {isa = PBXBuildFile; productRef = 195762182AD8EB2600128565 /* MuxCore */; };
+		195800E32B51BD43008BE2EB /* MUXSDKStatsVision.h in Headers */ = {isa = PBXBuildFile; fileRef = 195800E22B51BD43008BE2EB /* MUXSDKStatsVision.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		195800F02B51CBD0008BE2EB /* MUXSDKStats.h in Headers */ = {isa = PBXBuildFile; fileRef = F4DCAD001DCA892E0094D94C /* MUXSDKStats.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		195800F12B51CF6B008BE2EB /* MUXSDKStats.m in Sources */ = {isa = PBXBuildFile; fileRef = F4572FB41DDA2F05003FE72B /* MUXSDKStats.m */; };
+		195800F22B51CF6E008BE2EB /* MUXSDKConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = FA19C06D252BC599006AA443 /* MUXSDKConnection.h */; };
+		195800F32B51CF71008BE2EB /* MUXSDKConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = FA19C076252BC5CE006AA443 /* MUXSDKConnection.m */; };
+		195800F42B51CF74008BE2EB /* MUXSDKPlayerBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = F4572FC11DDA2FC8003FE72B /* MUXSDKPlayerBinding.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		195800F52B51CF79008BE2EB /* MUXSDKPlayerBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = F4572FC31DDA2FE9003FE72B /* MUXSDKPlayerBinding.m */; };
+		195800F62B51CF7D008BE2EB /* MUXSDKPlayerBindingConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 021F61E323F4E07B0089A882 /* MUXSDKPlayerBindingConstants.h */; };
+		195800F72B51CF81008BE2EB /* MUXSDKPlayerBindingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 028281E223E3815700B5531B /* MUXSDKPlayerBindingManager.h */; };
+		195800F82B51CF84008BE2EB /* MUXSDKPlayerBindingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 028281E323E3815700B5531B /* MUXSDKPlayerBindingManager.m */; };
+		195800F92B51CF87008BE2EB /* MUXSDKCustomerPlayerDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 02EB9E2523E894E70007E1CD /* MUXSDKCustomerPlayerDataStore.h */; };
+		195800FA2B51CF8D008BE2EB /* MUXSDKCustomerCustomDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 02D28F2F26D0972200D152EF /* MUXSDKCustomerCustomDataStore.h */; };
+		195800FB2B51CF8D008BE2EB /* MUXSDKCustomerViewDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 022224BD25312D5300054D0D /* MUXSDKCustomerViewDataStore.h */; };
+		195800FC2B51CF8D008BE2EB /* MUXSDKCustomerViewDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 022224BC25312D5300054D0D /* MUXSDKCustomerViewDataStore.m */; };
+		195800FD2B51CF8D008BE2EB /* MUXSDKCustomerPlayerDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EB9E2623E894E70007E1CD /* MUXSDKCustomerPlayerDataStore.m */; };
+		195800FE2B51CF8D008BE2EB /* MUXSDKCustomerCustomDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 02D28F3026D0972200D152EF /* MUXSDKCustomerCustomDataStore.m */; };
+		195800FF2B51CF8D008BE2EB /* MUXSDKCustomerVideoDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 02EB9E2B23E896790007E1CD /* MUXSDKCustomerVideoDataStore.h */; };
+		195801002B51CF8D008BE2EB /* MUXSDKCustomerVideoDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EB9E2C23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m */; };
+		19BB40BD2B9A7B6100219AB6 /* MuxCore in Frameworks */ = {isa = PBXBuildFile; productRef = 19BB40BC2B9A7B6100219AB6 /* MuxCore */; };
+		19CC56272BC6E5D700464AFA /* MuxCore in Frameworks */ = {isa = PBXBuildFile; productRef = 19CC56262BC6E5D700464AFA /* MuxCore */; };
+		19CC56292BC6E5DF00464AFA /* MuxCore in Frameworks */ = {isa = PBXBuildFile; productRef = 19CC56282BC6E5DF00464AFA /* MuxCore */; };
+		19CC562B2BC6E5E700464AFA /* MuxCore in Frameworks */ = {isa = PBXBuildFile; productRef = 19CC562A2BC6E5E700464AFA /* MuxCore */; };
 		19E4EA2C2AB984580068E1EE /* MUXSDKCore+Mock.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EA754B23EA074800B06715 /* MUXSDKCore+Mock.m */; };
 		19E4EA2D2AB9845F0068E1EE /* MUXSDKPlayerBindingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0243A98423E9FFC600FBF5B4 /* MUXSDKPlayerBindingTests.m */; };
 		19E4EA2E2AB984860068E1EE /* MUXSDKStatsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DCAD0B1DCA892E0094D94C /* MUXSDKStatsTests.m */; };
-		19EE40772ADD9841007F596A /* MuxCore in Frameworks */ = {isa = PBXBuildFile; productRef = 19EE40762ADD9841007F596A /* MuxCore */; };
-		19EE40792ADD9860007F596A /* MuxCore in Frameworks */ = {isa = PBXBuildFile; productRef = 19EE40782ADD9860007F596A /* MuxCore */; };
+		19F2B24E2B68724200D5DEA6 /* MUXSDKStatsVisionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 19F2B24D2B68724200D5DEA6 /* MUXSDKStatsVisionTests.m */; };
+		19F2B24F2B68724200D5DEA6 /* MUXSDKStats.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 195800E02B51BD43008BE2EB /* MUXSDKStats.framework */; };
+		19F2B2552B6872A600D5DEA6 /* MUXSDKStatsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F4DCAD0B1DCA892E0094D94C /* MUXSDKStatsTests.m */; };
+		19F2B2572B68B47B00D5DEA6 /* MUXSDKPlayerBindingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0243A98423E9FFC600FBF5B4 /* MUXSDKPlayerBindingTests.m */; };
 		F41E09081DDA8E530028A296 /* MUXSDKStatsTv.h in Headers */ = {isa = PBXBuildFile; fileRef = F41E09061DDA8E530028A296 /* MUXSDKStatsTv.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F41E099D1DDA8FB50028A296 /* MUXSDKStats.h in Headers */ = {isa = PBXBuildFile; fileRef = F4DCAD001DCA892E0094D94C /* MUXSDKStats.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F41E09E41DDA90DB0028A296 /* MUXSDKPlayerBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = F4572FC11DDA2FC8003FE72B /* MUXSDKPlayerBinding.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -64,6 +88,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = F41E09031DDA8E530028A296;
 			remoteInfo = MUXSDKStatsTv;
+		};
+		19F2B2502B68724200D5DEA6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4DCACF41DCA892E0094D94C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 195800DF2B51BD43008BE2EB;
+			remoteInfo = MUXSDKStatsVision;
 		};
 		F4DCAD081DCA892E0094D94C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -92,6 +123,12 @@
 		02EB9E2C23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MUXSDKCustomerVideoDataStore.m; sourceTree = "<group>"; };
 		1917D7B92AB97FBC009654E8 /* MUXSDKStatsTvTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MUXSDKStatsTvTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1917D7BB2AB97FBC009654E8 /* MUXSDKStatsTvTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MUXSDKStatsTvTests.m; sourceTree = "<group>"; };
+		195800E02B51BD43008BE2EB /* MUXSDKStats.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MUXSDKStats.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		195800E22B51BD43008BE2EB /* MUXSDKStatsVision.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MUXSDKStatsVision.h; sourceTree = "<group>"; };
+		195800EF2B51CB06008BE2EB /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		19F2B24B2B68724200D5DEA6 /* MUXSDKStatsVisionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MUXSDKStatsVisionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		19F2B24D2B68724200D5DEA6 /* MUXSDKStatsVisionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MUXSDKStatsVisionTests.m; sourceTree = "<group>"; };
+		19F2B2562B68731000D5DEA6 /* MUXSDKStatsVision.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = MUXSDKStatsVision.xctestplan; sourceTree = "<group>"; };
 		350F766328FDCD8D008F520F /* MUXSDKStats+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MUXSDKStats+Internal.h"; sourceTree = "<group>"; };
 		F41E09041DDA8E530028A296 /* MUXSDKStats.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MUXSDKStats.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F41E09061DDA8E530028A296 /* MUXSDKStatsTv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MUXSDKStatsTv.h; sourceTree = "<group>"; };
@@ -118,11 +155,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		195800DD2B51BD43008BE2EB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				19CC562B2BC6E5E700464AFA /* MuxCore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		19F2B2482B68724200D5DEA6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				19F2B24F2B68724200D5DEA6 /* MUXSDKStats.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F41E09001DDA8E530028A296 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				19EE40792ADD9860007F596A /* MuxCore in Frameworks */,
+				19CC56292BC6E5DF00464AFA /* MuxCore in Frameworks */,
 				195762192AD8EB2600128565 /* MuxCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -131,7 +184,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				19EE40772ADD9841007F596A /* MuxCore in Frameworks */,
+				19CC56272BC6E5D700464AFA /* MuxCore in Frameworks */,
+				19BB40BD2B9A7B6100219AB6 /* MuxCore in Frameworks */,
 				195762172AD8EB1500128565 /* MuxCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -164,6 +218,30 @@
 			path = MUXSDKStatsTvTests;
 			sourceTree = "<group>";
 		};
+		195800E12B51BD43008BE2EB /* MUXSDKStatsVision */ = {
+			isa = PBXGroup;
+			children = (
+				195800E22B51BD43008BE2EB /* MUXSDKStatsVision.h */,
+				195800EF2B51CB06008BE2EB /* module.modulemap */,
+			);
+			path = MUXSDKStatsVision;
+			sourceTree = "<group>";
+		};
+		19BB40BE2B9A7B8600219AB6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		19F2B24C2B68724200D5DEA6 /* MUXSDKStatsVisionTests */ = {
+			isa = PBXGroup;
+			children = (
+				19F2B24D2B68724200D5DEA6 /* MUXSDKStatsVisionTests.m */,
+			);
+			path = MUXSDKStatsVisionTests;
+			sourceTree = "<group>";
+		};
 		F41E09051DDA8E530028A296 /* MUXSDKStatsTv */ = {
 			isa = PBXGroup;
 			children = (
@@ -177,11 +255,15 @@
 		F4DCACF31DCA892E0094D94C = {
 			isa = PBXGroup;
 			children = (
+				19F2B2562B68731000D5DEA6 /* MUXSDKStatsVision.xctestplan */,
 				F4DCACFF1DCA892E0094D94C /* MUXSDKStats */,
 				F4DCAD0A1DCA892E0094D94C /* MUXSDKStatsTests */,
 				F41E09051DDA8E530028A296 /* MUXSDKStatsTv */,
 				1917D7BA2AB97FBC009654E8 /* MUXSDKStatsTvTests */,
+				195800E12B51BD43008BE2EB /* MUXSDKStatsVision */,
+				19F2B24C2B68724200D5DEA6 /* MUXSDKStatsVisionTests */,
 				F4DCACFE1DCA892E0094D94C /* Products */,
+				19BB40BE2B9A7B8600219AB6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -192,6 +274,8 @@
 				F4DCAD061DCA892E0094D94C /* MUXSDKStatsTests.xctest */,
 				F41E09041DDA8E530028A296 /* MUXSDKStats.framework */,
 				1917D7B92AB97FBC009654E8 /* MUXSDKStatsTvTests.xctest */,
+				195800E02B51BD43008BE2EB /* MUXSDKStats.framework */,
+				19F2B24B2B68724200D5DEA6 /* MUXSDKStatsVisionTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -236,6 +320,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		195800DB2B51BD43008BE2EB /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				195800F02B51CBD0008BE2EB /* MUXSDKStats.h in Headers */,
+				195800F22B51CF6E008BE2EB /* MUXSDKConnection.h in Headers */,
+				195800FF2B51CF8D008BE2EB /* MUXSDKCustomerVideoDataStore.h in Headers */,
+				195800FB2B51CF8D008BE2EB /* MUXSDKCustomerViewDataStore.h in Headers */,
+				195800F62B51CF7D008BE2EB /* MUXSDKPlayerBindingConstants.h in Headers */,
+				195800F92B51CF87008BE2EB /* MUXSDKCustomerPlayerDataStore.h in Headers */,
+				195800E32B51BD43008BE2EB /* MUXSDKStatsVision.h in Headers */,
+				195800FA2B51CF8D008BE2EB /* MUXSDKCustomerCustomDataStore.h in Headers */,
+				195800F42B51CF74008BE2EB /* MUXSDKPlayerBinding.h in Headers */,
+				195800F72B51CF81008BE2EB /* MUXSDKPlayerBindingManager.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F41E09011DDA8E530028A296 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -290,6 +391,45 @@
 			productReference = 1917D7B92AB97FBC009654E8 /* MUXSDKStatsTvTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		195800DF2B51BD43008BE2EB /* MUXSDKStatsVision */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 195800E62B51BD43008BE2EB /* Build configuration list for PBXNativeTarget "MUXSDKStatsVision" */;
+			buildPhases = (
+				195800DB2B51BD43008BE2EB /* Headers */,
+				195800DC2B51BD43008BE2EB /* Sources */,
+				195800DD2B51BD43008BE2EB /* Frameworks */,
+				195800DE2B51BD43008BE2EB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MUXSDKStatsVision;
+			packageProductDependencies = (
+				19CC562A2BC6E5E700464AFA /* MuxCore */,
+			);
+			productName = MUXSDKStatsVision;
+			productReference = 195800E02B51BD43008BE2EB /* MUXSDKStats.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		19F2B24A2B68724200D5DEA6 /* MUXSDKStatsVisionTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 19F2B2522B68724200D5DEA6 /* Build configuration list for PBXNativeTarget "MUXSDKStatsVisionTests" */;
+			buildPhases = (
+				19F2B2472B68724200D5DEA6 /* Sources */,
+				19F2B2482B68724200D5DEA6 /* Frameworks */,
+				19F2B2492B68724200D5DEA6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				19F2B2512B68724200D5DEA6 /* PBXTargetDependency */,
+			);
+			name = MUXSDKStatsVisionTests;
+			productName = MUXSDKStatsVisionTests;
+			productReference = 19F2B24B2B68724200D5DEA6 /* MUXSDKStatsVisionTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		F41E09031DDA8E530028A296 /* MUXSDKStatsTv */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F41E090B1DDA8E530028A296 /* Build configuration list for PBXNativeTarget "MUXSDKStatsTv" */;
@@ -306,7 +446,7 @@
 			name = MUXSDKStatsTv;
 			packageProductDependencies = (
 				195762182AD8EB2600128565 /* MuxCore */,
-				19EE40782ADD9860007F596A /* MuxCore */,
+				19CC56282BC6E5DF00464AFA /* MuxCore */,
 			);
 			productName = MUXSDKStatsTv;
 			productReference = F41E09041DDA8E530028A296 /* MUXSDKStats.framework */;
@@ -328,7 +468,8 @@
 			name = MUXSDKStats;
 			packageProductDependencies = (
 				195762162AD8EB1500128565 /* MuxCore */,
-				19EE40762ADD9841007F596A /* MuxCore */,
+				19BB40BC2B9A7B6100219AB6 /* MuxCore */,
+				19CC56262BC6E5D700464AFA /* MuxCore */,
 			);
 			productName = MUXSDKStats;
 			productReference = F4DCACFD1DCA892E0094D94C /* MUXSDKStats.framework */;
@@ -364,6 +505,12 @@
 					1917D7B82AB97FBC009654E8 = {
 						CreatedOnToolsVersion = 15.0;
 					};
+					195800DF2B51BD43008BE2EB = {
+						CreatedOnToolsVersion = 15.2;
+					};
+					19F2B24A2B68724200D5DEA6 = {
+						CreatedOnToolsVersion = 15.2;
+					};
 					F41E09031DDA8E530028A296 = {
 						CreatedOnToolsVersion = 8.0;
 						ProvisioningStyle = Automatic;
@@ -388,7 +535,7 @@
 			);
 			mainGroup = F4DCACF31DCA892E0094D94C;
 			packageReferences = (
-				19EE40752ADD9841007F596A /* XCRemoteSwiftPackageReference "stats-sdk-objc" */,
+				19CC56252BC6E5D700464AFA /* XCRemoteSwiftPackageReference "stats-sdk-objc" */,
 			);
 			productRefGroup = F4DCACFE1DCA892E0094D94C /* Products */;
 			projectDirPath = "";
@@ -398,12 +545,28 @@
 				F4DCAD051DCA892E0094D94C /* MUXSDKStatsTests */,
 				F41E09031DDA8E530028A296 /* MUXSDKStatsTv */,
 				1917D7B82AB97FBC009654E8 /* MUXSDKStatsTvTests */,
+				195800DF2B51BD43008BE2EB /* MUXSDKStatsVision */,
+				19F2B24A2B68724200D5DEA6 /* MUXSDKStatsVisionTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1917D7B72AB97FBC009654E8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		195800DE2B51BD43008BE2EB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		19F2B2492B68724200D5DEA6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -442,6 +605,31 @@
 				19E4EA2D2AB9845F0068E1EE /* MUXSDKPlayerBindingTests.m in Sources */,
 				19E4EA2C2AB984580068E1EE /* MUXSDKCore+Mock.m in Sources */,
 				1917D7BC2AB97FBC009654E8 /* MUXSDKStatsTvTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		195800DC2B51BD43008BE2EB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				195800FC2B51CF8D008BE2EB /* MUXSDKCustomerViewDataStore.m in Sources */,
+				195800F12B51CF6B008BE2EB /* MUXSDKStats.m in Sources */,
+				195800FD2B51CF8D008BE2EB /* MUXSDKCustomerPlayerDataStore.m in Sources */,
+				195800FE2B51CF8D008BE2EB /* MUXSDKCustomerCustomDataStore.m in Sources */,
+				195800F52B51CF79008BE2EB /* MUXSDKPlayerBinding.m in Sources */,
+				195801002B51CF8D008BE2EB /* MUXSDKCustomerVideoDataStore.m in Sources */,
+				195800F82B51CF84008BE2EB /* MUXSDKPlayerBindingManager.m in Sources */,
+				195800F32B51CF71008BE2EB /* MUXSDKConnection.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		19F2B2472B68724200D5DEA6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				19F2B24E2B68724200D5DEA6 /* MUXSDKStatsVisionTests.m in Sources */,
+				19F2B2552B6872A600D5DEA6 /* MUXSDKStatsTests.m in Sources */,
+				19F2B2572B68B47B00D5DEA6 /* MUXSDKPlayerBindingTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -492,6 +680,11 @@
 			isa = PBXTargetDependency;
 			target = F41E09031DDA8E530028A296 /* MUXSDKStatsTv */;
 			targetProxy = 1917D7BE2AB97FBC009654E8 /* PBXContainerItemProxy */;
+		};
+		19F2B2512B68724200D5DEA6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 195800DF2B51BD43008BE2EB /* MUXSDKStatsVision */;
+			targetProxy = 19F2B2502B68724200D5DEA6 /* PBXContainerItemProxy */;
 		};
 		F4DCAD091DCA892E0094D94C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -554,6 +747,152 @@
 			};
 			name = Release;
 		};
+		195800E42B51BD43008BE2EB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = XX95P4Y787;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Mux, Inc. All rights reserved.";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 3.6.0;
+				MODULEMAP_FILE = "$(SRCROOT)/MUXSDKStatsVision/module.modulemap";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mux.data.MUXSDKStatsVision;
+				PRODUCT_NAME = MUXSDKStats;
+				SDKROOT = xros;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 1.0;
+			};
+			name = Debug;
+		};
+		195800E52B51BD43008BE2EB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = XX95P4Y787;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = NO;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Mux, Inc. All rights reserved.";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 3.6.0;
+				MODULEMAP_FILE = "$(SRCROOT)/MUXSDKStatsVision/module.modulemap";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mux.data.MUXSDKStatsVision;
+				PRODUCT_NAME = MUXSDKStats;
+				SDKROOT = xros;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 1.0;
+			};
+			name = Release;
+		};
+		19F2B2532B68724200D5DEA6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XX95P4Y787;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.visionos.MUXSDKStatsVisionTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 1.0;
+			};
+			name = Debug;
+		};
+		19F2B2542B68724200D5DEA6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XX95P4Y787;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.visionos.MUXSDKStatsVisionTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 1.0;
+			};
+			name = Release;
+		};
 		F41E09091DDA8E530028A296 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -569,13 +908,14 @@
 					"TVOS=1",
 				);
 				INFOPLIST_FILE = MUXSDKStatsTv/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Mux, Inc. All rights reserved.";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.5.1;
+				MARKETING_VERSION = 3.6.0;
 				MODULEMAP_FILE = "$(SRCROOT)/MUXSDKStatsTv/module.modulemap";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.tvos.MUXSDKStatsTv;
@@ -598,13 +938,14 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				"GCC_PREPROCESSOR_DEFINITIONS[sdk=*]" = "TVOS=1";
 				INFOPLIST_FILE = MUXSDKStatsTv/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Mux, Inc. All rights reserved.";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.5.1;
+				MARKETING_VERSION = 3.6.0;
 				MODULEMAP_FILE = "$(SRCROOT)/MUXSDKStatsTv/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.tvos.MUXSDKStatsTv;
 				PRODUCT_NAME = MUXSDKStats;
@@ -779,6 +1120,7 @@
 					"TVOS=1",
 				);
 				INFOPLIST_FILE = MUXSDKStats/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Mux, Inc. All rights reserved.";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -786,7 +1128,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.5.1;
+				MARKETING_VERSION = 3.6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.ios.MUXSDKStats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -807,6 +1149,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				"GCC_PREPROCESSOR_DEFINITIONS[sdk=appletvos*]" = "TVOS=1";
 				INFOPLIST_FILE = MUXSDKStats/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Mux, Inc. All rights reserved.";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -814,7 +1157,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.5.1;
+				MARKETING_VERSION = 3.6.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.ios.MUXSDKStats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -867,6 +1210,24 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		195800E62B51BD43008BE2EB /* Build configuration list for PBXNativeTarget "MUXSDKStatsVision" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				195800E42B51BD43008BE2EB /* Debug */,
+				195800E52B51BD43008BE2EB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		19F2B2522B68724200D5DEA6 /* Build configuration list for PBXNativeTarget "MUXSDKStatsVisionTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				19F2B2532B68724200D5DEA6 /* Debug */,
+				19F2B2542B68724200D5DEA6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F41E090B1DDA8E530028A296 /* Build configuration list for PBXNativeTarget "MUXSDKStatsTv" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -906,12 +1267,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		19EE40752ADD9841007F596A /* XCRemoteSwiftPackageReference "stats-sdk-objc" */ = {
+		19CC56252BC6E5D700464AFA /* XCRemoteSwiftPackageReference "stats-sdk-objc" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/muxinc/stats-sdk-objc";
 			requirement = {
 				kind = exactVersion;
-				version = 4.6.0;
+				version = 4.7.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -925,14 +1286,23 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = MuxCore;
 		};
-		19EE40762ADD9841007F596A /* MuxCore */ = {
+		19BB40BC2B9A7B6100219AB6 /* MuxCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 19EE40752ADD9841007F596A /* XCRemoteSwiftPackageReference "stats-sdk-objc" */;
 			productName = MuxCore;
 		};
-		19EE40782ADD9860007F596A /* MuxCore */ = {
+		19CC56262BC6E5D700464AFA /* MuxCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 19EE40752ADD9841007F596A /* XCRemoteSwiftPackageReference "stats-sdk-objc" */;
+			package = 19CC56252BC6E5D700464AFA /* XCRemoteSwiftPackageReference "stats-sdk-objc" */;
+			productName = MuxCore;
+		};
+		19CC56282BC6E5DF00464AFA /* MuxCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 19CC56252BC6E5D700464AFA /* XCRemoteSwiftPackageReference "stats-sdk-objc" */;
+			productName = MuxCore;
+		};
+		19CC562A2BC6E5E700464AFA /* MuxCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 19CC56252BC6E5D700464AFA /* XCRemoteSwiftPackageReference "stats-sdk-objc" */;
 			productName = MuxCore;
 		};
 /* End XCSwiftPackageProductDependency section */

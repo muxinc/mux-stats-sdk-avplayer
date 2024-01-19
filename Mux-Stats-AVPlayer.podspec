@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name             = 'Mux-Stats-AVPlayer'
 
-  s.version          = '3.5.1'
+  s.version          = '3.6.0'
   s.source           = { :git => 'https://github.com/muxinc/mux-stats-sdk-avplayer.git',
                          :tag => "v#{s.version}" }
 
@@ -14,13 +14,13 @@ Pod::Spec.new do |s|
   s.license          = 'Apache 2.0'
   s.author           = { 'Mux' => 'ios-sdk@mux.com' }
 
-  s.dependency 'Mux-Stats-Core', '4.6.0'
+  s.dependency 'Mux-Stats-Core', '4.7.0'
 
-  s.ios.deployment_target = '11.0'
+  s.ios.deployment_target = '12.0'
   s.ios.vendored_frameworks = 'XCFramework/MUXSDKStats.xcframework'
   s.ios.frameworks = 'AVKit', 'AVFoundation', 'SystemConfiguration', 'CoreMedia'
 
-  s.tvos.deployment_target = '11.0'
+  s.tvos.deployment_target = '12.0'
   s.tvos.vendored_frameworks = 'XCFramework/MUXSDKStats.xcframework'
   s.tvos.frameworks = 'AVKit', 'AVFoundation', 'SystemConfiguration', 'CoreMedia'
 end
