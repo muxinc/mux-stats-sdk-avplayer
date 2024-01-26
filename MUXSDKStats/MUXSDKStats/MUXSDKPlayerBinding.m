@@ -3,9 +3,11 @@
 #import "MUXSDKPlayerBindingConstants.h"
 
 #if __has_feature(modules)
+@import AVFoundation;
 @import Foundation;
 @import CoreMedia;
 #else
+#import <AVFoundation/AVFoundation.h>
 #import <Foundation/Foundation.h>
 #import <CoreMedia/CoreMedia.h>
 #endif
@@ -618,6 +620,16 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     CGRect viewBounds = [self getViewBounds];
     [playerData setPlayerWidth:[NSNumber numberWithInt:viewBounds.size.width]];
     [playerData setPlayerHeight:[NSNumber numberWithInt:viewBounds.size.height]];
+
+    for (AVAssetTrack *track in _player.currentItem.tracks) {
+
+        if (track.mediaType == AVMediaTypeVideo) {
+            // TODO: expose player data property for FPS
+
+            NSLog(@"%f", track.nominalFrameRate);
+        }
+
+    }
 
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     // TODO: setPlayerIsFullscreen - should be a boolean.
