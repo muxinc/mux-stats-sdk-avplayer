@@ -33,13 +33,26 @@ unzip MUXSDKStats.xcframework.zip
 cd apps/MUXSDKStatsExampleSPM
 
 echo "▸ Resolving package dependencies"
-xcodebuild -resolvePackageDependencies
+xcodebuild -resolvePackageDependencies \
+           -project MUXSDKStatsExampleSPM.xcodeproj | xcbeautify
 
 echo "▸ Available Schemes in $(pwd)"
 xcodebuild -list -json
 
-echo "▸ Running ${SCHEME} Tests"
+echo "▸ Running ${SCHEME} Test when installed using Swift Package Manager"
+echo ""
+
+echo "▸ Testing SDK on iOS 17.2 - iPhone 14 Pro Max"
+
 xcodebuild clean test \
-    -project $PROJECT \
-    -scheme $SCHEME \
-    -destination 'platform=iOS Simulator,OS=16.4,name=iPhone 14 Pro Max' | xcbeautify
+    -project MUXSDKStatsExampleSPM.xcodeproj \
+    -scheme "MUXSDKStatsExampleSPM" \
+    -destination 'platform=iOS Simulator,OS=17.2,name=iPhone 14 Pro Max' | xcbeautify
+
+echo "▸ Testing Mac Catalyst - Designed for iPad variant"
+
+xcodebuild clean test \
+    -project MUXSDKStatsExampleSPM.xcodeproj \
+    -scheme "MUXSDKStatsExampleSPM" \
+    -destination 'generic/platform=macOS,arch=arm64,variant=Designed for iPad' | xcbeautify
+    

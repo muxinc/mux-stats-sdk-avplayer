@@ -44,8 +44,11 @@ pod deintegrate && pod install --clean-install --repo-update
 echo "▸ Available Schemes in $(pwd)"
 xcodebuild -list
 
-echo "▸ Running Demo App Tests"
+echo "▸ Available Simulators"
+xcrun simctl list 
+
+echo "▸ Testing SDK on iOS 17.2 - iPhone 14 Pro Max"
 xcodebuild clean test \
     -workspace $WORKSPACE \
     -scheme $SCHEME \
-    -destination 'platform=iOS Simulator,OS=16.4,name=iPhone 14 Pro Max' | xcbeautify
+    -destination 'platform=iOS Simulator,OS=17.2,name=iPhone 14 Pro Max' | xcbeautify
