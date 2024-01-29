@@ -2,9 +2,6 @@
 //  MUXSDKStatsTvTests.m
 //  MUXSDKStatsTvTests
 //
-//  Created by AJ Barinov on 9/19/23.
-//  Copyright © 2023 Mux, Inc. All rights reserved.
-//
 
 #import <XCTest/XCTest.h>
 
