@@ -12,10 +12,10 @@ jobs:
         run: brew install xcbeautify
       - name: Checkout
         uses: actions/checkout@v3
+      - name: "Switch to Xcode 15.2"
+        run: sudo xcode-select -switch /Applications/Xcode_15.2.app
       - name: "Baseline Unit Test Pass"
         run: ./scripts/run-baseline-unit-test-pass.sh
-      - name: "Switch to Xcode 14.3.1"
-        run: sudo xcode-select -switch /Applications/Xcode_14.3.1.app
       - name: "🔨 Build Dynamic XCFramework"
         run: ".github/workflows/scripts/build.sh"
       - name: "Upload xcframework artifact"
@@ -32,6 +32,8 @@ jobs:
         run: brew install xcbeautify
       - name: Checkout
         uses: actions/checkout@v3
+      - name: "Switch to Xcode 15.2"
+        run: sudo xcode-select -switch /Applications/Xcode_15.2.app
       - name: Download framework artifact
         uses: actions/download-artifact@v3
         with:
@@ -48,8 +50,8 @@ jobs:
         run: brew install xcbeautify
       - name: Checkout
         uses: actions/checkout@v3
-      - name: "Switch to Xcode 14.3.1"
-        run: sudo xcode-select -switch /Applications/Xcode_14.3.1.app
+      - name: "Switch to Xcode 15.2"
+        run: sudo xcode-select -switch /Applications/Xcode_15.2.app
       - name: "🔨 Build Static XCFramework"
         run: ".github/workflows/scripts/build-static.sh"
       - name: "Upload xcframework artifact"
@@ -70,7 +72,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: "MUXSDKStats.xcframework.zip"
-      - name: Select Xcode version
+      - name: "Switch to Xcode 13.4.1"
         run: sudo xcode-select -s '/Applications/Xcode_13.4.1.app/Contents/Developer'
       - name: Run tests
         run: "scripts/run-tests-cocoapods-monterey.sh"

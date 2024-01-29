@@ -14,7 +14,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"3.4.2";
+NSString *const MUXSDKPluginVersion = @"3.6.0";
 NSString *const MUXSessionDataPrefix = @"io.litix.data.";
 
 // Min number of seconds between timeupdate events. (100ms)
@@ -626,12 +626,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     // TODO: Call analogous vision OS API for the area containing
     // the player window, which seems like the rough equivalent
     // of UIScreen
-    CGRect screenBounds = [[[UIApplication shared] connectedScenes] anyObject] ;
-    CGRectMake(0.0, 0.0, 100.0, 100.0);
+    [playerData setPlayerIsFullscreen:@"false"];
     #else
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
-    #endif
-
     // TODO: setPlayerIsFullscreen - should be a boolean.
     if ((viewBounds.size.width == screenBounds.size.width && viewBounds.size.height == screenBounds.size.height) ||
         (viewBounds.size.width == screenBounds.size.height && viewBounds.size.height == screenBounds.size.width)) {
@@ -639,6 +636,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     } else {
         [playerData setPlayerIsFullscreen:@"false"];
     }
+    #endif
 
     // Derived from the player.
     NSMutableArray *errors = [NSMutableArray new];
