@@ -44,6 +44,7 @@
 /* Begin PBXFileReference section */
 		194C6D432ABD518A003F965E /* mux-stats-sdk-avplayer */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "mux-stats-sdk-avplayer"; path = ../..; sourceTree = "<group>"; };
 		195762132AD64B2800128565 /* AudioOnlyPlaybackExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioOnlyPlaybackExampleViewController.swift; sourceTree = "<group>"; };
+		19ABBEA92B650DB2004A3634 /* MUXSDKStatsExampleSPM.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = MUXSDKStatsExampleSPM.xctestplan; sourceTree = "<group>"; };
 		19C386A72AD12343009AB018 /* MultiplePlayerItemPlaybackExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplePlayerItemPlaybackExampleViewController.swift; sourceTree = "<group>"; };
 		19C386A92AD3194F009AB018 /* PlayerLayerScalingExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerLayerScalingExampleViewController.swift; sourceTree = "<group>"; };
 		19CB35CC2ABD2B5C002DF48C /* MUXSDKStatsExampleSPM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MUXSDKStatsExampleSPM.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,6 +101,7 @@
 		19CB35C32ABD2B5C002DF48C = {
 			isa = PBXGroup;
 			children = (
+				19ABBEA92B650DB2004A3634 /* MUXSDKStatsExampleSPM.xctestplan */,
 				194C6D422ABD518A003F965E /* Packages */,
 				19CB35CE2ABD2B5C002DF48C /* MUXSDKStatsExampleSPM */,
 				19CB35E52ABD2B5D002DF48C /* MUXSDKStatsExampleSPMTests */,

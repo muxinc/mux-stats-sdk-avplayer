@@ -1,0 +1,46 @@
+{
+  "configurations" : [
+    {
+      "id" : "C9F5DF09-2B97-41D0-AEFF-9DDFA7BF2B96",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "environmentVariableEntries" : [
+      {
+        "key" : "ENV_KEY",
+        "value" : ""
+      },
+      {
+        "key" : "PLAYBACK_ID",
+        "value" : ""
+      }
+    ],
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:MUXSDKStatsExampleSPM.xcodeproj",
+      "identifier" : "19CB35CB2ABD2B5C002DF48C",
+      "name" : "MUXSDKStatsExampleSPM"
+    }
+  },
+  "testTargets" : [
+    {
+      "enabled" : false,
+      "target" : {
+        "containerPath" : "container:MUXSDKStatsExampleSPM.xcodeproj",
+        "identifier" : "19CB35E12ABD2B5D002DF48C",
+        "name" : "MUXSDKStatsExampleSPMTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:MUXSDKStatsExampleSPM.xcodeproj",
+        "identifier" : "19CB35EB2ABD2B5D002DF48C",
+        "name" : "MUXSDKStatsExampleSPMUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

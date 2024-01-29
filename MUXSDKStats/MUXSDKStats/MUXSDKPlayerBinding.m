@@ -12,7 +12,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"3.5.0";
+NSString *const MUXSDKPluginVersion = @"3.5.1";
 NSString *const MUXSessionDataPrefix = @"io.litix.data.";
 
 // Min number of seconds between timeupdate events. (100ms)
@@ -427,7 +427,14 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     AVAsset *asset = _player.currentItem.asset;
     // Load Session Data from HLS manifest
     __weak MUXSDKPlayerBinding *weakSelf = self;
-    [asset loadValuesAsynchronouslyForKeys:@[@"metadata"] completionHandler:^{
+    [asset loadValuesAsynchronouslyForKeys:@[@"metadata"] 
+                         completionHandler:^{
+
+        __typeof(weakSelf) strongSelf = weakSelf;
+        if (strongSelf == nil) {
+            return;
+        }
+
         NSMutableDictionary *sessionData = [[NSMutableDictionary alloc] init];
         for (AVMetadataItem *item in asset.metadata) {
             id<NSObject, NSCopying> key = [item key];
@@ -443,7 +450,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         if ([sessionData count] > 0) {
             MUXSDKSessionDataEvent *dataEvent = [MUXSDKSessionDataEvent new];
             [dataEvent setSessionData: sessionData];
-            [MUXSDKCore dispatchEvent:dataEvent forPlayer:[weakSelf name]];
+            [MUXSDKCore dispatchEvent:dataEvent forPlayer:[strongSelf name]];
         }
     }];
 }

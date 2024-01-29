@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "55A22110-4910-4B0A-8763-8558A7034B31",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:DemoApp.xcodeproj",
+      "identifier" : "F444D4371DDB8EBF00FE804F",
+      "name" : "DemoApp"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:DemoApp.xcodeproj",
+        "identifier" : "0218F2522548B9A3009DF1FF",
+        "name" : "DemoAppUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

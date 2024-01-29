@@ -13,7 +13,7 @@ readonly SCHEME_TVOS=MUXSDKStatsTv
 
 cd MUXSDKStats
 
-sudo xcode-select -s /Applications/Xcode_14.3.1.app/Contents/Developer
+sudo xcode-select -s /Applications/Xcode_15.2.app/Contents/Developer
 
 echo "▸ Current Xcode: $(xcode-select -p)"
 
@@ -21,46 +21,48 @@ echo "▸ Available Xcode SDKs"
 
 xcodebuild -showsdks
 
-echo "▸ Testing SDK on iOS 16.4 - iPhone 14 Pro Max"
+echo "▸ Testing SDK on iOS 17.2 - iPhone 14 Pro Max"
 
 xcodebuild clean test \
   -project $PROJECT \
   -scheme $SCHEME \
-  -destination 'platform=iOS Simulator,OS=16.4,name=iPhone 14 Pro Max' \
+  -destination 'platform=iOS Simulator,OS=17.2,name=iPhone 14 Pro Max' \
   | xcbeautify
 
-echo "▸ Testing SDK on iOS 16.4 - iPad Pro (12.9-inch) (6th generation)"
+echo "▸ Testing SDK on iOS 17.2 - iPad Pro (12.9-inch) (6th generation)"
 
 xcodebuild clean test \
   -project $PROJECT \
   -scheme $SCHEME \
-  -destination 'platform=iOS Simulator,OS=16.4,name=iPad Pro (12.9-inch) (6th generation)' \
+  -destination 'platform=iOS Simulator,OS=17.2,name=iPad Pro (12.9-inch) (6th generation)' \
   | xcbeautify
 
-echo "▸ Testing SDK on tvOS 16.4 - Apple TV"
+echo "▸ Testing SDK on tvOS 17.2 - Apple TV"
 
 xcodebuild clean test \
   -project $PROJECT \
   -scheme $SCHEME_TVOS \
-  -destination 'platform=tvOS Simulator,OS=16.4,name=Apple TV' \
+  -destination 'platform=tvOS Simulator,OS=17.2,name=Apple TV' \
   -verbose \
   | xcbeautify
 
-echo "▸ Testing SDK on tvOS 16.4 - Apple TV 4K (3rd generation)"
+echo "▸ Testing SDK on tvOS 17.2 - Apple TV 4K (3rd generation)"
 
 xcodebuild clean test \
   -project $PROJECT \
   -scheme $SCHEME_TVOS \
-  -destination 'platform=tvOS Simulator,OS=16.4,name=Apple TV 4K (3rd generation)' \
+  -destination 'platform=tvOS Simulator,OS=17.2,name=Apple TV 4K (3rd generation)' \
   -verbose \
   | xcbeautify
 
-echo "▸ Testing SDK on tvOS 16.4 - Apple TV 4K (3rd generation) (at 1080p)"
+echo "▸ Testing SDK on tvOS 17.2 - Apple TV 4K (3rd generation) (at 1080p)"
+
+sudo xcode-select -s /Applications/Xcode_14.3.1.app/Contents/Developer
 
 xcodebuild clean test \
   -project $PROJECT \
   -scheme $SCHEME_TVOS \
-  -destination 'platform=tvOS Simulator,OS=16.4,name=Apple TV 4K (3rd generation) (at 1080p)' \
+  -destination 'platform=tvOS Simulator,OS=17.2,name=Apple TV 4K (3rd generation) (at 1080p)' \
   | xcbeautify
 
 sudo xcode-select -s /Applications/Xcode_14.2.app/
