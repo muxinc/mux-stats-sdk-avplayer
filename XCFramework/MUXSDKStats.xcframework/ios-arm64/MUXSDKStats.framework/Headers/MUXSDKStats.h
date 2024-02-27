@@ -34,6 +34,8 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 #if TVOS
 #import <MuxCore/MuxCoreTv.h>
+#elif TARGET_OS_VISION
+#import <MuxCore/MuxCoreVision.h>
 #else
 #import <MuxCore/MuxCore.h>
 #endif
@@ -201,7 +203,7 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerViewController:withP
  */
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
                                         withPlayerName:(nonnull NSString *)name
-                                          customerData:(nonnull MUXSDKCustomerData *)customerData;
+                                          customerData:(nonnull MUXSDKCustomerData *)customerData API_UNAVAILABLE(visionos);
 
 /*!
  @method      monitorAVPlayerLayer:withPlayerName:customerData:automaticErrorTracking:
@@ -216,7 +218,7 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerViewController:withP
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
                                         withPlayerName:(nonnull NSString *)name
                                           customerData:(nonnull MUXSDKCustomerData *)customerData
-                                automaticErrorTracking:(BOOL)automaticErrorTracking;
+                                automaticErrorTracking:(BOOL)automaticErrorTracking API_UNAVAILABLE(visionos);
 
 /*!
  @method      monitorAVPlayerLayer:withPlayerName:customerData:automaticErrorTracking:
@@ -233,7 +235,7 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerViewController:withP
                                         withPlayerName:(nonnull NSString *)name
                                           customerData:(nonnull MUXSDKCustomerData *)customerData
                                 automaticErrorTracking:(BOOL)automaticErrorTracking
-                                          beaconCollectionDomain:(nullable NSString *)collectionDomain;
+                                beaconCollectionDomain:(nullable NSString *)collectionDomain API_UNAVAILABLE(visionos);
 /*!
  @method      monitorAVPlayerLayer:withPlayerName:customerData:automaticErrorTracking:
  @abstract    Starts to monitor a given AVPlayerLayer.
@@ -250,7 +252,7 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerViewController:withP
                                           customerData:(nonnull MUXSDKCustomerData *)customerData
                                 automaticErrorTracking:(BOOL)automaticErrorTracking
                                           beaconDomain:(nullable NSString *)domain
-__attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName:customerData:automaticErrorTracking:beaconCollectionDomain:")));
+__attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName:customerData:automaticErrorTracking:beaconCollectionDomain:"))) API_UNAVAILABLE(visionos);
 
 
 /*!
@@ -266,7 +268,7 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player 
                                         withPlayerName:(nonnull NSString *)name
                                             playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
-                                             videoData:(nullable MUXSDKCustomerVideoData *)videoData __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName:customerData:")));
+                                             videoData:(nullable MUXSDKCustomerVideoData *)videoData __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName:customerData:")))  API_UNAVAILABLE(visionos);
 
 
 /*!
@@ -284,7 +286,7 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
                                         withPlayerName:(nonnull NSString *)name
                                             playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
                                              videoData:(nullable MUXSDKCustomerVideoData *)videoData
-                                              viewData: (nullable MUXSDKCustomerViewData *) viewData __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName:customerData:")));
+                                              viewData: (nullable MUXSDKCustomerViewData *) viewData __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName:customerData:"))) API_UNAVAILABLE(visionos);
 
 
 /*!
@@ -302,7 +304,7 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
                                         withPlayerName:(nonnull NSString *)name
                                             playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
                                              videoData:(nullable MUXSDKCustomerVideoData *)videoData
-                                automaticErrorTracking:(BOOL)automaticErrorTracking __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName:customerData:automaticErrorTracking:")));
+                                automaticErrorTracking:(BOOL)automaticErrorTracking __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName:customerData:automaticErrorTracking:"))) API_UNAVAILABLE(visionos);
 
 /*!
  @method      monitorAVPlayerLayer:withPlayerName:playerData:videoData:viewData:automaticErrorTracking:
@@ -321,7 +323,7 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
                                             playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
                                              videoData:(nullable MUXSDKCustomerVideoData *)videoData
                                               viewData: (nullable MUXSDKCustomerViewData *) viewData
-                                automaticErrorTracking:(BOOL)automaticErrorTracking __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName:customerData:automaticErrorTracking:")));
+                                automaticErrorTracking:(BOOL)automaticErrorTracking __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName:customerData:automaticErrorTracking:"))) API_UNAVAILABLE(visionos);
 
 
 /*!
@@ -332,7 +334,7 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
  @discussion  Use this method to change which AVPlayerLayer a Mux player monitor is watching. The player monitor must previously have been created via a monitorAVPlayerLayer call.
  */
 + (void)updateAVPlayerLayer:(nonnull AVPlayerLayer *)player 
-             withPlayerName:(nonnull NSString *)name;
+             withPlayerName:(nonnull NSString *)name API_UNAVAILABLE(visionos);
 
 #pragma mark - AVPlayer Monitoring
 

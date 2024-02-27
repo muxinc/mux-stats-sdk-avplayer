@@ -140,34 +140,6 @@
                    );
 }
 
-- (void)testAVPlayerViewControllerBindingErrorMetadata {
-    NSString *name = @"awesome-player";
-    MUXSDKAVPlayerViewControllerBinding *binding = [self setupViewControllerPlayerBinding:name
-                                                                             softwareName:@"TestSoftware"
-                                                                          softwareVersion:@"0.1.0"];
-
-    [binding dispatchError:@"1" withMessage:@"message" withErrorContext:@"context"];
-    
-    XCTAssertEqual(5, [MUXSDKCore eventsCountForPlayer:name]);
-    id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:4 forPlayer:name];
-    XCTAssertEqual([event getType], MUXSDKPlaybackEventErrorEventType);
-
-    MUXSDKPlaybackEvent *playbackEvent = (MUXSDKPlaybackEvent *)event;
-    XCTAssertEqual(
-                   playbackEvent.playerData.playerErrorCode,
-                   @"1"
-                   );
-    XCTAssertEqual(
-                   playbackEvent.playerData.playerErrorMessage,
-                   @"message"
-                   );
-    XCTAssertEqual(
-                   playbackEvent.playerData.playerErrorContext,
-                   @"context"
-                   );
-}
-
-
 - (void)testAVPlayerViewControllerBindingAutomaticErrorTrackingDisabled {
     NSString *name = @"awesome-player";
     MUXSDKAVPlayerViewControllerBinding *binding = [self setupViewControllerPlayerBinding:name
@@ -240,6 +212,34 @@
     XCTAssertEqual([event getType], MUXSDKPlaybackEventPlayerReadyEventType);
 
 }
+
+- (void)testAVPlayerViewControllerBindingErrorMetadata {
+    NSString *name = @"awesome-player";
+    MUXSDKAVPlayerViewControllerBinding *binding = [self setupViewControllerPlayerBinding:name
+                                                                             softwareName:@"TestSoftware"
+                                                                          softwareVersion:@"0.1.0"];
+
+    [binding dispatchError:@"1" withMessage:@"message" withErrorContext:@"context"];
+
+    XCTAssertEqual(5, [MUXSDKCore eventsCountForPlayer:name]);
+    id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:4 forPlayer:name];
+    XCTAssertEqual([event getType], MUXSDKPlaybackEventErrorEventType);
+
+    MUXSDKPlaybackEvent *playbackEvent = (MUXSDKPlaybackEvent *)event;
+    XCTAssertEqual(
+                   playbackEvent.playerData.playerErrorCode,
+                   @"1"
+                   );
+    XCTAssertEqual(
+                   playbackEvent.playerData.playerErrorMessage,
+                   @"message"
+                   );
+    XCTAssertEqual(
+                   playbackEvent.playerData.playerErrorContext,
+                   @"context"
+                   );
+}
+
 
 - (void)testAVPlayerBindingAutomaticErrorTrackingDisabled {
     NSString *name = @"awesome-player";

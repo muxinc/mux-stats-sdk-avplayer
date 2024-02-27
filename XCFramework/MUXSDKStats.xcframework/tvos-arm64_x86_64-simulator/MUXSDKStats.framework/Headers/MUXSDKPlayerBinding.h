@@ -12,6 +12,8 @@
 #import <AVFoundation/AVFoundation.h>
 #if TVOS
 #import <MuxCore/MuxCoreTv.h>
+#elif TARGET_OS_VISION
+#import <MuxCore/MuxCoreVision.h>
 #else
 #import <MuxCore/MuxCore.h>
 #endif
@@ -171,6 +173,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 
 @end
 
+API_UNAVAILABLE(visionos) 
 @interface MUXSDKAVPlayerLayerBinding : MUXSDKPlayerBinding {
 @private
     AVPlayerLayer *_view;

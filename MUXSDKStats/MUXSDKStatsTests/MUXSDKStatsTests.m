@@ -16,6 +16,8 @@
 #else
 #if TVOS
 #import <MuxCore/MuxCoreTv.h>
+#elif TARGET_OS_VISION
+#import <MuxCore/MuxCoreVision.h>
 #else
 #import <MuxCore/MuxCore.h>
 #endif
@@ -306,7 +308,7 @@ static NSString *Z = @"Z";
     [MUXSDKStats destroyPlayer:playName];
 }
 
-- (void)testVideoChangeForAVPlayerLayerWithCustomerViewData{
+- (void)testVideoChangeForAVPlayerLayerWithCustomerViewData API_UNAVAILABLE(visionos) {
     MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
     MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
     MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
@@ -332,7 +334,7 @@ static NSString *Z = @"Z";
     [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomerViewData:@{@"xseid": @"bar"}];
 }
 
-- (void)testVideoChangeForAVPlayerLayer{
+- (void)testVideoChangeForAVPlayerLayer API_UNAVAILABLE(visionos) {
     MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
     MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
     MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
@@ -356,7 +358,7 @@ static NSString *Z = @"Z";
     [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomerVideoData:@{@"vtt": @"56789"}];
 }
 
-- (void)testManualVideoChangeForAVPlayerLayer{
+- (void)testManualVideoChangeForAVPlayerLayer API_UNAVAILABLE(visionos) {
     MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
     MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
     MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
@@ -452,7 +454,7 @@ static NSString *Z = @"Z";
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
 }
 
-- (void)testClearsCustomerMetadataOnDestroy {
+- (void)testClearsCustomerMetadataOnDestroy API_UNAVAILABLE(visionos) {
     MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
     MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
     MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];

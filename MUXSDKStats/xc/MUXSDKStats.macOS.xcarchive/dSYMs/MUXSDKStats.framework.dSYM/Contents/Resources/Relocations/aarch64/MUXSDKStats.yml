@@ -1,0 +1,236 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/abarinov/Library/Developer/Xcode/DerivedData/MUXSDKStats-cceyidtsuqorsafcguaylrprnufh/Build/Intermediates.noindex/ArchiveIntermediates/MUXSDKStats/InstallationBuildProductsLocation/Library/Frameworks/MUXSDKStats.framework/Versions/A/MUXSDKStats'
+relocations:
+  - { offsetInCU: 0x34, offset: 0xEDA1A, size: 0x8, addend: 0x0, symName: _MUXSDKStatsVersionString, symObjAddr: 0x0, symBinAddr: 0xE928, symSize: 0x0 }
+  - { offsetInCU: 0x69, offset: 0xEDA4F, size: 0x8, addend: 0x0, symName: _MUXSDKStatsVersionNumber, symObjAddr: 0x30, symBinAddr: 0xE958, symSize: 0x0 }
+  - { offsetInCU: 0x27, offset: 0xEDA8C, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerCustomDataStore init]', symObjAddr: 0x0, symBinAddr: 0x4000, symSize: 0x6C }
+  - { offsetInCU: 0x75, offset: 0xEDADA, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerCustomDataStore init]', symObjAddr: 0x0, symBinAddr: 0x4000, symSize: 0x6C }
+  - { offsetInCU: 0xAC, offset: 0xEDB11, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerCustomDataStore setCustomData:forPlayerName:]', symObjAddr: 0x6C, symBinAddr: 0x406C, symSize: 0x74 }
+  - { offsetInCU: 0xFF, offset: 0xEDB64, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerCustomDataStore removeDataForPlayerName:]', symObjAddr: 0xE0, symBinAddr: 0x40E0, symSize: 0x50 }
+  - { offsetInCU: 0x142, offset: 0xEDBA7, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerCustomDataStore customDataForPlayerName:]', symObjAddr: 0x130, symBinAddr: 0x4130, symSize: 0x6C }
+  - { offsetInCU: 0x189, offset: 0xEDBEE, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerCustomDataStore store]', symObjAddr: 0x19C, symBinAddr: 0x419C, symSize: 0x8 }
+  - { offsetInCU: 0x1C0, offset: 0xEDC25, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerCustomDataStore setStore:]', symObjAddr: 0x1A4, symBinAddr: 0x41A4, symSize: 0xC }
+  - { offsetInCU: 0x201, offset: 0xEDC66, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerCustomDataStore .cxx_destruct]', symObjAddr: 0x1B0, symBinAddr: 0x41B0, symSize: 0xC }
+  - { offsetInCU: 0x27, offset: 0xEDD11, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerViewDataStore init]', symObjAddr: 0x0, symBinAddr: 0x41BC, symSize: 0x6C }
+  - { offsetInCU: 0x75, offset: 0xEDD5F, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerViewDataStore init]', symObjAddr: 0x0, symBinAddr: 0x41BC, symSize: 0x6C }
+  - { offsetInCU: 0xAC, offset: 0xEDD96, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerViewDataStore setViewData:forPlayerName:]', symObjAddr: 0x6C, symBinAddr: 0x4228, symSize: 0x74 }
+  - { offsetInCU: 0xFF, offset: 0xEDDE9, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerViewDataStore removeDataForPlayerName:]', symObjAddr: 0xE0, symBinAddr: 0x429C, symSize: 0x50 }
+  - { offsetInCU: 0x142, offset: 0xEDE2C, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerViewDataStore viewDataForPlayerName:]', symObjAddr: 0x130, symBinAddr: 0x42EC, symSize: 0x6C }
+  - { offsetInCU: 0x189, offset: 0xEDE73, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerViewDataStore store]', symObjAddr: 0x19C, symBinAddr: 0x4358, symSize: 0x8 }
+  - { offsetInCU: 0x1C0, offset: 0xEDEAA, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerViewDataStore setStore:]', symObjAddr: 0x1A4, symBinAddr: 0x4360, symSize: 0xC }
+  - { offsetInCU: 0x201, offset: 0xEDEEB, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerViewDataStore .cxx_destruct]', symObjAddr: 0x1B0, symBinAddr: 0x436C, symSize: 0xC }
+  - { offsetInCU: 0x27, offset: 0xEDF96, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerPlayerDataStore init]', symObjAddr: 0x0, symBinAddr: 0x4378, symSize: 0x6C }
+  - { offsetInCU: 0x75, offset: 0xEDFE4, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerPlayerDataStore init]', symObjAddr: 0x0, symBinAddr: 0x4378, symSize: 0x6C }
+  - { offsetInCU: 0xAC, offset: 0xEE01B, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerPlayerDataStore setPlayerData:forPlayerName:]', symObjAddr: 0x6C, symBinAddr: 0x43E4, symSize: 0x74 }
+  - { offsetInCU: 0xFF, offset: 0xEE06E, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerPlayerDataStore playerDataForPlayerName:]', symObjAddr: 0xE0, symBinAddr: 0x4458, symSize: 0x6C }
+  - { offsetInCU: 0x146, offset: 0xEE0B5, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerPlayerDataStore removeDataForPlayerName:]', symObjAddr: 0x14C, symBinAddr: 0x44C4, symSize: 0x50 }
+  - { offsetInCU: 0x189, offset: 0xEE0F8, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerPlayerDataStore store]', symObjAddr: 0x19C, symBinAddr: 0x4514, symSize: 0x8 }
+  - { offsetInCU: 0x1C0, offset: 0xEE12F, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerPlayerDataStore setStore:]', symObjAddr: 0x1A4, symBinAddr: 0x451C, symSize: 0xC }
+  - { offsetInCU: 0x201, offset: 0xEE170, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerPlayerDataStore .cxx_destruct]', symObjAddr: 0x1B0, symBinAddr: 0x4528, symSize: 0xC }
+  - { offsetInCU: 0x27, offset: 0xEE21B, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBindingManager init]', symObjAddr: 0x0, symBinAddr: 0x4534, symSize: 0x6C }
+  - { offsetInCU: 0x1A1, offset: 0xEE395, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBindingManager init]', symObjAddr: 0x0, symBinAddr: 0x4534, symSize: 0x6C }
+  - { offsetInCU: 0x1D8, offset: 0xEE3CC, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBindingManager onPlayerDestroyed:]', symObjAddr: 0x6C, symBinAddr: 0x45A0, symSize: 0xE8 }
+  - { offsetInCU: 0x21B, offset: 0xEE40F, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBindingManager hasInitializedPlayerBinding:]', symObjAddr: 0x154, symBinAddr: 0x4688, symSize: 0x64 }
+  - { offsetInCU: 0x262, offset: 0xEE456, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBindingManager newViewForPlayer:]', symObjAddr: 0x1B8, symBinAddr: 0x46EC, symSize: 0x1C4 }
+  - { offsetInCU: 0x313, offset: 0xEE507, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBindingManager dispatchDataEventForPlayerName:playerData:videoData:viewData:customData:videoChange:]', symObjAddr: 0x37C, symBinAddr: 0x48B0, symSize: 0x12C }
+  - { offsetInCU: 0x3B2, offset: 0xEE5A6, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBindingManager playbackStartedForPlayer:]', symObjAddr: 0x4A8, symBinAddr: 0x49DC, symSize: 0x54 }
+  - { offsetInCU: 0x3F5, offset: 0xEE5E9, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBindingManager videoChangedForPlayer:]', symObjAddr: 0x4FC, symBinAddr: 0x4A30, symSize: 0x188 }
+  - { offsetInCU: 0x497, offset: 0xEE68B, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBindingManager customerPlayerDataStore]', symObjAddr: 0x684, symBinAddr: 0x4BB8, symSize: 0x18 }
+  - { offsetInCU: 0x4CE, offset: 0xEE6C2, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBindingManager setCustomerPlayerDataStore:]', symObjAddr: 0x69C, symBinAddr: 0x4BD0, symSize: 0xC }
+  - { offsetInCU: 0x50F, offset: 0xEE703, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBindingManager customerVideoDataStore]', symObjAddr: 0x6A8, symBinAddr: 0x4BDC, symSize: 0x18 }
+  - { offsetInCU: 0x546, offset: 0xEE73A, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBindingManager setCustomerVideoDataStore:]', symObjAddr: 0x6C0, symBinAddr: 0x4BF4, symSize: 0xC }
+  - { offsetInCU: 0x587, offset: 0xEE77B, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBindingManager customerViewDataStore]', symObjAddr: 0x6CC, symBinAddr: 0x4C00, symSize: 0x18 }
+  - { offsetInCU: 0x5BE, offset: 0xEE7B2, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBindingManager setCustomerViewDataStore:]', symObjAddr: 0x6E4, symBinAddr: 0x4C18, symSize: 0xC }
+  - { offsetInCU: 0x5FF, offset: 0xEE7F3, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBindingManager customerCustomDataStore]', symObjAddr: 0x6F0, symBinAddr: 0x4C24, symSize: 0x18 }
+  - { offsetInCU: 0x636, offset: 0xEE82A, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBindingManager setCustomerCustomDataStore:]', symObjAddr: 0x708, symBinAddr: 0x4C3C, symSize: 0xC }
+  - { offsetInCU: 0x677, offset: 0xEE86B, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBindingManager viewControllers]', symObjAddr: 0x714, symBinAddr: 0x4C48, symSize: 0x18 }
+  - { offsetInCU: 0x6AE, offset: 0xEE8A2, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBindingManager setViewControllers:]', symObjAddr: 0x72C, symBinAddr: 0x4C60, symSize: 0xC }
+  - { offsetInCU: 0x6EF, offset: 0xEE8E3, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBindingManager playerReadyBindings]', symObjAddr: 0x738, symBinAddr: 0x4C6C, symSize: 0x8 }
+  - { offsetInCU: 0x726, offset: 0xEE91A, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBindingManager setPlayerReadyBindings:]', symObjAddr: 0x740, symBinAddr: 0x4C74, symSize: 0xC }
+  - { offsetInCU: 0x767, offset: 0xEE95B, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBindingManager .cxx_destruct]', symObjAddr: 0x74C, symBinAddr: 0x4C80, symSize: 0x4C }
+  - { offsetInCU: 0x27, offset: 0xEEC4E, size: 0x8, addend: 0x0, symName: '+[MUXSDKConnection detectConnectionType]', symObjAddr: 0x0, symBinAddr: 0x4CCC, symSize: 0x30 }
+  - { offsetInCU: 0x64, offset: 0xEEC8B, size: 0x8, addend: 0x0, symName: '+[MUXSDKConnection detectConnectionType]', symObjAddr: 0x0, symBinAddr: 0x4CCC, symSize: 0x30 }
+  - { offsetInCU: 0xA3, offset: 0xEECCA, size: 0x8, addend: 0x0, symName: '-[MUXSDKConnection detectConnectionAsync]', symObjAddr: 0x30, symBinAddr: 0x4CFC, symSize: 0x7C }
+  - { offsetInCU: 0x14D, offset: 0xEED74, size: 0x8, addend: 0x0, symName: '___41-[MUXSDKConnection detectConnectionAsync]_block_invoke', symObjAddr: 0xAC, symBinAddr: 0x4D78, symSize: 0xE0 }
+  - { offsetInCU: 0x1CA, offset: 0xEEDF1, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s, symObjAddr: 0x18C, symBinAddr: 0x4E58, symSize: 0x8 }
+  - { offsetInCU: 0x1F1, offset: 0xEEE18, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s, symObjAddr: 0x194, symBinAddr: 0x4E60, symSize: 0x8 }
+  - { offsetInCU: 0x210, offset: 0xEEE37, size: 0x8, addend: 0x0, symName: '-[MUXSDKConnection getConnectionType]', symObjAddr: 0x19C, symBinAddr: 0x4E68, symSize: 0x7C }
+  - { offsetInCU: 0x27, offset: 0xEF065, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerVideoDataStore init]', symObjAddr: 0x0, symBinAddr: 0x4EE4, symSize: 0x6C }
+  - { offsetInCU: 0x75, offset: 0xEF0B3, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerVideoDataStore init]', symObjAddr: 0x0, symBinAddr: 0x4EE4, symSize: 0x6C }
+  - { offsetInCU: 0xAC, offset: 0xEF0EA, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerVideoDataStore setVideoData:forPlayerName:]', symObjAddr: 0x6C, symBinAddr: 0x4F50, symSize: 0x74 }
+  - { offsetInCU: 0xFF, offset: 0xEF13D, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerVideoDataStore removeDataForPlayerName:]', symObjAddr: 0xE0, symBinAddr: 0x4FC4, symSize: 0x50 }
+  - { offsetInCU: 0x142, offset: 0xEF180, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerVideoDataStore videoDataForPlayerName:]', symObjAddr: 0x130, symBinAddr: 0x5014, symSize: 0x6C }
+  - { offsetInCU: 0x189, offset: 0xEF1C7, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerVideoDataStore store]', symObjAddr: 0x19C, symBinAddr: 0x5080, symSize: 0x8 }
+  - { offsetInCU: 0x1C0, offset: 0xEF1FE, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerVideoDataStore setStore:]', symObjAddr: 0x1A4, symBinAddr: 0x5088, symSize: 0xC }
+  - { offsetInCU: 0x201, offset: 0xEF23F, size: 0x8, addend: 0x0, symName: '-[MUXSDKCustomerVideoDataStore .cxx_destruct]', symObjAddr: 0x1B0, symBinAddr: 0x5094, symSize: 0xC }
+  - { offsetInCU: 0x27, offset: 0xEF2EA, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding initWithName:andSoftware:]', symObjAddr: 0x0, symBinAddr: 0x50A0, symSize: 0x8 }
+  - { offsetInCU: 0x41, offset: 0xEF304, size: 0x8, addend: 0x0, symName: _RenditionChangeNotification, symObjAddr: 0x5128, symBinAddr: 0x141B8, symSize: 0x0 }
+  - { offsetInCU: 0x61, offset: 0xEF324, size: 0x8, addend: 0x0, symName: _RenditionChangeNotificationInfoAdvertisedBitrate, symObjAddr: 0x5130, symBinAddr: 0x141C0, symSize: 0x0 }
+  - { offsetInCU: 0x77, offset: 0xEF33A, size: 0x8, addend: 0x0, symName: _MUXSDKPluginName, symObjAddr: 0x5138, symBinAddr: 0x141C8, symSize: 0x0 }
+  - { offsetInCU: 0x8D, offset: 0xEF350, size: 0x8, addend: 0x0, symName: _MUXSDKPluginVersion, symObjAddr: 0x5140, symBinAddr: 0x141D0, symSize: 0x0 }
+  - { offsetInCU: 0xA3, offset: 0xEF366, size: 0x8, addend: 0x0, symName: _MUXSessionDataPrefix, symObjAddr: 0x5148, symBinAddr: 0x141D8, symSize: 0x0 }
+  - { offsetInCU: 0xB9, offset: 0xEF37C, size: 0x8, addend: 0x0, symName: _MUXSDKMaxSecsBetweenTimeUpdate, symObjAddr: 0x5250, symBinAddr: 0x1A2E8, symSize: 0x0 }
+  - { offsetInCU: 0xD6, offset: 0xEF399, size: 0x8, addend: 0x0, symName: _MUXSDKMaxSecsSeekClockDrift, symObjAddr: 0x5258, symBinAddr: 0x1A2F0, symSize: 0x0 }
+  - { offsetInCU: 0xF3, offset: 0xEF3B6, size: 0x8, addend: 0x0, symName: _MUXSDKMaxSecsSeekPlayheadShift, symObjAddr: 0x525C, symBinAddr: 0x1A2F4, symSize: 0x0 }
+  - { offsetInCU: 0x109, offset: 0xEF3CC, size: 0x8, addend: 0x0, symName: _RemoveObserverExceptionName, symObjAddr: 0x5260, symBinAddr: 0x1A2F8, symSize: 0x0 }
+  - { offsetInCU: 0x11F, offset: 0xEF3E2, size: 0x8, addend: 0x0, symName: _MUXSDKAVPlayerRateObservationContext, symObjAddr: 0x5268, symBinAddr: 0x1A300, symSize: 0x0 }
+  - { offsetInCU: 0x136, offset: 0xEF3F9, size: 0x8, addend: 0x0, symName: _MUXSDKAVPlayerStatusObservationContext, symObjAddr: 0x5270, symBinAddr: 0x1A308, symSize: 0x0 }
+  - { offsetInCU: 0x14C, offset: 0xEF40F, size: 0x8, addend: 0x0, symName: _MUXSDKAVPlayerCurrentItemObservationContext, symObjAddr: 0x5278, symBinAddr: 0x1A310, symSize: 0x0 }
+  - { offsetInCU: 0x162, offset: 0xEF425, size: 0x8, addend: 0x0, symName: _MUXSDKAVPlayerTimeControlStatusObservationContext, symObjAddr: 0x5280, symBinAddr: 0x1A318, symSize: 0x0 }
+  - { offsetInCU: 0x178, offset: 0xEF43B, size: 0x8, addend: 0x0, symName: _MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext, symObjAddr: 0x5288, symBinAddr: 0x1A320, symSize: 0x0 }
+  - { offsetInCU: 0x4FF, offset: 0xEF7C2, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding initWithName:andSoftware:]', symObjAddr: 0x0, symBinAddr: 0x50A0, symSize: 0x8 }
+  - { offsetInCU: 0x550, offset: 0xEF813, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding initWithPlayerName:softwareName:]', symObjAddr: 0x8, symBinAddr: 0x50A8, symSize: 0x8 }
+  - { offsetInCU: 0x5A1, offset: 0xEF864, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding initWithPlayerName:softwareName:softwareVersion:]', symObjAddr: 0x10, symBinAddr: 0x50B0, symSize: 0xE0 }
+  - { offsetInCU: 0x608, offset: 0xEF8CB, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding setAdPlaying:]', symObjAddr: 0xF0, symBinAddr: 0x5190, symSize: 0x8 }
+  - { offsetInCU: 0x645, offset: 0xEF908, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding setAutomaticErrorTracking:]', symObjAddr: 0xF8, symBinAddr: 0x5198, symSize: 0xC }
+  - { offsetInCU: 0x688, offset: 0xEF94B, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding setAutomaticVideoChange:]', symObjAddr: 0x104, symBinAddr: 0x51A4, symSize: 0xC }
+  - { offsetInCU: 0x6CB, offset: 0xEF98E, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding attachAVPlayer:]', symObjAddr: 0x110, symBinAddr: 0x51B0, symSize: 0x350 }
+  - { offsetInCU: 0x738, offset: 0xEF9FB, size: 0x8, addend: 0x0, symName: '___38-[MUXSDKPlayerBinding attachAVPlayer:]_block_invoke', symObjAddr: 0x460, symBinAddr: 0x5500, symSize: 0x104 }
+  - { offsetInCU: 0x783, offset: 0xEFA46, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32w, symObjAddr: 0x564, symBinAddr: 0x5604, symSize: 0xC }
+  - { offsetInCU: 0x7AC, offset: 0xEFA6F, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32w, symObjAddr: 0x570, symBinAddr: 0x5610, symSize: 0x8 }
+  - { offsetInCU: 0x7CB, offset: 0xEFA8E, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding getHostName:]', symObjAddr: 0x578, symBinAddr: 0x5618, symSize: 0x88 }
+  - { offsetInCU: 0x82E, offset: 0xEFAF1, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding checkIfNotificationIsRelevant:]', symObjAddr: 0x600, symBinAddr: 0x56A0, symSize: 0x40 }
+  - { offsetInCU: 0x885, offset: 0xEFB48, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding handleConnectionTypeDetected:]', symObjAddr: 0x640, symBinAddr: 0x56E0, symSize: 0x80 }
+  - { offsetInCU: 0x8FA, offset: 0xEFBBD, size: 0x8, addend: 0x0, symName: '___52-[MUXSDKPlayerBinding handleConnectionTypeDetected:]_block_invoke', symObjAddr: 0x6C0, symBinAddr: 0x5760, symSize: 0xB0 }
+  - { offsetInCU: 0x983, offset: 0xEFC46, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding handleAVPlayerAccess:]', symObjAddr: 0x780, symBinAddr: 0x5810, symSize: 0x84 }
+  - { offsetInCU: 0x9DC, offset: 0xEFC9F, size: 0x8, addend: 0x0, symName: '___44-[MUXSDKPlayerBinding handleAVPlayerAccess:]_block_invoke', symObjAddr: 0x804, symBinAddr: 0x5894, symSize: 0xA4 }
+  - { offsetInCU: 0xA65, offset: 0xEFD28, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s, symObjAddr: 0x8A8, symBinAddr: 0x5938, symSize: 0x28 }
+  - { offsetInCU: 0xA8E, offset: 0xEFD51, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s, symObjAddr: 0x8D0, symBinAddr: 0x5960, symSize: 0x28 }
+  - { offsetInCU: 0xAAD, offset: 0xEFD70, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding updateFrameDropsFromAccessLog:]', symObjAddr: 0x8F8, symBinAddr: 0x5988, symSize: 0x74 }
+  - { offsetInCU: 0xB10, offset: 0xEFDD3, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding handleRenditionChange:]', symObjAddr: 0x96C, symBinAddr: 0x59FC, symSize: 0xD8 }
+  - { offsetInCU: 0xB73, offset: 0xEFE36, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding handleRenditionChangeInAccessLog:]', symObjAddr: 0xA44, symBinAddr: 0x5AD4, symSize: 0x1E8 }
+  - { offsetInCU: 0xBE6, offset: 0xEFEA9, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding calculateBandwidthMetricFromAccessLog:]', symObjAddr: 0xC2C, symBinAddr: 0x5CBC, symSize: 0x32C }
+  - { offsetInCU: 0xC7B, offset: 0xEFF3E, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding updateViewingLivestream:]', symObjAddr: 0xF58, symBinAddr: 0x5FE8, symSize: 0x80 }
+  - { offsetInCU: 0xCE2, offset: 0xEFFA5, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding handleAVPlayerError:]', symObjAddr: 0xFD8, symBinAddr: 0x6068, symSize: 0x24C }
+  - { offsetInCU: 0xD85, offset: 0xF0048, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding timeUpdateTimer:]', symObjAddr: 0x1224, symBinAddr: 0x62B4, symSize: 0x48 }
+  - { offsetInCU: 0xDC6, offset: 0xF0089, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding dealloc]', symObjAddr: 0x126C, symBinAddr: 0x62FC, symSize: 0x118 }
+  - { offsetInCU: 0xDFA, offset: 0xF00BD, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding safelyRemoveTimeObserverForPlayer]', symObjAddr: 0x1384, symBinAddr: 0x6414, symSize: 0x140 }
+  - { offsetInCU: 0xE4A, offset: 0xF010D, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding safelyRemovePlayerObserverForKeyPath:]', symObjAddr: 0x14C4, symBinAddr: 0x6554, symSize: 0x12C }
+  - { offsetInCU: 0xEAB, offset: 0xF016E, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding safelyRemovePlayerItemObserverForKeyPath:]', symObjAddr: 0x15F0, symBinAddr: 0x6680, symSize: 0x12C }
+  - { offsetInCU: 0xF0C, offset: 0xF01CF, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding detachAVPlayer]', symObjAddr: 0x171C, symBinAddr: 0x67AC, symSize: 0x9C }
+  - { offsetInCU: 0xF40, offset: 0xF0203, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding monitorAVPlayerItem]', symObjAddr: 0x17B8, symBinAddr: 0x6848, symSize: 0x118 }
+  - { offsetInCU: 0xF74, offset: 0xF0237, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding dispatchSessionData]', symObjAddr: 0x18D0, symBinAddr: 0x6960, symSize: 0x164 }
+  - { offsetInCU: 0xFCA, offset: 0xF028D, size: 0x8, addend: 0x0, symName: '___42-[MUXSDKPlayerBinding dispatchSessionData]_block_invoke', symObjAddr: 0x1A34, symBinAddr: 0x6AC4, symSize: 0x298 }
+  - { offsetInCU: 0x10DA, offset: 0xF039D, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40w, symObjAddr: 0x1CCC, symBinAddr: 0x6D5C, symSize: 0x30 }
+  - { offsetInCU: 0x1103, offset: 0xF03C6, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40w, symObjAddr: 0x1CFC, symBinAddr: 0x6D8C, symSize: 0x28 }
+  - { offsetInCU: 0x1122, offset: 0xF03E5, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding stopMonitoringAVPlayerItem]', symObjAddr: 0x1D24, symBinAddr: 0x6DB4, symSize: 0x5C }
+  - { offsetInCU: 0x1156, offset: 0xF0419, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding programChangedForPlayer]', symObjAddr: 0x1D80, symBinAddr: 0x6E10, symSize: 0x2C }
+  - { offsetInCU: 0x118A, offset: 0xF044D, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding prepareForAvQueuePlayerNextItem]', symObjAddr: 0x1DAC, symBinAddr: 0x6E3C, symSize: 0x44 }
+  - { offsetInCU: 0x11CF, offset: 0xF0492, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding getTimeObserverInternal]', symObjAddr: 0x1DF0, symBinAddr: 0x6E80, symSize: 0x14 }
+  - { offsetInCU: 0x1231, offset: 0xF04F4, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding getCurrentPlayheadTimeMs]', symObjAddr: 0x1E04, symBinAddr: 0x6E94, symSize: 0x4C }
+  - { offsetInCU: 0x1291, offset: 0xF0554, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding getVideoBounds]', symObjAddr: 0x1E50, symBinAddr: 0x6EE0, symSize: 0x14 }
+  - { offsetInCU: 0x12C5, offset: 0xF0588, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding getViewBounds]', symObjAddr: 0x1E64, symBinAddr: 0x6EF4, symSize: 0x14 }
+  - { offsetInCU: 0x12F9, offset: 0xF05BC, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding getSourceDimensions]', symObjAddr: 0x1E78, symBinAddr: 0x6F08, symSize: 0x27C }
+  - { offsetInCU: 0x143D, offset: 0xF0700, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding resetVideoData]', symObjAddr: 0x20F4, symBinAddr: 0x7184, symSize: 0x68 }
+  - { offsetInCU: 0x14AA, offset: 0xF076D, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding checkVideoData]', symObjAddr: 0x215C, symBinAddr: 0x71EC, symSize: 0x538 }
+  - { offsetInCU: 0x16A3, offset: 0xF0966, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding getPlayerData]', symObjAddr: 0x2694, symBinAddr: 0x7724, symSize: 0x984 }
+  - { offsetInCU: 0x18BC, offset: 0xF0B7F, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding setPlayerPlayheadTime:onPlayerData:]', symObjAddr: 0x3018, symBinAddr: 0x80A8, symSize: 0x98 }
+  - { offsetInCU: 0x191F, offset: 0xF0BE2, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding buildError:domain:code:message:]', symObjAddr: 0x30B0, symBinAddr: 0x8140, symSize: 0x140 }
+  - { offsetInCU: 0x1997, offset: 0xF0C5A, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding isPlayerOK]', symObjAddr: 0x31F0, symBinAddr: 0x8280, symSize: 0x44 }
+  - { offsetInCU: 0x19CF, offset: 0xF0C92, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding isPlaying]', symObjAddr: 0x3234, symBinAddr: 0x82C4, symSize: 0x10 }
+  - { offsetInCU: 0x1A07, offset: 0xF0CCA, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding isBuffering]', symObjAddr: 0x3244, symBinAddr: 0x82D4, symSize: 0x10 }
+  - { offsetInCU: 0x1A3F, offset: 0xF0D02, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding isTryingToPlay]', symObjAddr: 0x3254, symBinAddr: 0x82E4, symSize: 0x10 }
+  - { offsetInCU: 0x1A77, offset: 0xF0D3A, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding isPaused]', symObjAddr: 0x3264, symBinAddr: 0x82F4, symSize: 0x10 }
+  - { offsetInCU: 0x1AAF, offset: 0xF0D72, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding isPlayingOrTryingToPlay]', symObjAddr: 0x3274, symBinAddr: 0x8304, symSize: 0x38 }
+  - { offsetInCU: 0x1AE7, offset: 0xF0DAA, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding isPausedWhileAirPlaying]', symObjAddr: 0x32AC, symBinAddr: 0x833C, symSize: 0x38 }
+  - { offsetInCU: 0x1B1F, offset: 0xF0DE2, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding isAdPlaying]', symObjAddr: 0x32E4, symBinAddr: 0x8374, symSize: 0x8 }
+  - { offsetInCU: 0x1B57, offset: 0xF0E1A, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding name]', symObjAddr: 0x32EC, symBinAddr: 0x837C, symSize: 0x8 }
+  - { offsetInCU: 0x1B8F, offset: 0xF0E52, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding startBuffering]', symObjAddr: 0x32F4, symBinAddr: 0x8384, symSize: 0xC }
+  - { offsetInCU: 0x1BC1, offset: 0xF0E84, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding dispatchViewInit]', symObjAddr: 0x3300, symBinAddr: 0x8390, symSize: 0x98 }
+  - { offsetInCU: 0x1C17, offset: 0xF0EDA, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding dispatchPlayerReady]', symObjAddr: 0x3398, symBinAddr: 0x8428, symSize: 0x8C }
+  - { offsetInCU: 0x1C6D, offset: 0xF0F30, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding dispatchPlay]', symObjAddr: 0x3424, symBinAddr: 0x84B4, symSize: 0xEC }
+  - { offsetInCU: 0x1CC3, offset: 0xF0F86, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding dispatchPlaying]', symObjAddr: 0x3510, symBinAddr: 0x85A0, symSize: 0xD4 }
+  - { offsetInCU: 0x1D39, offset: 0xF0FFC, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding dispatchPause]', symObjAddr: 0x35E4, symBinAddr: 0x8674, symSize: 0xA8 }
+  - { offsetInCU: 0x1D8F, offset: 0xF1052, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding dispatchTimeUpdateFromTimer]', symObjAddr: 0x368C, symBinAddr: 0x871C, symSize: 0x4C }
+  - { offsetInCU: 0x1DC3, offset: 0xF1086, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding dispatchTimeUpdateEvent:]', symObjAddr: 0x36D8, symBinAddr: 0x8768, symSize: 0xBC }
+  - { offsetInCU: 0x1E45, offset: 0xF1108, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding dispatchError]', symObjAddr: 0x3794, symBinAddr: 0x8824, symSize: 0xA0 }
+  - { offsetInCU: 0x1E9B, offset: 0xF115E, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding dispatchError:withMessage:]', symObjAddr: 0x3834, symBinAddr: 0x88C4, symSize: 0x8 }
+  - { offsetInCU: 0x1EEB, offset: 0xF11AE, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding dispatchError:withMessage:withErrorContext:]', symObjAddr: 0x383C, symBinAddr: 0x88CC, symSize: 0xFC }
+  - { offsetInCU: 0x1F74, offset: 0xF1237, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding dispatchViewEnd]', symObjAddr: 0x3938, symBinAddr: 0x89C8, symSize: 0xB0 }
+  - { offsetInCU: 0x1FCA, offset: 0xF128D, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding dispatchBandwidthMetric:withType:]', symObjAddr: 0x39E8, symBinAddr: 0x8A78, symSize: 0xD0 }
+  - { offsetInCU: 0x2042, offset: 0xF1305, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding dispatchOrientationChange:]', symObjAddr: 0x3AB8, symBinAddr: 0x8B48, symSize: 0x150 }
+  - { offsetInCU: 0x20CB, offset: 0xF138E, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding dispatchRenditionChange]', symObjAddr: 0x3C08, symBinAddr: 0x8C98, symSize: 0x90 }
+  - { offsetInCU: 0x2121, offset: 0xF13E4, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding updateLastPlayheadTime]', symObjAddr: 0x3C98, symBinAddr: 0x8D28, symSize: 0x2C }
+  - { offsetInCU: 0x2163, offset: 0xF1426, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding updateLastPlayheadTimeOnPause]', symObjAddr: 0x3CC4, symBinAddr: 0x8D54, symSize: 0x2C }
+  - { offsetInCU: 0x21A5, offset: 0xF1468, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding computeDrift]', symObjAddr: 0x3CF0, symBinAddr: 0x8D80, symSize: 0x1A0 }
+  - { offsetInCU: 0x2278, offset: 0xF153B, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding getPlayerState]', symObjAddr: 0x3E90, symBinAddr: 0x8F20, symSize: 0x28 }
+  - { offsetInCU: 0x22B0, offset: 0xF1573, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding isPlayerInErrorState]', symObjAddr: 0x3EB8, symBinAddr: 0x8F48, symSize: 0x78 }
+  - { offsetInCU: 0x22E8, offset: 0xF15AB, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding observeValueForKeyPath:ofObject:change:context:]', symObjAddr: 0x3F30, symBinAddr: 0x8FC0, symSize: 0x1A4 }
+  - { offsetInCU: 0x2360, offset: 0xF1623, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding dispatchAdEvent:]', symObjAddr: 0x40D4, symBinAddr: 0x9164, symSize: 0x84 }
+  - { offsetInCU: 0x23B6, offset: 0xF1679, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding doubleValueIsEqual:toOther:]', symObjAddr: 0x4158, symBinAddr: 0x91E8, symSize: 0x64 }
+  - { offsetInCU: 0x240C, offset: 0xF16CF, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding didTriggerManualVideoChange]', symObjAddr: 0x41BC, symBinAddr: 0x924C, symSize: 0xC }
+  - { offsetInCU: 0x243E, offset: 0xF1701, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding playDispatchDelegate]', symObjAddr: 0x41C8, symBinAddr: 0x9258, symSize: 0x18 }
+  - { offsetInCU: 0x2475, offset: 0xF1738, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding setPlayDispatchDelegate:]', symObjAddr: 0x41E0, symBinAddr: 0x9270, symSize: 0xC }
+  - { offsetInCU: 0x24B6, offset: 0xF1779, size: 0x8, addend: 0x0, symName: '-[MUXSDKPlayerBinding .cxx_destruct]', symObjAddr: 0x41EC, symBinAddr: 0x927C, symSize: 0x80 }
+  - { offsetInCU: 0x24E9, offset: 0xF17AC, size: 0x8, addend: 0x0, symName: '-[MUXSDKAVPlayerViewControllerBinding initWithName:software:andView:]', symObjAddr: 0x426C, symBinAddr: 0x92FC, symSize: 0xC }
+  - { offsetInCU: 0x2550, offset: 0xF1813, size: 0x8, addend: 0x0, symName: '-[MUXSDKAVPlayerViewControllerBinding getVideoBounds]', symObjAddr: 0x4278, symBinAddr: 0x9308, symSize: 0x10 }
+  - { offsetInCU: 0x2588, offset: 0xF184B, size: 0x8, addend: 0x0, symName: '-[MUXSDKAVPlayerViewControllerBinding getViewBounds]', symObjAddr: 0x4288, symBinAddr: 0x9318, symSize: 0x70 }
+  - { offsetInCU: 0x25C0, offset: 0xF1883, size: 0x8, addend: 0x0, symName: '-[MUXSDKAVPlayerViewControllerBinding initWithPlayerName:softwareName:playerViewController:]', symObjAddr: 0x42F8, symBinAddr: 0x9388, symSize: 0xC }
+  - { offsetInCU: 0x2627, offset: 0xF18EA, size: 0x8, addend: 0x0, symName: '-[MUXSDKAVPlayerViewControllerBinding initWithPlayerName:softwareName:softwareVersion:playerViewController:]', symObjAddr: 0x4304, symBinAddr: 0x9394, symSize: 0xA0 }
+  - { offsetInCU: 0x26A3, offset: 0xF1966, size: 0x8, addend: 0x0, symName: '-[MUXSDKAVPlayerViewControllerBinding .cxx_destruct]', symObjAddr: 0x43A4, symBinAddr: 0x9434, symSize: 0x14 }
+  - { offsetInCU: 0x26D7, offset: 0xF199A, size: 0x8, addend: 0x0, symName: '-[MUXSDKAVPlayerLayerBinding initWithName:software:andView:]', symObjAddr: 0x43B8, symBinAddr: 0x9448, symSize: 0xC }
+  - { offsetInCU: 0x273E, offset: 0xF1A01, size: 0x8, addend: 0x0, symName: '-[MUXSDKAVPlayerLayerBinding initWithPlayerName:softwareName:playerLayer:]', symObjAddr: 0x43C4, symBinAddr: 0x9454, symSize: 0xC }
+  - { offsetInCU: 0x27A5, offset: 0xF1A68, size: 0x8, addend: 0x0, symName: '-[MUXSDKAVPlayerLayerBinding initWithPlayerName:softwareName:softwareVersion:playerLayer:]', symObjAddr: 0x43D0, symBinAddr: 0x9460, symSize: 0xA0 }
+  - { offsetInCU: 0x2821, offset: 0xF1AE4, size: 0x8, addend: 0x0, symName: '-[MUXSDKAVPlayerLayerBinding getVideoBounds]', symObjAddr: 0x4470, symBinAddr: 0x9500, symSize: 0x10 }
+  - { offsetInCU: 0x2859, offset: 0xF1B1C, size: 0x8, addend: 0x0, symName: '-[MUXSDKAVPlayerLayerBinding getViewBounds]', symObjAddr: 0x4480, symBinAddr: 0x9510, symSize: 0x10 }
+  - { offsetInCU: 0x2891, offset: 0xF1B54, size: 0x8, addend: 0x0, symName: '-[MUXSDKAVPlayerLayerBinding .cxx_destruct]', symObjAddr: 0x4490, symBinAddr: 0x9520, symSize: 0x14 }
+  - { offsetInCU: 0x28C5, offset: 0xF1B88, size: 0x8, addend: 0x0, symName: '-[MUXSDKAVPlayerBinding initWithPlayerName:softwareName:fixedPlayerSize:]', symObjAddr: 0x44A4, symBinAddr: 0x9534, symSize: 0x8 }
+  - { offsetInCU: 0x2926, offset: 0xF1BE9, size: 0x8, addend: 0x0, symName: '-[MUXSDKAVPlayerBinding initWithPlayerName:softwareName:softwareVersion:fixedPlayerSize:]', symObjAddr: 0x44AC, symBinAddr: 0x953C, symSize: 0x58 }
+  - { offsetInCU: 0x29A2, offset: 0xF1C65, size: 0x8, addend: 0x0, symName: '-[MUXSDKAVPlayerBinding getVideoBounds]', symObjAddr: 0x4504, symBinAddr: 0x9594, symSize: 0x14 }
+  - { offsetInCU: 0x29D6, offset: 0xF1C99, size: 0x8, addend: 0x0, symName: '-[MUXSDKAVPlayerBinding getViewBounds]', symObjAddr: 0x4518, symBinAddr: 0x95A8, symSize: 0x1C }
+  - { offsetInCU: 0x27, offset: 0xF2002, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats initSDK]', symObjAddr: 0x0, symBinAddr: 0x95C4, symSize: 0x1F8 }
+  - { offsetInCU: 0x41, offset: 0xF201C, size: 0x8, addend: 0x0, symName: _MuxPlayerSoftwareAVPlayerViewController, symObjAddr: 0x2860, symBinAddr: 0x142B0, symSize: 0x0 }
+  - { offsetInCU: 0x61, offset: 0xF203C, size: 0x8, addend: 0x0, symName: _MuxPlayerSoftwareAVPlayerLayer, symObjAddr: 0x2868, symBinAddr: 0x142B8, symSize: 0x0 }
+  - { offsetInCU: 0x77, offset: 0xF2052, size: 0x8, addend: 0x0, symName: _MuxPlayerSoftwareAVPlayer, symObjAddr: 0x2870, symBinAddr: 0x142C0, symSize: 0x0 }
+  - { offsetInCU: 0x8D, offset: 0xF2068, size: 0x8, addend: 0x0, symName: _MuxDeviceIDUserDefaultsKey, symObjAddr: 0x2878, symBinAddr: 0x142C8, symSize: 0x0 }
+  - { offsetInCU: 0xA3, offset: 0xF207E, size: 0x8, addend: 0x0, symName: __bindings, symObjAddr: 0xCF10, symBinAddr: 0x1A328, symSize: 0x0 }
+  - { offsetInCU: 0xBE, offset: 0xF2099, size: 0x8, addend: 0x0, symName: __viewControllers, symObjAddr: 0xCF18, symBinAddr: 0x1A330, symSize: 0x0 }
+  - { offsetInCU: 0xD4, offset: 0xF20AF, size: 0x8, addend: 0x0, symName: __playerBindingManager, symObjAddr: 0xCF40, symBinAddr: 0x1A358, symSize: 0x0 }
+  - { offsetInCU: 0x176, offset: 0xF2151, size: 0x8, addend: 0x0, symName: __customerPlayerDataStore, symObjAddr: 0xCF20, symBinAddr: 0x1A338, symSize: 0x0 }
+  - { offsetInCU: 0x1A3, offset: 0xF217E, size: 0x8, addend: 0x0, symName: __customerVideoDataStore, symObjAddr: 0xCF28, symBinAddr: 0x1A340, symSize: 0x0 }
+  - { offsetInCU: 0x1D0, offset: 0xF21AB, size: 0x8, addend: 0x0, symName: __customerViewDataStore, symObjAddr: 0xCF30, symBinAddr: 0x1A348, symSize: 0x0 }
+  - { offsetInCU: 0x1FD, offset: 0xF21D8, size: 0x8, addend: 0x0, symName: __customerCustomDataStore, symObjAddr: 0xCF38, symBinAddr: 0x1A350, symSize: 0x0 }
+  - { offsetInCU: 0x22A, offset: 0xF2205, size: 0x8, addend: 0x0, symName: __customerViewerData, symObjAddr: 0xCF48, symBinAddr: 0x1A360, symSize: 0x0 }
+  - { offsetInCU: 0x2ED, offset: 0xF22C8, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats initSDK]', symObjAddr: 0x0, symBinAddr: 0x95C4, symSize: 0x1F8 }
+  - { offsetInCU: 0x350, offset: 0xF232B, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats buildEnvironmentData]', symObjAddr: 0x1F8, symBinAddr: 0x97BC, symSize: 0x58 }
+  - { offsetInCU: 0x397, offset: 0xF2372, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats buildViewerData]', symObjAddr: 0x250, symBinAddr: 0x9814, symSize: 0x410 }
+  - { offsetInCU: 0x4AC, offset: 0xF2487, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats monitorAVPlayerViewController:withPlayerName:customerData:automaticErrorTracking:beaconCollectionDomain:]', symObjAddr: 0x660, symBinAddr: 0x9C24, symSize: 0x8 }
+  - { offsetInCU: 0x52C, offset: 0xF2507, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats monitorAVPlayerViewController:withPlayerName:customerData:automaticErrorTracking:beaconDomain:]', symObjAddr: 0x668, symBinAddr: 0x9C2C, symSize: 0xC }
+  - { offsetInCU: 0x5AE, offset: 0xF2589, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats monitorAVPlayerViewController:withPlayerName:customerData:automaticErrorTracking:beaconCollectionDomain:beaconDomain:]', symObjAddr: 0x674, symBinAddr: 0x9C38, symSize: 0x3E8 }
+  - { offsetInCU: 0x6DC, offset: 0xF26B7, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats monitorAVPlayerViewController:withPlayerName:customerData:automaticErrorTracking:]', symObjAddr: 0xA5C, symBinAddr: 0xA020, symSize: 0x8 }
+  - { offsetInCU: 0x753, offset: 0xF272E, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats monitorAVPlayerViewController:withPlayerName:customerData:]', symObjAddr: 0xA64, symBinAddr: 0xA028, symSize: 0xC }
+  - { offsetInCU: 0x7B6, offset: 0xF2791, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats monitorAVPlayerViewController:withPlayerName:playerData:videoData:]', symObjAddr: 0xA70, symBinAddr: 0xA034, symSize: 0xC }
+  - { offsetInCU: 0x828, offset: 0xF2803, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats monitorAVPlayerViewController:withPlayerName:playerData:videoData:viewData:]', symObjAddr: 0xA7C, symBinAddr: 0xA040, symSize: 0x8 }
+  - { offsetInCU: 0x8A9, offset: 0xF2884, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats monitorAVPlayerViewController:withPlayerName:playerData:videoData:automaticErrorTracking:]', symObjAddr: 0xA84, symBinAddr: 0xA048, symSize: 0xC }
+  - { offsetInCU: 0x92C, offset: 0xF2907, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats monitorAVPlayerViewController:withPlayerName:playerData:videoData:viewData:automaticErrorTracking:]', symObjAddr: 0xA90, symBinAddr: 0xA054, symSize: 0x100 }
+  - { offsetInCU: 0x9DB, offset: 0xF29B6, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats updateAVPlayerViewController:withPlayerName:]', symObjAddr: 0xB90, symBinAddr: 0xA154, symSize: 0x13C }
+  - { offsetInCU: 0xA62, offset: 0xF2A3D, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats monitorAVPlayerLayer:withPlayerName:customerData:automaticErrorTracking:beaconCollectionDomain:]', symObjAddr: 0xCCC, symBinAddr: 0xA290, symSize: 0x8 }
+  - { offsetInCU: 0xAE8, offset: 0xF2AC3, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats monitorAVPlayerLayer:withPlayerName:customerData:automaticErrorTracking:beaconDomain:]', symObjAddr: 0xCD4, symBinAddr: 0xA298, symSize: 0xC }
+  - { offsetInCU: 0xB70, offset: 0xF2B4B, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats monitorAVPlayerLayer:withPlayerName:customerData:automaticErrorTracking:beaconCollectionDomain:beaconDomain:]', symObjAddr: 0xCE0, symBinAddr: 0xA2A4, symSize: 0x3E8 }
+  - { offsetInCU: 0xCAE, offset: 0xF2C89, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats monitorAVPlayerLayer:withPlayerName:customerData:automaticErrorTracking:]', symObjAddr: 0x10C8, symBinAddr: 0xA68C, symSize: 0x8 }
+  - { offsetInCU: 0xD25, offset: 0xF2D00, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats monitorAVPlayerLayer:withPlayerName:customerData:]', symObjAddr: 0x10D0, symBinAddr: 0xA694, symSize: 0x8 }
+  - { offsetInCU: 0xD88, offset: 0xF2D63, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats monitorAVPlayerLayer:withPlayerName:playerData:videoData:]', symObjAddr: 0x10D8, symBinAddr: 0xA69C, symSize: 0xC }
+  - { offsetInCU: 0xDFA, offset: 0xF2DD5, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats monitorAVPlayerLayer:withPlayerName:playerData:videoData:viewData:]', symObjAddr: 0x10E4, symBinAddr: 0xA6A8, symSize: 0x8 }
+  - { offsetInCU: 0xE7B, offset: 0xF2E56, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats monitorAVPlayerLayer:withPlayerName:playerData:videoData:automaticErrorTracking:]', symObjAddr: 0x10EC, symBinAddr: 0xA6B0, symSize: 0xC }
+  - { offsetInCU: 0xEFE, offset: 0xF2ED9, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats monitorAVPlayerLayer:withPlayerName:playerData:videoData:viewData:automaticErrorTracking:]', symObjAddr: 0x10F8, symBinAddr: 0xA6BC, symSize: 0x100 }
+  - { offsetInCU: 0xFAD, offset: 0xF2F88, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats updateAVPlayerLayer:withPlayerName:]', symObjAddr: 0x11F8, symBinAddr: 0xA7BC, symSize: 0x13C }
+  - { offsetInCU: 0x1034, offset: 0xF300F, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats monitorAVPlayer:withPlayerName:fixedPlayerSize:customerData:]', symObjAddr: 0x1334, symBinAddr: 0xA8F8, symSize: 0xC }
+  - { offsetInCU: 0x10A4, offset: 0xF307F, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats monitorAVPlayer:withPlayerName:fixedPlayerSize:customerData:automaticErrorTracking:]', symObjAddr: 0x1340, symBinAddr: 0xA904, symSize: 0x8 }
+  - { offsetInCU: 0x1128, offset: 0xF3103, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats monitorAVPlayer:withPlayerName:fixedPlayerSize:customerData:automaticErrorTracking:beaconCollectionDomain:]', symObjAddr: 0x1348, symBinAddr: 0xA90C, symSize: 0x368 }
+  - { offsetInCU: 0x125B, offset: 0xF3236, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats updateAVPlayer:withPlayerName:fixedPlayerSize:]', symObjAddr: 0x16B0, symBinAddr: 0xAC74, symSize: 0xEC }
+  - { offsetInCU: 0x12EF, offset: 0xF32CA, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats getUUIDString]', symObjAddr: 0x179C, symBinAddr: 0xAD60, symSize: 0xDC }
+  - { offsetInCU: 0x1334, offset: 0xF330F, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats destroyPlayer:]', symObjAddr: 0x1878, symBinAddr: 0xAE3C, symSize: 0xD0 }
+  - { offsetInCU: 0x1386, offset: 0xF3361, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats videoChangeForPlayer:withCustomerData:]', symObjAddr: 0x1948, symBinAddr: 0xAF0C, symSize: 0x188 }
+  - { offsetInCU: 0x142D, offset: 0xF3408, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats videoChangeForPlayer:withPlayerData:withVideoData:viewData:]', symObjAddr: 0x1AD0, symBinAddr: 0xB094, symSize: 0xC0 }
+  - { offsetInCU: 0x14B6, offset: 0xF3491, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats videoChangeForPlayer:withPlayerData:withVideoData:]', symObjAddr: 0x1B90, symBinAddr: 0xB154, symSize: 0xA8 }
+  - { offsetInCU: 0x152E, offset: 0xF3509, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats videoChangeForPlayer:withVideoData:]', symObjAddr: 0x1C38, symBinAddr: 0xB1FC, symSize: 0x80 }
+  - { offsetInCU: 0x1595, offset: 0xF3570, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats programChangeForPlayer:withCustomerData:]', symObjAddr: 0x1CB8, symBinAddr: 0xB27C, symSize: 0x7C }
+  - { offsetInCU: 0x15F8, offset: 0xF35D3, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats programChangeForPlayer:withVideoData:]', symObjAddr: 0x1D34, symBinAddr: 0xB2F8, symSize: 0x88 }
+  - { offsetInCU: 0x165F, offset: 0xF363A, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats setAutomaticVideoChange:enabled:]', symObjAddr: 0x1DBC, symBinAddr: 0xB380, symSize: 0x4C }
+  - { offsetInCU: 0x16C2, offset: 0xF369D, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats setCustomerData:forPlayer:]', symObjAddr: 0x1E08, symBinAddr: 0xB3CC, symSize: 0x240 }
+  - { offsetInCU: 0x17CF, offset: 0xF37AA, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats updateCustomerDataForPlayer:withPlayerData:withVideoData:]', symObjAddr: 0x2048, symBinAddr: 0xB60C, symSize: 0x8 }
+  - { offsetInCU: 0x182E, offset: 0xF3809, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats updateCustomerDataForPlayer:withPlayerData:withVideoData:viewData:]', symObjAddr: 0x2050, symBinAddr: 0xB614, symSize: 0xC0 }
+  - { offsetInCU: 0x18B7, offset: 0xF3892, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats orientationChangeForPlayer:withOrientation:]', symObjAddr: 0x2110, symBinAddr: 0xB6D4, symSize: 0x48 }
+  - { offsetInCU: 0x191A, offset: 0xF38F5, size: 0x8, addend: 0x0, symName: '+[MUXSDKStats dispatchError:withMessage:forPlayer:]', symObjAddr: 0x2158, symBinAddr: 0xB71C, symSize: 0x84 }
+...
