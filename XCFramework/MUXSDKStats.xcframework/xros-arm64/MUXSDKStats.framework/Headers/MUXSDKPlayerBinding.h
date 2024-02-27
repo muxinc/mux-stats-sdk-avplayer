@@ -173,7 +173,8 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 
 @end
 
-API_UNAVAILABLE(visionos) @interface MUXSDKAVPlayerLayerBinding : MUXSDKPlayerBinding {
+API_UNAVAILABLE(visionos) 
+@interface MUXSDKAVPlayerLayerBinding : MUXSDKPlayerBinding {
 @private
     AVPlayerLayer *_view;
 }

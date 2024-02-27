@@ -132,6 +132,9 @@ static MUXSDKCustomerViewerData *_customerViewerData;
             systemDeviceCategory = @"car";
             systemOsFamily = @"CarPlay";
             break;
+        case UIUserInterfaceIdiomVision:
+            systemDeviceCategory = @"headset";
+            systemOsFamily = @"visionOS";
         default:
             break;
     }
