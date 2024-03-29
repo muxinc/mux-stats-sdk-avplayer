@@ -35,9 +35,6 @@
       }
     },
     {
-      "skippedTests" : [
-        "MUXSDKStatsExampleSPMUITests\/testCustomSessionDataExample()"
-      ],
       "target" : {
         "containerPath" : "container:MUXSDKStatsExampleSPM.xcodeproj",
         "identifier" : "19CB35EB2ABD2B5D002DF48C",

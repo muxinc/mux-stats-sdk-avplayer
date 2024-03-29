@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		190698952BB76EDE00CE0FF7 /* CustomSessionDataExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190698942BB76EDE00CE0FF7 /* CustomSessionDataExampleViewController.swift */; };
+		190698972BB7769900CE0FF7 /* MUXSDKStatsExampleSPM-CI.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = 190698962BB7769900CE0FF7 /* MUXSDKStatsExampleSPM-CI.xctestplan */; };
 		195762142AD64B2800128565 /* AudioOnlyPlaybackExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195762132AD64B2800128565 /* AudioOnlyPlaybackExampleViewController.swift */; };
 		19C386A82AD12344009AB018 /* MultiplePlayerItemPlaybackExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C386A72AD12343009AB018 /* MultiplePlayerItemPlaybackExampleViewController.swift */; };
 		19C386AA2AD3194F009AB018 /* PlayerLayerScalingExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C386A92AD3194F009AB018 /* PlayerLayerScalingExampleViewController.swift */; };
@@ -42,6 +44,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		190698942BB76EDE00CE0FF7 /* CustomSessionDataExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSessionDataExampleViewController.swift; sourceTree = "<group>"; };
+		190698962BB7769900CE0FF7 /* MUXSDKStatsExampleSPM-CI.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "MUXSDKStatsExampleSPM-CI.xctestplan"; sourceTree = "<group>"; };
 		194C6D432ABD518A003F965E /* mux-stats-sdk-avplayer */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "mux-stats-sdk-avplayer"; path = ../..; sourceTree = "<group>"; };
 		195762132AD64B2800128565 /* AudioOnlyPlaybackExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioOnlyPlaybackExampleViewController.swift; sourceTree = "<group>"; };
 		19ABBEA92B650DB2004A3634 /* MUXSDKStatsExampleSPM.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = MUXSDKStatsExampleSPM.xctestplan; sourceTree = "<group>"; };
@@ -102,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				19ABBEA92B650DB2004A3634 /* MUXSDKStatsExampleSPM.xctestplan */,
+				190698962BB7769900CE0FF7 /* MUXSDKStatsExampleSPM-CI.xctestplan */,
 				194C6D422ABD518A003F965E /* Packages */,
 				19CB35CE2ABD2B5C002DF48C /* MUXSDKStatsExampleSPM */,
 				19CB35E52ABD2B5D002DF48C /* MUXSDKStatsExampleSPMTests */,
@@ -130,6 +135,7 @@
 				19C386A72AD12343009AB018 /* MultiplePlayerItemPlaybackExampleViewController.swift */,
 				19C386A92AD3194F009AB018 /* PlayerLayerScalingExampleViewController.swift */,
 				195762132AD64B2800128565 /* AudioOnlyPlaybackExampleViewController.swift */,
+				190698942BB76EDE00CE0FF7 /* CustomSessionDataExampleViewController.swift */,
 				19CB36042ABD2D63002DF48C /* ProcessInfo+Mux.swift */,
 				19CB35D52ABD2B5C002DF48C /* Main.storyboard */,
 				19CB35D82ABD2B5D002DF48C /* Assets.xcassets */,
@@ -268,6 +274,7 @@
 				19CB35DC2ABD2B5D002DF48C /* LaunchScreen.storyboard in Resources */,
 				19CB35D92ABD2B5D002DF48C /* Assets.xcassets in Resources */,
 				19CB35D72ABD2B5C002DF48C /* Main.storyboard in Resources */,
+				190698972BB7769900CE0FF7 /* MUXSDKStatsExampleSPM-CI.xctestplan in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,6 +300,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				19CB36052ABD2D63002DF48C /* ProcessInfo+Mux.swift in Sources */,
+				190698952BB76EDE00CE0FF7 /* CustomSessionDataExampleViewController.swift in Sources */,
 				19C386AA2AD3194F009AB018 /* PlayerLayerScalingExampleViewController.swift in Sources */,
 				19C386A82AD12344009AB018 /* MultiplePlayerItemPlaybackExampleViewController.swift in Sources */,
 				19CB35D42ABD2B5C002DF48C /* BasicPlaybackExampleViewController.swift in Sources */,

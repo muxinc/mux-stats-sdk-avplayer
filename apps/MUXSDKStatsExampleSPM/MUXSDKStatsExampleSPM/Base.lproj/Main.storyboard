@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kWI-EU-SKA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kWI-EU-SKA">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -41,6 +41,23 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9tG-p4-g11" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2416" y="-79"/>
+        </scene>
+        <!--Custom Session Data Example View Controller-->
+        <scene sceneID="wDe-jV-01M">
+            <objects>
+                <viewController id="P9P-1d-DcD" customClass="CustomSessionDataExampleViewController" customModule="MUXSDKStatsExampleSPM" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="eu3-og-JMe">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="VQw-nG-tqW"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <accessibility key="accessibilityConfiguration" identifier="CustomSessionDataExampleView"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="xRl-mv-3UD"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aBZ-7i-QCZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1157" y="1511"/>
         </scene>
         <!--Player Layer Example View Controller-->
         <scene sceneID="6Bb-A5-c34">
@@ -273,6 +290,34 @@
                                         <accessibility key="accessibilityConfiguration" identifier="AudioOnlyPlaybackExample"/>
                                         <connections>
                                             <segue destination="OkB-KB-WOH" kind="show" id="Hwl-df-fFA"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlayerLayerExample" textLabel="cKK-yr-SeG" detailTextLabel="5BJ-Cn-2te" style="IBUITableViewCellStyleSubtitle" id="ybN-ga-mfE" userLabel="CustomSessionDataExample">
+                                        <rect key="frame" x="0.0" y="578" width="393" height="88"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ybN-ga-mfE" id="JvB-je-alr">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="88"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Custom Session Data Example" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cKK-yr-SeG" userLabel="Custom Session Data Example">
+                                                    <rect key="frame" x="20" y="15.666666666666666" width="315.33333333333331" height="28.666666666666668"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Send session data included with video" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5BJ-Cn-2te" userLabel="Send session data included with video">
+                                                    <rect key="frame" x="20" y="48.666666666666671" width="276.66666666666669" height="19.333333333333332"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <accessibility key="accessibilityConfiguration" identifier="CustomSessionDataExample"/>
+                                        <connections>
+                                            <segue destination="P9P-1d-DcD" kind="show" id="on8-sy-Ajz"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>

@@ -32,8 +32,6 @@ jobs:
         run: brew install xcbeautify
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Launch local HLS server
-        run: "scripts/setup-local-hls-server.sh"
       - name: "Switch to Xcode 15.2"
         run: sudo xcode-select -switch /Applications/Xcode_15.2.app
       - name: Download framework artifact
@@ -42,6 +40,8 @@ jobs:
           name: "MUXSDKStats.xcframework.zip"
       - name: Run cocoapods example application tests
         run: "scripts/run-tests-cocoapods-ventura.sh"
+      - name: Launch local HLS server
+        run: "scripts/setup-local-hls-server.sh"
       - name: Run Swift package manager example application tests
         run: "scripts/run-tests-swift-package-manager-ventura.sh"
   build-static:

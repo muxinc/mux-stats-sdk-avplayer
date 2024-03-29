@@ -90,6 +90,20 @@ final class MUXSDKStatsExampleSPMUITests: XCTestCase {
         )
     }
 
+    func testCustomSessionDataExample() throws {
+        let application = XCUIApplication()
+
+        try launchAndWaitUntilInForeground(
+            application: application
+        )
+
+        try tapCell(
+            cellIdentifier: "CustomSessionDataExample",
+            waitFor: "CustomSessionDataExampleView",
+            application: application
+        )
+    }
+
     func launchAndWaitUntilInForeground(
         application: XCUIApplication
     ) throws {
