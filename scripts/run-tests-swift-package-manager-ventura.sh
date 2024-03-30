@@ -11,7 +11,7 @@ then
     exit 1
 fi
 
-./scripts/setup-local-hls-server.sh
+sh scripts/setup-local-hls-server.sh
 
 echo "▸ Current Xcode: $(xcode-select -p)"
 
