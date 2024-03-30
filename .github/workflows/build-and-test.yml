@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     name: Run unit tests and build dynamic SDK binary
-    runs-on: macos-13
+    runs-on: macos-14
     steps:
       - name: Install xcbeautify
         run: brew install xcbeautify
@@ -26,7 +26,7 @@ jobs:
   tests:
     name: Test the SDK with a Demo App
     needs: build
-    runs-on: macos-13
+    runs-on: macos-14
     steps:
       - name: Install xcbeautify
         run: brew install xcbeautify
