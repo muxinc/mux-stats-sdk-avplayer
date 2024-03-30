@@ -6,14 +6,10 @@ on:
 jobs:
   build:
     name: Run unit tests and build dynamic SDK binary
-    runs-on: macos-14
+    runs-on: self-hosted
     steps:
-      - name: Install xcbeautify
-        run: brew install xcbeautify
       - name: Checkout
         uses: actions/checkout@v3
-      - name: "Switch to Xcode 15.3"
-        run: sudo xcode-select -switch /Applications/Xcode_15.3.app
       - name: "Baseline Unit Test Pass"
         run: ./scripts/run-baseline-unit-test-pass.sh
       - name: "🔨 Build Dynamic XCFramework"
@@ -26,14 +22,10 @@ jobs:
   tests:
     name: Test the SDK with a Demo App
     needs: build
-    runs-on: macos-14
+    runs-on: self-hosted
     steps:
-      - name: Install xcbeautify
-        run: brew install xcbeautify
       - name: Checkout
         uses: actions/checkout@v3
-      - name: "Switch to Xcode 15.3"
-        run: sudo xcode-select -switch /Applications/Xcode_15.3.app
       - name: Download framework artifact
         uses: actions/download-artifact@v3
         with:
@@ -44,14 +36,10 @@ jobs:
         run: "scripts/run-tests-swift-package-manager-ventura.sh"
   build-static:
     name: Build static SDK binary
-    runs-on: macos-13
+    runs-on: self-hosted
     steps:
-      - name: Install xcbeautify
-        run: brew install xcbeautify
       - name: Checkout
         uses: actions/checkout@v3
-      - name: "Switch to Xcode 15.3"
-        run: sudo xcode-select -switch /Applications/Xcode_15.3.app
       - name: "🔨 Build Static XCFramework"
         run: ".github/workflows/scripts/build-static.sh"
       - name: "Upload xcframework artifact"
