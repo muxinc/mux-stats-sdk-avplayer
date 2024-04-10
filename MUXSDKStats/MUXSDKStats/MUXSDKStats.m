@@ -688,6 +688,11 @@ static MUXSDKCustomerViewerData *_customerViewerData;
         [player detachAVPlayer];
         [_viewControllers removeObjectForKey:name];
         #endif
+    } else if (binding == MuxPlayerSoftwareAVPlayer) {
+        MUXSDKAVPlayerBinding *player = [_viewControllers valueForKey:name];
+        [player dispatchViewEnd];
+        [player detachAVPlayer];
+        [_viewControllers removeObjectForKey:name];
     }
     [_bindings removeObjectForKey:name];
     [_playerBindingManager onPlayerDestroyed:name];
