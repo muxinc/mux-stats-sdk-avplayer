@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "5CEF313F-C53E-4857-B839-8827A3B01007",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:MUXSDKStats.xcodeproj",
+        "identifier" : "19F2B24A2B68724200D5DEA6",
+        "name" : "MUXSDKStatsVisionTests"
+      }
+    }
+  ],
+  "version" : 1
+}

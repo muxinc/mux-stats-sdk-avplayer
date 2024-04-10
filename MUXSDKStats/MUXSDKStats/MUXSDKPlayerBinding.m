@@ -5,14 +5,16 @@
 #if __has_feature(modules)
 @import Foundation;
 @import CoreMedia;
+@import UIKit;
 #else
 #import <Foundation/Foundation.h>
 #import <CoreMedia/CoreMedia.h>
+#import <UIKit/UIKit.h>
 #endif
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"3.5.1";
+NSString *const MUXSDKPluginVersion = @"3.6.0";
 NSString *const MUXSessionDataPrefix = @"io.litix.data.";
 
 // Min number of seconds between timeupdate events. (100ms)
@@ -427,7 +429,8 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     AVAsset *asset = _player.currentItem.asset;
     // Load Session Data from HLS manifest
     __weak MUXSDKPlayerBinding *weakSelf = self;
-    [asset loadValuesAsynchronouslyForKeys:@[@"metadata"] 
+
+    [asset loadValuesAsynchronouslyForKeys:@[@"metadata"]
                          completionHandler:^{
 
         __typeof(weakSelf) strongSelf = weakSelf;
@@ -436,6 +439,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         }
 
         NSMutableDictionary *sessionData = [[NSMutableDictionary alloc] init];
+
         for (AVMetadataItem *item in asset.metadata) {
             id<NSObject, NSCopying> key = [item key];
             if ([key isKindOfClass:[NSString class]]) {
@@ -450,7 +454,8 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         if ([sessionData count] > 0) {
             MUXSDKSessionDataEvent *dataEvent = [MUXSDKSessionDataEvent new];
             [dataEvent setSessionData: sessionData];
-            [MUXSDKCore dispatchEvent:dataEvent forPlayer:[strongSelf name]];
+            [MUXSDKCore dispatchEvent:dataEvent 
+                            forPlayer:[strongSelf name]];
         }
     }];
 }
@@ -626,6 +631,13 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [playerData setPlayerWidth:[NSNumber numberWithInt:viewBounds.size.width]];
     [playerData setPlayerHeight:[NSNumber numberWithInt:viewBounds.size.height]];
 
+
+    #if TARGET_OS_VISION
+    // TODO: Call analogous vision OS API for the area containing
+    // the player window, which seems like the rough equivalent
+    // of UIScreen
+    [playerData setPlayerIsFullscreen:@"false"];
+    #else
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     // TODO: setPlayerIsFullscreen - should be a boolean.
     if ((viewBounds.size.width == screenBounds.size.width && viewBounds.size.height == screenBounds.size.height) ||
@@ -634,6 +646,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     } else {
         [playerData setPlayerIsFullscreen:@"false"];
     }
+    #endif
 
     // Derived from the player.
     NSMutableArray *errors = [NSMutableArray new];
@@ -714,9 +727,13 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     }
 
     // TODO: Airplay - don't set the view if we don't actually know what is going on.
+    #if TARGET_OS_VISION
+
+    #else
     if (_player.externalPlaybackActive) {
         [playerData setPlayerRemotePlayed:[NSNumber numberWithBool:YES]];
     }
+    #endif
     return playerData;
 }
 
@@ -763,7 +780,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (BOOL) isPausedWhileAirPlaying {
+    #if TARGET_OS_VISION
+    return NO;
+    #else
     return _player.externalPlaybackActive && [self isPaused];
+    #endif
 }
 
 - (BOOL) isAdPlaying {
@@ -893,12 +914,16 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     _state = MUXSDKPlayerStateError;
 }
 
-- (void) dispatchError:(nonnull NSString *)code withMessage:(nonnull NSString *)message {
-    [self dispatchError:code withMessage:message withErrorContext:nil];
-}
-    
 - (void) dispatchError:(nonnull NSString *)code 
-           withMessage:(nonnull NSString *)message 
+           withMessage:(nonnull NSString *)message {
+    [self dispatchError:code
+            withMessage:message
+       withErrorContext:nil];
+}
+
+
+- (void) dispatchError:(nonnull NSString *)code
+           withMessage:(nonnull NSString *)message
       withErrorContext:(NSString *)errorContext {
     if (![self isPlayerOK]) {
         return;

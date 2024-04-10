@@ -132,6 +132,9 @@ static MUXSDKCustomerViewerData *_customerViewerData;
             systemDeviceCategory = @"car";
             systemOsFamily = @"CarPlay";
             break;
+        case UIUserInterfaceIdiomVision:
+            systemDeviceCategory = @"headset";
+            systemOsFamily = @"visionOS";
         default:
             break;
     }
@@ -355,11 +358,15 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 
 #pragma mark Monitor AVPlayerLayer
 
+#if TARGET_OS_VISION
+
+#else
+
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
                                         withPlayerName:(nonnull NSString *)name
                                           customerData:(nonnull MUXSDKCustomerData *)customerData
                                 automaticErrorTracking:(BOOL)automaticErrorTracking
-                                          beaconCollectionDomain:(nullable NSString *)collectionDomain {
+                                beaconCollectionDomain:(nullable NSString *)collectionDomain API_UNAVAILABLE(visionos) {
     return [self monitorAVPlayerLayer:player
                        withPlayerName:name
                          customerData:customerData
@@ -373,7 +380,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                                         withPlayerName:(nonnull NSString *)name
                                           customerData:(nonnull MUXSDKCustomerData *)customerData
                                 automaticErrorTracking:(BOOL)automaticErrorTracking
-                                          beaconDomain:(nullable NSString *)domain {
+                                          beaconDomain:(nullable NSString *)domain API_UNAVAILABLE(visionos) {
     return [self monitorAVPlayerLayer:player
                        withPlayerName:name
                          customerData:customerData
@@ -387,7 +394,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                                           customerData:(nonnull MUXSDKCustomerData *)customerData
                                 automaticErrorTracking:(BOOL)automaticErrorTracking
                                 beaconCollectionDomain:(nullable NSString *)collectionDomain
-                                          beaconDomain:(nullable NSString *)domain {
+                                          beaconDomain:(nullable NSString *)domain API_UNAVAILABLE(visionos) {
     MUXSDKCustomerViewerData *viewerData = [customerData customerViewerData];
     if (viewerData != nil) {
         _customerViewerData = viewerData;
@@ -451,7 +458,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
                                         withPlayerName:(nonnull NSString *)name
                                           customerData:(nonnull MUXSDKCustomerData *)customerData
-                                automaticErrorTracking:(BOOL)automaticErrorTracking {
+                                automaticErrorTracking:(BOOL)automaticErrorTracking API_UNAVAILABLE(visionos) {
 
     return [self monitorAVPlayerLayer:player
                        withPlayerName:name
@@ -462,7 +469,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
                                         withPlayerName:(nonnull NSString *)name
-                                          customerData:(nonnull MUXSDKCustomerData *)customerData {
+                                          customerData:(nonnull MUXSDKCustomerData *)customerData API_UNAVAILABLE(visionos) {
 
     return [self monitorAVPlayerLayer:player
                        withPlayerName:name
@@ -473,7 +480,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 + (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
                                         withPlayerName:(nonnull NSString *)name
                                             playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
-                                             videoData:(nullable MUXSDKCustomerVideoData *)videoData {
+                                             videoData:(nullable MUXSDKCustomerVideoData *)videoData API_UNAVAILABLE(visionos) {
     return [self monitorAVPlayerLayer:player
                        withPlayerName:name
                            playerData:playerData
@@ -486,7 +493,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                                         withPlayerName:(nonnull NSString *)name
                                             playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
                                              videoData:(nullable MUXSDKCustomerVideoData *)videoData
-                                              viewData:(nullable MUXSDKCustomerViewData *)viewData {
+                                              viewData:(nullable MUXSDKCustomerViewData *)viewData API_UNAVAILABLE(visionos) {
     return [self monitorAVPlayerLayer:player
                        withPlayerName:name
                            playerData:playerData
@@ -499,7 +506,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                                          withPlayerName:(nonnull NSString *)name
                                              playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
                                               videoData:(nullable MUXSDKCustomerVideoData *)videoData
-                                 automaticErrorTracking:(BOOL) automaticErrorTracking {
+                                 automaticErrorTracking:(BOOL) automaticErrorTracking API_UNAVAILABLE(visionos) {
     return [self monitorAVPlayerLayer:player
                        withPlayerName:name
                            playerData:playerData
@@ -513,7 +520,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                                              playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
                                               videoData:(nullable MUXSDKCustomerVideoData *)videoData
                                                viewData:(nullable MUXSDKCustomerViewData *)viewData
-                                 automaticErrorTracking:(BOOL) automaticErrorTracking {
+                                 automaticErrorTracking:(BOOL) automaticErrorTracking API_UNAVAILABLE(visionos) {
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:playerData
                                                                                     videoData:videoData
                                                                                      viewData:viewData];
@@ -523,7 +530,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                automaticErrorTracking:automaticErrorTracking];
 }
 
-+ (void)updateAVPlayerLayer:(AVPlayerLayer *)player withPlayerName:(NSString *)name {
++ (void)updateAVPlayerLayer:(AVPlayerLayer *)player withPlayerName:(NSString *)name API_UNAVAILABLE(visionos) {
     [self initSDK];
     NSString *binding = [_bindings valueForKey:name];
     if (binding) {
@@ -542,6 +549,8 @@ static MUXSDKCustomerViewerData *_customerViewerData;
         NSLog(@"MUXSDK-ERROR - Mux failed to update the monitor because no player exists with the player name: %@", name);
     }
 }
+
+#endif
 
 #pragma mark Monitor AVPlayer
 
@@ -671,7 +680,16 @@ static MUXSDKCustomerViewerData *_customerViewerData;
         [player detachAVPlayer];
         [_viewControllers removeObjectForKey:name];
     } else if (binding == MuxPlayerSoftwareAVPlayerLayer) {
+        #if TARGET_OS_VISION
+
+        #else
         MUXSDKAVPlayerLayerBinding *player = [_viewControllers valueForKey:name];
+        [player dispatchViewEnd];
+        [player detachAVPlayer];
+        [_viewControllers removeObjectForKey:name];
+        #endif
+    } else if (binding == MuxPlayerSoftwareAVPlayer) {
+        MUXSDKAVPlayerBinding *player = [_viewControllers valueForKey:name];
         [player dispatchViewEnd];
         [player detachAVPlayer];
         [_viewControllers removeObjectForKey:name];
@@ -821,7 +839,10 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 
 + (void)dispatchError:(nonnull NSString *)code withMessage:(nonnull NSString *)message forPlayer:(nonnull NSString *)name {
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
-    if (!player) return;
+    NSLog(@"Players: %@, Name: %@", [_viewControllers debugDescription], name);
+    if (!player) {
+        return;
+    }
     [player dispatchError:code withMessage:message];
 }
 
