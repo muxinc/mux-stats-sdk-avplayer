@@ -4,23 +4,11 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>Headers/MUXSDKPlayerBinding.h</key>
+		<key>Resources/Info.plist</key>
 		<data>
-		1dzWora+/XX7Gmf2Iiayk5mZA+o=
+		4CrZyzhAi8nT6lFA5UIuZU0eVAM=
 		</data>
-		<key>Headers/MUXSDKStats.h</key>
-		<data>
-		OkZZ/wMTVC/j049cB/rApo6oWGI=
-		</data>
-		<key>Info.plist</key>
-		<data>
-		N9dNWhwNjh8wVfg94Qhf/MEo6Ss=
-		</data>
-		<key>Modules/module.modulemap</key>
-		<data>
-		xKFfZzWK/9l8YCOvjL3LzeqB9+c=
-		</data>
-		<key>PrivacyInfo.xcprivacy</key>
+		<key>Resources/PrivacyInfo.xcprivacy</key>
 		<data>
 		RvNGNlSfYsCRO5VJ0PAF/fGK40s=
 		</data>
@@ -48,7 +36,14 @@
 			P43Gl1ATXjxG7fAXQrcBr2O0rBfbOTi20FAKoobSm+s=
 			</data>
 		</dict>
-		<key>PrivacyInfo.xcprivacy</key>
+		<key>Resources/Info.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			DcdKtK1Vha7ZsKK0z0xgMU56ImzJwOA3XxJlcoPlAkY=
+			</data>
+		</dict>
+		<key>Resources/PrivacyInfo.xcprivacy</key>
 		<dict>
 			<key>hash2</key>
 			<data>
@@ -58,23 +53,23 @@
 	</dict>
 	<key>rules</key>
 	<dict>
-		<key>^.*</key>
+		<key>^Resources/</key>
 		<true/>
-		<key>^.*\.lproj/</key>
+		<key>^Resources/.*\.lproj/</key>
 		<dict>
 			<key>optional</key>
 			<true/>
 			<key>weight</key>
 			<real>1000</real>
 		</dict>
-		<key>^.*\.lproj/locversion.plist$</key>
+		<key>^Resources/.*\.lproj/locversion.plist$</key>
 		<dict>
 			<key>omit</key>
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
 		</dict>
-		<key>^Base\.lproj/</key>
+		<key>^Resources/Base\.lproj/</key>
 		<dict>
 			<key>weight</key>
 			<real>1010</real>
@@ -96,27 +91,15 @@
 			<key>weight</key>
 			<real>2000</real>
 		</dict>
+		<key>^(Frameworks|SharedFrameworks|PlugIns|Plug-ins|XPCServices|Helpers|MacOS|Library/(Automator|Spotlight|LoginItems))/</key>
+		<dict>
+			<key>nested</key>
+			<true/>
+			<key>weight</key>
+			<real>10</real>
+		</dict>
 		<key>^.*</key>
 		<true/>
-		<key>^.*\.lproj/</key>
-		<dict>
-			<key>optional</key>
-			<true/>
-			<key>weight</key>
-			<real>1000</real>
-		</dict>
-		<key>^.*\.lproj/locversion.plist$</key>
-		<dict>
-			<key>omit</key>
-			<true/>
-			<key>weight</key>
-			<real>1100</real>
-		</dict>
-		<key>^Base\.lproj/</key>
-		<dict>
-			<key>weight</key>
-			<real>1010</real>
-		</dict>
 		<key>^Info\.plist$</key>
 		<dict>
 			<key>omit</key>
@@ -130,6 +113,37 @@
 			<true/>
 			<key>weight</key>
 			<real>20</real>
+		</dict>
+		<key>^Resources/</key>
+		<dict>
+			<key>weight</key>
+			<real>20</real>
+		</dict>
+		<key>^Resources/.*\.lproj/</key>
+		<dict>
+			<key>optional</key>
+			<true/>
+			<key>weight</key>
+			<real>1000</real>
+		</dict>
+		<key>^Resources/.*\.lproj/locversion.plist$</key>
+		<dict>
+			<key>omit</key>
+			<true/>
+			<key>weight</key>
+			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
+		</dict>
+		<key>^[^/]+$</key>
+		<dict>
+			<key>nested</key>
+			<true/>
+			<key>weight</key>
+			<real>10</real>
 		</dict>
 		<key>^embedded\.provisionprofile$</key>
 		<dict>

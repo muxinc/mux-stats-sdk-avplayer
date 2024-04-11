@@ -47,7 +47,7 @@ class VideoChangeExampleViewController: MultiplePlayerItemPlaybackExampleViewCon
     override func handlePlayerItemDidPlayToEnd(_ notification: Notification) {
         let videoData = MUXSDKCustomerVideoData()
         videoData.videoTitle = "Second Test Video in Queue"
-        videoData.videoTitle = "SecondTestVideo"
+        videoData.videoId = "AVQueuePlayerExample-SecondTestVideo"
 
         let customData = MUXSDKCustomData()
         customData.customData1 = "VideoChangeExample"
@@ -114,7 +114,7 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
 
         let videoData = MUXSDKCustomerVideoData()
         videoData.videoTitle = "First Test Video in Queue"
-        videoData.videoTitle = "FirstTestVideo"
+        videoData.videoId = "AVQueuePlayerExample-FirstTestVideo"
 
         let customerData = MUXSDKCustomerData(
             customerPlayerData: playerData,

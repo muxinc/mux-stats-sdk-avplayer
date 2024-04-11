@@ -27,8 +27,8 @@ class AudioOnlyPlaybackExampleViewController: UIViewController {
         playerData.environmentKey = ProcessInfo.processInfo.environmentKey
 
         let videoData = MUXSDKCustomerVideoData()
-        videoData.videoId = "FieldRecordingARainySummerNight"
         videoData.videoTitle = "Field Recording: A Rainy Summer Night"
+        videoData.videoId = "AVPlayerAudioOnlyPlaybackExample"
 
         let customerData = MUXSDKCustomerData(
             customerPlayerData: playerData,
