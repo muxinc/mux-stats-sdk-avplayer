@@ -44,7 +44,7 @@ class PlayerLayerExampleViewController: UIViewController {
         playerData.environmentKey = ProcessInfo.processInfo.environmentKey
 
         let videoData = MUXSDKCustomerVideoData()
-        videoData.videoId = "VideoBehindTheScenes"
+        videoData.videoId = "AVPlayerLayerPlaybackExample"
         videoData.videoTitle = "Video Behind the Scenes"
 
         let customerData = MUXSDKCustomerData(

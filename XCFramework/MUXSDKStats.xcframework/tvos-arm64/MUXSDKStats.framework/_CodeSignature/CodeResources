@@ -12,13 +12,17 @@
 		<data>
 		OkZZ/wMTVC/j049cB/rApo6oWGI=
 		</data>
+		<key>Headers/MUXSDKStatsTv.h</key>
+		<data>
+		9jQFHCiHb0gNzWtO9VWZNNkPt8w=
+		</data>
 		<key>Info.plist</key>
 		<data>
-		N9dNWhwNjh8wVfg94Qhf/MEo6Ss=
+		VcZNAJOLfjySuDFcpsIKFJSJbPo=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
-		xKFfZzWK/9l8YCOvjL3LzeqB9+c=
+		GolHymijCSRIAcWrFdTEgt7XShQ=
 		</data>
 		<key>PrivacyInfo.xcprivacy</key>
 		<data>
@@ -41,11 +45,18 @@
 			sQJZBULUxx7n64p9Xalh4i2y36WjLqJdnUkDGDRaLLY=
 			</data>
 		</dict>
+		<key>Headers/MUXSDKStatsTv.h</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			zCuTtKIn5WBcmRN+vCvhfKT4U3uzmjhCc/x8j59mo7Q=
+			</data>
+		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			P43Gl1ATXjxG7fAXQrcBr2O0rBfbOTi20FAKoobSm+s=
+			fNC6fIja2dOeeaaQ/oViqUsi9KrWOgHF1vsRxxcVEhg=
 			</data>
 		</dict>
 		<key>PrivacyInfo.xcprivacy</key>

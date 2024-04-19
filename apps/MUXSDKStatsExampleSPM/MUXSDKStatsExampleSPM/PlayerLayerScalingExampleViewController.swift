@@ -26,8 +26,8 @@ class PlayerLayerScalingExampleViewController: UIViewController {
         playerData.environmentKey = ProcessInfo.processInfo.environmentKey
 
         let videoData = MUXSDKCustomerVideoData()
-        videoData.videoId = "VideoBehindTheScenes"
         videoData.videoTitle = "Video Behind the Scenes"
+        videoData.videoId = "AVPlayerLayerPlaybackExampleScaling"
 
         let customerData = MUXSDKCustomerData(
             customerPlayerData: playerData,
