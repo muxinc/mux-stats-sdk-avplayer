@@ -13,9 +13,8 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            name: "MuxCore",
             url: "https://github.com/muxinc/stats-sdk-objc.git",
-            .exactItem("4.7.0")
+            exact: "4.7.1"
         )
     ],
     targets: [
@@ -26,7 +25,7 @@ let package = Package(
         .target(
             name: "MUXSDKStatsTargets",
             dependencies: [
-                "MuxCore",
+                .product(name: "MuxCore", package: "stats-sdk-objc"),
                 .target(name: "MUXSDKStats")
             ],
             path: "SwiftPM"

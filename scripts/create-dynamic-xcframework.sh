@@ -14,6 +14,8 @@ readonly TARGET_DIR=$PWD/XCFramework
 readonly FRAMEWORK_NAME="MUXSDKStats"
 readonly PACKAGE_NAME=${FRAMEWORK_NAME}.xcframework
 
+readonly CODE_SIGNING_CERTIFICATE="Apple Distribution: Mux, Inc (XX95P4Y787)"
+
 echo "▸ Current Xcode: $(xcode-select -p)"
 
 readonly XCODE=$(xcodebuild -version | grep Xcode | cut -d " " -f2)
@@ -120,6 +122,12 @@ else
     echo -e "\033[1;31m ERROR: Failed to create ${FRAMEWORK_NAME} XCFramework \033[0m"
     exit 1
 fi
+
+echo "▸ Code signing ${PACKAGE_NAME} using ${CODE_SIGNING_CERTIFICATE}"
+
+codesign --timestamp -v --sign "${CODE_SIGNING_CERTIFICATE}" "$TARGET_DIR/$PACKAGE_NAME"
+
+codesign --verify --verbose "${TARGET_DIR}/${PACKAGE_NAME}" 
 
 echo "▸ Deleting Build Directory: ${BUILD_DIR}"
 

@@ -14,6 +14,8 @@ readonly TARGET_DIR=$PWD/XCFramework
 readonly FRAMEWORK_NAME="MUXSDKStats"
 readonly PACKAGE_NAME=${FRAMEWORK_NAME}.xcframework
 
+readonly CODE_SIGNING_CERTIFICATE="Apple Distribution: Mux, Inc (XX95P4Y787)"
+
 readonly XCODE=$(xcodebuild -version | grep Xcode | cut -d " " -f2)
 
 echo "▸ Using Xcode Version: ${XCODE}"
@@ -119,6 +121,12 @@ xcodebuild clean archive \
       -framework "$BUILD_DIR/MUXSDKStats.iOS-simulator.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
       -framework "$BUILD_DIR/MUXSDKStats.macOS.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
       -output "$TARGET_DIR/MUXSDKStats.xcframework" | xcbeautify
+
+echo "▸ Code signing ${PACKAGE_NAME} using ${CODE_SIGNING_CERTIFICATE}"
+
+codesign --timestamp -v --sign "${CODE_SIGNING_CERTIFICATE}" "$TARGET_DIR/$PACKAGE_NAME"
+
+codesign --verify --verbose "${TARGET_DIR}/${PACKAGE_NAME}" 
 
 echo "▸ Deleting Build Directory: ${BUILD_DIR}"
 
