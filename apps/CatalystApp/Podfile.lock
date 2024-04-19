@@ -1,7 +1,7 @@
 PODS:
-  - Mux-Stats-AVPlayer (3.3.2):
-    - Mux-Stats-Core (~> 4.5.2)
-  - Mux-Stats-Core (4.5.2)
+  - Mux-Stats-AVPlayer (3.6.1):
+    - Mux-Stats-Core (= 4.7.1)
+  - Mux-Stats-Core (4.7.1)
 
 DEPENDENCIES:
   - Mux-Stats-AVPlayer (from `../../`)
@@ -15,9 +15,9 @@ EXTERNAL SOURCES:
     :path: "../../"
 
 SPEC CHECKSUMS:
-  Mux-Stats-AVPlayer: 24d79beb96c44c45ed763b56db00e8be8191baff
-  Mux-Stats-Core: b747ca415f883e2b2d9475d8cc0ac3079167bf6b
+  Mux-Stats-AVPlayer: 8f8bc6ee7ea9b19e17b8aac9d9267a09f22e3c32
+  Mux-Stats-Core: b3b61726282ee28e84656734469636ea42787581
 
-PODFILE CHECKSUM: fb256b789f631583d0e022345fa2495769ab8194
+PODFILE CHECKSUM: 1264320dc63a89655bb5bf9d8256eb2d5c05a9c1
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.15.2
