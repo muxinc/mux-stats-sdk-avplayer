@@ -11,6 +11,8 @@ then
     exit 1
 fi
 
+sh scripts/setup-local-hls-server.sh
+
 echo "▸ Current Xcode: $(xcode-select -p)"
 
 echo "▸ Using Xcode Version: ${XCODE}"
@@ -46,5 +48,5 @@ echo "▸ Testing SDK on iOS 17.2 - iPhone 14 Pro Max"
 
 xcodebuild clean test \
     -project MUXSDKStatsExampleSPM.xcodeproj \
-    -scheme "MUXSDKStatsExampleSPM" \
+    -scheme "MUXSDKStatsExampleSPM-CI" \
     -destination 'platform=iOS Simulator,OS=17.2,name=iPhone 14 Pro Max' | xcbeautify

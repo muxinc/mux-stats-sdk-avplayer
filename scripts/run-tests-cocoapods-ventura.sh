@@ -47,7 +47,7 @@ xcodebuild -list
 echo "▸ Available Simulators"
 xcrun simctl list 
 
-echo "▸ Testing SDK on iOS 17.2 - iPhone 14 Pro Max"
+echo "▸ Testing Cocoapods Example Application on iOS 17.4 - iPhone 14 Pro Max"
 xcodebuild clean test \
     -workspace $WORKSPACE \
     -scheme $SCHEME \
