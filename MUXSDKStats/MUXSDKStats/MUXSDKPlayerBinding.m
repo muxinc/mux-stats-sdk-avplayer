@@ -744,8 +744,8 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 - (NSDictionary *)buildError:(NSString *)level domain:(NSString *)domain code:(NSInteger)code message:(NSString *)message {
     return @{
-             @"l": level,
-             @"d": domain,
+             @"l": (level == nil ? @"n/a": level),
+             @"d": (domain == nil ? @"n/a" : domain),
              @"c": [NSString stringWithFormat:@"%ld", (long)code],
              @"m": (message == nil ? @"n/a" : message),
              };
