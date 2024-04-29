@@ -18,17 +18,8 @@ echo "▸ Using Xcode Version: ${XCODE}"
 echo "▸ Available Xcode SDKs"
 xcodebuild -showsdks
 
-echo "▸ Removing XCFramework folder"
-rm -Rf XCFramework
-
-echo "▸ Shutdown all simulators"
-xcrun -v simctl shutdown all
-
-echo "▸ Erase all simulators"
-xcrun -v simctl erase all
-
-echo "▸ Unzipping XCFramework"
-unzip MUXSDKStats.xcframework.zip
+echo "▸ Unzipping downloaded xcframework bundle"
+unzip -o "XCFramework/MUXSDKStats.xcframework.zip"
 
 cd apps/MUXSDKStatsExampleSPM
 
@@ -42,9 +33,9 @@ xcodebuild -list -json
 echo "▸ Running ${SCHEME} Test when installed using Swift Package Manager"
 echo ""
 
-echo "▸ Testing SDK on iOS 17.2 - iPhone 14 Pro Max"
+echo "▸ Testing SDK on iOS 17.4 - iPhone 14 Pro Max"
 
 xcodebuild clean test \
     -project MUXSDKStatsExampleSPM.xcodeproj \
     -scheme "MUXSDKStatsExampleSPM" \
-    -destination 'platform=iOS Simulator,OS=17.2,name=iPhone 14 Pro Max' | xcbeautify
+    -destination 'platform=iOS Simulator,OS=17.4,name=iPhone 15 Pro Max' | xcbeautify
