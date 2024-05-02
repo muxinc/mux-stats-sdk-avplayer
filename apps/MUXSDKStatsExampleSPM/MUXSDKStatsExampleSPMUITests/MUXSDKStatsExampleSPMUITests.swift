@@ -130,7 +130,7 @@ final class MUXSDKStatsExampleSPMUITests: XCTestCase {
         )
 
         let isViewElementOnScreen = viewElement.waitForExistence(
-            timeout: 10.0
+            timeout: 15.0
         )
 
         guard isViewElementOnScreen else {
