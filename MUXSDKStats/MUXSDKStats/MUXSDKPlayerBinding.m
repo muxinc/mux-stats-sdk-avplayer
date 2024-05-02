@@ -692,14 +692,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         // We'll reclassify/recode errors on the backend as we learn more.
         [playerData setPlayerErrorCode:[NSString stringWithFormat:@"%ld", (long)errorCode]];
         [playerData setPlayerErrorMessage:defaultMsg];
-        NSError *error = nil;
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:errors
-                                                           options:0
-                                                             error:&error];
-        if (!error) {
-            [playerData setPlayeriOSErrorData:[[NSString alloc] initWithData:jsonData
-                                                                    encoding:NSUTF8StringEncoding]];
-        }
     }
 
     // Only report program time metrics if this is a live stream
