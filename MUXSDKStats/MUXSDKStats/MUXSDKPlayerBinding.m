@@ -14,7 +14,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"3.6.1";
+NSString *const MUXSDKPluginVersion = @"3.6.2";
 NSString *const MUXSessionDataPrefix = @"io.litix.data.";
 
 // Min number of seconds between timeupdate events. (100ms)
@@ -649,30 +649,23 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     #endif
 
     // Derived from the player.
-    NSMutableArray *errors = [NSMutableArray new];
-    NSString *defaultMsg = nil;
-    NSInteger errorCode = 0;
     if (_player.error) {
-        [errors addObject:[self buildError:@"p"
-                                    domain:_player.error.domain
-                                      code:_player.error.code
-                                   message:_player.error.localizedDescription]];
-        defaultMsg = _player.error.localizedDescription;
-        errorCode = _player.error.code;
+        NSInteger errorCode = _player.error.code;
+        if (errorCode != 0 && errorCode != NSNotFound) {
+            [playerData setPlayerErrorCode:[NSString stringWithFormat:@"%ld", (long)errorCode]];
+        }
+        NSString *errorLocalizedDescription = _player.error.localizedDescription;
+        if (errorLocalizedDescription != nil) {
+            [playerData setPlayerErrorMessage:errorLocalizedDescription];
+        }
     } else if (_playerItem && _playerItem.error) {
-        [errors addObject:[self buildError:@"i"
-                                    domain:_playerItem.error.domain
-                                      code:_playerItem.error.code
-                                   message:_playerItem.error.localizedDescription]];
-        defaultMsg = _playerItem.error.localizedDescription;
-        errorCode = _playerItem.error.code;
-        // Append the full error log.
-        for (AVPlayerItemErrorLogEvent *event in _playerItem.errorLog.events) {
-            [errors addObject:[self buildError:@"l"
-                                        domain:event.errorDomain
-                                          code:event.errorStatusCode
-                                       message:(event.errorComment ? event.errorComment : @"")]];
-
+        NSInteger errorCode = _playerItem.error.code;
+        if (errorCode != 0 && errorCode != NSNotFound) {
+            [playerData setPlayerErrorCode:[NSString stringWithFormat:@"%ld", (long)errorCode]];
+        }
+        NSString *errorLocalizedDescription = _playerItem.error.localizedDescription;
+        if (errorLocalizedDescription != nil) {
+            [playerData setPlayerErrorMessage:errorLocalizedDescription];
         }
     } else {
         // Not sure if both checks are necessary here as when rate is 0 we expect to be paused and vice versa.
@@ -685,13 +678,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             float ms = CMTimeGetSeconds(_player.currentTime) * 1000;
             [self setPlayerPlayheadTime:ms onPlayerData:playerData];
         }
-    }
-    
-    if ([errors count] > 0 && defaultMsg) {
-        // Hard coded default value for now. Error codes on iOS have no meaning for now.
-        // We'll reclassify/recode errors on the backend as we learn more.
-        [playerData setPlayerErrorCode:[NSString stringWithFormat:@"%ld", (long)errorCode]];
-        [playerData setPlayerErrorMessage:defaultMsg];
     }
 
     // Only report program time metrics if this is a live stream
@@ -732,15 +718,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 - (void) setPlayerPlayheadTime:(float) playheadTimeMs onPlayerData:(MUXSDKPlayerData *) playerData {
     NSNumber *timeMs = [NSNumber numberWithFloat:playheadTimeMs];
     [playerData setPlayerPlayheadTime:[NSNumber numberWithLongLong:[timeMs longLongValue]]];
-}
-
-- (NSDictionary *)buildError:(NSString *)level domain:(NSString *)domain code:(NSInteger)code message:(NSString *)message {
-    return @{
-             @"l": level,
-             @"d": domain,
-             @"c": [NSString stringWithFormat:@"%ld", (long)code],
-             @"m": (message == nil ? @"n/a" : message),
-             };
 }
 
 - (BOOL)isPlayerOK {

@@ -25,7 +25,7 @@ steps:
     retry:
       automatic: true
   - wait
-  - command: "./scripts/version-check.sh"
+  - command: "./scripts/version-check.sh Mux-Stats-AVPlayer.podspec MUXSDKStats.json"
     label: ":clipboard: Validate Version Metadata"
     branches: "releases/*"
   - command: "./scripts/validate-podspec.sh"

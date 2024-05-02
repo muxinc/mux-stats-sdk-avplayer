@@ -16,8 +16,7 @@ cocoapod_spec_version=$(grep -Eo '\b[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z-]+)?(\+[0
 echo "▸ Detected Cocoapod Spec Version: ${cocoapod_spec_version}"
 
 # Checks branch name for a v followed by a semantic version MAJOR.MINOR.PATCH string
-release_version=$(git branch --show-current | sed -E 's/.*v([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
-
+release_version=$(echo $BUILDKITE_BRANCH | sed -E 's/.*v([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
 echo "▸ Inferred Release Version: ${release_version}"
 
 if [ "${cocoapod_spec_version}" == "${release_version}" ]; then
