@@ -1,0 +1,34 @@
+agents:
+  queue: "macOS-Monterey-12-4"
+
+steps:
+  - command: "./scripts/run-baseline-unit-test-pass.sh"
+    label: ":xcode_simulator: Baseline Unit Test Pass"
+  - wait
+  - command: ".buildkite/scripts/dynamic-xcframework.sh"
+    label: ":xcode: Create Dynamic XCFramework"
+    artifact_paths:
+      - "./XCFramework/MUXSDKStats.xcframework.zip"
+  - wait
+  - command: "buildkite-agent artifact download XCFramework/MUXSDKStats.xcframework.zip XCFramework && ./scripts/run-tests-swift-package-manager-ventura.sh"
+    label: ":swift: Test Swift Package Manager Example"
+    retry:
+      automatic: true
+  - wait
+  - command: ".buildkite/scripts/static-xcframework.sh"
+    label: ":xcode: Create Static XCFramework"
+    artifact_paths:
+      - "./XCFramework/MUXSDKStats-static.xcframework.zip"
+  - wait
+  - command: "buildkite-agent artifact download XCFramework/MUXSDKStats.xcframework.zip XCFramework && ./scripts/run-tests-cocoapods-ventura.sh"
+    label: ":cocoapods: Test Cocoapods Example"
+    retry:
+      automatic: true
+  - wait
+  - command: "./scripts/version-check.sh Mux-Stats-AVPlayer.podspec MUXSDKStats.json"
+    label: ":clipboard: Validate Version Metadata"
+    branches: "releases/*"
+  - command: "./scripts/validate-podspec.sh"
+    label: ":cocoapods: Validate Podspec"
+    branches: "releases/*"
+
