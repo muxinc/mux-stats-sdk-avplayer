@@ -837,13 +837,100 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 
 #pragma mark Error
 
-+ (void)dispatchError:(nonnull NSString *)code withMessage:(nonnull NSString *)message forPlayer:(nonnull NSString *)name {
++ (void)dispatchError:(nonnull NSString *)errorCode
+          withMessage:(nonnull NSString *)message
+            forPlayer:(nonnull NSString *)name {
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
     NSLog(@"Players: %@, Name: %@", [_viewControllers debugDescription], name);
     if (!player) {
         return;
     }
-    [player dispatchError:code withMessage:message];
+    [player dispatchError:errorCode 
+              withMessage:message];
 }
+
++ (void)dispatchError:(nonnull NSString *)errorCode
+          withMessage:(nonnull NSString *)message
+         errorContext:(nullable NSString *)errorContext
+            forPlayer:(nonnull NSString *)name {
+    MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
+    NSLog(@"Players: %@, Name: %@", [_viewControllers debugDescription], name);
+    if (!player) {
+        return;
+    }
+
+    [player dispatchError:errorCode
+              withMessage:message
+         withErrorContext:errorContext];
+}
+
++ (void)dispatchError:(nonnull NSString *)errorCode
+          withMessage:(nonnull NSString *)message
+             severity:(MUXSDKErrorSeverity)severity
+            forPlayer:(nonnull NSString *)name {
+    MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
+    NSLog(@"Players: %@, Name: %@", [_viewControllers debugDescription], name);
+    if (!player) {
+        return;
+    }
+
+    [player dispatchError:errorCode
+              withMessage:message
+                 severity:severity];
+}
+
++ (void)dispatchError:(nonnull NSString *)errorCode
+          withMessage:(nonnull NSString *)message
+             severity:(MUXSDKErrorSeverity)severity
+         errorContext:(nonnull NSString *)errorContext
+            forPlayer:(nonnull NSString *)name {
+    MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
+    NSLog(@"Players: %@, Name: %@", [_viewControllers debugDescription], name);
+    if (!player) {
+        return;
+    }
+
+    [player dispatchError:errorCode
+              withMessage:message
+                 severity:severity
+             errorContext:errorContext];
+}
+
++ (void)dispatchError:(nonnull NSString *)errorCode
+          withMessage:(nonnull NSString *)message
+             severity:(MUXSDKErrorSeverity)severity
+  isBusinessException:(BOOL)isBusinessException
+            forPlayer:(nonnull NSString *)name {
+    MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
+    NSLog(@"Players: %@, Name: %@", [_viewControllers debugDescription], name);
+    if (!player) {
+        return;
+    }
+
+    [player dispatchError:errorCode
+              withMessage:message
+                 severity:severity
+      isBusinessException:isBusinessException];
+}
+
++ (void)dispatchError:(nonnull NSString *)errorCode
+          withMessage:(nonnull NSString *)message
+             severity:(MUXSDKErrorSeverity)severity
+  isBusinessException:(BOOL)isBusinessException
+         errorContext:(nonnull NSString *)errorContext
+            forPlayer:(nonnull NSString *)name {
+    MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
+    NSLog(@"Players: %@, Name: %@", [_viewControllers debugDescription], name);
+    if (!player) {
+        return;
+    }
+
+    [player dispatchError:errorCode
+              withMessage:message
+                 severity:severity
+      isBusinessException:isBusinessException
+             errorContext:errorContext];
+}
+
 
 @end
