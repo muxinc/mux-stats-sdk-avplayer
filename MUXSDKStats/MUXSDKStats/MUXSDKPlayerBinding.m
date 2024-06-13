@@ -883,17 +883,8 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     _state = MUXSDKPlayerStateError;
 }
 
-- (void) dispatchError:(nonnull NSString *)code 
-           withMessage:(nonnull NSString *)message {
-    [self dispatchError:code
-            withMessage:message
-       withErrorContext:nil];
-}
-
-
-- (void) dispatchError:(nonnull NSString *)code
-           withMessage:(nonnull NSString *)message
-      withErrorContext:(NSString *)errorContext {
+- (void)dispatchError:(nonnull NSString *)code
+          withMessage:(nonnull NSString *)message {
     if (![self isPlayerOK]) {
         return;
     }
@@ -901,11 +892,101 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     MUXSDKPlayerData *playerData = [self getPlayerData];
     [playerData setPlayerErrorCode:code];
     [playerData setPlayerErrorMessage:message];
-    if (errorContext) {
-        [playerData setPlayerErrorContext:errorContext];
-    }
     MUXSDKErrorEvent *event = [[MUXSDKErrorEvent alloc] init];
     [event setPlayerData:playerData];
+    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    _state = MUXSDKPlayerStateError;
+}
+
+- (void)dispatchError:(nonnull NSString *)code
+          withMessage:(nonnull NSString *)message
+     withErrorContext:(nonnull NSString *)errorContext {
+    if (![self isPlayerOK]) {
+        return;
+    }
+    [self checkVideoData];
+    MUXSDKPlayerData *playerData = [self getPlayerData];
+    [playerData setPlayerErrorCode:code];
+    [playerData setPlayerErrorMessage:message];
+    [playerData setPlayerErrorContext:errorContext];
+    MUXSDKErrorEvent *event = [[MUXSDKErrorEvent alloc] init];
+    [event setPlayerData:playerData];
+    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    _state = MUXSDKPlayerStateError;
+}
+
+- (void)dispatchError:(nonnull NSString *)code
+          withMessage:(nonnull NSString *)message
+             severity:(MUXSDKErrorSeverity)severity {
+    if (![self isPlayerOK]) {
+        return;
+    }
+    [self checkVideoData];
+    MUXSDKPlayerData *playerData = [self getPlayerData];
+    [playerData setPlayerErrorCode:code];
+    [playerData setPlayerErrorMessage:message];
+    MUXSDKErrorEvent *event = [[MUXSDKErrorEvent alloc] init];
+    [event setPlayerData:playerData];
+    [event setSeverity:severity];
+    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    _state = MUXSDKPlayerStateError;
+}
+
+- (void)dispatchError:(nonnull NSString *)code
+          withMessage:(nonnull NSString *)message
+             severity:(MUXSDKErrorSeverity)severity
+         errorContext:(nonnull NSString *)errorContext {
+    if (![self isPlayerOK]) {
+        return;
+    }
+    [self checkVideoData];
+    MUXSDKPlayerData *playerData = [self getPlayerData];
+    [playerData setPlayerErrorCode:code];
+    [playerData setPlayerErrorMessage:message];
+    [playerData setPlayerErrorContext:errorContext];
+    MUXSDKErrorEvent *event = [[MUXSDKErrorEvent alloc] init];
+    [event setPlayerData:playerData];
+    [event setSeverity:severity];
+    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    _state = MUXSDKPlayerStateError;
+}
+
+- (void)dispatchError:(nonnull NSString *)code
+          withMessage:(nonnull NSString *)message
+             severity:(MUXSDKErrorSeverity)severity
+  isBusinessException:(BOOL)isBusinessException {
+    if (![self isPlayerOK]) {
+        return;
+    }
+    [self checkVideoData];
+    MUXSDKPlayerData *playerData = [self getPlayerData];
+    [playerData setPlayerErrorCode:code];
+    [playerData setPlayerErrorMessage:message];
+    MUXSDKErrorEvent *event = [[MUXSDKErrorEvent alloc] init];
+    [event setPlayerData:playerData];
+    [event setSeverity:severity];
+    [event setIsBusinessException:isBusinessException];
+    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    _state = MUXSDKPlayerStateError;
+}
+
+- (void)dispatchError:(nonnull NSString *)code
+          withMessage:(nonnull NSString *)message
+             severity:(MUXSDKErrorSeverity)severity
+  isBusinessException:(BOOL)isBusinessException
+         errorContext:(nonnull NSString *)errorContext {
+    if (![self isPlayerOK]) {
+        return;
+    }
+    [self checkVideoData];
+    MUXSDKPlayerData *playerData = [self getPlayerData];
+    [playerData setPlayerErrorCode:code];
+    [playerData setPlayerErrorMessage:message];
+    [playerData setPlayerErrorContext:errorContext];
+    MUXSDKErrorEvent *event = [[MUXSDKErrorEvent alloc] init];
+    [event setPlayerData:playerData];
+    [event setSeverity:severity];
+    [event setIsBusinessException:isBusinessException];
     [MUXSDKCore dispatchEvent:event forPlayer:_name];
     _state = MUXSDKPlayerStateError;
 }
