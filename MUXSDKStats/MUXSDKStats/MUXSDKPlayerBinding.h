@@ -168,9 +168,10 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 ///   - code: error code that should be numeric
 ///   - message: message describing the error
 ///   - severity: severity of a player error recorded by the SDK
-///   - isBusinessException: If ``YES`` indicates that the error is classified to be
-///     a business exception. If ``NO`` indicates that the error
-///     is classified as a technical failure. Defaults to ``NO`.
+///   - isBusinessException: If ``YES`` indicates that the error
+///   is classified to be a business exception. If ``NO``
+///   indicates that the error is classified as a technical
+///   failure. Defaults to ``NO`.
 - (void)dispatchError:(nonnull NSString *)code
           withMessage:(nonnull NSString *)message
              severity:(MUXSDKErrorSeverity)severity
@@ -182,9 +183,10 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 ///   - code: error code that should be numeric
 ///   - message: message describing the error
 ///   - severity: severity of a player error recorded by the SDK
-///   - isBusinessException: If ``YES`` indicates that the error is classified to be
-///     a business exception. If ``NO`` indicates that the error
-///     is classified as a technical failure. Defaults to ``NO`.
+///   - isBusinessException: If ``YES`` indicates that the error
+///   is classified to be a business exception. If ``NO``
+///   indicates that the error is classified as a technical
+///   failure. Defaults to ``NO`.
 ///   - errorContext: additional details for the error such
 ///     as a stack trace
 - (void)dispatchError:(nonnull NSString *)code
