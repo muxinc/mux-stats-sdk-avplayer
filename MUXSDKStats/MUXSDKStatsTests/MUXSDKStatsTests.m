@@ -879,7 +879,7 @@ static NSString *Z = @"Z";
     [MUXSDKStats destroyPlayer:playName];
 }
 
-- (void) testDispatchError {
+- (void)testDispatchError {
     MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
     MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
     MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
@@ -901,6 +901,73 @@ static NSString *Z = @"Z";
 
     [MUXSDKStats destroyPlayer:playName];
 }
+
+- (void)testDispatchErrorWithSeverity {
+    MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
+    MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
+    MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
+    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
+                                                                                    videoData:customerVideoData
+                                                                                     viewData:nil];
+    NSString *playName = @"Player";
+    [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
+
+    [MUXSDKStats dispatchError:@"12345"
+                   withMessage:@"Something aint right"
+                      severity:MUXSDKErrorSeverityWarning
+                     forPlayer:playName];
+
+    NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventPlayerReadyEventType,
+                                    MUXSDKPlaybackEventErrorEventType,
+    ];
+    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
+
+    id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:3
+                                                 forPlayer:playName];
+    XCTAssertTrue([event isPlayback] && [[event getType] isEqualToString:MUXSDKPlaybackEventErrorEventType]);
+
+    MUXSDKErrorEvent *errorEvent = (MUXSDKErrorEvent *)event;
+    XCTAssertTrue(errorEvent.severity == MUXSDKErrorSeverityWarning);
+
+    [MUXSDKStats destroyPlayer:playName];
+}
+
+- (void)testDispatchBusinessExceptionError {
+    MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
+    MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
+    MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
+    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
+                                                                                    videoData:customerVideoData
+                                                                                     viewData:nil];
+    NSString *playName = @"Player";
+    [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
+
+    [MUXSDKStats dispatchError:@"12345"
+                   withMessage:@"Something aint right"
+                      severity:MUXSDKErrorSeverityWarning
+           isBusinessException:YES
+                     forPlayer:playName];
+
+    NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
+                                    MUXSDKDataEventType,
+                                    MUXSDKPlaybackEventPlayerReadyEventType,
+                                    MUXSDKPlaybackEventErrorEventType,
+    ];
+    [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
+
+    id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:3
+                                                 forPlayer:playName];
+    XCTAssertTrue([event isPlayback] && [[event getType] isEqualToString:MUXSDKPlaybackEventErrorEventType]);
+
+    MUXSDKErrorEvent *errorEvent = (MUXSDKErrorEvent *)event;
+    XCTAssertTrue(errorEvent.isBusinessException);
+    XCTAssertTrue(errorEvent.severity == MUXSDKErrorSeverityWarning);
+
+    [MUXSDKStats destroyPlayer:playName];
+}
+
 
 -(void)testOverrideAllDeviceMetadata {
     NSString *customerOsVersion = @"1.2.3-dev";
