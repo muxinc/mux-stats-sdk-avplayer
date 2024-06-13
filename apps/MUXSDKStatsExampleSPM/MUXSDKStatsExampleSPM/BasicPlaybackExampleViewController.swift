@@ -45,9 +45,9 @@ class BasicPlaybackExampleViewController: UIViewController {
 
         displayPlayerViewController()
 
-        MUXSDKStats.monitorAVPlayerViewController(
-            playerViewController,
-            withPlayerName: playerName,
+        MUXSDKMonitor.shared.startMonitoring(
+            playerViewController: playerViewController,
+            playerName: playerName,
             customerData: customerData!
         )
     }
@@ -98,8 +98,8 @@ class BasicPlaybackExampleViewController: UIViewController {
         if !playerViewController.allowsPictureInPicturePlayback {
             playerViewController.player?.pause()
 
-            MUXSDKStats.destroyPlayer(
-                playerName
+            MUXSDKMonitor.shared.stopMonitoring(
+                playerName: playerName
             )
         }
 

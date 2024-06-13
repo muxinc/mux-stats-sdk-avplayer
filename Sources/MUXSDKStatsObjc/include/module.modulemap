@@ -13,5 +13,6 @@ module MUXSDKStats {
         header "../MUXSDKCustomerViewDataStore.h"
         header "../MUXSDKConstants.h"
         header "../MUXSDKPlayerBindingManager.h"
+        header "../MUXSDKPlaceholderViewerData.h"
     }
 }
