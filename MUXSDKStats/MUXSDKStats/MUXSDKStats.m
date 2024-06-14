@@ -841,7 +841,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
           withMessage:(nonnull NSString *)message
             forPlayer:(nonnull NSString *)name {
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
-    NSLog(@"Players: %@, Name: %@", [_viewControllers debugDescription], name);
+
     if (!player) {
         return;
     }
@@ -854,7 +854,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
          errorContext:(nullable NSString *)errorContext
             forPlayer:(nonnull NSString *)name {
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
-    NSLog(@"Players: %@, Name: %@", [_viewControllers debugDescription], name);
+
     if (!player) {
         return;
     }
@@ -869,7 +869,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
              severity:(MUXSDKErrorSeverity)severity
             forPlayer:(nonnull NSString *)name {
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
-    NSLog(@"Players: %@, Name: %@", [_viewControllers debugDescription], name);
+
     if (!player) {
         return;
     }
@@ -885,7 +885,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
          errorContext:(nonnull NSString *)errorContext
             forPlayer:(nonnull NSString *)name {
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
-    NSLog(@"Players: %@, Name: %@", [_viewControllers debugDescription], name);
+
     if (!player) {
         return;
     }
@@ -902,7 +902,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
   isBusinessException:(BOOL)isBusinessException
             forPlayer:(nonnull NSString *)name {
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
-    NSLog(@"Players: %@, Name: %@", [_viewControllers debugDescription], name);
+
     if (!player) {
         return;
     }
@@ -920,7 +920,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
          errorContext:(nonnull NSString *)errorContext
             forPlayer:(nonnull NSString *)name {
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
-    NSLog(@"Players: %@, Name: %@", [_viewControllers debugDescription], name);
+    
     if (!player) {
         return;
     }
