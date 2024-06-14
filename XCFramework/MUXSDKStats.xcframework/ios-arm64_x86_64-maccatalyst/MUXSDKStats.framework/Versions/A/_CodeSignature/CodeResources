@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		PS8etibddH6L7pTTZwf0/0WuwzY=
+		hBvZ2Xl30q2byWIsjAwh1S+N8sI=
 		</data>
 		<key>Resources/PrivacyInfo.xcprivacy</key>
 		<data>
@@ -19,14 +19,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			CV6tIRWW3tjeTmNXOVGFX90e+6yX2sC6Rye3c0xawAM=
+			GFcbp4q1C45DVlhLZpC/Ro7xzuNrdUMRYf6XZqhx824=
 			</data>
 		</dict>
 		<key>Headers/MUXSDKStats.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			sQJZBULUxx7n64p9Xalh4i2y36WjLqJdnUkDGDRaLLY=
+			4QvPfO4zsvmn8HdeQimspC+543I4OW7GpZ1GI08Jw1M=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -40,7 +40,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			NIlSvFtjxxx+q2z8J9n+xqSfh1fxTG01bpuNeEzTdnk=
+			fKN9sikkd+x8rqJctTt33Ky2MXyqYp07dXjmEyTEqvg=
 			</data>
 		</dict>
 		<key>Resources/PrivacyInfo.xcprivacy</key>

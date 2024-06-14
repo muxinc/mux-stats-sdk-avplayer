@@ -545,15 +545,91 @@ __attribute__((deprecated("Please migrate to monitorAVPlayerLayer:withPlayerName
 
 #pragma mark - Error Dispatch
 
-/*!
-@method      dispatchError:withMessage:forPlayer
-@abstract    Dispatches an error with the specified error code and message for the given player
-@param       code The error code in string format
-@param       message The error message in string format
-@param       name The name of the player
-*/
-+ (void)dispatchError:(nonnull NSString *)code 
+/// Records an error related to the named player and
+/// dispatches it to Mux
+/// - Parameters:
+///   - errorCode: error code that should be numeric
+///   - message: message describing the error
+///   - name: The name of the player
++ (void)dispatchError:(nonnull NSString *)errorCode
           withMessage:(nonnull NSString *)message
+            forPlayer:(nonnull NSString *)name;
+
+/// Records an error related to the named player and
+/// dispatches it to Mux
+/// - Parameters:
+///   - errorCode: error code that should be numeric
+///   - message: message describing the error
+///   - errorContext: additional details for the error such
+///   as a stack trace
+///   - name: The name of the player
++ (void)dispatchError:(nonnull NSString *)errorCode
+          withMessage:(nonnull NSString *)message
+         errorContext:(nullable NSString *)errorContext
+            forPlayer:(nonnull NSString *)name;
+
+/// Records an error related to the named player and
+/// dispatches it to Mux
+/// - Parameters:
+///   - errorCode: error code that should be numeric
+///   - message: message describing the error
+///   - severity: severity of a player error recorded by the SDK
+///   - name: The name of the player
++ (void)dispatchError:(nonnull NSString *)errorCode
+          withMessage:(nonnull NSString *)message
+             severity:(MUXSDKErrorSeverity)severity
+            forPlayer:(nonnull NSString *)name;
+
+/// Records an error related to the named player and
+/// dispatches it to Mux
+/// - Parameters:
+///   - errorCode: error code that should be numeric
+///   - message: message describing the error
+///   - severity: severity of a player error recorded by the SDK
+///   - errorContext: additional details for the error such
+///   as a stack trace
+///   - name: The name of the player
++ (void)dispatchError:(nonnull NSString *)errorCode
+          withMessage:(nonnull NSString *)message
+             severity:(MUXSDKErrorSeverity)severity
+         errorContext:(nonnull NSString *)errorContext
+            forPlayer:(nonnull NSString *)name;
+
+/// Records an error related to the named player and
+/// dispatches it to Mux
+/// - Parameters:
+///   - errorCode: error code that should be numeric
+///   - message: message describing the error
+///   - severity: severity of a player error recorded by the SDK
+///   - isBusinessException: If ``YES`` indicates that the error 
+///   is classified to be a business exception. If ``NO``
+///   indicates that the error is classified as a technical
+///   failure. Defaults to ``NO`.
+///   - name: The name of the player
++ (void)dispatchError:(nonnull NSString *)errorCode
+          withMessage:(nonnull NSString *)message
+             severity:(MUXSDKErrorSeverity)severity
+  isBusinessException:(BOOL)isBusinessException
+            forPlayer:(nonnull NSString *)name;
+
+/// Records an error related to the named player and
+/// dispatches it to Mux
+/// - Parameters:
+///   - errorCode: error code that should be numeric
+///   - message: message describing the error
+///   - severity: severity of a player error recorded by the SDK
+///   - isBusinessException: If ``YES`` indicates that the error
+///   is classified to be a business exception. If ``NO``
+///   indicates that the error is classified as a technical
+///   failure. Defaults to ``NO`.
+///   - errorContext: additional details for the error such
+///   as a stack trace
+///   - name: The name of the player
++ (void)dispatchError:(nonnull NSString *)errorCode
+          withMessage:(nonnull NSString *)message
+             severity:(MUXSDKErrorSeverity)severity
+  isBusinessException:(BOOL)isBusinessException
+         errorContext:(nonnull NSString *)errorContext
             forPlayer:(nonnull NSString *)name;
 
 @end
