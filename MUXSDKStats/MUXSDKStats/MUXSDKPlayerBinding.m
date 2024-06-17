@@ -648,36 +648,15 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     }
     #endif
 
-    // Derived from the player.
-    if (_player.error) {
-        NSInteger errorCode = _player.error.code;
-        if (errorCode != 0 && errorCode != NSNotFound) {
-            [playerData setPlayerErrorCode:[NSString stringWithFormat:@"%ld", (long)errorCode]];
-        }
-        NSString *errorLocalizedDescription = _player.error.localizedDescription;
-        if (errorLocalizedDescription != nil) {
-            [playerData setPlayerErrorMessage:errorLocalizedDescription];
-        }
-    } else if (_playerItem && _playerItem.error) {
-        NSInteger errorCode = _playerItem.error.code;
-        if (errorCode != 0 && errorCode != NSNotFound) {
-            [playerData setPlayerErrorCode:[NSString stringWithFormat:@"%ld", (long)errorCode]];
-        }
-        NSString *errorLocalizedDescription = _playerItem.error.localizedDescription;
-        if (errorLocalizedDescription != nil) {
-            [playerData setPlayerErrorMessage:errorLocalizedDescription];
-        }
+    // Not sure if both checks are necessary here as when rate is 0 we expect to be paused and vice versa.
+    if (_player.rate == 0.0) { // || _player.timeControlStatus == AVPlayerTimeControlStatusPaused) {
+        [playerData setPlayerIsPaused:[NSNumber numberWithBool:YES]];
     } else {
-        // Not sure if both checks are necessary here as when rate is 0 we expect to be paused and vice versa.
-        if (_player.rate == 0.0) { // || _player.timeControlStatus == AVPlayerTimeControlStatusPaused) {
-            [playerData setPlayerIsPaused:[NSNumber numberWithBool:YES]];
-        } else {
-            [playerData setPlayerIsPaused:[NSNumber numberWithBool:NO]];
-        }
-        if (!_isAdPlaying) {
-            float ms = CMTimeGetSeconds(_player.currentTime) * 1000;
-            [self setPlayerPlayheadTime:ms onPlayerData:playerData];
-        }
+        [playerData setPlayerIsPaused:[NSNumber numberWithBool:NO]];
+    }
+    if (!_isAdPlaying) {
+        float ms = CMTimeGetSeconds(_player.currentTime) * 1000;
+        [self setPlayerPlayheadTime:ms onPlayerData:playerData];
     }
 
     // Only report program time metrics if this is a live stream
@@ -877,6 +856,28 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     }
     [self checkVideoData];
     MUXSDKPlayerData *playerData = [self getPlayerData];
+
+    // Derived from the player.
+    if (_player.error) {
+        NSInteger errorCode = _player.error.code;
+        if (errorCode != 0 && errorCode != NSNotFound) {
+            [playerData setPlayerErrorCode:[NSString stringWithFormat:@"%ld", (long)errorCode]];
+        }
+        NSString *errorLocalizedDescription = _player.error.localizedDescription;
+        if (errorLocalizedDescription != nil) {
+            [playerData setPlayerErrorMessage:errorLocalizedDescription];
+        }
+    } else if (_playerItem && _playerItem.error) {
+        NSInteger errorCode = _playerItem.error.code;
+        if (errorCode != 0 && errorCode != NSNotFound) {
+            [playerData setPlayerErrorCode:[NSString stringWithFormat:@"%ld", (long)errorCode]];
+        }
+        NSString *errorLocalizedDescription = _playerItem.error.localizedDescription;
+        if (errorLocalizedDescription != nil) {
+            [playerData setPlayerErrorMessage:errorLocalizedDescription];
+        }
+    }
+
     MUXSDKErrorEvent *event = [[MUXSDKErrorEvent alloc] init];
     [event setPlayerData:playerData];
     [MUXSDKCore dispatchEvent:event forPlayer:_name];
