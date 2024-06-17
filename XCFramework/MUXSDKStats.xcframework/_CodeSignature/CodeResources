@@ -6,19 +6,19 @@
 	<dict>
 		<key>ios-arm64/MUXSDKStats.framework/Headers/MUXSDKPlayerBinding.h</key>
 		<data>
-		1dzWora+/XX7Gmf2Iiayk5mZA+o=
+		+LXCYqEGBNLWufWZLbA36RBluOs=
 		</data>
 		<key>ios-arm64/MUXSDKStats.framework/Headers/MUXSDKStats.h</key>
 		<data>
-		OkZZ/wMTVC/j049cB/rApo6oWGI=
+		Ja2BhNVO080utP0LlPDvZ9sPWxw=
 		</data>
 		<key>ios-arm64/MUXSDKStats.framework/Info.plist</key>
 		<data>
-		lzl6yH03VeQwju97BR7g67JZxPw=
+		a1h9LLOCc88xkNeJWkRwvbkxc3o=
 		</data>
 		<key>ios-arm64/MUXSDKStats.framework/MUXSDKStats</key>
 		<data>
-		O9gHcHLuxA5SgCtA91O7aEa0ngY=
+		V8jh7adrelUWFNmXmJVrpH3KtFY=
 		</data>
 		<key>ios-arm64/MUXSDKStats.framework/Modules/module.modulemap</key>
 		<data>
@@ -30,19 +30,19 @@
 		</data>
 		<key>ios-arm64/MUXSDKStats.framework/_CodeSignature/CodeResources</key>
 		<data>
-		sGvuSdBjCg6rWtUvQT6o0yosKY8=
+		KvhsY/YN0ZHEjr35JF71JrQDBNU=
 		</data>
 		<key>ios-arm64_x86_64-maccatalyst/MUXSDKStats.framework/Versions/A/Headers/MUXSDKPlayerBinding.h</key>
 		<data>
-		1dzWora+/XX7Gmf2Iiayk5mZA+o=
+		+LXCYqEGBNLWufWZLbA36RBluOs=
 		</data>
 		<key>ios-arm64_x86_64-maccatalyst/MUXSDKStats.framework/Versions/A/Headers/MUXSDKStats.h</key>
 		<data>
-		OkZZ/wMTVC/j049cB/rApo6oWGI=
+		Ja2BhNVO080utP0LlPDvZ9sPWxw=
 		</data>
 		<key>ios-arm64_x86_64-maccatalyst/MUXSDKStats.framework/Versions/A/MUXSDKStats</key>
 		<data>
-		VyAlaDZOpwBsI/mzPqXcDU7sYg4=
+		5Hg9+jMdWULDdV7QTv2wyRkL830=
 		</data>
 		<key>ios-arm64_x86_64-maccatalyst/MUXSDKStats.framework/Versions/A/Modules/module.modulemap</key>
 		<data>
@@ -50,7 +50,7 @@
 		</data>
 		<key>ios-arm64_x86_64-maccatalyst/MUXSDKStats.framework/Versions/A/Resources/Info.plist</key>
 		<data>
-		PS8etibddH6L7pTTZwf0/0WuwzY=
+		hBvZ2Xl30q2byWIsjAwh1S+N8sI=
 		</data>
 		<key>ios-arm64_x86_64-maccatalyst/MUXSDKStats.framework/Versions/A/Resources/PrivacyInfo.xcprivacy</key>
 		<data>
@@ -58,23 +58,23 @@
 		</data>
 		<key>ios-arm64_x86_64-maccatalyst/MUXSDKStats.framework/Versions/A/_CodeSignature/CodeResources</key>
 		<data>
-		UskpDn4LMgNPUJc8ZSOT4WeJlRE=
+		GVQ2RLXzwn5phbP+1xV9nBlESYw=
 		</data>
 		<key>ios-arm64_x86_64-simulator/MUXSDKStats.framework/Headers/MUXSDKPlayerBinding.h</key>
 		<data>
-		1dzWora+/XX7Gmf2Iiayk5mZA+o=
+		+LXCYqEGBNLWufWZLbA36RBluOs=
 		</data>
 		<key>ios-arm64_x86_64-simulator/MUXSDKStats.framework/Headers/MUXSDKStats.h</key>
 		<data>
-		OkZZ/wMTVC/j049cB/rApo6oWGI=
+		Ja2BhNVO080utP0LlPDvZ9sPWxw=
 		</data>
 		<key>ios-arm64_x86_64-simulator/MUXSDKStats.framework/Info.plist</key>
 		<data>
-		6rkyTMAhYiZBTLxB3timnU4xQGU=
+		CQQacteWruGOKiS5am9vcQPimes=
 		</data>
 		<key>ios-arm64_x86_64-simulator/MUXSDKStats.framework/MUXSDKStats</key>
 		<data>
-		mE/7tZHTqk0+Qx6qngOuc+poD08=
+		eLcnbPmrfDjylUFRB/fK4ZJgaJ0=
 		</data>
 		<key>ios-arm64_x86_64-simulator/MUXSDKStats.framework/Modules/module.modulemap</key>
 		<data>
@@ -86,15 +86,15 @@
 		</data>
 		<key>ios-arm64_x86_64-simulator/MUXSDKStats.framework/_CodeSignature/CodeResources</key>
 		<data>
-		co6FgAOZKDJt5Jf3EZacE4E3Zlc=
+		8ZU1+AyAIzWxqpsTZSMJEQ5gfro=
 		</data>
 		<key>tvos-arm64/MUXSDKStats.framework/Headers/MUXSDKPlayerBinding.h</key>
 		<data>
-		1dzWora+/XX7Gmf2Iiayk5mZA+o=
+		+LXCYqEGBNLWufWZLbA36RBluOs=
 		</data>
 		<key>tvos-arm64/MUXSDKStats.framework/Headers/MUXSDKStats.h</key>
 		<data>
-		OkZZ/wMTVC/j049cB/rApo6oWGI=
+		Ja2BhNVO080utP0LlPDvZ9sPWxw=
 		</data>
 		<key>tvos-arm64/MUXSDKStats.framework/Headers/MUXSDKStatsTv.h</key>
 		<data>
@@ -102,11 +102,11 @@
 		</data>
 		<key>tvos-arm64/MUXSDKStats.framework/Info.plist</key>
 		<data>
-		/U8PZepvDlgzTbz/GmmXfkwEXHw=
+		6S9RFoS1FN6koPeVuEOEQ4oxG7M=
 		</data>
 		<key>tvos-arm64/MUXSDKStats.framework/MUXSDKStats</key>
 		<data>
-		m8i2gduWaHo+IAERIQNK2gez9+g=
+		PULdLQHzMWHoW6jnN+mAtZhOLEc=
 		</data>
 		<key>tvos-arm64/MUXSDKStats.framework/Modules/module.modulemap</key>
 		<data>
@@ -118,15 +118,15 @@
 		</data>
 		<key>tvos-arm64/MUXSDKStats.framework/_CodeSignature/CodeResources</key>
 		<data>
-		TiiVYilLX9ekdVxvSeDcYp3XooY=
+		F5GDvaC5nATEjP1QXTMgDI4CdLA=
 		</data>
 		<key>tvos-arm64_x86_64-simulator/MUXSDKStats.framework/Headers/MUXSDKPlayerBinding.h</key>
 		<data>
-		1dzWora+/XX7Gmf2Iiayk5mZA+o=
+		+LXCYqEGBNLWufWZLbA36RBluOs=
 		</data>
 		<key>tvos-arm64_x86_64-simulator/MUXSDKStats.framework/Headers/MUXSDKStats.h</key>
 		<data>
-		OkZZ/wMTVC/j049cB/rApo6oWGI=
+		Ja2BhNVO080utP0LlPDvZ9sPWxw=
 		</data>
 		<key>tvos-arm64_x86_64-simulator/MUXSDKStats.framework/Headers/MUXSDKStatsTv.h</key>
 		<data>
@@ -134,11 +134,11 @@
 		</data>
 		<key>tvos-arm64_x86_64-simulator/MUXSDKStats.framework/Info.plist</key>
 		<data>
-		K5Bz5E43rImHq+0JtBXajrY6nN0=
+		sRejGI8BQ0mOeCBxBQOzLSpoLqQ=
 		</data>
 		<key>tvos-arm64_x86_64-simulator/MUXSDKStats.framework/MUXSDKStats</key>
 		<data>
-		h9CYPxpogxupLKeVt73V9Lt06hA=
+		ev3iku879WRBI1F5pm6Yi0RrzV4=
 		</data>
 		<key>tvos-arm64_x86_64-simulator/MUXSDKStats.framework/Modules/module.modulemap</key>
 		<data>
@@ -150,15 +150,15 @@
 		</data>
 		<key>tvos-arm64_x86_64-simulator/MUXSDKStats.framework/_CodeSignature/CodeResources</key>
 		<data>
-		3oNuEAUgipCArPAqcr6NY/IM1Us=
+		MO4iwskXPcYdgkwqgCgN1rEPIJ8=
 		</data>
 		<key>xros-arm64/MUXSDKStats.framework/Headers/MUXSDKPlayerBinding.h</key>
 		<data>
-		1dzWora+/XX7Gmf2Iiayk5mZA+o=
+		+LXCYqEGBNLWufWZLbA36RBluOs=
 		</data>
 		<key>xros-arm64/MUXSDKStats.framework/Headers/MUXSDKStats.h</key>
 		<data>
-		OkZZ/wMTVC/j049cB/rApo6oWGI=
+		Ja2BhNVO080utP0LlPDvZ9sPWxw=
 		</data>
 		<key>xros-arm64/MUXSDKStats.framework/Headers/MUXSDKStatsVision.h</key>
 		<data>
@@ -166,11 +166,11 @@
 		</data>
 		<key>xros-arm64/MUXSDKStats.framework/Info.plist</key>
 		<data>
-		5dONk/tX3U2toQsqVwx09M5ceQ4=
+		mSbSkQ4XGXn5Wk3yRgS8iXOteh4=
 		</data>
 		<key>xros-arm64/MUXSDKStats.framework/MUXSDKStats</key>
 		<data>
-		S1Q/raBMJwxrqv9UKxqDn/atwCw=
+		tytjab3RwRso9lnKvanY1hWXAEI=
 		</data>
 		<key>xros-arm64/MUXSDKStats.framework/Modules/module.modulemap</key>
 		<data>
@@ -182,15 +182,15 @@
 		</data>
 		<key>xros-arm64/MUXSDKStats.framework/_CodeSignature/CodeResources</key>
 		<data>
-		QWER0Q8BcyKD6DYIWvxLJEwAs+c=
+		qdznTrBpcD9UE4WYvu/nFVWLeUA=
 		</data>
 		<key>xros-arm64_x86_64-simulator/MUXSDKStats.framework/Headers/MUXSDKPlayerBinding.h</key>
 		<data>
-		1dzWora+/XX7Gmf2Iiayk5mZA+o=
+		+LXCYqEGBNLWufWZLbA36RBluOs=
 		</data>
 		<key>xros-arm64_x86_64-simulator/MUXSDKStats.framework/Headers/MUXSDKStats.h</key>
 		<data>
-		OkZZ/wMTVC/j049cB/rApo6oWGI=
+		Ja2BhNVO080utP0LlPDvZ9sPWxw=
 		</data>
 		<key>xros-arm64_x86_64-simulator/MUXSDKStats.framework/Headers/MUXSDKStatsVision.h</key>
 		<data>
@@ -198,11 +198,11 @@
 		</data>
 		<key>xros-arm64_x86_64-simulator/MUXSDKStats.framework/Info.plist</key>
 		<data>
-		hPXdMnL6mCNj2wVnlCzQf94Tv0Q=
+		KbZDw81KSb2BoJfd/if5xV62uTs=
 		</data>
 		<key>xros-arm64_x86_64-simulator/MUXSDKStats.framework/MUXSDKStats</key>
 		<data>
-		u7Wd/JrwDNyp05gTP9Czhhxb99o=
+		0Zcs+CE18InLs3wPb6j+JZ0hUUU=
 		</data>
 		<key>xros-arm64_x86_64-simulator/MUXSDKStats.framework/Modules/module.modulemap</key>
 		<data>
@@ -214,7 +214,7 @@
 		</data>
 		<key>xros-arm64_x86_64-simulator/MUXSDKStats.framework/_CodeSignature/CodeResources</key>
 		<data>
-		rslFa5wIA1z4YBr91g9AZeMnw9U=
+		djqqO78cx7KoHveNciCttUOblEE=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -223,44 +223,44 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			1dzWora+/XX7Gmf2Iiayk5mZA+o=
+			+LXCYqEGBNLWufWZLbA36RBluOs=
 			</data>
 			<key>hash2</key>
 			<data>
-			CV6tIRWW3tjeTmNXOVGFX90e+6yX2sC6Rye3c0xawAM=
+			GFcbp4q1C45DVlhLZpC/Ro7xzuNrdUMRYf6XZqhx824=
 			</data>
 		</dict>
 		<key>ios-arm64/MUXSDKStats.framework/Headers/MUXSDKStats.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			OkZZ/wMTVC/j049cB/rApo6oWGI=
+			Ja2BhNVO080utP0LlPDvZ9sPWxw=
 			</data>
 			<key>hash2</key>
 			<data>
-			sQJZBULUxx7n64p9Xalh4i2y36WjLqJdnUkDGDRaLLY=
+			4QvPfO4zsvmn8HdeQimspC+543I4OW7GpZ1GI08Jw1M=
 			</data>
 		</dict>
 		<key>ios-arm64/MUXSDKStats.framework/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			lzl6yH03VeQwju97BR7g67JZxPw=
+			a1h9LLOCc88xkNeJWkRwvbkxc3o=
 			</data>
 			<key>hash2</key>
 			<data>
-			kI7fcMoUzD6jPhPYMGnmVRN9l/kZ3mkECO68V7SbeS4=
+			aSVEyzpZSSjX7wj3YnHCmihyPqj4kos8wD2es2U/IF0=
 			</data>
 		</dict>
 		<key>ios-arm64/MUXSDKStats.framework/MUXSDKStats</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			O9gHcHLuxA5SgCtA91O7aEa0ngY=
+			V8jh7adrelUWFNmXmJVrpH3KtFY=
 			</data>
 			<key>hash2</key>
 			<data>
-			lQDnb2DY1gcHvdrVSHw0jGUxcP8ASK1aqhj2D8FqH94=
+			SY5H9Nh+omlD8Li77oFPBS0Pf+fdgiCNj5yhBRX7h+U=
 			</data>
 		</dict>
 		<key>ios-arm64/MUXSDKStats.framework/Modules/module.modulemap</key>
@@ -289,11 +289,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			sGvuSdBjCg6rWtUvQT6o0yosKY8=
+			KvhsY/YN0ZHEjr35JF71JrQDBNU=
 			</data>
 			<key>hash2</key>
 			<data>
-			0fjQHry9d3Qp3OWImHLFyHlyFjtKscVfT8ZPoTwts5I=
+			1Uh91+GPAbhx3738NpLb+Mhxv1j7VFTjDfczID/7k48=
 			</data>
 		</dict>
 		<key>ios-arm64_x86_64-maccatalyst/MUXSDKStats.framework/Headers</key>
@@ -320,33 +320,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			1dzWora+/XX7Gmf2Iiayk5mZA+o=
+			+LXCYqEGBNLWufWZLbA36RBluOs=
 			</data>
 			<key>hash2</key>
 			<data>
-			CV6tIRWW3tjeTmNXOVGFX90e+6yX2sC6Rye3c0xawAM=
+			GFcbp4q1C45DVlhLZpC/Ro7xzuNrdUMRYf6XZqhx824=
 			</data>
 		</dict>
 		<key>ios-arm64_x86_64-maccatalyst/MUXSDKStats.framework/Versions/A/Headers/MUXSDKStats.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			OkZZ/wMTVC/j049cB/rApo6oWGI=
+			Ja2BhNVO080utP0LlPDvZ9sPWxw=
 			</data>
 			<key>hash2</key>
 			<data>
-			sQJZBULUxx7n64p9Xalh4i2y36WjLqJdnUkDGDRaLLY=
+			4QvPfO4zsvmn8HdeQimspC+543I4OW7GpZ1GI08Jw1M=
 			</data>
 		</dict>
 		<key>ios-arm64_x86_64-maccatalyst/MUXSDKStats.framework/Versions/A/MUXSDKStats</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			VyAlaDZOpwBsI/mzPqXcDU7sYg4=
+			5Hg9+jMdWULDdV7QTv2wyRkL830=
 			</data>
 			<key>hash2</key>
 			<data>
-			XPjZ+wS3y9dqr1CHzSKEIiSRqnuZDu5FDq5n8ob4Tsk=
+			o0Dr1Q/2ICFHwEb2YFOT4d4hT4oE7E+prdzpMJ32FwA=
 			</data>
 		</dict>
 		<key>ios-arm64_x86_64-maccatalyst/MUXSDKStats.framework/Versions/A/Modules/module.modulemap</key>
@@ -364,11 +364,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			PS8etibddH6L7pTTZwf0/0WuwzY=
+			hBvZ2Xl30q2byWIsjAwh1S+N8sI=
 			</data>
 			<key>hash2</key>
 			<data>
-			NIlSvFtjxxx+q2z8J9n+xqSfh1fxTG01bpuNeEzTdnk=
+			fKN9sikkd+x8rqJctTt33Ky2MXyqYp07dXjmEyTEqvg=
 			</data>
 		</dict>
 		<key>ios-arm64_x86_64-maccatalyst/MUXSDKStats.framework/Versions/A/Resources/PrivacyInfo.xcprivacy</key>
@@ -386,11 +386,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			UskpDn4LMgNPUJc8ZSOT4WeJlRE=
+			GVQ2RLXzwn5phbP+1xV9nBlESYw=
 			</data>
 			<key>hash2</key>
 			<data>
-			JvgYIqE9UHal+dft0USC66Rrx95c8i6OPNEYWycrkoc=
+			YCOcykzDGkdAi99QxRajJv1x22YPieTdbGhGSWA5Pxs=
 			</data>
 		</dict>
 		<key>ios-arm64_x86_64-maccatalyst/MUXSDKStats.framework/Versions/Current</key>
@@ -402,44 +402,44 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			1dzWora+/XX7Gmf2Iiayk5mZA+o=
+			+LXCYqEGBNLWufWZLbA36RBluOs=
 			</data>
 			<key>hash2</key>
 			<data>
-			CV6tIRWW3tjeTmNXOVGFX90e+6yX2sC6Rye3c0xawAM=
+			GFcbp4q1C45DVlhLZpC/Ro7xzuNrdUMRYf6XZqhx824=
 			</data>
 		</dict>
 		<key>ios-arm64_x86_64-simulator/MUXSDKStats.framework/Headers/MUXSDKStats.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			OkZZ/wMTVC/j049cB/rApo6oWGI=
+			Ja2BhNVO080utP0LlPDvZ9sPWxw=
 			</data>
 			<key>hash2</key>
 			<data>
-			sQJZBULUxx7n64p9Xalh4i2y36WjLqJdnUkDGDRaLLY=
+			4QvPfO4zsvmn8HdeQimspC+543I4OW7GpZ1GI08Jw1M=
 			</data>
 		</dict>
 		<key>ios-arm64_x86_64-simulator/MUXSDKStats.framework/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			6rkyTMAhYiZBTLxB3timnU4xQGU=
+			CQQacteWruGOKiS5am9vcQPimes=
 			</data>
 			<key>hash2</key>
 			<data>
-			piT9pPl7si3XYxvoYeU97jttl9rjMI+/4VU4cWpAXe4=
+			saXlYpPobZK6yRnB800cpJ4ZK2/ZoR5gorPku/mAr5Y=
 			</data>
 		</dict>
 		<key>ios-arm64_x86_64-simulator/MUXSDKStats.framework/MUXSDKStats</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			mE/7tZHTqk0+Qx6qngOuc+poD08=
+			eLcnbPmrfDjylUFRB/fK4ZJgaJ0=
 			</data>
 			<key>hash2</key>
 			<data>
-			/puOIMK9NXwpzLqe9a9ctQhpevIRV57mYfSwNZTymBg=
+			XtPZApN0qAKJgVGSmmhTCzc9/Npy9gEZcHy2giMSNfQ=
 			</data>
 		</dict>
 		<key>ios-arm64_x86_64-simulator/MUXSDKStats.framework/Modules/module.modulemap</key>
@@ -468,33 +468,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			co6FgAOZKDJt5Jf3EZacE4E3Zlc=
+			8ZU1+AyAIzWxqpsTZSMJEQ5gfro=
 			</data>
 			<key>hash2</key>
 			<data>
-			BGS+tT+x30XwNqYkEUYurcb7S4U7KIpzIM86w3AH4uU=
+			tbysaTocruq+CjdHlDzQFx/nZAAWqauc/EbMJLGYvC0=
 			</data>
 		</dict>
 		<key>tvos-arm64/MUXSDKStats.framework/Headers/MUXSDKPlayerBinding.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			1dzWora+/XX7Gmf2Iiayk5mZA+o=
+			+LXCYqEGBNLWufWZLbA36RBluOs=
 			</data>
 			<key>hash2</key>
 			<data>
-			CV6tIRWW3tjeTmNXOVGFX90e+6yX2sC6Rye3c0xawAM=
+			GFcbp4q1C45DVlhLZpC/Ro7xzuNrdUMRYf6XZqhx824=
 			</data>
 		</dict>
 		<key>tvos-arm64/MUXSDKStats.framework/Headers/MUXSDKStats.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			OkZZ/wMTVC/j049cB/rApo6oWGI=
+			Ja2BhNVO080utP0LlPDvZ9sPWxw=
 			</data>
 			<key>hash2</key>
 			<data>
-			sQJZBULUxx7n64p9Xalh4i2y36WjLqJdnUkDGDRaLLY=
+			4QvPfO4zsvmn8HdeQimspC+543I4OW7GpZ1GI08Jw1M=
 			</data>
 		</dict>
 		<key>tvos-arm64/MUXSDKStats.framework/Headers/MUXSDKStatsTv.h</key>
@@ -512,22 +512,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			/U8PZepvDlgzTbz/GmmXfkwEXHw=
+			6S9RFoS1FN6koPeVuEOEQ4oxG7M=
 			</data>
 			<key>hash2</key>
 			<data>
-			A67C97iWZTzWPjXGb3fZKBeJLH1z9boycqG50hjepNs=
+			kOINkJrX+cfzY7ZA27v7fG2FznY3Z/5h3Q+fkAAsjMg=
 			</data>
 		</dict>
 		<key>tvos-arm64/MUXSDKStats.framework/MUXSDKStats</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			m8i2gduWaHo+IAERIQNK2gez9+g=
+			PULdLQHzMWHoW6jnN+mAtZhOLEc=
 			</data>
 			<key>hash2</key>
 			<data>
-			F0Dl/utPQC4hDjjQeOp2LjjslA6n/iSGs6mPRFoXePc=
+			NPhO9/qkYq5X21j6TTcX2QXQbV405v3cDGg4gh6d2I4=
 			</data>
 		</dict>
 		<key>tvos-arm64/MUXSDKStats.framework/Modules/module.modulemap</key>
@@ -556,33 +556,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			TiiVYilLX9ekdVxvSeDcYp3XooY=
+			F5GDvaC5nATEjP1QXTMgDI4CdLA=
 			</data>
 			<key>hash2</key>
 			<data>
-			wmb2A+F3EgtjB22r/kj8F9nIxUgWQdFvFIEXkxMHQuU=
+			gZuELhalBUZT8F3DXFvURNrONcsDSZ9odYZ1+Je0zac=
 			</data>
 		</dict>
 		<key>tvos-arm64_x86_64-simulator/MUXSDKStats.framework/Headers/MUXSDKPlayerBinding.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			1dzWora+/XX7Gmf2Iiayk5mZA+o=
+			+LXCYqEGBNLWufWZLbA36RBluOs=
 			</data>
 			<key>hash2</key>
 			<data>
-			CV6tIRWW3tjeTmNXOVGFX90e+6yX2sC6Rye3c0xawAM=
+			GFcbp4q1C45DVlhLZpC/Ro7xzuNrdUMRYf6XZqhx824=
 			</data>
 		</dict>
 		<key>tvos-arm64_x86_64-simulator/MUXSDKStats.framework/Headers/MUXSDKStats.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			OkZZ/wMTVC/j049cB/rApo6oWGI=
+			Ja2BhNVO080utP0LlPDvZ9sPWxw=
 			</data>
 			<key>hash2</key>
 			<data>
-			sQJZBULUxx7n64p9Xalh4i2y36WjLqJdnUkDGDRaLLY=
+			4QvPfO4zsvmn8HdeQimspC+543I4OW7GpZ1GI08Jw1M=
 			</data>
 		</dict>
 		<key>tvos-arm64_x86_64-simulator/MUXSDKStats.framework/Headers/MUXSDKStatsTv.h</key>
@@ -600,22 +600,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			K5Bz5E43rImHq+0JtBXajrY6nN0=
+			sRejGI8BQ0mOeCBxBQOzLSpoLqQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			4YOtKPzRWB8yhMGAtse8itSomZk0d6CxjLx16PAAhGw=
+			Cs/zN2tPPmpB71UvsLqVWqCiErdSli3LiwHI6eowuy4=
 			</data>
 		</dict>
 		<key>tvos-arm64_x86_64-simulator/MUXSDKStats.framework/MUXSDKStats</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			h9CYPxpogxupLKeVt73V9Lt06hA=
+			ev3iku879WRBI1F5pm6Yi0RrzV4=
 			</data>
 			<key>hash2</key>
 			<data>
-			6W8OQkrqHo+0g9Bee2jWE6Scgv1+vOLl127XZuQUWC8=
+			NbwANELwHMUUA5x7tFCqfjVvj8joz/zJkZe03oRY8mM=
 			</data>
 		</dict>
 		<key>tvos-arm64_x86_64-simulator/MUXSDKStats.framework/Modules/module.modulemap</key>
@@ -644,33 +644,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			3oNuEAUgipCArPAqcr6NY/IM1Us=
+			MO4iwskXPcYdgkwqgCgN1rEPIJ8=
 			</data>
 			<key>hash2</key>
 			<data>
-			AXpCAF6Pn4NLG+6zsLHZLe1nmMw8PlGwFCeuSuoi/W8=
+			+nDm48hO9NaFIlv4Nuqd+vfxn57fbGKuclgchI2NKfw=
 			</data>
 		</dict>
 		<key>xros-arm64/MUXSDKStats.framework/Headers/MUXSDKPlayerBinding.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			1dzWora+/XX7Gmf2Iiayk5mZA+o=
+			+LXCYqEGBNLWufWZLbA36RBluOs=
 			</data>
 			<key>hash2</key>
 			<data>
-			CV6tIRWW3tjeTmNXOVGFX90e+6yX2sC6Rye3c0xawAM=
+			GFcbp4q1C45DVlhLZpC/Ro7xzuNrdUMRYf6XZqhx824=
 			</data>
 		</dict>
 		<key>xros-arm64/MUXSDKStats.framework/Headers/MUXSDKStats.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			OkZZ/wMTVC/j049cB/rApo6oWGI=
+			Ja2BhNVO080utP0LlPDvZ9sPWxw=
 			</data>
 			<key>hash2</key>
 			<data>
-			sQJZBULUxx7n64p9Xalh4i2y36WjLqJdnUkDGDRaLLY=
+			4QvPfO4zsvmn8HdeQimspC+543I4OW7GpZ1GI08Jw1M=
 			</data>
 		</dict>
 		<key>xros-arm64/MUXSDKStats.framework/Headers/MUXSDKStatsVision.h</key>
@@ -688,22 +688,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			5dONk/tX3U2toQsqVwx09M5ceQ4=
+			mSbSkQ4XGXn5Wk3yRgS8iXOteh4=
 			</data>
 			<key>hash2</key>
 			<data>
-			h5F8xMjULf9lJybx5HjEQUfg1QtlTH6fg2eg/LKNSRE=
+			f9b1x0VWS6yXm3bJKxnPNert13w5IV/UTglapHDjU6g=
 			</data>
 		</dict>
 		<key>xros-arm64/MUXSDKStats.framework/MUXSDKStats</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			S1Q/raBMJwxrqv9UKxqDn/atwCw=
+			tytjab3RwRso9lnKvanY1hWXAEI=
 			</data>
 			<key>hash2</key>
 			<data>
-			7zT3n+fZ/D8+Gs80DxSaiB7kG8Cta5scIJYwNrkaVE8=
+			IB3f+/23rcnQtYH33YN9j+ZvrlhFsZx/eoKkwPrLbb4=
 			</data>
 		</dict>
 		<key>xros-arm64/MUXSDKStats.framework/Modules/module.modulemap</key>
@@ -732,33 +732,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			QWER0Q8BcyKD6DYIWvxLJEwAs+c=
+			qdznTrBpcD9UE4WYvu/nFVWLeUA=
 			</data>
 			<key>hash2</key>
 			<data>
-			Vpl+nW5Bcg5ZE4jDR5Khkqmm/YvPuqrYTQx/I1B6/eM=
+			di51s9fni5ATcYOMono8L5GscX0GSzdjYgk+EfMkFOY=
 			</data>
 		</dict>
 		<key>xros-arm64_x86_64-simulator/MUXSDKStats.framework/Headers/MUXSDKPlayerBinding.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			1dzWora+/XX7Gmf2Iiayk5mZA+o=
+			+LXCYqEGBNLWufWZLbA36RBluOs=
 			</data>
 			<key>hash2</key>
 			<data>
-			CV6tIRWW3tjeTmNXOVGFX90e+6yX2sC6Rye3c0xawAM=
+			GFcbp4q1C45DVlhLZpC/Ro7xzuNrdUMRYf6XZqhx824=
 			</data>
 		</dict>
 		<key>xros-arm64_x86_64-simulator/MUXSDKStats.framework/Headers/MUXSDKStats.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			OkZZ/wMTVC/j049cB/rApo6oWGI=
+			Ja2BhNVO080utP0LlPDvZ9sPWxw=
 			</data>
 			<key>hash2</key>
 			<data>
-			sQJZBULUxx7n64p9Xalh4i2y36WjLqJdnUkDGDRaLLY=
+			4QvPfO4zsvmn8HdeQimspC+543I4OW7GpZ1GI08Jw1M=
 			</data>
 		</dict>
 		<key>xros-arm64_x86_64-simulator/MUXSDKStats.framework/Headers/MUXSDKStatsVision.h</key>
@@ -776,22 +776,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			hPXdMnL6mCNj2wVnlCzQf94Tv0Q=
+			KbZDw81KSb2BoJfd/if5xV62uTs=
 			</data>
 			<key>hash2</key>
 			<data>
-			BkEAMk8zRpOG6ZJ1swqW5c6wHq9YCR+5N5eETF6rIXg=
+			bEItrHjz80YycRapvi7PmiyLYMEYeCf2hHN8t8S9VDg=
 			</data>
 		</dict>
 		<key>xros-arm64_x86_64-simulator/MUXSDKStats.framework/MUXSDKStats</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			u7Wd/JrwDNyp05gTP9Czhhxb99o=
+			0Zcs+CE18InLs3wPb6j+JZ0hUUU=
 			</data>
 			<key>hash2</key>
 			<data>
-			Ze/CyE76lQlzvVko3sWD725+7Y4XvsiL9ZTlvZ7nS5Y=
+			6wTH5g55Sg6TjFUseXB82JP44LBjQfpQ7VoHtxOcVAM=
 			</data>
 		</dict>
 		<key>xros-arm64_x86_64-simulator/MUXSDKStats.framework/Modules/module.modulemap</key>
@@ -820,11 +820,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			rslFa5wIA1z4YBr91g9AZeMnw9U=
+			djqqO78cx7KoHveNciCttUOblEE=
 			</data>
 			<key>hash2</key>
 			<data>
-			jT0gqi221LPUliy9NGkNPSk+vHRY4dKPpuEXJ+hGL6w=
+			eKsqjCzTA41vAUHsQk2eVxRJIJpO0F7JZjjP0qdvFD8=
 			</data>
 		</dict>
 	</dict>

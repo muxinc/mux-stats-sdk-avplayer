@@ -14,7 +14,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"3.6.2";
+NSString *const MUXSDKPluginVersion = @"4.0.0";
 NSString *const MUXSessionDataPrefix = @"io.litix.data.";
 
 // Min number of seconds between timeupdate events. (100ms)
@@ -720,7 +720,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [playerData setPlayerPlayheadTime:[NSNumber numberWithLongLong:[timeMs longLongValue]]];
 }
 
-- (BOOL)isPlayerOK {
+- (BOOL)hasPlayer {
     if (!_player) {
         NSLog(@"MUXSDK-ERROR - Mux failed to find the AVPlayer for player name: %@", _name);
         return NO;
@@ -769,7 +769,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)dispatchViewInit {
-    if (![self isPlayerOK]) {
+    if (![self hasPlayer]) {
         return;
     }
     [self resetVideoData];
@@ -781,7 +781,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)dispatchPlayerReady {
-    if (![self isPlayerOK]) {
+    if (![self hasPlayer]) {
         return;
     }
     MUXSDKPlayerData *playerData = [self getPlayerData];
@@ -792,7 +792,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)dispatchPlay {
-    if (![self isPlayerOK]) {
+    if (![self hasPlayer]) {
         return;
     }
     [self.playDispatchDelegate playbackStartedForPlayer:_name];
@@ -815,7 +815,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)dispatchPlaying {
-    if (![self isPlayerOK]) {
+    if (![self hasPlayer]) {
         return;
     }
     [self checkVideoData];
@@ -833,7 +833,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)dispatchPause {
-    if (![self isPlayerOK]) {
+    if (![self hasPlayer]) {
         return;
     }
     [self checkVideoData];
@@ -852,7 +852,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)dispatchTimeUpdateEvent:(CMTime)time {
-    if (![self isPlayerOK] || ![self isPlaying]) {
+    if (![self hasPlayer] || ![self isPlaying]) {
         return;
     }
     // Check to make sure we don't over work.
@@ -872,7 +872,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (!_automaticErrorTracking) {
         return;
     }
-    if (![self isPlayerOK]) {
+    if (![self hasPlayer]) {
         return;
     }
     [self checkVideoData];
@@ -883,35 +883,116 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     _state = MUXSDKPlayerStateError;
 }
 
-- (void) dispatchError:(nonnull NSString *)code 
-           withMessage:(nonnull NSString *)message {
-    [self dispatchError:code
-            withMessage:message
-       withErrorContext:nil];
-}
-
-
-- (void) dispatchError:(nonnull NSString *)code
-           withMessage:(nonnull NSString *)message
-      withErrorContext:(NSString *)errorContext {
-    if (![self isPlayerOK]) {
+- (void)dispatchError:(nonnull NSString *)code
+          withMessage:(nonnull NSString *)message {
+    if (![self hasPlayer]) {
         return;
     }
     [self checkVideoData];
     MUXSDKPlayerData *playerData = [self getPlayerData];
     [playerData setPlayerErrorCode:code];
     [playerData setPlayerErrorMessage:message];
-    if (errorContext) {
-        [playerData setPlayerErrorContext:errorContext];
-    }
     MUXSDKErrorEvent *event = [[MUXSDKErrorEvent alloc] init];
     [event setPlayerData:playerData];
     [MUXSDKCore dispatchEvent:event forPlayer:_name];
     _state = MUXSDKPlayerStateError;
 }
 
+- (void)dispatchError:(nonnull NSString *)code
+          withMessage:(nonnull NSString *)message
+     withErrorContext:(nonnull NSString *)errorContext {
+    if (![self hasPlayer]) {
+        return;
+    }
+    [self checkVideoData];
+    MUXSDKPlayerData *playerData = [self getPlayerData];
+    [playerData setPlayerErrorCode:code];
+    [playerData setPlayerErrorMessage:message];
+    [playerData setPlayerErrorContext:errorContext];
+    MUXSDKErrorEvent *event = [[MUXSDKErrorEvent alloc] init];
+    [event setPlayerData:playerData];
+    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    _state = MUXSDKPlayerStateError;
+}
+
+- (void)dispatchError:(nonnull NSString *)code
+          withMessage:(nonnull NSString *)message
+             severity:(MUXSDKErrorSeverity)severity {
+    if (![self hasPlayer]) {
+        return;
+    }
+    [self checkVideoData];
+    MUXSDKPlayerData *playerData = [self getPlayerData];
+    [playerData setPlayerErrorCode:code];
+    [playerData setPlayerErrorMessage:message];
+    MUXSDKErrorEvent *event = [[MUXSDKErrorEvent alloc] init];
+    [event setPlayerData:playerData];
+    [event setSeverity:severity];
+    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    _state = MUXSDKPlayerStateError;
+}
+
+- (void)dispatchError:(nonnull NSString *)code
+          withMessage:(nonnull NSString *)message
+             severity:(MUXSDKErrorSeverity)severity
+         errorContext:(nonnull NSString *)errorContext {
+    if (![self hasPlayer]) {
+        return;
+    }
+    [self checkVideoData];
+    MUXSDKPlayerData *playerData = [self getPlayerData];
+    [playerData setPlayerErrorCode:code];
+    [playerData setPlayerErrorMessage:message];
+    [playerData setPlayerErrorContext:errorContext];
+    MUXSDKErrorEvent *event = [[MUXSDKErrorEvent alloc] init];
+    [event setPlayerData:playerData];
+    [event setSeverity:severity];
+    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    _state = MUXSDKPlayerStateError;
+}
+
+- (void)dispatchError:(nonnull NSString *)code
+          withMessage:(nonnull NSString *)message
+             severity:(MUXSDKErrorSeverity)severity
+  isBusinessException:(BOOL)isBusinessException {
+    if (![self hasPlayer]) {
+        return;
+    }
+    [self checkVideoData];
+    MUXSDKPlayerData *playerData = [self getPlayerData];
+    [playerData setPlayerErrorCode:code];
+    [playerData setPlayerErrorMessage:message];
+    MUXSDKErrorEvent *event = [[MUXSDKErrorEvent alloc] init];
+    [event setPlayerData:playerData];
+    [event setSeverity:severity];
+    [event setIsBusinessException:isBusinessException];
+    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    _state = MUXSDKPlayerStateError;
+}
+
+- (void)dispatchError:(nonnull NSString *)code
+          withMessage:(nonnull NSString *)message
+             severity:(MUXSDKErrorSeverity)severity
+  isBusinessException:(BOOL)isBusinessException
+         errorContext:(nonnull NSString *)errorContext {
+    if (![self hasPlayer]) {
+        return;
+    }
+    [self checkVideoData];
+    MUXSDKPlayerData *playerData = [self getPlayerData];
+    [playerData setPlayerErrorCode:code];
+    [playerData setPlayerErrorMessage:message];
+    [playerData setPlayerErrorContext:errorContext];
+    MUXSDKErrorEvent *event = [[MUXSDKErrorEvent alloc] init];
+    [event setPlayerData:playerData];
+    [event setSeverity:severity];
+    [event setIsBusinessException:isBusinessException];
+    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+    _state = MUXSDKPlayerStateError;
+}
+
 - (void)dispatchViewEnd {
-    if (![self isPlayerOK]) {
+    if (![self hasPlayer]) {
         return;
     }
     if (_state == MUXSDKPlayerStateViewEnd) {
@@ -927,7 +1008,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)dispatchBandwidthMetric: (MUXSDKBandwidthMetricData *)loadData withType:(NSString *)type {
-    if (![self isPlayerOK]) {
+    if (![self hasPlayer]) {
         return;
     }
     [self checkVideoData];
@@ -940,7 +1021,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void) dispatchOrientationChange:(MUXSDKViewOrientation) orientation {
-    if (![self isPlayerOK]) {
+    if (![self hasPlayer]) {
         return;
     }
     [self checkVideoData];
@@ -967,7 +1048,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void) dispatchRenditionChange {
-    if (![self isPlayerOK]) {
+    if (![self hasPlayer]) {
         return;
     }
     [self checkVideoData];
@@ -1113,7 +1194,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)dispatchAdEvent:(MUXSDKPlaybackEvent *)event {
-    if (![self isPlayerOK]) {
+    if (![self hasPlayer]) {
         return;
     }
     [self checkVideoData];
