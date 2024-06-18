@@ -18,18 +18,18 @@ echo "▸ Available Xcode SDKs"
 
 xcodebuild -showsdks
 
-echo "▸ Testing SDK on iOS 17.4 - iPhone 15 Pro Max"
+echo "▸ Testing SDK on iOS 17.5 - iPhone 15 Pro Max"
 
 xcodebuild clean test \
   -project $PROJECT \
   -scheme $SCHEME \
-  -destination 'platform=iOS Simulator,OS=17.4,name=iPhone 15 Pro Max' \
+  -destination 'platform=iOS Simulator,OS=17.5,name=iPhone 15 Pro Max' \
   | xcbeautify
 
-echo "▸ Testing SDK on iOS 17.4 - iPad Pro (12.9-inch) (6th generation)"
+echo "▸ Testing SDK on iOS 17.5 - iPad Pro (12.9-inch) (6th generation)"
 
 xcodebuild clean test \
   -project $PROJECT \
   -scheme $SCHEME \
-  -destination 'platform=iOS Simulator,OS=17.4,name=iPad Pro (12.9-inch) (6th generation)' \
+  -destination 'platform=iOS Simulator,OS=17.5,name=iPad Pro (12.9-inch) (6th generation)' \
   | xcbeautify

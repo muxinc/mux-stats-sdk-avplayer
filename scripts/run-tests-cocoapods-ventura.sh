@@ -38,8 +38,8 @@ pod deintegrate && pod install --clean-install --repo-update --verbose
 echo "▸ Available Schemes in $(pwd)"
 xcodebuild -list
 
-echo "▸ Testing SDK on iOS 17.4 - iPhone 15 Pro Max"
+echo "▸ Testing SDK on iOS 17.5 - iPhone 15 Pro Max"
 xcodebuild clean test \
     -workspace $WORKSPACE \
     -scheme $SCHEME \
-    -destination 'platform=iOS Simulator,OS=17.4,name=iPhone 15 Pro Max' | xcbeautify
+    -destination 'platform=iOS Simulator,OS=17.5,name=iPhone 15 Pro Max' | xcbeautify

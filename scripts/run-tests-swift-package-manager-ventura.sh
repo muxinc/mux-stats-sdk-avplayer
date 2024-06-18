@@ -33,9 +33,9 @@ xcodebuild -list -json
 echo "▸ Running ${SCHEME} Test when installed using Swift Package Manager"
 echo ""
 
-echo "▸ Testing SDK on iOS 17.4 - iPhone 14 Pro Max"
+echo "▸ Testing SDK on iOS 17.5 - iPhone 14 Pro Max"
 
 xcodebuild clean test \
     -project MUXSDKStatsExampleSPM.xcodeproj \
     -scheme "MUXSDKStatsExampleSPM" \
-    -destination 'platform=iOS Simulator,OS=17.4,name=iPhone 15 Pro Max' | xcbeautify
+    -destination 'platform=iOS Simulator,OS=17.5,name=iPhone 15 Pro Max' | xcbeautify
