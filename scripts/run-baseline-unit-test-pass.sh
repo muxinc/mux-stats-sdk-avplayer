@@ -26,10 +26,10 @@ xcodebuild clean test \
   -destination 'platform=iOS Simulator,OS=17.5,name=iPhone 15 Pro Max' \
   | xcbeautify
 
-echo "▸ Testing SDK on iOS 17.5 - iPad Pro (12.9-inch) (6th generation)"
+echo "▸ Testing SDK on iOS 17.5 - iPad Pro 13-inch (M4)"
 
 xcodebuild clean test \
   -project $PROJECT \
   -scheme $SCHEME \
-  -destination 'platform=iOS Simulator,OS=17.5,name=iPad Pro (12.9-inch) (6th generation)' \
+  -destination 'platform=iOS Simulator,OS=17.5,name=iPad Pro 13-inch (M4)' \
   | xcbeautify
