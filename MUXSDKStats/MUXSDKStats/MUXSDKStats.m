@@ -283,59 +283,6 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                         beaconCollectionDomain:nil];
 }
 
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
-                                                 withPlayerName:(nonnull NSString *)name
-                                                     playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
-                                                      videoData:(nullable MUXSDKCustomerVideoData *)videoData {
-    return [self monitorAVPlayerViewController:player
-                                withPlayerName:name
-                                    playerData:playerData
-                                     videoData:videoData
-                                      viewData:nil
-                        automaticErrorTracking:true];
-}
-
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
-                                                 withPlayerName:(nonnull NSString *)name
-                                                     playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
-                                                      videoData:(nullable MUXSDKCustomerVideoData *)videoData
-                                                       viewData:(nullable MUXSDKCustomerViewData *)viewData {
-    return [self monitorAVPlayerViewController:player
-                                withPlayerName:name
-                                    playerData:playerData
-                                     videoData:videoData
-                                      viewData:viewData
-                        automaticErrorTracking:true];
-}
-
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
-                                                 withPlayerName:(nonnull NSString *)name
-                                                     playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
-                                                      videoData:(nullable MUXSDKCustomerVideoData *)videoData
-                                         automaticErrorTracking:(BOOL) automaticErrorTracking {
-    return [self monitorAVPlayerViewController:player
-                         withPlayerName:name
-                             playerData:playerData
-                              videoData:videoData
-                               viewData:nil
-                 automaticErrorTracking:automaticErrorTracking];
-}
-
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerViewController:(nonnull AVPlayerViewController *)player
-                                                 withPlayerName:(nonnull NSString *)name
-                                                     playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
-                                                      videoData:(nullable MUXSDKCustomerVideoData *)videoData
-                                                       viewData:(nullable MUXSDKCustomerViewData *)viewData
-                                         automaticErrorTracking:(BOOL) automaticErrorTracking {
-    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:playerData
-                                                                                    videoData:videoData
-                                                                                     viewData:viewData];
-    return [self monitorAVPlayerViewController:player
-                                withPlayerName:name
-                                  customerData:customerData
-                        automaticErrorTracking:automaticErrorTracking];
-}
-
 + (void)updateAVPlayerViewController:(nonnull AVPlayerViewController *)player withPlayerName:(nonnull NSString *)name {
     [self initSDK];
     NSString *binding = [_bindings valueForKey:name];
@@ -475,59 +422,6 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                        withPlayerName:name
                          customerData:customerData
                automaticErrorTracking:true];
-}
-
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
-                                        withPlayerName:(nonnull NSString *)name
-                                            playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
-                                             videoData:(nullable MUXSDKCustomerVideoData *)videoData API_UNAVAILABLE(visionos) {
-    return [self monitorAVPlayerLayer:player
-                       withPlayerName:name
-                           playerData:playerData
-                            videoData:videoData
-                             viewData:nil
-               automaticErrorTracking:true];
-}
-
-+ (MUXSDKPlayerBinding *_Nullable)monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
-                                        withPlayerName:(nonnull NSString *)name
-                                            playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
-                                             videoData:(nullable MUXSDKCustomerVideoData *)videoData
-                                              viewData:(nullable MUXSDKCustomerViewData *)viewData API_UNAVAILABLE(visionos) {
-    return [self monitorAVPlayerLayer:player
-                       withPlayerName:name
-                           playerData:playerData
-                            videoData:videoData
-                             viewData:viewData
-               automaticErrorTracking:true];
-}
-
-+ (MUXSDKPlayerBinding *_Nullable) monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
-                                         withPlayerName:(nonnull NSString *)name
-                                             playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
-                                              videoData:(nullable MUXSDKCustomerVideoData *)videoData
-                                 automaticErrorTracking:(BOOL) automaticErrorTracking API_UNAVAILABLE(visionos) {
-    return [self monitorAVPlayerLayer:player
-                       withPlayerName:name
-                           playerData:playerData
-                            videoData:videoData
-                             viewData:nil
-               automaticErrorTracking:automaticErrorTracking];
-}
-
-+ (MUXSDKPlayerBinding *_Nullable) monitorAVPlayerLayer:(nonnull AVPlayerLayer *)player
-                                         withPlayerName:(nonnull NSString *)name
-                                             playerData:(nonnull MUXSDKCustomerPlayerData *)playerData
-                                              videoData:(nullable MUXSDKCustomerVideoData *)videoData
-                                               viewData:(nullable MUXSDKCustomerViewData *)viewData
-                                 automaticErrorTracking:(BOOL) automaticErrorTracking API_UNAVAILABLE(visionos) {
-    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:playerData
-                                                                                    videoData:videoData
-                                                                                     viewData:viewData];
-    return [self monitorAVPlayerLayer:player
-                       withPlayerName:name
-                         customerData:customerData
-               automaticErrorTracking:automaticErrorTracking];
 }
 
 + (void)updateAVPlayerLayer:(AVPlayerLayer *)player withPlayerName:(NSString *)name API_UNAVAILABLE(visionos) {
@@ -732,22 +626,6 @@ static MUXSDKCustomerViewerData *_customerViewerData;
     }
 }
 
-+ (void)videoChangeForPlayer:(nonnull NSString *)name  withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData viewData: (nullable MUXSDKCustomerViewData *) viewData {
-    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:playerData videoData:videoData viewData:viewData];
-    [self videoChangeForPlayer:name withCustomerData:customerData];
-}
-
-+ (void)videoChangeForPlayer:(nonnull NSString *)name withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
-    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:playerData videoData:videoData viewData:nil];
-    [self videoChangeForPlayer:name withCustomerData:customerData];
-}
-
-+ (void)videoChangeForPlayer:(nonnull NSString *)name withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
-    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] init];
-    customerData.customerVideoData = videoData;
-    [self videoChangeForPlayer:name withCustomerData:customerData];
-}
-
 #pragma mark Program Change
 
 + (void)programChangeForPlayer:(nonnull NSString *)name
@@ -837,13 +715,100 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 
 #pragma mark Error
 
-+ (void)dispatchError:(nonnull NSString *)code withMessage:(nonnull NSString *)message forPlayer:(nonnull NSString *)name {
++ (void)dispatchError:(nonnull NSString *)errorCode
+          withMessage:(nonnull NSString *)message
+            forPlayer:(nonnull NSString *)name {
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
-    NSLog(@"Players: %@, Name: %@", [_viewControllers debugDescription], name);
+
     if (!player) {
         return;
     }
-    [player dispatchError:code withMessage:message];
+    [player dispatchError:errorCode 
+              withMessage:message];
 }
+
++ (void)dispatchError:(nonnull NSString *)errorCode
+          withMessage:(nonnull NSString *)message
+         errorContext:(nullable NSString *)errorContext
+            forPlayer:(nonnull NSString *)name {
+    MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
+
+    if (!player) {
+        return;
+    }
+
+    [player dispatchError:errorCode
+              withMessage:message
+         withErrorContext:errorContext];
+}
+
++ (void)dispatchError:(nonnull NSString *)errorCode
+          withMessage:(nonnull NSString *)message
+             severity:(MUXSDKErrorSeverity)severity
+            forPlayer:(nonnull NSString *)name {
+    MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
+
+    if (!player) {
+        return;
+    }
+
+    [player dispatchError:errorCode
+              withMessage:message
+                 severity:severity];
+}
+
++ (void)dispatchError:(nonnull NSString *)errorCode
+          withMessage:(nonnull NSString *)message
+             severity:(MUXSDKErrorSeverity)severity
+         errorContext:(nonnull NSString *)errorContext
+            forPlayer:(nonnull NSString *)name {
+    MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
+
+    if (!player) {
+        return;
+    }
+
+    [player dispatchError:errorCode
+              withMessage:message
+                 severity:severity
+             errorContext:errorContext];
+}
+
++ (void)dispatchError:(nonnull NSString *)errorCode
+          withMessage:(nonnull NSString *)message
+             severity:(MUXSDKErrorSeverity)severity
+  isBusinessException:(BOOL)isBusinessException
+            forPlayer:(nonnull NSString *)name {
+    MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
+
+    if (!player) {
+        return;
+    }
+
+    [player dispatchError:errorCode
+              withMessage:message
+                 severity:severity
+      isBusinessException:isBusinessException];
+}
+
++ (void)dispatchError:(nonnull NSString *)errorCode
+          withMessage:(nonnull NSString *)message
+             severity:(MUXSDKErrorSeverity)severity
+  isBusinessException:(BOOL)isBusinessException
+         errorContext:(nonnull NSString *)errorContext
+            forPlayer:(nonnull NSString *)name {
+    MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
+    
+    if (!player) {
+        return;
+    }
+
+    [player dispatchError:errorCode
+              withMessage:message
+                 severity:severity
+      isBusinessException:isBusinessException
+             errorContext:errorContext];
+}
+
 
 @end

@@ -34,6 +34,7 @@
 		19CB36012ABD2B88002DF48C /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 19CB36002ABD2B88002DF48C /* MUXSDKStats */; };
 		19CB36032ABD2D39002DF48C /* PlayerLayerExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB36022ABD2D39002DF48C /* PlayerLayerExampleViewController.swift */; };
 		19CB36052ABD2D63002DF48C /* ProcessInfo+Mux.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB36042ABD2D63002DF48C /* ProcessInfo+Mux.swift */; };
+		19D409122C1BD57D00C8163C /* ErrorCategorizationExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D409112C1BD57D00C8163C /* ErrorCategorizationExampleViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +91,7 @@
 		19CB35F22ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUXSDKStatsExampleSPMUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		19CB36022ABD2D39002DF48C /* PlayerLayerExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerLayerExampleViewController.swift; sourceTree = "<group>"; };
 		19CB36042ABD2D63002DF48C /* ProcessInfo+Mux.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProcessInfo+Mux.swift"; sourceTree = "<group>"; };
+		19D409112C1BD57D00C8163C /* ErrorCategorizationExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorCategorizationExampleViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,6 +214,7 @@
 				19C386A72AD12343009AB018 /* MultiplePlayerItemPlaybackExampleViewController.swift */,
 				19C386A92AD3194F009AB018 /* PlayerLayerScalingExampleViewController.swift */,
 				195762132AD64B2800128565 /* AudioOnlyPlaybackExampleViewController.swift */,
+				19D409112C1BD57D00C8163C /* ErrorCategorizationExampleViewController.swift */,
 				19CB36042ABD2D63002DF48C /* ProcessInfo+Mux.swift */,
 				19CB35D52ABD2B5C002DF48C /* Main.storyboard */,
 				19CB35D82ABD2B5D002DF48C /* Assets.xcassets */,
@@ -466,6 +469,7 @@
 				19C386A82AD12344009AB018 /* MultiplePlayerItemPlaybackExampleViewController.swift in Sources */,
 				19CB35D42ABD2B5C002DF48C /* BasicPlaybackExampleViewController.swift in Sources */,
 				19CB35D02ABD2B5C002DF48C /* AppDelegate.swift in Sources */,
+				19D409122C1BD57D00C8163C /* ErrorCategorizationExampleViewController.swift in Sources */,
 				195762142AD64B2800128565 /* AudioOnlyPlaybackExampleViewController.swift in Sources */,
 				19CB36032ABD2D39002DF48C /* PlayerLayerExampleViewController.swift in Sources */,
 				19CB35D22ABD2B5C002DF48C /* SceneDelegate.swift in Sources */,

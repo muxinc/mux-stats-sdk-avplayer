@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kWI-EU-SKA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kWI-EU-SKA">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -41,6 +41,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9tG-p4-g11" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2416" y="-79"/>
+        </scene>
+        <!--Error Categorization Example View Controller-->
+        <scene sceneID="Djz-a6-jsI">
+            <objects>
+                <viewController id="Noi-bJ-xsp" customClass="ErrorCategorizationExampleViewController" customModule="MUXSDKStatsExampleSPM" customModuleProvider="target" colorLabel="IBBuiltInLabel-Gray" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5xk-bm-E68">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="OJu-Eh-eLg"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Gmp-GJ-bcd"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uyO-OR-jnz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1375" y="1470"/>
         </scene>
         <!--Player Layer Example View Controller-->
         <scene sceneID="6Bb-A5-c34">
@@ -273,6 +289,34 @@
                                         <accessibility key="accessibilityConfiguration" identifier="AudioOnlyPlaybackExample"/>
                                         <connections>
                                             <segue destination="OkB-KB-WOH" kind="show" id="Hwl-df-fFA"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlayerLayerExample" textLabel="LWn-PR-5hx" detailTextLabel="ACN-WZ-6no" style="IBUITableViewCellStyleSubtitle" id="UTT-z9-Wr8" userLabel="ErrorCategorizationExample">
+                                        <rect key="frame" x="0.0" y="578" width="393" height="88"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="UTT-z9-Wr8" id="XwO-s5-Psb">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="88"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Error Categorization Example" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LWn-PR-5hx">
+                                                    <rect key="frame" x="20" y="15.666666666666666" width="299.66666666666669" height="28.666666666666668"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Submit error metadata" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ACN-WZ-6no" userLabel="Monitor AVPlayer Audio">
+                                                    <rect key="frame" x="20" y="48.666666666666671" width="163.33333333333334" height="19.333333333333332"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <accessibility key="accessibilityConfiguration" identifier="AudioOnlyPlaybackExample"/>
+                                        <connections>
+                                            <segue destination="Noi-bJ-xsp" kind="show" id="GOK-zq-OJ3"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>

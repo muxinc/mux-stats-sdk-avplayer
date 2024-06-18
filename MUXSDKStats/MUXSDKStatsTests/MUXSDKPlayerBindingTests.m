@@ -167,6 +167,75 @@
                    );
 }
 
+- (void)testAVPlayerViewControllerBindingErrorSeverity {
+    NSString *name = @"awesome-player";
+    MUXSDKAVPlayerViewControllerBinding *binding = [self setupViewControllerPlayerBinding:name
+                                                                             softwareName:@"TestSoftware"
+                                                                          softwareVersion:@"0.1.0"];
+    [binding dispatchError:@"1"
+               withMessage:@"message"
+                  severity:MUXSDKErrorSeverityWarning
+              errorContext:@"context"];
+
+    XCTAssertEqual(5, [MUXSDKCore eventsCountForPlayer:name]);
+    id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:4 forPlayer:name];
+    XCTAssertEqual([event getType], MUXSDKPlaybackEventErrorEventType);
+
+    MUXSDKErrorEvent *errorEvent = (MUXSDKErrorEvent *)event;
+    XCTAssertEqual(
+                   errorEvent.playerData.playerErrorCode,
+                   @"1"
+                   );
+    XCTAssertEqual(
+                   errorEvent.playerData.playerErrorMessage,
+                   @"message"
+                   );
+    XCTAssertEqual(
+                   errorEvent.playerData.playerErrorContext,
+                   @"context"
+                   );
+    XCTAssertEqual(
+                   errorEvent.severity,
+                   MUXSDKErrorSeverityWarning
+                   );
+}
+
+- (void)testAVPlayerViewControllerBindingErrorBusinessException {
+    NSString *name = @"awesome-player";
+    MUXSDKAVPlayerViewControllerBinding *binding = [self setupViewControllerPlayerBinding:name
+                                                                             softwareName:@"TestSoftware"
+                                                                          softwareVersion:@"0.1.0"];
+    [binding dispatchError:@"1"
+               withMessage:@"message"
+                  severity:MUXSDKErrorSeverityWarning
+       isBusinessException:YES
+              errorContext:@"context"];
+
+    XCTAssertEqual(5, [MUXSDKCore eventsCountForPlayer:name]);
+    id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:4 forPlayer:name];
+    XCTAssertEqual([event getType], MUXSDKPlaybackEventErrorEventType);
+
+    MUXSDKErrorEvent *errorEvent = (MUXSDKErrorEvent *)event;
+    XCTAssertEqual(
+                   errorEvent.playerData.playerErrorCode,
+                   @"1"
+                   );
+    XCTAssertEqual(
+                   errorEvent.playerData.playerErrorMessage,
+                   @"message"
+                   );
+    XCTAssertEqual(
+                   errorEvent.playerData.playerErrorContext,
+                   @"context"
+                   );
+    XCTAssertEqual(
+                   errorEvent.severity,
+                   MUXSDKErrorSeverityWarning
+                   );
+    XCTAssertTrue(
+                  errorEvent.isBusinessException
+                  );
+}
 
 - (void)testAVPlayerViewControllerBindingAutomaticErrorTrackingDisabled {
     NSString *name = @"awesome-player";
