@@ -146,13 +146,10 @@ class ErrorCategorizationExampleViewController: UIViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        if !playerViewController.allowsPictureInPicturePlayback {
-            playerViewController.player?.pause()
-
-            MUXSDKStats.destroyPlayer(
-                playerName
-            )
-        }
+        playerViewController.player?.pause()
+        MUXSDKStats.destroyPlayer(
+            playerName
+        )
 
         super.viewWillDisappear(animated)
     }
