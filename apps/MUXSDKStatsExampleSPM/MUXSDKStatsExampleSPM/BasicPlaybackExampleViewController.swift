@@ -6,6 +6,7 @@
 import UIKit
 import AVKit
 import MUXSDKStats
+import MuxCore
 
 class BasicPlaybackExampleViewController: UIViewController {
 
@@ -41,6 +42,11 @@ class BasicPlaybackExampleViewController: UIViewController {
         playerViewController.allowsPictureInPicturePlayback = false
 
         displayPlayerViewController()
+
+        MUXSDKCore.setBeaconCollectionDomain(
+            "anything.litix.io",
+            forPlayer: playerName
+        )
 
         MUXSDKStats.monitorAVPlayerViewController(
             playerViewController,
