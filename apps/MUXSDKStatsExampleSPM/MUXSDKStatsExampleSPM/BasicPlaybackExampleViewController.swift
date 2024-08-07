@@ -43,15 +43,12 @@ class BasicPlaybackExampleViewController: UIViewController {
 
         displayPlayerViewController()
 
-        MUXSDKCore.setBeaconCollectionDomain(
-            "anything.litix.io",
-            forPlayer: playerName
-        )
-
         MUXSDKStats.monitorAVPlayerViewController(
             playerViewController,
             withPlayerName: playerName,
-            customerData: customerData!
+            customerData: customerData!,
+            automaticErrorTracking: true,
+            beaconCollectionDomain: "anything.litix.io"
         )
     }
 
