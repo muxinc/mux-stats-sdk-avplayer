@@ -48,7 +48,7 @@ class BasicPlaybackExampleViewController: UIViewController {
             withPlayerName: playerName,
             customerData: customerData!,
             automaticErrorTracking: true,
-            beaconCollectionDomain: "anything.litix.io"
+            beaconCollectionDomain: "customdata.free.beeceptor.com"
         )
     }
 
@@ -96,7 +96,8 @@ class BasicPlaybackExampleViewController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         if !playerViewController.allowsPictureInPicturePlayback {
-            playerViewController.player?.pause()
+//            playerViewController.player?.pause()
+            playerViewController.player?.replaceCurrentItem(with: nil)
 
             MUXSDKStats.destroyPlayer(
                 playerName
