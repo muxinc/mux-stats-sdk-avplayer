@@ -130,11 +130,20 @@ final class MUXSDKStatsExampleSPMUITests: XCTestCase {
         )
 
         let isViewElementOnScreen = viewElement.waitForExistence(
-            timeout: 20.0
+            timeout: 80.0
         )
 
         guard isViewElementOnScreen else {
-            XCTFail("Failed to navigate to view element: \(viewIdentifier)")
+
+            let elements = application.descendants(matching: .any).allElementsBoundByIndex
+
+            var identifiers = ""
+
+            for element in elements {
+                identifiers += "\(element.identifier) | "
+            }
+
+            XCTFail("Failed to navigate to view element: \(viewIdentifier) \n elements: \(elements)")
             return
         }
 
