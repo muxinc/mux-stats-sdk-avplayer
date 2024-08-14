@@ -120,6 +120,16 @@ final class MUXSDKStatsExampleSPMUITests: XCTestCase {
             identifier: cellIdentifier
         )
 
+        guard cellElement.exists else {
+            XCTFail("Failed to find cell element: \(cellIdentifier)")
+            return
+        }
+
+        guard cellElement.isHittable else {
+            XCTFail("Cell element not hittable: \(cellIdentifier)")
+            return
+        }
+
         cellElement.tap()
 
         let viewElement = application.descendants(
