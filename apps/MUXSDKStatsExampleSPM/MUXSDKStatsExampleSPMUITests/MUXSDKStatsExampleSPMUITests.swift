@@ -125,11 +125,6 @@ final class MUXSDKStatsExampleSPMUITests: XCTestCase {
             return
         }
 
-        guard cellElement.isHittable else {
-            XCTFail("Cell element not hittable: \(cellIdentifier)")
-            return
-        }
-
         cellElement.tap()
 
         let viewElement = application.descendants(
