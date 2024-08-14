@@ -153,7 +153,7 @@ final class MUXSDKStatsExampleSPMUITests: XCTestCase {
                 identifiers += "\(element.identifier) | "
             }
 
-            XCTFail("Failed to navigate to view element: \(viewIdentifier) \n elements: \(elements)")
+            XCTFail("Failed to navigate to view element: \(viewIdentifier) elements: \(elements)")
             return
         }
 
