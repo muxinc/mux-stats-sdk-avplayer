@@ -19,6 +19,7 @@
         "value" : ""
       }
     ],
+    "preferredScreenCaptureFormat" : "screenshot",
     "targetForVariableExpansion" : {
       "containerPath" : "container:MUXSDKStatsExampleSPM.xcodeproj",
       "identifier" : "19CB35CB2ABD2B5C002DF48C",
