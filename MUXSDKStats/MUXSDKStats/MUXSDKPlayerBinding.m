@@ -393,7 +393,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         [self dispatchViewEnd];
         [self stopMonitoringAVPlayerItem];
         
-        [self.playDispatchDelegate videoChangedForPlayer:_name];
+        if (_player.currentItem) {
+            [self.playDispatchDelegate videoChangedForPlayer:_name];
+        }
         
         //
         // Special case for AVQueuePlayer
