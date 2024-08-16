@@ -367,6 +367,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)detachAVPlayer {
+//    NSLog(@"%s: Detaching AVPlayer", __PRETTY_FUNCTION__);
     if (_playerItem) {
         [self stopMonitoringAVPlayerItem];
     }
@@ -390,10 +391,12 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         if (_didTriggerManualVideoChange) {
             _didTriggerManualVideoChange = false;
         }
+//        NSLog(@"%s: Dispatching View End", __PRETTY_FUNCTION__);
         [self dispatchViewEnd];
         [self stopMonitoringAVPlayerItem];
         
         if (_player.currentItem) {
+            NSLog(@"Player: %@ Current Item: %@", _player, _player.currentItem);
             [self.playDispatchDelegate videoChangedForPlayer:_name];
         }
         
@@ -468,6 +471,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [self safelyRemovePlayerItemObserverForKeyPath:@"playbackBufferEmpty"];
     _playerItem = nil;
     if (!_isAdPlaying) {
+//        NSLog(@"%s: MUXSDKCore destroyPlayer", __PRETTY_FUNCTION__);
         [MUXSDKCore destroyPlayer: _name];
     }
 }
