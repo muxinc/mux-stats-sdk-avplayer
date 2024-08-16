@@ -21,5 +21,6 @@
     "3.6.0": "https://github.com/muxinc/mux-stats-sdk-avplayer/releases/download/v3.6.0/MUXSDKStats.xcframework.zip",
     "3.6.1": "https://github.com/muxinc/mux-stats-sdk-avplayer/releases/download/v3.6.1/MUXSDKStats.xcframework.zip",
     "3.6.2": "https://github.com/muxinc/mux-stats-sdk-avplayer/releases/download/v3.6.2/MUXSDKStats.xcframework.zip",
-    "4.0.0": "https://github.com/muxinc/mux-stats-sdk-avplayer/releases/download/v4.0.0/MUXSDKStats.xcframework.zip"
+    "4.0.0": "https://github.com/muxinc/mux-stats-sdk-avplayer/releases/download/v4.0.0/MUXSDKStats.xcframework.zip",
+    "4.1.0": "https://github.com/muxinc/mux-stats-sdk-avplayer/releases/download/v4.1.0/MUXSDKStats.xcframework.zip"
 }

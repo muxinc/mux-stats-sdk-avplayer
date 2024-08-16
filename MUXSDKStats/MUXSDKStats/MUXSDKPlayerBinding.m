@@ -14,7 +14,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"4.0.0";
+NSString *const MUXSDKPluginVersion = @"4.1.0";
 NSString *const MUXSessionDataPrefix = @"io.litix.data.";
 
 // Min number of seconds between timeupdate events. (100ms)
@@ -367,15 +367,16 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)detachAVPlayer {
+//    NSLog(@"%s: Detaching AVPlayer", __PRETTY_FUNCTION__);
+    if (_playerItem) {
+        [self stopMonitoringAVPlayerItem];
+    }
     [self safelyRemoveTimeObserverForPlayer];
     [self safelyRemovePlayerObserverForKeyPath:@"rate"];
     [self safelyRemovePlayerObserverForKeyPath:@"status"];
     [self safelyRemovePlayerObserverForKeyPath:@"currentItem"];
     [self safelyRemovePlayerObserverForKeyPath:@"timeControlStatus"];
     _player = nil;
-    if (_playerItem) {
-        [self stopMonitoringAVPlayerItem];
-    }
     if (_timeUpdateTimer) {
         [_timeUpdateTimer invalidate];
         _timeUpdateTimer = nil;
@@ -390,9 +391,14 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         if (_didTriggerManualVideoChange) {
             _didTriggerManualVideoChange = false;
         }
+//        NSLog(@"%s: Dispatching View End", __PRETTY_FUNCTION__);
+        [self dispatchViewEnd];
         [self stopMonitoringAVPlayerItem];
         
-        [self.playDispatchDelegate videoChangedForPlayer:_name];
+        if (_player.currentItem) {
+            NSLog(@"Player: %@ Current Item: %@", _player, _player.currentItem);
+            [self.playDispatchDelegate videoChangedForPlayer:_name];
+        }
         
         //
         // Special case for AVQueuePlayer
@@ -461,13 +467,13 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)stopMonitoringAVPlayerItem {
-    if (!_isAdPlaying) {
-        [MUXSDKCore destroyPlayer: _name];
-    }
-    
     [self safelyRemovePlayerItemObserverForKeyPath:@"status"];
     [self safelyRemovePlayerItemObserverForKeyPath:@"playbackBufferEmpty"];
     _playerItem = nil;
+    if (!_isAdPlaying) {
+//        NSLog(@"%s: MUXSDKCore destroyPlayer", __PRETTY_FUNCTION__);
+        [MUXSDKCore destroyPlayer: _name];
+    }
 }
 
 - (void) programChangedForPlayer {

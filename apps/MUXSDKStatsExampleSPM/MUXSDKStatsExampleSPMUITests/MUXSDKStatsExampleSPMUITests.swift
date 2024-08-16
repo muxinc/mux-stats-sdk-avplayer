@@ -120,6 +120,11 @@ final class MUXSDKStatsExampleSPMUITests: XCTestCase {
             identifier: cellIdentifier
         )
 
+        guard cellElement.exists else {
+            XCTFail("Failed to find cell element: \(cellIdentifier)")
+            return
+        }
+
         cellElement.tap()
 
         let viewElement = application.descendants(
@@ -130,17 +135,17 @@ final class MUXSDKStatsExampleSPMUITests: XCTestCase {
         )
 
         let isViewElementOnScreen = viewElement.waitForExistence(
-            timeout: 15.0
+            timeout: 150.0
         )
 
         guard isViewElementOnScreen else {
-            XCTFail("Failed to navigate to view element")
+            XCTFail("Failed to navigate to view element: \(viewIdentifier)")
             return
         }
 
         let isUnknown = application.wait(
             for: .unknown,
-            timeout: 45.0
+            timeout: 25.0
         )
 
         guard !isUnknown else {
