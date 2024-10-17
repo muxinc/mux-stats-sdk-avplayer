@@ -16,6 +16,8 @@ readonly PACKAGE_NAME=${FRAMEWORK_NAME}.xcframework
 
 readonly CODE_SIGNING_CERTIFICATE="Apple Distribution: Mux, Inc (XX95P4Y787)"
 
+echo "▸ Current Xcode: $(xcode-select -p)"
+
 readonly XCODE=$(xcodebuild -version | grep Xcode | cut -d " " -f2)
 
 echo "▸ Using Xcode Version: ${XCODE}"
