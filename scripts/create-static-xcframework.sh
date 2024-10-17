@@ -259,17 +259,17 @@ else
     exit 1
 fi
 
- echo "▸ Creating ${PACKAGE_NAME} Static Library Multiplatform Bundle"
+echo "▸ Creating ${PACKAGE_NAME} Static Library Multiplatform Bundle"
 
- xcodebuild -create-xcframework \
-      -framework "$BUILD_DIR/MUXSDKStatsVision.visionOS.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
-      -framework "$BUILD_DIR/MUXSDKStatsVision.visionOS-simulator.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
-      -framework "$BUILD_DIR/MUXSDKStatsTv.tvOS.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
-      -framework "$BUILD_DIR/MUXSDKStatsTv.tvOS-simulator.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
-      -framework "$BUILD_DIR/MUXSDKStats.iOS.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
-      -framework "$BUILD_DIR/MUXSDKStats.iOS-simulator.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
-      -framework "$BUILD_DIR/MUXSDKStats.macOS.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
-      -output "$TARGET_DIR/MUXSDKStats.xcframework" | xcbeautify
+xcodebuild -create-xcframework \
+    -framework "$BUILD_DIR/MUXSDKStatsVision.visionOS.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
+    -framework "$BUILD_DIR/MUXSDKStatsVision.visionOS-simulator.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
+    -framework "$BUILD_DIR/MUXSDKStatsTv.tvOS.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
+    -framework "$BUILD_DIR/MUXSDKStatsTv.tvOS-simulator.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
+    -framework "$BUILD_DIR/MUXSDKStats.iOS.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
+    -framework "$BUILD_DIR/MUXSDKStats.iOS-simulator.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
+    -framework "$BUILD_DIR/MUXSDKStats.macOS.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
+    -output "$TARGET_DIR/MUXSDKStats.xcframework" | xcbeautify
 
 if [[ $? == 0 ]]; then
     echo -e "\033[01;32m ▸ Successfully created ${PACKAGE_NAME} Static Library Multiplatform Bundle at ${TARGET_DIR} \033[0m"
