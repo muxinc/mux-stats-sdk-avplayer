@@ -6,5 +6,8 @@
 // Configuration settings file format documentation can be found at:
 // https://help.apple.com/xcode/#/dev745c5c974
 //
+// The names of the xcconfig files correspond to the target
+// they are intended for, excluding the MUXSDKStatsBase
+// which is where configs common to all targets are placed.
 
 #include "MUXSDKStatsBase.xcconfig"
