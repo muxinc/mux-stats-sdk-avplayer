@@ -34,6 +34,12 @@
 		1915A2102CC064B80094AA27 /* MUXSDKStats.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1915A20F2CC064B80094AA27 /* MUXSDKStats.xcconfig */; };
 		1915A2112CC064B80094AA27 /* MUXSDKStats.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1915A20F2CC064B80094AA27 /* MUXSDKStats.xcconfig */; };
 		1915A2122CC064B80094AA27 /* MUXSDKStats.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1915A20F2CC064B80094AA27 /* MUXSDKStats.xcconfig */; };
+		1915A2262CC1C3E70094AA27 /* MUXSDKStatsBase.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1915A2252CC1C3E70094AA27 /* MUXSDKStatsBase.xcconfig */; };
+		1915A2272CC1C3E70094AA27 /* MUXSDKStatsBase.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1915A2252CC1C3E70094AA27 /* MUXSDKStatsBase.xcconfig */; };
+		1915A2282CC1C3E70094AA27 /* MUXSDKStatsBase.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1915A2252CC1C3E70094AA27 /* MUXSDKStatsBase.xcconfig */; };
+		1915A22A2CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1915A2292CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig */; };
+		1915A22B2CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1915A2292CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig */; };
+		1915A22C2CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1915A2292CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig */; };
 		1917D7BC2AB97FBC009654E8 /* MUXSDKStatsTvTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1917D7BB2AB97FBC009654E8 /* MUXSDKStatsTvTests.m */; };
 		1917D7C32AB97FC5009654E8 /* MUXSDKStats.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F41E09041DDA8E530028A296 /* MUXSDKStats.framework */; };
 		195800E32B51BD43008BE2EB /* MUXSDKStatsVision.h in Headers */ = {isa = PBXBuildFile; fileRef = 195800E22B51BD43008BE2EB /* MUXSDKStatsVision.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -125,6 +131,9 @@
 		02EB9E2B23E896790007E1CD /* MUXSDKCustomerVideoDataStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MUXSDKCustomerVideoDataStore.h; sourceTree = "<group>"; };
 		02EB9E2C23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MUXSDKCustomerVideoDataStore.m; sourceTree = "<group>"; };
 		1915A20F2CC064B80094AA27 /* MUXSDKStats.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = MUXSDKStats.xcconfig; sourceTree = "<group>"; };
+		1915A2252CC1C3E70094AA27 /* MUXSDKStatsBase.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = MUXSDKStatsBase.xcconfig; sourceTree = "<group>"; };
+		1915A2292CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = MUXSDKStatsTv.xcconfig; sourceTree = "<group>"; };
+		1915A22D2CC1C43A0094AA27 /* MUXSDKStatsVision.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = MUXSDKStatsVision.xcconfig; sourceTree = "<group>"; };
 		1917D7B92AB97FBC009654E8 /* MUXSDKStatsTvTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MUXSDKStatsTvTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1917D7BB2AB97FBC009654E8 /* MUXSDKStatsTvTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MUXSDKStatsTvTests.m; sourceTree = "<group>"; };
 		195800E02B51BD43008BE2EB /* MUXSDKStats.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MUXSDKStats.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -212,6 +221,17 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		1915A2242CC1C3C70094AA27 /* BuildConfiguration */ = {
+			isa = PBXGroup;
+			children = (
+				1915A20F2CC064B80094AA27 /* MUXSDKStats.xcconfig */,
+				1915A2252CC1C3E70094AA27 /* MUXSDKStatsBase.xcconfig */,
+				1915A2292CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig */,
+				1915A22D2CC1C43A0094AA27 /* MUXSDKStatsVision.xcconfig */,
+			);
+			path = BuildConfiguration;
+			sourceTree = "<group>";
+		};
 		1917D7BA2AB97FBC009654E8 /* MUXSDKStatsTvTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -258,6 +278,7 @@
 			isa = PBXGroup;
 			children = (
 				19F2B2562B68731000D5DEA6 /* MUXSDKStatsVision.xctestplan */,
+				1915A2242CC1C3C70094AA27 /* BuildConfiguration */,
 				F4DCACFF1DCA892E0094D94C /* MUXSDKStats */,
 				F4DCAD0A1DCA892E0094D94C /* MUXSDKStatsTests */,
 				F41E09051DDA8E530028A296 /* MUXSDKStatsTv */,
@@ -304,7 +325,6 @@
 				02D28F2F26D0972200D152EF /* MUXSDKCustomerCustomDataStore.h */,
 				02D28F3026D0972200D152EF /* MUXSDKCustomerCustomDataStore.m */,
 				19CC56302BC895CC00464AFA /* PrivacyInfo.xcprivacy */,
-				1915A20F2CC064B80094AA27 /* MUXSDKStats.xcconfig */,
 			);
 			path = MUXSDKStats;
 			sourceTree = "<group>";
@@ -564,6 +584,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1915A2122CC064B80094AA27 /* MUXSDKStats.xcconfig in Resources */,
+				1915A2272CC1C3E70094AA27 /* MUXSDKStatsBase.xcconfig in Resources */,
+				1915A22B2CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig in Resources */,
 				19DB618B2BD1E0210048424F /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -580,6 +602,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1915A2112CC064B80094AA27 /* MUXSDKStats.xcconfig in Resources */,
+				1915A2262CC1C3E70094AA27 /* MUXSDKStatsBase.xcconfig in Resources */,
+				1915A22A2CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig in Resources */,
 				19DB618A2BD1E0200048424F /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -589,6 +613,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1915A2102CC064B80094AA27 /* MUXSDKStats.xcconfig in Resources */,
+				1915A2282CC1C3E70094AA27 /* MUXSDKStatsBase.xcconfig in Resources */,
+				1915A22C2CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig in Resources */,
 				19DB61892BD1E01F0048424F /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -755,7 +781,7 @@
 		};
 		195800E42B51BD43008BE2EB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1915A20F2CC064B80094AA27 /* MUXSDKStats.xcconfig */;
+			baseConfigurationReference = 1915A22D2CC1C43A0094AA27 /* MUXSDKStatsVision.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -776,6 +802,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Mux, Inc. All rights reserved.";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -800,7 +827,7 @@
 		};
 		195800E52B51BD43008BE2EB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1915A20F2CC064B80094AA27 /* MUXSDKStats.xcconfig */;
+			baseConfigurationReference = 1915A22D2CC1C43A0094AA27 /* MUXSDKStatsVision.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -824,6 +851,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Mux, Inc. All rights reserved.";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -905,7 +933,7 @@
 		};
 		F41E09091DDA8E530028A296 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1915A20F2CC064B80094AA27 /* MUXSDKStats.xcconfig */;
+			baseConfigurationReference = 1915A2292CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
@@ -939,7 +967,7 @@
 		};
 		F41E090A1DDA8E530028A296 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1915A20F2CC064B80094AA27 /* MUXSDKStats.xcconfig */;
+			baseConfigurationReference = 1915A2292CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Distribution: Mux, Inc (XX95P4Y787)";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "Apple Distribution: Mux, Inc (XX95P4Y787)";
@@ -1021,7 +1049,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -1041,7 +1068,6 @@
 				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TVOS_DEPLOYMENT_TARGET = 11.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1092,7 +1118,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1111,7 +1136,6 @@
 				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TVOS_DEPLOYMENT_TARGET = 11.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
