@@ -12,6 +12,7 @@ steps:
   - wait
   - command: "buildkite-agent artifact download XCFramework/MUXSDKStats.xcframework.zip XCFramework && ./scripts/run-tests-swift-package-manager-ventura.sh"
     label: ":swift: Test Swift Package Manager Example"
+    branches: "releases/*"
     retry:
       automatic: true
   - wait
@@ -22,6 +23,7 @@ steps:
   - wait
   - command: "buildkite-agent artifact download XCFramework/MUXSDKStats.xcframework.zip XCFramework && ./scripts/run-tests-cocoapods-ventura.sh"
     label: ":cocoapods: Test Cocoapods Example"
+    branches: "releases/*"
     retry:
       automatic: true
   - wait
