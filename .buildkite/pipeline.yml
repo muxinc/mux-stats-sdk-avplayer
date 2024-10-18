@@ -5,6 +5,10 @@ steps:
   - command: "./scripts/run-baseline-unit-test-pass.sh"
     label: ":xcode_simulator: Baseline Unit Test Pass"
   - wait
+  - command: "./scripts/version-check.sh Mux-Stats-AVPlayer.podspec MUXSDKStats.json"
+    label: ":clipboard: Validate Version Metadata"
+    branches: "releases/*"
+  - wait
   - command: ".buildkite/scripts/dynamic-xcframework.sh"
     label: ":xcode: Create Dynamic XCFramework"
     artifact_paths:
@@ -27,9 +31,6 @@ steps:
     retry:
       automatic: true
   - wait
-  - command: "./scripts/version-check.sh Mux-Stats-AVPlayer.podspec MUXSDKStats.json"
-    label: ":clipboard: Validate Version Metadata"
-    branches: "releases/*"
   - command: "./scripts/validate-podspec.sh"
     label: ":cocoapods: Validate Podspec"
     branches: "releases/*"
