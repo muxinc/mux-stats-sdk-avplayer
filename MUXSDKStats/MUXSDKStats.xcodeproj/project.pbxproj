@@ -31,15 +31,6 @@
 		02EB9E2E23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EB9E2C23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m */; };
 		02EB9E2F23E896A90007E1CD /* MUXSDKCustomerVideoDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 02EB9E2B23E896790007E1CD /* MUXSDKCustomerVideoDataStore.h */; };
 		02EB9E3023E896F20007E1CD /* MUXSDKCustomerVideoDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 02EB9E2C23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m */; };
-		1915A2102CC064B80094AA27 /* MUXSDKStats.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1915A20F2CC064B80094AA27 /* MUXSDKStats.xcconfig */; };
-		1915A2112CC064B80094AA27 /* MUXSDKStats.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1915A20F2CC064B80094AA27 /* MUXSDKStats.xcconfig */; };
-		1915A2122CC064B80094AA27 /* MUXSDKStats.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1915A20F2CC064B80094AA27 /* MUXSDKStats.xcconfig */; };
-		1915A2262CC1C3E70094AA27 /* MUXSDKStatsBase.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1915A2252CC1C3E70094AA27 /* MUXSDKStatsBase.xcconfig */; };
-		1915A2272CC1C3E70094AA27 /* MUXSDKStatsBase.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1915A2252CC1C3E70094AA27 /* MUXSDKStatsBase.xcconfig */; };
-		1915A2282CC1C3E70094AA27 /* MUXSDKStatsBase.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1915A2252CC1C3E70094AA27 /* MUXSDKStatsBase.xcconfig */; };
-		1915A22A2CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1915A2292CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig */; };
-		1915A22B2CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1915A2292CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig */; };
-		1915A22C2CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 1915A2292CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig */; };
 		1917D7BC2AB97FBC009654E8 /* MUXSDKStatsTvTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1917D7BB2AB97FBC009654E8 /* MUXSDKStatsTvTests.m */; };
 		1917D7C32AB97FC5009654E8 /* MUXSDKStats.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F41E09041DDA8E530028A296 /* MUXSDKStats.framework */; };
 		195800E32B51BD43008BE2EB /* MUXSDKStatsVision.h in Headers */ = {isa = PBXBuildFile; fileRef = 195800E22B51BD43008BE2EB /* MUXSDKStatsVision.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -583,9 +574,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1915A2122CC064B80094AA27 /* MUXSDKStats.xcconfig in Resources */,
-				1915A2272CC1C3E70094AA27 /* MUXSDKStatsBase.xcconfig in Resources */,
-				1915A22B2CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig in Resources */,
 				19DB618B2BD1E0210048424F /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -601,9 +589,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1915A2112CC064B80094AA27 /* MUXSDKStats.xcconfig in Resources */,
-				1915A2262CC1C3E70094AA27 /* MUXSDKStatsBase.xcconfig in Resources */,
-				1915A22A2CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig in Resources */,
 				19DB618A2BD1E0200048424F /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -612,9 +597,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1915A2102CC064B80094AA27 /* MUXSDKStats.xcconfig in Resources */,
-				1915A2282CC1C3E70094AA27 /* MUXSDKStatsBase.xcconfig in Resources */,
-				1915A22C2CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig in Resources */,
 				19DB61892BD1E01F0048424F /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
