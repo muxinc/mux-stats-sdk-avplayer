@@ -6,9 +6,9 @@
 	<array>
 		<dict>
 			<key>BinaryPath</key>
-			<string>MUXSDKStats.framework/Versions/A/MUXSDKStats</string>
+			<string>MUXSDKStats.framework/MUXSDKStats</string>
 			<key>LibraryIdentifier</key>
-			<string>ios-arm64_x86_64-maccatalyst</string>
+			<string>xros-arm64_x86_64-simulator</string>
 			<key>LibraryPath</key>
 			<string>MUXSDKStats.framework</string>
 			<key>SupportedArchitectures</key>
@@ -17,9 +17,23 @@
 				<string>x86_64</string>
 			</array>
 			<key>SupportedPlatform</key>
-			<string>ios</string>
+			<string>xros</string>
 			<key>SupportedPlatformVariant</key>
-			<string>maccatalyst</string>
+			<string>simulator</string>
+		</dict>
+		<dict>
+			<key>BinaryPath</key>
+			<string>MUXSDKStats.framework/MUXSDKStats</string>
+			<key>LibraryIdentifier</key>
+			<string>ios-arm64</string>
+			<key>LibraryPath</key>
+			<string>MUXSDKStats.framework</string>
+			<key>SupportedArchitectures</key>
+			<array>
+				<string>arm64</string>
+			</array>
+			<key>SupportedPlatform</key>
+			<string>ios</string>
 		</dict>
 		<dict>
 			<key>BinaryPath</key>
@@ -39,18 +53,15 @@
 			<key>BinaryPath</key>
 			<string>MUXSDKStats.framework/MUXSDKStats</string>
 			<key>LibraryIdentifier</key>
-			<string>tvos-arm64_x86_64-simulator</string>
+			<string>xros-arm64</string>
 			<key>LibraryPath</key>
 			<string>MUXSDKStats.framework</string>
 			<key>SupportedArchitectures</key>
 			<array>
 				<string>arm64</string>
-				<string>x86_64</string>
 			</array>
 			<key>SupportedPlatform</key>
-			<string>tvos</string>
-			<key>SupportedPlatformVariant</key>
-			<string>simulator</string>
+			<string>xros</string>
 		</dict>
 		<dict>
 			<key>BinaryPath</key>
@@ -71,9 +82,9 @@
 		</dict>
 		<dict>
 			<key>BinaryPath</key>
-			<string>MUXSDKStats.framework/MUXSDKStats</string>
+			<string>MUXSDKStats.framework/Versions/A/MUXSDKStats</string>
 			<key>LibraryIdentifier</key>
-			<string>xros-arm64_x86_64-simulator</string>
+			<string>ios-arm64_x86_64-maccatalyst</string>
 			<key>LibraryPath</key>
 			<string>MUXSDKStats.framework</string>
 			<key>SupportedArchitectures</key>
@@ -82,37 +93,26 @@
 				<string>x86_64</string>
 			</array>
 			<key>SupportedPlatform</key>
-			<string>xros</string>
+			<string>ios</string>
+			<key>SupportedPlatformVariant</key>
+			<string>maccatalyst</string>
+		</dict>
+		<dict>
+			<key>BinaryPath</key>
+			<string>MUXSDKStats.framework/MUXSDKStats</string>
+			<key>LibraryIdentifier</key>
+			<string>tvos-arm64_x86_64-simulator</string>
+			<key>LibraryPath</key>
+			<string>MUXSDKStats.framework</string>
+			<key>SupportedArchitectures</key>
+			<array>
+				<string>arm64</string>
+				<string>x86_64</string>
+			</array>
+			<key>SupportedPlatform</key>
+			<string>tvos</string>
 			<key>SupportedPlatformVariant</key>
 			<string>simulator</string>
-		</dict>
-		<dict>
-			<key>BinaryPath</key>
-			<string>MUXSDKStats.framework/MUXSDKStats</string>
-			<key>LibraryIdentifier</key>
-			<string>xros-arm64</string>
-			<key>LibraryPath</key>
-			<string>MUXSDKStats.framework</string>
-			<key>SupportedArchitectures</key>
-			<array>
-				<string>arm64</string>
-			</array>
-			<key>SupportedPlatform</key>
-			<string>xros</string>
-		</dict>
-		<dict>
-			<key>BinaryPath</key>
-			<string>MUXSDKStats.framework/MUXSDKStats</string>
-			<key>LibraryIdentifier</key>
-			<string>ios-arm64</string>
-			<key>LibraryPath</key>
-			<string>MUXSDKStats.framework</string>
-			<key>SupportedArchitectures</key>
-			<array>
-				<string>arm64</string>
-			</array>
-			<key>SupportedPlatform</key>
-			<string>ios</string>
 		</dict>
 	</array>
 	<key>CFBundlePackageType</key>

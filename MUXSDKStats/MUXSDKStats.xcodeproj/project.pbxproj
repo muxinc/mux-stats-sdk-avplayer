@@ -1298,7 +1298,7 @@
 			repositoryURL = "https://github.com/muxinc/stats-sdk-objc";
 			requirement = {
 				kind = exactVersion;
-				version = 5.1.0;
+				version = 5.1.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
