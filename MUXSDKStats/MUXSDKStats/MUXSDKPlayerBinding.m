@@ -129,10 +129,16 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
               forKeyPath:@"status"
                  options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
                  context:MUXSDKAVPlayerStatusObservationContext];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleDidPlayToEndTimeNotification:)
+                                                 name:AVPlayerItemDidPlayToEndTimeNotification
+                                               object:nil];
     [_player addObserver:self
               forKeyPath:@"currentItem"
                  options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
                  context:MUXSDKAVPlayerCurrentItemObservationContext];
+    
     [_player addObserver:self
               forKeyPath:@"timeControlStatus"
                  options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
@@ -184,6 +190,18 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             [MUXSDKCore dispatchGlobalDataEvent:dataEvent];
         }
     });
+}
+
+# prama mark AVPlayerItemDidPlayToEndTimeNotification
+
+- (void)handleDidPlayToEndTimeNotification:(NSNotification *)notification {
+    if ([notification.object isKindOfClass:[AVPlayerItem class]] && [notification.object isEqual:_playerItem]) {
+        MUXSDKEndedEvent *endedEvent = [[MUXSDKEndedEvent alloc] init];
+        MUXSDKPlayerData *playerData = [self getPlayerData];
+        endedEvent.playerData = playerData;
+        
+        [MUXSDKCore dispatchEvent:endedEvent forPlayer:_name];
+    }
 }
 
 # pragma mark AVPlayerItemAccessLog
@@ -314,6 +332,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 - (void)dealloc {
     [self detachAVPlayer];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemNewAccessLogEntryNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RenditionChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemNewErrorLogEntryNotification object:nil];
