@@ -196,6 +196,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [self stopMonitoringAVPlayerItem];
     
     [MUXSDKCore destroyPlayer:self.name];
+    
 }
 
 # pragma mark AVPlayerItemDidPlayToEndTimeNotification
