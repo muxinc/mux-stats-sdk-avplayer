@@ -107,6 +107,8 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 - (void)dispatchPause;
 - (void)dispatchTimeUpdateEvent:(CMTime)time;
 - (void)dispatchError;
+- (void)dispatchVideoChange;
+- (void)dispatchVideoChangeWithCustomerData:(nullable MUXSDKCustomerData *)customerData;
 - (void)dispatchViewEnd;
 - (void)dispatchOrientationChange:(MUXSDKViewOrientation) orientation;
 - (void)dispatchAdEvent:(MUXSDKPlaybackEvent *)event;

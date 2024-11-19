@@ -383,38 +383,52 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     }
 }
 
+// TODO: move doc to header
+/// Dispatches a video-change (ie `viewend` + `viewinit`) immediately.
+/// This method can be called at your discretion, with or without changing the AVPlayer's AVPlayerItem
+- (void)dispatchVideoChange {
+    // end the current view if it's not already been ended
+    if (_state != MUXSDKPlayerStateViewEnd) {
+        [self dispatchViewEnd];
+    }
+    
+    [self.playDispatchDelegate videoChangedForPlayer:_name];
+    // TODO: test that we have all the metadata we need on the subsequent view. On android we needed to catch up with the current state
+    // TODO: test that we are in the right overall player state
+
+    //
+    // Special case for AVQueuePlayer
+    // In a normal videoChange: world - the KVO for "rate" will fire - and
+    // subsequently after that this binding will dispatchPlay. In fact, any time
+    // an AVPlayer gets an item loaded into it the KVO for "rate" changes.
+    //
+    // However, in AVQueuePlayer world - the "rate" doesn't fire when the video is
+    // changed. I don't know why, but I guess that is the intended behavior. For that
+    // reason, if we're handling a videoChange event and we're dealing with AVQueuePlayer
+    // then we have to fire the play event here.
+    //
+    if (_shouldHandleAVQueuePlayerItem) {
+        _shouldHandleAVQueuePlayerItem = false;
+        [self dispatchPlay];
+    }
+}
+
 - (void)monitorAVPlayerItem {
-    if ((!_automaticVideoChange && !_didTriggerManualVideoChange) || _isAdPlaying) {
+    // The player item could be the the ad itself, and we only monitor content in the base AVPlayer SDK
+    if (_isAdPlaying /*|| _arePostRollAdsScheduled*/) {
         return;
     }
+    
+    // TODO: IMA has to disable automaticVideoChange and do it manually (for postrolls only)
+    if (_state != MUXSDKPlayerStateReady && (_automaticVideoChange || _didTriggerManualVideoChange)) {
+        [self dispatchVideoChange];
+    }
+    
     if (_playerItem) {
         if (_didTriggerManualVideoChange) {
             _didTriggerManualVideoChange = false;
         }
-//        NSLog(@"%s: Dispatching View End", __PRETTY_FUNCTION__);
-        [self dispatchViewEnd];
         [self stopMonitoringAVPlayerItem];
-        
-        if (_player.currentItem) {
-            NSLog(@"Player: %@ Current Item: %@", _player, _player.currentItem);
-            [self.playDispatchDelegate videoChangedForPlayer:_name];
-        }
-        
-        //
-        // Special case for AVQueuePlayer
-        // In a normal videoChange: world - the KVO for "rate" will fire - and
-        // subsequently after that this binding will dispatchPlay. In fact, any time
-        // an AVPlayer gets an item loaded into it the KVO for "rate" changes.
-        //
-        // However, in AVQueuePlayer world - the "rate" doesn't fire when the video is
-        // changed. I don't know why, but I guess that is the intended behavior. For that
-        // reason, if we're handling a videoChange event and we're dealing with AVQueuePlayer
-        // then we have to fire the play event here.
-        //
-        if (_shouldHandleAVQueuePlayerItem) {
-            _shouldHandleAVQueuePlayerItem = false;
-            [self dispatchPlay];
-        }
     }
     if (_player && _player.currentItem) {
         _playerItem = _player.currentItem;
@@ -470,10 +484,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [self safelyRemovePlayerItemObserverForKeyPath:@"status"];
     [self safelyRemovePlayerItemObserverForKeyPath:@"playbackBufferEmpty"];
     _playerItem = nil;
-    if (!_isAdPlaying) {
-//        NSLog(@"%s: MUXSDKCore destroyPlayer", __PRETTY_FUNCTION__);
-        [MUXSDKCore destroyPlayer: _name];
-    }
+}
+
+/// Cleans up our Core monitor. Call when we are detaching from an AVPlayer
+- (void)destroyPlayer {
+    [MUXSDKCore destroyPlayer: _name];
 }
 
 - (void) programChangedForPlayer {
@@ -757,7 +772,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (![self hasPlayer]) {
         return;
     }
+    // TODO: See if we need to send events to catch-up player state like on media3
+    // TODO: Test assumptions about resetVideoData
     [self resetVideoData];
+    
     MUXSDKPlayerData *playerData = [self getPlayerData];
     MUXSDKViewInitEvent *event = [[MUXSDKViewInitEvent alloc] init];
     [event setPlayerData:playerData];
@@ -1215,6 +1233,8 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)didTriggerManualVideoChange {
+    // we no longer need this method. videoChange can happen whenever it's needed now, not just when AVPlayerItem changes
+    //  It's in the public API tho, so TODO: Deprecate this
     _didTriggerManualVideoChange = true;
 }
 @end
