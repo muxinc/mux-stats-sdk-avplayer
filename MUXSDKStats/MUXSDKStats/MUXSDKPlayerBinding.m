@@ -192,7 +192,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     });
 }
 
-# prama mark AVPlayerItemDidPlayToEndTimeNotification
+# pragma mark AVPlayerItemDidPlayToEndTimeNotification
 
 - (void)handleDidPlayToEndTimeNotification:(NSNotification *)notification {
     if ([notification.object isKindOfClass:[AVPlayerItem class]] && [notification.object isEqual:_playerItem]) {
