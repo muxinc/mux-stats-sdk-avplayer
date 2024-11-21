@@ -403,6 +403,12 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)monitorAVPlayerItem {
+    // todo - if _playerItem && _isAdPlaying then we should still do the video change, but not until
+    //  later - after the ad break is over
+    // for verison 1 of this, don't change _playerItem either, so we can do all that's currently being
+    //  done as a single logic unit. SO: when the ad break is over (when _isAdPlaying is set to NO), we
+    //  can check to see if we have to call monitorPlayerItem again.
+    
     if ((!_automaticVideoChange && !_didTriggerManualVideoChange) || _isAdPlaying) {
         return;
     }
