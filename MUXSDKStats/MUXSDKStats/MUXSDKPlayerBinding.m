@@ -171,7 +171,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 // Check that the item in the notification matches the item that we are monitoring
 // This matters when there are multiple AVPlayer instances running simultaneously
 //
-- (BOOL) checkIfNotificationIsRelevant:(NSNotification *)notif {
+- (BOOL) isNotificationAboutCurrentPlayerItem:(NSNotification *)notif {
     return notif.object == _playerItem;
 }
 
@@ -191,7 +191,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 # pragma mark AVPlayerItemDidPlayToEndTimeNotification
 
 - (void)handleDidPlayToEndTimeNotification:(NSNotification *)notification {
-    if ([self checkIfNotificationIsRelevant:notification]) {
+    if ([self isNotificationAboutCurrentPlayerItem:notification]) {
         MUXSDKEndedEvent *endedEvent = [[MUXSDKEndedEvent alloc] init];
         MUXSDKPlayerData *playerData = [self getPlayerData];
         endedEvent.playerData = playerData;
@@ -203,7 +203,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 - (void)handleAVPlayerAccess:(NSNotification *)notif {
     dispatch_async(dispatch_get_main_queue(), ^{
-        BOOL isNotificationRelevant = [self checkIfNotificationIsRelevant:notif];
+        BOOL isNotificationRelevant = [self isNotificationAboutCurrentPlayerItem:notif];
         if (isNotificationRelevant) {
             AVPlayerItemAccessLog *accessLog = [((AVPlayerItem *)notif.object) accessLog];
             [self handleRenditionChangeInAccessLog:accessLog];
@@ -301,7 +301,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 # pragma mark AVPlayerItemErrorLog
 
 - (void)handleAVPlayerError:(NSNotification *)notif {
-    BOOL isNotificationRelevant = [self checkIfNotificationIsRelevant:notif];
+    BOOL isNotificationRelevant = [self isNotificationAboutCurrentPlayerItem:notif];
     if (isNotificationRelevant) {
         AVPlayerItemErrorLog *log = [((AVPlayerItem *)notif.object) errorLog];
         if (log != nil && log.events.count > 0) {
