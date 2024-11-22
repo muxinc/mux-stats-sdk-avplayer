@@ -121,6 +121,10 @@
 		02EB9E2623E894E70007E1CD /* MUXSDKCustomerPlayerDataStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MUXSDKCustomerPlayerDataStore.m; sourceTree = "<group>"; };
 		02EB9E2B23E896790007E1CD /* MUXSDKCustomerVideoDataStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MUXSDKCustomerVideoDataStore.h; sourceTree = "<group>"; };
 		02EB9E2C23E896790007E1CD /* MUXSDKCustomerVideoDataStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MUXSDKCustomerVideoDataStore.m; sourceTree = "<group>"; };
+		1915A20F2CC064B80094AA27 /* MUXSDKStats.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = MUXSDKStats.xcconfig; sourceTree = "<group>"; };
+		1915A2252CC1C3E70094AA27 /* MUXSDKStatsBase.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = MUXSDKStatsBase.xcconfig; sourceTree = "<group>"; };
+		1915A2292CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = MUXSDKStatsTv.xcconfig; sourceTree = "<group>"; };
+		1915A22D2CC1C43A0094AA27 /* MUXSDKStatsVision.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = MUXSDKStatsVision.xcconfig; sourceTree = "<group>"; };
 		1917D7B92AB97FBC009654E8 /* MUXSDKStatsTvTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MUXSDKStatsTvTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1917D7BB2AB97FBC009654E8 /* MUXSDKStatsTvTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MUXSDKStatsTvTests.m; sourceTree = "<group>"; };
 		195800E02B51BD43008BE2EB /* MUXSDKStats.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MUXSDKStats.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -208,6 +212,17 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		1915A2242CC1C3C70094AA27 /* BuildConfiguration */ = {
+			isa = PBXGroup;
+			children = (
+				1915A20F2CC064B80094AA27 /* MUXSDKStats.xcconfig */,
+				1915A2252CC1C3E70094AA27 /* MUXSDKStatsBase.xcconfig */,
+				1915A2292CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig */,
+				1915A22D2CC1C43A0094AA27 /* MUXSDKStatsVision.xcconfig */,
+			);
+			path = BuildConfiguration;
+			sourceTree = "<group>";
+		};
 		1917D7BA2AB97FBC009654E8 /* MUXSDKStatsTvTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -254,6 +269,7 @@
 			isa = PBXGroup;
 			children = (
 				19F2B2562B68731000D5DEA6 /* MUXSDKStatsVision.xctestplan */,
+				1915A2242CC1C3C70094AA27 /* BuildConfiguration */,
 				F4DCACFF1DCA892E0094D94C /* MUXSDKStats */,
 				F4DCAD0A1DCA892E0094D94C /* MUXSDKStatsTests */,
 				F41E09051DDA8E530028A296 /* MUXSDKStatsTv */,
@@ -747,6 +763,7 @@
 		};
 		195800E42B51BD43008BE2EB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1915A22D2CC1C43A0094AA27 /* MUXSDKStatsVision.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -767,13 +784,13 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Mux, Inc. All rights reserved.";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 4.1.0;
 				MODULEMAP_FILE = "$(SRCROOT)/MUXSDKStatsVision/module.modulemap";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
@@ -792,6 +809,7 @@
 		};
 		195800E52B51BD43008BE2EB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1915A22D2CC1C43A0094AA27 /* MUXSDKStatsVision.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -815,13 +833,13 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2024 Mux, Inc. All rights reserved.";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 4.1.0;
 				MODULEMAP_FILE = "$(SRCROOT)/MUXSDKStatsVision/module.modulemap";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
@@ -897,6 +915,7 @@
 		};
 		F41E09091DDA8E530028A296 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1915A2292CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
@@ -917,7 +936,6 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.1.0;
 				MODULEMAP_FILE = "$(SRCROOT)/MUXSDKStatsTv/module.modulemap";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.tvos.MUXSDKStatsTv;
@@ -931,6 +949,7 @@
 		};
 		F41E090A1DDA8E530028A296 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1915A2292CC1C4240094AA27 /* MUXSDKStatsTv.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Distribution: Mux, Inc (XX95P4Y787)";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "Apple Distribution: Mux, Inc (XX95P4Y787)";
@@ -951,7 +970,6 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.1.0;
 				MODULEMAP_FILE = "$(SRCROOT)/MUXSDKStatsTv/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.tvos.MUXSDKStatsTv;
 				PRODUCT_NAME = MUXSDKStats;
@@ -1013,7 +1031,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -1033,7 +1050,6 @@
 				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TVOS_DEPLOYMENT_TARGET = 11.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1084,7 +1100,6 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1103,7 +1118,6 @@
 				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TVOS_DEPLOYMENT_TARGET = 11.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1112,6 +1126,7 @@
 		};
 		F4DCAD121DCA892E0094D94C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1915A20F2CC064B80094AA27 /* MUXSDKStats.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1134,7 +1149,6 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.1.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.ios.MUXSDKStats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1145,6 +1159,7 @@
 		};
 		F4DCAD131DCA892E0094D94C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1915A20F2CC064B80094AA27 /* MUXSDKStats.xcconfig */;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_IDENTITY = "Apple Distribution: Mux, Inc (XX95P4Y787)";
@@ -1168,7 +1183,6 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.1.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.ios.MUXSDKStats;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1284,7 +1298,7 @@
 			repositoryURL = "https://github.com/muxinc/stats-sdk-objc";
 			requirement = {
 				kind = exactVersion;
-				version = 5.1.0;
+				version = 5.1.2;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
