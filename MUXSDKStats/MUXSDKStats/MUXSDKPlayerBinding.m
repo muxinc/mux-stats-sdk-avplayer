@@ -175,8 +175,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 // This matters when there are multiple AVPlayer instances running simultaneously
 //
 - (BOOL) checkIfNotificationIsRelevant:(NSNotification *)notif {
-    AVPlayerItem *notificationItem = (AVPlayerItem *)notif.object;
-    return notificationItem == _playerItem;
+    return notif.object == _playerItem;
 }
 
 - (void)handleConnectionTypeDetected:(NSNotification *)notif {
@@ -195,11 +194,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 # pragma mark AVPlayerItemDidPlayToEndTimeNotification
 
 - (void)handleDidPlayToEndTimeNotification:(NSNotification *)notification {
-    if ([notification.object isKindOfClass:[AVPlayerItem class]] && [notification.object isEqual:_playerItem]) {
+    if ([self checkIfNotificationIsRelevant:notification]) {
         MUXSDKEndedEvent *endedEvent = [[MUXSDKEndedEvent alloc] init];
         MUXSDKPlayerData *playerData = [self getPlayerData];
         endedEvent.playerData = playerData;
-        
         [MUXSDKCore dispatchEvent:endedEvent forPlayer:_name];
     }
 }
