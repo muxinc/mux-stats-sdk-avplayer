@@ -196,7 +196,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [self stopMonitoringAVPlayerItem];
     
     [MUXSDKCore destroyPlayer:self.name];
-    
 }
 
 # pragma mark AVPlayerItemDidPlayToEndTimeNotification
@@ -208,13 +207,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         endedEvent.playerData = playerData;
         [MUXSDKCore dispatchEvent:endedEvent forPlayer:_name];
     }
-}
-
-- (void)handleApplicationWillTerminate:(NSNotification *)notification {
-    [self dispatchViewEnd];
-    [self stopMonitoringAVPlayerItem];
-
-    [MUXSDKCore destroyPlayer:self.name];
 }
 
 # pragma mark AVPlayerItemAccessLog
@@ -350,6 +342,8 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RenditionChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemNewErrorLogEntryNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"com.mux.connection-type-detected" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
 }
 
 - (void) safelyRemoveTimeObserverForPlayer {
@@ -399,7 +393,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)detachAVPlayer {
-//    NSLog(@"%s: Detaching AVPlayer", __PRETTY_FUNCTION__);
     if (_playerItem) {
         [self stopMonitoringAVPlayerItem];
     }
