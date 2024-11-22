@@ -130,10 +130,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
                  options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
                  context:MUXSDKAVPlayerStatusObservationContext];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleDidPlayToEndTimeNotification:)
-                                                 name:AVPlayerItemDidPlayToEndTimeNotification
-                                               object:nil];
     [_player addObserver:self
               forKeyPath:@"currentItem"
                  options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
@@ -144,6 +140,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
                  options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
                  context:MUXSDKAVPlayerTimeControlStatusObservationContext];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDidPlayToEndTimeNotification:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAVPlayerAccess:) name:AVPlayerItemNewAccessLogEntryNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRenditionChange:) name:RenditionChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAVPlayerError:) name:AVPlayerItemNewErrorLogEntryNotification object:nil];
