@@ -210,13 +210,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     }
 }
 
-- (void)handleApplicationWillTerminate:(NSNotification *)notification {
-    [self dispatchViewEnd];
-    [self stopMonitoringAVPlayerItem];
-
-    [MUXSDKCore destroyPlayer:self.name];
-}
-
 # pragma mark AVPlayerItemAccessLog
 
 - (void)handleAVPlayerAccess:(NSNotification *)notif {
