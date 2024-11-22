@@ -409,6 +409,37 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     //  done as a single logic unit. SO: when the ad break is over (when _isAdPlaying is set to NO), we
     //  can check to see if we have to call monitorPlayerItem again.
     
+    // todo - oh wait dang that won't work because _isAdPlaying will be NO when the item changes, since
+    //  the postroll won't start until after the item ends and app calls the IMA SDK
+    // really the thing we need to is tell the player binding ahead of time that we have a postroll, even tho
+    //  that means adding some more stuff to the AVPlayer SDK. Just something like _postrollAdIsScheduled I guess
+    //  .. and if that's true here we'd skip all of this until after we got something like All Ads Completed
+    if (_automaticVideoChange && _isAdPlaying) {
+        
+        
+        return;
+    }
+    
+    
+    // So what do we keep here? Anything related to monitoring the player item needs to be left here
+    //  I think maybe this means content will load during the postroll, but those events will have to
+    //  stay on this view for simplicity
+    
+    // So keeping
+    //  stopMonitoringAVPlayerItem
+    //  checks for didTriggerManualVideoChange
+    //  observing messages from the new player item (playback events should be filtered while in ads)
+    
+    
+    // Moving
+    //  dispatchViewEnd
+    //  if (_player.currentItem) then `videoChangedForPlayer`
+    //  dispatch Play on _shouldHandleAVQueuePlayerItem: Only if not about to play ads
+    //      Move this because we want to do it when app intends to play the next item, which for
+    //      the postroll case would be when we change video (or for any case, it is only on manual video change)
+    //      the logic might wind up more like catching-up play state
+    //  dispatchSessionData
+    
     if ((!_automaticVideoChange && !_didTriggerManualVideoChange) || _isAdPlaying) {
         return;
     }
@@ -497,6 +528,8 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     _playerItem = nil;
     if (!_isAdPlaying) {
 //        NSLog(@"%s: MUXSDKCore destroyPlayer", __PRETTY_FUNCTION__);
+        // TODO: - we only want to do the destroyPlayer if we are stopping monitoring becuase the user is done with us
+        // TODO: If we are stopping monitoring becuase the AVPlayerItem was changed then don't destroy the player, instead maybe do video change
         [MUXSDKCore destroyPlayer: _name];
     }
 }
