@@ -7,11 +7,12 @@ then
     exit 1
 fi
 
-if [[ $(git branch --show-current | sed -E 's/.*v([0-9]+\.[0-9]+\.[0-9]+).*/\1/') == $(git branch --show-current) ]]; then
+if [[ $(git branch --show-current | sed -E 's/.*releases\/v([0-9]+\.[0-9]+\.[0-9]+).*/releases\/v\1/') == $(git branch --show-current) ]]; then
     readonly RELEASE_VERSION="4.2.0"
     echo "▸ Not on a release branch. Falling back to hardcoded release version: $RELEASE_VERSION"
 else
     readonly RELEASE_VERSION=$(git branch --show-current | sed -E 's/.*v([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
+    echo "▸ On a release branch. Inferring release version from branch name: $RELEASE_VERSION"
 fi
 
 readonly BUILD_DIR=$PWD/MUXSDKStats/xc
