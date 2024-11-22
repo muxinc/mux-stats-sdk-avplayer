@@ -20,12 +20,12 @@ class AVQueuePlayerExampleViewController: MultiplePlayerItemPlaybackExampleViewC
         playerItems = [
             AVPlayerItem(
                 url: URL(
-                    string: "https://stream.mux.com/qIy2uu9BfvomNnH02hFPysxeXvL6FkFXs63wTqnEiaYs.m3u8"
+                    string: "https://stream.mux.com/00ezSo01tK00mfbBKDLUtKnwVsUKF2y5cjBMvJwBh5Z0202g.m3u8"
                 )!
             ),
             AVPlayerItem(
                 url: URL(
-                    string: "https://stream.mux.com/7Tqs5u3MoQhGOk7XoyT81bjoPFFkOPQIH32Pt4XDbyQ.m3u8"
+                    string: "https://stream.mux.com/u02xH9SB1ZZNNjPiQp4l6mhzBKJ101uExYx4LU02J5Xm88.m3u8"
                 )!
             )
         ]
@@ -118,7 +118,7 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
 
         let customerData = MUXSDKCustomerData(
             customerPlayerData: playerData,
-            videoData: nil,
+            videoData: videoData,
             viewData: nil
         )
 
