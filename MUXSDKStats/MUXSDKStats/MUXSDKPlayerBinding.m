@@ -145,11 +145,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRenditionChange:) name:RenditionChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAVPlayerError:) name:AVPlayerItemNewErrorLogEntryNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleConnectionTypeDetected:) name:@"com.mux.connection-type-detected" object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleApplicationWillTerminate:)
-                                                 name:UIApplicationWillTerminateNotification
-                                               object:nil];
+    
     //
     // dylanjhaveri
     // See MUXSDKConnection.m for the tvos shortcoming
@@ -208,13 +204,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         endedEvent.playerData = playerData;
         [MUXSDKCore dispatchEvent:endedEvent forPlayer:_name];
     }
-}
-
-- (void)handleApplicationWillTerminate:(NSNotification *)notification {
-    [self dispatchViewEnd];
-    [self stopMonitoringAVPlayerItem];
-
-    [MUXSDKCore destroyPlayer:self.name];
 }
 
 # pragma mark AVPlayerItemAccessLog
@@ -423,7 +412,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         if (_didTriggerManualVideoChange) {
             _didTriggerManualVideoChange = false;
         }
-        
+//        NSLog(@"%s: Dispatching View End", __PRETTY_FUNCTION__);
         [self dispatchViewEnd];
         [self stopMonitoringAVPlayerItem];
         
@@ -503,6 +492,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [self safelyRemovePlayerItemObserverForKeyPath:@"playbackBufferEmpty"];
     _playerItem = nil;
     if (!_isAdPlaying) {
+//        NSLog(@"%s: MUXSDKCore destroyPlayer", __PRETTY_FUNCTION__);
         [MUXSDKCore destroyPlayer: _name];
     }
 }
