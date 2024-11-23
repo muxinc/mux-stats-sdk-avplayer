@@ -14,7 +14,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"4.1.2";
+NSString *const MUXSDKPluginVersion = @"4.2.0";
 NSString *const MUXSessionDataPrefix = @"io.litix.data.";
 
 // Min number of seconds between timeupdate events. (100ms)
@@ -129,15 +129,18 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
               forKeyPath:@"status"
                  options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
                  context:MUXSDKAVPlayerStatusObservationContext];
+    
     [_player addObserver:self
               forKeyPath:@"currentItem"
                  options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
                  context:MUXSDKAVPlayerCurrentItemObservationContext];
+    
     [_player addObserver:self
               forKeyPath:@"timeControlStatus"
                  options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
                  context:MUXSDKAVPlayerTimeControlStatusObservationContext];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDidPlayToEndTimeNotification:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAVPlayerAccess:) name:AVPlayerItemNewAccessLogEntryNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRenditionChange:) name:RenditionChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAVPlayerError:) name:AVPlayerItemNewErrorLogEntryNotification object:nil];
@@ -168,9 +171,8 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 // Check that the item in the notification matches the item that we are monitoring
 // This matters when there are multiple AVPlayer instances running simultaneously
 //
-- (BOOL) checkIfNotificationIsRelevant:(NSNotification *)notif {
-    AVPlayerItem *notificationItem = (AVPlayerItem *)notif.object;
-    return notificationItem == _playerItem;
+- (BOOL) isNotificationAboutCurrentPlayerItem:(NSNotification *)notif {
+    return notif.object == _playerItem;
 }
 
 - (void)handleConnectionTypeDetected:(NSNotification *)notif {
@@ -185,12 +187,30 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         }
     });
 }
+- (void)handleApplicationWillTerminate:(NSNotification *)notification {
+    [self dispatchViewEnd];
+    [self stopMonitoringAVPlayerItem];
+    
+    [MUXSDKCore destroyPlayer:self.name];
+    
+}
+
+# pragma mark AVPlayerItemDidPlayToEndTimeNotification
+
+- (void)handleDidPlayToEndTimeNotification:(NSNotification *)notification {
+    if ([self isNotificationAboutCurrentPlayerItem:notification]) {
+        MUXSDKEndedEvent *endedEvent = [[MUXSDKEndedEvent alloc] init];
+        MUXSDKPlayerData *playerData = [self getPlayerData];
+        endedEvent.playerData = playerData;
+        [MUXSDKCore dispatchEvent:endedEvent forPlayer:_name];
+    }
+}
 
 # pragma mark AVPlayerItemAccessLog
 
 - (void)handleAVPlayerAccess:(NSNotification *)notif {
     dispatch_async(dispatch_get_main_queue(), ^{
-        BOOL isNotificationRelevant = [self checkIfNotificationIsRelevant:notif];
+        BOOL isNotificationRelevant = [self isNotificationAboutCurrentPlayerItem:notif];
         if (isNotificationRelevant) {
             AVPlayerItemAccessLog *accessLog = [((AVPlayerItem *)notif.object) accessLog];
             [self handleRenditionChangeInAccessLog:accessLog];
@@ -288,7 +308,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 # pragma mark AVPlayerItemErrorLog
 
 - (void)handleAVPlayerError:(NSNotification *)notif {
-    BOOL isNotificationRelevant = [self checkIfNotificationIsRelevant:notif];
+    BOOL isNotificationRelevant = [self isNotificationAboutCurrentPlayerItem:notif];
     if (isNotificationRelevant) {
         AVPlayerItemErrorLog *log = [((AVPlayerItem *)notif.object) errorLog];
         if (log != nil && log.events.count > 0) {
@@ -314,6 +334,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 - (void)dealloc {
     [self detachAVPlayer];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemNewAccessLogEntryNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RenditionChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemNewErrorLogEntryNotification object:nil];
@@ -367,7 +388,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)detachAVPlayer {
-//    NSLog(@"%s: Detaching AVPlayer", __PRETTY_FUNCTION__);
     if (_playerItem) {
         [self stopMonitoringAVPlayerItem];
     }
@@ -391,12 +411,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         if (_didTriggerManualVideoChange) {
             _didTriggerManualVideoChange = false;
         }
-//        NSLog(@"%s: Dispatching View End", __PRETTY_FUNCTION__);
         [self dispatchViewEnd];
         [self stopMonitoringAVPlayerItem];
         
         if (_player.currentItem) {
-            NSLog(@"Player: %@ Current Item: %@", _player, _player.currentItem);
             [self.playDispatchDelegate videoChangedForPlayer:_name];
         }
         
@@ -471,7 +489,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [self safelyRemovePlayerItemObserverForKeyPath:@"playbackBufferEmpty"];
     _playerItem = nil;
     if (!_isAdPlaying) {
-//        NSLog(@"%s: MUXSDKCore destroyPlayer", __PRETTY_FUNCTION__);
         [MUXSDKCore destroyPlayer: _name];
     }
 }
