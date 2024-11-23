@@ -145,11 +145,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRenditionChange:) name:RenditionChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAVPlayerError:) name:AVPlayerItemNewErrorLogEntryNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleConnectionTypeDetected:) name:@"com.mux.connection-type-detected" object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleApplicationWillTerminate:)
-                                                 name:UIApplicationWillTerminateNotification
-                                               object:nil];
+    
     //
     // dylanjhaveri
     // See MUXSDKConnection.m for the tvos shortcoming
@@ -196,6 +192,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [self stopMonitoringAVPlayerItem];
     
     [MUXSDKCore destroyPlayer:self.name];
+    
 }
 
 # pragma mark AVPlayerItemDidPlayToEndTimeNotification
@@ -342,8 +339,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RenditionChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemNewErrorLogEntryNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"com.mux.connection-type-detected" object:nil];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillTerminateNotification object:nil];
 }
 
 - (void) safelyRemoveTimeObserverForPlayer {
@@ -416,12 +411,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         if (_didTriggerManualVideoChange) {
             _didTriggerManualVideoChange = false;
         }
-        
         [self dispatchViewEnd];
         [self stopMonitoringAVPlayerItem];
         
         if (_player.currentItem) {
-            NSLog(@"Player: %@ Current Item: %@", _player, _player.currentItem);
             [self.playDispatchDelegate videoChangedForPlayer:_name];
         }
         
