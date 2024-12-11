@@ -402,75 +402,66 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     }
 }
 
-- (void)monitorAVPlayerItem {
-    // todo - if _playerItem && _isAdPlaying then we should still do the video change, but not until
-    //  later - after the ad break is over
-    // for verison 1 of this, don't change _playerItem either, so we can do all that's currently being
-    //  done as a single logic unit. SO: when the ad break is over (when _isAdPlaying is set to NO), we
-    //  can check to see if we have to call monitorPlayerItem again.
-    
-    // todo - oh wait dang that won't work because _isAdPlaying will be NO when the item changes, since
-    //  the postroll won't start until after the item ends and app calls the IMA SDK
-    // really the thing we need to is tell the player binding ahead of time that we have a postroll, even tho
-    //  that means adding some more stuff to the AVPlayer SDK. Just something like _postrollAdIsScheduled I guess
-    //  .. and if that's true here we'd skip all of this until after we got something like All Ads Completed
-    if (_automaticVideoChange && _isAdPlaying) {
-        
-        
-        return;
+// TODO: move doc to header
+/// Dispatches a video-change (ie `viewend` + `viewinit`) immediately.
+/// This method can be called at your discretion, with or without changing the AVPlayer's AVPlayerItem
+- (void)dispatchVideoChange {
+    [self dispatchViewEnd];
+    [self.playDispatchDelegate videoChangedForPlayer:_name];
+    // TODO: test that we have all the metadata we need on the subsequent view. On android we needed to catch up with the current state
+    // TODO: test that we are in the right overall player state
+
+    //
+    // Special case for AVQueuePlayer
+    // In a normal videoChange: world - the KVO for "rate" will fire - and
+    // subsequently after that this binding will dispatchPlay. In fact, any time
+    // an AVPlayer gets an item loaded into it the KVO for "rate" changes.
+    //
+    // However, in AVQueuePlayer world - the "rate" doesn't fire when the video is
+    // changed. I don't know why, but I guess that is the intended behavior. For that
+    // reason, if we're handling a videoChange event and we're dealing with AVQueuePlayer
+    // then we have to fire the play event here.
+    //
+    if (_shouldHandleAVQueuePlayerItem) {
+        _shouldHandleAVQueuePlayerItem = false;
+        [self dispatchPlay];
     }
-    
-    
-    // So what do we keep here? Anything related to monitoring the player item needs to be left here
-    //  I think maybe this means content will load during the postroll, but those events will have to
-    //  stay on this view for simplicity
-    
+}
+
+- (void)monitorAVPlayerItem {
     // So keeping
     //  stopMonitoringAVPlayerItem
-    //  checks for didTriggerManualVideoChange
+    //  checks for didTriggerManualVideoChange - must be honored if we reach this point by dispatching the video change (deprecate?)
     //  observing messages from the new player item (playback events should be filtered while in ads)
     
-    
     // Moving
-    //  dispatchViewEnd
+    //  dispatchViewEnd - but do we actually want to do that? video change does
     //  if (_player.currentItem) then `videoChangedForPlayer`
     //  dispatch Play on _shouldHandleAVQueuePlayerItem: Only if not about to play ads
-    //      Move this because we want to do it when app intends to play the next item, which for
-    //      the postroll case would be when we change video (or for any case, it is only on manual video change)
-    //      the logic might wind up more like catching-up play state
+    //      the logic might evolve to wind up more like catching-up play state
     //  dispatchSessionData
     
-    if ((!_automaticVideoChange && !_didTriggerManualVideoChange) || _isAdPlaying) {
+    // TODO: checking automaticVideoChange
+    //    if ((!_automaticVideoChange && !_didTriggerManualVideoChange) || _isAdPlaying /*|| _isPostrollScheduled*/) {
+    //        return;
+    //    }
+    
+    // If the PlayerItem changes during an ad, the PlayerItem may be the ad itself. We don't listen for ad playback events, so return
+    if (_isAdPlaying /*|| _arePostRollAdsScheduled*/) {
         return;
     }
+    
+    // TODO: !!! this tho !!!  isPostrollAdScheduled? nah. more generically _areAdsScheduled
+    // TODO: if we remove the above check (if (_isAdPlaying...)), check _isPostrollAdScheduled before changing the video
+    if (_automaticVideoChange || _didTriggerManualVideoChange) {
+        [self dispatchVideoChange];
+    }
+    
     if (_playerItem) {
-        if (_didTriggerManualVideoChange) {
-            _didTriggerManualVideoChange = false;
-        }
-//        NSLog(@"%s: Dispatching View End", __PRETTY_FUNCTION__);
-        [self dispatchViewEnd];
+//        if (_didTriggerManualVideoChange) {
+//            _didTriggerManualVideoChange = false;
+//        }
         [self stopMonitoringAVPlayerItem];
-        
-        if (_player.currentItem) {
-            NSLog(@"Player: %@ Current Item: %@", _player, _player.currentItem);
-            [self.playDispatchDelegate videoChangedForPlayer:_name];
-        }
-        
-        //
-        // Special case for AVQueuePlayer
-        // In a normal videoChange: world - the KVO for "rate" will fire - and
-        // subsequently after that this binding will dispatchPlay. In fact, any time
-        // an AVPlayer gets an item loaded into it the KVO for "rate" changes.
-        //
-        // However, in AVQueuePlayer world - the "rate" doesn't fire when the video is
-        // changed. I don't know why, but I guess that is the intended behavior. For that
-        // reason, if we're handling a videoChange event and we're dealing with AVQueuePlayer
-        // then we have to fire the play event here.
-        //
-        if (_shouldHandleAVQueuePlayerItem) {
-            _shouldHandleAVQueuePlayerItem = false;
-            [self dispatchPlay];
-        }
     }
     if (_player && _player.currentItem) {
         _playerItem = _player.currentItem;
@@ -526,12 +517,21 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [self safelyRemovePlayerItemObserverForKeyPath:@"status"];
     [self safelyRemovePlayerItemObserverForKeyPath:@"playbackBufferEmpty"];
     _playerItem = nil;
-    if (!_isAdPlaying) {
+    
+    
+    
+    // TODO: We should no longer care if an ad is playing here. Bailing during an ad should still clean up our alloc'd mem
+//    if (/*!_isAdPlaying*/alsoDestoryPlayer) {
 //        NSLog(@"%s: MUXSDKCore destroyPlayer", __PRETTY_FUNCTION__);
         // TODO: - we only want to do the destroyPlayer if we are stopping monitoring becuase the user is done with us
         // TODO: If we are stopping monitoring becuase the AVPlayerItem was changed then don't destroy the player, instead maybe do video change
-        [MUXSDKCore destroyPlayer: _name];
-    }
+//        [MUXSDKCore destroyPlayer: _name];
+//    }
+}
+
+/// Cleans up our Core monitor. Call when we are detaching from an AVPlayer
+- (void)destroyPlayer {
+    [MUXSDKCore destroyPlayer: _name];
 }
 
 - (void) programChangedForPlayer {
@@ -815,7 +815,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (![self hasPlayer]) {
         return;
     }
+    // TODO: Is this required or even desired? On Android (i think web too) we do some state-management stuff but not the same stuff as this. What we need to reset is platform-specific tho so maybe it's doing the right thing
+    // TODO: Test assumptions about resetVideoData
     [self resetVideoData];
+    
     MUXSDKPlayerData *playerData = [self getPlayerData];
     MUXSDKViewInitEvent *event = [[MUXSDKViewInitEvent alloc] init];
     [event setPlayerData:playerData];
@@ -1273,6 +1276,8 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)didTriggerManualVideoChange {
+    // we no longer need this method. videoChange can happen whenever it's needed now, not just when AVPlayerItem changes
+    //  It's in the public API tho, so TODO: Deprecate this
     _didTriggerManualVideoChange = true;
 }
 @end

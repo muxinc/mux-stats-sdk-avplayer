@@ -603,13 +603,15 @@ static MUXSDKCustomerViewerData *_customerViewerData;
     MUXSDKCustomerVideoData *videoData = [customerData customerVideoData];
     MUXSDKCustomData *customData = [customerData customData];
     
-    if (!(videoData || viewData || customData)) {
-        return;
-    }
+    
+    // We don't need to skip based on this. CustomerData is *not* required to be populated (no not even env key/property key)
+//    if (!(videoData || viewData || customData)) {
+//        return;
+//    }
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
     if (player) {
-        [player didTriggerManualVideoChange];
-        [player dispatchViewEnd];
+        [player dispatchVideoChange];
+        
         if (videoData) {
             [_customerVideoDataStore setVideoData:videoData forPlayerName:name];
         }
