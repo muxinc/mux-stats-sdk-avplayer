@@ -451,6 +451,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         return;
     }
     
+    // TODO: Just have the IMA SDK turn off automaticVideoChange, and don't suppress it?
     // TODO: !!! this tho !!!  isPostrollAdScheduled? nah. more generically _areAdsScheduled
     // TODO: if we remove the above check (if (_isAdPlaying...)), check _isPostrollAdScheduled before changing the video
     if (_automaticVideoChange || _didTriggerManualVideoChange) {
@@ -458,9 +459,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     }
     
     if (_playerItem) {
-//        if (_didTriggerManualVideoChange) {
-//            _didTriggerManualVideoChange = false;
-//        }
+        if (_didTriggerManualVideoChange) {
+            _didTriggerManualVideoChange = false;
+        }
         [self stopMonitoringAVPlayerItem];
     }
     if (_player && _player.currentItem) {
