@@ -1032,7 +1032,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)dispatchViewEnd {
-    NSLog(@">>>>>> DISPATCH VIEWEND");
     if (![self hasPlayer]) {
         return;
     }
