@@ -17,7 +17,7 @@ class AVQueuePlayerExampleViewController: MultiplePlayerItemPlaybackExampleViewC
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        playerItems = [
+        var playerItems: [AVPlayerItem] = [
             AVPlayerItem(
                 url: URL(
                     string: "https://stream.mux.com/qIy2uu9BfvomNnH02hFPysxeXvL6FkFXs63wTqnEiaYs.m3u8"
@@ -27,7 +27,22 @@ class AVQueuePlayerExampleViewController: MultiplePlayerItemPlaybackExampleViewC
                 url: URL(
                     string: "https://stream.mux.com/7Tqs5u3MoQhGOk7XoyT81bjoPFFkOPQIH32Pt4XDbyQ.m3u8"
                 )!
-            )
+            ),
+            AVPlayerItem(
+                url: URL(
+                    string: "https://stream.mux.com/O02XWwicmDZIo02hlioontZ00pkcPzHoUmXJ4W8f8lSY0000.m3u8"
+                )!
+            ),
+            AVPlayerItem(
+                url: URL(
+                    string: "https://stream.mux.com/KyU4B3aJB01jjk00EmZBkp9nRkeaZyTblN3EwmjhIqkcw.m3u8"
+                )!
+            ),
+            AVPlayerItem(
+                url: URL(
+                    string: "https://stream.mux.com/MNYGboUWoKTFMhq9Ado1ZJ1Gs7q02UMQsp4ZCa02YxhmQ.m3u8"
+                )!
+            ),
         ]
 
         let player = AVQueuePlayer(
@@ -75,7 +90,12 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
             url: URL(
                 string: "https://stream.mux.com/7Tqs5u3MoQhGOk7XoyT81bjoPFFkOPQIH32Pt4XDbyQ.m3u8"
             )!
-        )
+        ),
+        AVPlayerItem(
+            url: URL(
+                string: "https://stream.mux.com/O02XWwicmDZIo02hlioontZ00pkcPzHoUmXJ4W8f8lSY0000.m3u8"
+            )!
+        ),
     ]
 
     var playerName: String {
@@ -97,9 +117,12 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
             object: playerItems[0]
         )
 
-        let player = AVPlayer(
-            playerItem: playerItems[0]
+        let player = AVQueuePlayer(
+            items: playerItems
         )
+//        let player = AVPlayer(
+//            playerItem: playerItems[0]
+//        )
 
         playerViewController.player = player
     }
@@ -174,16 +197,16 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
     @objc func handlePlayerItemDidPlayToEnd(
         _ notification: Notification
     ) {
-        let videoData = MUXSDKCustomerVideoData()
-        videoData.videoTitle = "Second Test Video in Queue"
-        videoData.videoTitle = "SecondTestVideo"
-
-        let customerData = MUXSDKCustomerData()
-        customerData.customerVideoData = videoData
-
-        MUXSDKStats.videoChange(
-            forPlayer: playerName,
-            with: customerData
-        )
+//        let videoData = MUXSDKCustomerVideoData()
+//        videoData.videoTitle = "Second Test Video in Queue"
+//        videoData.videoTitle = "SecondTestVideo"
+//
+//        let customerData = MUXSDKCustomerData()
+//        customerData.customerVideoData = videoData
+//
+//        MUXSDKStats.videoChange(
+//            forPlayer: playerName,
+//            with: customerData
+//        )
     }
 }
