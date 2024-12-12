@@ -429,31 +429,12 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)monitorAVPlayerItem {
-    // So keeping
-    //  stopMonitoringAVPlayerItem
-    //  checks for didTriggerManualVideoChange - must be honored if we reach this point by dispatching the video change (deprecate?)
-    //  observing messages from the new player item (playback events should be filtered while in ads)
-    
-    // Moving
-    //  dispatchViewEnd - but do we actually want to do that? video change does
-    //  if (_player.currentItem) then `videoChangedForPlayer`
-    //  dispatch Play on _shouldHandleAVQueuePlayerItem: Only if not about to play ads
-    //      the logic might evolve to wind up more like catching-up play state
-    //  dispatchSessionData
-    
-    // TODO: checking automaticVideoChange
-    //    if ((!_automaticVideoChange && !_didTriggerManualVideoChange) || _isAdPlaying /*|| _isPostrollScheduled*/) {
-    //        return;
-    //    }
-    
-    // If the PlayerItem changes during an ad, the PlayerItem may be the ad itself. We don't listen for ad playback events, so return
+    // The player item could be the the ad itself, and we only monitor content in the base AVPlayer SDK
     if (_isAdPlaying /*|| _arePostRollAdsScheduled*/) {
         return;
     }
     
-    // TODO: Just have the IMA SDK turn off automaticVideoChange, and don't suppress it?
-    // TODO: !!! this tho !!!  isPostrollAdScheduled? nah. more generically _areAdsScheduled
-    // TODO: if we remove the above check (if (_isAdPlaying...)), check _isPostrollAdScheduled before changing the video
+    // TODO: IMA has to disable automaticVideoChange and do it manually (for postrolls only)
     if (_automaticVideoChange || _didTriggerManualVideoChange) {
         [self dispatchVideoChange];
     }
@@ -518,16 +499,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [self safelyRemovePlayerItemObserverForKeyPath:@"status"];
     [self safelyRemovePlayerItemObserverForKeyPath:@"playbackBufferEmpty"];
     _playerItem = nil;
-    
-    
-    
-    // TODO: We should no longer care if an ad is playing here. Bailing during an ad should still clean up our alloc'd mem
-//    if (/*!_isAdPlaying*/alsoDestoryPlayer) {
-//        NSLog(@"%s: MUXSDKCore destroyPlayer", __PRETTY_FUNCTION__);
-        // TODO: - we only want to do the destroyPlayer if we are stopping monitoring becuase the user is done with us
-        // TODO: If we are stopping monitoring becuase the AVPlayerItem was changed then don't destroy the player, instead maybe do video change
-//        [MUXSDKCore destroyPlayer: _name];
-//    }
 }
 
 /// Cleans up our Core monitor. Call when we are detaching from an AVPlayer
@@ -816,7 +787,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (![self hasPlayer]) {
         return;
     }
-    // TODO: Is this required or even desired? On Android (i think web too) we do some state-management stuff but not the same stuff as this. What we need to reset is platform-specific tho so maybe it's doing the right thing
+    // TODO: See if we need to send events to catch-up player state like on media3
     // TODO: Test assumptions about resetVideoData
     [self resetVideoData];
     
