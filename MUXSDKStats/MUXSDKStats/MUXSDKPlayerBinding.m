@@ -435,7 +435,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     }
     
     // TODO: IMA has to disable automaticVideoChange and do it manually (for postrolls only)
-    if (_automaticVideoChange || _didTriggerManualVideoChange) {
+    if (_state != MUXSDKPlayerStateReady && (_automaticVideoChange || _didTriggerManualVideoChange)) {
         [self dispatchVideoChange];
     }
     
@@ -1032,6 +1032,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)dispatchViewEnd {
+    NSLog(@">>>>>> DISPATCH VIEWEND");
     if (![self hasPlayer]) {
         return;
     }
