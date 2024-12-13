@@ -345,7 +345,6 @@ static NSString *Z = @"Z";
                                     
     ];
     [MUXSDKStats destroyPlayer:playName];
-    NSArray *arr = [MUXSDKCore capturedEventsForPlayer:playName];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomerViewData:@{@"xseid": @"bar"}];
 }
@@ -373,7 +372,6 @@ static NSString *Z = @"Z";
                                     MUXSDKPlaybackEventViewEndEventType,
     ];
     [MUXSDKStats destroyPlayer:playName];
-    NSArray *arr = [MUXSDKCore capturedEventsForPlayer:playName];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomerVideoData:@{@"vtt": @"56789"}];
 }
@@ -474,7 +472,6 @@ static NSString *Z = @"Z";
                                     MUXSDKPlaybackEventViewEndEventType,
     ];
     [MUXSDKStats destroyPlayer:playName];
-    NSArray *arr = [MUXSDKCore capturedEventsForPlayer:playName];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
 }
 
