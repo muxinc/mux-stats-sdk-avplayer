@@ -218,7 +218,6 @@ static NSString *Z = @"Z";
                                     MUXSDKPlaybackEventViewEndEventType, // from destroyPlayer
     ];
     [MUXSDKStats destroyPlayer:playName];
-    NSArray *arr = [MUXSDKCore capturedEventsForPlayer:playName];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomerViewData:@{@"xseid": @"bar"}];
 }
@@ -269,8 +268,6 @@ static NSString *Z = @"Z";
     NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                                     MUXSDKDataEventType,
                                     MUXSDKPlaybackEventPlayerReadyEventType,
-                                    MUXSDKPlaybackEventViewInitEventType,
-                                    MUXSDKDataEventType,
     ];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomerVideoData:@{@"vtt": @"01234"}];
@@ -341,9 +338,14 @@ static NSString *Z = @"Z";
     NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                                     MUXSDKDataEventType,
                                     MUXSDKPlaybackEventPlayerReadyEventType,
-                                    MUXSDKPlaybackEventViewEndEventType
+                                    MUXSDKPlaybackEventViewEndEventType, // from changing to the new view
+                                    MUXSDKPlaybackEventViewInitEventType, // from changing to the new view
+                                    MUXSDKDataEventType, // from changing to the new view
+                                    MUXSDKPlaybackEventViewEndEventType, // from destroying the player
+                                    
     ];
     [MUXSDKStats destroyPlayer:playName];
+    NSArray *arr = [MUXSDKCore capturedEventsForPlayer:playName];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomerViewData:@{@"xseid": @"bar"}];
 }
@@ -466,6 +468,7 @@ static NSString *Z = @"Z";
                                     MUXSDKPlaybackEventViewEndEventType,
     ];
     [MUXSDKStats destroyPlayer:playName];
+    NSArray *arr = [MUXSDKCore capturedEventsForPlayer:playName];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
 }
 

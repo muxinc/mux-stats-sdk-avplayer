@@ -610,8 +610,8 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 //    }
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
     if (player) {
-        [player dispatchVideoChange];
-        
+        [player dispatchViewEnd];
+
         if (videoData) {
             [_customerVideoDataStore setVideoData:videoData forPlayerName:name];
         }
@@ -624,6 +624,9 @@ static MUXSDKCustomerViewerData *_customerViewerData;
         if (customData) {
             [_customerCustomDataStore setCustomData:customData forPlayerName:name];
         }
+        
+//        [player dispatchVideoChangeWithCustomerData:customerData];
+        [player dispatchVideoChange];
         [player prepareForAvQueuePlayerNextItem];
     }
 }
