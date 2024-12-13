@@ -604,7 +604,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
     MUXSDKCustomData *customData = [customerData customData];
     
     
-    // We don't need to skip based on this. CustomerData is *not* required to be populated (no not even env key/property key)
+    // We don't need to skip based on this. CustomerData is not required to be populated (no not even env key/property key)
 //    if (!(videoData || viewData || customData)) {
 //        return;
 //    }
