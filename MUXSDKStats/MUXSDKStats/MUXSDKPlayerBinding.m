@@ -403,9 +403,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     }
 }
 
-// TODO: move doc to header
-/// Dispatches a video-change (ie `viewend` + `viewinit`) immediately.
-/// This method can be called at your discretion, with or without changing the AVPlayer's AVPlayerItem
 - (void)dispatchVideoChange {
     // end the current view if it's not already been ended
     if (_state != MUXSDKPlayerStateViewEnd) {
@@ -414,7 +411,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     
     [self.playDispatchDelegate videoChangedForPlayer:_name];
     // TODO: test that we have all the metadata we need on the subsequent view. On android we needed to catch up with the current state
-    // TODO: test that we are in the right overall player state
 
     //
     // Special case for AVQueuePlayer
@@ -434,8 +430,8 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)monitorAVPlayerItem {
-    // The player item could be the the ad itself, and we only monitor content in the base AVPlayer SDK
-    if (_isAdPlaying /*|| _arePostRollAdsScheduled*/) {
+    // The player item could be the the ad itself, and we monitor ads differentlty than main content
+    if (_isAdPlaying) {
         return;
     }
     
