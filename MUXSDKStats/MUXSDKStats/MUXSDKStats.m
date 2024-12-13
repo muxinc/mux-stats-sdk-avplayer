@@ -635,8 +635,30 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 
 + (void)programChangeForPlayer:(nonnull NSString *)name
               withCustomerData:(nullable MUXSDKCustomerData *)customerData {
-    [MUXSDKStats videoChangeForPlayer:name withCustomerData:customerData];
+    // TODO: changes the view twice, because now videoChangeForPlayer does that.. but in old structure this would only set the store stuff
+//    [MUXSDKStats videoChangeForPlayer:name withCustomerData:customerData];
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
+    [player dispatchViewEnd];
+    
+    if (customerData) {
+        MUXSDKCustomerPlayerData *playerData = customerData.customerPlayerData;
+        MUXSDKCustomerVideoData *videoData = customerData.customerVideoData;
+        MUXSDKCustomerViewData *viewData = customerData.customerViewData;
+        MUXSDKCustomData *customData = customerData.customData;
+        if (videoData) {
+            [_customerVideoDataStore setVideoData:videoData forPlayerName:name];
+        }
+        if (viewData) {
+            [_customerViewDataStore setViewData:viewData forPlayerName:name];
+        }
+        if (playerData) {
+            [_customerPlayerDataStore setPlayerData:playerData forPlayerName:name];
+        }
+        if (customData) {
+            [_customerCustomDataStore setCustomData:customData forPlayerName:name];
+        }
+    }
+    
     if (player) {
         [player programChangedForPlayer];
     }

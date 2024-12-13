@@ -463,6 +463,8 @@ static NSString *Z = @"Z";
                                     MUXSDKDataEventType,
                                     MUXSDKPlaybackEventPlayerReadyEventType,
                                     MUXSDKPlaybackEventViewEndEventType,
+                                    MUXSDKPlaybackEventViewInitEventType,
+                                    MUXSDKDataEventType,
                                     MUXSDKPlaybackEventPlayEventType,
                                     MUXSDKPlaybackEventPlayingEventType,
                                     MUXSDKPlaybackEventViewEndEventType,
