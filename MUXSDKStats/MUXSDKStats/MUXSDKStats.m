@@ -603,11 +603,6 @@ static MUXSDKCustomerViewerData *_customerViewerData;
     MUXSDKCustomerVideoData *videoData = [customerData customerVideoData];
     MUXSDKCustomData *customData = [customerData customData];
     
-    
-    // We don't need to skip based on this. CustomerData is not required to be populated (no not even env key/property key)
-//    if (!(videoData || viewData || customData)) {
-//        return;
-//    }
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
     if (player) {
         [player dispatchViewEnd];
@@ -625,7 +620,6 @@ static MUXSDKCustomerViewerData *_customerViewerData;
             [_customerCustomDataStore setCustomData:customData forPlayerName:name];
         }
         
-//        [player dispatchVideoChangeWithCustomerData:customerData];
         [player dispatchVideoChange];
         [player prepareForAvQueuePlayerNextItem];
     }
@@ -635,8 +629,6 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 
 + (void)programChangeForPlayer:(nonnull NSString *)name
               withCustomerData:(nullable MUXSDKCustomerData *)customerData {
-    // TODO: changes the view twice, because now videoChangeForPlayer does that.. but in old structure this would only set the store stuff
-//    [MUXSDKStats videoChangeForPlayer:name withCustomerData:customerData];
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
     [player dispatchViewEnd];
     

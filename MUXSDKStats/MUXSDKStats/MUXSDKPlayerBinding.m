@@ -788,8 +788,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (![self hasPlayer]) {
         return;
     }
-    // TODO: See if we need to send events to catch-up player state like on media3
-    // TODO: Test assumptions about resetVideoData
     [self resetVideoData];
     
     MUXSDKPlayerData *playerData = [self getPlayerData];
@@ -1249,8 +1247,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)didTriggerManualVideoChange {
-    // we no longer need this method. videoChange can happen whenever it's needed now, not just when AVPlayerItem changes
-    //  It's in the public API tho, so TODO: Deprecate this
+    // TODO: Should we deprecate? we no longer need this method. videoChange can happen whenever it's needed now, not just when AVPlayerItem changes
+    // TODO: (continued) on the other hand, it *does* do something specific, since someone could call this method any time before the playeritem changes
+    // TODO: (continued again) on the Other other hand, this method is mostly here to support a manual video-change workflow that we want to repalce
     _didTriggerManualVideoChange = true;
 }
 @end
