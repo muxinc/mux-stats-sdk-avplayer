@@ -406,6 +406,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 /// Dispatches a video-change (ie `viewend` + `viewinit`) immediately.
 /// This method can be called at your discretion, with or without changing the AVPlayer's AVPlayerItem
 - (void)dispatchVideoChange {
+    // end the current view if it's not already been ended
+    if (_state != MUXSDKPlayerStateViewEnd) {
+        [self dispatchViewEnd];
+    }
+    
     [self.playDispatchDelegate videoChangedForPlayer:_name];
     // TODO: test that we have all the metadata we need on the subsequent view. On android we needed to catch up with the current state
     // TODO: test that we are in the right overall player state
