@@ -406,33 +406,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 /// Dispatches a video-change (ie `viewend` + `viewinit`) immediately.
 /// This method can be called at your discretion, with or without changing the AVPlayer's AVPlayerItem
 - (void)dispatchVideoChange {
-    [self dispatchVideoChangeWithCustomerData:nil];
-}
-
-// TODO: move doc to header
-/// Dispatches a video-change (ie `viewend` + `viewinit`) immediately.
-/// This method can be called at your discretion, with or without changing the AVPlayer's AVPlayerItem
-- (void)dispatchVideoChangeWithCustomerData:(nullable MUXSDKCustomerData *)customerData {
-    // end the current view if it's not already been ended
-    if (_state != MUXSDKPlayerStateViewEnd) {
-        [self dispatchViewEnd];
-    }
-    
-    // TODO: Maybe don't need this 
-    if (customerData) {
-        MUXSDKCustomerViewData *viewData = [customerData customerViewData];
-        MUXSDKCustomerVideoData *videoData = [customerData customerVideoData];
-        MUXSDKCustomerPlayerData *playerData = [customerData customerPlayerData];
-        MUXSDKCustomData *customData = [customerData customData];
-        MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
-        
-        dataEvent.customerVideoData = videoData;
-        dataEvent.customerViewData = viewData;
-        dataEvent.customerPlayerData = playerData;
-//        [self.playDispatchDelegate dispatch]
-        //        [MUXSDKCore dispatchEvent:dataEvent forPlayer:_name];
-    }
-    
     [self.playDispatchDelegate videoChangedForPlayer:_name];
     // TODO: test that we have all the metadata we need on the subsequent view. On android we needed to catch up with the current state
     // TODO: test that we are in the right overall player state
