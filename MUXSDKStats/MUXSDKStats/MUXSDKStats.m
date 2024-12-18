@@ -594,7 +594,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 
 #pragma mark Video Change
 
-+ (void)videoChangeForPlayer:(nonnull NSString *)name withCustomerData:(nullable MUXSDKCustomerData *)customerData {
++ (void)videoChangeForPlayer:(nonnull NSString *)name withCustomerData:(nonnull MUXSDKCustomerData *)customerData {
     MUXSDKCustomerPlayerData *playerData = [customerData customerPlayerData];
     if (!playerData) {
         playerData = [_customerPlayerDataStore playerDataForPlayerName:name];

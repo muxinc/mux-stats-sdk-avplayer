@@ -524,6 +524,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     return CMTimeMakeWithSeconds(0.1, NSEC_PER_SEC);
 }
 
+- (NSString *)playerName {
+    return _name;
+}
+
 - (float)getCurrentPlayheadTimeMs {
     return CMTimeGetSeconds([_player currentTime]) * 1000;
 }
