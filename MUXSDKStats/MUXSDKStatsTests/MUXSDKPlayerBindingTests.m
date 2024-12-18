@@ -106,7 +106,9 @@
     [self setupViewControllerPlayerBinding:name
                               softwareName:@"TestSoftware"
                            softwareVersion:@"0.1.0"];
-
+    
+    NSDictionary *events = [MUXSDKCore capturedEventsForPlayer:name];
+    
     XCTAssertEqual(3, [MUXSDKCore eventsCountForPlayer:name]);
     id<MUXSDKEventTyping> event0 = [MUXSDKCore eventAtIndex:0 forPlayer:name];
     id<MUXSDKEventTyping> event1 = [MUXSDKCore eventAtIndex:1 forPlayer:name];

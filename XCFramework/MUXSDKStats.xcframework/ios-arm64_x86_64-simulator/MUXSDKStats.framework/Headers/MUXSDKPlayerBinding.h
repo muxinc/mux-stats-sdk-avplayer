@@ -107,10 +107,12 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 - (void)dispatchPause;
 - (void)dispatchTimeUpdateEvent:(CMTime)time;
 - (void)dispatchError;
+- (void)dispatchVideoChange;
 - (void)dispatchViewEnd;
 - (void)dispatchOrientationChange:(MUXSDKViewOrientation) orientation;
 - (void)dispatchAdEvent:(MUXSDKPlaybackEvent *)event;
 - (float)getCurrentPlayheadTimeMs;
+- (NSString *)playerName;
 - (void)dispatchRenditionChange;
 - (void)setAdPlaying:(BOOL)isAdPlaying;
 - (BOOL)setAutomaticErrorTracking:(BOOL)automaticErrorTracking;
