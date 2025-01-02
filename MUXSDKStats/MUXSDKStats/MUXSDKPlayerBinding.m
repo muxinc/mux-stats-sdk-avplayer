@@ -436,20 +436,17 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         return;
     }
     
-    // change the video automatically if _automaticVideoChange is enabled, unless the customer changed video manually already
-    NSLog(@"monitorAVPlayeritem: checking to change video: %b, %lu, %b", _automaticVideoChange, (unsigned long)_state, _didTriggerManualVideoChange);
-    if (_automaticVideoChange && _state != MUXSDKPlayerStateReady && !_didTriggerManualVideoChange) {
-        NSLog(@"automatically changing video");
-        [self dispatchVideoChange];
-    }
-    
-    // reset for the next media item
-    _didTriggerManualVideoChange = false;
-    
     if (_playerItem) {
         [self stopMonitoringAVPlayerItem];
     }
     if (_player && _player.currentItem) {
+        // change the video automatically if enabled, unless the customer changed video manually already, and only if there's an item
+        NSLog(@"monitorAVPlayeritem: checking to change video: %b, %lu, %b", _automaticVideoChange, (unsigned long)_state, _didTriggerManualVideoChange);
+        if (_automaticVideoChange && _state != MUXSDKPlayerStateReady && !_didTriggerManualVideoChange) {
+            NSLog(@"automatically changing video");
+            [self dispatchVideoChange];
+        }
+        
         _playerItem = _player.currentItem;
         [_playerItem addObserver:self
                       forKeyPath:@"status"
@@ -462,6 +459,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         
         [self dispatchSessionData];
     }
+    
+    // reset for the next media item
+    _didTriggerManualVideoChange = false;
 }
 
 - (void)dispatchSessionData {
@@ -511,7 +511,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void) programChangedForPlayer {
-    [self monitorAVPlayerItem];
+    [self dispatchVideoChange];
     [self dispatchPlay];
     [self dispatchPlaying];
 }
