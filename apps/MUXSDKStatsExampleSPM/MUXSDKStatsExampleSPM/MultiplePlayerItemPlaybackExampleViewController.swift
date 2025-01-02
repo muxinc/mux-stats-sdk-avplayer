@@ -17,39 +17,43 @@ class AVQueuePlayerExampleViewController: MultiplePlayerItemPlaybackExampleViewC
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        var playerItems: [AVPlayerItem] = [
-            AVPlayerItem(
-                url: URL(
-                    string: "https://stream.mux.com/00ezSo01tK00mfbBKDLUtKnwVsUKF2y5cjBMvJwBh5Z0202g.m3u8"
-                )!
-            ),
-            AVPlayerItem(
-                url: URL(
-                    string: "https://stream.mux.com/u02xH9SB1ZZNNjPiQp4l6mhzBKJ101uExYx4LU02J5Xm88.m3u8"
-                )!
-            ),
-            AVPlayerItem(
-                url: URL(
-                    string: "https://stream.mux.com/O02XWwicmDZIo02hlioontZ00pkcPzHoUmXJ4W8f8lSY0000.m3u8"
-                )!
-            ),
-            AVPlayerItem(
-                url: URL(
-                    string: "https://stream.mux.com/KyU4B3aJB01jjk00EmZBkp9nRkeaZyTblN3EwmjhIqkcw.m3u8"
-                )!
-            ),
-            AVPlayerItem(
-                url: URL(
-                    string: "https://stream.mux.com/MNYGboUWoKTFMhq9Ado1ZJ1Gs7q02UMQsp4ZCa02YxhmQ.m3u8"
-                )!
-            ),
-        ]
+//        var playerItems: [AVPlayerItem] = [
+//            AVPlayerItem(
+//                url: URL(
+//                    string: "https://stream.mux.com/00ezSo01tK00mfbBKDLUtKnwVsUKF2y5cjBMvJwBh5Z0202g.m3u8"
+//                )!
+//            ),
+//            AVPlayerItem(
+//                url: URL(
+//                    string: "https://stream.mux.com/u02xH9SB1ZZNNjPiQp4l6mhzBKJ101uExYx4LU02J5Xm88.m3u8"
+//                )!
+//            ),
+//            AVPlayerItem(
+//                url: URL(
+//                    string: "https://stream.mux.com/O02XWwicmDZIo02hlioontZ00pkcPzHoUmXJ4W8f8lSY0000.m3u8"
+//                )!
+//            ),
+//            AVPlayerItem(
+//                url: URL(
+//                    string: "https://stream.mux.com/KyU4B3aJB01jjk00EmZBkp9nRkeaZyTblN3EwmjhIqkcw.m3u8"
+//                )!
+//            ),
+//            AVPlayerItem(
+//                url: URL(
+//                    string: "https://stream.mux.com/MNYGboUWoKTFMhq9Ado1ZJ1Gs7q02UMQsp4ZCa02YxhmQ.m3u8"
+//                )!
+//            ),
+//        ]
 
-        let player = AVQueuePlayer(
-            items: playerItems
-        )
+//        let player = AVQueuePlayer(
+//            items: playerItems
+//        )
 
-        self.playerViewController.player = player
+//        self.playerViewController.player = player
+    }
+    
+    override func makeAVPlayer() -> AVPlayer {
+        return AVQueuePlayer(items: playerItems)
     }
 }
 
@@ -85,17 +89,27 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
     var playerItems: [AVPlayerItem] = [
         AVPlayerItem(
             url: URL(
-                string: "https://stream.mux.com/qIy2uu9BfvomNnH02hFPysxeXvL6FkFXs63wTqnEiaYs.m3u8"
+                string: "https://stream.mux.com/00ezSo01tK00mfbBKDLUtKnwVsUKF2y5cjBMvJwBh5Z0202g.m3u8"
             )!
         ),
         AVPlayerItem(
             url: URL(
-                string: "https://stream.mux.com/7Tqs5u3MoQhGOk7XoyT81bjoPFFkOPQIH32Pt4XDbyQ.m3u8"
+                string: "https://stream.mux.com/u02xH9SB1ZZNNjPiQp4l6mhzBKJ101uExYx4LU02J5Xm88.m3u8"
             )!
         ),
         AVPlayerItem(
             url: URL(
                 string: "https://stream.mux.com/O02XWwicmDZIo02hlioontZ00pkcPzHoUmXJ4W8f8lSY0000.m3u8"
+            )!
+        ),
+        AVPlayerItem(
+            url: URL(
+                string: "https://stream.mux.com/KyU4B3aJB01jjk00EmZBkp9nRkeaZyTblN3EwmjhIqkcw.m3u8"
+            )!
+        ),
+        AVPlayerItem(
+            url: URL(
+                string: "https://stream.mux.com/MNYGboUWoKTFMhq9Ado1ZJ1Gs7q02UMQsp4ZCa02YxhmQ.m3u8"
             )!
         ),
     ]
@@ -104,6 +118,7 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
         return "AVQueuePlayerExample"
     }
     lazy var playerViewController = AVPlayerViewController()
+    var playerItemObservation: NSKeyValueObservation? = nil
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -119,16 +134,20 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
             object: playerItems[0]
         )
 
-        let player = AVQueuePlayer(
-            items: playerItems
-        )
-//        let player = AVPlayer(
-//            playerItem: playerItems[0]
+//        let player = AVQueuePlayer(
+//            items: playerItems
 //        )
-
+        let player = makeAVPlayer()
         playerViewController.player = player
     }
+    
+    open func makeAVPlayer() -> AVPlayer {
+        return AVPlayer(
+            playerItem: playerItems[0]
+        )
 
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -138,9 +157,11 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
         playerData.environmentKey = ProcessInfo.processInfo.environmentKey
 
         let videoData = MUXSDKCustomerVideoData()
-        videoData.videoTitle = "First Test Video in Queue"
-        videoData.videoId = "AVQueuePlayerExample-FirstTestVideo"
-
+//        videoData.videoTitle = "First Test Video in Queue"
+//        videoData.videoId = "AVQueuePlayerExample-FirstTestVideo"
+        let currentItem = playerViewController.player?.currentItem
+        videoData.videoTitle = "AVQueuePlayer test - item \(String(describing: findIndexOfAVPlayerItem(currentItem)))"
+        
         let customerData = MUXSDKCustomerData(
             customerPlayerData: playerData,
             videoData: videoData,
@@ -152,8 +173,40 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
             withPlayerName: playerName,
             customerData: customerData!
         )
+        
+        self.playerItemObservation = playerViewController.player?.observe(\.currentItem, options: [.new]) {[weak self] player, change in
+            guard let self else {
+                return
+            }
+            let item = change.newValue ?? nil
+            let index = findIndexOfAVPlayerItem(item)
+//            let item = player.currentItem
+            print(">>> changing player item (player.currentItem): \(String(describing: player.currentItem))")
+            print(">>> changing player item: \(String(describing: item))")
+            print(">>> changing player item index: \(String(describing: index))")
+            guard index >= 0 else {
+                print(">>> not a reportable index")
+                return
+            }
+            
+            let videoData = MUXSDKCustomerVideoData()
+            videoData.videoTitle = "AVQueuePlayer test - item \(String(describing: index))"
+            let customerData = MUXSDKCustomerData(customerPlayerData: nil, videoData: videoData, viewData: nil)
+            
+            // TODO: this all has to go into the avqueueplayer example, with a switch for doing it or not
+            MUXSDKStats.setCustomerData(customerData!, forPlayer: playerName)
+        }
     }
-
+    
+    func findIndexOfAVPlayerItem(_ item: AVPlayerItem?) -> Int {
+        if let item, let player = playerViewController.player as? AVQueuePlayer {
+//            return player.items().firstIndex(of: item) ?? -1
+            return /*player.items()*/playerItems.lastIndex(where: {it in it.asset.isEqual(item.asset)}) ?? -1
+        } else {
+            return -1
+        }
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -164,7 +217,7 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
         MUXSDKStats.destroyPlayer(
             playerName
         )
-
+        
         super.viewWillDisappear(animated)
     }
 

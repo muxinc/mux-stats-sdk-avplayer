@@ -430,13 +430,16 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)monitorAVPlayerItem {
+    NSLog(@"monitorAVPlayeritem: Called");
     // The player item could be the the ad itself, and we monitor ads differentlty than main content
     if (_isAdPlaying) {
         return;
     }
     
     // change the video automatically if _automaticVideoChange is enabled, unless the customer changed video manually already
+    NSLog(@"monitorAVPlayeritem: checking to change video: %b, %lu, %b", _automaticVideoChange, (unsigned long)_state, _didTriggerManualVideoChange);
     if (_automaticVideoChange && _state != MUXSDKPlayerStateReady && !_didTriggerManualVideoChange) {
+        NSLog(@"automatically changing video");
         [self dispatchVideoChange];
     }
     
