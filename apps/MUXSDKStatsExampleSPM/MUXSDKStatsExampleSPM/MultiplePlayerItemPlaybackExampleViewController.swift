@@ -61,6 +61,7 @@ class VideoChangeExampleViewController: MultiplePlayerItemPlaybackExampleViewCon
 
     override func handlePlayerItemDidPlayToEnd(_ notification: Notification) {
         print("VideoChangeExampleViewController: handlePlayerItemDidPlayToEnd: called")
+        // TODO: Example should have a flag for automaticVideoChange
 //        let videoData = MUXSDKCustomerVideoData()
 //        videoData.videoTitle = "Second Test Video in Queue"
 //        videoData.videoId = "AVQueuePlayerExample-SecondTestVideo"

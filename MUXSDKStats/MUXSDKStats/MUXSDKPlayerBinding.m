@@ -1251,6 +1251,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)didTriggerManualVideoChange {
+    NSLog(@"didTriggerManualVideoChange");
     _didTriggerManualVideoChange = true;
 }
 @end
