@@ -1251,11 +1251,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)didTriggerManualVideoChange {
-    // TODO: Wait I think we need to keep this. If video is changed manually while automaticVideoChange is set, we'd only want to change video once
-    // TODO: Should we deprecate? we no longer need this method. videoChange can happen whenever it's needed now, not just when AVPlayerItem changes
-    // TODO: (continued) on the other hand, it *does* do something specific, since someone could call this method any time before the playeritem changes
-    // TODO: (continued again) on the Other other hand, this method is mostly here to support a manual video-change workflow that we want to repalce
-    
     _didTriggerManualVideoChange = true;
 }
 @end
