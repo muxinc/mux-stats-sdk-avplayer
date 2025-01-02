@@ -60,22 +60,23 @@ class VideoChangeExampleViewController: MultiplePlayerItemPlaybackExampleViewCon
     }
 
     override func handlePlayerItemDidPlayToEnd(_ notification: Notification) {
-        let videoData = MUXSDKCustomerVideoData()
-        videoData.videoTitle = "Second Test Video in Queue"
-        videoData.videoId = "AVQueuePlayerExample-SecondTestVideo"
-
-        let customData = MUXSDKCustomData()
-        customData.customData1 = "VideoChangeExample"
-        customData.customData2 = "VideoChange-SecondTestVideo"
-
-        let customerData = MUXSDKCustomerData()
-        customerData.customerVideoData = videoData
-        customerData.customData = customData
-
-        MUXSDKStats.videoChange(
-            forPlayer: playerName,
-            with: customerData
-        )
+        print("VideoChangeExampleViewController: handlePlayerItemDidPlayToEnd: called")
+//        let videoData = MUXSDKCustomerVideoData()
+//        videoData.videoTitle = "Second Test Video in Queue"
+//        videoData.videoId = "AVQueuePlayerExample-SecondTestVideo"
+//
+//        let customData = MUXSDKCustomData()
+//        customData.customData1 = "VideoChangeExample"
+//        customData.customData2 = "VideoChange-SecondTestVideo"
+//
+//        let customerData = MUXSDKCustomerData()
+//        customerData.customerVideoData = videoData
+//        customerData.customData = customData
+//
+//        MUXSDKStats.videoChange(
+//            forPlayer: playerName,
+//            with: customerData
+//        )
     }
 }
 

@@ -435,15 +435,15 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         return;
     }
     
-    // TODO: IMA has to disable automaticVideoChange and do it manually (for postrolls only)
-    if (_state != MUXSDKPlayerStateReady && (_automaticVideoChange || _didTriggerManualVideoChange)) {
+    // change the video automatically if _automaticVideoChange is enabled, unless the customer changed video manually already
+    if (_automaticVideoChange && _state != MUXSDKPlayerStateReady && !_didTriggerManualVideoChange) {
         [self dispatchVideoChange];
     }
     
+    // reset for the next media item
+    _didTriggerManualVideoChange = false;
+    
     if (_playerItem) {
-        if (_didTriggerManualVideoChange) {
-            _didTriggerManualVideoChange = false;
-        }
         [self stopMonitoringAVPlayerItem];
     }
     if (_player && _player.currentItem) {
@@ -1251,9 +1251,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)didTriggerManualVideoChange {
+    // TODO: Wait I think we need to keep this. If video is changed manually while automaticVideoChange is set, we'd only want to change video once
     // TODO: Should we deprecate? we no longer need this method. videoChange can happen whenever it's needed now, not just when AVPlayerItem changes
     // TODO: (continued) on the other hand, it *does* do something specific, since someone could call this method any time before the playeritem changes
     // TODO: (continued again) on the Other other hand, this method is mostly here to support a manual video-change workflow that we want to repalce
+    
     _didTriggerManualVideoChange = true;
 }
 @end

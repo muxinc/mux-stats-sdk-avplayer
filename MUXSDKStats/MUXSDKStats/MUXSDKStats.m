@@ -621,6 +621,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
         }
         
         [player dispatchVideoChange];
+        [player didTriggerManualVideoChange];
         [player prepareForAvQueuePlayerNextItem];
     }
 }
