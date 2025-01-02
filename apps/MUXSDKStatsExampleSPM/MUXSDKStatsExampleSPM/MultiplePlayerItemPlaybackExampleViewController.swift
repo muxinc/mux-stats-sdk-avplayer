@@ -160,7 +160,7 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
 //        videoData.videoTitle = "First Test Video in Queue"
 //        videoData.videoId = "AVQueuePlayerExample-FirstTestVideo"
         let currentItem = playerViewController.player?.currentItem
-        videoData.videoTitle = "AVQueuePlayer test - item \(String(describing: findIndexOfAVPlayerItem(currentItem)))"
+        videoData.videoTitle = "AVQueuePlayer as doc'd - item \(String(describing: findIndexOfAVPlayerItem(currentItem)))"
         
         let customerData = MUXSDKCustomerData(
             customerPlayerData: playerData,
@@ -174,15 +174,14 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
             customerData: customerData!
         )
         
+        // here's one way, though it's not the doc'd way
+        /*
         self.playerItemObservation = playerViewController.player?.observe(\.currentItem, options: [.new]) {[weak self] player, change in
             guard let self else {
                 return
             }
             let item = change.newValue ?? nil
             let index = findIndexOfAVPlayerItem(item)
-//            let item = player.currentItem
-            print(">>> changing player item (player.currentItem): \(String(describing: player.currentItem))")
-            print(">>> changing player item: \(String(describing: item))")
             print(">>> changing player item index: \(String(describing: index))")
             guard index >= 0 else {
                 print(">>> not a reportable index")
@@ -196,10 +195,45 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
             // TODO: this all has to go into the avqueueplayer example, with a switch for doing it or not
             MUXSDKStats.setCustomerData(customerData!, forPlayer: playerName)
         }
+        */
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.handlePlayerItemEnded(notif:)),
+            name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+            object: playerItems[0]
+        )
+    }
+    
+    @objc func handlePlayerItemEnded(notif: NSNotification) {
+        // as doc'd but for more than two player items (somewhat awkward)
+        let item = notif.object as! AVPlayerItem
+        let itemEndedIndex = findIndexOfAVPlayerItem(item)
+//        if (0..<playerItems.count).contains(itemEndedIndex) {
+            let nextIndex = itemEndedIndex + 1
+        // if there's a next item, change video
+            if nextIndex < playerItems.count {
+                let videoData = MUXSDKCustomerVideoData()
+                videoData.videoTitle = "AVQueuePlayer as-doc'd - item \(String(describing: nextIndex))"
+                let customerData = MUXSDKCustomerData(customerPlayerData: nil, videoData: videoData, viewData: nil)
+                
+                // TODO: this all has to go into the avqueueplayer example, with a switch for doing it or not
+                MUXSDKStats.videoChange(forPlayer: playerName, with: customerData!)
+    //            MUXSDKStats.setCustomerData(customerData!, forPlayer: playerName)
+                NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: item)
+                let nextItem = playerItems[nextIndex]
+                NotificationCenter.default.addObserver(
+                    self,
+                    selector: #selector(self.handlePlayerItemEnded(notif:)),
+                    name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+                    object: nextItem
+                )
+//            }
+        }
     }
     
     func findIndexOfAVPlayerItem(_ item: AVPlayerItem?) -> Int {
-        if let item, let player = playerViewController.player as? AVQueuePlayer {
+        if let item {
 //            return player.items().firstIndex(of: item) ?? -1
             return /*player.items()*/playerItems.lastIndex(where: {it in it.asset.isEqual(item.asset)}) ?? -1
         } else {
