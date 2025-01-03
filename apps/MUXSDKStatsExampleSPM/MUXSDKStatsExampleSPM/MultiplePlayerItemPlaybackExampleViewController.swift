@@ -206,10 +206,14 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
     }
     
     @objc func handlePlayerItemEnded(notif: NSNotification) {
-        // as doc'd but for more than two player items (somewhat awkward)
+        // as doc'd but for a list of player items
+        
         let item = notif.object as! AVPlayerItem
         let itemEndedIndex = findIndexOfAVPlayerItem(item)
         let nextIndex = itemEndedIndex + 1
+        
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: item)
+
         // if there's a next item, change video
         if nextIndex < playerItems.count {
             let videoData = MUXSDKCustomerVideoData()
@@ -217,7 +221,6 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
             let customerData = MUXSDKCustomerData(customerPlayerData: nil, videoData: videoData, viewData: nil)
             
             MUXSDKStats.videoChange(forPlayer: playerName, with: customerData!)
-            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: item)
             let nextItem = playerItems[nextIndex]
             NotificationCenter.default.addObserver(
                 self,
