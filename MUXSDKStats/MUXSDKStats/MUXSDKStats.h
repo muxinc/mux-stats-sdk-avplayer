@@ -257,7 +257,7 @@ FOUNDATION_EXPORT
 
  */
 + (void)videoChangeForPlayer:(nonnull NSString *)name
-            withCustomerData:(nonnull MUXSDKCustomerData *)customerData;
+            withCustomerData:(nullable MUXSDKCustomerData *)customerData;
 
 #pragma mark - Program Change
 
