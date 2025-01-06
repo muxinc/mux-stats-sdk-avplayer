@@ -86,4 +86,8 @@ static NSMutableArray *globalEvents;
     return globalEvents.count;
 }
 
++ (NSArray *) capturedEventsForPlayer: (NSString *)player {
+    return [[events objectForKey:player] copy];
+}
+
 @end
