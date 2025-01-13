@@ -1,0 +1,6 @@
+framework module MuxCore {
+  umbrella header "MuxCoreVision.h"
+
+  export *
+  module * { export * }
+}
