@@ -16,9 +16,11 @@ steps:
   - wait
   - command: "buildkite-agent artifact download XCFramework/MUXSDKStats.xcframework.zip XCFramework && ./scripts/run-tests-swift-package-manager-ventura.sh"
     label: ":swift: Test Swift Package Manager Example"
-    branches: "releases/*"
+    branches: "releases/* test/*"
     retry:
       automatic: true
+    artifact_paths:
+      - "./test-artifacts.zip"
   - wait
   - command: ".buildkite/scripts/static-xcframework.sh"
     label: ":xcode: Create Static XCFramework"

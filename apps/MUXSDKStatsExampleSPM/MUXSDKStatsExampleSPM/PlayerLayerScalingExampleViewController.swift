@@ -69,6 +69,13 @@ class PlayerLayerScalingExampleViewController: UIViewController {
             withPlayerName: playerName,
             customerData: customerData
         )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleNewAccessLogEntryNotification(_:)),
+            name: AVPlayerItem.newAccessLogEntryNotification,
+            object: nil
+        )
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -79,6 +86,49 @@ class PlayerLayerScalingExampleViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         MUXSDKStats.destroyPlayer(playerName)
         playerView.player?.pause()
+        NotificationCenter.default.removeObserver(self)
         super.viewWillDisappear(animated)
+    }
+
+    @objc func handleNewAccessLogEntryNotification(
+        _ notification: Notification
+    ) {
+        guard let accessLog = playerView.player?.currentItem?.accessLog() else {
+            precondition(false)
+            return
+        }
+
+        guard let playerExtendedLogDirectoryPath = ProcessInfo.processInfo.simulatorSharedResourcesDirectory else {
+            precondition(false)
+            return
+        }
+
+        let playerExtendedLogDirectoryURL = URL(
+            fileURLWithPath: playerExtendedLogDirectoryPath
+        )
+
+        guard let playerExtendedLogFileName = ProcessInfo.processInfo.playerExtendedLogFileName else {
+            precondition(false)
+            return
+        }
+
+        let playerExtendedLogFilePath = playerExtendedLogDirectoryURL
+        .appendingPathComponent(
+            "\(playerExtendedLogFileName).txt",
+            conformingTo: .text
+        )
+
+        guard let extendedLogData = accessLog.extendedLogData() else {
+            precondition(false)
+            return
+        }
+
+        do {
+            try extendedLogData.write(
+                to: playerExtendedLogFilePath
+            )
+        } catch {
+            precondition(false)
+        }
     }
 }

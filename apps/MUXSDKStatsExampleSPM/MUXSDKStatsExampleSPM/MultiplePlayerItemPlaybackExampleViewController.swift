@@ -97,6 +97,13 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
             object: playerItems[0]
         )
 
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleNewAccessLogEntryNotification(_:)),
+            name: AVPlayerItem.newAccessLogEntryNotification,
+            object: nil
+        )
+
         let player = AVPlayer(
             playerItem: playerItems[0]
         )
@@ -139,6 +146,8 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
         MUXSDKStats.destroyPlayer(
             playerName
         )
+
+        NotificationCenter.default.removeObserver(self)
 
         super.viewWillDisappear(animated)
     }
@@ -185,5 +194,48 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
             forPlayer: playerName,
             with: customerData
         )
+    }
+
+    @objc func handleNewAccessLogEntryNotification(
+        _ notification: Notification
+    ) {
+        guard let accessLog = playerViewController.player?.currentItem?.accessLog() else {
+            precondition(false)
+            return
+        }
+
+        guard let playerExtendedLogDirectoryPath = ProcessInfo.processInfo.simulatorSharedResourcesDirectory else {
+            precondition(false)
+            return
+        }
+
+        let playerExtendedLogDirectoryURL = URL(
+            fileURLWithPath: playerExtendedLogDirectoryPath
+        )
+
+        guard let playerExtendedLogFileName = ProcessInfo.processInfo.playerExtendedLogFileName else {
+            precondition(false)
+            return
+        }
+
+        let playerExtendedLogFilePath = playerExtendedLogDirectoryURL
+        .appendingPathComponent(
+            "\(playerExtendedLogFileName).txt",
+            conformingTo: .text
+        )
+
+        guard let extendedLogData = accessLog.extendedLogData() else {
+            precondition(false)
+            return
+        }
+
+        do {
+            try extendedLogData.write(
+                to: playerExtendedLogFilePath
+            )
+        } catch {
+            print(error)
+            precondition(false)
+        }
     }
 }

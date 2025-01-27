@@ -4,6 +4,7 @@
 //
 
 import XCTest
+import UniformTypeIdentifiers
 
 final class MUXSDKStatsExampleSPMUITests: XCTestCase {
 
@@ -17,11 +18,18 @@ final class MUXSDKStatsExampleSPMUITests: XCTestCase {
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+
     }
 
     func testBasicAVKitExample() throws {
+        let playerLayerExtendedLogFileName = "basic-avkit-example-player-extended-log"
+
         let application = XCUIApplication()
+        application.launchEnvironment = [
+            "ENV_KEY": "qr9665qr78dac0hqld9bjofps",
+            "PLAYBACK_ID": "qxb01i6T202018GFS02vp9RIe01icTcDCjVzQpmaB00CUisJ4",
+            "PLAYER_EXTENDED_LOG_FILE_NAME": playerLayerExtendedLogFileName
+        ]
 
         try launchAndWaitUntilInForeground(
             application: application
@@ -32,10 +40,23 @@ final class MUXSDKStatsExampleSPMUITests: XCTestCase {
             waitFor: "BasicAVKitExampleView",
             application: application
         )
+
+        #if targetEnvironment(simulator)
+        try attachPlayerExtendedLog(
+            playerLayerExtendedLogFileName: playerLayerExtendedLogFileName
+        )
+        #endif
     }
 
     func testPlayerLayerExample() throws {
+        let playerLayerExtendedLogFileName = "player-layer-example-player-extended-log"
+
         let application = XCUIApplication()
+        application.launchEnvironment = [
+            "ENV_KEY": "qr9665qr78dac0hqld9bjofps",
+            "PLAYBACK_ID": "qxb01i6T202018GFS02vp9RIe01icTcDCjVzQpmaB00CUisJ4",
+            "PLAYER_EXTENDED_LOG_FILE_NAME": playerLayerExtendedLogFileName
+        ]
 
         try launchAndWaitUntilInForeground(
             application: application
@@ -46,10 +67,23 @@ final class MUXSDKStatsExampleSPMUITests: XCTestCase {
             waitFor: "PlayerLayerExampleView",
             application: application
         )
+
+        #if targetEnvironment(simulator)
+        try attachPlayerExtendedLog(
+            playerLayerExtendedLogFileName: playerLayerExtendedLogFileName
+        )
+        #endif
     }
 
     func testAVQueuePlayerExample() throws {
+        let playerLayerExtendedLogFileName = "avqueue-player-example-player-extended-log"
+
         let application = XCUIApplication()
+        application.launchEnvironment = [
+            "ENV_KEY": "qr9665qr78dac0hqld9bjofps",
+            "PLAYBACK_ID": "qxb01i6T202018GFS02vp9RIe01icTcDCjVzQpmaB00CUisJ4",
+            "PLAYER_EXTENDED_LOG_FILE_NAME": playerLayerExtendedLogFileName
+        ]
 
         try launchAndWaitUntilInForeground(
             application: application
@@ -60,10 +94,23 @@ final class MUXSDKStatsExampleSPMUITests: XCTestCase {
             waitFor: "AVQueuePlayerExampleView",
             application: application
         )
+
+        #if targetEnvironment(simulator)
+        try attachPlayerExtendedLog(
+            playerLayerExtendedLogFileName: playerLayerExtendedLogFileName
+        )
+        #endif
     }
 
     func testVideoChangeExample() throws {
+        let playerLayerExtendedLogFileName = "video-change-example-player-extended-log"
+
         let application = XCUIApplication()
+        application.launchEnvironment = [
+            "ENV_KEY": "qr9665qr78dac0hqld9bjofps",
+            "PLAYBACK_ID": "qxb01i6T202018GFS02vp9RIe01icTcDCjVzQpmaB00CUisJ4",
+            "PLAYER_EXTENDED_LOG_FILE_NAME": playerLayerExtendedLogFileName
+        ]
 
         try launchAndWaitUntilInForeground(
             application: application
@@ -74,10 +121,23 @@ final class MUXSDKStatsExampleSPMUITests: XCTestCase {
             waitFor: "VideoChangeExampleView",
             application: application
         )
+
+        #if targetEnvironment(simulator)
+        try attachPlayerExtendedLog(
+            playerLayerExtendedLogFileName: playerLayerExtendedLogFileName
+        )
+        #endif
     }
 
     func testPlayerLayerScalingExample() throws {
+        let playerLayerExtendedLogFileName = "player-layer-scaling--example-player-extended-log"
+
         let application = XCUIApplication()
+        application.launchEnvironment = [
+            "ENV_KEY": "qr9665qr78dac0hqld9bjofps",
+            "PLAYBACK_ID": "qxb01i6T202018GFS02vp9RIe01icTcDCjVzQpmaB00CUisJ4",
+            "PLAYER_EXTENDED_LOG_FILE_NAME": playerLayerExtendedLogFileName
+        ]
 
         try launchAndWaitUntilInForeground(
             application: application
@@ -88,15 +148,17 @@ final class MUXSDKStatsExampleSPMUITests: XCTestCase {
             waitFor: "PlayerLayerScalingExampleView",
             application: application
         )
+
+        #if targetEnvironment(simulator)
+        try attachPlayerExtendedLog(
+            playerLayerExtendedLogFileName: playerLayerExtendedLogFileName
+        )
+        #endif
     }
 
     func launchAndWaitUntilInForeground(
         application: XCUIApplication
     ) throws {
-        application.launchEnvironment = [
-            "ENV_KEY": "qr9665qr78dac0hqld9bjofps",
-            "PLAYBACK_ID": "qxb01i6T202018GFS02vp9RIe01icTcDCjVzQpmaB00CUisJ4"
-        ]
         application.launch()
 
         let isRunningInForeground = application.wait(
@@ -152,5 +214,69 @@ final class MUXSDKStatsExampleSPMUITests: XCTestCase {
             XCTFail("Application interrupted while playing video")
             return
         }
+    }
+
+    func attachPlayerExtendedLog(
+        playerLayerExtendedLogFileName: String
+    ) throws {
+        guard let playerExtendedLogDirectoryPath = ProcessInfo().environment["SIMULATOR_SHARED_RESOURCES_DIRECTORY"] else {
+            XCTFail("Cannot construct shared resource url")
+            return
+        }
+
+        let playerExtendedLogDirectoryURL = URL(
+            fileURLWithPath: playerExtendedLogDirectoryPath
+        )
+
+        let playerExtendedLogFilePath = playerExtendedLogDirectoryURL
+        .appendingPathComponent(
+            "\(playerLayerExtendedLogFileName).txt",
+            conformingTo: .text
+        )
+
+        print(playerExtendedLogFilePath)
+
+        guard try playerExtendedLogFilePath.checkResourceIsReachable() else {
+            XCTFail("Cannot reach player extended log file at \(playerExtendedLogFilePath).")
+            return
+        }
+
+        guard FileManager.default
+            .fileExists(
+                atPath: playerExtendedLogFilePath.relativePath
+            ) else {
+            print(playerExtendedLogFilePath)
+            XCTFail("Missing player extended log file at \(playerExtendedLogFilePath).")
+            return
+        }
+
+        guard FileManager.default
+            .isReadableFile(
+                atPath: playerExtendedLogFilePath.relativePath
+            ) else {
+            XCTFail("Failed to read player extended log file.")
+            return
+        }
+
+        let data = FileManager.default.contents(
+            atPath: playerExtendedLogFilePath.relativePath
+        )
+
+        guard let data else {
+            XCTFail("Failed to read player extended log file.")
+            return
+        }
+
+        let string = String(data: data, encoding: .utf8)!
+
+        let attachment = XCTAttachment(
+            string: string
+        )
+        attachment.lifetime = .keepAlways
+        add(attachment)
+
+        try FileManager.default.removeItem(
+            at: playerExtendedLogFilePath
+        )
     }
 }
