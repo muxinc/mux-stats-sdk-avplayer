@@ -111,8 +111,8 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             } else {
                 [weakSelf dispatchTimeUpdateEvent:time];
             }
-            
-            [weakSelf computeDrift];
+
+            [weakSelf computeDriftAndDispatchSeekingIfNecessary];
             [weakSelf updateLastPlayheadTime];
         }
     ];
@@ -811,7 +811,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     // Note that this computation is done in response to an observed rate change and not a time update
     // so we have to both compute our drift and update the playhead time as we do in the time update handler.
     if(!_isAdPlaying) {
-        [self computeDrift];
+        [self computeDriftAndDispatchSeekingIfNecessary];
         [self updateLastPlayheadTime];
     }
 }
@@ -845,7 +845,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     [event setPlayerData:playerData];
     [MUXSDKCore dispatchEvent:event forPlayer:_name];
     _state = MUXSDKPlayerStatePaused;
-    [self computeDrift];
+    [self computeDriftAndDispatchSeekingIfNecessary];
 }
 
 - (void)dispatchTimeUpdateFromTimer {
@@ -1092,7 +1092,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     _lastPlayheadTimeOnPauseUpdated = CFAbsoluteTimeGetCurrent();
 }
 
-- (void)computeDrift {
+- (void)computeDriftAndDispatchSeekingIfNecessary {
     if (!_started) {
         // Avoid computing drift until playback has started (meaning play has been called).
         return;
@@ -1116,17 +1116,19 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             _seeking = YES;
             MUXSDKInternalSeekingEvent *event = [[MUXSDKInternalSeekingEvent alloc] init];
             MUXSDKPlayerData *playerData = [self getPlayerData];
-            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomTV) {
-                [self setPlayerPlayheadTime:_lastPlayheadTimeMsOnPause onPlayerData:playerData];
-            }
             [event setPlayerData:playerData];
             [MUXSDKCore dispatchEvent:event forPlayer:_name];
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomTV) {
+                [self setPlayerPlayheadTime:_lastPlayheadTimeMsOnPause
+                               onPlayerData:playerData];
+            }
         } else if (_state == MUXSDKPlayerStatePlaying || _state == MUXSDKPlayerStateBuffering) {
             // If seek is called programmatically while the player is playing or buffering it will enter this block, otherwise it will run the upper branch logic
             _seeking = YES;
             MUXSDKInternalSeekingEvent *seekingEvent = [[MUXSDKInternalSeekingEvent alloc] init];
             MUXSDKPlayerData *playerData = [self getPlayerData];
-            [self setPlayerPlayheadTime:_lastPlayheadTimeMs onPlayerData:playerData];
+            [self setPlayerPlayheadTime:_lastPlayheadTimeMs
+                           onPlayerData:playerData];
             [seekingEvent setPlayerData:playerData];
             [MUXSDKCore dispatchEvent:seekingEvent forPlayer:_name];
         }
