@@ -1097,6 +1097,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         // Avoid computing drift until playback has started (meaning play has been called).
         return;
     }
+
+    if (_seeking) {
+        return;
+    }
+
     // Determing if we are seeking by infering that we went into the pause state and the playhead moved a lot.
     float playheadTimeElapsed = ([self getCurrentPlayheadTimeMs] - _lastPlayheadTimeMs) / 1000;
     float wallTimeElapsed = CFAbsoluteTimeGetCurrent() - _lastPlayheadTimeUpdated;
