@@ -6,6 +6,7 @@ let package = Package(
     name: "MUXSDKStats",
     platforms: [
         .iOS(.v12),
+        .macCatalyst(.v13),
         .tvOS(.v12),
         .visionOS(.v1),
     ],
