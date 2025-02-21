@@ -772,7 +772,6 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = XX95P4Y787;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -820,7 +819,6 @@
 				CODE_SIGN_IDENTITY = "Apple Distribution: Mux, Inc (XX95P4Y787)";
 				"CODE_SIGN_IDENTITY[sdk=xros*]" = "Apple Distribution: Mux, Inc (XX95P4Y787)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=xros*]" = XX95P4Y787;
@@ -1297,8 +1295,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/muxinc/stats-sdk-objc";
 			requirement = {
-				kind = exactVersion;
-				version = 5.2.0;
+				kind = upToNextMinorVersion;
+				minimumVersion = 5.3.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

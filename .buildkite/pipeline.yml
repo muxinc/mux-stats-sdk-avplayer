@@ -13,6 +13,7 @@ steps:
     label: ":xcode: Create Dynamic XCFramework"
     artifact_paths:
       - "./XCFramework/MUXSDKStats.xcframework.zip"
+      - "./.build/MUXSDKStats.debuggable.xcframework.zip"
   - wait
   - command: "buildkite-agent artifact download XCFramework/MUXSDKStats.xcframework.zip XCFramework && ./scripts/run-tests-swift-package-manager-ventura.sh"
     label: ":swift: Test Swift Package Manager Example"

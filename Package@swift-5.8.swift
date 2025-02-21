@@ -6,7 +6,8 @@ let package = Package(
     name: "MUXSDKStats",
     platforms: [
         .iOS(.v12),
-        .tvOS(.v12)
+        .macCatalyst(.v13),
+        .tvOS(.v12),
     ],
     products: [
         .library(name: "MUXSDKStats", targets: ["MUXSDKStatsTargets"])
@@ -14,7 +15,7 @@ let package = Package(
     dependencies: [
         .package(
             url: "https://github.com/muxinc/stats-sdk-objc.git",
-            exact: "5.2.0"
+            .upToNextMinor(from: "5.3.0")
         )
     ],
     targets: [

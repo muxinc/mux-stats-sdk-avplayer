@@ -14,7 +14,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"4.3.0";
+NSString *const MUXSDKPluginVersion = @"4.4.0";
 NSString *const MUXSessionDataPrefix = @"io.litix.data.";
 
 // Min number of seconds between timeupdate events. (100ms)
