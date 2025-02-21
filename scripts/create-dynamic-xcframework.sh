@@ -8,7 +8,7 @@ then
 fi
 
 if [[ $(git branch --show-current | sed -E 's/.*releases\/v([0-9]+\.[0-9]+\.[0-9]+).*/releases\/v\1/') == $(git branch --show-current) ]]; then
-    readonly RELEASE_VERSION="4.3.0"
+    readonly RELEASE_VERSION="4.4.0"
     echo "▸ Not on a release branch. Falling back to hardcoded release version: $RELEASE_VERSION"
 else
     readonly RELEASE_VERSION=$(git branch --show-current | sed -E 's/.*v([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
