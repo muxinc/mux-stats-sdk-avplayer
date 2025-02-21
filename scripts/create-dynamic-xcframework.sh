@@ -15,12 +15,13 @@ else
     echo "▸ On a release branch. Inferring release version from branch name: $RELEASE_VERSION"
 fi
 
-readonly BUILD_DIR=$PWD/MUXSDKStats/xc
+readonly BUILD_DIR=$PWD/.build
 readonly PROJECT=$PWD/MUXSDKStats/MUXSDKStats.xcodeproj
 readonly TARGET_DIR=$PWD/XCFramework
 
 readonly FRAMEWORK_NAME="MUXSDKStats"
 readonly PACKAGE_NAME=${FRAMEWORK_NAME}.xcframework
+readonly DEBUGGABLE_PACKAGE_NAME=${FRAMEWORK_NAME}.debuggable.xcframework
 
 readonly CODE_SIGNING_CERTIFICATE="Apple Distribution: Mux, Inc (XX95P4Y787)"
 
@@ -287,6 +288,23 @@ else
     exit 1
 fi
 
-echo "▸ Deleting old build intermediate products directory: ${BUILD_DIR}"
+echo "▸ Creating ${DEBUGGABLE_PACKAGE_NAME} Dynamic Framework Multiplatform Bundle"
 
-rm -Rf $BUILD_DIR
+xcodebuild -create-xcframework \
+    -framework "$BUILD_DIR/MUXSDKStatsVision.visionOS.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
+    -debug-symbols "$BUILD_DIR/MUXSDKStatsVision.visionOS.xcarchive/dSYMs/MUXSDKStats.framework.dSYM" \
+    -framework "$BUILD_DIR/MUXSDKStatsVision.visionOS-simulator.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
+    -debug-symbols "$BUILD_DIR/MUXSDKStatsVision.visionOS-simulator.xcarchive/dSYMs/MUXSDKStats.framework.dSYM" \
+    -framework "$BUILD_DIR/MUXSDKStatsTv.tvOS.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
+    -debug-symbols "$BUILD_DIR/MUXSDKStatsTv.tvOS.xcarchive/dSYMs/MUXSDKStats.framework.dSYM" \
+    -framework "$BUILD_DIR/MUXSDKStatsTv.tvOS-simulator.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
+    -debug-symbols "$BUILD_DIR/MUXSDKStatsTv.tvOS-simulator.xcarchive/dSYMs/MUXSDKStats.framework.dSYM" \
+    -framework "$BUILD_DIR/MUXSDKStats.iOS.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
+    -debug-symbols "$BUILD_DIR/MUXSDKStats.iOS.xcarchive/dSYMs/MUXSDKStats.framework.dSYM" \
+    -framework "$BUILD_DIR/MUXSDKStats.iOS-simulator.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
+    -debug-symbols "$BUILD_DIR/MUXSDKStats.iOS-simulator.xcarchive/dSYMs/MUXSDKStats.framework.dSYM" \
+    -framework "$BUILD_DIR/MUXSDKStats.macOS.xcarchive/Products/Library/Frameworks/MUXSDKStats.framework" \
+    -debug-symbols "$BUILD_DIR/MUXSDKStats.macOS.xcarchive/dSYMs/MUXSDKStats.framework.dSYM" \
+    -output "${BUILD_DIR}/${DEBUGGABLE_PACKAGE_NAME}" | xcbeautify
+
+codesign --timestamp -v --sign "${CODE_SIGNING_CERTIFICATE}" "$BUILD_DIR/$DEBUGGABLE_PACKAGE_NAME"
