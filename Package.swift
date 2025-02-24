@@ -24,6 +24,9 @@ let package = Package(
             name: "MUXSDKStats",
             dependencies: [
                 .product(name: "MuxCore", package: "stats-sdk-objc"),
+            ],
+            resources: [
+                .process("Resources"),
             ]),
         .testTarget(
             name: "MUXSDKStatsTests",
