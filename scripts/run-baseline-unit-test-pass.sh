@@ -7,10 +7,7 @@ then
     exit 1
 fi
 
-readonly PROJECT=MUXSDKStats.xcodeproj
 readonly SCHEME=MUXSDKStats
-
-cd MUXSDKStats
 
 echo "▸ Current Xcode: $(xcode-select -p)"
 
@@ -18,18 +15,16 @@ echo "▸ Available Xcode SDKs"
 
 xcodebuild -showsdks
 
-echo "▸ Testing SDK on iOS 17.5 - iPhone 15 Pro Max"
+echo "▸ Testing SDK on iOS 18.2 - iPhone 16 Pro"
 
 xcodebuild clean test \
-  -project $PROJECT \
   -scheme $SCHEME \
-  -destination 'platform=iOS Simulator,OS=17.5,name=iPhone 15 Pro Max' \
+  -destination 'platform=iOS Simulator,OS=18.2,name=iPhone 16 Pro' \
   | xcbeautify
 
-echo "▸ Testing SDK on iOS 17.5 - iPad Pro 13-inch (M4)"
+echo "▸ Testing SDK on iOS 18.2 - iPad Pro 13-inch (M4)"
 
 xcodebuild clean test \
-  -project $PROJECT \
   -scheme $SCHEME \
-  -destination 'platform=iOS Simulator,OS=17.5,name=iPad Pro 13-inch (M4)' \
+  -destination 'platform=iOS Simulator,OS=18.2,name=iPad Pro 13-inch (M4)' \
   | xcbeautify

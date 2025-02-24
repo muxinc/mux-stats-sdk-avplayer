@@ -11,7 +11,7 @@ let package = Package(
         .visionOS(.v1),
     ],
     products: [
-        .library(name: "MUXSDKStats", targets: ["MUXSDKStatsTargets"])
+        .library(name: "MUXSDKStats", targets: ["MUXSDKStats"])
     ],
     dependencies: [
         .package(
@@ -20,17 +20,18 @@ let package = Package(
         )
     ],
     targets: [
-        .binaryTarget(
-            name: "MUXSDKStats",
-            path: "XCFramework/MUXSDKStats.xcframework"
-        ),
         .target(
-            name: "MUXSDKStatsTargets",
+            name: "MUXSDKStats",
             dependencies: [
                 .product(name: "MuxCore", package: "stats-sdk-objc"),
-                .target(name: "MUXSDKStats")
+            ]),
+        .testTarget(
+            name: "MUXSDKStatsTests",
+            dependencies: [
+                "MUXSDKStats",
             ],
-            path: "SwiftPM"
-        )
+            cSettings: [
+                .headerSearchPath("../../Sources/MUXSDKStats"),
+            ]),
     ]
 )
