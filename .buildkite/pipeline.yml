@@ -15,22 +15,11 @@ steps:
     label: ":clipboard: Validate Version Metadata"
     branches: "releases/*"
   - wait
-  - command: ".buildkite/scripts/dynamic-xcframework.sh"
-    label: ":xcode: Create Dynamic XCFramework"
-    artifact_paths:
-      - "./XCFramework/MUXSDKStats.xcframework.zip"
-      - "./.build/MUXSDKStats.debuggable.xcframework.zip"
-  - wait
   - command: "buildkite-agent artifact download XCFramework/MUXSDKStats.xcframework.zip XCFramework && ./scripts/run-tests-swift-package-manager-ventura.sh"
     label: ":swift: Test Swift Package Manager Example"
     branches: "releases/*"
     retry:
       automatic: true
-  - wait
-  - command: ".buildkite/scripts/static-xcframework.sh"
-    label: ":xcode: Create Static XCFramework"
-    artifact_paths:
-      - "./XCFramework/MUXSDKStats-static.xcframework.zip"
   - wait
   - command: "buildkite-agent artifact download XCFramework/MUXSDKStats.xcframework.zip XCFramework && ./scripts/run-tests-cocoapods-ventura.sh"
     label: ":cocoapods: Test Cocoapods Example"
