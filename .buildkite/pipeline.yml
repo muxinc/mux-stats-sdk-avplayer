@@ -2,8 +2,14 @@ agents:
   queue: "macOS-Monterey-12-4"
 
 steps:
-  - command: "./scripts/run-baseline-unit-test-pass.sh"
-    label: ":xcode_simulator: Baseline Unit Test Pass"
+  - command: "./scripts/unit-test-package.sh"
+    label: ":xcode_simulator: Unit Test Package"
+    artifact_paths:
+      - ".build/artifacts/*.xcresult.zip"
+  - command: "./scripts/build-package.sh"
+    label: ":xcode: Build Package"
+    artifact_paths:
+      - ".build/artifacts/*.xcresult.zip"
   - wait
   - command: "./scripts/version-check.sh Mux-Stats-AVPlayer.podspec MUXSDKStats.json"
     label: ":clipboard: Validate Version Metadata"
