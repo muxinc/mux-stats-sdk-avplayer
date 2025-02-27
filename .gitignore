@@ -1,6 +1,10 @@
-**/xcuserdata/*
-**/Pods/*
-**/*.xcworkspace/*
-*.DS_Store
-.swiftpm
+# Swift Package Manager:
 Package.resolved
+.DS_Store
+/.build
+/Packages
+xcuserdata/
+DerivedData/
+.swiftpm/configuration/registries.json
+.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+.netrc

@@ -16,11 +16,17 @@ Pod::Spec.new do |s|
 
   s.dependency 'Mux-Stats-Core', '~> 5.3.0'
 
-  s.ios.deployment_target = '12.0'
-  s.ios.vendored_frameworks = 'XCFramework/MUXSDKStats.xcframework'
-  s.ios.frameworks = 'AVKit', 'AVFoundation', 'SystemConfiguration', 'CoreMedia'
+  s.frameworks = 'AVKit', 'AVFoundation', 'SystemConfiguration', 'CoreMedia'
 
+  s.ios.deployment_target = '12.0'
   s.tvos.deployment_target = '12.0'
-  s.tvos.vendored_frameworks = 'XCFramework/MUXSDKStats.xcframework'
-  s.tvos.frameworks = 'AVKit', 'AVFoundation', 'SystemConfiguration', 'CoreMedia'
+
+  s.module_name = 'MUXSDKStats'
+  s.source_files = 'Sources/MUXSDKStats/**/*.{h,m}'
+  s.public_header_files = 'Sources/MUXSDKStats/include/*.h'
+  s.project_header_files = 'Sources/MUXSDKStats/*.h'
+
+  s.test_spec do |test_spec|
+    test_spec.source_files = 'Tests/MUXSDKStatsTests/**/*.{h,m}'
+  end
 end
