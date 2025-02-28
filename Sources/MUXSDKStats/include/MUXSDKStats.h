@@ -12,14 +12,18 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 
 #if TARGET_OS_TV
-#import "MUXSDKStatsTv.h"
 #import <MuxCore/MuxCoreTv.h>
 #elif TARGET_OS_VISION
-#import "MUXSDKStatsVision.h"
 #import <MuxCore/MuxCoreVision.h>
 #else
 #import <MuxCore/MuxCore.h>
 #endif
+
+// In previous releases, the umbrella header varied between platforms.
+// These have been left in for compatibility, but will be removed in a future release.
+// Importing them here avoids warnings about missing imports in the umbrella header.
+#import "MUXSDKStatsTv.h"
+#import "MUXSDKStatsVision.h"
 
 #import "MUXSDKPlayerBinding.h"
 
