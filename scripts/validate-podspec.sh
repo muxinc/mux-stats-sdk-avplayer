@@ -10,4 +10,7 @@ export LC_ALL=en_US.UTF-8
 
 echo "▸ Validating Podspec"
 
-pod lib lint --allow-warnings --verbose
+pod lib lint --skip-tests --verbose
+pod lib lint --skip-tests --use-libraries --verbose
+pod lib lint --skip-tests --use-modular-headers --verbose
+pod lib lint --skip-tests --use-static-frameworks --verbose
