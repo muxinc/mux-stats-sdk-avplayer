@@ -29,5 +29,3 @@ steps:
   - wait
   - command: "./scripts/validate-podspec.sh"
     label: ":cocoapods: Validate Podspec"
-    branches: "releases/*"
-
