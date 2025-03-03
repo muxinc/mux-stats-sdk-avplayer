@@ -28,9 +28,19 @@ echo ""
 
 echo "▸ Testing SDK on iOS Simulator - iPhone 16 Pro"
 
-xcodebuild clean test \
+xcodebuild clean build-for-testing \
+    -project MUXSDKStatsExampleSPM.xcodeproj \
+    -scheme "MUXSDKStatsExampleSPM" \
+    -destination 'generic/platform=iOS Simulator' \
+    -disableAutomaticPackageResolution \
+    | xcbeautify
+
+if [ "${1:-}" == 'build-only' ]; then
+    exit 0
+fi
+
+xcodebuild test-without-building \
     -project MUXSDKStatsExampleSPM.xcodeproj \
     -scheme "MUXSDKStatsExampleSPM" \
     -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
-    -disableAutomaticPackageResolution \
     | xcbeautify

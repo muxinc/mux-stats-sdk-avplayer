@@ -15,12 +15,22 @@ steps:
     label: ":clipboard: Validate Version Metadata"
     branches: "releases/*"
   - wait
+  - command: "./scripts/run-tests-swift-package-manager-ventura.sh build-only"
+    label: ":swift: Build Swift Package Manager Example"
+    branches: "!releases/*"
+    retry:
+      automatic: true
   - command: "./scripts/run-tests-swift-package-manager-ventura.sh"
     label: ":swift: Test Swift Package Manager Example"
     branches: "releases/*"
     retry:
       automatic: true
   - wait
+  - command: "./scripts/run-tests-cocoapods-ventura.sh build-only"
+    label: ":cocoapods: Build Cocoapods Example"
+    branches: "!releases/*"
+    retry:
+      automatic: true
   - command: "./scripts/run-tests-cocoapods-ventura.sh"
     label: ":cocoapods: Test Cocoapods Example"
     branches: "releases/*"
