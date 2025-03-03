@@ -52,6 +52,7 @@ function build_for {
         -destination "generic/platform=$platform" \
         -configuration "Release" \
         -resultBundlePath "$result_bundle_path" \
+        -disableAutomaticPackageResolution \
         RUN_CLANG_STATIC_ANALYZER=YES \
         CLANG_STATIC_ANALYZER_MODE=deep \
         | xcbeautify

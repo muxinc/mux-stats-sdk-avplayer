@@ -26,11 +26,8 @@ cd apps/DemoApp
 echo "▸ Reset Local Cocoapod Cache"
 pod cache clean --all
 
-echo "▸ Remove Podfile.lock"
-rm -rf Podfile.lock
-
-echo "▸ Reset Cocoapod Installation"
-pod deintegrate && pod install --clean-install --repo-update --verbose
+echo "▸ Cocoapod Installation"
+pod install --clean-install --repo-update --verbose
 
 echo "▸ Available Schemes in $(pwd)"
 xcodebuild -list

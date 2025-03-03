@@ -20,10 +20,6 @@ xcodebuild -showsdks
 
 cd apps/MUXSDKStatsExampleSPM
 
-echo "▸ Resolving package dependencies"
-xcodebuild -resolvePackageDependencies \
-           -project MUXSDKStatsExampleSPM.xcodeproj | xcbeautify
-
 echo "▸ Available Schemes in $(pwd)"
 xcodebuild -list -json
 
@@ -35,4 +31,6 @@ echo "▸ Testing SDK on iOS Simulator - iPhone 16 Pro"
 xcodebuild clean test \
     -project MUXSDKStatsExampleSPM.xcodeproj \
     -scheme "MUXSDKStatsExampleSPM" \
-    -destination 'platform=iOS Simulator,name=iPhone 16 Pro' | xcbeautify
+    -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+    -disableAutomaticPackageResolution \
+    | xcbeautify

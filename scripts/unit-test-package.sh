@@ -47,6 +47,7 @@ function test_for {
     xcodebuild clean build-for-testing \
         -scheme "$SCHEME" \
         -destination "generic/platform=$platform" \
+        -disableAutomaticPackageResolution \
         | xcbeautify
     set -e
     local xcodebuild_build_exit_code="$?"
