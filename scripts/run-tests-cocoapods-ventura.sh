@@ -21,25 +21,31 @@ export LC_ALL=en_US.UTF-8
 echo "▸ Available Xcode SDKs"
 xcodebuild -showsdks
 
-echo "▸ Unzipping downloaded xcframework bundle"
-unzip -o "XCFramework/MUXSDKStats.xcframework.zip"
-
 cd apps/DemoApp
 
 echo "▸ Reset Local Cocoapod Cache"
 pod cache clean --all
 
-echo "▸ Remove Podfile.lock"
-rm -rf Podfile.lock
-
-echo "▸ Reset Cocoapod Installation"
-pod deintegrate && pod install --clean-install --repo-update --verbose
+echo "▸ Cocoapod Installation"
+pod install --clean-install --repo-update --verbose
 
 echo "▸ Available Schemes in $(pwd)"
 xcodebuild -list
 
-echo "▸ Testing SDK on iOS 17.5 - iPhone 15 Pro Max"
-xcodebuild clean test \
+echo "▸ Building tests for iOS Simulator"
+xcodebuild clean build-for-testing \
     -workspace $WORKSPACE \
     -scheme $SCHEME \
-    -destination 'platform=iOS Simulator,OS=17.5,name=iPhone 15 Pro Max' | xcbeautify
+    -destination 'generic/platform=iOS Simulator' \
+    | xcbeautify
+
+if [ "${1:-}" == 'build-only' ]; then
+    exit 0
+fi
+
+echo "▸ Testing SDK on iOS Simulator - iPhone 16 Pro"
+xcodebuild test-without-building \
+    -workspace $WORKSPACE \
+    -scheme $SCHEME \
+    -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+    | xcbeautify

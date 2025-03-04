@@ -62,7 +62,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1915A22E2CC3123A0094AA27 /* MUXSDKStatsBase.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = MUXSDKStatsBase.xcconfig; path = ../../MUXSDKStats/BuildConfiguration/MUXSDKStatsBase.xcconfig; sourceTree = "<group>"; };
 		194C6D432ABD518A003F965E /* mux-stats-sdk-avplayer */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "mux-stats-sdk-avplayer"; path = ../..; sourceTree = "<group>"; };
 		195762132AD64B2800128565 /* AudioOnlyPlaybackExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioOnlyPlaybackExampleViewController.swift; sourceTree = "<group>"; };
 		19ABBEA92B650DB2004A3634 /* MUXSDKStatsExampleSPM.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = MUXSDKStatsExampleSPM.xctestplan; sourceTree = "<group>"; };
@@ -190,7 +189,6 @@
 				19B8057F2B4F6875003DA705 /* MUXSDKStatsExampleSPMVisionOS */,
 				19B805942B4F6877003DA705 /* MUXSDKStatsExampleSPMVisionOSTests */,
 				19CB35CD2ABD2B5C002DF48C /* Products */,
-				1915A22E2CC3123A0094AA27 /* MUXSDKStatsBase.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -758,7 +756,6 @@
 		};
 		19CB35F72ABD2B5D002DF48C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1915A22E2CC3123A0094AA27 /* MUXSDKStatsBase.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -776,6 +773,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats.example-project.MUXSDKStatsExampleSPM";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -786,7 +784,6 @@
 		};
 		19CB35F82ABD2B5D002DF48C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1915A22E2CC3123A0094AA27 /* MUXSDKStatsBase.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -804,6 +801,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats.example-project.MUXSDKStatsExampleSPM";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
