@@ -11,7 +11,7 @@ steps:
     artifact_paths:
       - ".build/artifacts/*.xcresult.zip"
   - wait
-  - command: "./scripts/version-check.sh Mux-Stats-AVPlayer.podspec MUXSDKStats.json"
+  - command: "./scripts/version-check.sh"
     label: ":clipboard: Validate Version Metadata"
     branches: "releases/*"
   - wait

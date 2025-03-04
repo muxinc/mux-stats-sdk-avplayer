@@ -1,12 +1,6 @@
 #!/bin/bash
 
-if [ $# -ne 2 ]; then
-    echo "▸ Usage: $0 MyPod.podspec MyFramework.json"
-    exit 1
-fi
-
-readonly COCOAPOD_SPEC="$1"
-readonly CARTHAGE_JSON_SPECIFICATION="$2"
+readonly COCOAPOD_SPEC='Mux-Stats-AVPlayer.podspec'
 
 echo "▸ Validating ${COCOAPOD_SPEC}"
 
@@ -23,31 +17,6 @@ if [ "${cocoapod_spec_version}" == "${release_version}" ]; then
 	echo "▸ ${COCOAPOD_SPEC} version matches release branch version"
 else
     echo "▸ Versions do not match, please update ${COCOAPOD_SPEC} to ${release_version}"
-    exit 1
-fi
-
-echo "▸ Validating ${CARTHAGE_JSON_SPECIFICATION}"
-
-cat $CARTHAGE_JSON_SPECIFICATION | jq -e --arg release_version "$release_version" 'has($release_version)'
-
-if [[ $? == 0 ]]; then
-    echo "▸ Carthage JSON Specification contains current version"
-else
-    echo -e "\033[1;31m ERROR: ${CARTHAGE_JSON_SPECIFICATION} is missing current version, please update it \033[0m"
-    exit 1
-fi
-
-echo "▸ Validating ${CARTHAGE_JSON_SPECIFICATION} version-specific path"
-
-carthage_path=$(cat $CARTHAGE_JSON_SPECIFICATION | jq -r -e --arg release_version "$release_version" '.[$release_version]')
-expected_path="https://github.com/muxinc/mux-stats-sdk-avplayer/releases/download/v${release_version}/MUXSDKStats.xcframework.zip"
-
-if [ "${carthage_path}" == "${expected_path}" ]; then
-    echo "▸ ${CARTHAGE_JSON_SPECIFICATION} path matches expected value"
-else
-    echo "▸ Expected ${CARTHAGE_JSON_SPECIFICATION} ${release_version} path: ${expected_path}"
-    echo "▸ Actual ${CARTHAGE_JSON_SPECIFICATION} ${release_version} path: ${carthage_path}"
-    echo "▸ Please update ${CARTHAGE_JSON_SPECIFICATION} ${release_version} path to expected value"
     exit 1
 fi
 
