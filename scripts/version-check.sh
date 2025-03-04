@@ -24,7 +24,7 @@ echo "▸ Checking Plugin Version Constant"
 
 search_pattern='const MUXSDKPluginVersion = '
 
-files=$(find "MUXSDKStats" -type f -name '*.m')
+files=$(find 'Sources/MUXSDKStats' -type f -name '*.m')
 
 for file in $files; do
     # Use 'grep' to find lines matching the pattern
