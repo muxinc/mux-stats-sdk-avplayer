@@ -56,7 +56,7 @@ function test_for {
         echo "^^^ +++"
         echo "xcodebuild exited with code $xcodebuild_build_exit_code"
         EXIT_CODE=1
-        continue
+        return
     fi
 
     echo "--- Testing $platform via $destination_name"
@@ -83,7 +83,7 @@ function test_for {
         echo "^^^ +++"
         echo "xcodebuild exited with code $xcodebuild_test_exit_code"
         EXIT_CODE=1
-        continue
+        return
     fi
 }
 

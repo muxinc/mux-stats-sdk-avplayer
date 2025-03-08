@@ -67,7 +67,7 @@ function test_for {
         echo "^^^ +++"
         echo "xcodebuild exited with code $xcodebuild_build_exit_code"
         EXIT_CODE=1
-        continue
+        return
     fi
 
     if [ -z "$destination_name" ]; then
@@ -78,7 +78,7 @@ function test_for {
         rm -rf "$test_products_artifact_path"
 
         (cd "$BUILD_DIR" && ditto -c -k -X "$test_products_filename" "$test_products_artifact_path")
-        continue
+        return
     fi
 
     echo "--- Testing $platform via $destination_name"
@@ -104,7 +104,7 @@ function test_for {
         echo "^^^ +++"
         echo "xcodebuild exited with code $xcodebuild_test_exit_code"
         EXIT_CODE=1
-        continue
+        return
     fi
 }
 
