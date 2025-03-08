@@ -10,6 +10,11 @@ steps:
     label: ":xcode: Build Package"
     artifact_paths:
       - ".build/artifacts/*.xcresult.zip"
+  - command: "./scripts/run-integration-tests.sh"
+    label: ":xcode_simulator: Integration Tests"
+    artifact_paths:
+      - ".build/artifacts/*.xctestproducts.zip"
+      - ".build/artifacts/*.xcresult.zip"
   - wait
   - command: "./scripts/version-check.sh"
     label: ":clipboard: Validate Version Metadata"
@@ -21,7 +26,6 @@ steps:
   - command: "./scripts/run-tests-swift-package-manager-ventura.sh"
     label: ":swift: Test Swift Package Manager Example"
     branches: "releases/*"
-  - wait
   - command: "./scripts/run-tests-cocoapods-ventura.sh build-only"
     label: ":cocoapods: Build Cocoapods Example"
     branches: "!releases/*"
