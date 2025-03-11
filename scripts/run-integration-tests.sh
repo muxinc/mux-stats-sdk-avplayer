@@ -9,6 +9,7 @@ readonly TEST_PLAN=MUXSDKStats
 
 readonly BUILD_DIR="$PWD/.build"
 readonly ARTIFACTS_DIR="$BUILD_DIR/artifacts"
+readonly DERIVED_DATA_PATH="$BUILD_DIR/DerivedData"
 
 readonly XCRESULT_NAME_BASE="$SCHEME-Test"
 readonly XCRESULT_FILENAME="$XCRESULT_NAME_BASE.xcresult"
@@ -58,6 +59,7 @@ function test_for {
         -testPlan "$TEST_PLAN" \
         -testProductsPath "$test_products_path" \
         -destination "generic/platform=$platform" \
+        -derivedDataPath "$DERIVED_DATA_PATH" \
         -disableAutomaticPackageResolution \
         | xcbeautify
     set -e
@@ -92,6 +94,7 @@ function test_for {
         -testProductsPath "$test_products_path" \
         -destination "platform=$platform,name=$destination_name" \
         -resultBundlePath "$result_bundle_path" \
+        -derivedDataPath "$DERIVED_DATA_PATH" \
         | xcbeautify
     local xcodebuild_test_exit_code="$?"
     set -e
