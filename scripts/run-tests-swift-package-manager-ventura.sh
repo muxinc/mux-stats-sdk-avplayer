@@ -37,6 +37,7 @@ xcodebuild clean build-for-testing \
     -scheme "MUXSDKStatsExampleSPM" \
     -destination 'generic/platform=iOS Simulator' \
     -derivedDataPath "$DERIVED_DATA_PATH" \
+    -allowProvisioningUpdates \
     -disableAutomaticPackageResolution \
     | xcbeautify
 

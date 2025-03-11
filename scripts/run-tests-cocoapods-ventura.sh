@@ -42,6 +42,7 @@ xcodebuild clean build-for-testing \
     -scheme $SCHEME \
     -destination 'generic/platform=iOS Simulator' \
     -derivedDataPath "$DERIVED_DATA_PATH" \
+    -allowProvisioningUpdates \
     | xcbeautify
 
 if [ "${1:-}" == 'build-only' ]; then
