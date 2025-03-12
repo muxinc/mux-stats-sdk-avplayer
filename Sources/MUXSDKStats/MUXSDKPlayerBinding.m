@@ -429,6 +429,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             [self dispatchPlay];
         }
     }
+    
     if (_player && _player.currentItem) {
         _playerItem = _player.currentItem;
         [_playerItem addObserver:self
@@ -439,6 +440,59 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
                       forKeyPath:@"playbackBufferEmpty"
                          options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
                          context:MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext];
+        
+        // Handle being attached to the monitor late. In this case, we will likely miss all of the
+        //  KVO updates and NSNotificaitons that would set up the metadata we record here.
+        //  checkVideoData requires (and assumes) that we see those events, but this isn't feasible
+        //  for customers that want to pre-load media or pool their player instances. In those cases
+        //  we need to catch-up some of our state
+        AVPlayerItemTrack *alreadyLoadedVideoTrack = [self findVideoTrackOnPlayerItem:_playerItem];
+        if (alreadyLoadedVideoTrack) {
+            CGSize srcDimens = [self getSourceDimensions];
+            
+            MUXSDKVideoData *videoData = [[MUXSDKVideoData alloc] init];
+            MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
+            dataEvent.videoData = videoData;
+            
+            if (srcDimens.width > 0 || srcDimens.height > 0) {
+                // media was already loaded, get the source dimensions so we can catch up
+                _videoSize = srcDimens;
+                _lastDispatchedVideoSize = srcDimens; // At the end of the method, this will reflect reality
+                
+                videoData.videoSourceWidth = [NSNumber numberWithDouble:_videoSize.width];
+                videoData.videoSourceHeight = [NSNumber numberWithDouble:_videoSize.height];
+            }
+            
+            NSString *srcUrlString = [self getURLStringIfAvailableOnAVPlayerItem:_playerItem];
+            if (srcUrlString) {
+                _videoURL = srcUrlString;
+                videoData.videoSourceUrl = srcUrlString;
+            }
+            
+            NSError *error = nil;
+            AVKeyValueStatus status = [_playerItem.asset statusOfValueForKey:@"duration" error: &error];
+            if (!error && status == AVKeyValueStatusLoaded) {
+                CMTime duration = [_playerItem.asset duration];
+                float floatingSec = CMTimeGetSeconds(duration);
+                if (!isnan(floatingSec) && floatingSec > 0) {
+                    float ms = floatingSec * 1000;
+                    NSNumber *timeMs = [NSNumber numberWithFloat:ms];
+                    [videoData setVideoSourceDuration:[NSNumber numberWithLongLong:[timeMs longLongValue]]];
+                }
+                _videoDuration = duration;
+            }
+            
+            // TODO: doesn't seem to be set. Keep this?
+            long alreadyAdvertisedBitrate = [self findMostRecentAdvertisedBitrateForPlayerItem:_playerItem];
+            if (alreadyAdvertisedBitrate > 0) {
+                _lastAdvertisedBitrate = alreadyAdvertisedBitrate;
+                videoData.videoSourceAdvertisedBitrate = [
+                    NSNumber
+                    numberWithFloat:alreadyAdvertisedBitrate
+                ];
+            }
+            [MUXSDKCore dispatchEvent:dataEvent forPlayer:[self name]];
+        }
         
         [self dispatchSessionData];
     }
@@ -539,6 +593,68 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     return CGSizeMake(0, 0);
 }
 
+- (long)findMostRecentAdvertisedBitrateForPlayerItem:(nonnull AVPlayerItem *)item {
+    AVPlayerItemAccessLog *accessLog = [item accessLog];
+    AVPlayerItemAccessLogEvent *recentBitrateEvent = nil;
+    
+    if (accessLog && accessLog.events) {
+        NSArray<AVPlayerItemAccessLogEvent *> *events = [accessLog.events copy];
+        for (int i = 0; i < events.count; i++) {
+            AVPlayerItemAccessLogEvent *ev = events[i];
+            double bitrateFromLog = ev.indicatedBitrate;
+            if (bitrateFromLog > 0) {
+                recentBitrateEvent = ev;
+            }
+        }
+    }
+    
+    if (recentBitrateEvent) {
+        return recentBitrateEvent.indicatedBitrate;
+    } else {
+        return -1;
+    }
+}
+
+- (nullable NSString *)getURLStringIfAvailableOnAVPlayerItem:(nonnull AVPlayerItem *)item {
+    AVAsset *playerItemAsset = item.asset;
+    if (playerItemAsset && [playerItemAsset isKindOfClass:AVURLAsset.class]) {
+        AVURLAsset *urlAsset = (AVURLAsset *)playerItemAsset;
+        NSString * urlString = [[urlAsset URL] absoluteString];
+        return urlString;
+    }
+    
+    return nil;
+}
+
+- (nullable AVPlayerItemTrack *)findVideoTrackOnPlayerItem:(nonnull AVPlayerItem *)item {
+    if (!item.tracks) {
+        NSLog(@"findVideoTrackOnPlayerItem: no tracks loaded yet");
+        return nil;
+    }
+    
+    // TODO: what even throws here anyway? Is this catch-block really needed?
+    @try {
+        for (int t = 0; t < item.tracks.count; t++) {
+            AVPlayerItemTrack *playerItemTrack = [
+                [item tracks] objectAtIndex:t
+            ];
+            if (playerItemTrack) {
+                AVAssetTrack *assetTrack = playerItemTrack.assetTrack;
+                if (assetTrack) {
+                    AVMediaType mediaType = assetTrack.mediaType;
+                    if (mediaType && [mediaType isEqualToString:AVMediaTypeVideo]) {
+                        return playerItemTrack;
+                    }
+                }
+            }
+        }
+    } @catch (NSException *exception) {
+        NSLog(@"%@", exception.reason);
+    }
+    
+    return nil;
+}
+
 - (void)resetVideoData {
     _videoSize = CGSizeMake(0, 0);
     _videoDuration = CMTimeMake(0, 0);
@@ -580,6 +696,15 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         _lastDispatchedAdvertisedBitrate = _lastAdvertisedBitrate;
         _sourceDimensionsHaveChanged = YES;
     }
+   
+    // TODO: why are we doing this equality check? Those fields are only set in the 'if' and would only desync if the gotten src dimens were 0x0,
+    // and in that case both would remain 0x0 since that's the initial value for both _videoSize and _lastDispatchedVideoSize. If the dimens became
+    // 0x0 after becoming something else, we'd skip dispatching a DataEvent (probably reasonable), but also now would never ever pick up a size
+    // change again since _videoSize would be 0x0 again but _lastDispatchedVideoSize would be the previous size
+    //  ... Also just pointing out that we have _sourceDimensionsHaveChanged (called when adv. bitrate changes) and we have the size check
+    //  inside this if-block, to make sure we don't report size to the core twice
+    //  ... Double-also, reporting the same size to the core isn't that bad, DataEvents are not sent externally, and if the dimens were the same as
+    //  last beacon, they'd get de-duped, and if they were exempt from de-duping, neither the number of keys nor len of the beacon are bottlenecks for us
     if (_sourceDimensionsHaveChanged && CGSizeEqualToSize(_videoSize, _lastDispatchedVideoSize)) {
         CGSize sourceDimensions = [self getSourceDimensions];
         if (!CGSizeEqualToSize(_videoSize, sourceDimensions)) {
@@ -591,6 +716,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             }
         }
     }
+    
     NSNumber *checkedFrameDrops = nil;
     if(_totalFrameDropsHasChanged && _totalFrameDrops > 0) {
         _totalFrameDropsHasChanged = NO;

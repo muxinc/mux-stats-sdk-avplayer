@@ -42,11 +42,18 @@ class BasicPlaybackExampleViewController: UIViewController {
 
         displayPlayerViewController()
 
-        MUXSDKStats.monitorAVPlayerViewController(
-            playerViewController,
-            withPlayerName: playerName,
-            customerData: customerData!
-        )
+        // TODO: Should be an automated test case
+        print("viewDidLoad: (not) About to delay monitoring")
+        Task {
+            try await Task.sleep(nanoseconds: 5 * 1_000_000_000)
+            let _ = await MainActor.run {
+                MUXSDKStats.monitorAVPlayerViewController(
+                    playerViewController,
+                    withPlayerName: playerName,
+                    customerData: customerData!
+                )
+            }
+        }
     }
 
     func displayPlayerViewController() {
