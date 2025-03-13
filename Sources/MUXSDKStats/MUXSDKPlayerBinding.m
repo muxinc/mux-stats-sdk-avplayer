@@ -695,8 +695,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         _lastDispatchedAdvertisedBitrate = _lastAdvertisedBitrate;
         _sourceDimensionsHaveChanged = YES;
     } else if (_started && _lastAdvertisedBitrate <= 0) {
-        // If we're playing an HLS stream that has only an MP and no MVP, there might not be any birate info
-        //  advertised at all, so we will need to calculate a bitrate.
+        // Advertising bitrate is technically optional, and single-rendition/bare-MP streams wouldn't need it
         NSLog(@"checkVideoData: started but advertised bitrate not set");
         long fallbackBitrate = [self findMostRecentAdvertisedBitrateForPlayerItem:_player.currentItem];
         _lastAdvertisedBitrate = fallbackBitrate;
