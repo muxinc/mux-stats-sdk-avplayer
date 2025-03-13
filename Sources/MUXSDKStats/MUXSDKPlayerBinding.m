@@ -482,13 +482,12 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
                 _videoDuration = duration;
             }
             
-            // TODO: doesn't seem to be set. Keep this?
             long alreadyAdvertisedBitrate = [self findMostRecentAdvertisedBitrateForPlayerItem:_playerItem];
             if (alreadyAdvertisedBitrate > 0) {
                 _lastAdvertisedBitrate = alreadyAdvertisedBitrate;
+                _lastDispatchedAdvertisedBitrate = alreadyAdvertisedBitrate;
                 videoData.videoSourceAdvertisedBitrate = [
-                    NSNumber
-                    numberWithFloat:alreadyAdvertisedBitrate
+                    NSNumber numberWithFloat:alreadyAdvertisedBitrate
                 ];
             }
             [MUXSDKCore dispatchEvent:dataEvent forPlayer:[self name]];
@@ -617,6 +616,8 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             NSLog(@"findMostRecentAdvertisedBitrateForPlayerItem: last event was nil");
         }
         
+        // TODO: This only works if there is a bitrate indicated in the MVP/Media Playlist
+        //  Do we even want to use this one still
         for (int i = 0; i < events.count; i++) {
             AVPlayerItemAccessLogEvent *ev = events[i];
             double bitrateFromLog = ev.indicatedBitrate;
@@ -713,6 +714,16 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         videoDataUpdated = YES;
         _lastDispatchedAdvertisedBitrate = _lastAdvertisedBitrate;
         _sourceDimensionsHaveChanged = YES;
+    } else if (_started && _lastAdvertisedBitrate <= 0) {
+        // TODO: this case should cover when a single-rendition item is being played. We don't get rendition change
+        //  so we are going to miss the events taht would ordinarily set the advertised bitrate. We can calculate
+        //  a real bitrate based on what we know, which is better than not having a bitrate at all (and arguably
+        //  better than trusting the bitrate advertised in the playlist anyway)
+        NSLog(@"checkVideoData: started but advertised bitrate not set");
+        long fallbackBitrate = [self findMostRecentAdvertisedBitrateForPlayerItem:_player.currentItem];
+        _lastAdvertisedBitrate = fallbackBitrate;
+        _lastDispatchedAdvertisedBitrate = fallbackBitrate;
+        videoDataUpdated = YES;
     }
    
     // TODO: why are we doing this equality check? Those fields are only set in the 'if' and would only desync if the gotten src dimens were 0x0,
