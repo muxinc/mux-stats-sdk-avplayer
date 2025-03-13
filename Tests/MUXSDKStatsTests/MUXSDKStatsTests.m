@@ -840,14 +840,16 @@ static NSString *Z = @"Z";
     NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                                     MUXSDKDataEventType,
                                     MUXSDKPlaybackEventPlayerReadyEventType,
+                                    MUXSDKDataEventType,
                                     MUXSDKPlaybackEventPlayEventType,
                                     MUXSDKDataEventType,
                                     MUXSDKPlaybackEventRenditionChangeEventType,
 
     ];
+    NSArray *actualEventTypes = [MUXSDKCore eventNamesForPlayer:playName];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     
-    id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:4 forPlayer:playName];
+    id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:5 forPlayer:playName];
     MUXSDKVideoData *videoData = [((MUXSDKDataEvent *) event) videoData];
     XCTAssertNotNil(videoData);
     XCTAssertEqualWithAccuracy(258157, [videoData.videoSourceAdvertisedBitrate doubleValue], FLT_EPSILON);
