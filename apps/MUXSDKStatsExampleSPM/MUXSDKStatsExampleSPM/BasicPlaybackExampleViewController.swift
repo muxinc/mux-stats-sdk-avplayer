@@ -13,7 +13,9 @@ class BasicPlaybackExampleViewController: UIViewController {
         let playbackID = ProcessInfo.processInfo.playbackID ?? "qxb01i6T202018GFS02vp9RIe01icTcDCjVzQpmaB00CUisJ4"
 
         return URL(
-            string: "https://stream.mux.com/\(playbackID).m3u8"
+//            string: "https://test-streams.mux.dev/x36xhzz/url_6/193039199_mp4_h264_aac_hq_7.m3u8"
+                        string: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+            //            string: "https://stream.mux.com/\(playbackID).m3u8"
         )!
     }
     let playerName = "AVPlayerViewControllerExample"

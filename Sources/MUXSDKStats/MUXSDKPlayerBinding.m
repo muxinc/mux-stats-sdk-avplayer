@@ -442,7 +442,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
                          context:MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext];
         
         // Handle being attached to the monitor late. In this case, we will likely miss all of the
-        //  KVO updates and NSNotificaitons that would set up the metadata we record here.
+        //  KVO updates and NSNotificaitons that would set up the metadata we are trying to get here.
         //  checkVideoData requires (and assumes) that we see those events, but this isn't feasible
         //  for customers that want to pre-load media or pool their player instances. In those cases
         //  we need to catch-up some of our state
@@ -599,6 +599,24 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     
     if (accessLog && accessLog.events) {
         NSArray<AVPlayerItemAccessLogEvent *> *events = [accessLog.events copy];
+        
+        // TODO: This I think is the right way, since indicatedBitrate isn't guaranteed
+        AVPlayerItemAccessLogEvent *lastEvent = [events lastObject];
+        if (lastEvent) {
+            long long transferredBytes = lastEvent.numberOfBytesTransferred;
+            NSTimeInterval downloadedDuration = lastEvent.segmentsDownloadedDuration;
+            NSLog(@"findMostRecentAdvertisedBitrateForPlayerItem: last event has transferred bytes %lld", transferredBytes);
+            NSLog(@"findMostRecentAdvertisedBitrateForPlayerItem: last event has duration %f", downloadedDuration);
+//            NSNumber *transferredBits = [NSNumber numberWithFloat: transferredBytes * 8];
+            long long transferredBits = transferredBytes * 8;
+            double calculatedBitrate = transferredBits / downloadedDuration;
+            NSLog(@"findMostRecentAdvertisedBitrateForPlayerItem: calculated bitrate %f", calculatedBitrate);
+            NSLog(@"findMostRecentAdvertisedBitrateForPlayerItem: calculated bitrate as long %ld", (long)calculatedBitrate);
+            return calculatedBitrate;
+        } else {
+            NSLog(@"findMostRecentAdvertisedBitrateForPlayerItem: last event was nil");
+        }
+        
         for (int i = 0; i < events.count; i++) {
             AVPlayerItemAccessLogEvent *ev = events[i];
             double bitrateFromLog = ev.indicatedBitrate;
