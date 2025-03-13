@@ -571,6 +571,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (CGSize)getSourceDimensions {
+    // TODO: What throws here? Is this try-catch even necessary
     @try {
         NSArray *formatDescriptions;
         for (int t = 0; t < _player.currentItem.tracks.count; t++) {
@@ -704,14 +705,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         videoDataUpdated = YES;
     }
    
-    // TODO: why are we doing this equality check? Those fields are only set in the 'if' and would only desync if the gotten src dimens were 0x0,
-    // and in that case both would remain 0x0 since that's the initial value for both _videoSize and _lastDispatchedVideoSize. If the dimens became
-    // 0x0 after becoming something else, we'd skip dispatching a DataEvent (probably reasonable), but also now would never ever pick up a size
-    // change again since _videoSize would be 0x0 again but _lastDispatchedVideoSize would be the previous size
-    //  ... Also just pointing out that we have _sourceDimensionsHaveChanged (called when adv. bitrate changes) and we have the size check
-    //  inside this if-block, to make sure we don't report size to the core twice
-    //  ... Double-also, reporting the same size to the core isn't that bad, DataEvents are not sent externally, and if the dimens were the same as
-    //  last beacon, they'd get de-duped, and if they were exempt from de-duping, neither the number of keys nor len of the beacon are bottlenecks for us
     if (_sourceDimensionsHaveChanged && CGSizeEqualToSize(_videoSize, _lastDispatchedVideoSize)) {
         CGSize sourceDimensions = [self getSourceDimensions];
         if (!CGSizeEqualToSize(_videoSize, sourceDimensions)) {
