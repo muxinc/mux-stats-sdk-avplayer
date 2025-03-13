@@ -599,7 +599,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (accessLog && accessLog.events) {
         NSArray<AVPlayerItemAccessLogEvent *> *events = [accessLog.events copy];
         
-        // TODO: This I think is the right way, since indicatedBitrate isn't guaranteed
         AVPlayerItemAccessLogEvent *lastEvent = [events lastObject];
         if (lastEvent) {
             long long transferredBytes = lastEvent.numberOfBytesTransferred;
@@ -615,23 +614,24 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         } else {
             NSLog(@"findMostRecentAdvertisedBitrateForPlayerItem: last event was nil");
         }
-        
-        // TODO: This only works if there is a bitrate indicated in the MVP/Media Playlist
-        //  Do we even want to use this one still
-        for (int i = 0; i < events.count; i++) {
-            AVPlayerItemAccessLogEvent *ev = events[i];
-            double bitrateFromLog = ev.indicatedBitrate;
-            if (bitrateFromLog > 0) {
-                recentBitrateEvent = ev;
-            }
-        }
+        return -1;
+
+//        // TODO: This only works if there is a bitrate indicated in the MVP/Media Playlist
+//        //  Do we even want to use this one still
+//        for (int i = 0; i < events.count; i++) {
+//            AVPlayerItemAccessLogEvent *ev = events[i];
+//            double bitrateFromLog = ev.indicatedBitrate;
+//            if (bitrateFromLog > 0) {
+//                recentBitrateEvent = ev;
+//            }
+//        }
     }
     
-    if (recentBitrateEvent) {
-        return recentBitrateEvent.indicatedBitrate;
-    } else {
-        return -1;
-    }
+//    if (recentBitrateEvent) {
+//        return recentBitrateEvent.indicatedBitrate;
+//    } else {
+//        return -1;
+//    }
 }
 
 - (nullable NSString *)getURLStringIfAvailableOnAVPlayerItem:(nonnull AVPlayerItem *)item {
@@ -715,10 +715,8 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         _lastDispatchedAdvertisedBitrate = _lastAdvertisedBitrate;
         _sourceDimensionsHaveChanged = YES;
     } else if (_started && _lastAdvertisedBitrate <= 0) {
-        // TODO: this case should cover when a single-rendition item is being played. We don't get rendition change
-        //  so we are going to miss the events taht would ordinarily set the advertised bitrate. We can calculate
-        //  a real bitrate based on what we know, which is better than not having a bitrate at all (and arguably
-        //  better than trusting the bitrate advertised in the playlist anyway)
+        // If we're playing an HLS stream that has only an MP and no MVP, there might not be any birate info
+        //  advertised at all, so we will need to calculate a bitrate.
         NSLog(@"checkVideoData: started but advertised bitrate not set");
         long fallbackBitrate = [self findMostRecentAdvertisedBitrateForPlayerItem:_player.currentItem];
         _lastAdvertisedBitrate = fallbackBitrate;

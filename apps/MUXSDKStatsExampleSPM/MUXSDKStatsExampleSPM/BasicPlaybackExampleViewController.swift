@@ -14,8 +14,8 @@ class BasicPlaybackExampleViewController: UIViewController {
 
         // TODO: Should be in an automated test case
         return URL(
-//            string: "https://test-streams.mux.dev/x36xhzz/url_6/193039199_mp4_h264_aac_hq_7.m3u8"
-                        string: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+            string: "https://test-streams.mux.dev/x36xhzz/url_6/193039199_mp4_h264_aac_hq_7.m3u8"
+//                        string: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
             //            string: "https://stream.mux.com/\(playbackID).m3u8"
         )!
     }
@@ -47,16 +47,16 @@ class BasicPlaybackExampleViewController: UIViewController {
 
         // TODO: Should be automated test cases
         print("viewDidLoad: (not) About to delay monitoring")
-//        Task {
-//            try await Task.sleep(nanoseconds: 5 * 1_000_000_000)
-//            let _ = await MainActor.run {
+        Task {
+            try await Task.sleep(nanoseconds: 5 * 1_000_000_000)
+            let _ = await MainActor.run {
                 MUXSDKStats.monitorAVPlayerViewController(
                     playerViewController,
                     withPlayerName: playerName,
                     customerData: customerData!
                 )
-//            }
-//        }
+            }
+        }
     }
 
     func displayPlayerViewController() {
