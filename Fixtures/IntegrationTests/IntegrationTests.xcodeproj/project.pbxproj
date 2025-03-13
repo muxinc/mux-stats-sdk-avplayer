@@ -49,6 +49,11 @@
 			path = UITests;
 			sourceTree = "<group>";
 		};
+		72F2D9F72D8245830037AEF4 /* Configuration */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Configuration;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +85,7 @@
 		7225C9BC2D77C2980003066B = {
 			isa = PBXGroup;
 			children = (
+				72F2D9F72D8245830037AEF4 /* Configuration */,
 				7225C9C72D77C2980003066B /* IntegrationTestHost */,
 				7225C9D92D77C2980003066B /* IntegrationTests */,
 				7225C9E32D77C2980003066B /* UITests */,
@@ -292,6 +298,8 @@
 /* Begin XCBuildConfiguration section */
 		7225C9E82D77C2980003066B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 72F2D9F72D8245830037AEF4 /* Configuration */;
+			baseConfigurationReferenceRelativePath = SampleCode.xcconfig;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -359,6 +367,8 @@
 		};
 		7225C9E92D77C2980003066B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 72F2D9F72D8245830037AEF4 /* Configuration */;
+			baseConfigurationReferenceRelativePath = SampleCode.xcconfig;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -426,7 +436,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"IntegrationTestHost/Preview Content\"";
-				DEVELOPMENT_TEAM = XX95P4Y787;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -443,7 +452,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats-avplayer.IntegrationTestHost";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats-avplayer.IntegrationTestHost${SAMPLE_CODE_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTS_MACCATALYST = YES;
@@ -463,7 +472,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"IntegrationTestHost/Preview Content\"";
-				DEVELOPMENT_TEAM = XX95P4Y787;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -480,7 +488,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats-avplayer.IntegrationTestHost";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats-avplayer.IntegrationTestHost${SAMPLE_CODE_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTS_MACCATALYST = YES;
@@ -496,10 +504,9 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XX95P4Y787;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats-avplayer.IntegrationTestHostTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats-avplayer.IntegrationTestHostTests${SAMPLE_CODE_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTS_MACCATALYST = YES;
@@ -516,10 +523,9 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XX95P4Y787;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats-avplayer.IntegrationTestHostTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats-avplayer.IntegrationTestHostTests${SAMPLE_CODE_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTS_MACCATALYST = YES;
@@ -535,10 +541,9 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XX95P4Y787;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats-avplayer.UITests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats-avplayer.UITests${SAMPLE_CODE_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTS_MACCATALYST = YES;
@@ -554,10 +559,9 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XX95P4Y787;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats-avplayer.UITests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats-avplayer.UITests${SAMPLE_CODE_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTS_MACCATALYST = YES;

@@ -7,3 +7,6 @@ DerivedData/
 .swiftpm/configuration/registries.json
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
 .netrc
+
+# Local xcconfig overrides
+*.local.xcconfig
