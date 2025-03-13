@@ -889,7 +889,9 @@ static NSString *Z = @"Z";
     NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                                     MUXSDKDataEventType,
                                     MUXSDKPlaybackEventPlayerReadyEventType,
+                                    MUXSDKDataEventType, // new
                                     MUXSDKPlaybackEventPlayEventType,
+                                    MUXSDKDataEventType, // new
                                     MUXSDKPlaybackEventOrientationChangeEventType,
                                     MUXSDKDataEventType,
                                     MUXSDKPlaybackEventRenditionChangeEventType,
@@ -897,15 +899,20 @@ static NSString *Z = @"Z";
                                     MUXSDKPlaybackEventRenditionChangeEventType,
                                     MUXSDKPlaybackEventOrientationChangeEventType,
                                     MUXSDKDataEventType,
-                                    MUXSDKPlaybackEventRenditionChangeEventType
+                                    MUXSDKPlaybackEventRenditionChangeEventType,
+                                    MUXSDKPlaybackEventViewEndEventType
     ];
+    
+    NSArray *actualEventNames = [MUXSDKCore eventNamesForPlayer:playName];
+    NSArray *actualEvents = [MUXSDKCore eventNamesForPlayer:playName];
+
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
 
     [self assertPlayer:playName dispatchedDataEvents:@{
         @(1): [NSNull null],
-        @(5): @{BANDWIDTH: @(258157)},
-        @(7): @{BANDWIDTH: @(1927853)},
-        @(10): @{BANDWIDTH: @(258157)},
+        @(7): @{BANDWIDTH: @(258157)},
+        @(9): @{BANDWIDTH: @(1927853)},
+        @(12): @{BANDWIDTH: @(258157)},
     }];
 
     [self assertPlayer:playName dispatchedPlaybackEvents:@{
