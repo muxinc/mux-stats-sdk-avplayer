@@ -96,6 +96,7 @@ function test_for {
         -destination "platform=$platform,name=$destination_name" \
         -resultBundlePath "$result_bundle_path" \
         -derivedDataPath "$DERIVED_DATA_PATH" \
+        -disableAutomaticPackageResolution \
         | xcbeautify
     local xcodebuild_test_exit_code="$?"
     set -e
