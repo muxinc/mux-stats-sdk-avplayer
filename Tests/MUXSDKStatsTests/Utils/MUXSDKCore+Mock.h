@@ -24,6 +24,8 @@
 + (NSUInteger) eventsCountForPlayer:(NSString *)playerId;
 + (MUXSDKDataEvent *) globalEventAtIndex:(NSUInteger)index;
 + (NSUInteger) globalEventsCount;
++ (NSArray<id<MUXSDKEventTyping>> *) eventsForPlayer:(NSString *)playerID;
++ (NSArray<NSString *> *) eventNamesForPlayer:(NSString *)playerID;
 
 @end
 

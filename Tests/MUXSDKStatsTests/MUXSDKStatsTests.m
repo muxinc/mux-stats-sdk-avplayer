@@ -408,6 +408,9 @@ static NSString *Z = @"Z";
                            MUXSDKPlaybackEventViewInitEventType, // the new view
                            MUXSDKDataEventType
     ];
+    
+    NSArray *actualEventTypes = [MUXSDKCore eventNamesForPlayer:playName];
+    
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:3 withVideoData:@{@"vsour": firstVideoURL.absoluteString, @"vsoisli": @"false"}];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:6 withCustomerVideoData:@{@"vtt": @"56789"}];
@@ -427,10 +430,13 @@ static NSString *Z = @"Z";
                            MUXSDKDataEventType,
                            MUXSDKDataEventType, // from replacing the player item with the same source
                            MUXSDKPlaybackEventPlayEventType,
+                           MUXSDKDataEventType,
                            MUXSDKPlaybackEventViewEndEventType,
     ];
     [MUXSDKStats destroyPlayer:playName];
     [MUXSDKStats destroyPlayer:playName];
+    
+    NSArray *actualEventTypes2 = [MUXSDKCore eventNamesForPlayer:playName];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:7 withVideoData:@{@"vsour": videoURL.absoluteString, @"vsoisli": @"false"}];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
 }
@@ -453,11 +459,16 @@ static NSString *Z = @"Z";
                                     MUXSDKDataEventType,
                                     MUXSDKPlaybackEventPlayerReadyEventType,
                                     MUXSDKPlaybackEventViewEndEventType,
+                                    MUXSDKDataEventType,
                                     MUXSDKPlaybackEventPlayEventType,
+                                    MUXSDKDataEventType,
                                     MUXSDKPlaybackEventPlayingEventType,
+                                    MUXSDKDataEventType,
                                     MUXSDKPlaybackEventViewEndEventType,
     ];
     [MUXSDKStats destroyPlayer:playName];
+    
+    NSArray * actualEventTypes = [MUXSDKCore eventNamesForPlayer:playName];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
 }
 

@@ -62,6 +62,21 @@ static NSMutableArray *globalEvents;
     [eventsForPlayer addObject:event];
 }
 
++ (NSArray<id<MUXSDKEventTyping>> *) eventsForPlayer:(NSString *)playerID {
+    return [events objectForKey: playerID];
+}
+
++ (NSArray<NSString *> *) eventNamesForPlayer:(NSString *)playerID {
+    NSArray<id<MUXSDKEventTyping>> *events = [MUXSDKCore eventsForPlayer:playerID];
+    NSMutableArray<NSString *> *eventNames = [NSMutableArray array];
+    for(int i = 0; i < events.count; i++) {
+        [eventNames addObject:
+             [[events objectAtIndex:i] getType]
+        ];
+    }
+    return eventNames;
+}
+
 + (id<MUXSDKEventTyping>) eventAtIndex:(NSUInteger) index forPlayer:(NSString *)playerId {
     NSMutableArray *eventsForPlayer = [events objectForKey:playerId];
     if(!eventsForPlayer) {
