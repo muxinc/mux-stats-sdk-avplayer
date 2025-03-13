@@ -603,35 +603,15 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         if (lastEvent) {
             long long transferredBytes = lastEvent.numberOfBytesTransferred;
             NSTimeInterval downloadedDuration = lastEvent.segmentsDownloadedDuration;
-            NSLog(@"findMostRecentAdvertisedBitrateForPlayerItem: last event has transferred bytes %lld", transferredBytes);
-            NSLog(@"findMostRecentAdvertisedBitrateForPlayerItem: last event has duration %f", downloadedDuration);
-//            NSNumber *transferredBits = [NSNumber numberWithFloat: transferredBytes * 8];
             long long transferredBits = transferredBytes * 8;
             double calculatedBitrate = transferredBits / downloadedDuration;
-            NSLog(@"findMostRecentAdvertisedBitrateForPlayerItem: calculated bitrate %f", calculatedBitrate);
-            NSLog(@"findMostRecentAdvertisedBitrateForPlayerItem: calculated bitrate as long %ld", (long)calculatedBitrate);
-            return calculatedBitrate;
+            return (long)calculatedBitrate; // any rounding is fine
         } else {
-            NSLog(@"findMostRecentAdvertisedBitrateForPlayerItem: last event was nil");
+            NSLog(@"findMostRecentAdvertisedBitrateForPlayerItem: no events");
         }
-        return -1;
-
-//        // TODO: This only works if there is a bitrate indicated in the MVP/Media Playlist
-//        //  Do we even want to use this one still
-//        for (int i = 0; i < events.count; i++) {
-//            AVPlayerItemAccessLogEvent *ev = events[i];
-//            double bitrateFromLog = ev.indicatedBitrate;
-//            if (bitrateFromLog > 0) {
-//                recentBitrateEvent = ev;
-//            }
-//        }
     }
     
-//    if (recentBitrateEvent) {
-//        return recentBitrateEvent.indicatedBitrate;
-//    } else {
-//        return -1;
-//    }
+    return -1;
 }
 
 - (nullable NSString *)getURLStringIfAvailableOnAVPlayerItem:(nonnull AVPlayerItem *)item {
