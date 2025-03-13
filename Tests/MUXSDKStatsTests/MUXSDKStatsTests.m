@@ -918,11 +918,11 @@ static NSString *Z = @"Z";
     [self assertPlayer:playName dispatchedPlaybackEvents:@{
         @(0): [NSNull null],
         @(2): [NSNull null],
-        @(4): @{X: @(0.0), Y: @(0.0), Z: @(90.0)},
-        @(6): [NSNull null],
+        @(6): @{X: @(0.0), Y: @(0.0), Z: @(90.0)},
         @(8): [NSNull null],
-        @(9): @{X: @(0.0), Y: @(0.0), Z: @(0.0)},
-        @(11): [NSNull null],
+        @(10): [NSNull null],
+        @(11): @{X: @(0.0), Y: @(0.0), Z: @(0.0)},
+        @(13): [NSNull null],
     }];
 
 //    [MUXSDKStats destroyPlayer:playName];
