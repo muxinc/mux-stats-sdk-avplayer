@@ -595,7 +595,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 - (long)findMostRecentAdvertisedBitrateForPlayerItem:(nonnull AVPlayerItem *)item {
     AVPlayerItemAccessLog *accessLog = [item accessLog];
-    AVPlayerItemAccessLogEvent *recentBitrateEvent = nil;
     
     if (accessLog && accessLog.events) {
         NSArray<AVPlayerItemAccessLogEvent *> *events = [accessLog.events copy];
