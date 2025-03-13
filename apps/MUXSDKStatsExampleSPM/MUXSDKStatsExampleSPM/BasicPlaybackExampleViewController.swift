@@ -12,6 +12,7 @@ class BasicPlaybackExampleViewController: UIViewController {
     var playbackURL: URL {
         let playbackID = ProcessInfo.processInfo.playbackID ?? "qxb01i6T202018GFS02vp9RIe01icTcDCjVzQpmaB00CUisJ4"
 
+        // TODO: Should be in an automated test case
         return URL(
 //            string: "https://test-streams.mux.dev/x36xhzz/url_6/193039199_mp4_h264_aac_hq_7.m3u8"
                         string: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
@@ -44,7 +45,7 @@ class BasicPlaybackExampleViewController: UIViewController {
 
         displayPlayerViewController()
 
-        // TODO: Should be an automated test case
+        // TODO: Should be automated test cases
         print("viewDidLoad: (not) About to delay monitoring")
 //        Task {
 //            try await Task.sleep(nanoseconds: 5 * 1_000_000_000)
