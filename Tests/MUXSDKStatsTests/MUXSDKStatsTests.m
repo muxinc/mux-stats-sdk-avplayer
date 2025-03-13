@@ -720,7 +720,8 @@ static NSString *Z = @"Z";
 
 - (void) testOrientationChangeEvent API_UNAVAILABLE(visionos) {
     XCTSkipIf(TARGET_OS_VISION);
-
+    
+    NSString *playName = @"Player";
     MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
     MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
     MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
@@ -728,7 +729,6 @@ static NSString *Z = @"Z";
                                                                                     videoData:customerVideoData
                                                                                      viewData:nil];
 
-    NSString *playName = @"Player";
     [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
     
     [MUXSDKStats orientationChangeForPlayer:playName withOrientation:MUXSDKViewOrientationPortrait];
@@ -740,6 +740,8 @@ static NSString *Z = @"Z";
                                     MUXSDKPlaybackEventOrientationChangeEventType,
                                     MUXSDKPlaybackEventOrientationChangeEventType
     ];
+    NSArray *acutalEventTypes = [MUXSDKCore eventNamesForPlayer:playName];
+    NSArray *acutalEvents = [MUXSDKCore eventsForPlayer:playName];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     
     id<MUXSDKEventTyping> portraitEvent = [MUXSDKCore eventAtIndex:3 forPlayer:playName];
@@ -879,6 +881,8 @@ static NSString *Z = @"Z";
     [[NSNotificationCenter defaultCenter] postNotificationName:RenditionChangeNotification object:@{
         RenditionChangeNotificationInfoAdvertisedBitrate: @(258157)
     }];
+    
+    [MUXSDKStats destroyPlayer:playName];
 
     // Assert sequence of playback & data events is correct
 
@@ -914,7 +918,7 @@ static NSString *Z = @"Z";
         @(11): [NSNull null],
     }];
 
-    [MUXSDKStats destroyPlayer:playName];
+//    [MUXSDKStats destroyPlayer:playName];
 }
 
 - (void)testDispatchError API_UNAVAILABLE(visionos) {
