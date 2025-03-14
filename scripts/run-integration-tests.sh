@@ -121,7 +121,7 @@ function test_for {
 
 test_for 'iOS'
 test_for 'iOS Simulator' 'iPhone 16 Pro'
-test_for 'macOS,variant=Mac Catalyst' 'My Mac'
+test_for 'macOS,variant=Mac Catalyst'
 test_for 'tvOS'
 test_for 'tvOS Simulator' 'Apple TV 4K (3rd generation) (at 1080p)'
 test_for 'visionOS'
