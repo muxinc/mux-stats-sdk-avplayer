@@ -25,7 +25,7 @@ export LC_ALL=en_US.UTF-8
 echo "▸ Available Xcode SDKs"
 xcodebuild -showsdks
 
-cd apps/DemoApp
+cd Examples/DemoApp
 
 echo "▸ Reset Local Cocoapod Cache"
 pod cache clean --all

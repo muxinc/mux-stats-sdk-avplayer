@@ -22,7 +22,7 @@ echo "▸ Using Xcode Version: ${XCODE}"
 echo "▸ Available Xcode SDKs"
 xcodebuild -showsdks
 
-cd apps/MUXSDKStatsExampleSPM
+cd Examples/MUXSDKStatsExampleSPM
 
 echo "▸ Available Schemes in $(pwd)"
 xcodebuild -list -json
