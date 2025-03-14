@@ -3,7 +3,9 @@ set -euo pipefail
 
 # set -x
 
+readonly WORKSPACE_PATH="$PWD/Fixtures/IntegrationTests/IntegrationTests.xcworkspace"
 readonly SCHEME=MUXSDKStats
+readonly TEST_PLAN=MUXSDKStats
 
 readonly BUILD_DIR="$PWD/.build"
 readonly ARTIFACTS_DIR="$BUILD_DIR/artifacts"
@@ -19,6 +21,10 @@ EXIT_CODE=0
 
 mkdir -p "$BUILD_DIR" "$ARTIFACTS_DIR"
 rm -rf "$XCRESULT_ARTIFACT_PATH"
+
+if [ "${CI:-}" ]; then
+    (cd Configuration && ln -sF CodeSigning.mux.xcconfig CodeSigning.local.xcconfig)
+fi
 
 XCRESULT_BUNDLE_PATHS=()
 
@@ -39,16 +45,26 @@ function merge_and_export_result_bundles {
 
 function test_for {
     local platform="$1"
-    local destination_name="$2"
+    local destination_name="${2:-}"
 
     echo "--- Building tests for $platform"
+
+    local safe_platform="${platform//[^[:alnum:]]/_}"
+    local test_products_filename="$SCHEME-$safe_platform.xctestproducts"
+    local test_products_path="$BUILD_DIR/$test_products_filename"
+
+    rm -rf "$test_products_path"
 
     # Do not specialize the build (use generic platform)
     set +e
     xcodebuild clean build-for-testing \
+        -workspace "$WORKSPACE_PATH" \
         -scheme "$SCHEME" \
+        -testPlan "$TEST_PLAN" \
+        -testProductsPath "$test_products_path" \
         -destination "generic/platform=$platform" \
         -derivedDataPath "$DERIVED_DATA_PATH" \
+        -allowProvisioningUpdates \
         -disableAutomaticPackageResolution \
         | xcbeautify
     set -e
@@ -61,19 +77,30 @@ function test_for {
         return
     fi
 
+    if [ -z "$destination_name" ]; then
+        echo "--- No destinations to test for $platform, exporting testable bundle"
+
+        local test_products_artifact_path="$ARTIFACTS_DIR/$test_products_filename.zip"
+
+        rm -rf "$test_products_artifact_path"
+
+        (cd "$BUILD_DIR" && ditto -c -k -X "$test_products_filename" "$test_products_artifact_path")
+        return
+    fi
+
     echo "--- Testing $platform via $destination_name"
 
-    local safe_platform="${platform//[^[:alnum:]]/_}"
     local result_bundle_path="$BUILD_DIR/$XCRESULT_NAME_BASE-$safe_platform.xcresult"
 
     rm -rf "$result_bundle_path"
 
     set +e
     xcodebuild test-without-building \
-        -scheme "$SCHEME" \
+        -testProductsPath "$test_products_path" \
         -destination "platform=$platform,name=$destination_name" \
-        -derivedDataPath "$DERIVED_DATA_PATH" \
         -resultBundlePath "$result_bundle_path" \
+        -derivedDataPath "$DERIVED_DATA_PATH" \
+        -disableAutomaticPackageResolution \
         | xcbeautify
     local xcodebuild_test_exit_code="$?"
     set -e
@@ -92,9 +119,12 @@ function test_for {
 
 # Execute:
 
+test_for 'iOS'
 test_for 'iOS Simulator' 'iPhone 16 Pro'
-test_for 'macOS,variant=Mac Catalyst' 'My Mac'
+test_for 'macOS,variant=Mac Catalyst'
+test_for 'tvOS'
 test_for 'tvOS Simulator' 'Apple TV 4K (3rd generation) (at 1080p)'
+test_for 'visionOS'
 test_for 'visionOS Simulator' 'Apple Vision Pro'
 
 merge_and_export_result_bundles

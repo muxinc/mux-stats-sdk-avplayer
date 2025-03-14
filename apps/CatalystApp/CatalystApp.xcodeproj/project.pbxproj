@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 71;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -16,7 +16,6 @@
 		358E3E902919C66B00E08636 /* CatalystAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358E3E8F2919C66B00E08636 /* CatalystAppUITestsLaunchTests.swift */; };
 		358E3EA22919C88C00E08636 /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 358E3EA12919C88C00E08636 /* MUXSDKStats */; };
 		358E3EA42919C8FE00E08636 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358E3EA32919C8FE00E08636 /* PlayerView.swift */; };
-		5869768B138ECD55AB449087 /* Pods_CatalystApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18667ACD8B88D2E8F009AD0B /* Pods_CatalystApp.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +36,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		18667ACD8B88D2E8F009AD0B /* Pods_CatalystApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CatalystApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		358E3E6F2919C66A00E08636 /* CatalystApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CatalystApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		358E3E722919C66A00E08636 /* CatalystAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalystAppApp.swift; sourceTree = "<group>"; };
 		358E3E742919C66A00E08636 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -51,9 +49,11 @@
 		358E3E9E2919C79D00E08636 /* mux-stats-sdk-avplayer */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "mux-stats-sdk-avplayer"; path = ../..; sourceTree = "<group>"; };
 		358E3E9F2919C86400E08636 /* CatalystApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CatalystApp.entitlements; sourceTree = "<group>"; };
 		358E3EA32919C8FE00E08636 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
-		71C0D80E7EFD478542B1EDEE /* Pods-CatalystApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CatalystApp.release.xcconfig"; path = "Target Support Files/Pods-CatalystApp/Pods-CatalystApp.release.xcconfig"; sourceTree = "<group>"; };
-		7FEDF97428F45F3812F13C7B /* Pods-CatalystApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CatalystApp.debug.xcconfig"; path = "Target Support Files/Pods-CatalystApp/Pods-CatalystApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		722CF8092D83AEAD0005B60D /* Configuration */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); name = Configuration; path = ../../Configuration; sourceTree = SOURCE_ROOT; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		358E3E6C2919C66A00E08636 /* Frameworks */ = {
@@ -61,7 +61,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				358E3EA22919C88C00E08636 /* MUXSDKStats in Frameworks */,
-				5869768B138ECD55AB449087 /* Pods_CatalystApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,13 +84,12 @@
 		358E3E662919C66A00E08636 = {
 			isa = PBXGroup;
 			children = (
+				722CF8092D83AEAD0005B60D /* Configuration */,
 				358E3E9C2919C70A00E08636 /* Packages */,
 				358E3E712919C66A00E08636 /* CatalystApp */,
 				358E3E822919C66B00E08636 /* CatalystAppTests */,
 				358E3E8C2919C66B00E08636 /* CatalystAppUITests */,
 				358E3E702919C66A00E08636 /* Products */,
-				5EEEA9FD5AEA78DF08117885 /* Pods */,
-				507D0A8919A03A8878236FBB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -151,24 +149,6 @@
 			name = Packages;
 			sourceTree = "<group>";
 		};
-		507D0A8919A03A8878236FBB /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				18667ACD8B88D2E8F009AD0B /* Pods_CatalystApp.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		5EEEA9FD5AEA78DF08117885 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				7FEDF97428F45F3812F13C7B /* Pods-CatalystApp.debug.xcconfig */,
-				71C0D80E7EFD478542B1EDEE /* Pods-CatalystApp.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -176,11 +156,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 358E3E932919C66B00E08636 /* Build configuration list for PBXNativeTarget "CatalystApp" */;
 			buildPhases = (
-				ADF6B4363501A62454A61CE9 /* [CP] Check Pods Manifest.lock */,
 				358E3E6B2919C66A00E08636 /* Sources */,
 				358E3E6C2919C66A00E08636 /* Frameworks */,
 				358E3E6D2919C66A00E08636 /* Resources */,
-				115926D558C9DE4B84D8606C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -299,48 +277,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		115926D558C9DE4B84D8606C /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CatalystApp/Pods-CatalystApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CatalystApp/Pods-CatalystApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CatalystApp/Pods-CatalystApp-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		ADF6B4363501A62454A61CE9 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-CatalystApp-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		358E3E6B2919C66A00E08636 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -387,6 +323,8 @@
 /* Begin XCBuildConfiguration section */
 		358E3E912919C66B00E08636 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 722CF8092D83AEAD0005B60D /* Configuration */;
+			baseConfigurationReferenceRelativePath = CodeSigning.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -447,6 +385,8 @@
 		};
 		358E3E922919C66B00E08636 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 722CF8092D83AEAD0005B60D /* Configuration */;
+			baseConfigurationReferenceRelativePath = CodeSigning.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -501,7 +441,6 @@
 		};
 		358E3E942919C66B00E08636 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7FEDF97428F45F3812F13C7B /* Pods-CatalystApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -509,7 +448,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CatalystApp/Preview Content\"";
-				DEVELOPMENT_TEAM = CX6AHWLHM6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -523,7 +461,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.example.CatalystApp;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats.example.CatalystApp${BUNDLE_ID_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = YES;
@@ -536,7 +474,6 @@
 		};
 		358E3E952919C66B00E08636 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 71C0D80E7EFD478542B1EDEE /* Pods-CatalystApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -544,7 +481,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"CatalystApp/Preview Content\"";
-				DEVELOPMENT_TEAM = CX6AHWLHM6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -558,7 +494,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.example.CatalystApp;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats.example.CatalystApp${BUNDLE_ID_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = YES;
@@ -576,11 +512,10 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = CX6AHWLHM6;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.example.CatalystAppTests;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats.example.CatalystAppTests${BUNDLE_ID_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -596,11 +531,10 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = CX6AHWLHM6;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.example.CatalystAppTests;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats.example.CatalystAppTests${BUNDLE_ID_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -615,10 +549,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = CX6AHWLHM6;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.example.CatalystAppUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats.example.CatalystAppUITests${BUNDLE_ID_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -633,10 +566,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = CX6AHWLHM6;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.mux.stats.example.CatalystAppUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats.example.CatalystAppUITests${BUNDLE_ID_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;

@@ -7,6 +7,7 @@ readonly SCHEME=MUXSDKStats
 
 readonly BUILD_DIR="$PWD/.build"
 readonly ARTIFACTS_DIR="$BUILD_DIR/artifacts"
+readonly DERIVED_DATA_PATH="$BUILD_DIR/DerivedData"
 
 readonly XCRESULT_NAME_BASE="$SCHEME-Build"
 readonly XCRESULT_FILENAME="$XCRESULT_NAME_BASE.xcresult"
@@ -53,6 +54,7 @@ function build_for {
         -configuration "Release" \
         -resultBundlePath "$result_bundle_path" \
         -disableAutomaticPackageResolution \
+        -derivedDataPath "$DERIVED_DATA_PATH" \
         RUN_CLANG_STATIC_ANALYZER=YES \
         CLANG_STATIC_ANALYZER_MODE=deep \
         | xcbeautify

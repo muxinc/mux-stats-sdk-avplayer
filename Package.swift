@@ -1,4 +1,4 @@
-// swift-tools-version:5.9
+// swift-tools-version:5.8
 
 import PackageDescription
 
@@ -8,7 +8,6 @@ let package = Package(
         .iOS(.v12),
         .macCatalyst(.v13),
         .tvOS(.v12),
-        .visionOS(.v1),
     ],
     products: [
         .library(name: "MUXSDKStats", targets: ["MUXSDKStats"]),
@@ -35,5 +34,4 @@ let package = Package(
             cSettings: [
                 .headerSearchPath("../../Sources/MUXSDKStats"),
             ]),
-    ]
-)
+    ])

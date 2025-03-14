@@ -25,8 +25,4 @@ Pod::Spec.new do |s|
   s.source_files = 'Sources/MUXSDKStats/**/*.{h,m}'
   s.public_header_files = 'Sources/MUXSDKStats/include/*.h'
   s.project_header_files = 'Sources/MUXSDKStats/*.h'
-
-  s.test_spec do |test_spec|
-    test_spec.source_files = 'Tests/MUXSDKStatsTests/**/*.{h,m}'
-  end
 end
