@@ -429,6 +429,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             [self dispatchPlay];
         }
     }
+    
     if (_player && _player.currentItem) {
         _playerItem = _player.currentItem;
         [_playerItem addObserver:self
@@ -439,6 +440,58 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
                       forKeyPath:@"playbackBufferEmpty"
                          options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
                          context:MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext];
+        
+        // Handle being attached to the monitor late. In this case, we will likely miss all of the
+        //  KVO updates and NSNotificaitons that would set up the metadata we are trying to get here.
+        //  checkVideoData requires (and assumes) that we see those events, but this isn't feasible
+        //  for customers that want to pre-load media or pool their player instances. In those cases
+        //  we need to catch-up some of our state
+        AVPlayerItemTrack *alreadyLoadedVideoTrack = [self findVideoTrackOnPlayerItem:_playerItem];
+        if (alreadyLoadedVideoTrack) {
+            CGSize srcDimens = [self getSourceDimensions];
+            
+            MUXSDKVideoData *videoData = [[MUXSDKVideoData alloc] init];
+            MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
+            dataEvent.videoData = videoData;
+            
+            if (srcDimens.width > 0 || srcDimens.height > 0) {
+                // media was already loaded, get the source dimensions so we can catch up
+                _videoSize = srcDimens;
+                _lastDispatchedVideoSize = srcDimens; // At the end of the method, this will reflect reality
+                
+                videoData.videoSourceWidth = [NSNumber numberWithDouble:_videoSize.width];
+                videoData.videoSourceHeight = [NSNumber numberWithDouble:_videoSize.height];
+            }
+            
+            NSString *srcUrlString = [self getURLStringIfAvailableOnAVPlayerItem:_playerItem];
+            if (srcUrlString) {
+                _videoURL = srcUrlString;
+                videoData.videoSourceUrl = srcUrlString;
+            }
+            
+            NSError *error = nil;
+            AVKeyValueStatus status = [_playerItem.asset statusOfValueForKey:@"duration" error: &error];
+            if (!error && status == AVKeyValueStatusLoaded) {
+                CMTime duration = [_playerItem.asset duration];
+                float floatingSec = CMTimeGetSeconds(duration);
+                if (!isnan(floatingSec) && floatingSec > 0) {
+                    float ms = floatingSec * 1000;
+                    NSNumber *timeMs = [NSNumber numberWithFloat:ms];
+                    [videoData setVideoSourceDuration:[NSNumber numberWithLongLong:[timeMs longLongValue]]];
+                }
+                _videoDuration = duration;
+            }
+            
+            long alreadyAdvertisedBitrate = [self findMostRecentAdvertisedBitrateForPlayerItem:_playerItem];
+            if (alreadyAdvertisedBitrate > 0) {
+                _lastAdvertisedBitrate = alreadyAdvertisedBitrate;
+                _lastDispatchedAdvertisedBitrate = alreadyAdvertisedBitrate;
+                videoData.videoSourceAdvertisedBitrate = [
+                    NSNumber numberWithFloat:alreadyAdvertisedBitrate
+                ];
+            }
+            [MUXSDKCore dispatchEvent:dataEvent forPlayer:[self name]];
+        }
         
         [self dispatchSessionData];
     }
@@ -518,6 +571,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (CGSize)getSourceDimensions {
+    // TODO: What throws here? Is this try-catch even necessary
     @try {
         NSArray *formatDescriptions;
         for (int t = 0; t < _player.currentItem.tracks.count; t++) {
@@ -537,6 +591,67 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         NSLog(@"%@", exception.reason);
     }
     return CGSizeMake(0, 0);
+}
+
+- (long)findMostRecentAdvertisedBitrateForPlayerItem:(nonnull AVPlayerItem *)item {
+    AVPlayerItemAccessLog *accessLog = [item accessLog];
+    
+    if (accessLog && accessLog.events) {
+        NSArray<AVPlayerItemAccessLogEvent *> *events = [accessLog.events copy];
+        
+        AVPlayerItemAccessLogEvent *lastEvent = [events lastObject];
+        if (lastEvent) {
+            long long transferredBytes = lastEvent.numberOfBytesTransferred;
+            NSTimeInterval downloadedDuration = lastEvent.segmentsDownloadedDuration;
+            long long transferredBits = transferredBytes * 8;
+            double calculatedBitrate = transferredBits / downloadedDuration;
+            return (long)calculatedBitrate; // any rounding is fine
+        } else {
+            NSLog(@"findMostRecentAdvertisedBitrateForPlayerItem: no events");
+        }
+    }
+    
+    return -1;
+}
+
+- (nullable NSString *)getURLStringIfAvailableOnAVPlayerItem:(nonnull AVPlayerItem *)item {
+    AVAsset *playerItemAsset = item.asset;
+    if (playerItemAsset && [playerItemAsset isKindOfClass:AVURLAsset.class]) {
+        AVURLAsset *urlAsset = (AVURLAsset *)playerItemAsset;
+        NSString * urlString = [[urlAsset URL] absoluteString];
+        return urlString;
+    }
+    
+    return nil;
+}
+
+- (nullable AVPlayerItemTrack *)findVideoTrackOnPlayerItem:(nonnull AVPlayerItem *)item {
+    if (!item.tracks) {
+        NSLog(@"findVideoTrackOnPlayerItem: no tracks loaded yet");
+        return nil;
+    }
+    
+    // TODO: what even throws here anyway? Is this catch-block really needed?
+//    @try {
+        for (int t = 0; t < item.tracks.count; t++) {
+            AVPlayerItemTrack *playerItemTrack = [
+                [item tracks] objectAtIndex:t
+            ];
+            if (playerItemTrack) {
+                AVAssetTrack *assetTrack = playerItemTrack.assetTrack;
+                if (assetTrack) {
+                    AVMediaType mediaType = assetTrack.mediaType;
+                    if (mediaType && [mediaType isEqualToString:AVMediaTypeVideo]) {
+                        return playerItemTrack;
+                    }
+                }
+            }
+        }
+//    } @catch (NSException *exception) {
+//        NSLog(@"%@", exception.reason);
+//    }
+    
+    return nil;
 }
 
 - (void)resetVideoData {
@@ -579,7 +694,15 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         videoDataUpdated = YES;
         _lastDispatchedAdvertisedBitrate = _lastAdvertisedBitrate;
         _sourceDimensionsHaveChanged = YES;
+    } else if (_started && _lastAdvertisedBitrate <= 0) {
+        // Advertising bitrate is technically optional, and single-rendition/bare-MP streams wouldn't need it
+        NSLog(@"checkVideoData: started but advertised bitrate not set");
+        long fallbackBitrate = [self findMostRecentAdvertisedBitrateForPlayerItem:_player.currentItem];
+        _lastAdvertisedBitrate = fallbackBitrate;
+        _lastDispatchedAdvertisedBitrate = fallbackBitrate;
+        videoDataUpdated = YES;
     }
+   
     if (_sourceDimensionsHaveChanged && CGSizeEqualToSize(_videoSize, _lastDispatchedVideoSize)) {
         CGSize sourceDimensions = [self getSourceDimensions];
         if (!CGSizeEqualToSize(_videoSize, sourceDimensions)) {
@@ -591,6 +714,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             }
         }
     }
+    
     NSNumber *checkedFrameDrops = nil;
     if(_totalFrameDropsHasChanged && _totalFrameDrops > 0) {
         _totalFrameDropsHasChanged = NO;
