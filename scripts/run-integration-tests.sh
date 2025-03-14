@@ -22,6 +22,10 @@ EXIT_CODE=0
 mkdir -p "$BUILD_DIR" "$ARTIFACTS_DIR"
 rm -rf "$XCRESULT_ARTIFACT_PATH"
 
+if [ "${CI:-}" ]; then
+    (cd Configuration && ln -sF CodeSigning.mux.xcconfig CodeSigning.local.xcconfig)
+fi
+
 XCRESULT_BUNDLE_PATHS=()
 
 function merge_and_export_result_bundles {

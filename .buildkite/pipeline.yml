@@ -10,9 +10,7 @@ steps:
     label: ":xcode: Build Package"
     artifact_paths:
       - ".build/artifacts/*.xcresult.zip"
-  - commands:
-      - "(cd Fixtures/IntegrationTests/Configuration && ln -sf SampleCode.mux.xcconfig SampleCode.local.xcconfig)"
-      - "./scripts/run-integration-tests.sh"
+  - command: "./scripts/run-integration-tests.sh"
     label: ":xcode_simulator: Integration Tests"
     artifact_paths:
       - ".build/artifacts/*.xctestproducts.zip"

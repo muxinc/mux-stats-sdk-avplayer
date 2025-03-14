@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 71;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -94,6 +94,10 @@
 		19D409112C1BD57D00C8163C /* ErrorCategorizationExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorCategorizationExampleViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		722CF7FD2D83AE040005B60D /* Configuration */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); name = Configuration; path = ../../Configuration; sourceTree = SOURCE_ROOT; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		19B8057B2B4F6875003DA705 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -181,6 +185,7 @@
 		19CB35C32ABD2B5C002DF48C = {
 			isa = PBXGroup;
 			children = (
+				722CF7FD2D83AE040005B60D /* Configuration */,
 				19ABBEA92B650DB2004A3634 /* MUXSDKStatsExampleSPM.xctestplan */,
 				194C6D422ABD518A003F965E /* Packages */,
 				19CB35CE2ABD2B5C002DF48C /* MUXSDKStatsExampleSPM */,
@@ -541,7 +546,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MUXSDKStatsExampleSPMVisionOS/Preview Content\"";
-				DEVELOPMENT_TEAM = XX95P4Y787;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
@@ -550,7 +554,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.data.-MUXSDKStatsExampleSPMVisionOS.MUXSDKStatsExampleSPMVisionOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.data.-MUXSDKStatsExampleSPMVisionOS.MUXSDKStatsExampleSPMVisionOS${BUNDLE_ID_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = xros;
 				SUPPORTED_PLATFORMS = "xros xrsimulator";
@@ -569,7 +573,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MUXSDKStatsExampleSPMVisionOS/Preview Content\"";
-				DEVELOPMENT_TEAM = XX95P4Y787;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
@@ -578,7 +581,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.data.-MUXSDKStatsExampleSPMVisionOS.MUXSDKStatsExampleSPMVisionOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.data.-MUXSDKStatsExampleSPMVisionOS.MUXSDKStatsExampleSPMVisionOS${BUNDLE_ID_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = xros;
 				SUPPORTED_PLATFORMS = "xros xrsimulator";
@@ -596,10 +599,9 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XX95P4Y787;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.data.-MUXSDKStatsExampleSPMVisionOS.MUXSDKStatsExampleSPMVisionOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.data.-MUXSDKStatsExampleSPMVisionOS.MUXSDKStatsExampleSPMVisionOSTests${BUNDLE_ID_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = xros;
 				SUPPORTED_PLATFORMS = "xros xrsimulator";
@@ -618,10 +620,9 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XX95P4Y787;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.data.-MUXSDKStatsExampleSPMVisionOS.MUXSDKStatsExampleSPMVisionOSTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.data.-MUXSDKStatsExampleSPMVisionOS.MUXSDKStatsExampleSPMVisionOSTests${BUNDLE_ID_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = xros;
 				SUPPORTED_PLATFORMS = "xros xrsimulator";
@@ -635,6 +636,8 @@
 		};
 		19CB35F42ABD2B5D002DF48C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 722CF7FD2D83AE040005B60D /* Configuration */;
+			baseConfigurationReferenceRelativePath = CodeSigning.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -699,6 +702,8 @@
 		};
 		19CB35F52ABD2B5D002DF48C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 722CF7FD2D83AE040005B60D /* Configuration */;
+			baseConfigurationReferenceRelativePath = CodeSigning.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -761,7 +766,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XX95P4Y787;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MUXSDKStatsExampleSPM/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -774,7 +778,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats.example-project.MUXSDKStatsExampleSPM";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats.example-project.MUXSDKStatsExampleSPM${BUNDLE_ID_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -789,7 +793,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XX95P4Y787;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MUXSDKStatsExampleSPM/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -802,7 +805,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats.example-project.MUXSDKStatsExampleSPM";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats.example-project.MUXSDKStatsExampleSPM${BUNDLE_ID_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -817,10 +820,9 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XX95P4Y787;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats.example-project.MUXSDKStatsExampleSPMTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats.example-project.MUXSDKStatsExampleSPMTests${BUNDLE_ID_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -836,10 +838,9 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XX95P4Y787;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats.example-project.MUXSDKStatsExampleSPMTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats.example-project.MUXSDKStatsExampleSPMTests${BUNDLE_ID_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -854,9 +855,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XX95P4Y787;
 				GENERATE_INFOPLIST_FILE = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats.example-project.MUXSDKStatsExampleSPMUITests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats.example-project.MUXSDKStatsExampleSPMUITests${BUNDLE_ID_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -871,9 +871,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XX95P4Y787;
 				GENERATE_INFOPLIST_FILE = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats.example-project.MUXSDKStatsExampleSPMUITests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats.example-project.MUXSDKStatsExampleSPMUITests${BUNDLE_ID_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
