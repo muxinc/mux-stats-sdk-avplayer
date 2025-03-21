@@ -631,25 +631,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         return nil;
     }
     
-    // TODO: what even throws here anyway? Is this catch-block really needed?
-//    @try {
-        for (int t = 0; t < item.tracks.count; t++) {
-            AVPlayerItemTrack *playerItemTrack = [
-                [item tracks] objectAtIndex:t
-            ];
-            if (playerItemTrack) {
-                AVAssetTrack *assetTrack = playerItemTrack.assetTrack;
-                if (assetTrack) {
-                    AVMediaType mediaType = assetTrack.mediaType;
-                    if (mediaType && [mediaType isEqualToString:AVMediaTypeVideo]) {
-                        return playerItemTrack;
-                    }
-                }
-            }
+    for (AVPlayerItemTrack *playerItemTrack in item.tracks) {
+        if ([playerItemTrack.assetTrack.mediaType isEqual:AVMediaTypeVideo]) {
+            return playerItemTrack;
         }
-//    } @catch (NSException *exception) {
-//        NSLog(@"%@", exception.reason);
-//    }
+    }
     
     return nil;
 }
