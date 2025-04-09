@@ -37,7 +37,43 @@ static void *MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext = &MUXSDKAV
 // we have attached the _playerItem observer
 NSString * RemoveObserverExceptionName = @"NSRangeException";
 
-@implementation MUXSDKPlayerBinding
+@implementation MUXSDKPlayerBinding {
+    NSString *_name;
+    NSString *_softwareName;
+    AVPlayer *_player;
+    AVPlayerItem *_playerItem;
+    id _timeObserver;
+    volatile MUXSDKPlayerState _state;
+    CGSize _videoSize;
+    CMTime _videoDuration;
+    BOOL _videoIsLive;
+    NSString *_videoURL;
+    CFAbsoluteTime _lastTimeUpdate;
+    NSTimer *_timeUpdateTimer;
+    CFAbsoluteTime _lastPlayheadTimeUpdated;
+    float _lastPlayheadTimeMs;
+    CFAbsoluteTime _lastPlayheadTimeOnPauseUpdated;
+    float _lastPlayheadTimeMsOnPause;
+    BOOL _seeking;
+    BOOL _started;
+    BOOL _shouldHandleAVQueuePlayerItem;
+    NSUInteger _lastTransferEventCount;
+    double _lastTransferDuration;
+    long long _lastTransferredBytes;
+    MUXSDKViewOrientation _orientation;
+    double _lastAdvertisedBitrate;
+    double _lastDispatchedAdvertisedBitrate;
+    BOOL _sourceDimensionsHaveChanged;
+    CGSize _lastDispatchedVideoSize;
+    BOOL _automaticErrorTracking;
+    BOOL _isAdPlaying;
+    BOOL _automaticVideoChange;
+    BOOL _didTriggerManualVideoChange;
+    BOOL _playbackIsLivestream;
+    NSInteger _totalFrameDrops;
+    BOOL _totalFrameDropsHasChanged;
+    NSString *_softwareVersion;
+}
 
 - (id)initWithName:(NSString *)name 
        andSoftware:(NSString *)software {
@@ -1232,6 +1268,12 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 @end
 
 
+@interface MUXSDKAVPlayerViewControllerBinding ()
+
+@property (nonatomic, readonly) AVPlayerViewController *viewController;
+
+@end
+
 @implementation MUXSDKAVPlayerViewControllerBinding
 
 - (id)initWithName:(NSString *)name software:(NSString *)software andView:(AVPlayerViewController *)view {
@@ -1278,6 +1320,12 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 @end
 
 
+@interface MUXSDKAVPlayerLayerBinding ()
+
+@property (nonatomic, readonly) AVPlayerLayer *view;
+
+@end
+
 @implementation MUXSDKAVPlayerLayerBinding
 
 - (id)initWithName:(NSString *)name 
@@ -1318,6 +1366,13 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 - (CGRect)getViewBounds {
     return [_view bounds];
 }
+
+@end
+
+
+@interface MUXSDKAVPlayerBinding ()
+
+@property (nonatomic, readonly) CGSize fixedPlayerSize;
 
 @end
 

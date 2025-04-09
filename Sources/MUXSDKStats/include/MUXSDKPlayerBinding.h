@@ -35,50 +35,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 - (void) videoChangedForPlayer:(NSString *) name;
 @end
 
-#pragma clang diagnostic pop
-
-@interface MUXSDKPlayerBinding : NSObject {
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wnullability-completeness"
-
-@private
-    NSString *_name;
-    NSString *_softwareName;
-    AVPlayer *_player;
-    AVPlayerItem *_playerItem;
-    id _timeObserver;
-    volatile MUXSDKPlayerState _state;
-    CGSize _videoSize;
-    CMTime _videoDuration;
-    BOOL _videoIsLive;
-    NSString *_videoURL;
-    CFAbsoluteTime _lastTimeUpdate;
-    NSTimer *_timeUpdateTimer;
-    CFAbsoluteTime _lastPlayheadTimeUpdated;
-    float _lastPlayheadTimeMs;
-    CFAbsoluteTime _lastPlayheadTimeOnPauseUpdated;
-    float _lastPlayheadTimeMsOnPause;
-    BOOL _seeking;
-    BOOL _started;
-    BOOL _shouldHandleAVQueuePlayerItem;
-    NSUInteger _lastTransferEventCount;
-    double _lastTransferDuration;
-    long long _lastTransferredBytes;
-    MUXSDKViewOrientation _orientation;
-    double _lastAdvertisedBitrate;
-    double _lastDispatchedAdvertisedBitrate;
-    BOOL _sourceDimensionsHaveChanged;
-    CGSize _lastDispatchedVideoSize;
-    BOOL _automaticErrorTracking;
-    BOOL _isAdPlaying;
-    BOOL _automaticVideoChange;
-    BOOL _didTriggerManualVideoChange;
-    BOOL _playbackIsLivestream;
-    NSInteger _totalFrameDrops;
-    BOOL _totalFrameDropsHasChanged;
-    NSString *_softwareVersion;
-}
+@interface MUXSDKPlayerBinding : NSObject
 
 @property (nonatomic, weak) id<MUXSDKPlayDispatchDelegate>  playDispatchDelegate;
 
@@ -194,10 +151,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 
 @end
 
-@interface MUXSDKAVPlayerViewControllerBinding : MUXSDKPlayerBinding {
-@private
-    AVPlayerViewController *_viewController;
-}
+@interface MUXSDKAVPlayerViewControllerBinding : MUXSDKPlayerBinding
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnullability-completeness"
@@ -238,10 +192,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
 @end
 
 API_UNAVAILABLE(visionos) 
-@interface MUXSDKAVPlayerLayerBinding : MUXSDKPlayerBinding {
-@private
-    AVPlayerLayer *_view;
-}
+@interface MUXSDKAVPlayerLayerBinding : MUXSDKPlayerBinding
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wnullability-completeness"
@@ -282,10 +233,7 @@ API_UNAVAILABLE(visionos)
 
 @end
 
-@interface MUXSDKAVPlayerBinding : MUXSDKPlayerBinding {
-@private
-    CGSize _fixedPlayerSize;
-}
+@interface MUXSDKAVPlayerBinding : MUXSDKPlayerBinding
 
 
 /// Initializes a binding that listens for and dispatches player events
