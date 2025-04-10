@@ -101,6 +101,9 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
 //    }
     
     NSString *applicationName = [[NSBundle mainBundle] bundleIdentifier];
+    if (applicationName != nil) {
+        [viewerData setViewerApplicationName:applicationName];
+    }
 
     NSString *bundleShortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
