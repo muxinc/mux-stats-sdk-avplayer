@@ -92,14 +92,6 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
 + (MUXSDKViewerData *)buildViewerData {
     MUXSDKViewerData *viewerData = [[MUXSDKViewerData alloc] init];
 
-//    NSString *applicationName = [_customerViewerData viewerApplicationName];
-//    if (applicationName == nil) {
-//        applicationName = [[NSBundle mainBundle] bundleIdentifier];
-//    }
-//    if (applicationName != nil) {
-//        [viewerData setViewerApplicationName:applicationName];
-//    }
-    
     NSString *applicationName = [[NSBundle mainBundle] bundleIdentifier];
     if (applicationName != nil) {
         [viewerData setViewerApplicationName:applicationName];
@@ -152,22 +144,6 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
     [viewerData setMuxViewerOsVersion:systemOsVersion];
     [viewerData setMuxViewerDeviceManufacturer:@"Apple"];
     
-    // Overridden values for device metadata
-//    if(_customerViewerData.viewerDeviceModel) {
-//        [viewerData setViewerDeviceModel:_customerViewerData.viewerDeviceModel];
-//    }
-//    if(_customerViewerData.viewerDeviceCategory) {
-//        [viewerData setViewerDeviceCategory:_customerViewerData.viewerDeviceCategory];
-//    }
-//    if(_customerViewerData.viewerOsFamily) {
-//        [viewerData setViewerOsFamily:_customerViewerData.viewerOsFamily];
-//    }
-//    if(_customerViewerData.viewerOsVersion) {
-//        [viewerData setViewerOsVersion:_customerViewerData.viewerOsVersion];
-//    }
-//    if(_customerViewerData.viewerDeviceManufacturer) {
-//        [viewerData setViewerDeviceManufacturer:_customerViewerData.viewerDeviceManufacturer];
-//    }
     return viewerData;
 }
 
