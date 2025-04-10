@@ -32,7 +32,7 @@ static MUXSDKCustomerPlayerDataStore *_customerPlayerDataStore;
 static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
 static MUXSDKCustomerViewDataStore *_customerViewDataStore;
 static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
-static MUXSDKCustomerViewerData *_customerViewerData;
+//static MUXSDKCustomerViewerData *_customerViewerData;
 
 + (void)initSDK {
     if (!_bindings) {
@@ -71,6 +71,12 @@ static MUXSDKCustomerViewerData *_customerViewerData;
     [MUXSDKCore dispatchGlobalDataEvent:dataEvent];
 }
 
++ (void)dispatchCustomerViewerData:(nonnull MUXSDKCustomerViewerData *)customerViewerData {
+    MUXSDKDataEvent *dev = [[MUXSDKDataEvent alloc] init];
+    dev.customerViewerData = customerViewerData;
+    [MUXSDKCore dispatchGlobalDataEvent:dev];
+}
+
 + (MUXSDKEnvironmentData *)buildEnvironmentData {
     MUXSDKEnvironmentData *environmentData = [[MUXSDKEnvironmentData alloc] init];
     [environmentData setMuxViewerId:[self getUUIDString]];
@@ -86,13 +92,15 @@ static MUXSDKCustomerViewerData *_customerViewerData;
 + (MUXSDKViewerData *)buildViewerData {
     MUXSDKViewerData *viewerData = [[MUXSDKViewerData alloc] init];
 
-    NSString *applicationName = [_customerViewerData viewerApplicationName];
-    if (applicationName == nil) {
-        applicationName = [[NSBundle mainBundle] bundleIdentifier];
-    }
-    if (applicationName != nil) {
-        [viewerData setViewerApplicationName:applicationName];
-    }
+//    NSString *applicationName = [_customerViewerData viewerApplicationName];
+//    if (applicationName == nil) {
+//        applicationName = [[NSBundle mainBundle] bundleIdentifier];
+//    }
+//    if (applicationName != nil) {
+//        [viewerData setViewerApplicationName:applicationName];
+//    }
+    
+    NSString *applicationName = [[NSBundle mainBundle] bundleIdentifier];
 
     NSString *bundleShortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
@@ -142,21 +150,21 @@ static MUXSDKCustomerViewerData *_customerViewerData;
     [viewerData setMuxViewerDeviceManufacturer:@"Apple"];
     
     // Overridden values for device metadata
-    if(_customerViewerData.viewerDeviceModel) {
-        [viewerData setViewerDeviceModel:_customerViewerData.viewerDeviceModel];
-    }
-    if(_customerViewerData.viewerDeviceCategory) {
-        [viewerData setViewerDeviceCategory:_customerViewerData.viewerDeviceCategory];
-    }
-    if(_customerViewerData.viewerOsFamily) {
-        [viewerData setViewerOsFamily:_customerViewerData.viewerOsFamily];
-    }
-    if(_customerViewerData.viewerOsVersion) {
-        [viewerData setViewerOsVersion:_customerViewerData.viewerOsVersion];
-    }
-    if(_customerViewerData.viewerDeviceManufacturer) {
-        [viewerData setViewerDeviceManufacturer:_customerViewerData.viewerDeviceManufacturer];
-    }
+//    if(_customerViewerData.viewerDeviceModel) {
+//        [viewerData setViewerDeviceModel:_customerViewerData.viewerDeviceModel];
+//    }
+//    if(_customerViewerData.viewerDeviceCategory) {
+//        [viewerData setViewerDeviceCategory:_customerViewerData.viewerDeviceCategory];
+//    }
+//    if(_customerViewerData.viewerOsFamily) {
+//        [viewerData setViewerOsFamily:_customerViewerData.viewerOsFamily];
+//    }
+//    if(_customerViewerData.viewerOsVersion) {
+//        [viewerData setViewerOsVersion:_customerViewerData.viewerOsVersion];
+//    }
+//    if(_customerViewerData.viewerDeviceManufacturer) {
+//        [viewerData setViewerDeviceManufacturer:_customerViewerData.viewerDeviceManufacturer];
+//    }
     return viewerData;
 }
 
@@ -169,7 +177,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                                          beaconCollectionDomain:(nullable NSString *)collectionDomain {
     MUXSDKCustomerViewerData *viewerData = [customerData customerViewerData];
     if (viewerData != nil) {
-        _customerViewerData = viewerData;
+        [self dispatchCustomerViewerData:viewerData];
     }
 
     [self initSDK];
@@ -277,7 +285,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                                 beaconCollectionDomain:(nullable NSString *)collectionDomain API_UNAVAILABLE(visionos) {
     MUXSDKCustomerViewerData *viewerData = [customerData customerViewerData];
     if (viewerData != nil) {
-        _customerViewerData = viewerData;
+        [self dispatchCustomerViewerData:viewerData];
     }
 
     [self initSDK];
@@ -410,7 +418,7 @@ static MUXSDKCustomerViewerData *_customerViewerData;
                            beaconCollectionDomain:(nullable NSString *)collectionDomain {
     MUXSDKCustomerViewerData *viewerData = [customerData customerViewerData];
     if (viewerData != nil) {
-        _customerViewerData = viewerData;
+        [self dispatchCustomerViewerData:viewerData];
     }
 
     [self initSDK];
@@ -614,11 +622,12 @@ static MUXSDKCustomerViewerData *_customerViewerData;
     // Dispatch global data event if viewer data provided
     MUXSDKCustomerViewerData *customerViewerData = [customerData customerViewerData];
     if (customerViewerData) {
-        _customerViewerData = customerViewerData;
-        MUXSDKViewerData *viewerData = [self buildViewerData];
-        MUXSDKDataEvent *dataEvent = [MUXSDKDataEvent new];
-        [dataEvent setViewerData:viewerData];
-        [MUXSDKCore dispatchGlobalDataEvent:dataEvent];
+        [self dispatchCustomerViewerData:customerViewerData];
+        //        _customerViewerData = customerViewerData;
+//        MUXSDKViewerData *viewerData = [self buildViewerData];
+//        MUXSDKDataEvent *dataEvent = [MUXSDKDataEvent new];
+//        [dataEvent setViewerData:viewerData];
+//        [MUXSDKCore dispatchGlobalDataEvent:dataEvent];
     }
 
 }
