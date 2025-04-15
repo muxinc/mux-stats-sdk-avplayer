@@ -32,9 +32,8 @@ static MUXSDKCustomerPlayerDataStore *_customerPlayerDataStore;
 static MUXSDKCustomerVideoDataStore *_customerVideoDataStore;
 static MUXSDKCustomerViewDataStore *_customerViewDataStore;
 static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
-//static MUXSDKCustomerViewerData *_customerViewerData;
 
-+ (void)initSDK {
++ (void)initSDKWithCustomerViewerData:(MUXSDKCustomerViewerData *)customerViewerData {
     if (!_bindings) {
         _bindings = [[NSMutableDictionary alloc] init];
     }
@@ -62,19 +61,24 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
         _playerBindingManager.viewControllers = _viewControllers;
     }
 
-    // Provide EnvironmentData and ViewerData to Core.
+    // Provide Environment/Viewer/CustomerViewer to Core.
     MUXSDKEnvironmentData *environmentData = [self buildEnvironmentData];
     MUXSDKViewerData *viewerData = [self buildViewerData];
     MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
     [dataEvent setEnvironmentData:environmentData];
     [dataEvent setViewerData:viewerData];
+    [dataEvent setCustomerViewerData:customerViewerData];
     [MUXSDKCore dispatchGlobalDataEvent:dataEvent];
 }
 
-+ (void)dispatchCustomerViewerData:(nonnull MUXSDKCustomerViewerData *)customerViewerData {
-    MUXSDKDataEvent *dev = [[MUXSDKDataEvent alloc] init];
-    dev.customerViewerData = customerViewerData;
-    [MUXSDKCore dispatchGlobalDataEvent:dev];
++ (void)dispatchGlobalEventForCustomerData:(MUXSDKCustomerData *)customerData {
+    MUXSDKCustomerViewerData *customerViewerData = customerData.customerViewerData;
+    if (customerViewerData == nil) {
+        return;
+    }
+    MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
+    dataEvent.customerViewerData = customerViewerData;
+    [MUXSDKCore dispatchGlobalDataEvent:dataEvent];
 }
 
 + (MUXSDKEnvironmentData *)buildEnvironmentData {
@@ -154,12 +158,8 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
                                                    customerData:(nonnull MUXSDKCustomerData *)customerData
                                          automaticErrorTracking:(BOOL)automaticErrorTracking
                                          beaconCollectionDomain:(nullable NSString *)collectionDomain {
-    MUXSDKCustomerViewerData *viewerData = [customerData customerViewerData];
-    if (viewerData != nil) {
-        [self dispatchCustomerViewerData:viewerData];
-    }
+    [self initSDKWithCustomerViewerData:customerData.customerViewerData];
 
-    [self initSDK];
     NSString *binding = [_bindings valueForKey:name];
     if (binding) {
         // Destroy any previously existing player with this name.
@@ -236,7 +236,8 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
 }
 
 + (void)updateAVPlayerViewController:(nonnull AVPlayerViewController *)player withPlayerName:(nonnull NSString *)name {
-    [self initSDK];
+    [self initSDKWithCustomerViewerData:nil];
+
     NSString *binding = [_bindings valueForKey:name];
     if (binding) {
         if (!player.player) {
@@ -262,12 +263,8 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
                                           customerData:(nonnull MUXSDKCustomerData *)customerData
                                 automaticErrorTracking:(BOOL)automaticErrorTracking
                                 beaconCollectionDomain:(nullable NSString *)collectionDomain API_UNAVAILABLE(visionos) {
-    MUXSDKCustomerViewerData *viewerData = [customerData customerViewerData];
-    if (viewerData != nil) {
-        [self dispatchCustomerViewerData:viewerData];
-    }
+    [self initSDKWithCustomerViewerData:customerData.customerViewerData];
 
-    [self initSDK];
     NSString *binding = [_bindings valueForKey:name];
     if (binding) {
         // Destroy any previously existing player with this name.
@@ -343,7 +340,8 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
 }
 
 + (void)updateAVPlayerLayer:(AVPlayerLayer *)player withPlayerName:(NSString *)name API_UNAVAILABLE(visionos) {
-    [self initSDK];
+    [self initSDKWithCustomerViewerData:nil];
+
     NSString *binding = [_bindings valueForKey:name];
     if (binding) {
         if (!player.player) {
@@ -395,12 +393,7 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
                                      customerData:(nonnull MUXSDKCustomerData *)customerData
                            automaticErrorTracking:(BOOL)automaticErrorTracking
                            beaconCollectionDomain:(nullable NSString *)collectionDomain {
-    MUXSDKCustomerViewerData *viewerData = [customerData customerViewerData];
-    if (viewerData != nil) {
-        [self dispatchCustomerViewerData:viewerData];
-    }
-
-    [self initSDK];
+    [self initSDKWithCustomerViewerData:customerData.customerViewerData];
 
     NSString *binding = [_bindings valueForKey:name];
     if (binding) {
@@ -453,7 +446,8 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
 + (void)updateAVPlayer:(AVPlayer *)player
         withPlayerName:(NSString *)name
        fixedPlayerSize:(CGSize)fixedPlayerSize {
-    [self initSDK];
+    [self initSDKWithCustomerViewerData:nil];
+
     NSString *binding = [_bindings valueForKey:name];
     if (binding) {
         if (binding == MuxPlayerSoftwareAVPlayer) {
@@ -519,9 +513,6 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
     MUXSDKCustomerVideoData *videoData = [customerData customerVideoData];
     MUXSDKCustomData *customData = [customerData customData];
     
-    if (!(videoData || viewData || customData)) {
-        return;
-    }
     MUXSDKPlayerBinding *player = [_viewControllers valueForKey:name];
     if (player) {
         [player didTriggerManualVideoChange];
@@ -540,6 +531,8 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
         }
         [player prepareForAvQueuePlayerNextItem];
     }
+
+    [self dispatchGlobalEventForCustomerData:customerData];
 }
 
 #pragma mark Program Change
@@ -598,17 +591,7 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
         [MUXSDKCore dispatchEvent:dataEvent forPlayer:name];
     }
     
-    // Dispatch global data event if viewer data provided
-    MUXSDKCustomerViewerData *customerViewerData = [customerData customerViewerData];
-    if (customerViewerData) {
-        [self dispatchCustomerViewerData:customerViewerData];
-        //        _customerViewerData = customerViewerData;
-//        MUXSDKViewerData *viewerData = [self buildViewerData];
-//        MUXSDKDataEvent *dataEvent = [MUXSDKDataEvent new];
-//        [dataEvent setViewerData:viewerData];
-//        [MUXSDKCore dispatchGlobalDataEvent:dataEvent];
-    }
-
+    [self dispatchGlobalEventForCustomerData:customerData];
 }
 
 + (void)updateCustomerDataForPlayer:(nonnull NSString *)name withPlayerData:(nullable MUXSDKCustomerPlayerData *)playerData withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
