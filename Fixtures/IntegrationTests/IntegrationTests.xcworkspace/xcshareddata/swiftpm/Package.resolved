@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "stats-sdk-objc",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/muxinc/stats-sdk-objc.git",
+      "state" : {
+        "revision" : "1d2c51af433eadb5f904904554422d7bc476c167",
+        "version" : "5.4.0"
+      }
+    }
+  ],
+  "version" : 2
+}

@@ -2,37 +2,36 @@ agents:
   queue: "macOS-Monterey-12-4"
 
 steps:
-  - command: "./scripts/run-baseline-unit-test-pass.sh"
-    label: ":xcode_simulator: Baseline Unit Test Pass"
+  - command: "./scripts/unit-test-package.sh"
+    label: ":xcode_simulator: Unit Test Package"
+    artifact_paths:
+      - ".build/artifacts/*.xcresult.zip"
+  - command: "./scripts/build-package.sh"
+    label: ":xcode: Build Package"
+    artifact_paths:
+      - ".build/artifacts/*.xcresult.zip"
+  - command: "./scripts/run-integration-tests.sh"
+    label: ":xcode_simulator: Integration Tests"
+    artifact_paths:
+      - ".build/artifacts/*.xctestproducts.zip"
+      - ".build/artifacts/*.xcresult.zip"
   - wait
-  - command: "./scripts/version-check.sh Mux-Stats-AVPlayer.podspec MUXSDKStats.json"
+  - command: "./scripts/version-check.sh"
     label: ":clipboard: Validate Version Metadata"
     branches: "releases/*"
   - wait
-  - command: ".buildkite/scripts/dynamic-xcframework.sh"
-    label: ":xcode: Create Dynamic XCFramework"
-    artifact_paths:
-      - "./XCFramework/MUXSDKStats.xcframework.zip"
-      - "./.build/MUXSDKStats.debuggable.xcframework.zip"
-  - wait
-  - command: "buildkite-agent artifact download XCFramework/MUXSDKStats.xcframework.zip XCFramework && ./scripts/run-tests-swift-package-manager-ventura.sh"
+  - command: "./scripts/run-tests-swift-package-manager-ventura.sh build-only"
+    label: ":swift: Build Swift Package Manager Example"
+    branches: "!releases/*"
+  - command: "./scripts/run-tests-swift-package-manager-ventura.sh"
     label: ":swift: Test Swift Package Manager Example"
     branches: "releases/*"
-    retry:
-      automatic: true
-  - wait
-  - command: ".buildkite/scripts/static-xcframework.sh"
-    label: ":xcode: Create Static XCFramework"
-    artifact_paths:
-      - "./XCFramework/MUXSDKStats-static.xcframework.zip"
-  - wait
-  - command: "buildkite-agent artifact download XCFramework/MUXSDKStats.xcframework.zip XCFramework && ./scripts/run-tests-cocoapods-ventura.sh"
+  - command: "./scripts/run-tests-cocoapods-ventura.sh build-only"
+    label: ":cocoapods: Build Cocoapods Example"
+    branches: "!releases/*"
+  - command: "./scripts/run-tests-cocoapods-ventura.sh"
     label: ":cocoapods: Test Cocoapods Example"
     branches: "releases/*"
-    retry:
-      automatic: true
   - wait
   - command: "./scripts/validate-podspec.sh"
     label: ":cocoapods: Validate Podspec"
-    branches: "releases/*"
-

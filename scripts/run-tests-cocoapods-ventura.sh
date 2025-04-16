@@ -5,6 +5,10 @@ readonly XCODE=$(xcodebuild -version | grep Xcode | cut -d " " -f2)
 readonly WORKSPACE=DemoApp.xcworkspace
 readonly SCHEME=DemoApp
 
+readonly BUILD_DIR="$PWD/.build"
+readonly ARTIFACTS_DIR="$BUILD_DIR/artifacts"
+readonly DERIVED_DATA_PATH="$BUILD_DIR/DerivedData"
+
 if ! command -v xcbeautify &> /dev/null
 then
     echo -e "\033[1;31m ERROR: xcbeautify could not be found please install it... \033[0m"
@@ -21,25 +25,34 @@ export LC_ALL=en_US.UTF-8
 echo "▸ Available Xcode SDKs"
 xcodebuild -showsdks
 
-echo "▸ Unzipping downloaded xcframework bundle"
-unzip -o "XCFramework/MUXSDKStats.xcframework.zip"
-
-cd apps/DemoApp
+cd Examples/DemoApp
 
 echo "▸ Reset Local Cocoapod Cache"
 pod cache clean --all
 
-echo "▸ Remove Podfile.lock"
-rm -rf Podfile.lock
-
-echo "▸ Reset Cocoapod Installation"
-pod deintegrate && pod install --clean-install --repo-update --verbose
+echo "▸ Cocoapod Installation"
+pod install --clean-install --repo-update --verbose
 
 echo "▸ Available Schemes in $(pwd)"
 xcodebuild -list
 
-echo "▸ Testing SDK on iOS 17.5 - iPhone 15 Pro Max"
-xcodebuild clean test \
+echo "▸ Building tests for iOS Simulator"
+xcodebuild clean build-for-testing \
     -workspace $WORKSPACE \
     -scheme $SCHEME \
-    -destination 'platform=iOS Simulator,OS=17.5,name=iPhone 15 Pro Max' | xcbeautify
+    -destination 'generic/platform=iOS Simulator' \
+    -derivedDataPath "$DERIVED_DATA_PATH" \
+    -allowProvisioningUpdates \
+    | xcbeautify
+
+if [ "${1:-}" == 'build-only' ]; then
+    exit 0
+fi
+
+echo "▸ Testing SDK on iOS Simulator - iPhone 16 Pro"
+xcodebuild test-without-building \
+    -workspace $WORKSPACE \
+    -scheme $SCHEME \
+    -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+    -derivedDataPath "$DERIVED_DATA_PATH" \
+    | xcbeautify

@@ -1,4 +1,4 @@
-// swift-tools-version:5.9
+// swift-tools-version:5.8
 
 import PackageDescription
 
@@ -8,29 +8,30 @@ let package = Package(
         .iOS(.v12),
         .macCatalyst(.v13),
         .tvOS(.v12),
-        .visionOS(.v1),
     ],
     products: [
-        .library(name: "MUXSDKStats", targets: ["MUXSDKStatsTargets"])
+        .library(name: "MUXSDKStats", targets: ["MUXSDKStats"]),
     ],
     dependencies: [
         .package(
             url: "https://github.com/muxinc/stats-sdk-objc.git",
-            .upToNextMinor(from: "5.3.0")
-        )
+            .upToNextMinor(from: "5.4.0")),
     ],
     targets: [
-        .binaryTarget(
-            name: "MUXSDKStats",
-            path: "XCFramework/MUXSDKStats.xcframework"
-        ),
         .target(
-            name: "MUXSDKStatsTargets",
+            name: "MUXSDKStats",
             dependencies: [
                 .product(name: "MuxCore", package: "stats-sdk-objc"),
-                .target(name: "MUXSDKStats")
             ],
-            path: "SwiftPM"
-        )
-    ]
-)
+            resources: [
+                .process("Resources"),
+            ]),
+        .testTarget(
+            name: "MUXSDKStatsTests",
+            dependencies: [
+                "MUXSDKStats",
+            ],
+            cSettings: [
+                .headerSearchPath("../../Sources/MUXSDKStats"),
+            ]),
+    ])
