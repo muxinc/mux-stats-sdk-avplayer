@@ -317,15 +317,25 @@ static NSString *Z = @"Z";
     [customerVideoData setVideoTitle:@"01234"];
     MUXSDKCustomerViewData *customerViewData = [[MUXSDKCustomerViewData alloc] init];
     [customerViewData setViewSessionId:@"foo"];
+    MUXSDKCustomerViewerData *customerViewerData = [MUXSDKCustomerViewerData new];
+    customerViewerData.viewerPlan = @"a plan";
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
                                                                                     videoData:customerVideoData
-                                                                                     viewData:customerViewData];
+                                                                                     viewData:customerViewData
+                                                                                   customData:nil
+                                                                                   viewerData:customerViewerData];
 
     NSString *playName = @"Player";
     MUXSDKPlayerBinding *playerBinding = [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
     XCTAssertNotNil(playerBinding, "expected monitorAVPlayerLayer to return a playerBinding");
     [customerViewData setViewSessionId:@"bar"];
-    [MUXSDKStats videoChangeForPlayer:playName withCustomerData:customerData];
+
+    MUXSDKCustomerData *updatedCustomerData = [MUXSDKCustomerData new];
+    MUXSDKCustomerViewerData *updatedCustomerViewerData = [MUXSDKCustomerViewerData new];
+    updatedCustomerViewerData.viewerPlanCategory = @"some category";
+    updatedCustomerData.customerViewerData = updatedCustomerViewerData;
+    [MUXSDKStats videoChangeForPlayer:playName withCustomerData:updatedCustomerData];
+
     NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                                     MUXSDKDataEventType,
                                     MUXSDKPlaybackEventPlayerReadyEventType,
@@ -334,6 +344,12 @@ static NSString *Z = @"Z";
     [MUXSDKStats destroyPlayer:playName];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomerViewData:@{@"xseid": @"bar"}];
+    XCTAssertEqualObjects([[MUXSDKCore globalEventAtIndex:0].customerViewerData toQuery], (@{
+        @"upz": @"a plan",
+    }));
+    XCTAssertEqualObjects([[MUXSDKCore globalEventAtIndex:1].customerViewerData toQuery], (@{
+        @"upzcg": @"some category",
+    }));
 }
 
 - (void)testVideoChangeForAVPlayerLayer API_UNAVAILABLE(visionos) {
@@ -641,49 +657,6 @@ static NSString *Z = @"Z";
     ];
     [MUXSDKStats destroyPlayer:playName];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
-}
-
-- (void)testUpdateCustomerDataViewerData API_UNAVAILABLE(visionos) {
-    XCTSkipIf(TARGET_OS_VISION);
-
-    NSString *playName = @"Player";
-    NSString *applicationName1 = @"appName1";
-    NSString *applicationName2 = @"appName2";
-
-    MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
-    MUXSDKCustomerViewerData *customerViewerData = [[MUXSDKCustomerViewerData alloc] init];
-    [customerViewerData setViewerApplicationName:applicationName1];
-
-    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:nil
-                                                                                    videoData:nil
-                                                                                     viewData:nil
-                                                                                   customData:nil
-                                                                                   viewerData:customerViewerData];
-    [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
-
-    // Sending CustomerData with nil viewerData should not emit an event
-    customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:nil
-                                                                videoData:nil
-                                                                 viewData:nil
-                                                               customData:nil
-                                                               viewerData:nil];
-    [MUXSDKStats setCustomerData:customerData forPlayer:playName];
-
-    [customerViewerData setViewerApplicationName:applicationName2];
-    customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:nil
-                                                                videoData:nil
-                                                                 viewData:nil
-                                                               customData:nil
-                                                               viewerData:customerViewerData];
-    [MUXSDKStats setCustomerData:customerData forPlayer:playName];
-
-    NSArray *expectedEventTypes = @[MUXSDKDataEventType,
-                                    MUXSDKDataEventType
-    ];
-    [MUXSDKStats destroyPlayer:playName];
-    [self assertDispatchedGlobalEventTypes:expectedEventTypes];
-    XCTAssertEqual([[MUXSDKCore globalEventAtIndex:0] viewerData].viewerApplicationName, applicationName1);
-    XCTAssertEqual([[MUXSDKCore globalEventAtIndex:1] viewerData].viewerApplicationName, applicationName2);
 }
 
 - (void)testDestroyPlayer {
@@ -999,85 +972,6 @@ static NSString *Z = @"Z";
     XCTAssertTrue(errorEvent.severity == MUXSDKErrorSeverityWarning);
 
     [MUXSDKStats destroyPlayer:playName];
-}
-
-
--(void)testOverrideAllDeviceMetadata API_UNAVAILABLE(visionos) {
-    XCTSkipIf(TARGET_OS_VISION);
-
-    NSString *customerOsVersion = @"1.2.3-dev";
-    NSString *customerOsFamily = @"OS/2";
-    NSString *customerDeviceModel = @"PS/2";
-    NSString *customerDeviceManufacturer = @"IBM";
-    NSString *customDeviceCategory = @"Personal Computer";
-    
-    MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
-    MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
-    MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
-    
-    MUXSDKCustomerViewerData *customerViewerData = [[MUXSDKCustomerViewerData alloc] init];
-    customerViewerData.viewerOsVersion = customerOsVersion;
-    customerViewerData.viewerOsFamily = customerOsFamily;
-    customerViewerData.viewerDeviceModel = customerDeviceModel;
-    customerViewerData.viewerDeviceManufacturer = customerDeviceManufacturer;
-    customerViewerData.viewerDeviceCategory = customDeviceCategory;
-    
-    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
-                                                                                    videoData:customerVideoData
-                                                                                     viewData:nil
-                                                                                   customData:[[MUXSDKCustomData alloc] init]
-                                                                                   viewerData:customerViewerData
-    ];
-
-    NSString *playerName = @"Player";
-    [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playerName customerData:customerData];
-
-    MUXSDKViewerData *finalViewerData = [MUXSDKStats buildViewerData];
-    XCTAssertEqual(finalViewerData.viewerOsVersion, customerOsVersion);
-    XCTAssertEqual(finalViewerData.viewerOsFamily, customerOsFamily);
-    XCTAssertEqual(finalViewerData.viewerDeviceModel, customerDeviceModel);
-    XCTAssertEqual(finalViewerData.viewerDeviceManufacturer, customerDeviceManufacturer);
-    XCTAssertEqual(finalViewerData.viewerDeviceCategory, customDeviceCategory);
-    
-    [MUXSDKStats destroyPlayer:playerName];
-}
-    
--(void)testOverrideSomeDeviceMetadata API_UNAVAILABLE(visionos) {
-    XCTSkipIf(TARGET_OS_VISION);
-
-    NSString *customerOsVersion = @"1.2.3-dev";
-    NSString *customerOsFamily = @"OS/2";
-    NSString *customerDeviceModel = @"PS/2";
-    NSString *customerDeviceManufacturer = @"IBM";
-    NSString *customDeviceCategory = @"Personal Computer";
-    
-    MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
-    MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
-    MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
-    
-    MUXSDKCustomerViewerData *customerViewerData = [[MUXSDKCustomerViewerData alloc] init];
-    customerViewerData.viewerOsVersion = customerOsVersion;
-    customerViewerData.viewerOsFamily = customerOsFamily;
-    customerViewerData.viewerDeviceModel = customerDeviceModel;
-    
-    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
-                                                                                    videoData:customerVideoData
-                                                                                     viewData:nil
-                                                                                   customData:[[MUXSDKCustomData alloc] init]
-                                                                                   viewerData:customerViewerData
-    ];
-
-    NSString *playerName = @"Player";
-    [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playerName customerData:customerData];
-
-    MUXSDKViewerData *finalViewerData = [MUXSDKStats buildViewerData];
-    XCTAssertEqual(finalViewerData.viewerOsVersion, customerOsVersion);
-    XCTAssertEqual(finalViewerData.viewerOsFamily, customerOsFamily);
-    XCTAssertEqual(finalViewerData.viewerDeviceModel, customerDeviceModel);
-    XCTAssertNotEqual(finalViewerData.viewerDeviceManufacturer, customerDeviceManufacturer);
-    XCTAssertNotEqual(finalViewerData.viewerDeviceCategory, customDeviceCategory);
-    
-    [MUXSDKStats destroyPlayer:playerName];
 }
 
 @end
