@@ -317,15 +317,25 @@ static NSString *Z = @"Z";
     [customerVideoData setVideoTitle:@"01234"];
     MUXSDKCustomerViewData *customerViewData = [[MUXSDKCustomerViewData alloc] init];
     [customerViewData setViewSessionId:@"foo"];
+    MUXSDKCustomerViewerData *customerViewerData = [MUXSDKCustomerViewerData new];
+    customerViewerData.viewerPlan = @"a plan";
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
                                                                                     videoData:customerVideoData
-                                                                                     viewData:customerViewData];
+                                                                                     viewData:customerViewData
+                                                                                   customData:nil
+                                                                                   viewerData:customerViewerData];
 
     NSString *playName = @"Player";
     MUXSDKPlayerBinding *playerBinding = [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
     XCTAssertNotNil(playerBinding, "expected monitorAVPlayerLayer to return a playerBinding");
     [customerViewData setViewSessionId:@"bar"];
-    [MUXSDKStats videoChangeForPlayer:playName withCustomerData:customerData];
+
+    MUXSDKCustomerData *updatedCustomerData = [MUXSDKCustomerData new];
+    MUXSDKCustomerViewerData *updatedCustomerViewerData = [MUXSDKCustomerViewerData new];
+    updatedCustomerViewerData.viewerPlanCategory = @"some category";
+    updatedCustomerData.customerViewerData = updatedCustomerViewerData;
+    [MUXSDKStats videoChangeForPlayer:playName withCustomerData:updatedCustomerData];
+
     NSArray *expectedEventTypes = @[MUXSDKPlaybackEventViewInitEventType,
                                     MUXSDKDataEventType,
                                     MUXSDKPlaybackEventPlayerReadyEventType,
@@ -334,6 +344,12 @@ static NSString *Z = @"Z";
     [MUXSDKStats destroyPlayer:playName];
     [self assertPlayer:playName dispatchedEventTypes:expectedEventTypes];
     [self assertPlayer:playName dispatchedDataEventsAtIndex:1 withCustomerViewData:@{@"xseid": @"bar"}];
+    XCTAssertEqualObjects([[MUXSDKCore globalEventAtIndex:0].customerViewerData toQuery], (@{
+        @"upz": @"a plan",
+    }));
+    XCTAssertEqualObjects([[MUXSDKCore globalEventAtIndex:1].customerViewerData toQuery], (@{
+        @"upzcg": @"some category",
+    }));
 }
 
 - (void)testVideoChangeForAVPlayerLayer API_UNAVAILABLE(visionos) {
