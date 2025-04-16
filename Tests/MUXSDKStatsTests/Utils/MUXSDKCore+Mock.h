@@ -7,14 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
-#if TARGET_OS_TV
-#import <MuxCore/MuxCoreTv.h>
-#elif TARGET_OS_VISION
-#import <MuxCore/MuxCoreVision.h>
-#else
 #import <MuxCore/MuxCore.h>
-#endif
 
 @interface MUXSDKCore (Mock)
 
@@ -24,6 +17,8 @@
 + (NSUInteger) eventsCountForPlayer:(NSString *)playerId;
 + (MUXSDKDataEvent *) globalEventAtIndex:(NSUInteger)index;
 + (NSUInteger) globalEventsCount;
++ (NSArray<MUXSDKDataEvent *> *) snapshotOfGlobalEvents;
++ (NSArray<MUXSDKDataEvent *> *) snapshotOfEventsForPlayer:(NSString *)playerId;
 
 @end
 

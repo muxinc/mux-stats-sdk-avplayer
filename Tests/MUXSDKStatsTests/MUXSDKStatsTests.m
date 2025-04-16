@@ -7,14 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-
-#if TARGET_OS_TV
-#import <MuxCore/MuxCoreTv.h>
-#elif TARGET_OS_VISION
-#import <MuxCore/MuxCoreVision.h>
-#else
 #import <MuxCore/MuxCore.h>
-#endif
 
 #import "MUXSDKStats.h"
 #import "MUXSDKStats+Internal.h"

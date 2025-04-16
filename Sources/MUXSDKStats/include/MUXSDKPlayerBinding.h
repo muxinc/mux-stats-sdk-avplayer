@@ -1,14 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <AVKit/AVKit.h>
 #import <AVFoundation/AVFoundation.h>
-
-#if TARGET_OS_TV
-#import <MuxCore/MuxCoreTv.h>
-#elif TARGET_OS_VISION
-#import <MuxCore/MuxCoreVision.h>
-#else
 #import <MuxCore/MuxCore.h>
-#endif
 
 typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
     MUXSDKPlayerStateReady,

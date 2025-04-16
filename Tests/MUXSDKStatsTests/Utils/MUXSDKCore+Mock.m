@@ -86,4 +86,12 @@ static NSMutableArray *globalEvents;
     return globalEvents.count;
 }
 
++ (NSArray<MUXSDKDataEvent *> *) snapshotOfGlobalEvents {
+    return [NSArray arrayWithArray:globalEvents];
+}
+
++ (NSArray<MUXSDKDataEvent *> *) snapshotOfEventsForPlayer:(NSString *)playerId {
+    return [NSArray arrayWithArray:[events objectForKey:playerId]];
+}
+
 @end
