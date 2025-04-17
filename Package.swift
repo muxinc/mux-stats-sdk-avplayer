@@ -22,10 +22,13 @@ let package = Package(
             name: "MUXSDKStats",
             dependencies: [
                 .product(name: "MuxCore", package: "stats-sdk-objc"),
+                .target(name: "MUXSDKStatsInternal"),
             ],
             resources: [
                 .process("Resources"),
             ]),
+        .target(
+            name: "MUXSDKStatsInternal"),
         .testTarget(
             name: "MUXSDKStatsTests",
             dependencies: [
