@@ -18,13 +18,6 @@
         "identifier" : "7225C9D52D77C2980003066B",
         "name" : "IntegrationTests"
       }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:Packages\/MUXSDKStats",
-        "identifier" : "MUXSDKStatsTests",
-        "name" : "MUXSDKStatsTests"
-      }
     }
   ],
   "version" : 1
