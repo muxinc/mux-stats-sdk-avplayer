@@ -6,23 +6,23 @@ sauce:
   concurrency: 3
 suites:
 - name: xctest - iPhone 14
-  app: .build/artifacts/MUXSDKStats-iOS.xctestproducts/Tests/0/Debug-iphoneos/IntegrationTestHost.app
-  xcTestRunFile: .build/artifacts/MUXSDKStats-iOS.xctestproducts/Tests/0/MUXSDKStats.xctestrun
+  app: .build/MUXSDKStats-iOS.xctestproducts/Tests/0/Debug-iphoneos/IntegrationTestHost.app
+  xcTestRunFile: .build/MUXSDKStats-iOS.xctestproducts/Tests/0/MUXSDKStats.xctestrun
   devices:
   - name: iPhone 14.*
 - name: xctest - iPhone 15
-  app: .build/artifacts/MUXSDKStats-iOS.xctestproducts/Tests/0/Debug-iphoneos/IntegrationTestHost.app
-  xcTestRunFile: .build/artifacts/MUXSDKStats-iOS.xctestproducts/Tests/0/MUXSDKStats.xctestrun
+  app: .build/MUXSDKStats-iOS.xctestproducts/Tests/0/Debug-iphoneos/IntegrationTestHost.app
+  xcTestRunFile: .build/MUXSDKStats-iOS.xctestproducts/Tests/0/MUXSDKStats.xctestrun
   devices:
   - name: iPhone 15.*
 - name: xctest - iPhone 16
-  app: .build/artifacts/MUXSDKStats-iOS.xctestproducts/Tests/0/Debug-iphoneos/IntegrationTestHost.app
-  xcTestRunFile: .build/artifacts/MUXSDKStats-iOS.xctestproducts/Tests/0/MUXSDKStats.xctestrun
+  app: .build/MUXSDKStats-iOS.xctestproducts/Tests/0/Debug-iphoneos/IntegrationTestHost.app
+  xcTestRunFile: .build/MUXSDKStats-iOS.xctestproducts/Tests/0/MUXSDKStats.xctestrun
   devices:
   - name: iPhone 16.*
 - name: xctest - iPhone 16e
-  app: .build/artifacts/MUXSDKStats-iOS.xctestproducts/Tests/0/Debug-iphoneos/IntegrationTestHost.app
-  xcTestRunFile: .build/artifacts/MUXSDKStats-iOS.xctestproducts/Tests/0/MUXSDKStats.xctestrun
+  app: .build/MUXSDKStats-iOS.xctestproducts/Tests/0/Debug-iphoneos/IntegrationTestHost.app
+  xcTestRunFile: .build/MUXSDKStats-iOS.xctestproducts/Tests/0/MUXSDKStats.xctestrun
   devices:
   - name: iPhone 16e
 # artifacts:

@@ -13,15 +13,10 @@ steps:
     artifact_paths:
       - ".build/artifacts/*.xcresult.zip"
   - command: "./scripts/run-integration-tests.sh"
-    key: run_integration_tests
     label: ":xcode_simulator: Integration Tests"
     artifact_paths:
       - ".build/artifacts/*.xctestproducts.zip"
       - ".build/artifacts/*.xcresult.zip"
-  # This may take long and could probably block another task that makes more sense.
-  - command: "./scripts/run-sauce-labs-tests.sh"
-    label: ":test_tube: Trigger Sauce Labs"
-    depends_on: run_integration_tests
   - wait
   - command: "./scripts/version-check.sh"
     label: ":clipboard: Validate Version Metadata"
