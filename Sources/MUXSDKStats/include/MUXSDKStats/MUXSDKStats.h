@@ -12,7 +12,7 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <MuxCore/MuxCore.h>
 
-#import "MUXSDKPlayerBinding.h"
+#import <MUXSDKStats/MUXSDKPlayerBinding.h>
 
 /*!
 	@class			MUXSDKStats
@@ -373,5 +373,5 @@ FOUNDATION_EXPORT
 // In previous releases, the umbrella header varied between platforms.
 // These have been left in for compatibility, but will be removed in a future release.
 // Importing them here avoids warnings about missing imports in the umbrella header.
-#import "MUXSDKStatsTv.h"
-#import "MUXSDKStatsVision.h"
+#import <MUXSDKStats/MUXSDKStatsTv.h>
+#import <MUXSDKStats/MUXSDKStatsVision.h>

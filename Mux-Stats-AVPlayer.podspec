@@ -23,6 +23,7 @@ Pod::Spec.new do |s|
 
   s.module_name = 'MUXSDKStats'
   s.source_files = 'Sources/MUXSDKStats/**/*.{h,m}'
-  s.public_header_files = 'Sources/MUXSDKStats/include/*.h'
+  s.public_header_files = 'Sources/MUXSDKStats/include/MUXSDKStats/*.h'
   s.project_header_files = 'Sources/MUXSDKStats/*.h'
+  s.header_dir = 'MUXSDKStats'
 end
