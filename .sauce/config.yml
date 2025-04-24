@@ -4,25 +4,22 @@ showConsoleLog: false
 sauce:
   region: us-west-1
   concurrency: 3
-suites:
-- name: xctest - iPhone 14
+XCTest:
   app: .build/MUXSDKStats-iOS.xctestproducts/Tests/0/Debug-iphoneos/IntegrationTestHost.app
   xcTestRunFile: .build/MUXSDKStats-iOS.xctestproducts/Tests/0/MUXSDKStats.xctestrun
+  otherApps:
+  - .build/MUXSDKStats-iOS.xctestproducts/Tests/0/Debug-iphoneos/UITests-Runner.app
+suites:
+- name: xctest - iPhone 14
   devices:
   - name: iPhone 14.*
 - name: xctest - iPhone 15
-  app: .build/MUXSDKStats-iOS.xctestproducts/Tests/0/Debug-iphoneos/IntegrationTestHost.app
-  xcTestRunFile: .build/MUXSDKStats-iOS.xctestproducts/Tests/0/MUXSDKStats.xctestrun
   devices:
   - name: iPhone 15.*
 - name: xctest - iPhone 16
-  app: .build/MUXSDKStats-iOS.xctestproducts/Tests/0/Debug-iphoneos/IntegrationTestHost.app
-  xcTestRunFile: .build/MUXSDKStats-iOS.xctestproducts/Tests/0/MUXSDKStats.xctestrun
   devices:
   - name: iPhone 16.*
 - name: xctest - iPhone 16e
-  app: .build/MUXSDKStats-iOS.xctestproducts/Tests/0/Debug-iphoneos/IntegrationTestHost.app
-  xcTestRunFile: .build/MUXSDKStats-iOS.xctestproducts/Tests/0/MUXSDKStats.xctestrun
   devices:
   - name: iPhone 16e
 # artifacts:

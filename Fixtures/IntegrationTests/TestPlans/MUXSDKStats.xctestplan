@@ -18,6 +18,13 @@
         "identifier" : "7225C9D52D77C2980003066B",
         "name" : "IntegrationTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:IntegrationTests.xcodeproj",
+        "identifier" : "7225C9DF2D77C2980003066B",
+        "name" : "UITests"
+      }
     }
   ],
   "version" : 1
