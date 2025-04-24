@@ -118,7 +118,7 @@ function test_for {
 }
 
 function run_sauce_labs_tests {
-    echo "---Running Sauce Labs Tests"
+    echo "--- Running Sauce Labs Tests"
 
     saucectl run
 }
