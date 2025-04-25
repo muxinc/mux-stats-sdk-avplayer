@@ -2,7 +2,7 @@
 #import <CoreMedia/CoreMedia.h>
 #import <UIKit/UIKit.h>
 
-#import "MUXSDKPlayerBinding.h"
+#import "MUXSDKStats/MUXSDKPlayerBinding.h"
 
 #import "MUXSDKConnection.h"
 #import "MUXSDKPlayerBindingConstants.h"

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <MuxCore/MuxCore.h>
 
-#import "MUXSDKPlayerBinding.h"
+#import "MUXSDKStats/MUXSDKPlayerBinding.h"
 
 #import "MUXSDKCustomerPlayerDataStore.h"
 #import "MUXSDKCustomerVideoDataStore.h"

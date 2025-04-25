@@ -21,6 +21,20 @@
                ReferencedContainer = "container:Packages/MUXSDKStats">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "729026F82DB967B700E08127"
+               BuildableName = "ObjCTarget.framework"
+               BlueprintName = "ObjCTarget"
+               ReferencedContainer = "container:IntegrationTests.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
