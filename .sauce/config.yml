@@ -9,19 +9,17 @@ XCTest:
   xcTestRunFile: .build/MUXSDKStats-iOS.xctestproducts/Tests/0/MUXSDKStats.xctestrun
   otherApps:
   - .build/MUXSDKStats-iOS.xctestproducts/Tests/0/Debug-iphoneos/UITests-Runner.app
+  - .build/MUXSDKStats-iOS.xctestproducts/Tests/0/Debug-iphoneos/UnitTestsHost.app
 suites:
-- name: xctest - iPhone 14
+- name: Debug iOS - All Tests - iPhone 14
   devices:
   - name: iPhone 14.*
-- name: xctest - iPhone 15
+- name: Debug iOS - All Tests - iPhone 15
   devices:
   - name: iPhone 15.*
-- name: xctest - iPhone 16
+- name: Debug iOS - All Tests - iPhone 16
   devices:
   - name: iPhone 16.*
-- name: xctest - iPhone 16e
-  devices:
-  - name: iPhone 16e
 # artifacts:
 #   download:
 #     match:

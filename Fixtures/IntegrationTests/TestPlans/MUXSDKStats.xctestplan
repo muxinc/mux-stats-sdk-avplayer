@@ -15,15 +15,22 @@
     {
       "target" : {
         "containerPath" : "container:IntegrationTests.xcodeproj",
-        "identifier" : "7225C9D52D77C2980003066B",
-        "name" : "IntegrationTests"
+        "identifier" : "7225C9DF2D77C2980003066B",
+        "name" : "UITests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/UnitTests\/UnitTests.xcodeproj",
+        "identifier" : "0812BF742DC119F4004F921E",
+        "name" : "UnitTests"
       }
     },
     {
       "target" : {
         "containerPath" : "container:IntegrationTests.xcodeproj",
-        "identifier" : "7225C9DF2D77C2980003066B",
-        "name" : "UITests"
+        "identifier" : "7225C9D52D77C2980003066B",
+        "name" : "IntegrationTests"
       }
     }
   ],

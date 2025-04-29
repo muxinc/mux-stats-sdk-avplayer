@@ -117,7 +117,7 @@ function test_for {
     fi
 }
 
-function run_sauce_labs_tests {
+function run_ci_tests {
     echo "--- Running Sauce Labs Tests"
 
     saucectl run
@@ -133,7 +133,7 @@ test_for 'tvOS Simulator' 'Apple TV 4K (3rd generation) (at 1080p)'
 test_for 'visionOS'
 test_for 'visionOS Simulator' 'Apple Vision Pro'
 
-run_sauce_labs_tests
+run_ci_tests
 
 merge_and_export_result_bundles
 
