@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name             = 'Mux-Stats-AVPlayer'
 
-  s.version          = '4.6.0'
+  s.version          = '4.6.1'
   s.source           = { :git => 'https://github.com/muxinc/mux-stats-sdk-avplayer.git',
                          :tag => "v#{s.version}" }
 
@@ -23,6 +23,7 @@ Pod::Spec.new do |s|
 
   s.module_name = 'MUXSDKStats'
   s.source_files = 'Sources/MUXSDKStats/**/*.{h,m}'
-  s.public_header_files = 'Sources/MUXSDKStats/include/*.h'
+  s.public_header_files = 'Sources/MUXSDKStats/include/MUXSDKStats/*.h'
   s.project_header_files = 'Sources/MUXSDKStats/*.h'
+  s.header_dir = 'MUXSDKStats'
 end
