@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		08191E6A2DC159B0003F912A /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 08191E692DC159B0003F912A /* MUXSDKStats */; };
 		7255C2F52D7A6EA700E1D797 /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 7255C2F42D7A6EA700E1D797 /* MUXSDKStats */; };
 		7290270B2DB9688400E08127 /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 7290270A2DB9688400E08127 /* MUXSDKStats */; };
 /* End PBXBuildFile section */
@@ -91,7 +90,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				08191E6A2DC159B0003F912A /* MUXSDKStats in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -198,7 +196,6 @@
 			);
 			name = IntegrationTests;
 			packageProductDependencies = (
-				08191E692DC159B0003F912A /* MUXSDKStats */,
 			);
 			productName = IntegrationTestHostTests;
 			productReference = 7225C9D62D77C2980003066B /* IntegrationTests.xctest */;
@@ -776,10 +773,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		08191E692DC159B0003F912A /* MUXSDKStats */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MUXSDKStats;
-		};
 		7255C2F42D7A6EA700E1D797 /* MUXSDKStats */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MUXSDKStats;
