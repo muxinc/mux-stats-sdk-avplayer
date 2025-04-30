@@ -6,7 +6,7 @@ sauce:
   concurrency: 3
 XCTest:
   app: .build/MUXSDKStats-iOS.xctestproducts/Tests/0/Debug-iphoneos/IntegrationTestHost.app
-  xcTestRunFile: .build/MUXSDKStats-iOS.xctestproducts/Tests/0/MUXSDKStats.xctestrun
+  xcTestRunFile: .build/MUXSDKStats-iOS.xctestproducts/Tests/0/CIPipeline.xctestrun
   otherApps:
   - .build/MUXSDKStats-iOS.xctestproducts/Tests/0/Debug-iphoneos/UITests-Runner.app
   - .build/MUXSDKStats-iOS.xctestproducts/Tests/0/Debug-iphoneos/UnitTestsHost.app
@@ -20,9 +20,3 @@ suites:
 - name: Debug iOS - All Tests - iPhone 16
   devices:
   - name: iPhone 16.*
-# artifacts:
-#   download:
-#     match:
-#     - '*'
-#     when: fail
-#     directory: .build/sauce/results

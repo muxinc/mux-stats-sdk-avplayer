@@ -30,7 +30,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:../IntegrationTests/TestPlans/MUXSDKStats.xctestplan"
+            reference = "container:TestPlans/MUXSDKStats.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>
