@@ -6,6 +6,30 @@
       "options" : {
 
       }
+    },
+    {
+      "id" : "F58253DC-37A2-4219-ACD9-7607FF4AAFF3",
+      "name" : "ASan",
+      "options" : {
+        "addressSanitizer" : {
+          "detectStackUseAfterReturn" : true,
+          "enabled" : true
+        }
+      }
+    },
+    {
+      "id" : "2FED8C7E-B477-4BF0-A87F-1B32A28E5261",
+      "name" : "TSan",
+      "options" : {
+        "threadSanitizerEnabled" : true
+      }
+    },
+    {
+      "id" : "785442DF-C735-4515-AA3E-0BCB848271D2",
+      "name" : "UBSan",
+      "options" : {
+        "undefinedBehaviorSanitizerEnabled" : true
+      }
     }
   ],
   "defaultOptions" : {
@@ -15,22 +39,22 @@
     {
       "target" : {
         "containerPath" : "container:IntegrationTests.xcodeproj",
-        "identifier" : "7225C9DF2D77C2980003066B",
-        "name" : "UITests"
+        "identifier" : "7225C9D52D77C2980003066B",
+        "name" : "IntegrationTests"
       }
     },
     {
       "target" : {
-        "containerPath" : "container:..\/UnitTests\/UnitTests.xcodeproj",
-        "identifier" : "0812BF742DC119F4004F921E",
-        "name" : "UnitTests"
+        "containerPath" : "container:Packages\/MUXSDKStats",
+        "identifier" : "MUXSDKStatsTests",
+        "name" : "MUXSDKStatsTests"
       }
     },
     {
       "target" : {
         "containerPath" : "container:IntegrationTests.xcodeproj",
-        "identifier" : "7225C9D52D77C2980003066B",
-        "name" : "IntegrationTests"
+        "identifier" : "7225C9DF2D77C2980003066B",
+        "name" : "UITests"
       }
     }
   ],
