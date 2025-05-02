@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  UnitTests
-//
-//  Created by Santiago Puppo on 29/4/25.
-//
-
 import SwiftUI
 
 struct ContentView: View {

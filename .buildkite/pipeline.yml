@@ -1,7 +1,5 @@
 agents:
   queue: "macOS-Monterey-12-4"
-env:
-  SAUCECTL_LABEL: "$BUILDKITE_BUILD_NUMBER $BUILDKITE_PIPELINE_SLUG $BUILDKITE_BRANCH $BUILDKITE_COMMIT"
 
 steps:
   - command: "./scripts/unit-test-package.sh"

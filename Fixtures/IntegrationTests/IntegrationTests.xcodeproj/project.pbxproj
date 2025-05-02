@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		08DFA9D92DC50503005F1C55 /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 08DFA9D82DC50503005F1C55 /* MUXSDKStats */; };
+		08DFA9DC2DC50554005F1C55 /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 08DFA9DB2DC50554005F1C55 /* MUXSDKStats */; };
 		7255C2F52D7A6EA700E1D797 /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 7255C2F42D7A6EA700E1D797 /* MUXSDKStats */; };
 		7290270B2DB9688400E08127 /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 7290270A2DB9688400E08127 /* MUXSDKStats */; };
 /* End PBXBuildFile section */
@@ -90,6 +92,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08DFA9D92DC50503005F1C55 /* MUXSDKStats in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,6 +100,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08DFA9DC2DC50554005F1C55 /* MUXSDKStats in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,6 +200,7 @@
 			);
 			name = IntegrationTests;
 			packageProductDependencies = (
+				08DFA9D82DC50503005F1C55 /* MUXSDKStats */,
 			);
 			productName = IntegrationTestHostTests;
 			productReference = 7225C9D62D77C2980003066B /* IntegrationTests.xctest */;
@@ -219,6 +224,7 @@
 			);
 			name = UITests;
 			packageProductDependencies = (
+				08DFA9DB2DC50554005F1C55 /* MUXSDKStats */,
 			);
 			productName = UITests;
 			productReference = 7225C9E02D77C2980003066B /* UITests.xctest */;
@@ -773,6 +779,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		08DFA9D82DC50503005F1C55 /* MUXSDKStats */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MUXSDKStats;
+		};
+		08DFA9DB2DC50554005F1C55 /* MUXSDKStats */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MUXSDKStats;
+		};
 		7255C2F42D7A6EA700E1D797 /* MUXSDKStats */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MUXSDKStats;
