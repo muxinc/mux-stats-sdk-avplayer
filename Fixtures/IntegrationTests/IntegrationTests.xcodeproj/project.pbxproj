@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		09CA2C5E2DC2A2360032474D /* MUXSDKCore+Mock.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CA2C5D2DC2A2360032474D /* MUXSDKCore+Mock.m */; };
 		7255C2F52D7A6EA700E1D797 /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 7255C2F42D7A6EA700E1D797 /* MUXSDKStats */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +29,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		09CA2C5C2DC2A2360032474D /* MUXSDKCore+Mock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "MUXSDKCore+Mock.h"; path = "/Users/fabri/Documents/mux-stats-sdk-avplayer/Tests/MUXSDKStatsTests/Utils/MUXSDKCore+Mock.h"; sourceTree = "<absolute>"; };
+		09CA2C5D2DC2A2360032474D /* MUXSDKCore+Mock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "MUXSDKCore+Mock.m"; path = "/Users/fabri/Documents/mux-stats-sdk-avplayer/Tests/MUXSDKStatsTests/Utils/MUXSDKCore+Mock.m"; sourceTree = "<absolute>"; };
+		09CA2C5F2DC2A2380032474D /* IntegrationTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IntegrationTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		7225C9C52D77C2980003066B /* IntegrationTestHost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IntegrationTestHost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7225C9D62D77C2980003066B /* IntegrationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IntegrationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7225C9E02D77C2980003066B /* UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -86,12 +90,15 @@
 		7225C9BC2D77C2980003066B = {
 			isa = PBXGroup;
 			children = (
+				09CA2C5C2DC2A2360032474D /* MUXSDKCore+Mock.h */,
+				09CA2C5D2DC2A2360032474D /* MUXSDKCore+Mock.m */,
 				722CF7F92D83AD980005B60D /* Configuration */,
 				7225C9C72D77C2980003066B /* IntegrationTestHost */,
 				7225C9D92D77C2980003066B /* IntegrationTests */,
 				7225C9E32D77C2980003066B /* UITests */,
 				7255C2F32D7A6EA700E1D797 /* Frameworks */,
 				7225C9C62D77C2980003066B /* Products */,
+				09CA2C5F2DC2A2380032474D /* IntegrationTests-Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -199,6 +206,7 @@
 					};
 					7225C9D52D77C2980003066B = {
 						CreatedOnToolsVersion = 16.2;
+						LastSwiftMigration = 1630;
 						TestTargetID = 7225C9C42D77C2980003066B;
 					};
 					7225C9DF2D77C2980003066B = {
@@ -266,6 +274,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09CA2C5E2DC2A2360032474D /* MUXSDKCore+Mock.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -501,6 +510,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -510,6 +520,8 @@
 				SDKROOT = auto;
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "IntegrationTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3,7";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IntegrationTestHost.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/IntegrationTestHost";
@@ -520,6 +532,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -529,6 +542,7 @@
 				SDKROOT = auto;
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "IntegrationTests-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3,7";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IntegrationTestHost.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/IntegrationTestHost";
