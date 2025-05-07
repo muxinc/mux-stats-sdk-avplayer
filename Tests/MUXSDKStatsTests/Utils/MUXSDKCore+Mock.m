@@ -70,6 +70,14 @@ static NSMutableArray *globalEvents;
     return [eventsForPlayer objectAtIndex:index];
 }
 
++ (NSArray<MUXSDKBaseEvent *> *) getEventsForPlayer: (NSString *)playerId {
+    NSMutableArray *eventsForPlayer = [events objectForKey:playerId];
+    if(!eventsForPlayer) {
+        return nil;
+    }
+    return eventsForPlayer;
+}
+
 + (NSUInteger) eventsCountForPlayer:(NSString *)playerId {
     NSMutableArray *eventsForPlayer = [events objectForKey:playerId];
     if(!eventsForPlayer) {
