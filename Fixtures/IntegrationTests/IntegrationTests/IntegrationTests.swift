@@ -6,11 +6,6 @@ struct IntegrationTests {
     let playerName = "TestPlayerName"
     let dispatchDelay = 1.0
     
-    @Test func createBinding() throws {
-        let binding = MUXSDKPlayerBinding(playerName: "TestPlayerName", softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
-        _ = binding
-    }
-    
     func getLatestTimeUpdateEvent(for playerName: String) -> NSNumber? {
         let events = MUXSDKCore.getEventsForPlayer(playerName)
         return events?
@@ -63,7 +58,7 @@ struct IntegrationTests {
         // Expect that time difference is approximately 0 seconds
         #expect(waitTimeDiff >= 0 && waitTimeDiff < 1000)
         
-        var events = getEventsAndReset(for: playerName)
+        let events = getEventsAndReset(for: playerName)
         let containsPauseEvent = events?.contains { $0 is MUXSDKPauseEvent } ?? false
         // Expect that MUXSDKPauseEvent was sent
         #expect(containsPauseEvent)
@@ -86,12 +81,12 @@ struct IntegrationTests {
         NSLog("## Seek back \(seconds) seconds")
         let currentTimeBack = player.currentTime()
         let seekTimeBack = CMTime(seconds: currentTimeBack.seconds - seconds, preferredTimescale: 1)
-        var seekTimeBefore = getLatestTimeUpdateEvent(for: playerName)!.doubleValue
+        let seekTimeBefore = getLatestTimeUpdateEvent(for: playerName)!.doubleValue
         player.seek(to: seekTimeBack)
         Thread.sleep(forTimeInterval: 0.5)
         
-        var seekTimeAfter = getLatestTimeUpdateEvent(for: playerName)!.doubleValue
-        var seekTimeDiff = seekTimeAfter - seekTimeBefore
+        let seekTimeAfter = getLatestTimeUpdateEvent(for: playerName)!.doubleValue
+        let seekTimeDiff = seekTimeAfter - seekTimeBefore
         let lowerBound = (-seconds * 1000) + 1000
         let upperBound = (-seconds * 1000) - 1000
         
@@ -161,6 +156,6 @@ struct IntegrationTests {
         assertWaitForNSeconds(n : 30.0)
         
         // Exit the player by going back to the menu
-        // TBD: How to do this
+        binding.detachAVPlayer()
     }
 }
