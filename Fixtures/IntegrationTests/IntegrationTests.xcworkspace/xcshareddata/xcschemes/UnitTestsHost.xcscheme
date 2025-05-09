@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1620"
+   LastUpgradeVersion = "1630"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,24 +15,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "MUXSDKStats"
-               BuildableName = "MUXSDKStats"
-               BlueprintName = "MUXSDKStats"
-               ReferencedContainer = "container:Packages/MUXSDKStats">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "729026F82DB967B700E08127"
-               BuildableName = "ObjCTarget.framework"
-               BlueprintName = "ObjCTarget"
-               ReferencedContainer = "container:IntegrationTests.xcodeproj">
+               BlueprintIdentifier = "0812BF662DC119F2004F921E"
+               BuildableName = "UnitTestsHost.app"
+               BlueprintName = "UnitTestsHost"
+               ReferencedContainer = "container:../UnitTests/UnitTests.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,19 +33,17 @@
             reference = "container:TestPlans/MUXSDKStats.xctestplan"
             default = "YES">
          </TestPlanReference>
-         <TestPlanReference
-            reference = "container:TestPlans/CIPipeline.xctestplan">
-         </TestPlanReference>
       </TestPlans>
       <Testables>
          <TestableReference
-            skipped = "NO">
+            skipped = "NO"
+            parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "MUXSDKStatsTests"
-               BuildableName = "MUXSDKStatsTests"
-               BlueprintName = "MUXSDKStatsTests"
-               ReferencedContainer = "container:Packages/MUXSDKStats">
+               BlueprintIdentifier = "0812BF742DC119F4004F921E"
+               BuildableName = "UnitTests.xctest"
+               BlueprintName = "UnitTests"
+               ReferencedContainer = "container:../UnitTests/UnitTests.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -74,6 +58,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "0812BF662DC119F2004F921E"
+            BuildableName = "UnitTestsHost.app"
+            BlueprintName = "UnitTestsHost"
+            ReferencedContainer = "container:../UnitTests/UnitTests.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -81,15 +75,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "MUXSDKStats"
-            BuildableName = "MUXSDKStats"
-            BlueprintName = "MUXSDKStats"
-            ReferencedContainer = "container:Packages/MUXSDKStats">
+            BlueprintIdentifier = "0812BF662DC119F2004F921E"
+            BuildableName = "UnitTestsHost.app"
+            BlueprintName = "UnitTestsHost"
+            ReferencedContainer = "container:../UnitTests/UnitTests.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

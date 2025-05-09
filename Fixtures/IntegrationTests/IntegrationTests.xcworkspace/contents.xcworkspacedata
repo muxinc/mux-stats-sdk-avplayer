@@ -8,6 +8,9 @@
       location = "group:IntegrationTests.xcodeproj">
    </FileRef>
    <FileRef
+      location = "container:../UnitTests/UnitTests.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:TestPlans">
    </FileRef>
 </Workspace>

@@ -15,6 +15,8 @@ steps:
     artifact_paths:
       - ".build/artifacts/*.xctestproducts.zip"
       - ".build/artifacts/*.xcresult.zip"
+  - command: "./scripts/run-ci-tests.sh"
+    label: ":test_tube: CI Tests"
   - wait
   - command: "./scripts/version-check.sh"
     label: ":clipboard: Validate Version Metadata"
