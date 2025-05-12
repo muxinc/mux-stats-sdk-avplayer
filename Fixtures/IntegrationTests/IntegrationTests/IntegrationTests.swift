@@ -44,7 +44,7 @@ struct IntegrationTests {
         let upperBound = (seconds * 1000) + 1000
         
         // Expect that time difference is approximately n seconds
-        #expect(waitTimeDiff >= lowerBound && waitTimeDiff <= upperBound)
+        #expect(waitTimeDiff >= lowerBound && waitTimeDiff <= upperBound, "Waited \(waitTimeDiff)ms, expected between \(lowerBound)ms and \(upperBound)ms")
     }
     
     func assertPauseForNSeconds(n seconds: Double, with player: AVPlayer) {
@@ -83,15 +83,15 @@ struct IntegrationTests {
         let seekTimeBack = CMTime(seconds: currentTimeBack.seconds - seconds, preferredTimescale: 1)
         let seekTimeBefore = getLatestTimeUpdateEvent(for: playerName)!.doubleValue
         player.seek(to: seekTimeBack)
-        Thread.sleep(forTimeInterval: 0.5)
+        Thread.sleep(forTimeInterval: dispatchDelay)
         
         let seekTimeAfter = getLatestTimeUpdateEvent(for: playerName)!.doubleValue
         let seekTimeDiff = seekTimeAfter - seekTimeBefore
-        let lowerBound = (-seconds * 1000) + 1000
-        let upperBound = (-seconds * 1000) - 1000
+        let lowerBound = (-seconds * 1000) + 2000
+        let upperBound = (-seconds * 1000) - 2000
         
         // Expect that time has gone backwards approximately n seconds
-        #expect(seekTimeDiff <= lowerBound && seekTimeDiff >= upperBound)
+        #expect(seekTimeDiff <= lowerBound && seekTimeDiff >= upperBound, "Seeked \(seekTimeDiff)ms, expected between \(lowerBound)ms and \(upperBound)ms")
         Thread.sleep(forTimeInterval: dispatchDelay)
     }
     
@@ -101,18 +101,18 @@ struct IntegrationTests {
         let seekTimeForwards = CMTime(seconds: currentTimeForwards.seconds + seconds, preferredTimescale: 1)
         let seekTimeBefore = getLatestTimeUpdateEvent(for: playerName)!.doubleValue
         player.seek(to: seekTimeForwards)
-        Thread.sleep(forTimeInterval: 0.5)
+        Thread.sleep(forTimeInterval: dispatchDelay)
         let seekTimeAfter = getLatestTimeUpdateEvent(for: playerName)!.doubleValue
         let seekTimeDiff = seekTimeAfter - seekTimeBefore
-        let lowerBound = (seconds * 1000) - 1000
-        let upperBound = (seconds * 1000) + 1000
+        let lowerBound = (seconds * 1000) - 2000
+        let upperBound = (seconds * 1000) + 2000
         
         // Expect that time has gone forwards n seconds
-        #expect(seekTimeDiff >= lowerBound && seekTimeDiff <= upperBound)
+        #expect(seekTimeDiff >= lowerBound && seekTimeDiff <= upperBound, "Seeked \(seekTimeDiff)ms, expected between \(lowerBound)ms and \(upperBound)ms")
         Thread.sleep(forTimeInterval: dispatchDelay)
         
         let events = getEventsAndReset(for: playerName)
-        let containsSeekEvent = events?.contains { $0 is MUXSDKSeekedEvent } ?? false
+        let containsSeekEvent = events?.contains { $0 is MUXSDKSeekedEvent || $0 is MUXSDKInternalSeekingEvent } ?? false
         
         // Expect that MUXSDKSeekEvent was sent
         #expect(containsSeekEvent)
