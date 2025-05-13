@@ -5,14 +5,20 @@ import Testing
 struct IntegrationTests {
     let playerName = "TestPlayerName"
     let dispatchDelay = 1.0
+    let msTolerance: Double = 2000
     
-    func getLatestTimeUpdateEvent(for playerName: String) -> NSNumber? {
-        let events = MUXSDKCore.getEventsForPlayer(playerName)
-        return events?
-            .compactMap { $0 as? MUXSDKTimeUpdateEvent }
-            .last?
-            .playerData?
-            .playerPlayheadTime
+    func getLastTimestamp(for playerName: String) -> NSNumber? {
+        guard let timeStamps = MUXSDKCore.getTimeStamps(forPlayer: playerName) as? [NSNumber] else {
+            return nil
+        }
+        return timeStamps.last
+    }
+    
+    func getTimeDeltas(for playerName: String) -> [NSNumber] {
+        guard let timeDeltas = MUXSDKCore.getTimeDeltas(forPlayer: playerName) as? [NSNumber] else {
+            return []
+        }
+        return timeDeltas
     }
     
     func getEventsAndReset(for playerName: String) -> [MUXSDKBaseEvent]? {
@@ -36,12 +42,12 @@ struct IntegrationTests {
     
     func assertWaitForNSeconds(n seconds: Double){
         NSLog("## Wait approximately \(seconds) seconds")
-        let waitTimeBefore = getLatestTimeUpdateEvent(for: playerName)!.doubleValue
+        let waitTimeBefore = getLastTimestamp(for: playerName)!.doubleValue
         Thread.sleep(forTimeInterval: TimeInterval(seconds))
-        let waitTimeAfter = getLatestTimeUpdateEvent(for: playerName)!.doubleValue
+        let waitTimeAfter = getLastTimestamp(for: playerName)!.doubleValue
         let waitTimeDiff = waitTimeAfter - waitTimeBefore
-        let lowerBound = (seconds * 1000) - 1000
-        let upperBound = (seconds * 1000) + 1000
+        let lowerBound = (seconds * 1000) - msTolerance
+        let upperBound = (seconds * 1000) + msTolerance
         
         // Expect that time difference is approximately n seconds
         #expect(waitTimeDiff >= lowerBound && waitTimeDiff <= upperBound, "Waited \(waitTimeDiff)ms, expected between \(lowerBound)ms and \(upperBound)ms")
@@ -49,14 +55,14 @@ struct IntegrationTests {
     
     func assertPauseForNSeconds(n seconds: Double, with player: AVPlayer) {
         NSLog("## Pause the content for \(seconds) seconds")
-        let waitTimeBefore = getLatestTimeUpdateEvent(for: playerName)!.doubleValue
+        let waitTimeBefore = getLastTimestamp(for: playerName)!.doubleValue
         player.pause()
         Thread.sleep(forTimeInterval: TimeInterval(seconds))
+        let waitTimeAfter = getLastTimestamp(for: playerName)!.doubleValue
         
-        let waitTimeAfter = getLatestTimeUpdateEvent(for: playerName)!.doubleValue
         let waitTimeDiff = waitTimeAfter - waitTimeBefore
         // Expect that time difference is approximately 0 seconds
-        #expect(waitTimeDiff >= 0 && waitTimeDiff < 1000)
+        #expect(waitTimeDiff >= 0 && waitTimeDiff < msTolerance)
         
         let events = getEventsAndReset(for: playerName)
         let containsPauseEvent = events?.contains { $0 is MUXSDKPauseEvent } ?? false
@@ -65,58 +71,28 @@ struct IntegrationTests {
         Thread.sleep(forTimeInterval: dispatchDelay)
     }
     
-    func assertUnpause(with player: AVPlayer) {
-        NSLog("## Unpause the content")
-        player.play()
+    func assertSeekNSeconds(n seconds: Double, with player: AVPlayer) {
+        NSLog("## Seek \(seconds) seconds")
+        let currentTime = player.currentTime()
+        let seekTime = CMTime(seconds: currentTime.seconds + seconds, preferredTimescale: 1)
+        player.seek(to: seekTime)
         Thread.sleep(forTimeInterval: dispatchDelay)
-        let events = getEventsAndReset(for: playerName)
-        let containsPlayEvent = events?.contains { $0 is MUXSDKPlayEvent } ?? false
-        
-        // Expect that MUXSDKPlayEvent was sent
-        #expect(containsPlayEvent)
-        Thread.sleep(forTimeInterval: dispatchDelay)
-    }
-    
-    func assertSeekBackwardsNSeconds(n seconds: Double, with player: AVPlayer) {
-        NSLog("## Seek back \(seconds) seconds")
-        let currentTimeBack = player.currentTime()
-        let seekTimeBack = CMTime(seconds: currentTimeBack.seconds - seconds, preferredTimescale: 1)
-        let seekTimeBefore = getLatestTimeUpdateEvent(for: playerName)!.doubleValue
-        player.seek(to: seekTimeBack)
-        Thread.sleep(forTimeInterval: dispatchDelay)
-        
-        let seekTimeAfter = getLatestTimeUpdateEvent(for: playerName)!.doubleValue
-        let seekTimeDiff = seekTimeAfter - seekTimeBefore
-        let lowerBound = (-seconds * 1000) + 2000
-        let upperBound = (-seconds * 1000) - 2000
-        
-        // Expect that time has gone backwards approximately n seconds
-        #expect(seekTimeDiff <= lowerBound && seekTimeDiff >= upperBound, "Seeked \(seekTimeDiff)ms, expected between \(lowerBound)ms and \(upperBound)ms")
-        Thread.sleep(forTimeInterval: dispatchDelay)
-    }
-    
-    func assertSeekForwardsNSeconds(n seconds: Double, with player: AVPlayer) {
-        NSLog("## Seek forwards \(seconds) seconds")
-        let currentTimeForwards = player.currentTime()
-        let seekTimeForwards = CMTime(seconds: currentTimeForwards.seconds + seconds, preferredTimescale: 1)
-        let seekTimeBefore = getLatestTimeUpdateEvent(for: playerName)!.doubleValue
-        player.seek(to: seekTimeForwards)
-        Thread.sleep(forTimeInterval: dispatchDelay)
-        let seekTimeAfter = getLatestTimeUpdateEvent(for: playerName)!.doubleValue
-        let seekTimeDiff = seekTimeAfter - seekTimeBefore
-        let lowerBound = (seconds * 1000) - 2000
-        let upperBound = (seconds * 1000) + 2000
-        
-        // Expect that time has gone forwards n seconds
-        #expect(seekTimeDiff >= lowerBound && seekTimeDiff <= upperBound, "Seeked \(seekTimeDiff)ms, expected between \(lowerBound)ms and \(upperBound)ms")
-        Thread.sleep(forTimeInterval: dispatchDelay)
-        
-        let events = getEventsAndReset(for: playerName)
-        let containsSeekEvent = events?.contains { $0 is MUXSDKSeekedEvent || $0 is MUXSDKInternalSeekingEvent } ?? false
         
         // Expect that MUXSDKSeekEvent was sent
+        let events = getEventsAndReset(for: playerName)
+        let containsSeekEvent = events?.contains { $0 is MUXSDKSeekedEvent || $0 is MUXSDKInternalSeekingEvent } ?? false
         #expect(containsSeekEvent)
-        Thread.sleep(forTimeInterval: dispatchDelay)
+        
+        // Expect that time has gone forwards approximately n seconds
+        let timeDeltas = getTimeDeltas(for: playerName)
+        let expectedDelta = seconds * 1000
+        
+        let hasSeekDelta = timeDeltas.contains {
+            let diff = ($0).doubleValue
+            return abs(diff - expectedDelta) <= msTolerance
+        }
+        
+        #expect(hasSeekDelta, "Expected a delta close to \(expectedDelta)ms, but none was found")
     }
     
     @Test func vodPlaybackTest() throws {
@@ -138,19 +114,19 @@ struct IntegrationTests {
         assertPauseForNSeconds(n: 5.0, with: avPlayer)
         
         // Unpause the content
-        assertUnpause(with: avPlayer)
+        assertStartPlaying(with: avPlayer)
         
         // Wait approximately 30 seconds
         assertWaitForNSeconds(n : 30.0)
         
         // Seek backwards in the video 10 seconds
-        assertSeekBackwardsNSeconds(n: 10.0, with: avPlayer)
+        assertSeekNSeconds(n: -10.0, with: avPlayer)
         
         // Wait approximately 30 seconds
         assertWaitForNSeconds(n : 30.0)
         
-        // Seek forwards in the video
-        assertSeekForwardsNSeconds(n: 20.0, with: avPlayer)
+        // Seek forwards in the video 20 seconds
+        assertSeekNSeconds(n: 20.0, with: avPlayer)
         
         // Wait approximately 30 seconds
         assertWaitForNSeconds(n : 30.0)

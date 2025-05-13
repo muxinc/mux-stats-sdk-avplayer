@@ -115,9 +115,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		09C918672DD39B2700C5F469 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				09CA2C602DCE81BE0032474D /* MUXSDKCore+Mock.h */,
+				09CA2C612DCE81BE0032474D /* MUXSDKCore+Mock.m */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
 		7225C9BC2D77C2980003066B = {
 			isa = PBXGroup;
 			children = (
+				09C918672DD39B2700C5F469 /* Mocks */,
 				722CF7F92D83AD980005B60D /* Configuration */,
 				7225C9C72D77C2980003066B /* IntegrationTestHost */,
 				7225C9D92D77C2980003066B /* IntegrationTests */,
@@ -126,8 +136,6 @@
 				7255C2F32D7A6EA700E1D797 /* Frameworks */,
 				7225C9C62D77C2980003066B /* Products */,
 				09CA2C5F2DC2A2380032474D /* IntegrationTests-Bridging-Header.h */,
-				09CA2C602DCE81BE0032474D /* MUXSDKCore+Mock.h */,
-				09CA2C612DCE81BE0032474D /* MUXSDKCore+Mock.m */,
 			);
 			sourceTree = "<group>";
 		};
