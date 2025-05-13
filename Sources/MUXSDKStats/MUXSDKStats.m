@@ -4,8 +4,8 @@
 
 #import <sys/utsname.h>
 
-#import "MUXSDKStats.h"
-#import "MUXSDKPlayerBinding.h"
+#import "MUXSDKStats/MUXSDKStats.h"
+#import "MUXSDKStats/MUXSDKPlayerBinding.h"
 #import "MUXSDKPlayerBindingManager.h"
 #import "MUXSDKCustomerPlayerDataStore.h"
 #import "MUXSDKCustomerVideoDataStore.h"

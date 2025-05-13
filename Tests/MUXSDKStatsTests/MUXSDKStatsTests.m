@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 #import <MuxCore/MuxCore.h>
 
-#import "MUXSDKStats.h"
+#import "MUXSDKStats/MUXSDKStats.h"
 #import "MUXSDKStats+Internal.h"
 #import "Utils/MUXSDKCore+Mock.h"
 #import "MUXSDKPlayerBindingConstants.h"

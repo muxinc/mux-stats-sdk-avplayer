@@ -1,0 +1,22 @@
+apiVersion: v1alpha
+kind: xctest
+showConsoleLog: false
+sauce:
+  region: us-west-1
+  concurrency: 3
+XCTest:
+  app: .build/MUXSDKStats-iOS.xctestproducts/Tests/0/Debug-iphoneos/IntegrationTestHost.app
+  xcTestRunFile: .build/MUXSDKStats-iOS.xctestproducts/Tests/0/CIPipeline.xctestrun
+  otherApps:
+  - .build/MUXSDKStats-iOS.xctestproducts/Tests/0/Debug-iphoneos/UITests-Runner.app
+  - .build/MUXSDKStats-iOS.xctestproducts/Tests/0/Debug-iphoneos/UnitTestsHost.app
+suites:
+- name: Debug iOS - All Tests - iPhone 14
+  devices:
+  - name: iPhone 14.*
+- name: Debug iOS - All Tests - iPhone 15
+  devices:
+  - name: iPhone 15.*
+- name: Debug iOS - All Tests - iPhone 16
+  devices:
+  - name: iPhone 16.*

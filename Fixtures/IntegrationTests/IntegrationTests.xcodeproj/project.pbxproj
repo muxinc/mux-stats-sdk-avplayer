@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		09CA2C622DCE81BE0032474D /* MUXSDKCore+Mock.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CA2C612DCE81BE0032474D /* MUXSDKCore+Mock.m */; };
 		7255C2F52D7A6EA700E1D797 /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 7255C2F42D7A6EA700E1D797 /* MUXSDKStats */; };
+		7290270B2DB9688400E08127 /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 7290270A2DB9688400E08127 /* MUXSDKStats */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,7 +36,18 @@
 		7225C9C52D77C2980003066B /* IntegrationTestHost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IntegrationTestHost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7225C9D62D77C2980003066B /* IntegrationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IntegrationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7225C9E02D77C2980003066B /* UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		729026F92DB967B700E08127 /* ObjCTarget.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ObjCTarget.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		729027032DB967B700E08127 /* Exceptions for "ObjCTarget" folder in "ObjCTarget" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			publicHeaders = (
+				ObjCTarget.h,
+			);
+			target = 729026F82DB967B700E08127 /* ObjCTarget */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		7225C9C72D77C2980003066B /* IntegrationTestHost */ = {
@@ -58,6 +70,14 @@
 			name = Configuration;
 			path = ../../Configuration;
 			sourceTree = SOURCE_ROOT;
+		};
+		729026FA2DB967B700E08127 /* ObjCTarget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				729027032DB967B700E08127 /* Exceptions for "ObjCTarget" folder in "ObjCTarget" target */,
+			);
+			path = ObjCTarget;
+			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -84,6 +104,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		729026F62DB967B700E08127 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7290270B2DB9688400E08127 /* MUXSDKStats in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -94,6 +122,7 @@
 				7225C9C72D77C2980003066B /* IntegrationTestHost */,
 				7225C9D92D77C2980003066B /* IntegrationTests */,
 				7225C9E32D77C2980003066B /* UITests */,
+				729026FA2DB967B700E08127 /* ObjCTarget */,
 				7255C2F32D7A6EA700E1D797 /* Frameworks */,
 				7225C9C62D77C2980003066B /* Products */,
 				09CA2C5F2DC2A2380032474D /* IntegrationTests-Bridging-Header.h */,
@@ -108,6 +137,7 @@
 				7225C9C52D77C2980003066B /* IntegrationTestHost.app */,
 				7225C9D62D77C2980003066B /* IntegrationTests.xctest */,
 				7225C9E02D77C2980003066B /* UITests.xctest */,
+				729026F92DB967B700E08127 /* ObjCTarget.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -120,6 +150,16 @@
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		729026F42DB967B700E08127 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		7225C9C42D77C2980003066B /* IntegrationTestHost */ = {
@@ -191,6 +231,30 @@
 			productReference = 7225C9E02D77C2980003066B /* UITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		729026F82DB967B700E08127 /* ObjCTarget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 729027042DB967B700E08127 /* Build configuration list for PBXNativeTarget "ObjCTarget" */;
+			buildPhases = (
+				729026F42DB967B700E08127 /* Headers */,
+				729026F52DB967B700E08127 /* Sources */,
+				729026F62DB967B700E08127 /* Frameworks */,
+				729026F72DB967B700E08127 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				729026FA2DB967B700E08127 /* ObjCTarget */,
+			);
+			name = ObjCTarget;
+			packageProductDependencies = (
+				7290270A2DB9688400E08127 /* MUXSDKStats */,
+			);
+			productName = ObjCTarget;
+			productReference = 729026F92DB967B700E08127 /* ObjCTarget.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -213,6 +277,9 @@
 						CreatedOnToolsVersion = 16.2;
 						TestTargetID = 7225C9C42D77C2980003066B;
 					};
+					729026F82DB967B700E08127 = {
+						CreatedOnToolsVersion = 16.3;
+					};
 				};
 			};
 			buildConfigurationList = 7225C9C02D77C2980003066B /* Build configuration list for PBXProject "IntegrationTests" */;
@@ -234,6 +301,7 @@
 				7225C9C42D77C2980003066B /* IntegrationTestHost */,
 				7225C9D52D77C2980003066B /* IntegrationTests */,
 				7225C9DF2D77C2980003066B /* UITests */,
+				729026F82DB967B700E08127 /* ObjCTarget */,
 			);
 		};
 /* End PBXProject section */
@@ -260,6 +328,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		729026F72DB967B700E08127 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -279,6 +354,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		7225C9DC2D77C2980003066B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		729026F52DB967B700E08127 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -585,6 +667,75 @@
 			};
 			name = Release;
 		};
+		729027052DB967B700E08127 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats-avplayer.ObjCTarget${BUNDLE_ID_DISAMBIGUATOR}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		729027062DB967B700E08127 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats-avplayer.ObjCTarget${BUNDLE_ID_DISAMBIGUATOR}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -624,10 +775,23 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		729027042DB967B700E08127 /* Build configuration list for PBXNativeTarget "ObjCTarget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				729027052DB967B700E08127 /* Debug */,
+				729027062DB967B700E08127 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		7255C2F42D7A6EA700E1D797 /* MUXSDKStats */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MUXSDKStats;
+		};
+		7290270A2DB9688400E08127 /* MUXSDKStats */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MUXSDKStats;
 		};

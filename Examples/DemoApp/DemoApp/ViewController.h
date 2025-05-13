@@ -1,8 +1,8 @@
+#import <AVKit/AVKit.h>
+#import <AVFoundation/AVFoundation.h>
 #import <UIKit/UIKit.h>
 
-@import AVKit;
-@import AVFoundation;
-@import MUXSDKStats;
+#import <MUXSDKStats/MUXSDKStats.h>
 
 @interface ViewController : UIViewController
 

@@ -11,7 +11,7 @@
 #ifndef MUXSDKStats_PropertyGetters_h
 #define MUXSDKStats_PropertyGetters_h
 
-#import "MUXSDKStats.h"
+#import "MUXSDKStats/MUXSDKStats.h"
 
 @interface MUXSDKStats()
 
