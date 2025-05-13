@@ -13,6 +13,8 @@
 @implementation MUXSDKCore (Mock)
 
 static NSMutableDictionary *events;
+static NSMutableDictionary<NSString *, NSMutableArray<NSNumber *> *> *timeDeltas;
+static NSMutableDictionary<NSString *, NSMutableArray<NSNumber *> *> *timeStamps;
 static NSMutableArray *globalEvents;
 
 + (void) swizzleDispatchEvents {
@@ -60,6 +62,46 @@ static NSMutableArray *globalEvents;
     }
     NSMutableArray *eventsForPlayer = [events objectForKey:playerId];
     [eventsForPlayer addObject:event];
+    
+    if ([(NSObject *)event isKindOfClass:[MUXSDKTimeUpdateEvent class]]) {
+        [self trackTimeForEvent:event playerId:playerId];
+    }
+}
+
++ (void) trackTimeForEvent:(id<MUXSDKEventTyping>)event playerId:(NSString *)playerId {
+    if (!timeDeltas) {
+        timeDeltas = [NSMutableDictionary new];
+    }
+    
+    if (!timeStamps) {
+        timeStamps = [NSMutableDictionary new];
+    }
+
+    if (![timeDeltas objectForKey:playerId]) {
+        [timeDeltas setObject:[[NSMutableArray alloc] init] forKey:playerId];
+    }
+    
+    if (![timeStamps objectForKey:playerId]) {
+        [timeStamps setObject:[[NSMutableArray alloc] init] forKey:playerId];
+    }
+    
+    MUXSDKTimeUpdateEvent *timeEvent = (MUXSDKTimeUpdateEvent *)event;
+    NSNumber *timestamp = timeEvent.playerData.playerPlayheadTime;
+    
+    NSMutableArray *timeStampsForPlayer = [timeStamps objectForKey:playerId];
+    NSMutableArray *playerTimeDeltas = [timeDeltas objectForKey:playerId];
+
+    if (playerTimeDeltas.count == 0) {
+        [timeStampsForPlayer addObject:timestamp];
+        [playerTimeDeltas addObject:@(0)];
+    } else {
+        NSNumber *lastTimestamp = [timeStampsForPlayer lastObject];
+        [timeStampsForPlayer addObject:timestamp];
+
+        double delta = timestamp.doubleValue - lastTimestamp.doubleValue;
+
+        [playerTimeDeltas addObject:@(delta)];
+    }
 }
 
 + (id<MUXSDKEventTyping>) eventAtIndex:(NSUInteger) index forPlayer:(NSString *)playerId {
@@ -76,6 +118,22 @@ static NSMutableArray *globalEvents;
         return nil;
     }
     return eventsForPlayer;
+}
+
++ (NSArray *)getTimeStampsForPlayer:(NSString *)playerId {
+    NSMutableArray *playerTimeStamps = [timeStamps objectForKey:playerId];
+    if (!playerTimeStamps) {
+        return nil;
+    }
+    return playerTimeStamps;
+}
+
++ (NSArray *)getTimeDeltasForPlayer:(NSString *)playerId {
+    NSMutableArray *playerDeltas = [timeDeltas objectForKey:playerId];
+    if (!playerDeltas) {
+        return nil;
+    }
+    return playerDeltas;
 }
 
 + (NSUInteger) eventsCountForPlayer:(NSString *)playerId {

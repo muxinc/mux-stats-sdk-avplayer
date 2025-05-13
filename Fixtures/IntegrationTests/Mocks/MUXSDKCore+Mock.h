@@ -20,6 +20,8 @@
 + (NSArray<MUXSDKDataEvent *> *) snapshotOfGlobalEvents;
 + (NSArray<MUXSDKDataEvent *> *) snapshotOfEventsForPlayer:(NSString *)playerId;
 + (NSArray<MUXSDKBaseEvent *> *) getEventsForPlayer: (NSString *)playerId;
++ (NSArray *)getTimeStampsForPlayer:(NSString *)playerId;
++ (NSArray *)getTimeDeltasForPlayer:(NSString *)playerId;
 
 @end
 
