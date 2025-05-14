@@ -3,9 +3,20 @@ import Testing
 
 @Suite
 struct IntegrationTests {
-    let playerName = "TestPlayerName"
-    let dispatchDelay = 1.0
+    let dispatchDelay = 3.0
     let msTolerance: Double = 2000
+    static var didSetup = false
+    
+    init() {
+        if !Self.didSetup {
+            Self.setup()
+            Self.didSetup = true
+        }
+    }
+    
+    static func setup() {
+        MUXSDKCore.resetCapturedEvents()
+    }
     
     func getLastTimestamp(for playerName: String) -> NSNumber? {
         guard let timeStamps = MUXSDKCore.getTimeStamps(forPlayer: playerName) as? [NSNumber] else {
@@ -23,24 +34,24 @@ struct IntegrationTests {
     
     func getEventsAndReset(for playerName: String) -> [MUXSDKBaseEvent]? {
         let events = MUXSDKCore.getEventsForPlayer(playerName)
-        MUXSDKCore.resetCapturedEvents()
+        MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
         return events
     }
     
-    func assertStartPlaying(with player: AVPlayer) {
+    func assertStartPlaying(with player: AVPlayer, for playerName: String) {
         NSLog("## Start playing content")
         player.play()
         Thread.sleep(forTimeInterval: dispatchDelay)
 
         let events = getEventsAndReset(for: playerName)
+        
         let containsPlayEvent = events?.contains { $0 is MUXSDKPlayEvent } ?? false
         
         // Expect that MUXSDKPlayEvent was sent
         #expect(containsPlayEvent)
-        Thread.sleep(forTimeInterval: dispatchDelay)
     }
     
-    func assertWaitForNSeconds(n seconds: Double){
+    func assertWaitForNSeconds(n seconds: Double, for playerName: String){
         NSLog("## Wait approximately \(seconds) seconds")
         let waitTimeBefore = getLastTimestamp(for: playerName)!.doubleValue
         Thread.sleep(forTimeInterval: TimeInterval(seconds))
@@ -53,7 +64,7 @@ struct IntegrationTests {
         #expect(waitTimeDiff >= lowerBound && waitTimeDiff <= upperBound, "Waited \(waitTimeDiff)ms, expected between \(lowerBound)ms and \(upperBound)ms")
     }
     
-    func assertPauseForNSeconds(n seconds: Double, with player: AVPlayer) {
+    func assertPauseForNSeconds(n seconds: Double, with player: AVPlayer, for playerName: String) {
         NSLog("## Pause the content for \(seconds) seconds")
         let waitTimeBefore = getLastTimestamp(for: playerName)!.doubleValue
         player.pause()
@@ -68,10 +79,9 @@ struct IntegrationTests {
         let containsPauseEvent = events?.contains { $0 is MUXSDKPauseEvent } ?? false
         // Expect that MUXSDKPauseEvent was sent
         #expect(containsPauseEvent)
-        Thread.sleep(forTimeInterval: dispatchDelay)
     }
     
-    func assertSeekNSeconds(n seconds: Double, with player: AVPlayer) {
+    func assertSeekNSeconds(n seconds: Double, with player: AVPlayer, for playerName: String) {
         NSLog("## Seek \(seconds) seconds")
         let currentTime = player.currentTime()
         let seekTime = CMTime(seconds: currentTime.seconds + seconds, preferredTimescale: 1)
@@ -80,11 +90,13 @@ struct IntegrationTests {
         
         // Expect that MUXSDKSeekEvent was sent
         let events = getEventsAndReset(for: playerName)
+        
         let containsSeekEvent = events?.contains { $0 is MUXSDKSeekedEvent || $0 is MUXSDKInternalSeekingEvent } ?? false
         #expect(containsSeekEvent)
         
         // Expect that time has gone forwards approximately n seconds
         let timeDeltas = getTimeDeltas(for: playerName)
+        
         let expectedDelta = seconds * 1000
         
         let hasSeekDelta = timeDeltas.contains {
@@ -96,8 +108,9 @@ struct IntegrationTests {
     }
     
     @Test func vodPlaybackTest() throws {
+        let playerName = "vodPlayerName"
         MUXSDKCore.swizzleDispatchEvents()
-        MUXSDKCore.resetCapturedEvents()
+        MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
         
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
         let VOD_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
@@ -105,31 +118,73 @@ struct IntegrationTests {
         binding.attach(avPlayer)
                 
         // Start playing VoD content
-        assertStartPlaying(with: avPlayer)
+        assertStartPlaying(with: avPlayer, for: playerName)
                 
         // Wait approximately 30 seconds
-        assertWaitForNSeconds(n : 30.0)
+        assertWaitForNSeconds(n : 30.0, for: playerName)
         
         // Pause the content for 5 seconds
-        assertPauseForNSeconds(n: 5.0, with: avPlayer)
+        assertPauseForNSeconds(n: 5.0, with: avPlayer, for: playerName)
         
         // Unpause the content
-        assertStartPlaying(with: avPlayer)
+        assertStartPlaying(with: avPlayer, for: playerName)
         
         // Wait approximately 30 seconds
-        assertWaitForNSeconds(n : 30.0)
+        assertWaitForNSeconds(n : 30.0, for: playerName)
         
         // Seek backwards in the video 10 seconds
-        assertSeekNSeconds(n: -10.0, with: avPlayer)
+        assertSeekNSeconds(n: -10.0, with: avPlayer, for: playerName)
         
         // Wait approximately 30 seconds
-        assertWaitForNSeconds(n : 30.0)
+        assertWaitForNSeconds(n : 30.0, for: playerName)
         
         // Seek forwards in the video 20 seconds
-        assertSeekNSeconds(n: 20.0, with: avPlayer)
+        assertSeekNSeconds(n: 20.0, with: avPlayer, for: playerName)
         
         // Wait approximately 30 seconds
-        assertWaitForNSeconds(n : 30.0)
+        assertWaitForNSeconds(n : 30.0, for: playerName)
+        
+        // Exit the player by going back to the menu
+        binding.detachAVPlayer()
+    }
+    
+    @Test func livePlaybackTest() throws {
+        let playerName = "livePlayerName"
+        MUXSDKCore.swizzleDispatchEvents()
+        MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
+
+
+        let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
+        let LIVE_URL = "https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8"
+        let avPlayer = AVPlayer(url: URL(string: LIVE_URL)!)
+        binding.attach(avPlayer)
+                
+        // Start playing VoD content
+        assertStartPlaying(with: avPlayer, for: playerName)
+                
+        // Wait approximately 30 seconds
+        assertWaitForNSeconds(n : 30.0, for: playerName)
+        
+        // Pause the content for 5 seconds
+        assertPauseForNSeconds(n: 5.0, with: avPlayer, for: playerName)
+        
+        // Unpause the content
+        assertStartPlaying(with: avPlayer, for: playerName)
+        
+        // Wait approximately 30 seconds
+        assertWaitForNSeconds(n : 30.0, for: playerName)
+        
+        // Seek backwards in the video 10 seconds
+        assertSeekNSeconds(n: -10.0, with: avPlayer, for: playerName)
+        
+        // Wait approximately 30 seconds
+        assertWaitForNSeconds(n : 30.0, for: playerName)
+        
+        // Seek forwards in the video 20 seconds
+        assertSeekNSeconds(n: 20.0, with: avPlayer, for: playerName)
+        
+        // Wait approximately 30 seconds
+        assertWaitForNSeconds(n : 30.0, for: playerName)
         
         // Exit the player by going back to the menu
         binding.detachAVPlayer()

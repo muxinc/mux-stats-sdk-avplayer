@@ -52,6 +52,13 @@ static NSMutableArray *globalEvents;
     globalEvents = [[NSMutableArray alloc] init];
 }
 
++ (void)resetCapturedEventsForPlayer:(NSString *)playerId {
+    if (events && [events objectForKey:playerId]) {
+        NSMutableArray *playerEvents = [events objectForKey:playerId];
+        [playerEvents removeAllObjects];
+    }
+}
+
 + (void) mock_dispatchGlobalDataEvent:(MUXSDKDataEvent *)event {
     [globalEvents addObject:event];
 }

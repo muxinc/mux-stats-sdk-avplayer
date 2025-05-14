@@ -13,6 +13,7 @@
 
 + (void) swizzleDispatchEvents;
 + (void) resetCapturedEvents;
++ (void) resetCapturedEventsForPlayer:(NSString *)playerId;
 + (id<MUXSDKEventTyping>) eventAtIndex:(NSUInteger) index forPlayer:(NSString *)playerId;
 + (NSUInteger) eventsCountForPlayer:(NSString *)playerId;
 + (MUXSDKDataEvent *) globalEventAtIndex:(NSUInteger)index;
