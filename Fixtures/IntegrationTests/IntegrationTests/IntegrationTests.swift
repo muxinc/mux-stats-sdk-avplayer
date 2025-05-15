@@ -51,10 +51,21 @@ struct IntegrationTests {
         #expect(containsPlayEvent)
     }
     
-    func assertWaitForNSeconds(n seconds: Double, for playerName: String){
+    func assertWaitForNSeconds(n seconds: Double, for playerName: String, with player: AVPlayer){
         NSLog("## Wait approximately \(seconds) seconds")
         let waitTimeBefore = getLastTimestamp(for: playerName)!.doubleValue
-        Thread.sleep(forTimeInterval: TimeInterval(seconds))
+        let beforeTimePlayer = player.currentTime().seconds
+        
+        var currentTimePlayer = player.currentTime().seconds
+        var waitedTime = 0.0
+        while((currentTimePlayer - beforeTimePlayer) < seconds) {
+            Thread.sleep(forTimeInterval: 0.1)
+            waitedTime += 0.1
+            currentTimePlayer = player.currentTime().seconds
+            
+            #expect(waitedTime < seconds * 2, "Expected to wait \(seconds) but player stalled for \(waitedTime) seconds, at \(currentTimePlayer - beforeTimePlayer )")
+        }
+        
         let waitTimeAfter = getLastTimestamp(for: playerName)!.doubleValue
         let waitTimeDiff = waitTimeAfter - waitTimeBefore
         let lowerBound = (seconds * 1000) - msTolerance
@@ -84,13 +95,12 @@ struct IntegrationTests {
     func assertSeekNSeconds(n seconds: Double, with player: AVPlayer, for playerName: String) {
         NSLog("## Seek \(seconds) seconds")
         let currentTime = player.currentTime()
-        let seekTime = CMTime(seconds: currentTime.seconds + seconds, preferredTimescale: 1)
+        let seekTime = CMTime(seconds: currentTime.seconds + seconds, preferredTimescale: 1000)
         player.seek(to: seekTime)
         Thread.sleep(forTimeInterval: dispatchDelay)
         
         // Expect that MUXSDKSeekEvent was sent
         let events = getEventsAndReset(for: playerName)
-        
         let containsSeekEvent = events?.contains { $0 is MUXSDKSeekedEvent || $0 is MUXSDKInternalSeekingEvent } ?? false
         #expect(containsSeekEvent)
         
@@ -121,7 +131,7 @@ struct IntegrationTests {
         assertStartPlaying(with: avPlayer, for: playerName)
                 
         // Wait approximately 30 seconds
-        assertWaitForNSeconds(n : 30.0, for: playerName)
+        assertWaitForNSeconds(n : 30.0, for: playerName, with: avPlayer)
         
         // Pause the content for 5 seconds
         assertPauseForNSeconds(n: 5.0, with: avPlayer, for: playerName)
@@ -130,19 +140,19 @@ struct IntegrationTests {
         assertStartPlaying(with: avPlayer, for: playerName)
         
         // Wait approximately 30 seconds
-        assertWaitForNSeconds(n : 30.0, for: playerName)
+        assertWaitForNSeconds(n : 30.0, for: playerName, with: avPlayer)
         
         // Seek backwards in the video 10 seconds
         assertSeekNSeconds(n: -10.0, with: avPlayer, for: playerName)
         
         // Wait approximately 30 seconds
-        assertWaitForNSeconds(n : 30.0, for: playerName)
+        assertWaitForNSeconds(n : 30.0, for: playerName, with: avPlayer)
         
         // Seek forwards in the video 20 seconds
         assertSeekNSeconds(n: 20.0, with: avPlayer, for: playerName)
         
         // Wait approximately 30 seconds
-        assertWaitForNSeconds(n : 30.0, for: playerName)
+        assertWaitForNSeconds(n : 30.0, for: playerName, with: avPlayer)
         
         // Exit the player by going back to the menu
         binding.detachAVPlayer()
@@ -163,7 +173,7 @@ struct IntegrationTests {
         assertStartPlaying(with: avPlayer, for: playerName)
                 
         // Wait approximately 30 seconds
-        assertWaitForNSeconds(n : 30.0, for: playerName)
+        assertWaitForNSeconds(n : 30.0, for: playerName, with: avPlayer)
         
         // Pause the content for 5 seconds
         assertPauseForNSeconds(n: 5.0, with: avPlayer, for: playerName)
@@ -172,19 +182,19 @@ struct IntegrationTests {
         assertStartPlaying(with: avPlayer, for: playerName)
         
         // Wait approximately 30 seconds
-        assertWaitForNSeconds(n : 30.0, for: playerName)
+        assertWaitForNSeconds(n : 30.0, for: playerName, with: avPlayer)
         
-        // Seek backwards in the video 20 seconds
-        assertSeekNSeconds(n: -20.0, with: avPlayer, for: playerName)
-        
-        // Wait approximately 30 seconds
-        assertWaitForNSeconds(n : 30.0, for: playerName)
-        
-        // Seek forwards in the video 10 seconds
-        assertSeekNSeconds(n: 10.0, with: avPlayer, for: playerName)
+        // Seek backwards in the video 10 seconds
+        assertSeekNSeconds(n: -10.0, with: avPlayer, for: playerName)
         
         // Wait approximately 30 seconds
-        assertWaitForNSeconds(n : 30.0, for: playerName)
+        assertWaitForNSeconds(n : 30.0, for: playerName, with: avPlayer)
+        
+        // Seek forwards in the video 5 seconds
+        assertSeekNSeconds(n: 5.0, with: avPlayer, for: playerName)
+        
+        // Wait approximately 30 seconds
+        assertWaitForNSeconds(n : 30.0, for: playerName, with: avPlayer)
         
         // Exit the player by going back to the menu
         binding.detachAVPlayer()
