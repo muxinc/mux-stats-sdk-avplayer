@@ -159,7 +159,7 @@ struct IntegrationTests {
         let avPlayer = AVPlayer(url: URL(string: LIVE_URL)!)
         binding.attach(avPlayer)
                 
-        // Start playing VoD content
+        // Start playing Live content
         assertStartPlaying(with: avPlayer, for: playerName)
                 
         // Wait approximately 30 seconds
@@ -174,14 +174,14 @@ struct IntegrationTests {
         // Wait approximately 30 seconds
         assertWaitForNSeconds(n : 30.0, for: playerName)
         
-        // Seek backwards in the video 10 seconds
-        assertSeekNSeconds(n: -10.0, with: avPlayer, for: playerName)
+        // Seek backwards in the video 20 seconds
+        assertSeekNSeconds(n: -20.0, with: avPlayer, for: playerName)
         
         // Wait approximately 30 seconds
         assertWaitForNSeconds(n : 30.0, for: playerName)
         
-        // Seek forwards in the video 20 seconds
-        assertSeekNSeconds(n: 20.0, with: avPlayer, for: playerName)
+        // Seek forwards in the video 10 seconds
+        assertSeekNSeconds(n: 10.0, with: avPlayer, for: playerName)
         
         // Wait approximately 30 seconds
         assertWaitForNSeconds(n : 30.0, for: playerName)
