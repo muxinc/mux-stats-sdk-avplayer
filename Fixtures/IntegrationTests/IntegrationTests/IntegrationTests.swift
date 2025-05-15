@@ -19,14 +19,14 @@ struct IntegrationTests {
     }
     
     func getLastTimestamp(for playerName: String) -> NSNumber? {
-        guard let timeStamps = MUXSDKCore.getTimeStamps(forPlayer: playerName) as? [NSNumber] else {
+        guard let timeStamps = MUXSDKCore.getPlayheadTimeStamps(forPlayer: playerName) as? [NSNumber] else {
             return nil
         }
         return timeStamps.last
     }
     
     func getTimeDeltas(for playerName: String) -> [NSNumber] {
-        guard let timeDeltas = MUXSDKCore.getTimeDeltas(forPlayer: playerName) as? [NSNumber] else {
+        guard let timeDeltas = MUXSDKCore.getPlayheadTimeDeltas(forPlayer: playerName) as? [NSNumber] else {
             return []
         }
         return timeDeltas

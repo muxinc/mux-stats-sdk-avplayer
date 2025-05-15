@@ -1,9 +1,8 @@
 //
 //  MUXSDKCore+Mock.h
-//  MUXSDKStatsTests
 //
-//  Created by Nidhi Kulkarni on 2/4/20.
-//  Copyright © 2020 Mux, Inc. All rights reserved.
+//  Created by Fabrizio Persichetti on 05/15/2025.
+//  Copyright © 2025 Mux, Inc. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -21,8 +20,8 @@
 + (NSArray<MUXSDKDataEvent *> *) snapshotOfGlobalEvents;
 + (NSArray<MUXSDKDataEvent *> *) snapshotOfEventsForPlayer:(NSString *)playerId;
 + (NSArray<MUXSDKBaseEvent *> *) getEventsForPlayer: (NSString *)playerId;
-+ (NSArray *)getTimeStampsForPlayer:(NSString *)playerId;
-+ (NSArray *)getTimeDeltasForPlayer:(NSString *)playerId;
++ (NSArray *) getPlayheadTimeStampsForPlayer:(NSString *)playerId;
++ (NSArray *) getPlayheadTimeDeltasForPlayer:(NSString *)playerId;
 
 @end
 
