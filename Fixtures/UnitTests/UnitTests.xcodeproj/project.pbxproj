@@ -8,14 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		08191E252DC12B8F003F912A /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 08191E242DC12B8F003F912A /* MUXSDKStats */; };
-		08191E352DC12EE8003F912A /* MUXSDKPlayerBindingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 08191E2D2DC12EE7003F912A /* MUXSDKPlayerBindingManager.h */; };
-		08191E362DC12EE8003F912A /* MUXSDKCustomerViewDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 08191E2E2DC12EE7003F912A /* MUXSDKCustomerViewDataStore.h */; };
-		08191E372DC12EE8003F912A /* MUXSDKCustomerPlayerDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 08191E2F2DC12EE7003F912A /* MUXSDKCustomerPlayerDataStore.h */; };
-		08191E382DC12EE8003F912A /* MUXSDKPlayerBindingConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 08191E302DC12EE7003F912A /* MUXSDKPlayerBindingConstants.h */; };
-		08191E392DC12EE8003F912A /* MUXSDKCustomerVideoDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 08191E312DC12EE7003F912A /* MUXSDKCustomerVideoDataStore.h */; };
-		08191E3A2DC12EE8003F912A /* include in Headers */ = {isa = PBXBuildFile; fileRef = 08191E322DC12EE8003F912A /* include */; };
-		08191E3B2DC12EE8003F912A /* MUXSDKConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 08191E332DC12EE8003F912A /* MUXSDKConnection.h */; };
-		08191E3C2DC12EE8003F912A /* MUXSDKCustomerCustomDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 08191E342DC12EE8003F912A /* MUXSDKCustomerCustomDataStore.h */; };
+		914676E82DD4DFA0002ACAD1 /* MUXSDKStatsTv.h in Headers */ = {isa = PBXBuildFile; fileRef = 914676E42DD4DFA0002ACAD1 /* MUXSDKStatsTv.h */; };
+		914676E92DD4DFA0002ACAD1 /* MUXSDKPlayerBinding.h in Headers */ = {isa = PBXBuildFile; fileRef = 914676E22DD4DFA0002ACAD1 /* MUXSDKPlayerBinding.h */; };
+		914676EA2DD4DFA0002ACAD1 /* MUXSDKStats.h in Headers */ = {isa = PBXBuildFile; fileRef = 914676E32DD4DFA0002ACAD1 /* MUXSDKStats.h */; };
+		914676EB2DD4DFA0002ACAD1 /* MUXSDKStatsVision.h in Headers */ = {isa = PBXBuildFile; fileRef = 914676E52DD4DFA0002ACAD1 /* MUXSDKStatsVision.h */; };
+		914676F32DD4DFB8002ACAD1 /* MUXSDKPlayerBindingConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 914676F12DD4DFB8002ACAD1 /* MUXSDKPlayerBindingConstants.h */; };
+		914676F42DD4DFB8002ACAD1 /* MUXSDKCustomerPlayerDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 914676EE2DD4DFB8002ACAD1 /* MUXSDKCustomerPlayerDataStore.h */; };
+		914676F52DD4DFB8002ACAD1 /* MUXSDKCustomerVideoDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 914676EF2DD4DFB8002ACAD1 /* MUXSDKCustomerVideoDataStore.h */; };
+		914676F62DD4DFB8002ACAD1 /* MUXSDKCustomerCustomDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 914676ED2DD4DFB8002ACAD1 /* MUXSDKCustomerCustomDataStore.h */; };
+		914676F72DD4DFB8002ACAD1 /* MUXSDKCustomerViewDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 914676F02DD4DFB8002ACAD1 /* MUXSDKCustomerViewDataStore.h */; };
+		914676F82DD4DFB8002ACAD1 /* MUXSDKConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 914676EC2DD4DFB8002ACAD1 /* MUXSDKConnection.h */; };
+		914676F92DD4DFB8002ACAD1 /* MUXSDKPlayerBindingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 914676F22DD4DFB8002ACAD1 /* MUXSDKPlayerBindingManager.h */; };
+		914677022DD4DFDE002ACAD1 /* MUXSDKStats+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 914676FF2DD4DFDE002ACAD1 /* MUXSDKStats+Internal.h */; };
+		914677032DD4DFDE002ACAD1 /* MUXSDKCore+Mock.h in Headers */ = {isa = PBXBuildFile; fileRef = 914676FB2DD4DFDE002ACAD1 /* MUXSDKCore+Mock.h */; };
+		914677042DD4DFDE002ACAD1 /* MUXSDKStatsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 914677002DD4DFDE002ACAD1 /* MUXSDKStatsTests.m */; };
+		914677052DD4DFDE002ACAD1 /* MUXSDKCore+Mock.m in Sources */ = {isa = PBXBuildFile; fileRef = 914676FC2DD4DFDE002ACAD1 /* MUXSDKCore+Mock.m */; };
+		914677062DD4DFDE002ACAD1 /* MUXSDKPlayerBindingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 914676FE2DD4DFDE002ACAD1 /* MUXSDKPlayerBindingTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,26 +39,23 @@
 /* Begin PBXFileReference section */
 		0812BF672DC119F2004F921E /* UnitTestsHost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UnitTestsHost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0812BF752DC119F4004F921E /* UnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		08191E2D2DC12EE7003F912A /* MUXSDKPlayerBindingManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MUXSDKPlayerBindingManager.h; path = ../../../Sources/MUXSDKStats/MUXSDKPlayerBindingManager.h; sourceTree = "<group>"; };
-		08191E2E2DC12EE7003F912A /* MUXSDKCustomerViewDataStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MUXSDKCustomerViewDataStore.h; path = ../../../Sources/MUXSDKStats/MUXSDKCustomerViewDataStore.h; sourceTree = "<group>"; };
-		08191E2F2DC12EE7003F912A /* MUXSDKCustomerPlayerDataStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MUXSDKCustomerPlayerDataStore.h; path = ../../../Sources/MUXSDKStats/MUXSDKCustomerPlayerDataStore.h; sourceTree = "<group>"; };
-		08191E302DC12EE7003F912A /* MUXSDKPlayerBindingConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MUXSDKPlayerBindingConstants.h; path = ../../../Sources/MUXSDKStats/MUXSDKPlayerBindingConstants.h; sourceTree = "<group>"; };
-		08191E312DC12EE7003F912A /* MUXSDKCustomerVideoDataStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MUXSDKCustomerVideoDataStore.h; path = ../../../Sources/MUXSDKStats/MUXSDKCustomerVideoDataStore.h; sourceTree = "<group>"; };
-		08191E322DC12EE8003F912A /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; name = include; path = ../../../Sources/MUXSDKStats/include; sourceTree = "<group>"; };
-		08191E332DC12EE8003F912A /* MUXSDKConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MUXSDKConnection.h; path = ../../../Sources/MUXSDKStats/MUXSDKConnection.h; sourceTree = "<group>"; };
-		08191E342DC12EE8003F912A /* MUXSDKCustomerCustomDataStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MUXSDKCustomerCustomDataStore.h; path = ../../../Sources/MUXSDKStats/MUXSDKCustomerCustomDataStore.h; sourceTree = "<group>"; };
+		914676E22DD4DFA0002ACAD1 /* MUXSDKPlayerBinding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MUXSDKPlayerBinding.h; sourceTree = "<group>"; };
+		914676E32DD4DFA0002ACAD1 /* MUXSDKStats.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MUXSDKStats.h; sourceTree = "<group>"; };
+		914676E42DD4DFA0002ACAD1 /* MUXSDKStatsTv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MUXSDKStatsTv.h; sourceTree = "<group>"; };
+		914676E52DD4DFA0002ACAD1 /* MUXSDKStatsVision.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MUXSDKStatsVision.h; sourceTree = "<group>"; };
+		914676EC2DD4DFB8002ACAD1 /* MUXSDKConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MUXSDKConnection.h; path = "/Users/qualabs/repos/mux-stats-sdk-avplayer/Sources/MUXSDKStats/MUXSDKConnection.h"; sourceTree = "<absolute>"; };
+		914676ED2DD4DFB8002ACAD1 /* MUXSDKCustomerCustomDataStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MUXSDKCustomerCustomDataStore.h; path = "/Users/qualabs/repos/mux-stats-sdk-avplayer/Sources/MUXSDKStats/MUXSDKCustomerCustomDataStore.h"; sourceTree = "<absolute>"; };
+		914676EE2DD4DFB8002ACAD1 /* MUXSDKCustomerPlayerDataStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MUXSDKCustomerPlayerDataStore.h; path = "/Users/qualabs/repos/mux-stats-sdk-avplayer/Sources/MUXSDKStats/MUXSDKCustomerPlayerDataStore.h"; sourceTree = "<absolute>"; };
+		914676EF2DD4DFB8002ACAD1 /* MUXSDKCustomerVideoDataStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MUXSDKCustomerVideoDataStore.h; path = "/Users/qualabs/repos/mux-stats-sdk-avplayer/Sources/MUXSDKStats/MUXSDKCustomerVideoDataStore.h"; sourceTree = "<absolute>"; };
+		914676F02DD4DFB8002ACAD1 /* MUXSDKCustomerViewDataStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MUXSDKCustomerViewDataStore.h; path = "/Users/qualabs/repos/mux-stats-sdk-avplayer/Sources/MUXSDKStats/MUXSDKCustomerViewDataStore.h"; sourceTree = "<absolute>"; };
+		914676F12DD4DFB8002ACAD1 /* MUXSDKPlayerBindingConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MUXSDKPlayerBindingConstants.h; path = "/Users/qualabs/repos/mux-stats-sdk-avplayer/Sources/MUXSDKStats/MUXSDKPlayerBindingConstants.h"; sourceTree = "<absolute>"; };
+		914676F22DD4DFB8002ACAD1 /* MUXSDKPlayerBindingManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MUXSDKPlayerBindingManager.h; path = "/Users/qualabs/repos/mux-stats-sdk-avplayer/Sources/MUXSDKStats/MUXSDKPlayerBindingManager.h"; sourceTree = "<absolute>"; };
+		914676FB2DD4DFDE002ACAD1 /* MUXSDKCore+Mock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MUXSDKCore+Mock.h"; sourceTree = "<group>"; };
+		914676FC2DD4DFDE002ACAD1 /* MUXSDKCore+Mock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MUXSDKCore+Mock.m"; sourceTree = "<group>"; };
+		914676FE2DD4DFDE002ACAD1 /* MUXSDKPlayerBindingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MUXSDKPlayerBindingTests.m; sourceTree = "<group>"; };
+		914676FF2DD4DFDE002ACAD1 /* MUXSDKStats+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MUXSDKStats+Internal.h"; sourceTree = "<group>"; };
+		914677002DD4DFDE002ACAD1 /* MUXSDKStatsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MUXSDKStatsTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		08191E682DC155C6003F912A /* Exceptions for "MUXSDKStatsTests" folder in "UnitTests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"MUXSDKStats+Internal.h",
-				"Utils/MUXSDKCore+Mock.h",
-			);
-			target = 0812BF742DC119F4004F921E /* UnitTests */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		08191E4E2DC14F27003F912A /* UnitTestsHost */ = {
@@ -62,15 +67,6 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			name = Configuration;
 			path = ../../Configuration;
-			sourceTree = "<group>";
-		};
-		08191E622DC155C6003F912A /* MUXSDKStatsTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				08191E682DC155C6003F912A /* Exceptions for "MUXSDKStatsTests" folder in "UnitTests" target */,
-			);
-			name = MUXSDKStatsTests;
-			path = ../../../Tests/MUXSDKStatsTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -97,10 +93,10 @@
 		0812BF5E2DC119F2004F921E = {
 			isa = PBXGroup;
 			children = (
+				914676FA2DD4DFC5002ACAD1 /* UnitTests */,
+				914676E12DD4DF8F002ACAD1 /* Headers */,
 				08191E552DC155B2003F912A /* Configuration */,
 				08191E4E2DC14F27003F912A /* UnitTestsHost */,
-				08191E3D2DC145D0003F912A /* Headers */,
-				08191D902DC11EDA003F912A /* UnitTests */,
 				08191DCA2DC1215D003F912A /* Frameworks */,
 				0812BF682DC119F2004F921E /* Products */,
 			);
@@ -115,14 +111,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		08191D902DC11EDA003F912A /* UnitTests */ = {
-			isa = PBXGroup;
-			children = (
-				08191E622DC155C6003F912A /* MUXSDKStatsTests */,
-			);
-			path = UnitTests;
-			sourceTree = "<group>";
-		};
 		08191DCA2DC1215D003F912A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -130,20 +118,69 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		08191E3D2DC145D0003F912A /* Headers */ = {
+		914676E12DD4DF8F002ACAD1 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				08191E322DC12EE8003F912A /* include */,
-				08191E332DC12EE8003F912A /* MUXSDKConnection.h */,
-				08191E342DC12EE8003F912A /* MUXSDKCustomerCustomDataStore.h */,
-				08191E2F2DC12EE7003F912A /* MUXSDKCustomerPlayerDataStore.h */,
-				08191E312DC12EE7003F912A /* MUXSDKCustomerVideoDataStore.h */,
-				08191E2E2DC12EE7003F912A /* MUXSDKCustomerViewDataStore.h */,
-				08191E302DC12EE7003F912A /* MUXSDKPlayerBindingConstants.h */,
-				08191E2D2DC12EE7003F912A /* MUXSDKPlayerBindingManager.h */,
+				914676E72DD4DFA0002ACAD1 /* include */,
+				914676EC2DD4DFB8002ACAD1 /* MUXSDKConnection.h */,
+				914676ED2DD4DFB8002ACAD1 /* MUXSDKCustomerCustomDataStore.h */,
+				914676EE2DD4DFB8002ACAD1 /* MUXSDKCustomerPlayerDataStore.h */,
+				914676EF2DD4DFB8002ACAD1 /* MUXSDKCustomerVideoDataStore.h */,
+				914676F02DD4DFB8002ACAD1 /* MUXSDKCustomerViewDataStore.h */,
+				914676F12DD4DFB8002ACAD1 /* MUXSDKPlayerBindingConstants.h */,
+				914676F22DD4DFB8002ACAD1 /* MUXSDKPlayerBindingManager.h */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
+		};
+		914676E62DD4DFA0002ACAD1 /* MUXSDKStats */ = {
+			isa = PBXGroup;
+			children = (
+				914676E22DD4DFA0002ACAD1 /* MUXSDKPlayerBinding.h */,
+				914676E32DD4DFA0002ACAD1 /* MUXSDKStats.h */,
+				914676E42DD4DFA0002ACAD1 /* MUXSDKStatsTv.h */,
+				914676E52DD4DFA0002ACAD1 /* MUXSDKStatsVision.h */,
+			);
+			path = MUXSDKStats;
+			sourceTree = "<group>";
+		};
+		914676E72DD4DFA0002ACAD1 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				914676E62DD4DFA0002ACAD1 /* MUXSDKStats */,
+			);
+			name = include;
+			path = "/Users/qualabs/repos/mux-stats-sdk-avplayer/Sources/MUXSDKStats/include";
+			sourceTree = "<absolute>";
+		};
+		914676FA2DD4DFC5002ACAD1 /* UnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				914677012DD4DFDE002ACAD1 /* MUXSDKStatsTests */,
+			);
+			path = UnitTests;
+			sourceTree = "<group>";
+		};
+		914676FD2DD4DFDE002ACAD1 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				914676FB2DD4DFDE002ACAD1 /* MUXSDKCore+Mock.h */,
+				914676FC2DD4DFDE002ACAD1 /* MUXSDKCore+Mock.m */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		914677012DD4DFDE002ACAD1 /* MUXSDKStatsTests */ = {
+			isa = PBXGroup;
+			children = (
+				914676FD2DD4DFDE002ACAD1 /* Utils */,
+				914676FE2DD4DFDE002ACAD1 /* MUXSDKPlayerBindingTests.m */,
+				914676FF2DD4DFDE002ACAD1 /* MUXSDKStats+Internal.h */,
+				914677002DD4DFDE002ACAD1 /* MUXSDKStatsTests.m */,
+			);
+			name = MUXSDKStatsTests;
+			path = "/Users/qualabs/repos/mux-stats-sdk-avplayer/Tests/MUXSDKStatsTests";
+			sourceTree = "<absolute>";
 		};
 /* End PBXGroup section */
 
@@ -152,14 +189,19 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				08191E352DC12EE8003F912A /* MUXSDKPlayerBindingManager.h in Headers */,
-				08191E362DC12EE8003F912A /* MUXSDKCustomerViewDataStore.h in Headers */,
-				08191E372DC12EE8003F912A /* MUXSDKCustomerPlayerDataStore.h in Headers */,
-				08191E382DC12EE8003F912A /* MUXSDKPlayerBindingConstants.h in Headers */,
-				08191E392DC12EE8003F912A /* MUXSDKCustomerVideoDataStore.h in Headers */,
-				08191E3A2DC12EE8003F912A /* include in Headers */,
-				08191E3B2DC12EE8003F912A /* MUXSDKConnection.h in Headers */,
-				08191E3C2DC12EE8003F912A /* MUXSDKCustomerCustomDataStore.h in Headers */,
+				914676E82DD4DFA0002ACAD1 /* MUXSDKStatsTv.h in Headers */,
+				914676E92DD4DFA0002ACAD1 /* MUXSDKPlayerBinding.h in Headers */,
+				914676EA2DD4DFA0002ACAD1 /* MUXSDKStats.h in Headers */,
+				914676F32DD4DFB8002ACAD1 /* MUXSDKPlayerBindingConstants.h in Headers */,
+				914677022DD4DFDE002ACAD1 /* MUXSDKStats+Internal.h in Headers */,
+				914677032DD4DFDE002ACAD1 /* MUXSDKCore+Mock.h in Headers */,
+				914676F42DD4DFB8002ACAD1 /* MUXSDKCustomerPlayerDataStore.h in Headers */,
+				914676F52DD4DFB8002ACAD1 /* MUXSDKCustomerVideoDataStore.h in Headers */,
+				914676F62DD4DFB8002ACAD1 /* MUXSDKCustomerCustomDataStore.h in Headers */,
+				914676F72DD4DFB8002ACAD1 /* MUXSDKCustomerViewDataStore.h in Headers */,
+				914676F82DD4DFB8002ACAD1 /* MUXSDKConnection.h in Headers */,
+				914676F92DD4DFB8002ACAD1 /* MUXSDKPlayerBindingManager.h in Headers */,
+				914676EB2DD4DFA0002ACAD1 /* MUXSDKStatsVision.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,7 +248,6 @@
 			);
 			fileSystemSynchronizedGroups = (
 				08191E552DC155B2003F912A /* Configuration */,
-				08191E622DC155C6003F912A /* MUXSDKStatsTests */,
 			);
 			name = UnitTests;
 			packageProductDependencies = (
@@ -285,6 +326,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				914677042DD4DFDE002ACAD1 /* MUXSDKStatsTests.m in Sources */,
+				914677052DD4DFDE002ACAD1 /* MUXSDKCore+Mock.m in Sources */,
+				914677062DD4DFDE002ACAD1 /* MUXSDKPlayerBindingTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
