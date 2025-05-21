@@ -24,4 +24,3 @@
 + (NSArray *) getPlayheadTimeDeltasForPlayer:(NSString *)playerId;
 
 @end
-
