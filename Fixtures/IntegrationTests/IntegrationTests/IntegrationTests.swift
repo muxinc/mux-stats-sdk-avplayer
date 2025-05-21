@@ -163,7 +163,6 @@ struct IntegrationTests {
         MUXSDKCore.swizzleDispatchEvents()
         MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
 
-
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
         let LIVE_URL = "https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8"
         let avPlayer = AVPlayer(url: URL(string: LIVE_URL)!)
@@ -198,5 +197,43 @@ struct IntegrationTests {
         
         // Exit the player by going back to the menu
         binding.detachAVPlayer()
+    }
+    
+    @Test func playOffMainThreadTest() throws {
+        let playerName = "offMainThreadPlayerName"
+        MUXSDKCore.swizzleDispatchEvents()
+        MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
+                
+        let LIVE_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
+        var avPlayer: AVPlayer!
+        var playerViewController : AVPlayerViewController!
+        
+        // Setup of player in main thread
+        DispatchQueue.main.async {
+            avPlayer = AVPlayer(url: URL(string: LIVE_URL)!)
+            playerViewController = AVPlayerViewController()
+            playerViewController.player = avPlayer
+            
+            let binding = MUXSDKAVPlayerViewControllerBinding(
+                playerName: playerName,
+                softwareName: "TestSoftwareName",
+                softwareVersion: "TestSoftwareVersion",
+                playerViewController: playerViewController
+            )
+            binding.attach(avPlayer)
+        }
+        Thread.sleep(forTimeInterval: 2.0)
+        
+        // Call play in background thread
+        DispatchQueue.global(qos: .background).async {
+            let isMain = Thread.isMainThread
+            let isMultiThreaded = Thread.isMultiThreaded()
+            #expect(isMultiThreaded, "Expected this code to run multi threaded")
+            #expect(!isMain, "Expected this code to run off the main thread")
+
+            avPlayer.play()
+        }
+        
+        Thread.sleep(forTimeInterval: 5.0)
     }
 }
