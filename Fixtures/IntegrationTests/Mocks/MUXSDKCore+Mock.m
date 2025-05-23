@@ -1,9 +1,8 @@
 //
 //  MUXSDKCore+Mock.m
-//  MUXSDKStatsTests
 //
-//  Created by Nidhi Kulkarni on 2/4/20.
-//  Copyright © 2020 Mux, Inc. All rights reserved.
+//  Created by Fabrizio Persichetti on 05/15/2025.
+//  Copyright © 2025 Mux, Inc. All rights reserved.
 //
 
 #import "MUXSDKCore+Mock.h"
@@ -13,6 +12,8 @@
 @implementation MUXSDKCore (Mock)
 
 static NSMutableDictionary *events;
+static NSMutableDictionary<NSString *, NSMutableArray<NSNumber *> *> *playheadTimeDeltas;
+static NSMutableDictionary<NSString *, NSMutableArray<NSNumber *> *> *playheadTimeStamps;
 static NSMutableArray *globalEvents;
 
 + (void) swizzleDispatchEvents {
@@ -60,6 +61,46 @@ static NSMutableArray *globalEvents;
     }
     NSMutableArray *eventsForPlayer = [events objectForKey:playerId];
     [eventsForPlayer addObject:event];
+    
+    if ([(NSObject *)event isKindOfClass:[MUXSDKTimeUpdateEvent class]]) {
+        [self trackTimeForEvent:event playerId:playerId];
+    }
+}
+
++ (void) trackTimeForEvent:(id<MUXSDKEventTyping>)event playerId:(NSString *)playerId {
+    if (!playheadTimeDeltas) {
+        playheadTimeDeltas = [NSMutableDictionary new];
+    }
+    
+    if (!playheadTimeStamps) {
+        playheadTimeStamps = [NSMutableDictionary new];
+    }
+
+    if (![playheadTimeDeltas objectForKey:playerId]) {
+        [playheadTimeDeltas setObject:[[NSMutableArray alloc] init] forKey:playerId];
+    }
+    
+    if (![playheadTimeStamps objectForKey:playerId]) {
+        [playheadTimeStamps setObject:[[NSMutableArray alloc] init] forKey:playerId];
+    }
+    
+    MUXSDKTimeUpdateEvent *timeEvent = (MUXSDKTimeUpdateEvent *)event;
+    NSNumber *timestamp = timeEvent.playerData.playerPlayheadTime;
+    
+    NSMutableArray *timeStampsForPlayer = [playheadTimeStamps objectForKey:playerId];
+    NSMutableArray *playerTimeDeltas = [playheadTimeDeltas objectForKey:playerId];
+
+    if (playerTimeDeltas.count == 0) {
+        [timeStampsForPlayer addObject:timestamp];
+        [playerTimeDeltas addObject:@(0)];
+    } else {
+        NSNumber *lastTimestamp = [timeStampsForPlayer lastObject];
+        [timeStampsForPlayer addObject:timestamp];
+
+        double delta = timestamp.doubleValue - lastTimestamp.doubleValue;
+
+        [playerTimeDeltas addObject:@(delta)];
+    }
 }
 
 + (id<MUXSDKEventTyping>) eventAtIndex:(NSUInteger) index forPlayer:(NSString *)playerId {
@@ -76,6 +117,22 @@ static NSMutableArray *globalEvents;
         return nil;
     }
     return eventsForPlayer;
+}
+
++ (NSArray *) getPlayheadTimeStampsForPlayer:(NSString *)playerId {
+    NSMutableArray *playerTimeStamps = [playheadTimeStamps objectForKey:playerId];
+    if (!playerTimeStamps) {
+        return nil;
+    }
+    return playerTimeStamps;
+}
+
++ (NSArray *) getPlayheadTimeDeltasForPlayer:(NSString *)playerId {
+    NSMutableArray *playerDeltas = [playheadTimeDeltas objectForKey:playerId];
+    if (!playerDeltas) {
+        return nil;
+    }
+    return playerDeltas;
 }
 
 + (NSUInteger) eventsCountForPlayer:(NSString *)playerId {
