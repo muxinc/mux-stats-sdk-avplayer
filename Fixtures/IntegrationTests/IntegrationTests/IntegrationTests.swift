@@ -130,8 +130,8 @@ struct IntegrationTests {
         // Start playing VoD content
         assertStartPlaying(with: avPlayer, for: playerName)
                 
-        // Wait approximately 30 seconds
-        assertWaitForNSeconds(n : 30.0, for: playerName, with: avPlayer)
+        // Wait approximately 5 seconds
+        assertWaitForNSeconds(n : 5.0, for: playerName, with: avPlayer)
         
         // Pause the content for 5 seconds
         assertPauseForNSeconds(n: 5.0, with: avPlayer, for: playerName)
@@ -139,20 +139,20 @@ struct IntegrationTests {
         // Unpause the content
         assertStartPlaying(with: avPlayer, for: playerName)
         
-        // Wait approximately 30 seconds
-        assertWaitForNSeconds(n : 30.0, for: playerName, with: avPlayer)
+        // Wait approximately 5 seconds
+        assertWaitForNSeconds(n : 5.0, for: playerName, with: avPlayer)
         
-        // Seek backwards in the video 10 seconds
-        assertSeekNSeconds(n: -10.0, with: avPlayer, for: playerName)
+        // Seek backwards in the video 5 seconds
+        assertSeekNSeconds(n: -5.0, with: avPlayer, for: playerName)
         
-        // Wait approximately 30 seconds
-        assertWaitForNSeconds(n : 30.0, for: playerName, with: avPlayer)
+        // Wait approximately 5 seconds
+        assertWaitForNSeconds(n : 5.0, for: playerName, with: avPlayer)
         
-        // Seek forwards in the video 20 seconds
-        assertSeekNSeconds(n: 20.0, with: avPlayer, for: playerName)
+        // Seek forwards in the video 10 seconds
+        assertSeekNSeconds(n: 10.0, with: avPlayer, for: playerName)
         
-        // Wait approximately 30 seconds
-        assertWaitForNSeconds(n : 30.0, for: playerName, with: avPlayer)
+        // Wait approximately 5 seconds
+        assertWaitForNSeconds(n : 5.0, for: playerName, with: avPlayer)
         
         // Exit the player by going back to the menu
         binding.detachAVPlayer()
@@ -171,8 +171,8 @@ struct IntegrationTests {
         // Start playing Live content
         assertStartPlaying(with: avPlayer, for: playerName)
                 
-        // Wait approximately 30 seconds
-        assertWaitForNSeconds(n : 30.0, for: playerName, with: avPlayer)
+        // Wait approximately 10 seconds
+        assertWaitForNSeconds(n : 5.0, for: playerName, with: avPlayer)
         
         // Pause the content for 5 seconds
         assertPauseForNSeconds(n: 5.0, with: avPlayer, for: playerName)
@@ -180,20 +180,20 @@ struct IntegrationTests {
         // Unpause the content
         assertStartPlaying(with: avPlayer, for: playerName)
         
-        // Wait approximately 30 seconds
-        assertWaitForNSeconds(n : 30.0, for: playerName, with: avPlayer)
+        // Wait approximately 10 seconds
+        assertWaitForNSeconds(n : 5.0, for: playerName, with: avPlayer)
         
-        // Seek backwards in the video 10 seconds
-        assertSeekNSeconds(n: -10.0, with: avPlayer, for: playerName)
+        // Seek backwards in the video 5 seconds
+        assertSeekNSeconds(n: -5.0, with: avPlayer, for: playerName)
         
-        // Wait approximately 30 seconds
-        assertWaitForNSeconds(n : 30.0, for: playerName, with: avPlayer)
+        // Wait approximately 5 seconds
+        assertWaitForNSeconds(n : 5.0, for: playerName, with: avPlayer)
         
         // Seek forwards in the video 5 seconds
         assertSeekNSeconds(n: 5.0, with: avPlayer, for: playerName)
         
-        // Wait approximately 30 seconds
-        assertWaitForNSeconds(n : 30.0, for: playerName, with: avPlayer)
+        // Wait approximately 5 seconds
+        assertWaitForNSeconds(n : 5.0, for: playerName, with: avPlayer)
         
         // Exit the player by going back to the menu
         binding.detachAVPlayer()
