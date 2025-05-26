@@ -207,6 +207,7 @@ struct IntegrationTests {
         let LIVE_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
         var avPlayer: AVPlayer!
         var playerViewController : AVPlayerViewController!
+        var binding: MockAVPlayerViewControllerBinding!
         
         // Setup of player in main thread
         DispatchQueue.main.async {
@@ -214,7 +215,7 @@ struct IntegrationTests {
             playerViewController = AVPlayerViewController()
             playerViewController.player = avPlayer
             
-            let binding = MUXSDKAVPlayerViewControllerBinding(
+            binding = MockAVPlayerViewControllerBinding(
                 playerName: playerName,
                 softwareName: "TestSoftwareName",
                 softwareVersion: "TestSoftwareVersion",
@@ -235,5 +236,6 @@ struct IntegrationTests {
         }
         
         Thread.sleep(forTimeInterval: 5.0)
+        #expect(binding.didReturnZeroRect, "Expected getViewBounds to return empty CGRect")
     }
 }

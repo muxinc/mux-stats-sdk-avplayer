@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		09C9196A2DE4E89E00C5F469 /* MockAVPlayerViewControllerBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 09C919692DE4E89E00C5F469 /* MockAVPlayerViewControllerBinding.m */; };
+		09C9196B2DE4E89E00C5F469 /* MockAVPlayerViewControllerBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 09C919692DE4E89E00C5F469 /* MockAVPlayerViewControllerBinding.m */; };
 		09CA2C622DCE81BE0032474D /* MUXSDKCore+Mock.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CA2C612DCE81BE0032474D /* MUXSDKCore+Mock.m */; };
 		7255C2F52D7A6EA700E1D797 /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 7255C2F42D7A6EA700E1D797 /* MUXSDKStats */; };
 		7290270B2DB9688400E08127 /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 7290270A2DB9688400E08127 /* MUXSDKStats */; };
@@ -30,6 +32,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		09C919652DE4E83D00C5F469 /* MockAVPlayerViewControllerBinding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MockAVPlayerViewControllerBinding.h; sourceTree = "<group>"; };
+		09C919692DE4E89E00C5F469 /* MockAVPlayerViewControllerBinding.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MockAVPlayerViewControllerBinding.m; sourceTree = "<group>"; };
 		09CA2C5F2DC2A2380032474D /* IntegrationTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IntegrationTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		09CA2C602DCE81BE0032474D /* MUXSDKCore+Mock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MUXSDKCore+Mock.h"; sourceTree = "<group>"; };
 		09CA2C612DCE81BE0032474D /* MUXSDKCore+Mock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MUXSDKCore+Mock.m"; sourceTree = "<group>"; };
@@ -120,6 +124,8 @@
 			children = (
 				09CA2C602DCE81BE0032474D /* MUXSDKCore+Mock.h */,
 				09CA2C612DCE81BE0032474D /* MUXSDKCore+Mock.m */,
+				09C919652DE4E83D00C5F469 /* MockAVPlayerViewControllerBinding.h */,
+				09C919692DE4E89E00C5F469 /* MockAVPlayerViewControllerBinding.m */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -351,6 +357,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				09CA2C622DCE81BE0032474D /* MUXSDKCore+Mock.m in Sources */,
+				09C9196A2DE4E89E00C5F469 /* MockAVPlayerViewControllerBinding.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,6 +365,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09C9196B2DE4E89E00C5F469 /* MockAVPlayerViewControllerBinding.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
