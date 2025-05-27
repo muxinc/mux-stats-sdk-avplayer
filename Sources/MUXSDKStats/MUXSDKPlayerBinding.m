@@ -150,7 +150,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         self.shouldTrackRenditionChanges = NO;
         __weak typeof(self) weakSelf = self;
         self.swiftMonitor = [[MUXSDKPlayerMonitor alloc] initWithPlayer:player onEvent:^(MUXSDKBaseEvent *event) {
-            [self dispatchSwiftMonitorEvent:event];
+            [weakSelf dispatchSwiftMonitorEvent:event];
         }];
     } else {
         self.shouldTrackRenditionChanges = YES;
