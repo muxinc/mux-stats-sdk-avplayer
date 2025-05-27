@@ -2,7 +2,15 @@
 #import <CoreMedia/CoreMedia.h>
 #import <UIKit/UIKit.h>
 
+#if MUX_COCOAPODS
+#if __has_include("MUXSDKStats-Swift.h")
+#import "MUXSDKStats-Swift.h"
+#else
+#import <MUXSDKStats/MUXSDKStats-Swift.h>
+#endif
+#else
 @import MUXSDKStatsInternal;
+#endif
 
 #import "MUXSDKStats/MUXSDKPlayerBinding.h"
 
