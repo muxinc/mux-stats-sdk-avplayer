@@ -22,8 +22,10 @@ Pod::Spec.new do |s|
   s.tvos.deployment_target = '12.0'
 
   s.module_name = 'MUXSDKStats'
-  s.source_files = 'Sources/MUXSDKStats/**/*.{h,m}'
+  s.source_files = 'Sources/MUXSDKStats/**/*.{h,m}', 'Sources/MUXSDKStatsInternal/**/*.swift'
+  s.compiler_flags = '-DMUX_COCOAPODS=1'
   s.public_header_files = 'Sources/MUXSDKStats/include/MUXSDKStats/*.h'
   s.project_header_files = 'Sources/MUXSDKStats/*.h'
   s.header_dir = 'MUXSDKStats'
+  s.swift_version = '5'
 end
