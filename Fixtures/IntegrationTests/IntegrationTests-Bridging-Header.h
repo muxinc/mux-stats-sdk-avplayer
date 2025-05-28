@@ -3,3 +3,4 @@
 //
 
 #import "MUXSDKCore+Mock.h"
+#import "MockAVPlayerViewControllerBinding.h"
