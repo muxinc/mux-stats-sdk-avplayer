@@ -33,8 +33,9 @@ extension MUXSDKVideoData {
     func updateWithRenditionInfo(track: AVAssetTrack, on playerItem: AVPlayerItem) async {
         // This is less exact and only used after all other variant matching options are exhausted
         // Still obtain it immediately in case another variant switch happens
-        // TODO: add timeout here?
-        async let bitratesFromAccessLog = playerItem.indicatedBitratesInAccessLog
+        async let bitratesFromAccessLog = withTimeout(of: 5.0) {
+            try await playerItem.indicatedBitratesInAccessLog
+        }
         // Start loading this early:
         async let assetVariantsOrNil = (playerItem.asset as? AVURLAsset)?.load(.variants)
 
@@ -162,7 +163,7 @@ extension MUXSDKVideoData {
             recentBitrates = try await bitratesFromAccessLog.suffix(3)
         } catch {
             if !(error is CancellationError) {
-                logger.error("Track \(track.trackID): failed to load bitrates from access log: \(error)")
+                logger.debug("Track \(track.trackID): failed to load bitrates from access log: \(error)")
             }
             return
         }

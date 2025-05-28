@@ -33,10 +33,11 @@ extension AVPlayerItem {
                             .next()
                     }
 
-                    for try await _ in group {
+                    defer {
                         group.cancelAll()
-                        return
                     }
+
+                    return try await group.nextResult()!.get()
                 }
             }
         }
