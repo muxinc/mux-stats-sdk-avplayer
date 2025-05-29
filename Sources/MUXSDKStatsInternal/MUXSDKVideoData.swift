@@ -207,14 +207,5 @@ extension MUXSDKVideoData {
                 variants=\(assetVariants)
             """)
     }
-
-    @available(iOS 15, tvOS 15, *)
-    static func renditionVideoData(track: AVAssetTrack, on playerItem: AVPlayerItem) async -> MUXSDKVideoData {
-        let videoData = MUXSDKVideoData()
-
-        await videoData.updateWithRenditionInfo(track: track, on: playerItem)
-
-        return videoData
-    }
 }
 
