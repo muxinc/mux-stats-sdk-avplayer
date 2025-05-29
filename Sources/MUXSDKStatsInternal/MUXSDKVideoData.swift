@@ -7,6 +7,10 @@ extension MUXSDKVideoData {
         videoSourceWidth = presentationSize.width as NSNumber
     }
 
+    func updateWithVideoCodecTypes(_ videoCodecs: [CMVideoCodecType]) {
+        // TODO: videoSourceAdvertisedCodec (RFC 6381)
+    }
+
     @available(iOS 15, tvOS 15, *)
     func updateWithAssetVariant(_ assetVariant: AVAssetVariant) {
         if let peakBitRate = assetVariant.peakBitRate {
@@ -26,7 +30,9 @@ extension MUXSDKVideoData {
             updateWithPresentationSize(videoAttributes.presentationSize)
         }
 
-        // TODO: videoAttributes.codecTypes
+        if !videoAttributes.codecTypes.isEmpty {
+            updateWithVideoCodecTypes(videoAttributes.codecTypes)
+        }
     }
 
     @available(iOS 15, tvOS 15, *)
@@ -81,7 +87,7 @@ extension MUXSDKVideoData {
             updateWithPresentationSize(presentationSize)
         }
         if !videoCodecs.isEmpty {
-            // TODO: videoSourceAdvertisedCodec
+            updateWithVideoCodecTypes(Array(videoCodecs))
         }
 
         // Matching below based on the following assumptions:
