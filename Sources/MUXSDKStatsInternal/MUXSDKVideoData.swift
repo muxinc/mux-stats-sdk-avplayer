@@ -9,8 +9,8 @@ extension MUXSDKVideoData {
 
     @available(iOS 15, tvOS 15, *)
     func updateWithAssetVariant(_ assetVariant: AVAssetVariant) {
-        if let averageBitRate = assetVariant.averageBitRate {
-            videoSourceAdvertisedBitrate = averageBitRate as NSNumber
+        if let peakBitRate = assetVariant.peakBitRate {
+            videoSourceAdvertisedBitrate = peakBitRate as NSNumber
         }
 
         assetVariant.videoAttributes.map(updateWithVideoAttributes(_:))
