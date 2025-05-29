@@ -10,11 +10,14 @@ import MUXSDKStats
 class BasicPlaybackExampleViewController: UIViewController {
 
     var playbackURL: URL {
-        let playbackID = ProcessInfo.processInfo.playbackID ?? "qxb01i6T202018GFS02vp9RIe01icTcDCjVzQpmaB00CUisJ4"
-
-        return URL(
-            string: "https://stream.mux.com/\(playbackID).m3u8"
-        )!
+        // normal(muxed) HLS asset
+        //        let playbackID = ProcessInfo.processInfo.playbackID ?? "qxb01i6T202018GFS02vp9RIe01icTcDCjVzQpmaB00CUisJ4"
+//        return URL(
+//            string: "https://stream.mux.com/\(playbackID).m3u8"
+//        )!
+        
+        // CMAF asset
+        URL("https://cdn.bitmovin.com/content/assets/art-of-motion-dash-hls-progressive/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8")!
     }
     let playerName = "AVPlayerViewControllerExample"
     lazy var playerViewController = AVPlayerViewController()
@@ -39,7 +42,13 @@ class BasicPlaybackExampleViewController: UIViewController {
         playerViewController.player = player
         playerViewController.delegate = self
         playerViewController.allowsPictureInPicturePlayback = false
-
+        
+        if #available(iOS 18, *) {
+            Task {
+                try! await keepLoggingAVMetricsEvents(player.currentItem!)
+            }
+        }
+        
         displayPlayerViewController()
 
         MUXSDKStats.monitorAVPlayerViewController(
@@ -48,7 +57,61 @@ class BasicPlaybackExampleViewController: UIViewController {
             customerData: customerData!
         )
     }
-
+    
+    @available(iOS 18, *)
+    func keepLoggingAVMetricsEvents(_ item: AVPlayerItem) async throws {
+        //var it = item.allMetrics().makeAsyncIterator()
+        var it = item.allMetrics().makeAsyncIterator()
+//        var resourceRequests = item.metrics(forType: AVMetricHLSMediaSegmentRequestEvent.self).makeAsyncIterator()
+//        var playlistRequests = item.metrics(forType: AVMetricHLSPlaylistRequestEvent.self).makeAsyncIterator()
+        
+        var segmentRequests = item.metrics(forType: AVMetricHLSMediaSegmentRequestEvent.self).makeAsyncIterator()
+        var playlistRequests = item.metrics(forType: AVMetricHLSPlaylistRequestEvent.self).makeAsyncIterator()
+        
+        await withThrowingTaskGroup(of: Void.self) { group in
+            group.addTask {
+                while true {
+                    let segmentEvent = try! await segmentRequests.next()
+                    guard let segmentEvent else { return }
+//                    print("segment request url: \(segmentEvent.url?.absoluteString ?? "nil")")
+                    let urlFromPlaylistEvent =  segmentEvent.url
+                    let urlFromNetworkTransactionMetrics = segmentEvent.mediaResourceRequestEvent?.networkTransactionMetrics?.transactionMetrics.last?.request.url
+                    let urlFromResourceRequest = segmentEvent.mediaResourceRequestEvent!.url
+                    print("segment request url from event: \(urlFromPlaylistEvent?.absoluteString ?? "nil")")
+                    print("segment request url from Transaction metrics: \(urlFromNetworkTransactionMetrics?.absoluteString ?? "nil")")
+                    print("segment request url resourceRequestEvent: \(urlFromResourceRequest?.absoluteString ?? "nil")")
+                    print("segment request media type: \(segmentEvent.mediaType.rawValue)")
+                    print("")
+                }
+            }
+            group.addTask {
+                while true {
+                    let playlistEvent = try! await playlistRequests.next()
+                    guard let playlistEvent else { return }
+//                    print("playlist request url: \(playlistEvent.url?.absoluteString ?? "nil")")
+                    let urlFromPlaylistEvent =  playlistEvent.url
+                    let urlFromNetworkTransactionMetrics = playlistEvent.mediaResourceRequestEvent?.networkTransactionMetrics?.transactionMetrics.last?.request.url
+                    let urlFromResourceRequest = playlistEvent.mediaResourceRequestEvent!.url
+                    print("playlist is MVP::\(playlistEvent.isMultivariantPlaylist)")
+                    print("playlist request url from event: \(urlFromPlaylistEvent?.absoluteString ?? "nil")")
+                    print("playlist request url from Transaction metrics: \(urlFromNetworkTransactionMetrics?.absoluteString ?? "nil")")
+                    print("playlist request url resourceRequestEvent: \(urlFromResourceRequest?.absoluteString ?? "nil")")
+                    print("playlist request media type: \(playlistEvent.mediaType.rawValue)")
+                    print("")
+                }
+            }
+        }
+        
+//        while true {
+//            let event = try await it.next()
+//            print("got one: \(String(describing: event))")
+            
+//            let resourceEvent = try await resourceRequests.next()
+//            guard let resourceEvent else { return }
+//            print("segment request media type: \(resourceEvent.mediaType.rawValue)")
+//        }
+    }
+    
     func displayPlayerViewController() {
         self.addChild(playerViewController)
         playerViewController.view
