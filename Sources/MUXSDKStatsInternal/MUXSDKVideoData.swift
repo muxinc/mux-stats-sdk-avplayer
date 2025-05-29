@@ -31,8 +31,7 @@ extension MUXSDKVideoData {
 
     @available(iOS 15, tvOS 15, *)
     func updateWithRenditionInfo(track: AVAssetTrack, on playerItem: AVPlayerItem) async {
-        // This is less exact and only used after all other variant matching options are exhausted
-        // Still obtain it immediately in case another variant switch happens
+        // Obtain recent bitrate stats immediately in case another variant switch happens
         async let bitratesFromAccessLog = withTimeout(of: 5.0) {
             try await playerItem.indicatedBitratesInAccessLog
         }
