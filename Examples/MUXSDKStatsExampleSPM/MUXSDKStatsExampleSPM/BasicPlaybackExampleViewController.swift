@@ -51,7 +51,7 @@ class BasicPlaybackExampleViewController: UIViewController {
         
         if #available(iOS 18, *) {
             avMetricsTask = Task {
-                try! await keepLoggingAVMetricsEvents(player.currentItem!)
+                try await keepLoggingAVMetricsEvents(player.currentItem!)
             }
         }
         
@@ -98,13 +98,14 @@ class BasicPlaybackExampleViewController: UIViewController {
                         mediaTypeFromSwitch = "not audio or-video"
                      }
                     print("segment request media type (selected by switch-statement): \(mediaTypeFromSwitch)")
+//                    print("segment response x-cdn: \(String(describing: responseFromNetworkTransactionMetrics.allHeaderFields))")
 
                     // the mediaResourceRequestEvent.mediaType comes from logic internal to the player. It does not correlate to the Content-Type of the response
                     //  (it's all a black box, but it could either come from the MVP (EXT-X-MEDIA:TYPE) or could be based on what's discovered when
                     //   demuxing the segment.. For sure it's not based off of content-type header, which you can tell by playing an audio-only mux asset
                     //   and observing that the Content-Type is 'video/MP2T' but the AVMediaType is correctly set to .audio)
-                    print("segment response content-type: \(String(describing: responseFromNetworkTransactionMetrics.allHeaderFields["Content-Type"]))")
-                    print("segment response x-cdn: \(String(describing: responseFromNetworkTransactionMetrics.allHeaderFields["x-cdn"]))")
+                    print("segment response content-type: \(String(describing: responseFromNetworkTransactionMetrics.value(forHTTPHeaderField: "Content-Type")))")
+                    print("segment response x-cdn: \(String(describing: responseFromNetworkTransactionMetrics.value(forHTTPHeaderField: "x-cdn")))")
                     print("")
                     
                     try Task.checkCancellation()
