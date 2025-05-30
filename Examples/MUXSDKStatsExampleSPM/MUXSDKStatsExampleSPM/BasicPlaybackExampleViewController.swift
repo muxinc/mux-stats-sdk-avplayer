@@ -25,7 +25,9 @@ class BasicPlaybackExampleViewController: UIViewController {
     }
     let playerName = "AVPlayerViewControllerExample"
     lazy var playerViewController = AVPlayerViewController()
-
+    
+    var avMetricsTask: Task<Void, any Error>?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -48,7 +50,7 @@ class BasicPlaybackExampleViewController: UIViewController {
         playerViewController.allowsPictureInPicturePlayback = false
         
         if #available(iOS 18, *) {
-            Task {
+            avMetricsTask = Task {
                 try! await keepLoggingAVMetricsEvents(player.currentItem!)
             }
         }
@@ -105,6 +107,8 @@ class BasicPlaybackExampleViewController: UIViewController {
                     print("segment response content-type: \(String(describing: responseFromNetworkTransactionMetrics.allHeaderFields["Content-Type"]))")
                     print("segment response x-cdn: \(String(describing: responseFromNetworkTransactionMetrics.allHeaderFields["x-cdn"]))")
                     print("")
+                    
+                    try Task.checkCancellation()
                 }
             }
             group.addTask {
@@ -121,6 +125,8 @@ class BasicPlaybackExampleViewController: UIViewController {
                     print("playlist request url resourceRequestEvent: \(urlFromResourceRequest?.absoluteString ?? "nil")")
                     print("playlist request media type: \(playlistEvent.mediaType.rawValue)")
                     print("")
+                    
+                    try Task.checkCancellation()
                 }
             }
         }
@@ -169,6 +175,8 @@ class BasicPlaybackExampleViewController: UIViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
+        avMetricsTask?.cancel()
+        
         if !playerViewController.allowsPictureInPicturePlayback {
             playerViewController.player?.pause()
 
