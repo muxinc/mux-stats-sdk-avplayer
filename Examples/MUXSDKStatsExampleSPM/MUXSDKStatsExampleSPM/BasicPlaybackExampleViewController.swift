@@ -81,6 +81,16 @@ class BasicPlaybackExampleViewController: UIViewController {
                     print("segment request url from Transaction metrics: \(urlFromNetworkTransactionMetrics?.absoluteString ?? "nil")")
                     print("segment request url resourceRequestEvent: \(urlFromResourceRequest?.absoluteString ?? "nil")")
                     print("segment request media type: \(segmentEvent.mediaType.rawValue)")
+                    let mediaTypeFromSwitch: String
+                    switch segmentEvent.mediaType {
+                        case .audio:
+                        mediaTypeFromSwitch = "audio"
+                    case .video:
+                        mediaTypeFromSwitch = "video"
+                    default:
+                        mediaTypeFromSwitch = "not audio or video"
+                    }
+                    print("segment request media type (selected by switch statement): \(mediaTypeFromSwitch)")
                     print("")
                 }
             }
