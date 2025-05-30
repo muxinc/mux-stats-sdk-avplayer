@@ -17,9 +17,11 @@ class BasicPlaybackExampleViewController: UIViewController {
 //        )!
         
         // CMAF asset
-//        URL("https://cdn.bitmovin.com/content/assets/art-of-motion-dash-hls-progressive/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8")!
+        URL("https://stream.mux.com/5ICwECLW8900gMTi5eaOkWdYvOkGhtKyBY02uRCT6FOyE.m3u8")!
+        // Non-CMAF asset w/demuxed audio
+        //        URL("https://cdn.bitmovin.com/content/assets/art-of-motion-dash-hls-progressive/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8")!
         // Audio-only asset
-        URL("https://stream.mux.com/MwUGUc7gWwcE6AN6qVcilQ8cR4SFlE601kB96IiYqPVM.m3u8")!
+//        URL("https://stream.mux.com/MwUGUc7gWwcE6AN6qVcilQ8cR4SFlE601kB96IiYqPVM.m3u8")!
     }
     let playerName = "AVPlayerViewControllerExample"
     lazy var playerViewController = AVPlayerViewController()
