@@ -26,7 +26,7 @@ class BasicPlaybackExampleViewController: UIViewController {
     let playerName = "AVPlayerViewControllerExample"
     lazy var playerViewController = AVPlayerViewController()
     
-    var avMetricsTask: Task<Void, any Error>?
+    var avMetricsTask: Task<Never, any Error>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,20 +65,19 @@ class BasicPlaybackExampleViewController: UIViewController {
     }
     
     @available(iOS 18, *)
-    func keepLoggingAVMetricsEvents(_ item: AVPlayerItem) async throws {
+    func keepLoggingAVMetricsEvents(_ item: AVPlayerItem) async throws -> Never {
         //var it = item.allMetrics().makeAsyncIterator()
-        var it = item.allMetrics().makeAsyncIterator()
 //        var resourceRequests = item.metrics(forType: AVMetricHLSMediaSegmentRequestEvent.self).makeAsyncIterator()
 //        var playlistRequests = item.metrics(forType: AVMetricHLSPlaylistRequestEvent.self).makeAsyncIterator()
         
         var segmentRequests = item.metrics(forType: AVMetricHLSMediaSegmentRequestEvent.self).makeAsyncIterator()
         var playlistRequests = item.metrics(forType: AVMetricHLSPlaylistRequestEvent.self).makeAsyncIterator()
         
-        await withThrowingTaskGroup(of: Void.self) { group in
+        try await withThrowingTaskGroup(of: Never.self) { group in
             group.addTask {
                 while true {
                     let segmentEvent = try! await segmentRequests.next()
-                    guard let segmentEvent else { return }
+                    guard let segmentEvent else { throw CancellationError() }
 //                    print("segment request url: \(segmentEvent.url?.absoluteString ?? "nil")")
                     let urlFromPlaylistEvent =  segmentEvent.url
                     let urlFromNetworkTransactionMetrics = segmentEvent.mediaResourceRequestEvent?.networkTransactionMetrics?.transactionMetrics.last?.request.url
@@ -114,7 +113,7 @@ class BasicPlaybackExampleViewController: UIViewController {
             group.addTask {
                 while true {
                     let playlistEvent = try! await playlistRequests.next()
-                    guard let playlistEvent else { return }
+                    guard let playlistEvent else { throw CancellationError() }
 //                    print("playlist request url: \(playlistEvent.url?.absoluteString ?? "nil")")
                     let urlFromPlaylistEvent =  playlistEvent.url
                     let urlFromNetworkTransactionMetrics = playlistEvent.mediaResourceRequestEvent?.networkTransactionMetrics?.transactionMetrics.last?.request.url
@@ -129,7 +128,10 @@ class BasicPlaybackExampleViewController: UIViewController {
                     try Task.checkCancellation()
                 }
             }
+            
+            try await group.waitForAll()
         }
+        throw CancellationError()
     }
     
     func displayPlayerViewController() {
