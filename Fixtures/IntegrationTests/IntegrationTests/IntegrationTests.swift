@@ -6,10 +6,6 @@ struct IntegrationTests {
     let dispatchDelay = 3.0
     let msTolerance: Double = 2000
 
-    init() {
-        MUXSDKCore.resetCapturedEvents()
-    }
-    
     func getLastTimestamp(for playerName: String) -> NSNumber? {
         guard let timeStamps = MUXSDKCore.getPlayheadTimeStamps(forPlayer: playerName) as? [NSNumber] else {
             return nil
@@ -110,10 +106,13 @@ struct IntegrationTests {
     }
     
     @Test func vodPlaybackTest() throws {
-        let playerName = "vodPlayerName"
+        let playerName = "vodPlayer \(UUID().uuidString)"
         MUXSDKCore.swizzleDispatchEvents()
         MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
-        
+        defer {
+            MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
+        }
+
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
         let VOD_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
         let avPlayer = AVPlayer(url: URL(string: VOD_URL)!)
@@ -151,10 +150,11 @@ struct IntegrationTests {
     }
     
     @Test func livePlaybackTest() throws {
-        let playerName = "livePlayerName"
+        let playerName = "livePlayerName \(UUID().uuidString)"
         MUXSDKCore.swizzleDispatchEvents()
-        MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
-
+        defer {
+            MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
+        }
 
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
         let LIVE_URL = "https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8"
