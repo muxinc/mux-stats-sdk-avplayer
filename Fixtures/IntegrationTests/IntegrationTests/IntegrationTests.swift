@@ -108,7 +108,6 @@ struct IntegrationTests {
     @Test func vodPlaybackTest() throws {
         let playerName = "vodPlayer \(UUID().uuidString)"
         MUXSDKCore.swizzleDispatchEvents()
-        MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
         defer {
             MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
         }
