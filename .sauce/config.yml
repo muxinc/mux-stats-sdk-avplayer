@@ -20,3 +20,6 @@ suites:
 - name: Debug iOS - All Tests - iPhone 16
   devices:
   - name: iPhone 16.*
+- name: Debug iOS - All Tests - iPhone 16e
+  devices:
+  - name: iPhone 16e
