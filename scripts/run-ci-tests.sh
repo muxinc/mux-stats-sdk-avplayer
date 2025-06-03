@@ -67,7 +67,10 @@ function run_ci_tests {
 
     saucectl run \
         --artifacts.download.directory "$ARTIFACTS_DIR" \
+        --artifacts.download.match '*' \
         --select-suite 'Debug iOS - All Tests - iPhone 16e'
+
+    ls -lah "$ARTIFACTS_DIR"
 }
 
 # Execute:
