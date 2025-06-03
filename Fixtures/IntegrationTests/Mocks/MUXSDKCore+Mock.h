@@ -22,8 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSArray<MUXSDKDataEvent *> *) snapshotOfGlobalEvents;
 + (NSArray<MUXSDKDataEvent *> *) snapshotOfEventsForPlayer:(NSString *)playerId;
 + (NSArray<MUXSDKBaseEvent *> *) getEventsForPlayer: (NSString *)playerId;
-+ (NSArray *) getPlayheadTimeStampsForPlayer:(NSString *)playerId;
-+ (NSArray *) getPlayheadTimeDeltasForPlayer:(NSString *)playerId;
++ (NSArray<NSNumber *> *) getPlayheadTimeStampsForPlayer:(NSString *)playerId;
++ (NSArray<NSNumber *> *) getPlayheadTimeDeltasForPlayer:(NSString *)playerId;
 
 @end
 

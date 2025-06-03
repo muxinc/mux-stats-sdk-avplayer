@@ -139,13 +139,13 @@ static NSMutableArray<MUXSDKDataEvent *> *globalEvents;
     }
 }
 
-+ (NSArray *) getPlayheadTimeStampsForPlayer:(NSString *)playerId {
++ (NSArray<NSNumber *> *) getPlayheadTimeStampsForPlayer:(NSString *)playerId {
     @synchronized (playheadTimeStamps) {
         return [playheadTimeStamps[playerId] copy] ?: @[];
     }
 }
 
-+ (NSArray *) getPlayheadTimeDeltasForPlayer:(NSString *)playerId {
++ (NSArray<NSNumber *> *) getPlayheadTimeDeltasForPlayer:(NSString *)playerId {
     @synchronized (playheadTimeDeltas) {
         return [playheadTimeDeltas[playerId] copy] ?: @[];
     }

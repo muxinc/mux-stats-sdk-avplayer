@@ -7,23 +7,18 @@ struct IntegrationTests {
     let msTolerance: Double = 2000
 
     func getLastTimestamp(for playerName: String) -> NSNumber? {
-        guard let timeStamps = MUXSDKCore.getPlayheadTimeStamps(forPlayer: playerName) as? [NSNumber] else {
-            return nil
-        }
-        return timeStamps.last
+        return MUXSDKCore.getPlayheadTimeStamps(forPlayer: playerName).last
     }
     
     func getTimeDeltas(for playerName: String) -> [NSNumber] {
-        guard let timeDeltas = MUXSDKCore.getPlayheadTimeDeltas(forPlayer: playerName) as? [NSNumber] else {
-            return []
-        }
-        return timeDeltas
+        return MUXSDKCore.getPlayheadTimeDeltas(forPlayer: playerName)
     }
     
     func getEventsAndReset(for playerName: String) -> [MUXSDKBaseEvent]? {
-        let events = MUXSDKCore.getEventsForPlayer(playerName)
-        MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
-        return events
+        defer {
+            MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
+        }
+        return MUXSDKCore.getEventsForPlayer(playerName)
     }
     
     func assertStartPlaying(with player: AVPlayer, for playerName: String) {
