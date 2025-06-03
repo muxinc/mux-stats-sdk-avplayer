@@ -163,6 +163,7 @@ struct IntegrationTests {
         MUXSDKCore.swizzleDispatchEvents()
         MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
 
+
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
         let LIVE_URL = "https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8"
         let avPlayer = AVPlayer(url: URL(string: LIVE_URL)!)
@@ -180,7 +181,7 @@ struct IntegrationTests {
         // Unpause the content
         assertStartPlaying(with: avPlayer, for: playerName)
         
-        // Wait approximately 10 seconds
+        // Wait approximately 5 seconds
         assertWaitForNSeconds(n : 5.0, for: playerName, with: avPlayer)
         
         // Seek backwards in the video 5 seconds
