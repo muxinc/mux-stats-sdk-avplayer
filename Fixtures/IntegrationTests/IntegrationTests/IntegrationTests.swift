@@ -5,16 +5,8 @@ import Testing
 struct IntegrationTests {
     let dispatchDelay = 3.0
     let msTolerance: Double = 2000
-    static var didSetup = false
-    
+
     init() {
-        if !Self.didSetup {
-            Self.setup()
-            Self.didSetup = true
-        }
-    }
-    
-    static func setup() {
         MUXSDKCore.resetCapturedEvents()
     }
     
