@@ -8,14 +8,16 @@
 #import <Foundation/Foundation.h>
 #import <MuxCore/MuxCore.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface MUXSDKCore (Mock)
 
 + (void) swizzleDispatchEvents;
 + (void) resetCapturedEvents;
 + (void) resetCapturedEventsForPlayer:(NSString *)playerId;
-+ (id<MUXSDKEventTyping>) eventAtIndex:(NSUInteger) index forPlayer:(NSString *)playerId;
++ (nullable id<MUXSDKEventTyping>) eventAtIndex:(NSUInteger) index forPlayer:(NSString *)playerId;
 + (NSUInteger) eventsCountForPlayer:(NSString *)playerId;
-+ (MUXSDKDataEvent *) globalEventAtIndex:(NSUInteger)index;
++ (nullable MUXSDKDataEvent *) globalEventAtIndex:(NSUInteger)index;
 + (NSUInteger) globalEventsCount;
 + (NSArray<MUXSDKDataEvent *> *) snapshotOfGlobalEvents;
 + (NSArray<MUXSDKDataEvent *> *) snapshotOfEventsForPlayer:(NSString *)playerId;
@@ -24,3 +26,5 @@
 + (NSArray *) getPlayheadTimeDeltasForPlayer:(NSString *)playerId;
 
 @end
+
+NS_ASSUME_NONNULL_END
