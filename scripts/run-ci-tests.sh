@@ -65,7 +65,8 @@ function test_for {
 function run_ci_tests {
     echo "--- Running Sauce Labs Tests"
 
-    saucectl run
+    saucectl run \
+        --artifacts.download.directory "$ARTIFACTS_DIR"
 }
 
 # Execute:
