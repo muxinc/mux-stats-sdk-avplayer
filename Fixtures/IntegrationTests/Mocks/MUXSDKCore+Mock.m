@@ -11,10 +11,17 @@
 
 @implementation MUXSDKCore (Mock)
 
-static NSMutableDictionary *events;
+static NSMutableDictionary<NSString *, NSMutableArray<MUXSDKDataEvent *> *> *events;
 static NSMutableDictionary<NSString *, NSMutableArray<NSNumber *> *> *playheadTimeDeltas;
 static NSMutableDictionary<NSString *, NSMutableArray<NSNumber *> *> *playheadTimeStamps;
-static NSMutableArray *globalEvents;
+static NSMutableArray<MUXSDKDataEvent *> *globalEvents;
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [self resetCapturedEvents];
+    });
+}
 
 + (void) swizzleDispatchEvents {
     static dispatch_once_t once_token;
@@ -47,123 +54,131 @@ static NSMutableArray *globalEvents;
 }
 
 + (void) resetCapturedEvents {
-    events = [[NSMutableDictionary alloc] init];
-    globalEvents = [[NSMutableArray alloc] init];
+    @synchronized (events) {
+        events = [NSMutableDictionary new];
+    }
+    @synchronized (globalEvents) {
+        globalEvents = [NSMutableArray new];
+    }
+    @synchronized (playheadTimeDeltas) {
+        playheadTimeDeltas = [NSMutableDictionary new];
+    }
+    @synchronized (playheadTimeStamps) {
+        playheadTimeStamps = [NSMutableDictionary new];
+    }
 }
 
 + (void)resetCapturedEventsForPlayer:(NSString *)playerId {
-    if (events && [events objectForKey:playerId]) {
-        NSMutableArray *playerEvents = [events objectForKey:playerId];
-        [playerEvents removeAllObjects];
+    @synchronized (events) {
+        [events[playerId] removeAllObjects];
     }
 }
 
 + (void) mock_dispatchGlobalDataEvent:(MUXSDKDataEvent *)event {
-    [globalEvents addObject:event];
+    @synchronized (globalEvents) {
+        [globalEvents addObject:event];
+    }
 }
 
 + (void) mock_dispatchEvent:(id<MUXSDKEventTyping>)event forPlayer:(NSString *)playerId {
-    if (![events objectForKey:playerId]) {
-        [events setObject:[[NSMutableArray alloc] init] forKey:playerId];
+    @synchronized (events) {
+        NSMutableArray *eventsForPlayer = events[playerId];
+        if (!eventsForPlayer) {
+            eventsForPlayer = [NSMutableArray new];
+            [events setObject:eventsForPlayer forKey:playerId];
+        }
+        [eventsForPlayer addObject:event];
     }
-    NSMutableArray *eventsForPlayer = [events objectForKey:playerId];
-    [eventsForPlayer addObject:event];
-    
-    if ([(NSObject *)event isKindOfClass:[MUXSDKTimeUpdateEvent class]]) {
-        [self trackTimeForEvent:event playerId:playerId];
+
+    if ([(id)event isKindOfClass:[MUXSDKTimeUpdateEvent class]]) {
+        [self trackTimeForEvent:(MUXSDKTimeUpdateEvent *)event playerId:playerId];
     }
 }
 
-+ (void) trackTimeForEvent:(id<MUXSDKEventTyping>)event playerId:(NSString *)playerId {
-    if (!playheadTimeDeltas) {
-        playheadTimeDeltas = [NSMutableDictionary new];
-    }
-    
-    if (!playheadTimeStamps) {
-        playheadTimeStamps = [NSMutableDictionary new];
-    }
++ (void) trackTimeForEvent:(MUXSDKTimeUpdateEvent *)event playerId:(NSString *)playerId {
+    @synchronized (playheadTimeDeltas) {
+        @synchronized (playheadTimeStamps) {
+            NSMutableArray<NSNumber *> *playerTimeDeltas = playheadTimeDeltas[playerId];
+            if (!playerTimeDeltas) {
+                playerTimeDeltas = [NSMutableArray new];
+                playheadTimeDeltas[playerId] = playerTimeDeltas;
+            }
 
-    if (![playheadTimeDeltas objectForKey:playerId]) {
-        [playheadTimeDeltas setObject:[[NSMutableArray alloc] init] forKey:playerId];
-    }
-    
-    if (![playheadTimeStamps objectForKey:playerId]) {
-        [playheadTimeStamps setObject:[[NSMutableArray alloc] init] forKey:playerId];
-    }
-    
-    MUXSDKTimeUpdateEvent *timeEvent = (MUXSDKTimeUpdateEvent *)event;
-    NSNumber *timestamp = timeEvent.playerData.playerPlayheadTime;
-    
-    NSMutableArray *timeStampsForPlayer = [playheadTimeStamps objectForKey:playerId];
-    NSMutableArray *playerTimeDeltas = [playheadTimeDeltas objectForKey:playerId];
+            NSMutableArray<NSNumber *> *timeStampsForPlayer = playheadTimeStamps[playerId];
+            if (!timeStampsForPlayer) {
+                timeStampsForPlayer = [NSMutableArray new];
+                playheadTimeStamps[playerId] = timeStampsForPlayer;
+            }
 
-    if (playerTimeDeltas.count == 0) {
-        [timeStampsForPlayer addObject:timestamp];
-        [playerTimeDeltas addObject:@(0)];
-    } else {
-        NSNumber *lastTimestamp = [timeStampsForPlayer lastObject];
-        [timeStampsForPlayer addObject:timestamp];
+            NSNumber *timestamp = event.playerData.playerPlayheadTime;
 
-        double delta = timestamp.doubleValue - lastTimestamp.doubleValue;
+            if (playerTimeDeltas.count == 0) {
+                [timeStampsForPlayer addObject:timestamp];
+                [playerTimeDeltas addObject:@(0)];
+            } else {
+                NSNumber *lastTimestamp = [timeStampsForPlayer lastObject];
+                [timeStampsForPlayer addObject:timestamp];
 
-        [playerTimeDeltas addObject:@(delta)];
+                double delta = timestamp.doubleValue - lastTimestamp.doubleValue;
+
+                [playerTimeDeltas addObject:@(delta)];
+            }
+        }
     }
 }
 
 + (id<MUXSDKEventTyping>) eventAtIndex:(NSUInteger) index forPlayer:(NSString *)playerId {
-    NSMutableArray *eventsForPlayer = [events objectForKey:playerId];
-    if(!eventsForPlayer) {
-        return nil;
+    @synchronized (events) {
+        return events[playerId][index];
     }
-    return [eventsForPlayer objectAtIndex:index];
 }
 
 + (NSArray<MUXSDKBaseEvent *> *) getEventsForPlayer: (NSString *)playerId {
-    NSMutableArray *eventsForPlayer = [events objectForKey:playerId];
-    if(!eventsForPlayer) {
-        return nil;
+    @synchronized (events) {
+        return [events[playerId] copy];
     }
-    return eventsForPlayer;
 }
 
-+ (NSArray *) getPlayheadTimeStampsForPlayer:(NSString *)playerId {
-    NSMutableArray *playerTimeStamps = [playheadTimeStamps objectForKey:playerId];
-    if (!playerTimeStamps) {
-        return nil;
++ (NSArray<NSNumber *> *) getPlayheadTimeStampsForPlayer:(NSString *)playerId {
+    @synchronized (playheadTimeStamps) {
+        return [playheadTimeStamps[playerId] copy] ?: @[];
     }
-    return playerTimeStamps;
 }
 
-+ (NSArray *) getPlayheadTimeDeltasForPlayer:(NSString *)playerId {
-    NSMutableArray *playerDeltas = [playheadTimeDeltas objectForKey:playerId];
-    if (!playerDeltas) {
-        return nil;
++ (NSArray<NSNumber *> *) getPlayheadTimeDeltasForPlayer:(NSString *)playerId {
+    @synchronized (playheadTimeDeltas) {
+        return [playheadTimeDeltas[playerId] copy] ?: @[];
     }
-    return playerDeltas;
 }
 
 + (NSUInteger) eventsCountForPlayer:(NSString *)playerId {
-    NSMutableArray *eventsForPlayer = [events objectForKey:playerId];
-    if(!eventsForPlayer) {
-        return 0;
+    @synchronized (events) {
+        return [events[playerId] count];
     }
-    return eventsForPlayer.count;
 }
 
 + (MUXSDKDataEvent *) globalEventAtIndex:(NSUInteger)index {
-    return [globalEvents objectAtIndex:index];
+    @synchronized (globalEvents) {
+        return globalEvents[index];
+    }
 }
 
 + (NSUInteger) globalEventsCount {
-    return globalEvents.count;
+    @synchronized (globalEvents) {
+        return globalEvents.count;
+    }
 }
 
 + (NSArray<MUXSDKDataEvent *> *) snapshotOfGlobalEvents {
-    return [NSArray arrayWithArray:globalEvents];
+    @synchronized (globalEvents) {
+        return globalEvents.copy;
+    }
 }
 
 + (NSArray<MUXSDKDataEvent *> *) snapshotOfEventsForPlayer:(NSString *)playerId {
-    return [NSArray arrayWithArray:[events objectForKey:playerId]];
+    @synchronized (events) {
+        return [events[playerId] copy] ?: @[];
+    }
 }
 
 @end
