@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		09C9196A2DE4E89E00C5F469 /* MockAVPlayerViewControllerBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 09C919692DE4E89E00C5F469 /* MockAVPlayerViewControllerBinding.m */; };
 		09C9196B2DE4E89E00C5F469 /* MockAVPlayerViewControllerBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 09C919692DE4E89E00C5F469 /* MockAVPlayerViewControllerBinding.m */; };
 		09CA2C622DCE81BE0032474D /* MUXSDKCore+Mock.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CA2C612DCE81BE0032474D /* MUXSDKCore+Mock.m */; };
 		7255C2F52D7A6EA700E1D797 /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 7255C2F42D7A6EA700E1D797 /* MUXSDKStats */; };
@@ -357,7 +356,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				09CA2C622DCE81BE0032474D /* MUXSDKCore+Mock.m in Sources */,
-				09C9196A2DE4E89E00C5F469 /* MockAVPlayerViewControllerBinding.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

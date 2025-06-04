@@ -187,19 +187,19 @@ struct IntegrationTests {
     }
     
     @Test func playOffMainThreadTest() throws {
-        let playerName = "offMainThreadPlayerName"
+        let playerName = "offMainThreadPlayerName \(UUID().uuidString)"
         MUXSDKCore.swizzleDispatchEvents()
         MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
                 
         let LIVE_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
-        var avPlayer: AVPlayer!
-        var playerViewController : AVPlayerViewController!
+        let avPlayer = AVPlayer(url: URL(string: LIVE_URL)!)
         var binding: MockAVPlayerViewControllerBinding!
         
-        // Setup of player in main thread
+        let semaphore = DispatchSemaphore(value: 0)
+        
+        // Setup of AVPlayerViewController
         DispatchQueue.main.async {
-            avPlayer = AVPlayer(url: URL(string: LIVE_URL)!)
-            playerViewController = AVPlayerViewController()
+            let playerViewController = AVPlayerViewController()
             playerViewController.player = avPlayer
             
             binding = MockAVPlayerViewControllerBinding(
@@ -208,10 +208,13 @@ struct IntegrationTests {
                 softwareVersion: "TestSoftwareVersion",
                 playerViewController: playerViewController
             )
-            binding.attach(avPlayer)
+            
+            semaphore.signal()
         }
-        Thread.sleep(forTimeInterval: 2.0)
         
+        // Wait for AVPlayerViewController to be created on main thread
+        semaphore.wait()
+    
         // Call play in background thread
         DispatchQueue.global(qos: .background).async {
             let isMain = Thread.isMainThread
