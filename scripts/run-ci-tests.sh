@@ -51,8 +51,8 @@ function test_for {
         -allowProvisioningUpdates \
         -disableAutomaticPackageResolution \
         | xcbeautify
-    set -e
     local xcodebuild_build_exit_code="$?"
+    set -e
 
     if [ "$xcodebuild_build_exit_code" -ne 0 ]; then
         echo "^^^ +++"

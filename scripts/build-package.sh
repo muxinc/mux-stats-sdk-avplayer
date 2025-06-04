@@ -58,8 +58,8 @@ function build_for {
         RUN_CLANG_STATIC_ANALYZER=YES \
         CLANG_STATIC_ANALYZER_MODE=deep \
         | xcbeautify
-    set -e
     local xcodebuild_exit_code="$?"
+    set -e
 
     if [ -d "$result_bundle_path" ]; then
         XCRESULT_BUNDLE_PATHS+=("$result_bundle_path")
