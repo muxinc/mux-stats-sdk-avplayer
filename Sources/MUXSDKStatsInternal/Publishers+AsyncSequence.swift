@@ -1,6 +1,6 @@
 import Combine
 
-@available(iOS 18, tvOS 18, *)
+@available(iOS 18, tvOS 18, visionOS 2, *)
 extension AsyncSequence {
     var publisher: some Publisher<Element, Failure> {
         let subject = PassthroughSubject<Element, Failure>()

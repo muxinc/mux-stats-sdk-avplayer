@@ -86,7 +86,7 @@ extension AVPlayerItem {
             }
 
 #if !targetEnvironment(simulator)
-        if #available(iOS 18, tvOS 18, *) {
+        if #available(iOS 18, tvOS 18, visionOS 2, *) {
             let changeEvents = renditionChangeEventsUsingAVMetrics()
                 .catch { error in
                     if !(error is CancellationError) {
@@ -121,7 +121,7 @@ extension AVPlayerItem {
     }
 
 #if !targetEnvironment(simulator)
-    @available(iOS 18, tvOS 18, *)
+    @available(iOS 18, tvOS 18, visionOS 2, *)
     nonisolated func renditionChangeEventsUsingAVMetrics() -> some Publisher<MUXSDKRenditionChangeEvent, Error> {
         metrics(forType: AVMetricPlayerItemVariantSwitchEvent.self)
             .filter(\.didSucceed)

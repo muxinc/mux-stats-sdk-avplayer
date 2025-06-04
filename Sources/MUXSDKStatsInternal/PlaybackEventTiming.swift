@@ -30,7 +30,7 @@ extension PlaybackEventTiming {
             loadedTimeRanges: playerItem.loadedTimeRanges.lazy.map(\.timeRangeValue))
     }
 
-    @available(iOS 18, tvOS 18, *)
+    @available(iOS 18, tvOS 18, visionOS 2, *)
     init(variantSwitchEvent: AVMetricPlayerItemVariantSwitchEvent, on playerItem: AVPlayerItem) {
         self.init(
             mediaTime: variantSwitchEvent.mediaTime,
