@@ -488,12 +488,17 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
         [asset loadValuesAsynchronouslyForKeys:@[ @"metadata" ]
                              completionHandler:^{
+            __typeof(weakSelf) strongSelf = weakSelf;
+            if (strongSelf == nil) {
+                return;
+            }
+
             NSError *error = nil;
             AVKeyValueStatus status = [asset statusOfValueForKey:@"metadata"
                                                            error:&error];
             if (status != AVKeyValueStatusLoaded || error != nil) {
                 NSLog(@"MUXSDK-ERROR - Mux failed to load asset metadata for player name: %@",
-                      _name);
+                      [strongSelf name]);
                 return;
             }
             
