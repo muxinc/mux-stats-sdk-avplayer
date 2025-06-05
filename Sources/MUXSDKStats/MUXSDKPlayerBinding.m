@@ -493,7 +493,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 			[asset statusOfValueForKey:@"metadata"
 								 error:&error];
 			if (status != AVKeyValueStatusLoaded || error != nil) {
-                // NSLog(@"Failed to load metadata: %@", error);
+				NSLog(@"MUXSDK-ERROR - Mux failed to load asset metadata for player name: %@", _name);
                 return;
             }
 
