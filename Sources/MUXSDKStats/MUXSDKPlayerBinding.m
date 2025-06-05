@@ -484,35 +484,46 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     AVAsset *asset = _player.currentItem.asset;
     // Load Session Data from HLS manifest
     __weak MUXSDKPlayerBinding *weakSelf = self;
+    
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        [asset loadValuesAsynchronouslyForKeys:@[@"metadata"]
+							 completionHandler:^{
+			NSError *error = nil;
+			AVKeyValueStatus status =
+			[asset statusOfValueForKey:@"metadata"
+								 error:&error];
+			if (status != AVKeyValueStatusLoaded || error != nil) {
+                // NSLog(@"Failed to load metadata: %@", error);
+                return;
+            }
 
-    [asset loadValuesAsynchronouslyForKeys:@[@"metadata"]
-                         completionHandler:^{
-
-        __typeof(weakSelf) strongSelf = weakSelf;
-        if (strongSelf == nil) {
-            return;
-        }
-
-        NSMutableDictionary *sessionData = [[NSMutableDictionary alloc] init];
-
-        for (AVMetadataItem *item in asset.metadata) {
-            id<NSObject, NSCopying> key = [item key];
-            if ([key isKindOfClass:[NSString class]]) {
-                NSString *keyString = (NSString *)key;
-                if ([keyString hasPrefix:MUXSessionDataPrefix]) {
-                    NSString *itemKey = [keyString substringFromIndex:[MUXSessionDataPrefix length]];
-                    [sessionData setObject:[item value] forKey:itemKey];
+			NSMutableDictionary *sessionData = [[NSMutableDictionary alloc] init];
+            for (AVMetadataItem *item in asset.metadata) {
+                id<NSObject, NSCopying> key = [item key];
+                if ([key isKindOfClass:[NSString class]]) {
+                    NSString *keyString = (NSString *)key;
+                    if ([keyString hasPrefix:MUXSessionDataPrefix]) {
+                        NSString *itemKey = [keyString substringFromIndex:[MUXSessionDataPrefix length]];
+                        [sessionData setObject:[item value] forKey:itemKey];
+                    }
                 }
             }
-        }
-        
-        if ([sessionData count] > 0) {
-            MUXSDKSessionDataEvent *dataEvent = [MUXSDKSessionDataEvent new];
-            [dataEvent setSessionData: sessionData];
-            [MUXSDKCore dispatchEvent:dataEvent 
-                            forPlayer:[strongSelf name]];
-        }
-    }];
+            
+            if ([sessionData count] > 0) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    __typeof(weakSelf) strongSelf = weakSelf;
+                    if (strongSelf == nil) {
+                        return;
+                    }
+                    
+                    MUXSDKSessionDataEvent *dataEvent = [MUXSDKSessionDataEvent new];
+                    [dataEvent setSessionData: sessionData];
+                    [MUXSDKCore dispatchEvent:dataEvent
+                                    forPlayer:[strongSelf name]];
+                });
+            }
+        }];
+    });
 }
 
 - (void)stopMonitoringAVPlayerItem {
