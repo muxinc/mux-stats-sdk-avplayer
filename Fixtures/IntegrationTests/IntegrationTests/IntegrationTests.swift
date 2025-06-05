@@ -186,35 +186,42 @@ struct IntegrationTests {
         binding.detachAVPlayer()
     }
     
-    @Test func playOffMainThreadTest() throws {
+    actor PlayerViewControllerActor {
+        var playerViewController: AVPlayerViewController?
+        
+        func setPVC(pvc: AVPlayerViewController) {
+            playerViewController = pvc
+        }
+    }
+    
+    actor AVPlayerActor {
+        var avPlayer: AVPlayer?
+        
+        func setAVPlayer(url: String){
+            avPlayer = AVPlayer(url: URL(string: url)!)
+        }
+    }
+    
+    @Test func playOffMainThreadTest() async throws {
         let playerName = "offMainThreadPlayerName \(UUID().uuidString)"
         MUXSDKCore.swizzleDispatchEvents()
         MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
-                
+
         let LIVE_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
         let avPlayer = AVPlayer(url: URL(string: LIVE_URL)!)
-        var binding: MockAVPlayerViewControllerBinding!
-        
-        let semaphore = DispatchSemaphore(value: 0)
-        
-        // Setup of AVPlayerViewController
-        DispatchQueue.main.async {
-            let playerViewController = AVPlayerViewController()
-            playerViewController.player = avPlayer
-            
-            binding = MockAVPlayerViewControllerBinding(
-                playerName: playerName,
-                softwareName: "TestSoftwareName",
-                softwareVersion: "TestSoftwareVersion",
-                playerViewController: playerViewController
-            )
-            
-            semaphore.signal()
+        let playerViewController = await MainActor.run {
+            AVPlayerViewController()
         }
-        
-        // Wait for AVPlayerViewController to be created on main thread
-        semaphore.wait()
-    
+        var binding: MockAVPlayerViewControllerBinding!
+
+        binding = MockAVPlayerViewControllerBinding(
+            playerName: playerName,
+            softwareName: "TestSoftwareName",
+            softwareVersion: "TestSoftwareVersion",
+            playerViewController: playerViewController
+        )
+        binding.attach(avPlayer)
+
         // Call play in background thread
         DispatchQueue.global(qos: .background).async {
             let isMain = Thread.isMainThread
@@ -224,8 +231,8 @@ struct IntegrationTests {
 
             avPlayer.play()
         }
-        
-        Thread.sleep(forTimeInterval: 5.0)
+
+        try await Task.sleep(nanoseconds: 5_000_000_000) // 5 seconds in nanoseconds
         #expect(binding.didReturnZeroRect, "Expected getViewBounds to return empty CGRect")
     }
 }
