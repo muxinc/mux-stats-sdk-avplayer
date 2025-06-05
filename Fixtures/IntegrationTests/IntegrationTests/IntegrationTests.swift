@@ -186,22 +186,6 @@ struct IntegrationTests {
         binding.detachAVPlayer()
     }
     
-    actor PlayerViewControllerActor {
-        var playerViewController: AVPlayerViewController?
-        
-        func setPVC(pvc: AVPlayerViewController) {
-            playerViewController = pvc
-        }
-    }
-    
-    actor AVPlayerActor {
-        var avPlayer: AVPlayer?
-        
-        func setAVPlayer(url: String){
-            avPlayer = AVPlayer(url: URL(string: url)!)
-        }
-    }
-    
     @Test func playOffMainThreadTest() async throws {
         let playerName = "offMainThreadPlayerName \(UUID().uuidString)"
         MUXSDKCore.swizzleDispatchEvents()
