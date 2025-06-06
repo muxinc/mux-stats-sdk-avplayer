@@ -488,7 +488,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
         [asset loadValuesAsynchronouslyForKeys:@[ @"metadata" ]
                              completionHandler:^{
-            __typeof(weakSelf) strongSelf = weakSelf;
+            __strong __typeof(weakSelf) strongSelf = weakSelf;
             if (strongSelf == nil) {
                 return;
             }
@@ -518,7 +518,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             
             if ([sessionData count] > 0) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    __typeof(weakSelf) strongSelf = weakSelf;
+                    __strong __typeof(weakSelf) strongSelf = weakSelf;
                     if (strongSelf == nil) {
                         return;
                     }
