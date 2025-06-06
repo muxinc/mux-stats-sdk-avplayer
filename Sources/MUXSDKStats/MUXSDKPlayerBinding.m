@@ -1367,6 +1367,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (CGRect)getViewBounds {
+    if (![NSThread isMainThread]) {
+        NSLog(@"MUXSDK-WARNING - getViewBounds called from a background thread.");
+        return CGRectZero;
+    }
     return [[_viewController view] bounds];
 }
 
