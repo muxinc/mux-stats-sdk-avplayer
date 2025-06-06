@@ -21,10 +21,12 @@ struct IntegrationTests {
         return MUXSDKCore.getEventsForPlayer(playerName)
     }
     
-    func assertStartPlaying(with player: AVPlayer, for playerName: String) {
+    func assertStartPlaying(with player: AVPlayer, for playerName: String) async {
         NSLog("## Start playing content")
-        player.play()
-        Thread.sleep(forTimeInterval: dispatchDelay)
+        await MainActor.run {
+            player.play()
+        }
+        try? await Task.sleep(nanoseconds: UInt64(dispatchDelay * 1_000_000_000))
 
         let events = getEventsAndReset(for: playerName)
         
@@ -34,7 +36,7 @@ struct IntegrationTests {
         #expect(containsPlayEvent)
     }
     
-    func assertWaitForNSeconds(n seconds: Double, for playerName: String, with player: AVPlayer){
+    func assertWaitForNSeconds(n seconds: Double, with player: AVPlayer, for playerName: String) {
         NSLog("## Wait approximately \(seconds) seconds")
         let waitTimeBefore = getLastTimestamp(for: playerName)!.doubleValue
         let beforeTimePlayer = player.currentTime().seconds
@@ -58,11 +60,13 @@ struct IntegrationTests {
         #expect(waitTimeDiff >= lowerBound && waitTimeDiff <= upperBound, "Waited \(waitTimeDiff)ms, expected between \(lowerBound)ms and \(upperBound)ms")
     }
     
-    func assertPauseForNSeconds(n seconds: Double, with player: AVPlayer, for playerName: String) {
+    func assertPauseForNSeconds(n seconds: Double, with player: AVPlayer, for playerName: String) async {
         NSLog("## Pause the content for \(seconds) seconds")
         let waitTimeBefore = getLastTimestamp(for: playerName)!.doubleValue
-        player.pause()
-        Thread.sleep(forTimeInterval: TimeInterval(seconds))
+        await MainActor.run {
+            player.pause()
+        }
+        try? await Task.sleep(nanoseconds: UInt64(dispatchDelay * 1_000_000_000))
         let waitTimeAfter = getLastTimestamp(for: playerName)!.doubleValue
         
         let waitTimeDiff = waitTimeAfter - waitTimeBefore
@@ -100,7 +104,18 @@ struct IntegrationTests {
         #expect(hasSeekDelta, "Expected a delta close to \(expectedDelta)ms, but none was found")
     }
     
-    @Test func vodPlaybackTest() throws {
+    func assertFinishPlaying(timeLeft: Double, with player: AVPlayer, for playerName: String) {
+        NSLog("## Wait for content to stop playing")
+        
+        // Adding some extra time to ensure that content finishes
+        Thread.sleep(forTimeInterval: timeLeft + 5.0)
+        
+        let events = getEventsAndReset(for: playerName)
+        let containsEndEvent = events?.contains { $0 is MUXSDKEndedEvent } ?? false
+        #expect(containsEndEvent)
+    }
+    
+    @Test func vodPlaybackTest() async throws {
         let playerName = "vodPlayer \(UUID().uuidString)"
         MUXSDKCore.swizzleDispatchEvents()
         defer {
@@ -113,37 +128,37 @@ struct IntegrationTests {
         binding.attach(avPlayer)
                 
         // Start playing VoD content
-        assertStartPlaying(with: avPlayer, for: playerName)
+        await assertStartPlaying(with: avPlayer, for: playerName)
                 
         // Wait approximately 5 seconds
-        assertWaitForNSeconds(n : 5.0, for: playerName, with: avPlayer)
+        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
         
         // Pause the content for 5 seconds
-        assertPauseForNSeconds(n: 5.0, with: avPlayer, for: playerName)
+        await assertPauseForNSeconds(n: 5.0, with: avPlayer, for: playerName)
         
         // Unpause the content
-        assertStartPlaying(with: avPlayer, for: playerName)
+        await assertStartPlaying(with: avPlayer, for: playerName)
         
         // Wait approximately 5 seconds
-        assertWaitForNSeconds(n : 5.0, for: playerName, with: avPlayer)
+        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
         
         // Seek backwards in the video 5 seconds
         assertSeekNSeconds(n: -5.0, with: avPlayer, for: playerName)
         
         // Wait approximately 5 seconds
-        assertWaitForNSeconds(n : 5.0, for: playerName, with: avPlayer)
+        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
         
         // Seek forwards in the video 10 seconds
         assertSeekNSeconds(n: 10.0, with: avPlayer, for: playerName)
         
         // Wait approximately 5 seconds
-        assertWaitForNSeconds(n : 5.0, for: playerName, with: avPlayer)
+        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
         
         // Exit the player by going back to the menu
         binding.detachAVPlayer()
     }
     
-    @Test func livePlaybackTest() throws {
+    @Test func livePlaybackTest() async throws {
         let playerName = "livePlayerName \(UUID().uuidString)"
         MUXSDKCore.swizzleDispatchEvents()
         defer {
@@ -156,33 +171,63 @@ struct IntegrationTests {
         binding.attach(avPlayer)
                 
         // Start playing Live content
-        assertStartPlaying(with: avPlayer, for: playerName)
+        await assertStartPlaying(with: avPlayer, for: playerName)
                 
         // Wait approximately 10 seconds
-        assertWaitForNSeconds(n : 5.0, for: playerName, with: avPlayer)
+        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
         
         // Pause the content for 5 seconds
-        assertPauseForNSeconds(n: 5.0, with: avPlayer, for: playerName)
+        await assertPauseForNSeconds(n: 5.0, with: avPlayer, for: playerName)
         
         // Unpause the content
-        assertStartPlaying(with: avPlayer, for: playerName)
+        await assertStartPlaying(with: avPlayer, for: playerName)
         
         // Wait approximately 10 seconds
-        assertWaitForNSeconds(n : 5.0, for: playerName, with: avPlayer)
+        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
         
         // Seek backwards in the video 5 seconds
         assertSeekNSeconds(n: -5.0, with: avPlayer, for: playerName)
         
         // Wait approximately 5 seconds
-        assertWaitForNSeconds(n : 5.0, for: playerName, with: avPlayer)
+        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
         
         // Seek forwards in the video 5 seconds
         assertSeekNSeconds(n: 5.0, with: avPlayer, for: playerName)
         
         // Wait approximately 5 seconds
-        assertWaitForNSeconds(n : 5.0, for: playerName, with: avPlayer)
+        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
         
         // Exit the player by going back to the menu
         binding.detachAVPlayer()
+    }
+    
+    @Test func vodEndingTest() async throws {
+        let playerName = "vodEndingPlayerName \(UUID().uuidString)"
+        MUXSDKCore.swizzleDispatchEvents()
+        defer {
+            MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
+        }
+        
+        let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
+        let VOD_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
+        let avPlayer = AVPlayer(url: URL(string: VOD_URL)!)
+        binding.attach(avPlayer)
+        
+        // Start playing content
+        await assertStartPlaying(with: avPlayer, for: playerName)
+        
+        // Wait approximately 10 seconds
+        assertWaitForNSeconds(n: 10.0, with: avPlayer, for: playerName)
+        
+        let vodDurationSeconds = await MainActor.run { () -> Double in
+            let duration = avPlayer.currentItem?.asset.duration
+            return CMTimeGetSeconds(duration!)
+        }
+
+        // Assert to approximately 15 seconds before the end of the content
+        assertSeekNSeconds(n: vodDurationSeconds - 15.0, with: avPlayer, for: playerName)
+        
+        // Assert that content has ended
+        assertFinishPlaying(timeLeft: 15.0, with: avPlayer, for: playerName)
     }
 }
