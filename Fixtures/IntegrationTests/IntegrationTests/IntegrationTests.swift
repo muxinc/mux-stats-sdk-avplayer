@@ -46,7 +46,10 @@ struct IntegrationTests {
             waitedTime += 0.1
             currentTimePlayer = player.currentTime().seconds
             
-            #expect(waitedTime < seconds * 2, "Expected to wait \(seconds) but player stalled for \(waitedTime) seconds, at \(currentTimePlayer - beforeTimePlayer )")
+            guard waitedTime < seconds * 2 else {
+                Issue.record("Expected to wait \(seconds) but player stalled for \(waitedTime) seconds, at \(currentTimePlayer - beforeTimePlayer )")
+                return
+              }
         }
         
         let waitTimeAfter = getLastTimestamp(for: playerName)!.doubleValue

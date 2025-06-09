@@ -2,6 +2,16 @@
 #import <CoreMedia/CoreMedia.h>
 #import <UIKit/UIKit.h>
 
+#if MUX_COCOAPODS
+#if __has_include("MUXSDKStats-Swift.h")
+#import "MUXSDKStats-Swift.h"
+#else
+#import <MUXSDKStats/MUXSDKStats-Swift.h>
+#endif
+#else
+@import MUXSDKStatsInternal;
+#endif
+
 #import "MUXSDKStats/MUXSDKPlayerBinding.h"
 
 #import "MUXSDKConnection.h"
@@ -36,6 +46,15 @@ static void *MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext = &MUXSDKAV
 // _playerItem observer is attached asynchonously, a developer could call destroyPlayer before
 // we have attached the _playerItem observer
 NSString * RemoveObserverExceptionName = @"NSRangeException";
+
+@interface MUXSDKPlayerBinding ()
+
+@property (nonatomic, nullable) MUXSDKPlayerMonitor *swiftMonitor
+    API_AVAILABLE(ios(15), tvos(15));
+
+@property (nonatomic) BOOL shouldTrackRenditionChanges;
+
+@end
 
 @implementation MUXSDKPlayerBinding {
     NSString *_name;
@@ -126,6 +145,15 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (!player) {
         NSLog(@"MUXSDK-ERROR - Cannot attach to NULL AVPlayer for player name: %@", _name);
         return;
+    }
+    if (@available(iOS 15, tvOS 15, *)) {
+        self.shouldTrackRenditionChanges = NO;
+        __weak typeof(self) weakSelf = self;
+        self.swiftMonitor = [[MUXSDKPlayerMonitor alloc] initWithPlayer:player onEvent:^(MUXSDKBaseEvent *event) {
+            [weakSelf dispatchSwiftMonitorEvent:event];
+        }];
+    } else {
+        self.shouldTrackRenditionChanges = YES;
     }
     _player = player;
     __weak MUXSDKPlayerBinding *weakSelf = self;
@@ -244,7 +272,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         BOOL isNotificationRelevant = [self isNotificationAboutCurrentPlayerItem:notif];
         if (isNotificationRelevant) {
             AVPlayerItemAccessLog *accessLog = [((AVPlayerItem *)notif.object) accessLog];
-            [self handleRenditionChangeInAccessLog:accessLog];
+            if (self.shouldTrackRenditionChanges) {
+                [self handleRenditionChangeInAccessLog:accessLog];
+            }
             [self calculateBandwidthMetricFromAccessLog:accessLog];
             [self updateViewingLivestream:accessLog];
             [self updateFrameDropsFromAccessLog:accessLog];
@@ -419,6 +449,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)detachAVPlayer {
+    if (@available(iOS 15, tvOS 15, *)) {
+        [self.swiftMonitor cancel];
+        self.swiftMonitor = nil;
+    }
     if (_playerItem) {
         [self stopMonitoringAVPlayerItem];
     }
@@ -438,6 +472,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if ((!_automaticVideoChange && !_didTriggerManualVideoChange) || _isAdPlaying) {
         return;
     }
+    AVPlayerItem *currentItem = _player.currentItem;
     if (_playerItem) {
         if (_didTriggerManualVideoChange) {
             _didTriggerManualVideoChange = false;
@@ -445,7 +480,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         [self dispatchViewEnd];
         [self stopMonitoringAVPlayerItem];
         
-        if (_player.currentItem) {
+        if (currentItem) {
             [self.playDispatchDelegate videoChangedForPlayer:_name];
         }
         
@@ -465,13 +500,13 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             [self dispatchPlay];
         }
     }
-    if (_player && _player.currentItem) {
-        _playerItem = _player.currentItem;
-        [_playerItem addObserver:self
+    _playerItem = currentItem;
+    if (currentItem) {
+        [currentItem addObserver:self
                       forKeyPath:@"status"
                          options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
                          context:MUXSDKAVPlayerItemStatusObservationContext];
-        [_playerItem addObserver:self
+        [currentItem addObserver:self
                       forKeyPath:@"playbackBufferEmpty"
                          options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
                          context:MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext];
@@ -484,35 +519,53 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     AVAsset *asset = _player.currentItem.asset;
     // Load Session Data from HLS manifest
     __weak MUXSDKPlayerBinding *weakSelf = self;
+    
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        [asset loadValuesAsynchronouslyForKeys:@[ @"metadata" ]
+                             completionHandler:^{
+            __strong __typeof(weakSelf) strongSelf = weakSelf;
+            if (strongSelf == nil) {
+                return;
+            }
 
-    [asset loadValuesAsynchronouslyForKeys:@[@"metadata"]
-                         completionHandler:^{
-
-        __typeof(weakSelf) strongSelf = weakSelf;
-        if (strongSelf == nil) {
-            return;
-        }
-
-        NSMutableDictionary *sessionData = [[NSMutableDictionary alloc] init];
-
-        for (AVMetadataItem *item in asset.metadata) {
-            id<NSObject, NSCopying> key = [item key];
-            if ([key isKindOfClass:[NSString class]]) {
-                NSString *keyString = (NSString *)key;
-                if ([keyString hasPrefix:MUXSessionDataPrefix]) {
-                    NSString *itemKey = [keyString substringFromIndex:[MUXSessionDataPrefix length]];
-                    [sessionData setObject:[item value] forKey:itemKey];
+            NSError *error = nil;
+            AVKeyValueStatus status = [asset statusOfValueForKey:@"metadata"
+                                                           error:&error];
+            if (status != AVKeyValueStatusLoaded || error != nil) {
+                NSLog(@"MUXSDK-ERROR - Mux failed to load asset metadata for player name: %@",
+                      [strongSelf name]);
+                return;
+            }
+            
+            NSMutableDictionary *sessionData = [[NSMutableDictionary alloc] init];
+            for (AVMetadataItem *item in asset.metadata) {
+                id<NSObject, NSCopying> key = [item key];
+                if ([key isKindOfClass:[NSString class]]) {
+                    NSString *keyString = (NSString *)key;
+                    if ([keyString hasPrefix:MUXSessionDataPrefix]) {
+                        NSString *itemKey = [keyString
+                                             substringFromIndex: [MUXSessionDataPrefix length]];
+                        [sessionData setObject:[item value]
+                                        forKey:itemKey];
+                    }
                 }
             }
-        }
-        
-        if ([sessionData count] > 0) {
-            MUXSDKSessionDataEvent *dataEvent = [MUXSDKSessionDataEvent new];
-            [dataEvent setSessionData: sessionData];
-            [MUXSDKCore dispatchEvent:dataEvent 
-                            forPlayer:[strongSelf name]];
-        }
-    }];
+            
+            if ([sessionData count] > 0) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    __strong __typeof(weakSelf) strongSelf = weakSelf;
+                    if (strongSelf == nil) {
+                        return;
+                    }
+                    
+                    MUXSDKSessionDataEvent *dataEvent = [MUXSDKSessionDataEvent new];
+                    [dataEvent setSessionData:sessionData];
+                    [MUXSDKCore dispatchEvent:dataEvent
+                                    forPlayer:[strongSelf name]];
+                });
+            }
+        }];
+    });
 }
 
 - (void)stopMonitoringAVPlayerItem {
@@ -667,9 +720,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     }
 }
 
-- (MUXSDKPlayerData *)getPlayerData {
-    MUXSDKPlayerData *playerData = [[MUXSDKPlayerData alloc] init];
-
+- (void)updatePlayerMetadata:(MUXSDKPlayerData *)playerData {
     // Mostly static values.
     [playerData setPlayerMuxPluginName:MUXSDKPluginName];
     [playerData setPlayerMuxPluginVersion:MUXSDKPluginVersion];
@@ -680,7 +731,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (language) {
         [playerData setPlayerLanguageCode:language];
     }
+}
 
+- (void)updatePlayerDimensions:(MUXSDKPlayerData *)playerData {
     CGRect viewBounds = [self getViewBounds];
     [playerData setPlayerWidth:[NSNumber numberWithInt:viewBounds.size.width]];
     [playerData setPlayerHeight:[NSNumber numberWithInt:viewBounds.size.height]];
@@ -701,6 +754,12 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         [playerData setPlayerIsFullscreen:@"false"];
     }
     #endif
+}
+
+- (MUXSDKPlayerData *)getPlayerData {
+    MUXSDKPlayerData *playerData = [MUXSDKPlayerData new];
+    [self updatePlayerMetadata:playerData];
+    [self updatePlayerDimensions:playerData];
 
     // Not sure if both checks are necessary here as when rate is 0 we expect to be paused and vice versa.
     if (_player.rate == 0.0) { // || _player.timeControlStatus == AVPlayerTimeControlStatusPaused) {
@@ -799,6 +858,22 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 
 - (void)startBuffering {
     _state = MUXSDKPlayerStateBuffering;
+}
+
+- (void)dispatchSwiftMonitorEvent:(MUXSDKBaseEvent *)event {
+    // Shims for things not yet handled in Swift monitor:
+    if ([event isKindOfClass:MUXSDKPlaybackEvent.class]) {
+        MUXSDKPlaybackEvent *playbackEvent = (MUXSDKPlaybackEvent *)event;
+
+        if (_isAdPlaying) {
+            playbackEvent.playerData.playerPlayheadTime = nil;
+        }
+
+        [self updatePlayerMetadata:playbackEvent.playerData];
+        [self updatePlayerDimensions:playbackEvent.playerData];
+    }
+
+    [MUXSDKCore dispatchEvent:event forPlayer:_name];
 }
 
 - (void)dispatchViewInit {
