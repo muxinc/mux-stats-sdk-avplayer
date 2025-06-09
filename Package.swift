@@ -1,4 +1,4 @@
-// swift-tools-version:5.8
+// swift-tools-version:6.0
 
 import PackageDescription
 
@@ -8,6 +8,7 @@ let package = Package(
         .iOS(.v12),
         .macCatalyst(.v13),
         .tvOS(.v12),
+        .visionOS(.v1),
     ],
     products: [
         .library(name: "MUXSDKStats", targets: ["MUXSDKStats"]),
@@ -42,4 +43,13 @@ let package = Package(
             dependencies: [
                 "MUXSDKStatsInternal",
             ]),
+    ],
+    swiftLanguageModes: [
+        .v5,
     ])
+
+for target in package.targets {
+    target.swiftSettings = (target.swiftSettings ?? []) + [
+        .enableExperimentalFeature("StrictConcurrency")
+    ]
+}
