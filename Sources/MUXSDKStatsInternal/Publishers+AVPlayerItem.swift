@@ -45,12 +45,15 @@ extension AVPlayerItem {
         validTracksPublisher
             // @MainActor isolated: AVPlayerItemTrack (and therefore its assetTrack property)
             .receive(on: ImmediateIfOnMainQueueScheduler.shared)
-            .map { tracks in
+            .map { (tracks: [AVPlayerItemTrack]) -> AVAssetTrack? in
+                // work around Sendable requirement on assumeIsolated
+                nonisolated(unsafe) var videoAssetTrack: AVAssetTrack? = nil
                 MainActor.assumeIsolated {
-                    tracks.lazy
+                    videoAssetTrack = tracks.lazy
                         .compactMap(\.assetTrack)
                         .first { $0.mediaType == .video }
                 }
+                return videoAssetTrack
             }
             .removeDuplicates { $0?.trackID == $1?.trackID }
             .flatMap { videoAssetTrack in
@@ -58,11 +61,10 @@ extension AVPlayerItem {
                 let timing = PlaybackEventTiming(playerItem: self)
 
                 return Future {
-                    let videoData = MUXSDKVideoData()
-                    if let videoAssetTrack {
-                        await videoData.updateWithRenditionInfo(track: videoAssetTrack, on: self)
+                    guard let videoAssetTrack else {
+                        return (timing, MUXSDKVideoData())
                     }
-                    return (timing, videoData)
+                    return (timing, await MUXSDKVideoData.renditionInfo(track: videoAssetTrack, on: self))
                 }
             }
     }
