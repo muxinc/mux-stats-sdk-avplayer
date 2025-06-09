@@ -602,8 +602,8 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     return CGRectMake(0, 0, 0, 0);
 }
 
-- (CGRect)getViewBounds {
-    return CGRectMake(0, 0, 0, 0);
+- (nullable NSValue *)getViewBounds {
+    return [NSValue valueWithCGRect: CGRectMake(0, 0, 0, 0)];
 }
 
 - (CGSize)getSourceDimensions {
@@ -734,7 +734,12 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)updatePlayerDimensions:(MUXSDKPlayerData *)playerData {
-    CGRect viewBounds = [self getViewBounds];
+    NSValue *viewBoundsValue = [self getViewBounds];
+    if(viewBoundsValue == nil){
+        return;
+    }
+    
+    CGRect viewBounds = [viewBoundsValue CGRectValue];
     [playerData setPlayerWidth:[NSNumber numberWithInt:viewBounds.size.width]];
     [playerData setPlayerHeight:[NSNumber numberWithInt:viewBounds.size.height]];
 
@@ -1366,12 +1371,17 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 #endif
 }
 
-- (CGRect)getViewBounds {
+- (nullable NSValue *)getViewBounds {
     if (![NSThread isMainThread]) {
         NSLog(@"MUXSDK-WARNING - getViewBounds called from a background thread.");
-        return CGRectZero;
+        return nil;
     }
-    return [[_viewController view] bounds];
+    UIView *view = _viewController.viewIfLoaded;
+    if (view == nil) {
+        return nil;
+    }
+
+    return [NSValue valueWithCGRect:view.bounds];
 }
 
 - (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
@@ -1442,8 +1452,8 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     return [_view videoRect];
 }
 
-- (CGRect)getViewBounds {
-    return [_view bounds];
+- (nullable NSValue *)getViewBounds {
+    return [NSValue valueWithCGRect:_view.bounds];
 }
 
 @end
@@ -1489,13 +1499,13 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
                       );
 }
 
-- (CGRect)getViewBounds {
-    return CGRectMake(
-                      0.0,
-                      0.0,
-                      _fixedPlayerSize.width,
-                      _fixedPlayerSize.height
-                      );
+- (nullable NSValue *)getViewBounds {
+    return [NSValue valueWithCGRect:CGRectMake(
+        0.0,
+        0.0,
+        _fixedPlayerSize.width,
+        _fixedPlayerSize.height
+    )];
 }
 
 @end

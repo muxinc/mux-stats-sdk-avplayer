@@ -9,12 +9,14 @@
 
 @implementation MockAVPlayerViewControllerBinding
 
-- (CGRect)getViewBounds {
-    CGRect rect = [super getViewBounds];
-    if (CGRectEqualToRect(rect, CGRectZero)) {
-        self.didReturnZeroRect = YES;
+- (nullable NSValue *)getViewBounds {
+    NSValue *viewBoundsValue = [super getViewBounds];
+    if(viewBoundsValue == nil){
+        self.didReturnNil = YES;
+        return nil;
     }
-    return rect;
+    
+    return viewBoundsValue;
 }
 
 @end

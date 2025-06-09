@@ -220,6 +220,6 @@ struct IntegrationTests {
         }
 
         try await Task.sleep(nanoseconds: 5_000_000_000) // 5 seconds in nanoseconds
-        #expect(binding.didReturnZeroRect, "Expected getViewBounds to return empty CGRect")
+        #expect(binding.didReturnNil, "Expected getViewBounds to return empty CGRect")
     }
 }
