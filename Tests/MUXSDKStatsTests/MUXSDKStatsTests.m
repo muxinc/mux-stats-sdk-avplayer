@@ -724,7 +724,11 @@ static NSString *Z = @"Z";
                                                                                      viewData:nil];
 
     NSString *playName = @"Player";
-    [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
+    MUXSDKPlayerBinding *binding = [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
+    if (![[binding valueForKey:@"shouldTrackRenditionChanges"] boolValue]) {
+        // Mocking via notification is only available when tracking via binding
+        return;
+    }
     [controller.player play];
     
     NSDictionary *renditionInfo = @{
@@ -774,7 +778,11 @@ static NSString *Z = @"Z";
                                                                                      viewData:nil];
 
     NSString *playName = @"Player";
-    [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
+    MUXSDKPlayerBinding *binding = [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
+    if (![[binding valueForKey:@"shouldTrackRenditionChanges"] boolValue]) {
+        // Mocking via notification is only available when tracking via binding
+        return;
+    }
     [controller.player play];
     
     NSDictionary *renditionInfo = @{
@@ -816,7 +824,11 @@ static NSString *Z = @"Z";
                                                                                      viewData:nil];
 
     NSString *playName = @"Player";
-    [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
+    MUXSDKPlayerBinding *binding = [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
+    if (![[binding valueForKey:@"shouldTrackRenditionChanges"] boolValue]) {
+        // Mocking via notification is only available when tracking via binding
+        return;
+    }
     [controller.player play];
 
     [MUXSDKStats orientationChangeForPlayer:playName withOrientation:MUXSDKViewOrientationPortrait];
