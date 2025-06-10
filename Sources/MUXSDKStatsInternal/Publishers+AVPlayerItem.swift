@@ -126,6 +126,7 @@ extension AVPlayerItem {
     nonisolated func renditionChangeEventsUsingAVMetrics() -> some Publisher<MUXSDKRenditionChangeEvent, Error> {
         metrics(forType: AVMetricPlayerItemVariantSwitchEvent.self)
             .filter(\.didSucceed)
+            .publisher
             .map { metricEvent in
                 let timing = PlaybackEventTiming(variantSwitchEvent: metricEvent, on: self)
 
@@ -141,7 +142,6 @@ extension AVPlayerItem {
 
                 return muxEvent
             }
-            .publisher
     }
 }
 

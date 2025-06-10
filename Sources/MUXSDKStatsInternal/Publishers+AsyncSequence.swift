@@ -1,7 +1,7 @@
 import Combine
 
 @available(iOS 18, tvOS 18, visionOS 2, *)
-extension AsyncSequence {
+extension AsyncSequence where Self: Sendable {
     var publisher: some Publisher<Element, Failure> {
         Deferred {
             publishedImmediately()
