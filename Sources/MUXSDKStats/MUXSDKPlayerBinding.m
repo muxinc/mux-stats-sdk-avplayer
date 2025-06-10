@@ -1375,10 +1375,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 #endif
 }
 
-- (CGRect)getViewBounds {
-    return [self getViewBoundsValue].CGRectValue;
-}
-
 - (nullable NSValue *)getViewBoundsValue {
     if (![NSThread isMainThread]) {
         return nil;
@@ -1459,10 +1455,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     return [_view videoRect];
 }
 
-- (CGRect)getViewBounds {
-    return [self getViewBoundsValue].CGRectValue;
-}
-
 - (nullable NSValue *)getViewBoundsValue {
     return [NSValue valueWithCGRect:_view.bounds];
 }
@@ -1508,10 +1500,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
                       0.0,
                       0.0
                       );
-}
-
-- (CGRect)getViewBounds {
-    return [self getViewBoundsValue].CGRectValue;
 }
 
 - (nullable NSValue *)getViewBoundsValue {
