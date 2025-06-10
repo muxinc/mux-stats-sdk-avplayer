@@ -55,6 +55,8 @@ function build_for {
         -resultBundlePath "$result_bundle_path" \
         -disableAutomaticPackageResolution \
         -derivedDataPath "$DERIVED_DATA_PATH" \
+        GCC_TREAT_WARNINGS_AS_ERRORS=YES \
+        SWIFT_TREAT_WARNINGS_AS_ERRORS=YES \
         RUN_CLANG_STATIC_ANALYZER=YES \
         CLANG_STATIC_ANALYZER_MODE=deep \
         | xcbeautify
