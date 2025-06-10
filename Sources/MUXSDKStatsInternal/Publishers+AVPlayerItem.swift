@@ -122,7 +122,6 @@ extension AVPlayerItem {
             suffix: changeEvents.map { $0 as MUXSDKBaseEvent })
     }
 
-#if !targetEnvironment(simulator)
     @available(iOS 18, tvOS 18, visionOS 2, *)
     nonisolated func renditionChangeEventsUsingAVMetrics() -> some Publisher<MUXSDKRenditionChangeEvent, Error> {
         metrics(forType: AVMetricPlayerItemVariantSwitchEvent.self)
@@ -144,7 +143,6 @@ extension AVPlayerItem {
             }
             .publisher
     }
-#endif
 }
 
 @available(iOS 15, tvOS 15, *)
