@@ -61,15 +61,9 @@ static NSString *Z = @"Z";
 }
 
 - (void) assertDispatchedGlobalEventTypes:(NSArray *) expectedEventTypes {
-    NSInteger expectedCount = expectedEventTypes.count;
-    NSInteger actualCount = [MUXSDKCore globalEventsCount];
-    XCTAssertEqual(expectedCount, actualCount, @"expected: %ld events got: %ld events.", (long)expectedCount, (long)actualCount);
-    for (int i = 0; i < expectedEventTypes.count; i++) {
-        MUXSDKDataEvent *event = [MUXSDKCore globalEventAtIndex:i];
-        NSString *expectedType = [expectedEventTypes objectAtIndex:i];
-        NSString *actualType = [event getType];
-        XCTAssertEqual(expectedType, actualType, @"index [%d] expected event type: %@ got event type: %@", i, expectedType, actualType);
-    }
+    NSArray<MUXSDKDataEvent *> *globalEvents = [MUXSDKCore snapshotOfGlobalEvents];
+    NSArray<NSString *> *globalEventTypes = [globalEvents valueForKeyPath:NSStringFromSelector(@selector(getType))];
+    XCTAssertEqualObjects(globalEventTypes, expectedEventTypes);
 }
 
 - (void) assertPlayer:(NSString *)name dispatchedPlaybackEvents:(NSDictionary *) expectedViewData {
@@ -91,15 +85,9 @@ static NSString *Z = @"Z";
 }
 
 - (void) assertPlayer:(NSString *)name dispatchedEventTypes:(NSArray *) expectedEventTypes {
-    NSInteger expectedCount = expectedEventTypes.count;
-    NSInteger actualCount = [MUXSDKCore eventsCountForPlayer:name];
-    XCTAssertEqual(expectedCount, actualCount, @"expected: %ld events got: %ld events.", (long)expectedCount, (long)actualCount);
-    for (int i = 0; i < expectedEventTypes.count; i++) {
-        id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:i forPlayer:name];
-        NSString *expectedType = [expectedEventTypes objectAtIndex:i];
-        NSString *actualType = [event getType];
-        XCTAssertEqual(expectedType, actualType, @"index [%d] expected event type: %@ got event type: %@", i, expectedType, actualType);
-    }
+    NSArray<id<MUXSDKEventTyping>> *events = [MUXSDKCore snapshotOfEventsForPlayer:name];
+    NSArray<NSString *> *eventTypes = [events valueForKeyPath:NSStringFromSelector(@selector(getType))];
+    XCTAssertEqualObjects(eventTypes, expectedEventTypes);
 }
 
 - (void) assertPlayer:(NSString *)name dispatchedDataEvents:(NSDictionary *) expectedVideoData {
