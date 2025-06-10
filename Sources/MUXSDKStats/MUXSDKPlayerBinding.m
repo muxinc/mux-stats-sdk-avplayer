@@ -603,7 +603,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (CGRect)getViewBounds {
-    return CGRectMake(0, 0, 0, 0);
+    return [self getViewBoundsValue].CGRectValue;
 }
 
 - (nullable NSValue *)getViewBoundsValue {
@@ -1376,12 +1376,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (CGRect)getViewBounds {
-    return [[_viewController view] bounds];
+    return [self getViewBoundsValue].CGRectValue;
 }
 
 - (nullable NSValue *)getViewBoundsValue {
     if (![NSThread isMainThread]) {
-        NSLog(@"MUXSDK-WARNING - getViewBoundsValue called from a background thread.");
         return nil;
     }
     UIView *view = _viewController.viewIfLoaded;
@@ -1461,7 +1460,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (CGRect)getViewBounds {
-    return [_view bounds];
+    return [self getViewBoundsValue].CGRectValue;
 }
 
 - (nullable NSValue *)getViewBoundsValue {
@@ -1512,12 +1511,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (CGRect)getViewBounds {
-    return CGRectMake(
-        0.0,
-        0.0,
-        _fixedPlayerSize.width,
-        _fixedPlayerSize.height
-    );
+    return [self getViewBoundsValue].CGRectValue;
 }
 
 - (nullable NSValue *)getViewBoundsValue {
