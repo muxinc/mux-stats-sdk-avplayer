@@ -9,8 +9,8 @@
 
 @implementation MockAVPlayerViewControllerBinding
 
-- (nullable NSValue *)getViewBounds {
-    NSValue *viewBoundsValue = [super getViewBounds];
+- (nullable NSValue *)getViewBoundsValue {
+    NSValue *viewBoundsValue = [super getViewBoundsValue];
     if(viewBoundsValue == nil){
         self.didReturnNil = YES;
         return nil;

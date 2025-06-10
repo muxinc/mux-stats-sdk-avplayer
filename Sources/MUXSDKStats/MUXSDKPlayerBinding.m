@@ -602,7 +602,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     return CGRectMake(0, 0, 0, 0);
 }
 
-- (nullable NSValue *)getViewBounds {
+- (CGRect)getViewBounds {
+    return CGRectMake(0, 0, 0, 0);
+}
+
+- (nullable NSValue *)getViewBoundsValue {
     return [NSValue valueWithCGRect: CGRectMake(0, 0, 0, 0)];
 }
 
@@ -734,7 +738,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)updatePlayerDimensions:(MUXSDKPlayerData *)playerData {
-    NSValue *viewBoundsValue = [self getViewBounds];
+    NSValue *viewBoundsValue = [self getViewBoundsValue];
     if(viewBoundsValue == nil){
         return;
     }
@@ -1371,9 +1375,13 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 #endif
 }
 
-- (nullable NSValue *)getViewBounds {
+- (CGRect)getViewBounds {
+    return [[_viewController view] bounds];
+}
+
+- (nullable NSValue *)getViewBoundsValue {
     if (![NSThread isMainThread]) {
-        NSLog(@"MUXSDK-WARNING - getViewBounds called from a background thread.");
+        NSLog(@"MUXSDK-WARNING - getViewBoundsValue called from a background thread.");
         return nil;
     }
     UIView *view = _viewController.viewIfLoaded;
@@ -1452,7 +1460,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     return [_view videoRect];
 }
 
-- (nullable NSValue *)getViewBounds {
+- (CGRect)getViewBounds {
+    return [_view bounds];
+}
+
+- (nullable NSValue *)getViewBoundsValue {
     return [NSValue valueWithCGRect:_view.bounds];
 }
 
@@ -1499,7 +1511,16 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
                       );
 }
 
-- (nullable NSValue *)getViewBounds {
+- (CGRect)getViewBounds {
+    return CGRectMake(
+        0.0,
+        0.0,
+        _fixedPlayerSize.width,
+        _fixedPlayerSize.height
+    );
+}
+
+- (nullable NSValue *)getViewBoundsValue {
     return [NSValue valueWithCGRect:CGRectMake(
         0.0,
         0.0,
