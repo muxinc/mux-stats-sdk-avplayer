@@ -185,8 +185,8 @@ struct IntegrationTests {
         // Unpause the content
         await assertStartPlaying(with: avPlayer, for: playerName)
         
-        // Wait approximately 10 seconds
-        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
+        // Wait approximately 5 seconds
+        assertWaitForNSeconds(n : 5.0, for: playerName, with: avPlayer)
         
         // Seek backwards in the video 5 seconds
         assertSeekNSeconds(n: -5.0, with: avPlayer, for: playerName)
@@ -202,6 +202,40 @@ struct IntegrationTests {
         
         // Exit the player by going back to the menu
         binding.detachAVPlayer()
+    }
+    
+    @Test func playOffMainThreadTest() async throws {
+        let playerName = "offMainThreadPlayerName \(UUID().uuidString)"
+        MUXSDKCore.swizzleDispatchEvents()
+        MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
+
+        let LIVE_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
+        let avPlayer = AVPlayer(url: URL(string: LIVE_URL)!)
+        let playerViewController = await MainActor.run {
+            AVPlayerViewController()
+        }
+        var binding: MockAVPlayerViewControllerBinding!
+
+        binding = MockAVPlayerViewControllerBinding(
+            playerName: playerName,
+            softwareName: "TestSoftwareName",
+            softwareVersion: "TestSoftwareVersion",
+            playerViewController: playerViewController
+        )
+        binding.attach(avPlayer)
+
+        // Call play in background thread
+        DispatchQueue.global(qos: .background).async {
+            let isMain = Thread.isMainThread
+            let isMultiThreaded = Thread.isMultiThreaded()
+            #expect(isMultiThreaded, "Expected this code to run multi threaded")
+            #expect(!isMain, "Expected this code to run off the main thread")
+
+            avPlayer.play()
+        }
+
+        try await Task.sleep(nanoseconds: 5_000_000_000) // 5 seconds in nanoseconds
+        #expect(binding.didReturnNil, "Expected getViewBounds to return empty CGRect")
     }
     
     @Test func vodEndingTest() async throws {
