@@ -2,9 +2,10 @@ import Combine
 
 @available(iOS 13, tvOS 13, *)
 extension Future where Failure == Never {
-    convenience init(priority: TaskPriority? = nil, operation: sending @escaping @isolated(any) () async -> Output) {
+    convenience init(isolation: isolated (any Actor)? = #isolation, operation: @escaping () async -> sending Output) {
         self.init { promise in
-            Task(priority: priority) {
+            Task {
+                _ = isolation
                 promise(.success(await operation()))
             }
         }
