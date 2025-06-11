@@ -1123,6 +1123,10 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     if (![self hasPlayer]) {
         return;
     }
+    NSLog(@"MUXSDKPlayerBinding: AccessLog bandwidth");
+    NSLog(@"MUXSDKPlayerBinding: %@", [loadData debugDescription]);
+    NSLog(@"MUXSDKPlayerBinding: ----");
+
     [self checkVideoData];
     MUXSDKPlayerData *playerData = [self getPlayerData];
     MUXSDKRequestBandwidthEvent *event = [[MUXSDKRequestBandwidthEvent alloc] init];

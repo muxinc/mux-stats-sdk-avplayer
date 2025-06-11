@@ -11,7 +11,7 @@ class BasicPlaybackExampleViewController: UIViewController {
 
     var playbackURL: URL {
         // normal(non-cmaf) HLS asset
-        //        let playbackID = ProcessInfo.processInfo.playbackID ?? "qxb01i6T202018GFS02vp9RIe01icTcDCjVzQpmaB00CUisJ4"
+//                let playbackID = ProcessInfo.processInfo.playbackID ?? "qxb01i6T202018GFS02vp9RIe01icTcDCjVzQpmaB00CUisJ4"
 //        return URL(
 //            string: "https://stream.mux.com/\(playbackID).m3u8"
 //        )!
@@ -22,6 +22,10 @@ class BasicPlaybackExampleViewController: UIViewController {
         //        URL("https://cdn.bitmovin.com/content/assets/art-of-motion-dash-hls-progressive/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8")!
         // Audio-only asset
 //        URL("https://stream.mux.com/MwUGUc7gWwcE6AN6qVcilQ8cR4SFlE601kB96IiYqPVM.m3u8")!
+        // Asset with subtitles
+//        URL("https://stream.mux.com/jylbh7Bh4nlUuZD00FPD5cky4Ub00MVNZQ2RKzAwGBcvY.m3u8")!
+        // MP4 Asset
+//        URL("https://stream.mux.com/00ezSo01tK00mfbBKDLUtKnwVsUKF2y5cjBMvJwBh5Z0202g/high.mp4")!
     }
     let playerName = "AVPlayerViewControllerExample"
     lazy var playerViewController = AVPlayerViewController()
@@ -72,7 +76,9 @@ class BasicPlaybackExampleViewController: UIViewController {
         
         var segmentRequests = item.metrics(forType: AVMetricHLSMediaSegmentRequestEvent.self).makeAsyncIterator()
         var playlistRequests = item.metrics(forType: AVMetricHLSPlaylistRequestEvent.self).makeAsyncIterator()
-        
+        var genericMediaRequests = item.metrics(forType: AVMetricMediaResourceRequestEvent.self).makeAsyncIterator()
+        var drmRequests = item.metrics(forType: AVMetricContentKeyRequestEvent.self).makeAsyncIterator()
+
         try await withThrowingTaskGroup(of: Never.self) { group in
             group.addTask {
                 while true {
@@ -83,6 +89,8 @@ class BasicPlaybackExampleViewController: UIViewController {
                     let urlFromNetworkTransactionMetrics = segmentEvent.mediaResourceRequestEvent?.networkTransactionMetrics?.transactionMetrics.last?.request.url
                     let responseFromNetworkTransactionMetrics = segmentEvent.mediaResourceRequestEvent?.networkTransactionMetrics?.transactionMetrics.last?.response as! HTTPURLResponse
                     let urlFromResourceRequest = segmentEvent.mediaResourceRequestEvent!.url
+                    let isMapSegment = segmentEvent.isMapSegment
+                    print("segment reqeust is EXT-X-MAP? \(isMapSegment)")
                     print("segment request url from event: \(urlFromPlaylistEvent?.absoluteString ?? "nil")")
                     print("segment request url from Transaction metrics: \(urlFromNetworkTransactionMetrics?.absoluteString ?? "nil")")
                     print("segment request url resourceRequestEvent: \(urlFromResourceRequest?.absoluteString ?? "nil")")
@@ -101,9 +109,9 @@ class BasicPlaybackExampleViewController: UIViewController {
 //                    print("segment response x-cdn: \(String(describing: responseFromNetworkTransactionMetrics.allHeaderFields))")
 
                     // the mediaResourceRequestEvent.mediaType comes from logic internal to the player. It does not correlate to the Content-Type of the response
-                    //  (it's all a black box, but it could either come from the MVP (EXT-X-MEDIA:TYPE) or could be based on what's discovered when
-                    //   demuxing the segment.. For sure it's not based off of content-type header, which you can tell by playing an audio-only mux asset
-                    //   and observing that the Content-Type is 'video/MP2T' but the AVMediaType is correctly set to .audio)
+                    //  (it's all a black box, but it could come from the MVP (EXT-X-MEDIA:TYPE or CODECS and EXT-X-STREAM-INF:CODECS)..
+                    //  For sure it's not based off of content-type header, which you can tell by playing an audio-only mux asset
+                    //  and observing that the Content-Type is 'video/MP2T' but the AVMediaType is correctly set to .audio)
                     print("segment response content-type: \(String(describing: responseFromNetworkTransactionMetrics.value(forHTTPHeaderField: "Content-Type")))")
                     print("segment response x-cdn: \(String(describing: responseFromNetworkTransactionMetrics.value(forHTTPHeaderField: "x-cdn")))")
                     print("")
@@ -130,6 +138,22 @@ class BasicPlaybackExampleViewController: UIViewController {
                 }
             }
             
+            // generic resource request events (maybe for mp4s?)
+            group.addTask {
+                while true {
+                    let mediaResourceRequestEvent = try! await genericMediaRequests.next()
+                    guard let mediaResourceRequestEvent else { throw CancellationError() }
+//                    print("playlist request url: \(playlistEvent.url?.absoluteString ?? "nil")")
+                    let urlFromNetworkTransactionMetrics = mediaResourceRequestEvent.networkTransactionMetrics?.transactionMetrics.last?.request.url
+                    let urlFromResourceRequest = mediaResourceRequestEvent.url
+                    print("playlist request url from Transaction metrics: \(urlFromNetworkTransactionMetrics?.absoluteString ?? "nil")")
+                    print("playlist request url resourceRequestEvent: \(urlFromResourceRequest?.absoluteString ?? "nil")")
+//                    print("playlist request media type: \(mediaResourceRequestEvent.mediaType.rawValue)")
+                    print("")
+                    
+                    try Task.checkCancellation()
+                }
+            }
             try await group.waitForAll()
         }
         throw CancellationError()
