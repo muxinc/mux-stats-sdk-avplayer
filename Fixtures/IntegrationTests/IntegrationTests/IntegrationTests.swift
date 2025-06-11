@@ -186,7 +186,7 @@ struct IntegrationTests {
         await assertStartPlaying(with: avPlayer, for: playerName)
         
         // Wait approximately 5 seconds
-        assertWaitForNSeconds(n : 5.0, for: playerName, with: avPlayer)
+        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
         
         // Seek backwards in the video 5 seconds
         assertSeekNSeconds(n: -5.0, with: avPlayer, for: playerName)
