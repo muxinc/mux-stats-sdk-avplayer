@@ -36,7 +36,7 @@ extension MUXSDKVideoData {
     }
 
     @available(iOS 15, tvOS 15, *)
-    static func renditionInfo(track: AVAssetTrack, on playerItem: AVPlayerItem) async -> sending Self {
+    static func makeWithRenditionInfo(track: AVAssetTrack, on playerItem: AVPlayerItem) async -> sending Self {
         let videoData = Self()
         // Obtain recent bitrate stats immediately in case another variant switch happens
         async let bitratesFromAccessLog = withTimeout(seconds: 5) {

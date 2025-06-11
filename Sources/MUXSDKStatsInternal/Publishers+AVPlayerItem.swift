@@ -64,7 +64,7 @@ extension AVPlayerItem {
                     guard let videoAssetTrack else {
                         return (timing, MUXSDKVideoData())
                     }
-                    return (timing, await MUXSDKVideoData.renditionInfo(track: videoAssetTrack, on: self))
+                    return (timing, await MUXSDKVideoData.makeWithRenditionInfo(track: videoAssetTrack, on: self))
                 }
             }
     }
