@@ -1,6 +1,18 @@
 import Combine
 import Dispatch
 
+private let mainQueueKey = {
+  let key = DispatchSpecificKey<Void>()
+  DispatchQueue.main.setSpecific(key: key, value: ())
+  return key
+}()
+
+private extension DispatchQueue {
+    static var isMainQueue: Bool {
+        DispatchQueue.getSpecific(key: mainQueueKey) != nil
+    }
+}
+
 @available(iOS 13, tvOS 13, *)
 struct ImmediateIfOnMainQueueScheduler : Scheduler {
     typealias SchedulerTimeType = DispatchQueue.SchedulerTimeType

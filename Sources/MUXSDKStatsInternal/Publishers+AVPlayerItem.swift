@@ -56,16 +56,14 @@ extension AVPlayerItem {
                 return videoAssetTrack
             }
             .removeDuplicates { $0?.trackID == $1?.trackID }
-            .flatMap { videoAssetTrack in
-                // capture timing immediately
+            .map { videoAssetTrack in
+                // FIXME: capture this at \AVPlayer.tracks KVO event
                 let timing = PlaybackEventTiming(playerItem: self)
 
-                return Future {
-                    guard let videoAssetTrack else {
-                        return (timing, MUXSDKVideoData())
-                    }
-                    return (timing, await MUXSDKVideoData.makeWithRenditionInfo(track: videoAssetTrack, on: self))
+                guard let videoAssetTrack else {
+                    return (timing, MUXSDKVideoData())
                 }
+                return (timing, await MUXSDKVideoData.makeWithRenditionInfo(track: videoAssetTrack, on: self))
             }
     }
 
