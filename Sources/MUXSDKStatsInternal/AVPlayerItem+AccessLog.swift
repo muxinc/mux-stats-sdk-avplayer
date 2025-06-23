@@ -29,8 +29,7 @@ extension AVPlayerItem {
                         _ = await NotificationCenter.default
                             .notifications(named: AVPlayerItem.newAccessLogEntryNotification,
                                            object: self)
-                            .makeAsyncIterator()
-                            .next()
+                            .first(where: { _ in true })
                     }
 
                     defer {
@@ -39,6 +38,8 @@ extension AVPlayerItem {
 
                     return try await group.nextResult()!.get()
                 }
+
+                try Task.checkCancellation()
             }
         }
     }
