@@ -23,19 +23,35 @@ public class PlayerMonitor: NSObject {
 
 @available(iOS 15, tvOS 15, *)
 extension PlayerMonitor {
-    convenience init(player: AVPlayer) {
+    convenience init(player: AVPlayer, shouldGetBandwidthMetrics: Bool) {
         self.init()
 
         player.publisher(for: \.currentItem, options: [.initial])
             .removeDuplicates()
-            .map { $0?.renditionInfoAndChangeEvents().eraseToAnyPublisher() ?? Empty().eraseToAnyPublisher() }
+            .map { item in
+                guard let item = item else {
+                    return Empty<MUXSDKBaseEvent, Never>().eraseToAnyPublisher()
+                }
+                let renditionInfoAndChangeEvents = item.renditionInfoAndChangeEvents()
+                
+                guard shouldGetBandwidthMetrics, #available(iOS 18.0, tvOS 15.0, *) else {
+                    return renditionInfoAndChangeEvents.eraseToAnyPublisher()
+                }
+                    
+                let bandwidthMetricDataEvents = item.bandwidthMetricDataEventsUsingAVMetrics()
+                
+                return Publishers.Merge(
+                    renditionInfoAndChangeEvents,
+                    bandwidthMetricDataEvents
+                ).eraseToAnyPublisher()
+            }
             .switchToLatest()
             .sink(receiveValue: allEventsSubject.send)
             .store(in: &cancellables)
     }
 
-    @objc public convenience init(player: AVPlayer, onEvent: @Sendable @escaping @MainActor (MUXSDKBaseEvent) -> Void) {
-        self.init(player: player)
+    @objc public convenience init(player: AVPlayer, shouldGetBandwidthMetrics: Bool, onEvent: @Sendable @escaping @MainActor (MUXSDKBaseEvent) -> Void) {
+        self.init(player: player, shouldGetBandwidthMetrics: shouldGetBandwidthMetrics)
 
         allEvents
             .receive(on: ImmediateIfOnMainQueueScheduler.shared)

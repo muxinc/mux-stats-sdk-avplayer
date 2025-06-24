@@ -9,6 +9,9 @@ extension AVPlayerItem {
         var playerItemError: Error?
     }
 
+    struct EventCreationError: Error {
+    }
+
     /// Publishes `tracks` once present, failing when overall loading fails
     nonisolated var validTracksPublisher: some Publisher<[AVPlayerItemTrack], StatusFailedError> {
         publisher(for: \.status, options: [.initial])
@@ -142,6 +145,62 @@ extension AVPlayerItem {
 
                 return muxEvent
             }
+    }
+    
+    @available(iOS 18, tvOS 18, visionOS 2, *)
+    nonisolated func bandwidthMetricDataEventsUsingAVMetrics()
+        -> some Publisher<MUXSDKBaseEvent, Never>
+    {
+        // manifest requests
+        let playlistPublisher = metrics(
+            forType: AVMetricHLSPlaylistRequestEvent.self
+        )
+        .publisher
+        .tryMap {
+            if let event = MUXSDKRequestBandwidthEvent(event: $0) {
+                return event
+            } else {
+                throw EventCreationError()
+            }
+        }
+        // audio/video/media Requests
+        let segmentPublisher = metrics(
+            forType: AVMetricHLSMediaSegmentRequestEvent.self
+        )
+        .publisher
+        .tryMap {
+            if let event = MUXSDKRequestBandwidthEvent(event: $0) {
+                return event
+            } else {
+                throw EventCreationError()
+            }
+        }
+        // encryption Requests
+        let contentKeyPublisher = metrics(
+            forType: AVMetricContentKeyRequestEvent.self
+        )
+        .publisher
+        .tryMap {
+            if let event = MUXSDKRequestBandwidthEvent(event: $0) {
+                return event
+            } else {
+                throw EventCreationError()
+            }
+        }
+
+        return Publishers.Merge3(
+            playlistPublisher,
+            segmentPublisher,
+            contentKeyPublisher
+        )
+        .catch { error in
+            if !(error is CancellationError) {
+                logger.error(
+                    "Error from AVMetrics Bandwidth events: \(error)"
+                )
+            }
+            return Empty<MUXSDKRequestBandwidthEvent, Never>()
+        }.map { $0 as MUXSDKBaseEvent }
     }
 }
 
