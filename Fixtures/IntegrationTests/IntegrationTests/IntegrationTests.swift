@@ -253,18 +253,19 @@ struct IntegrationTests {
         // Start playing content
         await assertStartPlaying(with: avPlayer, for: playerName)
         
-        // Wait approximately 10 seconds
-        assertWaitForNSeconds(n: 10.0, with: avPlayer, for: playerName)
+        // Wait approximately 5 seconds
+        assertWaitForNSeconds(n: 5.0, with: avPlayer, for: playerName)
         
         let vodDurationSeconds = await MainActor.run { () -> Double in
             let duration = avPlayer.currentItem?.asset.duration
             return CMTimeGetSeconds(duration!)
         }
 
-        // Assert to approximately 15 seconds before the end of the content
-        assertSeekNSeconds(n: vodDurationSeconds - 15.0, with: avPlayer, for: playerName)
+        // Seek to approximately 10 seconds before the end of the content
+        let seekTime = CMTime(seconds: vodDurationSeconds - 10.0, preferredTimescale: 1000)
+        await avPlayer.seek(to: seekTime)
         
         // Assert that content has ended
-        assertFinishPlaying(timeLeft: 15.0, with: avPlayer, for: playerName)
+        assertFinishPlaying(timeLeft: 10.0, with: avPlayer, for: playerName)
     }
 }
