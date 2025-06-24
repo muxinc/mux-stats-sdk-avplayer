@@ -33,12 +33,12 @@ extension MUXSDKBandwidthMetricData {
         self.requestStart = NSNumber.init(value: event.requestStartTime.timeIntervalSince1970 * 1000)
         self.requestResponseStart = NSNumber.init(value: event.responseStartTime.timeIntervalSince1970 * 1000)
         self.requestResponseEnd = NSNumber.init(value: event.responseEndTime.timeIntervalSince1970 * 1000)
-        self.requestUrl = event.url?.absoluteString // TODO: what to use instead of url
+        self.requestUrl = event.url?.path()
         self.requestBytesLoaded = NSNumber.init(value: event.byteRange.length)
         self.requestHostName = event.url?.host()
         
         event.networkTransactionMetrics?.transactionMetrics.forEach {
-            self.loadMetrics(from: $0)
+            self.loadHeaders(from: $0)
         }
     }
     
@@ -68,10 +68,11 @@ extension MUXSDKBandwidthMetricData {
         case .text, .closedCaption, .subtitle:
             requestType = "subtitle"
             break
-        // case .muxed,
-        default:
+        case .muxed:
             requestType = "media"
             break
+        default:
+            requestType = nil
         }
     }
     
@@ -81,15 +82,22 @@ extension MUXSDKBandwidthMetricData {
         self.requestType = "encryption"
     }
     
+    // Currently unused. Could be used if we want to track redirects separetly
+    convenience public init?(from transactionMetrics: URLSessionTaskTransactionMetrics) {
+        self.init()
+        
+        requestStart = transactionMetrics.fetchStartDate.map { NSNumber(value: $0.timeIntervalSince1970 * 1000) }
+        requestResponseStart = transactionMetrics.responseStartDate.map { NSNumber.init(value: $0.timeIntervalSince1970 * 1000) }
+        requestResponseEnd = transactionMetrics.responseEndDate.map { NSNumber.init(value: $0.timeIntervalSince1970 * 1000) }
+        requestUrl = transactionMetrics.request.url?.path()
+        requestBytesLoaded = NSNumber.init(value: transactionMetrics.countOfResponseBodyBytesReceived + transactionMetrics.countOfResponseHeaderBytesReceived)
+        requestHostName = transactionMetrics.request.url?.host()
+        
+        loadHeaders(from: transactionMetrics)
+    }
+    
     // TODO: Test redirects
-    func loadMetrics(from metricEvent: URLSessionTaskTransactionMetrics) {
-        /*requestStart = metricEvent.fetchStartDate.map { NSNumber(value: $0.timeIntervalSince1970 * 1000) }
-        requestResponseStart = metricEvent.responseStartDate.map { NSNumber.init(value: $0.timeIntervalSince1970 * 1000) }
-        requestResponseEnd = metricEvent.responseEndDate.map { NSNumber.init(value: $0.timeIntervalSince1970 * 1000) }
-        requestUrl = metricEvent.request.url?.absoluteString
-        requestBytesLoaded = NSNumber.init(value: metricEvent.countOfResponseBodyBytesReceived + metricEvent.countOfResponseHeaderBytesReceived)
-        requestHostName = metricEvent.request.url?.host()
-        */
+    func loadHeaders(from metricEvent: URLSessionTaskTransactionMetrics) {
         guard let response = metricEvent.response as? HTTPURLResponse else {
             return
         }
