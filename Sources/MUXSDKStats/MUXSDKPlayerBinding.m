@@ -150,9 +150,18 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
     
     if (@available(iOS 18, tvOS 18, visionOS 2, *)){ // AV Metrics avaliable // TODO: and not fmp4 (? maybe
         self.shouldCalculateBandwidthMetricsFromAccessLog = NO;
+        
+        AVAsset *currentPlayerAsset = player.currentItem.asset;
+        if ([currentPlayerAsset isKindOfClass:AVURLAsset.class]) {
+            AVURLAsset *urlAsset = (AVURLAsset *)currentPlayerAsset;
+            NSURL * url = [urlAsset URL];
+            // Should this check be moved to current item change?
+            if (![[url pathExtension] isEqualToString:@"m3u8"]) {
+                self.shouldCalculateBandwidthMetricsFromAccessLog = YES;
+            }
+        }
     } else {
         self.shouldCalculateBandwidthMetricsFromAccessLog = YES;
-        // self.swiftMonitor.shouldCalculateBandwidthMetrics = YES
     }
     
     if (@available(iOS 15, tvOS 15, *)) {
