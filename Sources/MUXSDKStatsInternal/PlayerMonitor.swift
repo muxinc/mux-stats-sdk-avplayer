@@ -40,12 +40,14 @@ extension PlayerMonitor {
             .store(in: &cancellables)
     }
 
-    @objc public convenience init(player: AVPlayer, onEvent: (@escaping @MainActor (MUXSDKBaseEvent) -> Void)) {
+    @objc public convenience init(player: AVPlayer, onEvent: @Sendable @escaping @MainActor (MUXSDKBaseEvent) -> Void) {
         self.init(player: player)
 
         allEvents
             .receive(on: ImmediateIfOnMainQueueScheduler.shared)
             .sink(receiveValue: { event in
+                // work around Sendable requirement on assumeIsolated
+                nonisolated(unsafe) let event = event
                 MainActor.assumeIsolated {
                     onEvent(event)
                 }

@@ -19,7 +19,7 @@
 
 // SDK constants.
 NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"4.6.1";
+NSString *const MUXSDKPluginVersion = @"4.7.0";
 NSString *const MUXSessionDataPrefix = @"io.litix.data.";
 
 // Min number of seconds between timeupdate events. (100ms)
@@ -668,22 +668,26 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             videoDataUpdated = YES;
         }
     }
-    if (![self doubleValueIsEqual:@(_lastDispatchedAdvertisedBitrate) toOther:@(_lastAdvertisedBitrate)]) {
-        videoDataUpdated = YES;
-        _lastDispatchedAdvertisedBitrate = _lastAdvertisedBitrate;
-        _sourceDimensionsHaveChanged = YES;
-    }
-    if (_sourceDimensionsHaveChanged && CGSizeEqualToSize(_videoSize, _lastDispatchedVideoSize)) {
-        CGSize sourceDimensions = [self getSourceDimensions];
-        if (!CGSizeEqualToSize(_videoSize, sourceDimensions)) {
-            _videoSize = sourceDimensions;
-            if (sourceDimensions.width > 0 && sourceDimensions.height > 0) {
-                _lastDispatchedVideoSize = _videoSize;
-                _sourceDimensionsHaveChanged = NO;
-                videoDataUpdated = YES;
+
+    if (self.shouldTrackRenditionChanges) {
+        if (![self doubleValueIsEqual:@(_lastDispatchedAdvertisedBitrate) toOther:@(_lastAdvertisedBitrate)]) {
+            videoDataUpdated = YES;
+            _lastDispatchedAdvertisedBitrate = _lastAdvertisedBitrate;
+            _sourceDimensionsHaveChanged = YES;
+        }
+        if (_sourceDimensionsHaveChanged && CGSizeEqualToSize(_videoSize, _lastDispatchedVideoSize)) {
+            CGSize sourceDimensions = [self getSourceDimensions];
+            if (!CGSizeEqualToSize(_videoSize, sourceDimensions)) {
+                _videoSize = sourceDimensions;
+                if (sourceDimensions.width > 0 && sourceDimensions.height > 0) {
+                    _lastDispatchedVideoSize = _videoSize;
+                    _sourceDimensionsHaveChanged = NO;
+                    videoDataUpdated = YES;
+                }
             }
         }
     }
+
     NSNumber *checkedFrameDrops = nil;
     if(_totalFrameDropsHasChanged && _totalFrameDrops > 0) {
         _totalFrameDropsHasChanged = NO;
@@ -693,9 +697,14 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
     
     if (videoDataUpdated) {
         MUXSDKVideoData *videoData = [[MUXSDKVideoData alloc] init];
-        if (_videoSize.width > 0 && _videoSize.height > 0) {
-            [videoData setVideoSourceWidth:[NSNumber numberWithInt:_videoSize.width]];
-            [videoData setVideoSourceHeight:[NSNumber numberWithInt:_videoSize.height]];
+        if (self.shouldTrackRenditionChanges) {
+            if (_videoSize.width > 0 && _videoSize.height > 0) {
+                [videoData setVideoSourceWidth:[NSNumber numberWithInt:_videoSize.width]];
+                [videoData setVideoSourceHeight:[NSNumber numberWithInt:_videoSize.height]];
+            }
+            if (_lastAdvertisedBitrate > 0 && _started) {
+                [videoData setVideoSourceAdvertisedBitrate:@(_lastAdvertisedBitrate)];
+            }
         }
         if (_videoIsLive) {
             [videoData setVideoSourceIsLive:@"true"];
@@ -710,9 +719,6 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         }
         if (_videoURL) {
             [videoData setVideoSourceUrl:_videoURL];
-        }
-        if (_lastAdvertisedBitrate > 0 && _started) {
-            [videoData setVideoSourceAdvertisedBitrate:@(_lastAdvertisedBitrate)];
         }
         if(checkedFrameDrops) {
             [videoData setVideoSourceFrameDrops:checkedFrameDrops];
