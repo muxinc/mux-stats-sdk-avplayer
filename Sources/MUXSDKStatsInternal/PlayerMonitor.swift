@@ -34,7 +34,7 @@ extension PlayerMonitor {
                 }
                 let renditionInfoAndChangeEvents = item.renditionInfoAndChangeEvents()
                 
-                guard shouldGetBandwidthMetrics, #available(iOS 18.0, tvOS 15.0, *) else {
+                guard shouldGetBandwidthMetrics, #available(iOS 18.0, tvOS 18.0, visionOS 2.0, *) else {
                     return renditionInfoAndChangeEvents.eraseToAnyPublisher()
                 }
                     
