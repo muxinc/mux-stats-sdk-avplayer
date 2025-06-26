@@ -21,7 +21,7 @@ extension MUXSDKBandwidthMetricData {
             let nsErr = errorEvent as NSError
             
             if nsErr.domain == NSURLErrorDomain {
-                requestErrorCode = NSNumber.init(value:nsErr.code)
+                requestErrorCode = nsErr.code as NSNumber
                 requestErrorText = nsErr.localizedFailureReason
             }
             
@@ -30,11 +30,11 @@ extension MUXSDKBandwidthMetricData {
             }
         }
         
-        self.requestStart = NSNumber.init(value: event.requestStartTime.timeIntervalSince1970 * 1000)
-        self.requestResponseStart = NSNumber.init(value: event.responseStartTime.timeIntervalSince1970 * 1000)
-        self.requestResponseEnd = NSNumber.init(value: event.responseEndTime.timeIntervalSince1970 * 1000)
+        self.requestStart = event.requestStartTime.timeIntervalSince1970 * 1000 as NSNumber
+        self.requestResponseStart = event.responseStartTime.timeIntervalSince1970 * 1000 as NSNumber
+        self.requestResponseEnd = event.responseEndTime.timeIntervalSince1970 * 1000 as NSNumber
         self.requestUrl = event.url?.path()
-        self.requestBytesLoaded = NSNumber.init(value: event.byteRange.length)
+        self.requestBytesLoaded = event.byteRange.length as NSNumber
         self.requestHostName = event.url?.host()
         
         event.networkTransactionMetrics?.transactionMetrics.forEach {
@@ -87,10 +87,10 @@ extension MUXSDKBandwidthMetricData {
         self.init()
         
         requestStart = transactionMetrics.fetchStartDate.map { NSNumber(value: $0.timeIntervalSince1970 * 1000) }
-        requestResponseStart = transactionMetrics.responseStartDate.map { NSNumber.init(value: $0.timeIntervalSince1970 * 1000) }
-        requestResponseEnd = transactionMetrics.responseEndDate.map { NSNumber.init(value: $0.timeIntervalSince1970 * 1000) }
+        requestResponseStart = transactionMetrics.responseStartDate.map { $0.timeIntervalSince1970 * 1000 as NSNumber }
+        requestResponseEnd = transactionMetrics.responseEndDate.map { $0.timeIntervalSince1970 * 1000 as NSNumber }
         requestUrl = transactionMetrics.request.url?.path()
-        requestBytesLoaded = NSNumber.init(value: transactionMetrics.countOfResponseBodyBytesReceived + transactionMetrics.countOfResponseHeaderBytesReceived)
+        requestBytesLoaded = transactionMetrics.countOfResponseBodyBytesReceived + transactionMetrics.countOfResponseHeaderBytesReceived as NSNumber
         requestHostName = transactionMetrics.request.url?.host()
         
         loadHeaders(from: transactionMetrics)
@@ -110,7 +110,7 @@ extension MUXSDKBandwidthMetricData {
             return
         }
         
-        self.requestErrorCode = NSNumber.init(value: response.statusCode)
+        self.requestErrorCode = response.statusCode as NSNumber
         self.requestErrorText = HTTPURLResponse.localizedString(forStatusCode: response.statusCode)
     }
 }
