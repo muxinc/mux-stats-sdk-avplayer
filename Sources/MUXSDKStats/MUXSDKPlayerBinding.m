@@ -37,7 +37,7 @@ static void *MUXSDKAVPlayerCurrentItemObservationContext = &MUXSDKAVPlayerCurren
 static void *MUXSDKAVPlayerTimeControlStatusObservationContext = &MUXSDKAVPlayerTimeControlStatusObservationContext;
 
 // AVPlayerItem observation contexts.
-static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerStatusObservationContext;
+static void *MUXSDKAVPlayerItemStatusObservationContext = &MUXSDKAVPlayerItemStatusObservationContext;
 static void *MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext = &MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext;
 
 // This is the name of the exception that gets thrown when we remove an observer that
