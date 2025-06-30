@@ -5,7 +5,7 @@ import Testing
 struct IntegrationTests {
     let dispatchDelay = 3.0
     let msTolerance: Double = 2000
-
+    
     func getLastTimestamp(for playerName: String) -> NSNumber? {
         return MUXSDKCore.getPlayheadTimeStamps(forPlayer: playerName).last
     }
@@ -27,7 +27,7 @@ struct IntegrationTests {
             player.play()
         }
         try? await Task.sleep(nanoseconds: UInt64(dispatchDelay * 1_000_000_000))
-
+        
         let events = getEventsAndReset(for: playerName)
         
         let containsPlayEvent = events?.contains { $0 is MUXSDKPlayEvent } ?? false
@@ -51,7 +51,7 @@ struct IntegrationTests {
             guard waitedTime < seconds * 2 else {
                 Issue.record("Expected to wait \(seconds) but player stalled for \(waitedTime) seconds, at \(currentTimePlayer - beforeTimePlayer )")
                 return
-              }
+            }
         }
         
         let waitTimeAfter = getLastTimestamp(for: playerName)!.doubleValue
@@ -124,15 +124,15 @@ struct IntegrationTests {
         defer {
             MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
         }
-
+        
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
         let VOD_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
         let avPlayer = AVPlayer(url: URL(string: VOD_URL)!)
         binding.attach(avPlayer)
-                
+        
         // Start playing VoD content
         await assertStartPlaying(with: avPlayer, for: playerName)
-                
+        
         // Wait approximately 5 seconds
         assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
         
@@ -167,15 +167,15 @@ struct IntegrationTests {
         defer {
             MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
         }
-
+        
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
         let LIVE_URL = "https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8"
         let avPlayer = AVPlayer(url: URL(string: LIVE_URL)!)
         binding.attach(avPlayer)
-                
+        
         // Start playing Live content
         await assertStartPlaying(with: avPlayer, for: playerName)
-                
+        
         // Wait approximately 10 seconds
         assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
         
@@ -208,14 +208,14 @@ struct IntegrationTests {
         let playerName = "offMainThreadPlayerName \(UUID().uuidString)"
         MUXSDKCore.swizzleDispatchEvents()
         MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
-
+        
         let LIVE_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
         let avPlayer = AVPlayer(url: URL(string: LIVE_URL)!)
         let playerViewController = await MainActor.run {
             AVPlayerViewController()
         }
         var binding: MockAVPlayerViewControllerBinding!
-
+        
         binding = MockAVPlayerViewControllerBinding(
             playerName: playerName,
             softwareName: "TestSoftwareName",
@@ -223,17 +223,17 @@ struct IntegrationTests {
             playerViewController: playerViewController
         )
         binding.attach(avPlayer)
-
+        
         // Call play in background thread
         DispatchQueue.global(qos: .background).async {
             let isMain = Thread.isMainThread
             let isMultiThreaded = Thread.isMultiThreaded()
             #expect(isMultiThreaded, "Expected this code to run multi threaded")
             #expect(!isMain, "Expected this code to run off the main thread")
-
+            
             avPlayer.play()
         }
-
+        
         try await Task.sleep(nanoseconds: 5_000_000_000) // 5 seconds in nanoseconds
         #expect(binding.didReturnNil, "Expected getViewBounds to return empty CGRect")
     }
@@ -260,12 +260,46 @@ struct IntegrationTests {
             let duration = avPlayer.currentItem?.asset.duration
             return CMTimeGetSeconds(duration!)
         }
-
+        
         // Seek to approximately 10 seconds before the end of the content
         let seekTime = CMTime(seconds: vodDurationSeconds - 10.0, preferredTimescale: 1000)
         await avPlayer.seek(to: seekTime)
         
         // Assert that content has ended
         assertFinishPlaying(timeLeft: 10.0, with: avPlayer, for: playerName)
+    }
+    
+    @Test func exitBeforeVideoStartTest() async throws {
+        let playerName = "ebvsPlayer \(UUID().uuidString)"
+        MUXSDKCore.swizzleDispatchEvents()
+        defer {
+            MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
+        }
+        
+        let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
+        // Regular video, the Throttle is done by Network Conditioner
+        let SLOW_LOADING_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
+        let avPlayer = AVPlayer(url: URL(string: SLOW_LOADING_URL)!)
+        binding.attach(avPlayer)
+        
+        // Attempt to view content - this should emit viewstart and play events
+        await MainActor.run {
+            avPlayer.play()
+        }
+        
+        // Wait a few seconds while content is trying to load but hasn't started playing yet
+        try? await Task.sleep(nanoseconds: UInt64(2.0 * 1_000_000_000))
+        
+        // Exit the view before content has begun playback
+        binding.detachAVPlayer()
+        
+        let events = getEventsAndReset(for: playerName)
+        
+        // Expected events for EBVS
+        let containsPlayEvent = events?.contains { $0 is MUXSDKPlayEvent } ?? false
+        let containsPlayingEvent = events?.contains { $0 is MUXSDKPlayingEvent } ?? false
+        
+        #expect(containsPlayEvent, "Expected Play event for EBVS")
+        #expect(!containsPlayingEvent, "Should NOT have Playing event for EBVS (exited before playback started)")
     }
 }

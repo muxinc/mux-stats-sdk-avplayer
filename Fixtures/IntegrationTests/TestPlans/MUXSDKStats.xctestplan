@@ -37,6 +37,16 @@
   },
   "testTargets" : [
     {
+      "skippedTests" : {
+        "suites" : [
+          {
+            "name" : "IntegrationTests",
+            "testFunctions" : [
+              "exitBeforeVideoStartTest()"
+            ]
+          }
+        ]
+      },
       "target" : {
         "containerPath" : "container:IntegrationTests.xcodeproj",
         "identifier" : "7225C9D52D77C2980003066B",
