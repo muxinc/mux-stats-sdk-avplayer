@@ -119,8 +119,6 @@ struct IntegrationTests {
     }
     
     func assertBackground(backgroundSeconds: Double, with player: AVPlayer, for playerName: String) async {
-        NSLog("## Simulate app backgrounding for \(backgroundSeconds) seconds")
-        
         // Simulate backgrounding - pause the player and send background notification
         await MainActor.run {
             player.pause()
@@ -131,33 +129,22 @@ struct IntegrationTests {
         
         // Check events after backgrounding
         var events = getEventsAndReset(for: playerName)
-        NSLog("## Events after backgrounding:")
-        if let events = events {
-            for (index, event) in events.enumerated() {
-                NSLog("Event \(index): \(type(of: event))")
-            }
-        }
         
         let containsPauseEvent = events?.contains { $0 is MUXSDKPauseEvent } ?? false
         #expect(containsPauseEvent, "Expected Pause event when app goes to background")
         
         // Wait in background
-        NSLog("## App in background for \(backgroundSeconds) seconds...")
         try? await Task.sleep(nanoseconds: UInt64(backgroundSeconds * 1_000_000_000))
         
-        // Check events during background time (should be minimal/none)
+        // Check events during background time
         events = getEventsAndReset(for: playerName)
-        NSLog("## Events during background time:")
-        if let events = events {
-            for (index, event) in events.enumerated() {
-                NSLog("Event \(index): \(type(of: event))")
-            }
-        }
+        
+        // Expect that no events are generated during background time
+        let eventCount = events?.count ?? 0
+        #expect(eventCount == 0, "Expected no events during background time, but got \(eventCount) events")
         
         // Simulate resuming - send foreground notification and resume playback
-        NSLog("## Simulate app resuming")
         await MainActor.run {
-            // Simulate the app coming back to foreground
             NotificationCenter.default.post(name: UIApplication.willEnterForegroundNotification, object: nil)
             player.play()
         }
@@ -166,13 +153,7 @@ struct IntegrationTests {
         
         // Check events after resuming
         events = getEventsAndReset(for: playerName)
-        NSLog("## Events after resuming:")
-        if let events = events {
-            for (index, event) in events.enumerated() {
-                NSLog("Event \(index): \(type(of: event))")
-            }
-        }
-        
+
         let containsPlayEvent = events?.contains { $0 is MUXSDKPlayEvent } ?? false
         #expect(containsPlayEvent, "Expected Play event when app resumes from background")
     }
