@@ -5,7 +5,7 @@ import Testing
 struct IntegrationTests {
     let dispatchDelay = 3.0
     let msTolerance: Double = 2000
-
+    
     func getLastTimestamp(for playerName: String) -> NSNumber? {
         return MUXSDKCore.getPlayheadTimeStamps(forPlayer: playerName).last
     }
@@ -27,7 +27,7 @@ struct IntegrationTests {
             player.play()
         }
         try? await Task.sleep(nanoseconds: UInt64(dispatchDelay * 1_000_000_000))
-
+        
         let events = getEventsAndReset(for: playerName)
         
         let containsPlayEvent = events?.contains { $0 is MUXSDKPlayEvent } ?? false
@@ -51,7 +51,7 @@ struct IntegrationTests {
             guard waitedTime < seconds * 2 else {
                 Issue.record("Expected to wait \(seconds) but player stalled for \(waitedTime) seconds, at \(currentTimePlayer - beforeTimePlayer )")
                 return
-              }
+            }
         }
         
         let waitTimeAfter = getLastTimestamp(for: playerName)!.doubleValue
@@ -118,21 +118,80 @@ struct IntegrationTests {
         #expect(containsEndEvent)
     }
     
+    func assertBackground(backgroundSeconds: Double, with player: AVPlayer, for playerName: String) async {
+        NSLog("## Simulate app backgrounding for \(backgroundSeconds) seconds")
+        
+        // Simulate backgrounding - pause the player and send background notification
+        await MainActor.run {
+            player.pause()
+            NotificationCenter.default.post(name: UIApplication.didEnterBackgroundNotification, object: nil)
+        }
+        
+        try? await Task.sleep(nanoseconds: UInt64(dispatchDelay * 1_000_000_000))
+        
+        // Check events after backgrounding
+        var events = getEventsAndReset(for: playerName)
+        NSLog("## Events after backgrounding:")
+        if let events = events {
+            for (index, event) in events.enumerated() {
+                NSLog("Event \(index): \(type(of: event))")
+            }
+        }
+        
+        let containsPauseEvent = events?.contains { $0 is MUXSDKPauseEvent } ?? false
+        #expect(containsPauseEvent, "Expected Pause event when app goes to background")
+        
+        // Wait in background
+        NSLog("## App in background for \(backgroundSeconds) seconds...")
+        try? await Task.sleep(nanoseconds: UInt64(backgroundSeconds * 1_000_000_000))
+        
+        // Check events during background time (should be minimal/none)
+        events = getEventsAndReset(for: playerName)
+        NSLog("## Events during background time:")
+        if let events = events {
+            for (index, event) in events.enumerated() {
+                NSLog("Event \(index): \(type(of: event))")
+            }
+        }
+        
+        // Simulate resuming - send foreground notification and resume playback
+        NSLog("## Simulate app resuming")
+        await MainActor.run {
+            // Simulate the app coming back to foreground
+            NotificationCenter.default.post(name: UIApplication.willEnterForegroundNotification, object: nil)
+            player.play()
+        }
+        
+        try? await Task.sleep(nanoseconds: UInt64(dispatchDelay * 1_000_000_000))
+        
+        // Check events after resuming
+        events = getEventsAndReset(for: playerName)
+        NSLog("## Events after resuming:")
+        if let events = events {
+            for (index, event) in events.enumerated() {
+                NSLog("Event \(index): \(type(of: event))")
+            }
+        }
+        
+        let containsPlayEvent = events?.contains { $0 is MUXSDKPlayEvent } ?? false
+        #expect(containsPlayEvent, "Expected Play event when app resumes from background")
+    }
+    
     @Test func vodPlaybackTest() async throws {
         let playerName = "vodPlayer \(UUID().uuidString)"
         MUXSDKCore.swizzleDispatchEvents()
         defer {
             MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
         }
-
+        
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
         let VOD_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
         let avPlayer = AVPlayer(url: URL(string: VOD_URL)!)
         binding.attach(avPlayer)
-                
+        
         // Start playing VoD content
         await assertStartPlaying(with: avPlayer, for: playerName)
-                
+        
         // Wait approximately 5 seconds
         assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
         
@@ -167,15 +226,15 @@ struct IntegrationTests {
         defer {
             MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
         }
-
+        
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
         let LIVE_URL = "https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8"
         let avPlayer = AVPlayer(url: URL(string: LIVE_URL)!)
         binding.attach(avPlayer)
-                
+        
         // Start playing Live content
         await assertStartPlaying(with: avPlayer, for: playerName)
-                
+        
         // Wait approximately 10 seconds
         assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
         
@@ -208,14 +267,14 @@ struct IntegrationTests {
         let playerName = "offMainThreadPlayerName \(UUID().uuidString)"
         MUXSDKCore.swizzleDispatchEvents()
         MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
-
+        
         let LIVE_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
         let avPlayer = AVPlayer(url: URL(string: LIVE_URL)!)
         let playerViewController = await MainActor.run {
             AVPlayerViewController()
         }
         var binding: MockAVPlayerViewControllerBinding!
-
+        
         binding = MockAVPlayerViewControllerBinding(
             playerName: playerName,
             softwareName: "TestSoftwareName",
@@ -223,17 +282,17 @@ struct IntegrationTests {
             playerViewController: playerViewController
         )
         binding.attach(avPlayer)
-
+        
         // Call play in background thread
         DispatchQueue.global(qos: .background).async {
             let isMain = Thread.isMainThread
             let isMultiThreaded = Thread.isMultiThreaded()
             #expect(isMultiThreaded, "Expected this code to run multi threaded")
             #expect(!isMain, "Expected this code to run off the main thread")
-
+            
             avPlayer.play()
         }
-
+        
         try await Task.sleep(nanoseconds: 5_000_000_000) // 5 seconds in nanoseconds
         #expect(binding.didReturnNil, "Expected getViewBounds to return empty CGRect")
     }
@@ -260,12 +319,40 @@ struct IntegrationTests {
             let duration = avPlayer.currentItem?.asset.duration
             return CMTimeGetSeconds(duration!)
         }
-
+        
         // Seek to approximately 10 seconds before the end of the content
         let seekTime = CMTime(seconds: vodDurationSeconds - 10.0, preferredTimescale: 1000)
         await avPlayer.seek(to: seekTime)
         
         // Assert that content has ended
         assertFinishPlaying(timeLeft: 10.0, with: avPlayer, for: playerName)
+    }
+    
+    @Test func backgroundingResumingTest() async throws {
+        let playerName = "backgroundingPlayer \(UUID().uuidString)"
+        MUXSDKCore.swizzleDispatchEvents()
+        defer {
+            MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
+        }
+        
+        let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
+        let VOD_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
+        let avPlayer = AVPlayer(url: URL(string: VOD_URL)!)
+        binding.attach(avPlayer)
+        
+        // Begin playback of content title
+        await assertStartPlaying(with: avPlayer, for: playerName)
+        
+        // Wait approximately 5 seconds
+        assertWaitForNSeconds(n: 5.0, with: avPlayer, for: playerName)
+        
+        // Simulate backgrounding/resuming (5 seconds in background)
+        await assertBackground(backgroundSeconds: 5.0, with: avPlayer, for: playerName)
+        
+        // Wait approximately 5 seconds after resuming
+        assertWaitForNSeconds(n: 5.0, with: avPlayer, for: playerName)
+        
+        // Exit the player
+        binding.detachAVPlayer()
     }
 }
