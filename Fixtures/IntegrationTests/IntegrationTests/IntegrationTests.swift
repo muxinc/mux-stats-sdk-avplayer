@@ -268,4 +268,45 @@ struct IntegrationTests {
         // Assert that content has ended
         assertFinishPlaying(timeLeft: 10.0, with: avPlayer, for: playerName)
     }
+    
+    @Test func watchTimeTest() async throws {
+        let playerName = "watchTimePlayer \(UUID().uuidString)"
+        MUXSDKCore.swizzleDispatchEvents()
+        defer {
+            MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
+        }
+        
+        let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
+        let VOD_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
+        let avPlayer = AVPlayer(url: URL(string: VOD_URL)!)
+        binding.attach(avPlayer)
+        
+        // Start playing content
+        await MainActor.run {
+            avPlayer.play()
+        }
+    
+        let watchTimeStart = getLastTimestamp(for: playerName)?.doubleValue
+        
+        // Play for 20 seconds straight
+        try? await Task.sleep(nanoseconds: UInt64(20 * 1_000_000_000))
+        
+        // End the view
+        let watchTimeEnd = getLastTimestamp(for: playerName)!.doubleValue
+        binding.detachAVPlayer()
+        
+        // Calculate actual watch time
+        let actualWatchTimeMs = watchTimeEnd - (watchTimeStart ?? 0)
+        let actualWatchTimeSeconds = actualWatchTimeMs / 1000.0
+        
+        // The expected watching time should be approximately 20 seconds
+        let expectedPlaybackTime = 20.0
+        let tolerance = 2.0 // Allow 2 second tolerance
+        
+        #expect(
+            actualWatchTimeSeconds >= expectedPlaybackTime - tolerance &&
+            actualWatchTimeSeconds <= expectedPlaybackTime + tolerance,
+            "Watch time should be approximately \(expectedPlaybackTime) seconds (±\(tolerance)s), but was \(actualWatchTimeSeconds) seconds"
+        )
+    }
 }
