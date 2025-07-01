@@ -53,7 +53,6 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
     API_AVAILABLE(ios(15), tvos(15));
 
 @property (nonatomic) BOOL shouldTrackRenditionChanges;
-@property (nonatomic) BOOL shouldCalculateBandwidthMetricsFromAccessLog;
 
 @end
 
@@ -148,31 +147,15 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
         return;
     }
     
-    if (@available(iOS 18, tvOS 18, visionOS 2, *)){ // AV Metrics avaliable // TODO: and not fmp4 (? maybe
-        self.shouldCalculateBandwidthMetricsFromAccessLog = NO;
-        
-        AVAsset *currentPlayerAsset = player.currentItem.asset;
-        if ([currentPlayerAsset isKindOfClass:AVURLAsset.class]) {
-            AVURLAsset *urlAsset = (AVURLAsset *)currentPlayerAsset;
-            NSURL * url = [urlAsset URL];
-            // Should this check be moved to current item change?
-            if (![[url pathExtension] isEqualToString:@"m3u8"]) {
-                self.shouldCalculateBandwidthMetricsFromAccessLog = YES;
-            }
-        }
-    } else {
-        self.shouldCalculateBandwidthMetricsFromAccessLog = YES;
-    }
-    
     if (@available(iOS 15, tvOS 15, *)) {
         self.shouldTrackRenditionChanges = NO;
         __weak typeof(self) weakSelf = self;
-        self.swiftMonitor = [[MUXSDKPlayerMonitor alloc] initWithPlayer:player shouldGetBandwidthMetrics:!_shouldCalculateBandwidthMetricsFromAccessLog onEvent:^(MUXSDKBaseEvent *event) {
+        
+        self.swiftMonitor = [[MUXSDKPlayerMonitor alloc] initWithPlayer:player onEvent:^(MUXSDKBaseEvent *event) {
             [weakSelf dispatchSwiftMonitorEvent:event];
         }];
     } else {
         self.shouldTrackRenditionChanges = YES;
-        self.shouldCalculateBandwidthMetricsFromAccessLog = YES;
     }
     _player = player;
     __weak MUXSDKPlayerBinding *weakSelf = self;
@@ -294,7 +277,11 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
             if (self.shouldTrackRenditionChanges) {
                 [self handleRenditionChangeInAccessLog:accessLog];
             }
-            if (self.shouldCalculateBandwidthMetricsFromAccessLog) {
+            if (@available(iOS 15, *)) {
+                if (!self.swiftMonitor.isCalculatingBandwidthMetrics) {
+                    [self calculateBandwidthMetricFromAccessLog:accessLog];
+                }
+            } else {
                 [self calculateBandwidthMetricFromAccessLog:accessLog];
             }
             [self updateViewingLivestream:accessLog];
