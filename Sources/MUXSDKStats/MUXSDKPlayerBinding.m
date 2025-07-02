@@ -47,12 +47,13 @@ static void *MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext = &MUXSDKAV
 // we have attached the _playerItem observer
 NSString * RemoveObserverExceptionName = @"NSRangeException";
 
-@interface MUXSDKPlayerBinding ()
+@interface MUXSDKPlayerBinding () <MUXSDKCalculatingBandwidthMetricsObserver>
 
 @property (nonatomic, nullable) MUXSDKPlayerMonitor *swiftMonitor
     API_AVAILABLE(ios(15), tvos(15));
 
 @property (nonatomic) BOOL shouldTrackRenditionChanges;
+@property (nonatomic) BOOL shouldTrackBandiwdthMetrics;
 
 @end
 
@@ -154,6 +155,8 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         self.swiftMonitor = [[MUXSDKPlayerMonitor alloc] initWithPlayer:player onEvent:^(MUXSDKBaseEvent *event) {
             [weakSelf dispatchSwiftMonitorEvent:event];
         }];
+        self.swiftMonitor.observer = self;
+        self.shouldTrackBandiwdthMetrics = !self.swiftMonitor.isCalculatingBandwidthMetrics;
     } else {
         self.shouldTrackRenditionChanges = YES;
     }
@@ -277,11 +280,7 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             if (self.shouldTrackRenditionChanges) {
                 [self handleRenditionChangeInAccessLog:accessLog];
             }
-            if (@available(iOS 15, *)) {
-                if (!self.swiftMonitor.isCalculatingBandwidthMetrics) {
-                    [self calculateBandwidthMetricFromAccessLog:accessLog];
-                }
-            } else {
+            if (self.shouldTrackBandiwdthMetrics) {
                 [self calculateBandwidthMetricFromAccessLog:accessLog];
             }
             [self updateViewingLivestream:accessLog];
@@ -1363,6 +1362,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 - (void)didTriggerManualVideoChange {
     _didTriggerManualVideoChange = true;
 }
+
+- (void)onCalculatingBandwidthMetricsChange:(BOOL)isCalculating {
+    self.shouldTrackBandiwdthMetrics = !isCalculating;
+}
+
 @end
 
 
