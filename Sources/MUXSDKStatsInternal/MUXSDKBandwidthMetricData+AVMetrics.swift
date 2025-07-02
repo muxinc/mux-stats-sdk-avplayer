@@ -53,16 +53,16 @@ extension MUXSDKBandwidthMetricData {
         switch event.mediaType {
         case .video:
             if (event.isMapSegment) {
-                requestType = "video"
-            } else {
                 requestType = "video_init"
+            } else {
+                requestType = "video"
             }
             break
         case .audio:
             if (event.isMapSegment) {
-                requestType = "audio"
-            } else {
                 requestType = "audio_init"
+            } else {
+                requestType = "audio"
             }
             break
         case .text, .closedCaption, .subtitle:
