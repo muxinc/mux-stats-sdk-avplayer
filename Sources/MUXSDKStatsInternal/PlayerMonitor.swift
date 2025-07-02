@@ -2,11 +2,15 @@ public import AVFoundation
 import Combine
 public import MuxCore
 
+@objc(MUXSDKCalculatingBandwidthMetricsObserver)
+public protocol IsCalculatingBandwidthMetricsObserver: AnyObject {
+    func onCalculatingBandwidthMetricsChange(_ change: Bool)
+}
 
 @available(iOS 13, tvOS 13, *)
 @objc(MUXSDKPlayerMonitor)
 public class PlayerMonitor: NSObject, ObservableObject {
-    @objc public var isCalculatingBandwidthMetrics: Bool // Do I need any concurrency check to access this from objc?
+    @objc public weak var observer: IsCalculatingBandwidthMetricsObserver?
     
     var allEvents: some Publisher<MUXSDKBaseEvent, Never> {
         allEventsSubject
@@ -15,9 +19,14 @@ public class PlayerMonitor: NSObject, ObservableObject {
     private let allEventsSubject = PassthroughSubject<MUXSDKBaseEvent, Never>()
 
     private var cancellables = [AnyCancellable]()
-
+    
+    private let isCalculatingBandwidthMetricsSubject = CurrentValueSubject<Bool, Never>(false)
+    
+    @objc public func isCalculatingBandwidthMetrics()  -> Bool {
+        return isCalculatingBandwidthMetricsSubject.value;
+    }
+    
     override init() {
-        self.isCalculatingBandwidthMetrics = false
     }
 }
 
@@ -51,16 +60,23 @@ extension PlayerMonitor {
         if #available(iOS 18.0, tvOS 18.0, visionOS 2.0, *) {
             player.publisher(for: \.currentItem, options: [.initial])
                 .removeDuplicates()
-                .map { item in
-                    self.isCalculatingBandwidthMetrics = false
-                    guard let item = item else {
-                        return Empty<MUXSDKBaseEvent, Never>().eraseToAnyPublisher()
-                    }
+                .compactMap { $0 }
+                .handleEvents(receiveOutput: { _ in
+                    self.isCalculatingBandwidthMetricsSubject.send(false)
+                })
+                .flatMap { item  in
+                    let metricsPub = item
+                        .bandwidthMetricDataEventsUsingAVMetrics()
+                        .share()
                     
-                    let bandwidthMetricDataEvents = item.bandwidthMetricDataEventsUsingAVMetrics()
-                    return bandwidthMetricDataEvents.eraseToAnyPublisher()
+                    let notifPub = metricsPub
+                        .prefix(1)
+                        .handleEvents(receiveOutput: { _ in
+                            self.isCalculatingBandwidthMetricsSubject.send(true)
+                        })
+                    
+                    return Publishers.Merge(notifPub, metricsPub).eraseToAnyPublisher()
                 }
-                .switchToLatest()
                 .sink(receiveValue: allEventsSubject.send)
                 .store(in: &cancellables)
         }
@@ -75,18 +91,21 @@ extension PlayerMonitor {
         allEvents
             .receive(on: ImmediateIfOnMainQueueScheduler.shared)
             .sink(receiveValue: { event in
-                if !self.isCalculatingBandwidthMetrics,
-                    let _ = event as? MUXSDKRequestBandwidthEvent
-                {
-                    self.isCalculatingBandwidthMetrics = true
-                }
-
                 // work around Sendable requirement on assumeIsolated
                 nonisolated(unsafe) let event = event
                 MainActor.assumeIsolated {
                     onEvent(event)
                 }
             })
+            .store(in: &cancellables)
+        
+        isCalculatingBandwidthMetricsSubject
+            .receive(on: ImmediateIfOnMainQueueScheduler.shared)
+            .removeDuplicates()
+            .sink { isCalculating in
+                guard let observer = self.observer else { return }
+                observer.onCalculatingBandwidthMetricsChange(isCalculating)
+            }
             .store(in: &cancellables)
     }
 }
