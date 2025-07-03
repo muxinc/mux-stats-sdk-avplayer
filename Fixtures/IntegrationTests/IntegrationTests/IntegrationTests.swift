@@ -346,6 +346,66 @@ struct IntegrationTests {
         assertWaitForNSeconds(n: 5.0, with: avPlayer, for: playerName)
         
         binding.detachAVPlayer()
+    }
+  
+  @Test func fatalErrorTest() async throws {
+        let playerName = "fatalErrorPlayer \(UUID().uuidString)"
+        MUXSDKCore.swizzleDispatchEvents()
+        defer {
+            MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
+        }
         
+        let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
+        
+        // Use an invalid URL
+        let INVALID_URL = "https://bitdash-a.akamaihd.net/content/nonexistent/invalid.m3u8"
+        let avPlayer = AVPlayer(url: URL(string: INVALID_URL)!)
+        binding.attach(avPlayer)
+        
+        // Try to play the invalid content which should trigger a fatal error
+        await MainActor.run {
+            avPlayer.play()
+        }
+        
+        // Wait for error to occur and be processed
+        try? await Task.sleep(nanoseconds: UInt64(dispatchDelay * 2 * 1_000_000_000))
+        
+        let events = getEventsAndReset(for: playerName)
+        
+        // Check for MUXSDKErrorEvent 
+        let errorEvents = events?.compactMap { $0 as? MUXSDKErrorEvent } ?? []
+        let hasErrorEvents = !errorEvents.isEmpty
+        #expect(hasErrorEvents, "Expected MUXSDKErrorEvent to be captured for fatal error")
+        
+        // Verify error event properties
+        var hasFatalError = false
+        var hasErrorCode = false
+        var hasErrorMessage = false
+        
+        for errorEvent in errorEvents {
+            if let playerData = errorEvent.playerData {
+                if let errorCode = playerData.playerErrorCode, !errorCode.isEmpty {
+                    hasErrorCode = true
+
+                }
+                
+                if let errorMessage = playerData.playerErrorMessage, !errorMessage.isEmpty {
+                    hasErrorMessage = true
+                }
+            }
+            
+            // Check if this is a fatal error (we expect fatal errors for playback failures)
+            if errorEvent.severity == MUXSDKErrorSeverity.fatal {
+                hasFatalError = true
+            }
+        }
+        
+        // Verify that error information is captured
+        #expect(hasErrorCode, "Expected error code to be captured in fatal error event")
+        #expect(hasErrorMessage, "Expected error message to be captured in fatal error event")
+        #expect(hasFatalError, "Expected the error to be fatal")
+        
+        // Exit
+        binding.detachAVPlayer()
     }
 }
