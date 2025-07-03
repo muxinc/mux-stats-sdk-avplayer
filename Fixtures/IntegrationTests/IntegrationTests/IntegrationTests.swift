@@ -118,7 +118,47 @@ struct IntegrationTests {
         #expect(containsEndEvent)
     }
     
-    func assertChangeVideoSource(from firstURL: String, to secondURL: String, with player: AVPlayer, for playerName: String) {
+    func assertBackground(backgroundSeconds: Double, with player: AVPlayer, for playerName: String) async {
+        // Simulate backgrounding - pause the player and send background notification
+        await MainActor.run {
+            player.pause()
+            NotificationCenter.default.post(name: UIApplication.didEnterBackgroundNotification, object: nil)
+        }
+        
+        try? await Task.sleep(nanoseconds: UInt64(dispatchDelay * 1_000_000_000))
+        
+        // Check events after backgrounding
+        var events = getEventsAndReset(for: playerName)
+        
+        let containsPauseEvent = events?.contains { $0 is MUXSDKPauseEvent } ?? false
+        #expect(containsPauseEvent, "Expected Pause event when app goes to background")
+        
+        // Wait in background
+        try? await Task.sleep(nanoseconds: UInt64(backgroundSeconds * 1_000_000_000))
+        
+        // Check events during background time
+        events = getEventsAndReset(for: playerName)
+        
+        // Expect that no events are generated during background time
+        let eventCount = events?.count ?? 0
+        #expect(eventCount == 0, "Expected no events during background time, but got \(eventCount) events")
+        
+        // Simulate resuming - send foreground notification and resume playback
+        await MainActor.run {
+            NotificationCenter.default.post(name: UIApplication.willEnterForegroundNotification, object: nil)
+            player.play()
+        }
+        
+        try? await Task.sleep(nanoseconds: UInt64(dispatchDelay * 1_000_000_000))
+        
+        // Check events after resuming
+        events = getEventsAndReset(for: playerName)
+
+        let containsPlayEvent = events?.contains { $0 is MUXSDKPlayEvent } ?? false
+        #expect(containsPlayEvent, "Expected Play event when app resumes from background")
+    }
+    
+  func assertChangeVideoSource(from firstURL: String, to secondURL: String, with player: AVPlayer, for playerName: String) {
         NSLog("## Change video source from \(firstURL) to \(secondURL)")
         
         // Create CVD for the new video, to use in the videoChange
@@ -448,5 +488,33 @@ struct IntegrationTests {
             actualWatchTimeSeconds <= expectedPlaybackTime + tolerance,
             "Watch time should be approximately \(expectedPlaybackTime) seconds (±\(tolerance)s), but was \(actualWatchTimeSeconds) seconds"
         )
+    }
+  
+  @Test func backgroundingResumingTest() async throws {
+        let playerName = "backgroundingPlayer \(UUID().uuidString)"
+        MUXSDKCore.swizzleDispatchEvents()
+        defer {
+            MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
+        }
+        
+        let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
+        let VOD_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
+        let avPlayer = AVPlayer(url: URL(string: VOD_URL)!)
+        binding.attach(avPlayer)
+        
+        // Begin playback of content title
+        await assertStartPlaying(with: avPlayer, for: playerName)
+        
+        // Wait approximately 5 seconds
+        assertWaitForNSeconds(n: 5.0, with: avPlayer, for: playerName)
+        
+        // Simulate backgrounding/resuming (5 seconds in background)
+        await assertBackground(backgroundSeconds: 5.0, with: avPlayer, for: playerName)
+        
+        // Wait approximately 5 seconds after resuming
+        assertWaitForNSeconds(n: 5.0, with: avPlayer, for: playerName)
+        
+        // Exit the player
+        binding.detachAVPlayer()
     }
 }
