@@ -1,4 +1,5 @@
 import Testing
+import Combine
 @testable import MUXSDKStats
 
 @Suite
@@ -162,6 +163,75 @@ struct IntegrationTests {
             #expect(dataEvent.videoData?.videoSourceUrl != firstURL.absoluteString, "Data event after viewEnd should have a different URL")
         }
     }
+
+    enum PlayerPlaybackError: Error {
+        case failedToPlay
+        case itemFailed(Error?, AVPlayerItemErrorLog?)
+        case noPlayerItem
+        case timeout
+        case unknown
+    }
+    
+    func waitForPlaybackToStart(
+        with player: AVPlayer,
+        for playerName: String,
+        timeout: TimeInterval = 60.0
+    ) async throws {
+        
+        var cancellables = [AnyCancellable]()
+        let startTime = Date()
+        
+        debugPrint("\(startTime) - \(playerName) - Waiting for playback to start... ")
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, any Error>) -> Void in
+            guard let item = player.currentItem else {
+                continuation.resume(throwing: PlayerPlaybackError.noPlayerItem)
+                return
+            }
+            
+            let observer = item
+                .publisher(for: \.status)
+                .eraseToAnyPublisher()
+                .setFailureType(to: PlayerPlaybackError.self)
+                .filter { $0 != .unknown }
+                .map { [weak item] status -> Result<Void, IntegrationTests.PlayerPlaybackError> in // TODO: Remove result and use tryMap
+                    guard let item else {
+                        return .failure(PlayerPlaybackError.noPlayerItem) as Result<Void, PlayerPlaybackError>
+                    }
+                    
+                    switch status {
+                    case .readyToPlay:
+                        return Result.success(())
+                    case .failed:
+                        return Result.failure(PlayerPlaybackError.itemFailed(item.error, item.errorLog()))
+                    default:
+                        return Result.failure(PlayerPlaybackError.failedToPlay)
+                    }
+                }
+                .timeout(
+                    .seconds(timeout),
+                    scheduler: DispatchQueue.main,
+                    customError: { .timeout }
+                )
+                .catch { err in
+                    Just(Result.failure(err))
+                }
+                
+            cancellables.append(observer
+                .sink { result in
+                    let endTime = Date()
+                    let seconds = endTime.timeIntervalSince(startTime)
+                    switch result {
+                    case .success():
+                        print("## Playback started in \(seconds) seconds")
+                        continuation.resume()
+                    case .failure(let error):
+                        print("## Playback Failed: \(error) in \(seconds) seconds (Timeout: \(timeout))")
+                        let error = error as PlayerPlaybackError
+                        continuation.resume(throwing: error)
+                    }
+            })
+        }
+    }
     
     @Test func vodPlaybackTest() async throws {
         let playerName = "vodPlayer \(UUID().uuidString)"
@@ -297,6 +367,7 @@ struct IntegrationTests {
         
         // Start playing content
         await assertStartPlaying(with: avPlayer, for: playerName)
+        try await waitForPlaybackToStart(with: avPlayer, for: playerName)
         
         // Wait approximately 5 seconds
         assertWaitForNSeconds(n: 5.0, with: avPlayer, for: playerName)
@@ -447,5 +518,65 @@ struct IntegrationTests {
             actualWatchTimeSeconds <= expectedPlaybackTime + tolerance,
             "Watch time should be approximately \(expectedPlaybackTime) seconds (±\(tolerance)s), but was \(actualWatchTimeSeconds) seconds"
         )
+    }
+
+     @available(iOS 16.0, *)  // TODO: Assert not simulator
+    @Test func bandwidthMetricEventTests() async throws {
+        let playerName = "bandwidthMetricEvent \(UUID().uuidString)"
+        MUXSDKCore.swizzleDispatchEvents()
+        defer {
+            MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
+        }
+        
+        let binding = MUXSDKPlayerBinding(
+            playerName: playerName,
+            softwareName: "TestSoftwareName",
+            softwareVersion: "TestSoftwareVersion"
+        )
+        // from https://github.com/muxinc/elements/blob/main/shared/assets/media-assets.json
+        let VOD_URL = URL(
+            string:
+                "https://stream.mux.com/VcmKA6aqzIzlg3MayLJDnbF55kX00mds028Z65QxvBYaA.m3u8"
+        )!
+        let avPlayer = AVPlayer(url: VOD_URL)
+        binding.attach(avPlayer)
+
+        // Start playing content
+        //await assertStartPlaying(with: avPlayer, for: playerName)
+        await MainActor.run {
+            avPlayer.play()
+        }
+        try await waitForPlaybackToStart(with: avPlayer, for: playerName)
+        try? await Task.sleep(
+            nanoseconds: UInt64(dispatchDelay * 1_000_000_000)
+        )
+
+        assertWaitForNSeconds(n: 1, with: avPlayer, for: playerName)
+
+        let completeRequestEvents = MUXSDKCore.getEventsForPlayer(playerName)
+            .filter {
+                $0.getType()
+                    == MUXSDKPlaybackEventRequestBandwidthEventCompleteType
+            }
+            .compactMap { $0 as? MUXSDKPlaybackEvent }
+
+        let manifestEvents =
+            completeRequestEvents
+            .filter { $0.bandwidthMetricData?.requestType == "manifest" }
+        let videoEvents =
+            completeRequestEvents
+            .filter { $0.bandwidthMetricData?.requestType == "video" }
+
+        #expect(completeRequestEvents.count > 0)
+        #expect(manifestEvents.count > 0, "No manifest events found")
+        #expect(videoEvents.count > 0, "No video events found")
+
+        if let mainManifest = manifestEvents.first,
+            let bandwidthMetricData = mainManifest.bandwidthMetricData
+        {
+            #expect(bandwidthMetricData.requestHostName == VOD_URL.host())
+            #expect((bandwidthMetricData.requestResponseHeaders?.isEmpty) == false)
+            #expect(bandwidthMetricData.requestResponseHeaders?.index(forKey: "x-cdn") != nil)
+        }
     }
 }
