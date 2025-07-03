@@ -2,11 +2,16 @@ import AVFoundation
 import Combine
 import MuxCore
 
+@objc(MUXSDKCalculatingBandwidthMetricsObserver)
+public protocol IsCalculatingBandwidthMetricsObserver: AnyObject {
+    func onCalculatingBandwidthMetricsChange(_ change: Bool)
+}
 
 @available(iOS 13, tvOS 13, *)
 @objc(MUXSDKPlayerMonitor)
 public class PlayerMonitor: NSObject, ObservableObject {
-
+    @objc public weak var observer: IsCalculatingBandwidthMetricsObserver?
+    
     var allEvents: some Publisher<MUXSDKBaseEvent, Never> {
         allEventsSubject
     }
@@ -14,7 +19,13 @@ public class PlayerMonitor: NSObject, ObservableObject {
     private let allEventsSubject = PassthroughSubject<MUXSDKBaseEvent, Never>()
 
     private var cancellables = [AnyCancellable]()
-
+    
+    private let isCalculatingBandwidthMetricsSubject = CurrentValueSubject<Bool, Never>(false)
+    
+    @objc public func isCalculatingBandwidthMetrics()  -> Bool {
+        return isCalculatingBandwidthMetricsSubject.value;
+    }
+    
     override init() {
     }
 }
@@ -34,13 +45,47 @@ extension PlayerMonitor {
 
         player.publisher(for: \.currentItem, options: [.initial])
             .removeDuplicates()
-            .map { $0?.renditionInfoAndChangeEvents().eraseToAnyPublisher() ?? Empty().eraseToAnyPublisher() }
+            .map { item in
+                guard let item = item else {
+                    return Empty<MUXSDKBaseEvent, Never>().eraseToAnyPublisher()
+                }
+                let renditionInfoAndChangeEvents = item.renditionInfoAndChangeEvents()
+                
+                return renditionInfoAndChangeEvents.eraseToAnyPublisher()
+            }
             .switchToLatest()
             .sink(receiveValue: allEventsSubject.send)
             .store(in: &cancellables)
+        
+        if #available(iOS 18.0, tvOS 18.0, visionOS 2.0, *) {
+            player.publisher(for: \.currentItem, options: [.initial])
+                .removeDuplicates()
+                .compactMap { $0 }
+                .handleEvents(receiveOutput: { _ in
+                    self.isCalculatingBandwidthMetricsSubject.send(false)
+                })
+                .flatMap { item  in
+                    let metricsPub = item
+                        .bandwidthMetricDataEventsUsingAVMetrics()
+                        .share()
+                    
+                    let notifPub = metricsPub
+                        .prefix(1)
+                        .handleEvents(receiveOutput: { _ in
+                            self.isCalculatingBandwidthMetricsSubject.send(true)
+                        })
+                    
+                    return Publishers.Merge(notifPub, metricsPub).eraseToAnyPublisher()
+                }
+                .sink(receiveValue: allEventsSubject.send)
+                .store(in: &cancellables)
+        }
     }
 
-    @objc public convenience init(player: AVPlayer, onEvent: @Sendable @escaping @MainActor (MUXSDKBaseEvent) -> Void) {
+    @objc public convenience init(
+        player: AVPlayer,
+        onEvent: @Sendable @escaping @MainActor (MUXSDKBaseEvent) -> Void
+    ) {
         self.init(player: player)
 
         allEvents
@@ -52,6 +97,15 @@ extension PlayerMonitor {
                     onEvent(event)
                 }
             })
+            .store(in: &cancellables)
+        
+        isCalculatingBandwidthMetricsSubject
+            .receive(on: ImmediateIfOnMainQueueScheduler.shared)
+            .removeDuplicates()
+            .sink { isCalculating in
+                guard let observer = self.observer else { return }
+                observer.onCalculatingBandwidthMetricsChange(isCalculating)
+            }
             .store(in: &cancellables)
     }
 }

@@ -38,8 +38,12 @@ struct IntegrationTests {
     
     func assertWaitForNSeconds(n seconds: Double, with player: AVPlayer, for playerName: String) {
         NSLog("## Wait approximately \(seconds) seconds")
-        let waitTimeBefore = getLastTimestamp(for: playerName)!.doubleValue
+        var waitTimeBefore = getLastTimestamp(for: playerName)?.doubleValue
         let beforeTimePlayer = player.currentTime().seconds
+        if (waitTimeBefore == nil) {
+            Issue.record("Could not find any timestamp before waiting, setting to \(beforeTimePlayer)")
+            waitTimeBefore = beforeTimePlayer
+        }
         
         var currentTimePlayer = player.currentTime().seconds
         var waitedTime = 0.0
@@ -55,7 +59,7 @@ struct IntegrationTests {
         }
         
         let waitTimeAfter = getLastTimestamp(for: playerName)!.doubleValue
-        let waitTimeDiff = waitTimeAfter - waitTimeBefore
+        let waitTimeDiff = waitTimeAfter - waitTimeBefore!
         let lowerBound = (seconds * 1000) - msTolerance
         let upperBound = (seconds * 1000) + msTolerance
         

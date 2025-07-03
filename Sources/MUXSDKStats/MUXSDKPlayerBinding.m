@@ -47,12 +47,13 @@ static void *MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext = &MUXSDKAV
 // we have attached the _playerItem observer
 NSString * RemoveObserverExceptionName = @"NSRangeException";
 
-@interface MUXSDKPlayerBinding ()
+@interface MUXSDKPlayerBinding () <MUXSDKCalculatingBandwidthMetricsObserver>
 
 @property (nonatomic, nullable) MUXSDKPlayerMonitor *swiftMonitor
     API_AVAILABLE(ios(15), tvos(15));
 
 @property (nonatomic) BOOL shouldTrackRenditionChanges;
+@property (nonatomic) BOOL shouldTrackBandiwdthMetrics;
 
 @end
 
@@ -146,12 +147,16 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
         NSLog(@"MUXSDK-ERROR - Cannot attach to NULL AVPlayer for player name: %@", _name);
         return;
     }
+    
     if (@available(iOS 15, tvOS 15, *)) {
         self.shouldTrackRenditionChanges = NO;
         __weak typeof(self) weakSelf = self;
+        
         self.swiftMonitor = [[MUXSDKPlayerMonitor alloc] initWithPlayer:player onEvent:^(MUXSDKBaseEvent *event) {
             [weakSelf dispatchSwiftMonitorEvent:event];
         }];
+        self.swiftMonitor.observer = self;
+        self.shouldTrackBandiwdthMetrics = !self.swiftMonitor.isCalculatingBandwidthMetrics;
     } else {
         self.shouldTrackRenditionChanges = YES;
     }
@@ -275,7 +280,9 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
             if (self.shouldTrackRenditionChanges) {
                 [self handleRenditionChangeInAccessLog:accessLog];
             }
-            [self calculateBandwidthMetricFromAccessLog:accessLog];
+            if (self.shouldTrackBandiwdthMetrics) {
+                [self calculateBandwidthMetricFromAccessLog:accessLog];
+            }
             [self updateViewingLivestream:accessLog];
             [self updateFrameDropsFromAccessLog:accessLog];
         }
@@ -1355,6 +1362,11 @@ NSString * RemoveObserverExceptionName = @"NSRangeException";
 - (void)didTriggerManualVideoChange {
     _didTriggerManualVideoChange = true;
 }
+
+- (void)onCalculatingBandwidthMetricsChange:(BOOL)isCalculating {
+    self.shouldTrackBandiwdthMetrics = !isCalculating;
+}
+
 @end
 
 
