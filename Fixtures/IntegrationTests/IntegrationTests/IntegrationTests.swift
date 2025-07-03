@@ -177,7 +177,6 @@ struct IntegrationTests {
         for playerName: String,
         timeout: TimeInterval = 60.0
     ) async throws {
-        
         var cancellables = [AnyCancellable]()
         let startTime = Date()
         
@@ -188,33 +187,34 @@ struct IntegrationTests {
                 return
             }
             
-            let observer = item
+            let observer : AnyPublisher<Result<Void, PlayerPlaybackError>, Never> = item
                 .publisher(for: \.status)
-                .eraseToAnyPublisher()
-                .setFailureType(to: PlayerPlaybackError.self)
-                .filter { $0 != .unknown }
-                .map { [weak item] status -> Result<Void, IntegrationTests.PlayerPlaybackError> in // TODO: Remove result and use tryMap
+                .filter { $0 != .unknown } // We filter unkown to not throw unwanted PlayerPlaybackError.unknown
+                .tryMap { [weak item] status in
                     guard let item else {
-                        return .failure(PlayerPlaybackError.noPlayerItem) as Result<Void, PlayerPlaybackError>
+                        throw PlayerPlaybackError.noPlayerItem
                     }
                     
                     switch status {
                     case .readyToPlay:
-                        return Result.success(())
+                        return
                     case .failed:
-                        return Result.failure(PlayerPlaybackError.itemFailed(item.error, item.errorLog()))
+                        throw PlayerPlaybackError.itemFailed(item.error, item.errorLog())
                     default:
-                        return Result.failure(PlayerPlaybackError.failedToPlay)
+                        throw PlayerPlaybackError.unknown
                     }
                 }
                 .timeout(
                     .seconds(timeout),
                     scheduler: DispatchQueue.main,
-                    customError: { .timeout }
+                    customError: { PlayerPlaybackError.timeout as Error }
                 )
-                .catch { err in
-                    Just(Result.failure(err))
+                .map { _ in Result.success(())}
+                .catch { error in
+                    let error = error as? PlayerPlaybackError ?? PlayerPlaybackError.unknown
+                    return Just(Result.failure(error) as Result<Void, PlayerPlaybackError>)
                 }
+                .eraseToAnyPublisher()
                 
             cancellables.append(observer
                 .sink { result in
@@ -521,8 +521,8 @@ struct IntegrationTests {
             "Watch time should be approximately \(expectedPlaybackTime) seconds (±\(tolerance)s), but was \(actualWatchTimeSeconds) seconds"
         )
     }
-
-     @available(iOS 16.0, *)  // TODO: Assert not simulator
+    
+    @available(iOS 18.0, tvOS 18.0, visionOS 2.0, *)
     @Test func bandwidthMetricEventTests() async throws {
         let playerName = "bandwidthMetricEvent \(UUID().uuidString)"
         MUXSDKCore.swizzleDispatchEvents()
@@ -554,31 +554,32 @@ struct IntegrationTests {
         )
 
         assertWaitForNSeconds(n: 1, with: avPlayer, for: playerName)
-
+        
         let completeRequestEvents = MUXSDKCore.getEventsForPlayer(playerName)
             .filter {
                 $0.getType()
                     == MUXSDKPlaybackEventRequestBandwidthEventCompleteType
             }
             .compactMap { $0 as? MUXSDKPlaybackEvent }
-
+        #expect(completeRequestEvents.count > 0)
+#if !targetEnvironment(simulator)
         let manifestEvents =
-            completeRequestEvents
+        completeRequestEvents
             .filter { $0.bandwidthMetricData?.requestType == "manifest" }
         let videoEvents =
-            completeRequestEvents
+        completeRequestEvents
             .filter { $0.bandwidthMetricData?.requestType == "video" }
 
-        #expect(completeRequestEvents.count > 0)
         #expect(manifestEvents.count > 0, "No manifest events found")
         #expect(videoEvents.count > 0, "No video events found")
 
         if let mainManifest = manifestEvents.first,
-            let bandwidthMetricData = mainManifest.bandwidthMetricData
+           let bandwidthMetricData = mainManifest.bandwidthMetricData
         {
             #expect(bandwidthMetricData.requestHostName == VOD_URL.host())
             #expect((bandwidthMetricData.requestResponseHeaders?.isEmpty) == false)
             #expect(bandwidthMetricData.requestResponseHeaders?.index(forKey: "x-cdn") != nil)
         }
+#endif
     }
 }
