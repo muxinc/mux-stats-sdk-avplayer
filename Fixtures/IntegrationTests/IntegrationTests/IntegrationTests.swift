@@ -27,8 +27,8 @@ struct IntegrationTests {
         await MainActor.run {
             player.play()
         }
-        try? await Task.sleep(nanoseconds: UInt64(dispatchDelay * 1_000_000_000))
-        
+        try? await Task.sleep(seconds: dispatchDelay)
+
         let events = getEventsAndReset(for: playerName)
         
         let containsPlayEvent = events?.contains { $0 is MUXSDKPlayEvent } ?? false
@@ -70,12 +70,19 @@ struct IntegrationTests {
     
     func assertPauseForNSeconds(n seconds: Double, with player: AVPlayer, for playerName: String) async {
         NSLog("## Pause the content for \(seconds) seconds")
-        let waitTimeBefore = getLastTimestamp(for: playerName)!.doubleValue
         await MainActor.run {
             player.pause()
         }
-        try? await Task.sleep(nanoseconds: UInt64(dispatchDelay * 1_000_000_000))
-        let waitTimeAfter = getLastTimestamp(for: playerName)!.doubleValue
+        try? await Task.sleep(seconds: dispatchDelay)
+        
+        let waitTimeBefore = getLastTimestamp(for: playerName)?.doubleValue ?? 0
+        try? await Task.sleep(seconds: seconds)
+        let waitTimeAfter = getLastTimestamp(for: playerName)?.doubleValue
+        
+        guard let waitTimeAfter = waitTimeAfter else {
+            Issue.record("Unexpectedly received no timestamp after pausing for \(seconds) seconds")
+            return
+        }
         
         let waitTimeDiff = waitTimeAfter - waitTimeBefore
         // Expect that time difference is approximately 0 seconds
@@ -241,14 +248,13 @@ struct IntegrationTests {
         }
         
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
-        let VOD_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
+        let VOD_URL = "https://stream.mux.com/VcmKA6aqzIzlg3MayLJDnbF55kX00mds028Z65QxvBYaA.m3u8"
         let avPlayer = AVPlayer(url: URL(string: VOD_URL)!)
         binding.attach(avPlayer)
         
         // Start playing VoD content
         await assertStartPlaying(with: avPlayer, for: playerName)
         try await waitForPlaybackToStart(with: avPlayer, for: playerName)
-
         // Wait approximately 5 seconds
         assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
         
@@ -350,8 +356,8 @@ struct IntegrationTests {
             
             avPlayer.play()
         }
-        
-        try await Task.sleep(nanoseconds: 5_000_000_000) // 5 seconds in nanoseconds
+
+        try await Task.sleep(seconds: 5)
         #expect(binding.didReturnNil, "Expected getViewBounds to return empty CGRect")
     }
     
@@ -549,9 +555,7 @@ struct IntegrationTests {
             avPlayer.play()
         }
         try await waitForPlaybackToStart(with: avPlayer, for: playerName)
-        try? await Task.sleep(
-            nanoseconds: UInt64(dispatchDelay * 1_000_000_000)
-        )
+        try? await Task.sleep(seconds: dispatchDelay)
 
         assertWaitForNSeconds(n: 1, with: avPlayer, for: playerName)
         
@@ -581,5 +585,13 @@ struct IntegrationTests {
             #expect(bandwidthMetricData.requestResponseHeaders?.index(forKey: "x-cdn") != nil)
         }
 #endif
+    }
+}
+
+extension Task where Success == Never, Failure == Never {
+    static func sleep(seconds: Double) async throws {
+        return try await Task.sleep(
+            nanoseconds: UInt64(seconds * 1_000_000_000)
+        )
     }
 }
