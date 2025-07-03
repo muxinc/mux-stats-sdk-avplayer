@@ -247,7 +247,8 @@ struct IntegrationTests {
         
         // Start playing VoD content
         await assertStartPlaying(with: avPlayer, for: playerName)
-        
+        try await waitForPlaybackToStart(with: avPlayer, for: playerName)
+
         // Wait approximately 5 seconds
         assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
         
@@ -290,7 +291,8 @@ struct IntegrationTests {
         
         // Start playing Live content
         await assertStartPlaying(with: avPlayer, for: playerName)
-        
+        try await waitForPlaybackToStart(with: avPlayer, for: playerName)
+                
         // Wait approximately 10 seconds
         assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
         
@@ -361,7 +363,7 @@ struct IntegrationTests {
         }
         
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
-        let VOD_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
+        let VOD_URL = "https://stream.mux.com/VcmKA6aqzIzlg3MayLJDnbF55kX00mds028Z65QxvBYaA.m3u8"
         let avPlayer = AVPlayer(url: URL(string: VOD_URL)!)
         binding.attach(avPlayer)
         
