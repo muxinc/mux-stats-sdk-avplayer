@@ -158,6 +158,54 @@ struct IntegrationTests {
         #expect(containsPlayEvent, "Expected Play event when app resumes from background")
     }
     
+  func assertChangeVideoSource(from firstURL: String, to secondURL: String, with player: AVPlayer, for playerName: String) {
+        NSLog("## Change video source from \(firstURL) to \(secondURL)")
+        
+        // Create CVD for the new video, to use in the videoChange
+        let customerVideoData = MUXSDKCustomerVideoData()
+        customerVideoData.videoTitle = "Second Video Title"
+        customerVideoData.videoId = "second_video_id"
+        
+        let customerData = MUXSDKCustomerData()
+        customerData.customerVideoData = customerVideoData
+        
+        // Manually trigger video change
+        MUXSDKStats.videoChange(forPlayer: playerName, with: customerData)
+        
+        // Replace current item with new URL
+        let newURL = URL(string: secondURL)!
+        let newPlayerItem = AVPlayerItem(url: newURL)
+        player.replaceCurrentItem(with: newPlayerItem)
+        
+        Thread.sleep(forTimeInterval: dispatchDelay)
+        
+        let events = getEventsAndReset(for: playerName)
+        
+        guard let events = events else {
+            Issue.record("No events captured during video source change")
+            return
+        }
+        
+        // Find the ViewEnd event index
+        let viewEndIndex = events.firstIndex { $0 is MUXSDKViewEndEvent }
+        
+        // Expect ViewEnd event was sent
+        #expect(viewEndIndex != nil, "Expected ViewEnd event when changing video source")
+        
+        guard let viewEndIndex = viewEndIndex else {
+            return
+        }
+        
+        let eventsAfterViewEnd = Array(events[(viewEndIndex + 1)...])
+        
+        // Find one MUXSDKDataEvent after ViewEnd
+        let dataEventAfterViewEnd = eventsAfterViewEnd.first { $0 is MUXSDKDataEvent } as? MUXSDKDataEvent
+        
+        if let dataEvent = dataEventAfterViewEnd {
+            #expect(dataEvent.videoData?.videoSourceUrl != firstURL, "Data event after viewEnd should have a different URL")
+        }
+    }
+    
     @Test func vodPlaybackTest() async throws {
         let playerName = "vodPlayer \(UUID().uuidString)"
         MUXSDKCore.swizzleDispatchEvents()
@@ -309,7 +357,140 @@ struct IntegrationTests {
         assertFinishPlaying(timeLeft: 10.0, with: avPlayer, for: playerName)
     }
     
-    @Test func backgroundingResumingTest() async throws {
+    @Test func changingSourceTest() async throws {
+        let playerName = "changingSourcePlayer \(UUID().uuidString)"
+        MUXSDKCore.swizzleDispatchEvents()
+        defer {
+            MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
+        }
+        
+        let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
+        let FIRST_VIDEO_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
+        let SECOND_VIDEO_URL = "https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8"
+        let avPlayer = AVPlayer(url: URL(string: FIRST_VIDEO_URL)!)
+        binding.attach(avPlayer)
+        
+        // Begin playback of first content title
+        await assertStartPlaying(with: avPlayer, for: playerName)
+        
+        // Wait 5 seconds
+        assertWaitForNSeconds(n: 5.0, with: avPlayer, for: playerName)
+        
+        // Select a different content title
+        assertChangeVideoSource(from: FIRST_VIDEO_URL, to: SECOND_VIDEO_URL, with: avPlayer, for: playerName)
+        
+        // Start playing the new content
+        await assertStartPlaying(with: avPlayer, for: playerName)
+        
+        // Wait 5 seconds
+        assertWaitForNSeconds(n: 5.0, with: avPlayer, for: playerName)
+        
+        binding.detachAVPlayer()
+    }
+  
+  @Test func fatalErrorTest() async throws {
+        let playerName = "fatalErrorPlayer \(UUID().uuidString)"
+        MUXSDKCore.swizzleDispatchEvents()
+        defer {
+            MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
+        }
+        
+        let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
+        
+        // Use an invalid URL
+        let INVALID_URL = "https://bitdash-a.akamaihd.net/content/nonexistent/invalid.m3u8"
+        let avPlayer = AVPlayer(url: URL(string: INVALID_URL)!)
+        binding.attach(avPlayer)
+        
+        // Try to play the invalid content which should trigger a fatal error
+        await MainActor.run {
+            avPlayer.play()
+        }
+        
+        // Wait for error to occur and be processed
+        try? await Task.sleep(nanoseconds: UInt64(dispatchDelay * 2 * 1_000_000_000))
+        
+        let events = getEventsAndReset(for: playerName)
+        
+        // Check for MUXSDKErrorEvent 
+        let errorEvents = events?.compactMap { $0 as? MUXSDKErrorEvent } ?? []
+        let hasErrorEvents = !errorEvents.isEmpty
+        #expect(hasErrorEvents, "Expected MUXSDKErrorEvent to be captured for fatal error")
+        
+        // Verify error event properties
+        var hasFatalError = false
+        var hasErrorCode = false
+        var hasErrorMessage = false
+        
+        for errorEvent in errorEvents {
+            if let playerData = errorEvent.playerData {
+                if let errorCode = playerData.playerErrorCode, !errorCode.isEmpty {
+                    hasErrorCode = true
+
+                }
+                
+                if let errorMessage = playerData.playerErrorMessage, !errorMessage.isEmpty {
+                    hasErrorMessage = true
+                }
+            }
+            
+            // Check if this is a fatal error (we expect fatal errors for playback failures)
+            if errorEvent.severity == MUXSDKErrorSeverity.fatal {
+                hasFatalError = true
+            }
+        }
+        
+        // Verify that error information is captured
+        #expect(hasErrorCode, "Expected error code to be captured in fatal error event")
+        #expect(hasErrorMessage, "Expected error message to be captured in fatal error event")
+        #expect(hasFatalError, "Expected the error to be fatal")
+        
+        // Exit
+        binding.detachAVPlayer()
+    }
+  
+  @Test func watchTimeTest() async throws {
+        let playerName = "watchTimePlayer \(UUID().uuidString)"
+        MUXSDKCore.swizzleDispatchEvents()
+        defer {
+            MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
+        }
+        
+        let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
+        let VOD_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
+        let avPlayer = AVPlayer(url: URL(string: VOD_URL)!)
+        binding.attach(avPlayer)
+        
+        // Start playing content
+        await MainActor.run {
+            avPlayer.play()
+        }
+    
+        let watchTimeStart = getLastTimestamp(for: playerName)?.doubleValue
+        
+        // Play for 20 seconds straight
+        try? await Task.sleep(nanoseconds: UInt64(20 * 1_000_000_000))
+        
+        // End the view
+        let watchTimeEnd = getLastTimestamp(for: playerName)!.doubleValue
+        binding.detachAVPlayer()
+        
+        // Calculate actual watch time
+        let actualWatchTimeMs = watchTimeEnd - (watchTimeStart ?? 0)
+        let actualWatchTimeSeconds = actualWatchTimeMs / 1000.0
+        
+        // The expected watching time should be approximately 20 seconds
+        let expectedPlaybackTime = 20.0
+        let tolerance = 2.0 // Allow 2 second tolerance
+        
+        #expect(
+            actualWatchTimeSeconds >= expectedPlaybackTime - tolerance &&
+            actualWatchTimeSeconds <= expectedPlaybackTime + tolerance,
+            "Watch time should be approximately \(expectedPlaybackTime) seconds (±\(tolerance)s), but was \(actualWatchTimeSeconds) seconds"
+        )
+    }
+  
+  @Test func backgroundingResumingTest() async throws {
         let playerName = "backgroundingPlayer \(UUID().uuidString)"
         MUXSDKCore.swizzleDispatchEvents()
         defer {
