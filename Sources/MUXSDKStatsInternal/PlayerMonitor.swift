@@ -69,13 +69,13 @@ extension PlayerMonitor {
                         .bandwidthMetricDataEventsUsingAVMetrics()
                         .share()
                     
-                    let notifPub = metricsPub
+                    // We have to sink this so we don't send duplicated events.
+                    metricsPub
                         .prefix(1)
-                        .handleEvents(receiveOutput: { _ in
-                            self.isCalculatingBandwidthMetricsSubject.send(true)
-                        })
+                        .sink {_ in self.isCalculatingBandwidthMetricsSubject.send(true)}
+                        .store(in: &self.cancellables)
                     
-                    return Publishers.Merge(notifPub, metricsPub).eraseToAnyPublisher()
+                    return metricsPub.eraseToAnyPublisher()
                 }
                 .sink(receiveValue: allEventsSubject.send)
                 .store(in: &cancellables)
