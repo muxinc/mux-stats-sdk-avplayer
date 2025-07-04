@@ -53,7 +53,8 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
     API_AVAILABLE(ios(15), tvos(15));
 
 @property (nonatomic) BOOL shouldTrackRenditionChanges;
-@property (nonatomic) BOOL shouldTrackBandiwdthMetrics;
+// Atomic since it will be updated by metric events
+@property (atomic) BOOL shouldTrackBandiwdthMetrics;
 
 @end
 

@@ -22,7 +22,7 @@ public class PlayerMonitor: NSObject, ObservableObject {
     
     private let isCalculatingBandwidthMetricsSubject = CurrentValueSubject<Bool, Never>(false)
     
-    @objc public func isCalculatingBandwidthMetrics()  -> Bool {
+    @objc public func isCalculatingBandwidthMetrics() -> Bool {
         return isCalculatingBandwidthMetricsSubject.value;
     }
     
