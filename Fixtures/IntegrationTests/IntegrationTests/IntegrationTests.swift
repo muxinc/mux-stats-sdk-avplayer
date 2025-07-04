@@ -1,5 +1,6 @@
 import Testing
 @testable import MUXSDKStats
+import Swifter
 
 @Suite
 struct IntegrationTests {
@@ -16,7 +17,7 @@ struct IntegrationTests {
     
     func getEventsAndReset(for playerName: String) -> [MUXSDKBaseEvent]? {
         defer {
-            MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
+//            MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
         }
         return MUXSDKCore.getEventsForPlayer(playerName)
     }
@@ -165,6 +166,63 @@ struct IntegrationTests {
             #expect(dataEvent.videoData?.videoSourceUrl != firstURL, "Data event after viewEnd should have a different URL")
         }
     }
+    @Test func mockServerDynamicSegmentsTest() async throws {
+        let mockServer = MockHLSServer()
+        try mockServer.start()
+        defer { mockServer.stop() }
+        
+        print("Server started on: \(mockServer.baseURL)")
+        
+        // TEST 1: Normal segments
+        print("\n📋 TEST 1: Playing normal segments (should work)")
+        let playerName1 = "normalSegments \(UUID().uuidString)"
+        MUXSDKCore.swizzleDispatchEvents()
+        defer { MUXSDKCore.resetCapturedEvents(forPlayer: playerName1) }
+        
+        let binding1 = MUXSDKPlayerBinding(playerName: playerName1, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
+        let normalURL = mockServer.normalSegmentsURL
+        
+        let avPlayer1 = AVPlayer(url: URL(string: normalURL)!)
+        binding1.attach(avPlayer1)
+        
+        await MainActor.run {
+            avPlayer1.play()
+        }
+        
+        // Wait for segments to be requested
+        try? await Task.sleep(nanoseconds: 3_000_000_000) // 3 seconds
+        
+        let events1 = getEventsAndReset(for: playerName1)
+        
+        binding1.detachAVPlayer()
+        
+        // TEST 2: Failing segments
+        let playerName2 = "failingSegments \(UUID().uuidString)"
+        MUXSDKCore.resetCapturedEvents(forPlayer: playerName2)
+        
+        let binding2 = MUXSDKPlayerBinding(playerName: playerName2, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
+        let failingURL = mockServer.failingSegmentsURL
+        print("🎯 Failing playlist URL: \(failingURL)")
+        
+        let avPlayer2 = AVPlayer(url: URL(string: failingURL)!)
+        binding2.attach(avPlayer2)
+        
+        await MainActor.run {
+            avPlayer2.play()
+        }
+        
+        // Wait for segments to fail
+        try? await Task.sleep(nanoseconds: 3_000_000_000) // 3 seconds
+        
+        let events2 = getEventsAndReset(for: playerName2)
+        
+        binding2.detachAVPlayer()
+        
+        // Basic assertions
+        #expect(events1 != nil, "Expected some events from normal segments")
+        #expect(events2 != nil, "Expected some events from failing segments")
+    }
+    
     
     @Test func vodPlaybackTest() async throws {
         let playerName = "vodPlayer \(UUID().uuidString)"
@@ -347,8 +405,8 @@ struct IntegrationTests {
         
         binding.detachAVPlayer()
     }
-  
-  @Test func fatalErrorTest() async throws {
+    
+    @Test func fatalErrorTest() async throws {
         let playerName = "fatalErrorPlayer \(UUID().uuidString)"
         MUXSDKCore.swizzleDispatchEvents()
         defer {
@@ -372,7 +430,7 @@ struct IntegrationTests {
         
         let events = getEventsAndReset(for: playerName)
         
-        // Check for MUXSDKErrorEvent 
+        // Check for MUXSDKErrorEvent
         let errorEvents = events?.compactMap { $0 as? MUXSDKErrorEvent } ?? []
         let hasErrorEvents = !errorEvents.isEmpty
         #expect(hasErrorEvents, "Expected MUXSDKErrorEvent to be captured for fatal error")
@@ -386,7 +444,7 @@ struct IntegrationTests {
             if let playerData = errorEvent.playerData {
                 if let errorCode = playerData.playerErrorCode, !errorCode.isEmpty {
                     hasErrorCode = true
-
+                    
                 }
                 
                 if let errorMessage = playerData.playerErrorMessage, !errorMessage.isEmpty {
@@ -408,8 +466,8 @@ struct IntegrationTests {
         // Exit
         binding.detachAVPlayer()
     }
-  
-  @Test func watchTimeTest() async throws {
+    
+    @Test func watchTimeTest() async throws {
         let playerName = "watchTimePlayer \(UUID().uuidString)"
         MUXSDKCore.swizzleDispatchEvents()
         defer {
@@ -425,7 +483,7 @@ struct IntegrationTests {
         await MainActor.run {
             avPlayer.play()
         }
-    
+        
         let watchTimeStart = getLastTimestamp(for: playerName)?.doubleValue
         
         // Play for 20 seconds straight
