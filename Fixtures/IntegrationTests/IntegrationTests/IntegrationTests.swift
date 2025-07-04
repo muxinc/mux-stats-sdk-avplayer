@@ -216,11 +216,36 @@ struct IntegrationTests {
         
         let events2 = getEventsAndReset(for: playerName2)
         
-        binding2.detachAVPlayer()
-        
-        // Basic assertions
-        #expect(events1 != nil, "Expected some events from normal segments")
-        #expect(events2 != nil, "Expected some events from failing segments")
+                 binding2.detachAVPlayer()
+         
+         // TEST 3: Proxy functionality
+         print("\n📋 TEST 3: Testing proxy functionality")
+         let proxyURL = mockServer.proxyURL(path: "VcmKA6aqzIzlg3MayLJDnbF55kX00mds028Z65QxvBYaA.m3u8", host: "stream.mux.com")
+         print("🔄 Proxy URL: \(proxyURL)")
+         
+         let playerName3 = "proxyPlayer \(UUID().uuidString)"
+         MUXSDKCore.resetCapturedEvents(forPlayer: playerName3)
+         
+         let binding3 = MUXSDKPlayerBinding(playerName: playerName3, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
+         let avPlayer3 = AVPlayer(url: URL(string: proxyURL)!)
+         binding3.attach(avPlayer3)
+         
+         await MainActor.run {
+             avPlayer3.play()
+         }
+         
+         // Wait for proxy request
+         try? await Task.sleep(nanoseconds: 5_000_000_000) // 5 seconds
+         
+         let events3 = getEventsAndReset(for: playerName3)
+         print("🔄 Proxy - Events captured: \(events3?.count ?? 0)")
+         
+         binding3.detachAVPlayer()
+         
+         // Basic assertions
+         #expect(events1 != nil, "Expected some events from normal segments")
+         #expect(events2 != nil, "Expected some events from failing segments")
+         #expect(events3 != nil, "Expected some events from proxy")
     }
     
     

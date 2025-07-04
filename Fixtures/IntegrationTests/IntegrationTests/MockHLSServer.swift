@@ -58,11 +58,79 @@ class MockHLSServer {
             let content = self.failingVariantPlaylist(quality: "failing")
             return .ok(.text(content))
         }
+        
+        // Proxy endpoint - using synchronous URLSession
+        server.GET["/proxy/:proxyPath"] = { request in
+            let proxyPath = request.params[":proxyPath"] ?? ""
+            
+            // Query parameters
+            guard let proxyHost = request.queryParams.first(where: { $0.0 == "proxyHost" })?.1 else {
+                return .badRequest(.text("Missing proxyHost parameter"))
+            }
+            
+            // Build target URL
+            let targetURL = "https://\(proxyHost)/\(proxyPath)"
+            print("Proxying: \(request.path) -> \(targetURL)")
+            
+            guard let url = URL(string: targetURL) else {
+                return .badRequest(.text("Invalid target URL"))
+            }
+            
+            // Use synchronous request to avoid concurrency issues
+            let semaphore = DispatchSemaphore(value: 0)
+            let resultContainer = NSMutableArray() // Thread-safe container
+            
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                defer { semaphore.signal() }
+                
+                let httpResponse: HttpResponse
+                
+                if let error = error {
+                    print("Proxy error: \(error)")
+                    httpResponse = .internalServerError
+                } else if let httpResp = response as? HTTPURLResponse,
+                          let data = data {
+                    
+                    print("Proxy success: \(httpResp.statusCode)")
+                    
+                    if httpResp.statusCode == 200 {
+                        let contentType = httpResp.allHeaderFields["Content-Type"] as? String ?? "application/octet-stream"
+                        
+                        if contentType.contains("text") || contentType.contains("application/vnd.apple.mpegurl") {
+                            if let textContent = String(data: data, encoding: .utf8) {
+                                httpResponse = .ok(.text(textContent))
+                            } else {
+                                httpResponse = .ok(.data(data))
+                            }
+                        } else {
+                            httpResponse = .ok(.data(data))
+                        }
+                    } else {
+                        print("HTTP error: \(httpResp.statusCode)")
+                        switch httpResp.statusCode {
+                        case 404: httpResponse = .notFound
+                        case 500: httpResponse = .internalServerError
+                        case 400: httpResponse = .badRequest(.text("HTTP Error \(httpResp.statusCode)"))
+                        default: httpResponse = .internalServerError
+                        }
+                    }
+                } else {
+                    httpResponse = .internalServerError
+                }
+                
+                resultContainer.add(httpResponse)
+            }.resume()
+            
+            let timeout = DispatchTime.now() + .seconds(10)
+            if semaphore.wait(timeout: timeout) == .timedOut {
+                return .internalServerError
+            }
+            
+            return resultContainer.firstObject as? HttpResponse ?? .internalServerError
+        }
     }
     
-
-    
-    // Generate playlist with segments that will work (normal)
+    // Generate playlist with segments that will work
     private func normalVariantPlaylist(quality: String) -> String {
         let segments = (0..<10).map { i in
             "#EXTINF:10.0,\n\(baseURL)/normal/segment\(i).ts"
@@ -78,7 +146,7 @@ class MockHLSServer {
         """
     }
     
-    // Generate playlist with segments that will fail (404)
+    // Generate playlist with segments that will fail 
     private func failingVariantPlaylist(quality: String) -> String {
         let segments = (0..<10).map { i in
             "#EXTINF:10.0,\n\(baseURL)/not-found/segment\(i).ts"
@@ -129,5 +197,10 @@ extension MockHLSServer {
     
     func failingSegmentURL(_ segmentName: String) -> String {
         return "\(baseURL)/not-found/\(segmentName)"
+    }
+    
+    // Proxy URL helper
+    func proxyURL(path: String, host: String) -> String {
+        return "\(baseURL)/proxy/\(path)?proxyHost=\(host)"
     }
 } 
