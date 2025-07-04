@@ -391,11 +391,9 @@ struct IntegrationTests {
             .compactMap { $0 as? MUXSDKPlaybackEvent }
         #expect(completeRequestEvents.count > 0)
 #if !targetEnvironment(simulator)
-        let manifestEvents =
-        completeRequestEvents
+        let manifestEvents = completeRequestEvents
             .filter { $0.bandwidthMetricData?.requestType == "manifest" }
-        let videoEvents =
-        completeRequestEvents
+        let videoEvents = completeRequestEvents
             .filter { $0.bandwidthMetricData?.requestType == "video" }
 
         #expect(manifestEvents.count > 0, "No manifest events found")
@@ -405,7 +403,7 @@ struct IntegrationTests {
            let bandwidthMetricData = mainManifest.bandwidthMetricData
         {
             #expect(bandwidthMetricData.requestHostName == VOD_URL.host())
-            #expect((bandwidthMetricData.requestResponseHeaders?.isEmpty) == false)
+            #expect(bandwidthMetricData.requestResponseHeaders?.isEmpty == false)
             #expect(bandwidthMetricData.requestResponseHeaders?.index(forKey: "x-cdn") != nil)
         }
 #endif
