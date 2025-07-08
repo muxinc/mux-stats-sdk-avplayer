@@ -6,9 +6,14 @@ class MockHLSServer {
     private let server = HttpServer()
     private var isRunning = false
     private var port: UInt16 = 0
+    private let BASE_FOLDER = "./assets"
     
     init() {
-        setupRoutes()
+        if #available(iOS 13.4, *) {
+            setupRoutes()
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
     var baseURL: String {
@@ -28,6 +33,8 @@ class MockHLSServer {
         print("MockHLSServer stopped")
     }
     
+  
+    @available(iOS 13.4, *)
     private func setupRoutes() {
         // Dynamic segment routing for testing
         server.GET["/not-found/:segment"] = { request in
@@ -36,14 +43,42 @@ class MockHLSServer {
             return .notFound
         }
         
-        server.GET["/normal/:segment"] = { [weak self] request in
-            let segmentPath = request.params[":segment"] ?? "unknown"
-            print("200 -> \(segmentPath)")
-            
+        print("Setting routes")
+        server["/normal/**"] = { [weak self] request in
             guard let self = self else { return .internalServerError }
-            let segmentData = self.mockSegmentData()
-            return .ok(.data(segmentData))
+            
+            
+            let fullPath = request.path.replacingOccurrences(of: "/normal/", with: "")
+            
+            // Prevent directory traversal attacks
+            let safePath = fullPath
+                .split(separator: "/")
+                .filter { !$0.contains("..") }
+                .joined(separator: "/")
+            
+            let filePath = "\(self.BASE_FOLDER)/\(safePath)"
+
+            let absolutePath = URL(fileURLWithPath: filePath).standardized.path
+            print("Resolved absolute path: \(absolutePath)")
+            print("Current working directory: \(FileManager.default.currentDirectoryPath)")
+            let fm = FileManager.self
+            
+            if let fileHandle = FileHandle(forReadingAtPath: filePath) {
+                let fileData = try! fileHandle.readToEnd() ?? Data()
+                
+                return HttpResponse.raw(200, "OK", ["Content-Type": "image/png"]) { writer in
+                    try writer.write(fileData)
+                }
+            } else {
+                return HttpResponse.notFound
+            }
         }
+        /*if let mediaPath = Bundle.main.resourcePath?.appending("/Media.xcassets/assets") {
+            server["/normal/:path"] = shareFilesFromDirectory(mediaPath)
+        } else {
+            print("Asset Path not found!")
+        }*/
+        server["/test-cases/:path"] = shareFilesFromDirectory("Media.xcassets/test-cases")
         
         // Playlist endpoints that use normal (working) segments
         server.GET["/normal-playlist.m3u8"] = { [weak self] request in
