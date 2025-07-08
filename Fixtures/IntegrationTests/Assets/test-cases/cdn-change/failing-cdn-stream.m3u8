@@ -1,0 +1,15 @@
+#EXTM3U
+#EXT-X-VERSION:5
+#EXT-X-INDEPENDENT-SEGMENTS
+
+#EXTINF:5,
+/normal/segments/1.ts?cdn=cdnA
+#EXTINF:5,
+/not-found/segments/2.ts?cdn=cdnA
+#EXTINF:5,
+/normal/segments/3.ts?cdn=cdnA
+# Remove this delay if avplayer doesnt cancel this 
+#EXTINF:5,
+/delay/segments/4.ts?delay=10&cdn=cdnA
+
+#EXT-X-ENDLIST
