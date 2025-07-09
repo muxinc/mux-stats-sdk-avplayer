@@ -7,21 +7,6 @@ struct IntegrationTests {
     let dispatchDelay = 3.0
     let msTolerance: Double = 2000
     
-    func getLastTimestamp(for playerName: String) -> NSNumber? {
-        return MUXSDKCore.getPlayheadTimeStamps(forPlayer: playerName).last
-    }
-    
-    func getTimeDeltas(for playerName: String) -> [NSNumber] {
-        return MUXSDKCore.getPlayheadTimeDeltas(forPlayer: playerName)
-    }
-    
-    func getEventsAndReset(for playerName: String) -> [MUXSDKBaseEvent]? {
-        defer {
-            MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
-        }
-        return MUXSDKCore.getEventsForPlayer(playerName)
-    }
-    
     func assertStartPlaying(with player: AVPlayer, for playerName: String) async {
         NSLog("## Start playing content")
         await MainActor.run {
