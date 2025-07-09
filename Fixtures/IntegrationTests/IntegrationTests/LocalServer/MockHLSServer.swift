@@ -36,17 +36,18 @@ class MockHLSServer {
   
     @available(iOS 13.4, *)
     private func setupRoutes() {
-        // Dynamic segment routing for testing
-        server.GET["/not-found/:segment"] = { request in
-            let segmentPath = request.params[":segment"] ?? "unknown"
-            print("404 -> \(segmentPath)")
-            return .notFound
+        
+        server.GET["/sanity-check"] = { [weak self] request, _ in
+            guard let _ = self else { return .internalServerError() }
+            return HttpResponse.ok(.text("Works!"))
+        }
+        server.GET["/sanity-check/**"] = { [weak self] request, _ in
+            guard let _ = self else { return .internalServerError() }
+            return HttpResponse.ok(.text("Works!"))
         }
         
-        print("Setting routes")
-        server["/normal/**"] = { [weak self] request in
-            guard let self = self else { return .internalServerError }
-            
+        server["/normal/**"] = { [weak self] request, _ in
+            guard let self = self else { return .internalServerError() }
             
             let fullPath = request.path.replacingOccurrences(of: "/normal/", with: "")
             
@@ -57,22 +58,60 @@ class MockHLSServer {
                 .joined(separator: "/")
             
             let filePath = "\(self.BASE_FOLDER)/\(safePath)"
-
+            
             let absolutePath = URL(fileURLWithPath: filePath).standardized.path
             print("Resolved absolute path: \(absolutePath)")
             print("Current working directory: \(FileManager.default.currentDirectoryPath)")
-            let fm = FileManager.self
             
+            let bundlePath = Bundle.main.bundlePath
+            if let resourceURL = Bundle.main.url(forResource: "Test/Test2/foo", withExtension: "txt") {
+                // Use resourceURL.path or open the file
+                print("Found resource at: \(resourceURL.path)")
+            } else {
+                print("Resource not found")
+            }
+            do {
+                if #available(iOS 16.0, *) {
+                    print(try FileManager.default.contentsOfDirectory(atPath: bundlePath))
+                } else {
+                    // Fallback on earlier versions
+                }
+                
+                /*if let documentsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+                    let fileURL = documentsDir.appendingPathComponent("example.txt")
+                    let text = "Hello from the simulator!"
+                    if #available(iOS 16.0, *) {
+                        print(try FileManager.default.contentsOfDirectory(atPath: documentsDir.path()))
+                    } else {
+                        // Fallback on earlier versions
+                    }
+                    //try? text.write(to: fileURL, atomically: true, encoding: .utf8)
+                }*/
+            }
+            catch
+            {
+                print("Failed to read directory")
+            }
+            let fm = FileManager.self
             if let fileHandle = FileHandle(forReadingAtPath: filePath) {
                 let fileData = try! fileHandle.readToEnd() ?? Data()
                 
-                return HttpResponse.raw(200, "OK", ["Content-Type": "image/png"]) { writer in
+                return HttpResponse.raw(200, "OK") { writer in
                     try writer.write(fileData)
                 }
             } else {
-                return HttpResponse.notFound
+                return HttpResponse.notFound()
             }
         }
+        
+        // Dynamic segment routing for testing
+        server["/not-found/:segment"] = { request, _ in
+            let segmentPath = request.params[":segment"] ?? "unknown"
+            print("404 -> \(segmentPath)")
+            return HttpResponse.notFound()
+        }
+        
+        
         /*if let mediaPath = Bundle.main.resourcePath?.appending("/Media.xcassets/assets") {
             server["/normal/:path"] = shareFilesFromDirectory(mediaPath)
         } else {
@@ -81,21 +120,21 @@ class MockHLSServer {
         server["/test-cases/:path"] = shareFilesFromDirectory("Media.xcassets/test-cases")
         
         // Playlist endpoints that use normal (working) segments
-        server.GET["/normal-playlist.m3u8"] = { [weak self] request in
-            guard let self = self else { return .internalServerError }
+        server.GET["/normal-playlist.m3u8"] = { [weak self] request, _ in
+            guard let self = self else { return .internalServerError() }
             let content = self.normalVariantPlaylist(quality: "normal")
             return .ok(.text(content))
         }
         
         // Playlist endpoints that use failing segments
-        server.GET["/failing-playlist.m3u8"] = { [weak self] request in
-            guard let self = self else { return .internalServerError }
+        server.GET["/failing-playlist.m3u8"] = { [weak self] request, _ in
+            guard let self = self else { return .internalServerError() }
             let content = self.failingVariantPlaylist(quality: "failing")
             return .ok(.text(content))
         }
         
         // Proxy endpoint - using synchronous URLSession
-        server.GET["/proxy/:proxyPath"] = { request in
+        server.GET["/proxy/:proxyPath"] = { request, _ in
             let proxyPath = request.params[":proxyPath"] ?? ""
             
             // Query parameters
@@ -122,7 +161,7 @@ class MockHLSServer {
                 
                 if let error = error {
                     print("Proxy error: \(error)")
-                    httpResponse = .internalServerError
+                    httpResponse = .internalServerError()
                 } else if let httpResp = response as? HTTPURLResponse,
                           let data = data {
                     
@@ -143,14 +182,14 @@ class MockHLSServer {
                     } else {
                         print("HTTP error: \(httpResp.statusCode)")
                         switch httpResp.statusCode {
-                        case 404: httpResponse = .notFound
-                        case 500: httpResponse = .internalServerError
+                        case 404: httpResponse = .notFound()
+                        case 500: httpResponse = .internalServerError()
                         case 400: httpResponse = .badRequest(.text("HTTP Error \(httpResp.statusCode)"))
-                        default: httpResponse = .internalServerError
+                        default: httpResponse = .internalServerError()
                         }
                     }
                 } else {
-                    httpResponse = .internalServerError
+                    httpResponse = .internalServerError()
                 }
                 
                 resultContainer.add(httpResponse)
@@ -158,10 +197,10 @@ class MockHLSServer {
             
             let timeout = DispatchTime.now() + .seconds(10)
             if semaphore.wait(timeout: timeout) == .timedOut {
-                return .internalServerError
+                return .internalServerError()
             }
             
-            return resultContainer.firstObject as? HttpResponse ?? .internalServerError
+            return resultContainer.firstObject as? HttpResponse ?? .internalServerError()
         }
     }
     
@@ -209,6 +248,9 @@ class MockHLSServer {
 
 // MARK: - Test Helper Extensions
 extension MockHLSServer {
+    func forPath(_ path: String) -> String {
+        return "\(baseURL)/\(path)"
+    }
     
     // Get URL for fatal error testing
     var errorURL: String {
