@@ -1,12 +1,11 @@
 #!/bin/bash
 ASSETS_DIR=$PWD/assets
-SEGMENTS_DIR=$ASSETS_DIR/segments
 
 INPUT_MP4_360=$ASSETS_DIR/input_360p.mp4
 
-OUTPUT_M3U8=$SEGMENTS_DIR/index.m3u8
+OUTPUT_M3U8=$ASSETS_DIR/seg_index.m3u8
 
-mkdir -p $SEGMENTS_DIR
+mkdir -p $ASSETS_DIR
 
 ffmpeg -v error -y -i "$INPUT_MP4_360" \
   -t 20 \
@@ -16,7 +15,7 @@ ffmpeg -v error -y -i "$INPUT_MP4_360" \
   -hls_flags "split_by_time+independent_segments" \
   -hls_time 5 \
   -hls_playlist_type vod \
-  -hls_segment_filename "$SEGMENTS_DIR/%d.ts" \
+  -hls_segment_filename "$ASSETS_DIR/seg_%d.ts" \
   $OUTPUT_M3U8
 
 echo "CREATED $OUTPUT_M3U8"

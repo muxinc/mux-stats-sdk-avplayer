@@ -3,15 +3,11 @@ CURRENT_DIR=$PWD
 ASSETS_DIR=$PWD/assets
 TEST_CASES_DIR=$PWD/test-cases
 
-MULTI_VARIANT_DIR=$ASSETS_DIR/multivariant
-SEGMENTS_240_DIR=$MULTI_VARIANT_DIR/240p
-SEGMENTS_360_DIR=$MULTI_VARIANT_DIR/360p
-
 INPUT_MP4=$TEST_CASES_DIR/input.mp4
 
-mkdir -p $MULTI_VARIANT_DIR $SEGMENTS_240_DIR $SEGMENTS_360_DIR
+mkdir -p $ASSETS_DIR
 
-cd $MULTI_VARIANT_DIR
+cd $ASSETS_DIR
 
 ffmpeg -v error -y -i "$INPUT_MP4" \
   -filter_complex "[0:v]split=2[v1][v2]; \
@@ -26,10 +22,10 @@ ffmpeg -v error -y -i "$INPUT_MP4" \
   -f hls \
   -hls_time 5 \
   -hls_playlist_type vod \
-  -hls_segment_filename "%v/%d.ts" \
-  -master_pl_name index.m3u8 \
-  "%v/index.m3u8"
+  -hls_segment_filename "multi_%v_%d.ts" \
+  -master_pl_name multi_index.m3u8 \
+  "multi_%v_index.m3u8"
 
 cd $CURRENT_DIR
 
-echo "CREATED $SEGMENTS_240_DIR $SEGMENTS_360_DIR"
+echo "CREATED multivariant assets with multi_ prefix"
