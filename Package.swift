@@ -31,6 +31,14 @@ let package = Package(
         .target(
             name: "MUXSDKStatsInternal"),
         .testTarget(
+            name: "MUXSDKStatsSwiftTests",
+            dependencies: [
+                "MUXSDKStats",
+            ],
+            cSettings: [
+                .headerSearchPath("../../Sources/MUXSDKStats"),
+            ]),
+        .testTarget(
             name: "MUXSDKStatsTests",
             dependencies: [
                 "MUXSDKStats",
