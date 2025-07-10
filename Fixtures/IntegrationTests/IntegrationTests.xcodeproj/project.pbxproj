@@ -32,66 +32,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0886F9CB2E1DA8DA00A6A7CF /* 0.m4s */ = {isa = PBXFileReference; lastKnownFileType = file; path = 0.m4s; sourceTree = "<group>"; };
-		0886F9CC2E1DA8DA00A6A7CF /* 1.m4s */ = {isa = PBXFileReference; lastKnownFileType = file; path = 1.m4s; sourceTree = "<group>"; };
-		0886F9CD2E1DA8DA00A6A7CF /* 2.m4s */ = {isa = PBXFileReference; lastKnownFileType = file; path = 2.m4s; sourceTree = "<group>"; };
-		0886F9CE2E1DA8DA00A6A7CF /* 3.m4s */ = {isa = PBXFileReference; lastKnownFileType = file; path = 3.m4s; sourceTree = "<group>"; };
-		0886F9CF2E1DA8DA00A6A7CF /* 4.m4s */ = {isa = PBXFileReference; lastKnownFileType = file; path = 4.m4s; sourceTree = "<group>"; };
-		0886F9D02E1DA8DA00A6A7CF /* audio_init.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = audio_init.mp4; sourceTree = "<group>"; };
-		0886F9D12E1DA8DA00A6A7CF /* index.m3u8 */ = {isa = PBXFileReference; lastKnownFileType = text; path = index.m3u8; sourceTree = "<group>"; };
-		0886F9D32E1DA8DA00A6A7CF /* 0.m4s */ = {isa = PBXFileReference; lastKnownFileType = file; path = 0.m4s; sourceTree = "<group>"; };
-		0886F9D42E1DA8DA00A6A7CF /* 1.m4s */ = {isa = PBXFileReference; lastKnownFileType = file; path = 1.m4s; sourceTree = "<group>"; };
-		0886F9D52E1DA8DA00A6A7CF /* 2.m4s */ = {isa = PBXFileReference; lastKnownFileType = file; path = 2.m4s; sourceTree = "<group>"; };
-		0886F9D62E1DA8DA00A6A7CF /* 3.m4s */ = {isa = PBXFileReference; lastKnownFileType = file; path = 3.m4s; sourceTree = "<group>"; };
-		0886F9D72E1DA8DA00A6A7CF /* index.m3u8 */ = {isa = PBXFileReference; lastKnownFileType = text; path = index.m3u8; sourceTree = "<group>"; };
-		0886F9D82E1DA8DA00A6A7CF /* video_init.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video_init.mp4; sourceTree = "<group>"; };
-		0886F9DA2E1DA8DA00A6A7CF /* index_cmaf.m3u8 */ = {isa = PBXFileReference; lastKnownFileType = text; path = index_cmaf.m3u8; sourceTree = "<group>"; };
-		0886F9DC2E1DA8DA00A6A7CF /* 0.ts */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.typescript; path = 0.ts; sourceTree = "<group>"; };
-		0886F9DD2E1DA8DA00A6A7CF /* 1.ts */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.typescript; path = 1.ts; sourceTree = "<group>"; };
-		0886F9DE2E1DA8DA00A6A7CF /* 2.ts */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.typescript; path = 2.ts; sourceTree = "<group>"; };
-		0886F9DF2E1DA8DA00A6A7CF /* 3.ts */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.typescript; path = 3.ts; sourceTree = "<group>"; };
-		0886F9E02E1DA8DA00A6A7CF /* index.m3u8 */ = {isa = PBXFileReference; lastKnownFileType = text; path = index.m3u8; sourceTree = "<group>"; };
-		0886F9E12E1DA8DA00A6A7CF /* key.key */ = {isa = PBXFileReference; lastKnownFileType = file; path = key.key; sourceTree = "<group>"; };
-		0886F9E22E1DA8DA00A6A7CF /* key_info.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = key_info.txt; sourceTree = "<group>"; };
-		0886F9E42E1DA8DA00A6A7CF /* 0.ts */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.typescript; path = 0.ts; sourceTree = "<group>"; };
-		0886F9E52E1DA8DA00A6A7CF /* 1.ts */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.typescript; path = 1.ts; sourceTree = "<group>"; };
-		0886F9E62E1DA8DA00A6A7CF /* 2.ts */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.typescript; path = 2.ts; sourceTree = "<group>"; };
-		0886F9E72E1DA8DA00A6A7CF /* 3.ts */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.typescript; path = 3.ts; sourceTree = "<group>"; };
-		0886F9E82E1DA8DA00A6A7CF /* index.m3u8 */ = {isa = PBXFileReference; lastKnownFileType = text; path = index.m3u8; sourceTree = "<group>"; };
-		0886F9EA2E1DA8DA00A6A7CF /* 0.ts */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.typescript; path = 0.ts; sourceTree = "<group>"; };
-		0886F9EB2E1DA8DA00A6A7CF /* 1.ts */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.typescript; path = 1.ts; sourceTree = "<group>"; };
-		0886F9EC2E1DA8DA00A6A7CF /* 2.ts */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.typescript; path = 2.ts; sourceTree = "<group>"; };
-		0886F9ED2E1DA8DA00A6A7CF /* 3.ts */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.typescript; path = 3.ts; sourceTree = "<group>"; };
-		0886F9EE2E1DA8DA00A6A7CF /* index.m3u8 */ = {isa = PBXFileReference; lastKnownFileType = text; path = index.m3u8; sourceTree = "<group>"; };
-		0886F9F02E1DA8DA00A6A7CF /* index.m3u8 */ = {isa = PBXFileReference; lastKnownFileType = text; path = index.m3u8; sourceTree = "<group>"; };
-		0886F9F22E1DA8DA00A6A7CF /* 0.ts */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.typescript; path = 0.ts; sourceTree = "<group>"; };
-		0886F9F32E1DA8DA00A6A7CF /* 1.ts */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.typescript; path = 1.ts; sourceTree = "<group>"; };
-		0886F9F42E1DA8DA00A6A7CF /* 2.ts */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.typescript; path = 2.ts; sourceTree = "<group>"; };
-		0886F9F52E1DA8DA00A6A7CF /* 3.ts */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.typescript; path = 3.ts; sourceTree = "<group>"; };
-		0886F9F62E1DA8DA00A6A7CF /* index.m3u8 */ = {isa = PBXFileReference; lastKnownFileType = text; path = index.m3u8; sourceTree = "<group>"; };
-		0886F9F82E1DA8DA00A6A7CF /* input_240p.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = input_240p.mp4; sourceTree = "<group>"; };
-		0886F9F92E1DA8DA00A6A7CF /* input_360p.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = input_360p.mp4; sourceTree = "<group>"; };
-		0886F9FB2E1DA8DA00A6A7CF /* assets-make-cmaf.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "assets-make-cmaf.sh"; sourceTree = "<group>"; };
-		0886F9FC2E1DA8DA00A6A7CF /* assets-make-encrypted.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "assets-make-encrypted.sh"; sourceTree = "<group>"; };
-		0886F9FD2E1DA8DA00A6A7CF /* assets-make-segments.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "assets-make-segments.sh"; sourceTree = "<group>"; };
-		0886F9FE2E1DA8DA00A6A7CF /* assets-make-variants.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "assets-make-variants.sh"; sourceTree = "<group>"; };
-		0886F9FF2E1DA8DA00A6A7CF /* build-all.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "build-all.sh"; sourceTree = "<group>"; };
-		0886FA002E1DA8DA00A6A7CF /* download-inputs.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "download-inputs.sh"; sourceTree = "<group>"; };
-		0886FA022E1DA8DA00A6A7CF /* subs.vtt */ = {isa = PBXFileReference; lastKnownFileType = text; path = subs.vtt; sourceTree = "<group>"; };
-		0886FA042E1DA8DA00A6A7CF /* failing-cdn-stream.m3u8 */ = {isa = PBXFileReference; lastKnownFileType = text; path = "failing-cdn-stream.m3u8"; sourceTree = "<group>"; };
-		0886FA052E1DA8DA00A6A7CF /* index.m3u8 */ = {isa = PBXFileReference; lastKnownFileType = text; path = index.m3u8; sourceTree = "<group>"; };
-		0886FA062E1DA8DA00A6A7CF /* second-cdn-stream.m3u8 */ = {isa = PBXFileReference; lastKnownFileType = text; path = "second-cdn-stream.m3u8"; sourceTree = "<group>"; };
-		0886FA082E1DA8DA00A6A7CF /* audio.m3u8 */ = {isa = PBXFileReference; lastKnownFileType = text; path = audio.m3u8; sourceTree = "<group>"; };
-		0886FA092E1DA8DA00A6A7CF /* index.m3u8 */ = {isa = PBXFileReference; lastKnownFileType = text; path = index.m3u8; sourceTree = "<group>"; };
-		0886FA0A2E1DA8DA00A6A7CF /* video.m3u8 */ = {isa = PBXFileReference; lastKnownFileType = text; path = video.m3u8; sourceTree = "<group>"; };
-		0886FA0C2E1DA8DA00A6A7CF /* redirected-stream.m3u8 */ = {isa = PBXFileReference; lastKnownFileType = text; path = "redirected-stream.m3u8"; sourceTree = "<group>"; };
-		0886FA0D2E1DA8DA00A6A7CF /* request-canceled-stream.m3u8 */ = {isa = PBXFileReference; lastKnownFileType = text; path = "request-canceled-stream.m3u8"; sourceTree = "<group>"; };
-		0886FA0E2E1DA8DA00A6A7CF /* request-failed-stream.m3u8 */ = {isa = PBXFileReference; lastKnownFileType = text; path = "request-failed-stream.m3u8"; sourceTree = "<group>"; };
-		0886FA102E1DA8DA00A6A7CF /* encrypted-stream.m3u8 */ = {isa = PBXFileReference; lastKnownFileType = text; path = "encrypted-stream.m3u8"; sourceTree = "<group>"; };
-		0886FA112E1DA8DA00A6A7CF /* multi-variant.m3u8 */ = {isa = PBXFileReference; lastKnownFileType = text; path = "multi-variant.m3u8"; sourceTree = "<group>"; };
-		0886FA122E1DA8DA00A6A7CF /* ts-stream.m3u8 */ = {isa = PBXFileReference; lastKnownFileType = text; path = "ts-stream.m3u8"; sourceTree = "<group>"; };
-		0886FA142E1DA8DA00A6A7CF /* input.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = input.mp4; sourceTree = "<group>"; };
-		0886FA162E1DA8DA00A6A7CF /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		09C919652DE4E83D00C5F469 /* MockAVPlayerViewControllerBinding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MockAVPlayerViewControllerBinding.h; sourceTree = "<group>"; };
 		09C919692DE4E89E00C5F469 /* MockAVPlayerViewControllerBinding.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MockAVPlayerViewControllerBinding.m; sourceTree = "<group>"; };
 		09CA2C5F2DC2A2380032474D /* IntegrationTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IntegrationTests-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -104,6 +44,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		0D3D7BC62E1FF41700B3D243 /* Exceptions for "IntegrationTestHost" folder in "IntegrationTestHost" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+			);
+			target = 7225C9C42D77C2980003066B /* IntegrationTestHost */;
+		};
 		729027032DB967B700E08127 /* Exceptions for "ObjCTarget" folder in "ObjCTarget" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			publicHeaders = (
@@ -116,6 +63,9 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		7225C9C72D77C2980003066B /* IntegrationTestHost */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				0D3D7BC62E1FF41700B3D243 /* Exceptions for "IntegrationTestHost" folder in "IntegrationTestHost" target */,
+			);
 			path = IntegrationTestHost;
 			sourceTree = "<group>";
 		};
@@ -180,201 +130,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0886F9D22E1DA8DA00A6A7CF /* audio */ = {
-			isa = PBXGroup;
-			children = (
-				0886F9CB2E1DA8DA00A6A7CF /* 0.m4s */,
-				0886F9CC2E1DA8DA00A6A7CF /* 1.m4s */,
-				0886F9CD2E1DA8DA00A6A7CF /* 2.m4s */,
-				0886F9CE2E1DA8DA00A6A7CF /* 3.m4s */,
-				0886F9CF2E1DA8DA00A6A7CF /* 4.m4s */,
-				0886F9D02E1DA8DA00A6A7CF /* audio_init.mp4 */,
-				0886F9D12E1DA8DA00A6A7CF /* index.m3u8 */,
-			);
-			path = audio;
-			sourceTree = "<group>";
-		};
-		0886F9D92E1DA8DA00A6A7CF /* video */ = {
-			isa = PBXGroup;
-			children = (
-				0886F9D32E1DA8DA00A6A7CF /* 0.m4s */,
-				0886F9D42E1DA8DA00A6A7CF /* 1.m4s */,
-				0886F9D52E1DA8DA00A6A7CF /* 2.m4s */,
-				0886F9D62E1DA8DA00A6A7CF /* 3.m4s */,
-				0886F9D72E1DA8DA00A6A7CF /* index.m3u8 */,
-				0886F9D82E1DA8DA00A6A7CF /* video_init.mp4 */,
-			);
-			path = video;
-			sourceTree = "<group>";
-		};
-		0886F9DB2E1DA8DA00A6A7CF /* cmaf */ = {
-			isa = PBXGroup;
-			children = (
-				0886F9D22E1DA8DA00A6A7CF /* audio */,
-				0886F9D92E1DA8DA00A6A7CF /* video */,
-				0886F9DA2E1DA8DA00A6A7CF /* index_cmaf.m3u8 */,
-			);
-			path = cmaf;
-			sourceTree = "<group>";
-		};
-		0886F9E32E1DA8DA00A6A7CF /* encrypted */ = {
-			isa = PBXGroup;
-			children = (
-				0886F9DC2E1DA8DA00A6A7CF /* 0.ts */,
-				0886F9DD2E1DA8DA00A6A7CF /* 1.ts */,
-				0886F9DE2E1DA8DA00A6A7CF /* 2.ts */,
-				0886F9DF2E1DA8DA00A6A7CF /* 3.ts */,
-				0886F9E02E1DA8DA00A6A7CF /* index.m3u8 */,
-				0886F9E12E1DA8DA00A6A7CF /* key.key */,
-				0886F9E22E1DA8DA00A6A7CF /* key_info.txt */,
-			);
-			path = encrypted;
-			sourceTree = "<group>";
-		};
-		0886F9E92E1DA8DA00A6A7CF /* 240p */ = {
-			isa = PBXGroup;
-			children = (
-				0886F9E42E1DA8DA00A6A7CF /* 0.ts */,
-				0886F9E52E1DA8DA00A6A7CF /* 1.ts */,
-				0886F9E62E1DA8DA00A6A7CF /* 2.ts */,
-				0886F9E72E1DA8DA00A6A7CF /* 3.ts */,
-				0886F9E82E1DA8DA00A6A7CF /* index.m3u8 */,
-			);
-			path = 240p;
-			sourceTree = "<group>";
-		};
-		0886F9EF2E1DA8DA00A6A7CF /* 360p */ = {
-			isa = PBXGroup;
-			children = (
-				0886F9EA2E1DA8DA00A6A7CF /* 0.ts */,
-				0886F9EB2E1DA8DA00A6A7CF /* 1.ts */,
-				0886F9EC2E1DA8DA00A6A7CF /* 2.ts */,
-				0886F9ED2E1DA8DA00A6A7CF /* 3.ts */,
-				0886F9EE2E1DA8DA00A6A7CF /* index.m3u8 */,
-			);
-			path = 360p;
-			sourceTree = "<group>";
-		};
-		0886F9F12E1DA8DA00A6A7CF /* multivariant */ = {
-			isa = PBXGroup;
-			children = (
-				0886F9E92E1DA8DA00A6A7CF /* 240p */,
-				0886F9EF2E1DA8DA00A6A7CF /* 360p */,
-				0886F9F02E1DA8DA00A6A7CF /* index.m3u8 */,
-			);
-			path = multivariant;
-			sourceTree = "<group>";
-		};
-		0886F9F72E1DA8DA00A6A7CF /* segments */ = {
-			isa = PBXGroup;
-			children = (
-				0886F9F22E1DA8DA00A6A7CF /* 0.ts */,
-				0886F9F32E1DA8DA00A6A7CF /* 1.ts */,
-				0886F9F42E1DA8DA00A6A7CF /* 2.ts */,
-				0886F9F52E1DA8DA00A6A7CF /* 3.ts */,
-				0886F9F62E1DA8DA00A6A7CF /* index.m3u8 */,
-			);
-			path = segments;
-			sourceTree = "<group>";
-		};
-		0886F9FA2E1DA8DA00A6A7CF /* assets */ = {
-			isa = PBXGroup;
-			children = (
-				0886F9DB2E1DA8DA00A6A7CF /* cmaf */,
-				0886F9E32E1DA8DA00A6A7CF /* encrypted */,
-				0886F9F12E1DA8DA00A6A7CF /* multivariant */,
-				0886F9F72E1DA8DA00A6A7CF /* segments */,
-				0886F9F82E1DA8DA00A6A7CF /* input_240p.mp4 */,
-				0886F9F92E1DA8DA00A6A7CF /* input_360p.mp4 */,
-			);
-			path = assets;
-			sourceTree = "<group>";
-		};
-		0886FA012E1DA8DA00A6A7CF /* scripts */ = {
-			isa = PBXGroup;
-			children = (
-				0886F9FB2E1DA8DA00A6A7CF /* assets-make-cmaf.sh */,
-				0886F9FC2E1DA8DA00A6A7CF /* assets-make-encrypted.sh */,
-				0886F9FD2E1DA8DA00A6A7CF /* assets-make-segments.sh */,
-				0886F9FE2E1DA8DA00A6A7CF /* assets-make-variants.sh */,
-				0886F9FF2E1DA8DA00A6A7CF /* build-all.sh */,
-				0886FA002E1DA8DA00A6A7CF /* download-inputs.sh */,
-			);
-			path = scripts;
-			sourceTree = "<group>";
-		};
-		0886FA032E1DA8DA00A6A7CF /* static */ = {
-			isa = PBXGroup;
-			children = (
-				0886FA022E1DA8DA00A6A7CF /* subs.vtt */,
-			);
-			path = static;
-			sourceTree = "<group>";
-		};
-		0886FA072E1DA8DA00A6A7CF /* cdn-change */ = {
-			isa = PBXGroup;
-			children = (
-				0886FA042E1DA8DA00A6A7CF /* failing-cdn-stream.m3u8 */,
-				0886FA052E1DA8DA00A6A7CF /* index.m3u8 */,
-				0886FA062E1DA8DA00A6A7CF /* second-cdn-stream.m3u8 */,
-			);
-			path = "cdn-change";
-			sourceTree = "<group>";
-		};
-		0886FA0B2E1DA8DA00A6A7CF /* cmaf */ = {
-			isa = PBXGroup;
-			children = (
-				0886FA082E1DA8DA00A6A7CF /* audio.m3u8 */,
-				0886FA092E1DA8DA00A6A7CF /* index.m3u8 */,
-				0886FA0A2E1DA8DA00A6A7CF /* video.m3u8 */,
-			);
-			path = cmaf;
-			sourceTree = "<group>";
-		};
-		0886FA0F2E1DA8DA00A6A7CF /* http-codes */ = {
-			isa = PBXGroup;
-			children = (
-				0886FA0C2E1DA8DA00A6A7CF /* redirected-stream.m3u8 */,
-				0886FA0D2E1DA8DA00A6A7CF /* request-canceled-stream.m3u8 */,
-				0886FA0E2E1DA8DA00A6A7CF /* request-failed-stream.m3u8 */,
-			);
-			path = "http-codes";
-			sourceTree = "<group>";
-		};
-		0886FA132E1DA8DA00A6A7CF /* standard */ = {
-			isa = PBXGroup;
-			children = (
-				0886FA102E1DA8DA00A6A7CF /* encrypted-stream.m3u8 */,
-				0886FA112E1DA8DA00A6A7CF /* multi-variant.m3u8 */,
-				0886FA122E1DA8DA00A6A7CF /* ts-stream.m3u8 */,
-			);
-			path = standard;
-			sourceTree = "<group>";
-		};
-		0886FA152E1DA8DA00A6A7CF /* test-cases */ = {
-			isa = PBXGroup;
-			children = (
-				0886FA072E1DA8DA00A6A7CF /* cdn-change */,
-				0886FA0B2E1DA8DA00A6A7CF /* cmaf */,
-				0886FA0F2E1DA8DA00A6A7CF /* http-codes */,
-				0886FA132E1DA8DA00A6A7CF /* standard */,
-				0886FA142E1DA8DA00A6A7CF /* input.mp4 */,
-			);
-			path = "test-cases";
-			sourceTree = "<group>";
-		};
-		0886FA172E1DA8DA00A6A7CF /* Assets */ = {
-			isa = PBXGroup;
-			children = (
-				0886F9FA2E1DA8DA00A6A7CF /* assets */,
-				0886FA012E1DA8DA00A6A7CF /* scripts */,
-				0886FA032E1DA8DA00A6A7CF /* static */,
-				0886FA152E1DA8DA00A6A7CF /* test-cases */,
-				0886FA162E1DA8DA00A6A7CF /* .gitignore */,
-			);
-			path = Assets;
-			sourceTree = "<group>";
-		};
 		09C918672DD39B2700C5F469 /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
@@ -389,7 +144,6 @@
 		7225C9BC2D77C2980003066B = {
 			isa = PBXGroup;
 			children = (
-				0886FA172E1DA8DA00A6A7CF /* Assets */,
 				09C918672DD39B2700C5F469 /* Mocks */,
 				722CF7F92D83AD980005B60D /* Configuration */,
 				7225C9C72D77C2980003066B /* IntegrationTestHost */,

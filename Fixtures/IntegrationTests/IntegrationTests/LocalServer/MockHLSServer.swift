@@ -6,13 +6,130 @@ class MockHLSServer {
     private let server = HttpServer()
     private var isRunning = false
     private var port: UInt16 = 0
-    private let BASE_FOLDER = "./assets"
+    private let BASE_FOLDER: String
     
     init() {
+        BASE_FOLDER = Self.findAssetsFolder()
+        
         if #available(iOS 13.4, *) {
             setupRoutes()
         } else {
-            // Fallback on earlier versions
+        }
+    }
+    
+    private static func findAssetsFolder() -> String {
+        let fileManager = FileManager.default
+        
+        if let bundlePath = Bundle.main.resourcePath {
+            let bundleAssetsPath = "\(bundlePath)/assets"
+            
+            // Check if the Assets folder is being maintained
+            if fileManager.fileExists(atPath: bundleAssetsPath) {
+                return bundleAssetsPath
+            }
+            
+            // Fallback if xcode flattened folder
+            let sampleFiles = ["seg_index.m3u8", "cmaf_video_0.m4s", "multi_index.m3u8"]
+            let bundledFilesExist = sampleFiles.contains { 
+                fileManager.fileExists(atPath: "\(bundlePath)/\($0)")
+            }
+            
+            if bundledFilesExist {
+                return createDynamicAssetsFolder(fromBundlePath: bundlePath)
+            }
+        }
+
+        return ""
+    }
+    
+    private static func createDynamicAssetsFolder(fromBundlePath bundlePath: String) -> String {
+        let fileManager = FileManager.default
+        let tempPath = fileManager.temporaryDirectory.appendingPathComponent("dynamic-assets-\(UUID().uuidString)")
+        let tempAssetsPath = tempPath.path
+        
+        do {
+            // Create temp directory structure
+            try fileManager.createDirectory(atPath: tempAssetsPath, withIntermediateDirectories: true)
+            try fileManager.createDirectory(atPath: "\(tempAssetsPath)/segments", withIntermediateDirectories: true)
+            try fileManager.createDirectory(atPath: "\(tempAssetsPath)/cmaf", withIntermediateDirectories: true)
+            try fileManager.createDirectory(atPath: "\(tempAssetsPath)/cmaf/video", withIntermediateDirectories: true)
+            try fileManager.createDirectory(atPath: "\(tempAssetsPath)/cmaf/audio", withIntermediateDirectories: true)
+            try fileManager.createDirectory(atPath: "\(tempAssetsPath)/multivariant", withIntermediateDirectories: true)
+            try fileManager.createDirectory(atPath: "\(tempAssetsPath)/multivariant/240p", withIntermediateDirectories: true)
+            try fileManager.createDirectory(atPath: "\(tempAssetsPath)/multivariant/360p", withIntermediateDirectories: true)
+            try fileManager.createDirectory(atPath: "\(tempAssetsPath)/encrypted", withIntermediateDirectories: true)
+            
+            // Map renamed files back to original structure
+            let fileMappings: [(from: String, to: String)] = [
+                // Segments
+                ("seg_index.m3u8", "segments/index.m3u8"),
+                ("seg_0.ts", "segments/0.ts"),
+                ("seg_1.ts", "segments/1.ts"),
+                ("seg_2.ts", "segments/2.ts"),
+                ("seg_3.ts", "segments/3.ts"),
+                
+                // CMAF Video
+                ("cmaf_video_index.m3u8", "cmaf/video/index.m3u8"),
+                ("cmaf_video_0.m4s", "cmaf/video/0.m4s"),
+                ("cmaf_video_1.m4s", "cmaf/video/1.m4s"),
+                ("cmaf_video_2.m4s", "cmaf/video/2.m4s"),
+                ("cmaf_video_3.m4s", "cmaf/video/3.m4s"),
+                ("video_init.mp4", "cmaf/video/init.mp4"),
+                
+                // CMAF Audio
+                ("cmaf_audio_index.m3u8", "cmaf/audio/index.m3u8"),
+                ("cmaf_audio_0.m4s", "cmaf/audio/0.m4s"),
+                ("cmaf_audio_1.m4s", "cmaf/audio/1.m4s"),
+                ("cmaf_audio_2.m4s", "cmaf/audio/2.m4s"),
+                ("cmaf_audio_3.m4s", "cmaf/audio/3.m4s"),
+                ("cmaf_audio_4.m4s", "cmaf/audio/4.m4s"),
+                ("audio_init.mp4", "cmaf/audio/init.mp4"),
+                
+                // Main CMAF playlist
+                ("index_cmaf.m3u8", "cmaf/index.m3u8"),
+                
+                // Input files
+                ("input_240p.mp4", "input_240p.mp4"),
+                ("input_360p.mp4", "input_360p.mp4"),
+                
+                // Multivariant
+                ("multi_index.m3u8", "multivariant/index.m3u8"),
+                ("multi_240p_index.m3u8", "multivariant/240p/index.m3u8"),
+                ("multi_240p_0.ts", "multivariant/240p/0.ts"),
+                ("multi_240p_1.ts", "multivariant/240p/1.ts"),
+                ("multi_240p_2.ts", "multivariant/240p/2.ts"),
+                ("multi_240p_3.ts", "multivariant/240p/3.ts"),
+                ("multi_360p_index.m3u8", "multivariant/360p/index.m3u8"),
+                ("multi_360p_0.ts", "multivariant/360p/0.ts"),
+                ("multi_360p_1.ts", "multivariant/360p/1.ts"),
+                ("multi_360p_2.ts", "multivariant/360p/2.ts"),
+                ("multi_360p_3.ts", "multivariant/360p/3.ts"),
+                
+                // Encrypted
+                ("enc_index.m3u8", "encrypted/index.m3u8"),
+                ("enc_0.ts", "encrypted/0.ts"),
+                ("enc_1.ts", "encrypted/1.ts"),
+                ("enc_2.ts", "encrypted/2.ts"),
+                ("enc_3.ts", "encrypted/3.ts"),
+            ]
+            
+            // Copy files from bundle to expected locations
+            for (fromFile, toPath) in fileMappings {
+                let sourcePath = "\(bundlePath)/\(fromFile)"
+                let destPath = "\(tempAssetsPath)/\(toPath)"
+                
+                if fileManager.fileExists(atPath: sourcePath) {
+                    try fileManager.copyItem(atPath: sourcePath, toPath: destPath)
+                }
+            }
+            
+            return tempAssetsPath
+            
+        } catch {
+            print("Failed to create dynamic assets folder: \(error)")
+            // Fallback to Documents
+            let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            return documentsPath.appendingPathComponent("assets").path
         }
     }
     
@@ -24,18 +141,21 @@ class MockHLSServer {
         port = UInt16.random(in: 8080...9000)
         try server.start(port)
         isRunning = true
-        print("MockHLSServer started on port \(port)")
     }
     
     func stop() {
         server.stop()
         isRunning = false
-        print("MockHLSServer stopped")
     }
     
   
     @available(iOS 13.4, *)
     private func setupRoutes() {
+        
+        server.GET["/health"] = { [weak self] request, _ in
+            guard let _ = self else { return .internalServerError() }
+            return HttpResponse.ok(.text("OK"))
+        }
         
         server.GET["/sanity-check"] = { [weak self] request, _ in
             guard let _ = self else { return .internalServerError() }
@@ -46,12 +166,46 @@ class MockHLSServer {
             return HttpResponse.ok(.text("Works!"))
         }
         
+        // Serve files directly from assets folder
+        server["/**"] = { [weak self] request, _ in
+            guard let self = self else { return .internalServerError() }
+            
+            // Skip if it's a specific route handled elsewhere
+            if request.path.hasPrefix("/health") ||
+               request.path.hasPrefix("/sanity-check") ||
+               request.path.hasPrefix("/normal/") ||
+               request.path.hasPrefix("/not-found/") ||
+               request.path.hasPrefix("/proxy/") ||
+               request.path.contains("-playlist.m3u8") {
+                return .notFound()
+            }
+            
+            let safePath = request.path
+                .trimmingCharacters(in: CharacterSet(charactersIn: "/"))
+                .split(separator: "/")
+                .filter { !$0.contains("..") }
+                .joined(separator: "/")
+            
+            let filePath = "\(self.BASE_FOLDER)/\(safePath)"
+            
+            if let fileHandle = FileHandle(forReadingAtPath: filePath) {
+                let fileData = try! fileHandle.readToEnd() ?? Data()
+                
+                let pathExtension = URL(fileURLWithPath: safePath).pathExtension
+                let contentType = self.mimeType(forFileExtension: pathExtension)
+                
+                return .ok(.data(fileData, contentType: contentType))
+            } else {
+                return HttpResponse.notFound()
+            }
+        }
+        
+        
         server["/normal/**"] = { [weak self] request, _ in
             guard let self = self else { return .internalServerError() }
             
             let fullPath = request.path.replacingOccurrences(of: "/normal/", with: "")
             
-            // Prevent directory traversal attacks
             let safePath = fullPath
                 .split(separator: "/")
                 .filter { !$0.contains("..") }
@@ -59,65 +213,31 @@ class MockHLSServer {
             
             let filePath = "\(self.BASE_FOLDER)/\(safePath)"
             
-            let absolutePath = URL(fileURLWithPath: filePath).standardized.path
-            print("Resolved absolute path: \(absolutePath)")
-            print("Current working directory: \(FileManager.default.currentDirectoryPath)")
-            
-            let bundlePath = Bundle.main.bundlePath
-            if let resourceURL = Bundle.main.url(forResource: "Test/Test2/foo", withExtension: "txt") {
-                // Use resourceURL.path or open the file
-                print("Found resource at: \(resourceURL.path)")
-            } else {
-                print("Resource not found")
-            }
-            do {
-                if #available(iOS 16.0, *) {
-                    print(try FileManager.default.contentsOfDirectory(atPath: bundlePath))
-                } else {
-                    // Fallback on earlier versions
-                }
-                
-                /*if let documentsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-                    let fileURL = documentsDir.appendingPathComponent("example.txt")
-                    let text = "Hello from the simulator!"
-                    if #available(iOS 16.0, *) {
-                        print(try FileManager.default.contentsOfDirectory(atPath: documentsDir.path()))
-                    } else {
-                        // Fallback on earlier versions
-                    }
-                    //try? text.write(to: fileURL, atomically: true, encoding: .utf8)
-                }*/
-            }
-            catch
-            {
-                print("Failed to read directory")
-            }
-            let fm = FileManager.self
             if let fileHandle = FileHandle(forReadingAtPath: filePath) {
                 let fileData = try! fileHandle.readToEnd() ?? Data()
                 
-                return HttpResponse.raw(200, "OK") { writer in
-                    try writer.write(fileData)
+                let contentType: String
+                if safePath.hasSuffix(".m3u8") {
+                    contentType = "application/vnd.apple.mpegurl"
+                } else if safePath.hasSuffix(".ts") {
+                    contentType = "video/mp2t"
+                } else if safePath.hasSuffix(".m4s") {
+                    contentType = "video/iso.segment"
+                } else if safePath.hasSuffix(".mp4") {
+                    contentType = "video/mp4"
+                } else {
+                    contentType = "application/octet-stream"
                 }
+                
+                return .ok(.data(fileData, contentType: contentType))
             } else {
                 return HttpResponse.notFound()
             }
         }
         
-        // Dynamic segment routing for testing
         server["/not-found/:segment"] = { request, _ in
-            let segmentPath = request.params[":segment"] ?? "unknown"
-            print("404 -> \(segmentPath)")
             return HttpResponse.notFound()
         }
-        
-        
-        /*if let mediaPath = Bundle.main.resourcePath?.appending("/Media.xcassets/assets") {
-            server["/normal/:path"] = shareFilesFromDirectory(mediaPath)
-        } else {
-            print("Asset Path not found!")
-        }*/
-        server["/test-cases/:path"] = shareFilesFromDirectory("Media.xcassets/test-cases")
         
         // Playlist endpoints that use normal (working) segments
         server.GET["/normal-playlist.m3u8"] = { [weak self] request, _ in
@@ -133,39 +253,30 @@ class MockHLSServer {
             return .ok(.text(content))
         }
         
-        // Proxy endpoint - using synchronous URLSession
         server.GET["/proxy/:proxyPath"] = { request, _ in
             let proxyPath = request.params[":proxyPath"] ?? ""
             
-            // Query parameters
             guard let proxyHost = request.queryParams.first(where: { $0.0 == "proxyHost" })?.1 else {
                 return .badRequest(.text("Missing proxyHost parameter"))
             }
             
-            // Build target URL
             let targetURL = "https://\(proxyHost)/\(proxyPath)"
-            print("Proxying: \(request.path) -> \(targetURL)")
-            
             guard let url = URL(string: targetURL) else {
                 return .badRequest(.text("Invalid target URL"))
             }
             
-            // Use synchronous request to avoid concurrency issues
             let semaphore = DispatchSemaphore(value: 0)
-            let resultContainer = NSMutableArray() // Thread-safe container
+            let resultContainer = NSMutableArray()
             
             URLSession.shared.dataTask(with: url) { data, response, error in
                 defer { semaphore.signal() }
                 
                 let httpResponse: HttpResponse
                 
-                if let error = error {
-                    print("Proxy error: \(error)")
+                if let _ = error {
                     httpResponse = .internalServerError()
                 } else if let httpResp = response as? HTTPURLResponse,
                           let data = data {
-                    
-                    print("Proxy success: \(httpResp.statusCode)")
                     
                     if httpResp.statusCode == 200 {
                         let contentType = httpResp.allHeaderFields["Content-Type"] as? String ?? "application/octet-stream"
@@ -180,7 +291,6 @@ class MockHLSServer {
                             httpResponse = .ok(.data(data))
                         }
                     } else {
-                        print("HTTP error: \(httpResp.statusCode)")
                         switch httpResp.statusCode {
                         case 404: httpResponse = .notFound()
                         case 500: httpResponse = .internalServerError()
@@ -220,7 +330,7 @@ class MockHLSServer {
         """
     }
     
-    // Generate playlist with segments that will fail 
+    // Generate playlist with segments that will fail
     private func failingVariantPlaylist(quality: String) -> String {
         let segments = (0..<10).map { i in
             "#EXTINF:10.0,\n\(baseURL)/not-found/segment\(i).ts"
@@ -236,13 +346,14 @@ class MockHLSServer {
         """
     }
     
-    private func mockSegmentData() -> Data {
-        // Return minimal valid MPEG-TS data
-        let mockBytes: [UInt8] = [
-            0x47, 0x40, 0x00, 0x10, // TS sync byte and header
-            0x00, 0x00, 0x01, 0xe0, // Start of PES packet
-        ]
-        return Data(mockBytes + Array(repeating: 0x00, count: 1000)) // Pad to reasonable size
+    private func mimeType(forFileExtension ext: String) -> String {
+        switch ext {
+        case "m3u8": return "application/vnd.apple.mpegurl"
+        case "ts": return "video/mp2t"
+        case "m4s": return "video/iso.segment"
+        case "mp4": return "video/mp4"
+        default: return "application/octet-stream"
+        }
     }
 }
 
@@ -280,4 +391,9 @@ extension MockHLSServer {
     func proxyURL(path: String, host: String) -> String {
         return "\(baseURL)/proxy/\(path)?proxyHost=\(host)"
     }
-} 
+    
+    // Debug helper to expose findAssetsFolder for testing
+    func debugFindAssetsFolder() -> String {
+        return MockHLSServer.findAssetsFolder()
+    }
+}

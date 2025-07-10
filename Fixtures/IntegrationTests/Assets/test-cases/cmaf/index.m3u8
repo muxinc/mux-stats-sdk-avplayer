@@ -1,7 +1,0 @@
-#EXTM3U
-#EXT-X-VERSION:7
-
-#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="group_group_id",NAME="audio_1",DEFAULT=YES,CHANNELS="2",URI="/normal/cmaf/audio/index.m3u8"
-
-#EXT-X-STREAM-INF:BANDWIDTH=612044,AVERAGE-BANDWIDTH=441673,RESOLUTION=640x360,CODECS="avc1.64001e,mp4a.40.2",AUDIO="group_group_id"
-/normal/cmaf/video/index.m3u8
