@@ -19,3 +19,7 @@ public func getEventsAndReset(for playerName: String) -> [MUXSDKBaseEvent]? {
     }
     return MUXSDKCore.getEventsForPlayer(playerName)
 }
+
+public func getEvents(for playerName: String) -> [MUXSDKBaseEvent] {
+    return MUXSDKCore.getEventsForPlayer(playerName)
+}
