@@ -144,11 +144,35 @@ extension AVPlayerItem {
             }
     }
     
-    @available(iOS 18, tvOS 18, visionOS 2, *)
+    nonisolated func bandwidthMetricDataEvents() -> some Publisher<MUXSDKBaseEvent, Never> {
+        let eventsFromAccessLog = bandwidthMetricDataEventsUsingAccessLog()
+        let eventsFromAVMetrics = bandwidthMetricDataEventsUsingAVMetrics().share()
+        
+        return eventsFromAVMetrics.merge(with: eventsFromAccessLog.prefix(untilOutputFrom: eventsFromAVMetrics))
+    }
+    
+    
+    nonisolated func bandwidthMetricDataEventsUsingAccessLog()
+    -> some Publisher<MUXSDKBaseEvent, Never> {
+        var state = AccessLogToBandwidthMetricEventState()
+        return NotificationCenter.default
+            .publisher(for: AVPlayerItem.newAccessLogEntryNotification, object: self)
+            .compactMap { $0.object as? AVPlayerItem }
+            .compactMap { $0.accessLog() }
+            .flatMap { $0.events.publisher }
+            .compactMap { MUXSDKRequestBandwidthEvent(accessLog: $0, state: &state) }
+            .map { $0 as MUXSDKBaseEvent }
+            .eraseToAnyPublisher()
+    }
+
     nonisolated func bandwidthMetricDataEventsUsingAVMetrics()
-        -> some Publisher<MUXSDKBaseEvent, Never>
+        -> AnyPublisher<MUXSDKBaseEvent, Never>
     {
-        Publishers.Merge3(
+        guard #available(iOS 18, tvOS 18, visionOS 2, *) else {
+            return Empty<MUXSDKBaseEvent, Never>().eraseToAnyPublisher()
+        }
+        
+        return Publishers.Merge3(
             metrics(forType: AVMetricHLSPlaylistRequestEvent.self)
                 .publisher  // manifest requests
                 .compactMap { MUXSDKRequestBandwidthEvent(event: $0) },
@@ -168,6 +192,7 @@ extension AVPlayerItem {
             }
             return Empty<MUXSDKBaseEvent, Never>()
         }
+        .eraseToAnyPublisher()
     }
 }
 

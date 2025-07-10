@@ -7,6 +7,47 @@
 import AVFoundation
 import MuxCore
 
+public struct AccessLogToBandwidthMetricEventState {
+    public var lastTransferDuration: TimeInterval = 0
+    public var lastTransferredBytes: Int64 = 0
+    
+    public mutating func setLastTransferDuration(_ duration: TimeInterval) {
+        lastTransferDuration = duration
+    }
+    
+    public mutating func setLastTransferredBytes(_ bytes: Int64) {
+        lastTransferredBytes = bytes
+    }
+}
+
+extension MUXSDKBandwidthMetricData {
+    convenience init(accessLog event: AVPlayerItemAccessLogEvent, state: inout AccessLogToBandwidthMetricEventState) {
+        self.init()
+        
+        if let uri = event.uri, let url = URL(string: uri)  {
+            switch url.pathExtension {
+            case "m3u8":
+                self.requestType = "manifest"
+            default:
+                self.requestType = "media"
+            }
+            
+            self.requestHostName = url.host
+            self.requestUrl = url.path
+        }
+        
+        let requestCompletedTimeAprox = Date().timeIntervalSince1970
+        let requestStartAprox = requestCompletedTimeAprox - event.transferDuration;
+        
+        self.requestStart = requestStartAprox as NSNumber
+        self.requestResponseEnd = requestCompletedTimeAprox as NSNumber
+        self.requestBytesLoaded = event.numberOfBytesTransferred - state.lastTransferredBytes as NSNumber
+        
+        state.setLastTransferDuration(event.transferDuration)
+        state.setLastTransferredBytes(event.numberOfBytesTransferred)
+    }
+}
+
 @available(iOS 18, tvOS 18, visionOS 2, *)
 extension MUXSDKBandwidthMetricData {
     convenience public init?(mediaResourceRequestEvent event: AVMetricMediaResourceRequestEvent?) {

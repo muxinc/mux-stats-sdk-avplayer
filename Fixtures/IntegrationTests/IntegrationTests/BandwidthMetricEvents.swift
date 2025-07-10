@@ -77,6 +77,9 @@ nonisolated(unsafe) var testsAvailable : Bool = true
     
     // "/test-cases/cmaf/index.m3u8"
     @Test func standardCmafStream() async throws {
+        guard #available(iOS 16.0, *) else {
+            return
+        }
         let playerName = "standard/cmaf \(UUID().uuidString)"
         MUXSDKCore.swizzleDispatchEvents()
         defer {
@@ -90,9 +93,36 @@ nonisolated(unsafe) var testsAvailable : Bool = true
         await avPlayer.play()
         
         try await waitForPlaybackToStart(with: avPlayer, for: playerName)
-        
+        try await Task.sleep(for: .seconds(5))
+
         let requestEvents = getRequestEvents(for: playerName)
-        print(requestEvents)
+        
+        let completeEvents = requestEvents
+            .filter { $0.type == MUXSDKPlaybackEventRequestBandwidthEventCompleteType }
+            .count
+        let manifestEvents = requestEvents
+            .compactMap{ $0.bandwidthMetricData }
+            .filter { $0.requestType == "manifest" }
+            .count
+        let videoEvents = requestEvents
+            .filter { $0.bandwidthMetricData?.requestType == "video" }
+            .count
+        let audioEvents = requestEvents
+            .filter { $0.bandwidthMetricData?.requestType == "audio" }
+            .count
+        let videoInitEvents = requestEvents
+            .filter { $0.bandwidthMetricData?.requestType == "video_init" }
+            .count
+        let audioInitEvents = requestEvents
+            .filter { $0.bandwidthMetricData?.requestType == "audio_init" }
+            .count
+        
+        #expect(completeEvents == 14)
+        #expect(manifestEvents == 3)
+        #expect(videoEvents == 4)
+        #expect(videoInitEvents == 1)
+        #expect(audioEvents == 5)
+        #expect(audioInitEvents == 1)
     }
     
     // "/test-cases/input.mp4"
@@ -112,6 +142,12 @@ nonisolated(unsafe) var testsAvailable : Bool = true
         try await waitForPlaybackToStart(with: avPlayer, for: playerName)
         
         let requestEvents = getRequestEvents(for: playerName)
+        
+        let fiveCompleteEvents = requestEvents
+            .filter { $0.type == MUXSDKPlaybackEventRequestBandwidthEventCompleteType }
+            .count == 1
+        #expect(fiveCompleteEvents)
+        print(requestEvents)
     }
     // "/test-cases/standard/multi-variant.m3u8"
     // "/test-cases/standard/encrypted-stream.m3u8"

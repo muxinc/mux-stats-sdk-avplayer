@@ -7,6 +7,14 @@
 import AVFoundation
 import MuxCore
 
+extension MUXSDKRequestBandwidthEvent {
+    convenience public init(accessLog event: AVPlayerItemAccessLogEvent, state: inout AccessLogToBandwidthMetricEventState) {
+        self.init()
+        self.type = MUXSDKPlaybackEventRequestBandwidthEventCompleteType
+        self.bandwidthMetricData = MUXSDKBandwidthMetricData.init(accessLog: event, state: &state)
+    }
+}
+
 @available(iOS 18, tvOS 18, visionOS 2, *)
 extension MUXSDKRequestBandwidthEvent {
     convenience private init?(mediaResourceRequestEvent: AVMetricMediaResourceRequestEvent?) {
