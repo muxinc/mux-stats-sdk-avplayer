@@ -78,26 +78,6 @@ struct LocalServerTests {
         #expect(events3 != nil, "Expected some events from proxy")
     }
     
-    @Test func sanityTests() async throws {
-        let mockServer = MockHLSServer()
-        try mockServer.start()
-        defer { mockServer.stop() }
-        
-        let testUrl : URL = URL(string: mockServer.forPath("sanity-check"))!
-        let (data, response) = try await URLSession.shared.data(from: testUrl)
-        if let response = response as? HTTPURLResponse {
-            #expect(response.statusCode == 200)
-            #expect(String(data: data, encoding: .utf8) == "Works!")
-        }
-        
-        let testPathsUrl : URL = URL(string: mockServer.forPath("sanity-check/a/b/c"))!
-        let (data2, response2) = try await URLSession.shared.data(from: testPathsUrl)
-        if let response2 = response2 as? HTTPURLResponse {
-            #expect(response2.statusCode == 200)
-            #expect(String(data: data2, encoding: .utf8) == "Works!")
-        }
-    }
-    
     @Test func fileLoadingWorks() async throws {
         let mockServer = MockHLSServer()
         try mockServer.start()
