@@ -13,10 +13,10 @@
 #import "MUXSDKCustomerCustomDataStore.h"
 
 // Software constants.
-NSString *const MuxPlayerSoftwareAVPlayerViewController = @"AVPlayerViewController";
-NSString *const MuxPlayerSoftwareAVPlayerLayer = @"AVPlayerLayer";
-NSString *const MuxPlayerSoftwareAVPlayer = @"AVPlayer";
-NSString *const MuxDeviceIDUserDefaultsKey = @"MUX_DEVICE_ID";
+static NSString *const MuxPlayerSoftwareAVPlayerViewController = @"AVPlayerViewController";
+static NSString *const MuxPlayerSoftwareAVPlayerLayer = @"AVPlayerLayer";
+static NSString *const MuxPlayerSoftwareAVPlayer = @"AVPlayer";
+static NSString *const MuxDeviceIDUserDefaultsKey = @"MUX_DEVICE_ID";
 
 
 @implementation MUXSDKStats
