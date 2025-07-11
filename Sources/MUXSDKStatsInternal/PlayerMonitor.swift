@@ -1,11 +1,11 @@
-import AVFoundation
+public import AVFoundation
 import Combine
-import MuxCore
+public import MuxCore
 
 
 @available(iOS 13, tvOS 13, *)
 @objc(MUXSDKPlayerMonitor)
-public class PlayerMonitor: NSObject, ObservableObject {
+public class PlayerMonitor: NSObject {
 
     var allEvents: some Publisher<MUXSDKBaseEvent, Never> {
         allEventsSubject
@@ -15,12 +15,6 @@ public class PlayerMonitor: NSObject, ObservableObject {
 
     private var cancellables = [AnyCancellable]()
 
-    override init() {
-    }
-}
-
-@available(iOS 13, tvOS 13, *)
-extension PlayerMonitor: Cancellable {
     @objc public func cancel() {
         allEventsSubject.send(completion: .finished)
         cancellables.removeAll()
