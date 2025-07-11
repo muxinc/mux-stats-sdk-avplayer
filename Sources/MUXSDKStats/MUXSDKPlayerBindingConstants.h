@@ -8,5 +8,5 @@
 
 #import <Foundation/Foundation.h>
 
-FOUNDATION_EXPORT NSNotificationName const RenditionChangeNotification;
-FOUNDATION_EXPORT NSNotificationName const RenditionChangeNotificationInfoAdvertisedBitrate;
+static NSNotificationName const RenditionChangeNotification = @"RenditionChangeNotification";
+static NSNotificationName const RenditionChangeNotificationInfoAdvertisedBitrate = @"RenditionChangeNotificationInfoAdvertisedBitrate";

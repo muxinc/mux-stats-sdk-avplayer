@@ -18,17 +18,17 @@
 #import "MUXSDKPlayerBindingConstants.h"
 
 // SDK constants.
-NSString *const MUXSDKPluginName = @"apple-mux";
-NSString *const MUXSDKPluginVersion = @"4.7.0";
-NSString *const MUXSessionDataPrefix = @"io.litix.data.";
+static NSString *const MUXSDKPluginName = @"apple-mux";
+static NSString *const MUXSDKPluginVersion = @"4.7.0";
+static NSString *const MUXSessionDataPrefix = @"io.litix.data.";
 
 // Min number of seconds between timeupdate events. (100ms)
-double MUXSDKMaxSecsBetweenTimeUpdate = 0.1;
+static const double MUXSDKMaxSecsBetweenTimeUpdate = 0.1;
 // Number of seconds of difference between wall/play time signaling the beginning of a seek. (200ms)
-float MUXSDKMaxSecsSeekClockDrift = 0.2f;
+static const float MUXSDKMaxSecsSeekClockDrift = 0.2f;
 // Number of seconds the playhead has to move from the last known playhead position when
 // restarting play to consider the transition to play a seek. (500ms)
-float MUXSDKMaxSecsSeekPlayheadShift = 0.5f;
+static const float MUXSDKMaxSecsSeekPlayheadShift = 0.5f;
 
 // AVPlayer observation contexts.
 static void *MUXSDKAVPlayerRateObservationContext = &MUXSDKAVPlayerRateObservationContext;
@@ -45,7 +45,7 @@ static void *MUXSDKAVPlayerItemPlaybackBufferEmptyObservationContext = &MUXSDKAV
 // that makes it possible. Specifically when handling the _playerItem observers. The
 // _playerItem observer is attached asynchonously, a developer could call destroyPlayer before
 // we have attached the _playerItem observer
-NSString * RemoveObserverExceptionName = @"NSRangeException";
+static NSString *const RemoveObserverExceptionName = @"NSRangeException";
 
 @interface MUXSDKPlayerBinding ()
 
