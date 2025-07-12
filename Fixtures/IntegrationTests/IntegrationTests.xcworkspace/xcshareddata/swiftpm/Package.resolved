@@ -1,5 +1,5 @@
 {
-  "originHash" : "f43efb0897b517b92fba2ac0d839e34541decc6657e40722d43b7112dad2916c",
+  "originHash" : "1dc6529ca9e631da85325fd48e25b4f802d021b74ea1229bc4af5c940f356855",
   "pins" : [
     {
       "identity" : "stats-sdk-objc",
@@ -11,12 +11,12 @@
       }
     },
     {
-      "identity" : "swifterfork",
+      "identity" : "swifter",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/tomieq/swifterfork",
+      "location" : "https://github.com/httpswift/swifter.git",
       "state" : {
-        "revision" : "bde9ac098db4f9d7b79802532489d629fac1ca96",
-        "version" : "1.5.7"
+        "revision" : "9483a5d459b45c3ffd059f7b55f9638e268632fd",
+        "version" : "1.5.0"
       }
     }
   ],

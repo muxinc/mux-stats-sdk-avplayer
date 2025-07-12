@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0886F9CA2E1D9EC200A6A7CF /* Swifter in Frameworks */ = {isa = PBXBuildFile; productRef = 0886F9C92E1D9EC200A6A7CF /* Swifter */; };
 		09C9196B2DE4E89E00C5F469 /* MockAVPlayerViewControllerBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 09C919692DE4E89E00C5F469 /* MockAVPlayerViewControllerBinding.m */; };
 		09CA2C622DCE81BE0032474D /* MUXSDKCore+Mock.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CA2C612DCE81BE0032474D /* MUXSDKCore+Mock.m */; };
+		0D3D84D32E2193EE00B3D243 /* Swifter in Frameworks */ = {isa = PBXBuildFile; productRef = 0D3D84D22E2193EE00B3D243 /* Swifter */; };
 		7255C2F52D7A6EA700E1D797 /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 7255C2F42D7A6EA700E1D797 /* MUXSDKStats */; };
 		7290270B2DB9688400E08127 /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 7290270A2DB9688400E08127 /* MUXSDKStats */; };
 /* End PBXBuildFile section */
@@ -129,7 +129,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0886F9CA2E1D9EC200A6A7CF /* Swifter in Frameworks */,
+				0D3D84D32E2193EE00B3D243 /* Swifter in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,7 +249,7 @@
 			);
 			name = IntegrationTests;
 			packageProductDependencies = (
-				0886F9C92E1D9EC200A6A7CF /* Swifter */,
+				0D3D84D22E2193EE00B3D243 /* Swifter */,
 			);
 			productName = IntegrationTestHostTests;
 			productReference = 7225C9D62D77C2980003066B /* IntegrationTests.xctest */;
@@ -339,7 +339,7 @@
 			mainGroup = 7225C9BC2D77C2980003066B;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				0886F9C82E1D9EC200A6A7CF /* XCRemoteSwiftPackageReference "swifterfork" */,
+				0D3D84D12E2193DC00B3D243 /* XCRemoteSwiftPackageReference "swifter" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7225C9C62D77C2980003066B /* Products */;
@@ -842,20 +842,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		0886F9C82E1D9EC200A6A7CF /* XCRemoteSwiftPackageReference "swifterfork" */ = {
+		0D3D84D12E2193DC00B3D243 /* XCRemoteSwiftPackageReference "swifter" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/tomieq/swifterfork";
+			repositoryURL = "https://github.com/httpswift/swifter.git";
 			requirement = {
-				kind = exactVersion;
-				version = 1.5.7;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0886F9C92E1D9EC200A6A7CF /* Swifter */ = {
+		0D3D84D22E2193EE00B3D243 /* Swifter */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0886F9C82E1D9EC200A6A7CF /* XCRemoteSwiftPackageReference "swifterfork" */;
+			package = 0D3D84D12E2193DC00B3D243 /* XCRemoteSwiftPackageReference "swifter" */;
 			productName = Swifter;
 		};
 		7255C2F42D7A6EA700E1D797 /* MUXSDKStats */ = {

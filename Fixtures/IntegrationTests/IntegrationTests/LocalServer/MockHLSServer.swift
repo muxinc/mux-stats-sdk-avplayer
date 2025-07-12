@@ -167,23 +167,23 @@ class MockHLSServer {
     @available(iOS 13.4, *)
     private func setupRoutes() {
         
-        server.GET["/health"] = { [weak self] request, _ in
-            guard let _ = self else { return .internalServerError() }
+        server.GET["/health"] = { [weak self] request in
+            guard let _ = self else { return .internalServerError }
             return HttpResponse.ok(.text("OK"))
         }
         
-        server.GET["/sanity-check"] = { [weak self] request, _ in
-            guard let _ = self else { return .internalServerError() }
+        server.GET["/sanity-check"] = { [weak self] request in
+            guard let _ = self else { return .internalServerError }
             return HttpResponse.ok(.text("Works!"))
         }
-        server.GET["/sanity-check/**"] = { [weak self] request, _ in
-            guard let _ = self else { return .internalServerError() }
+        server.GET["/sanity-check/**"] = { [weak self] request in
+            guard let _ = self else { return .internalServerError }
             return HttpResponse.ok(.text("Works!"))
         }
         
         // Serve files directly from assets folder
-        server["/**"] = { [weak self] request, _ in
-            guard let self = self else { return .internalServerError() }
+        server["/**"] = { [weak self] request in
+            guard let self = self else { return .internalServerError }
             
             // Skip if it's a specific route handled elsewhere
             if request.path.hasPrefix("/health") ||
@@ -192,7 +192,7 @@ class MockHLSServer {
                request.path.hasPrefix("/not-found/") ||
                request.path.hasPrefix("/proxy/") ||
                request.path.contains("-playlist.m3u8") {
-                return .notFound()
+                return .notFound
             }
             
             let safePath = request.path
@@ -211,13 +211,13 @@ class MockHLSServer {
                 
                 return .ok(.data(fileData, contentType: contentType))
             } else {
-                return HttpResponse.notFound()
+                return HttpResponse.notFound
             }
         }
         
         
-        server["/normal/**"] = { [weak self] request, _ in
-            guard let self = self else { return .internalServerError() }
+        server["/normal/**"] = { [weak self] request in
+            guard let self = self else { return .internalServerError }
             
             let fullPath = request.path.replacingOccurrences(of: "/normal/", with: "")
             
@@ -246,29 +246,29 @@ class MockHLSServer {
                 
                 return .ok(.data(fileData, contentType: contentType))
             } else {
-                return HttpResponse.notFound()
+                return HttpResponse.notFound
             }
         }
         
-        server["/not-found/:segment"] = { request, _ in
-            return HttpResponse.notFound()
+        server["/not-found/:segment"] = { request in
+            return HttpResponse.notFound
         }
         
         // Playlist endpoints that use normal (working) segments
-        server.GET["/normal-playlist.m3u8"] = { [weak self] request, _ in
-            guard let self = self else { return .internalServerError() }
+        server.GET["/normal-playlist.m3u8"] = { [weak self] request in
+            guard let self = self else { return .internalServerError }
             let content = self.normalVariantPlaylist(quality: "normal")
             return .ok(.text(content))
         }
         
         // Playlist endpoints that use failing segments
-        server.GET["/failing-playlist.m3u8"] = { [weak self] request, _ in
-            guard let self = self else { return .internalServerError() }
+        server.GET["/failing-playlist.m3u8"] = { [weak self] request in
+            guard let self = self else { return .internalServerError }
             let content = self.failingVariantPlaylist(quality: "failing")
             return .ok(.text(content))
         }
         
-        server.GET["/proxy/:proxyPath"] = { request, _ in
+        server.GET["/proxy/:proxyPath"] = { request in
             let proxyPath = request.params[":proxyPath"] ?? ""
             
             guard let proxyHost = request.queryParams.first(where: { $0.0 == "proxyHost" })?.1 else {
@@ -289,7 +289,7 @@ class MockHLSServer {
                 let httpResponse: HttpResponse
                 
                 if let _ = error {
-                    httpResponse = .internalServerError()
+                    httpResponse = .internalServerError
                 } else if let httpResp = response as? HTTPURLResponse,
                           let data = data {
                     
@@ -307,14 +307,14 @@ class MockHLSServer {
                         }
                     } else {
                         switch httpResp.statusCode {
-                        case 404: httpResponse = .notFound()
-                        case 500: httpResponse = .internalServerError()
+                        case 404: httpResponse = .notFound
+                        case 500: httpResponse = .internalServerError
                         case 400: httpResponse = .badRequest(.text("HTTP Error \(httpResp.statusCode)"))
-                        default: httpResponse = .internalServerError()
+                        default: httpResponse = .internalServerError
                         }
                     }
                 } else {
-                    httpResponse = .internalServerError()
+                    httpResponse = .internalServerError
                 }
                 
                 resultContainer.add(httpResponse)
@@ -322,10 +322,10 @@ class MockHLSServer {
             
             let timeout = DispatchTime.now() + .seconds(10)
             if semaphore.wait(timeout: timeout) == .timedOut {
-                return .internalServerError()
+                return .internalServerError
             }
             
-            return resultContainer.firstObject as? HttpResponse ?? .internalServerError()
+            return resultContainer.firstObject as? HttpResponse ?? .internalServerError
         }
     }
     
