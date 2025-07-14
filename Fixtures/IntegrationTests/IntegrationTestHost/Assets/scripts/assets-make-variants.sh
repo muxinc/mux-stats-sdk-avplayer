@@ -1,11 +1,13 @@
 #!/bin/bash
 CURRENT_DIR=$PWD
-ASSETS_DIR=$PWD/assets
+# Use the exported ASSETS_DIR from build-all.sh
+ASSETS_DIR=${ASSETS_DIR:-$PWD/assets}
 TEST_CASES_DIR=$PWD/test-cases
 
 INPUT_MP4=$TEST_CASES_DIR/input.mp4
 
-mkdir -p $ASSETS_DIR
+mkdir -p $ASSETS_DIR/multivariant/240p
+mkdir -p $ASSETS_DIR/multivariant/360p
 
 cd $ASSETS_DIR
 
@@ -22,10 +24,10 @@ ffmpeg -v error -y -i "$INPUT_MP4" \
   -f hls \
   -hls_time 5 \
   -hls_playlist_type vod \
-  -hls_segment_filename "multi_%v_%d.ts" \
-  -master_pl_name multi_index.m3u8 \
-  "multi_%v_index.m3u8"
+  -hls_segment_filename "multivariant/%v/%d.ts" \
+  -master_pl_name multivariant/index.m3u8 \
+  "multivariant/%v/index.m3u8"
 
 cd $CURRENT_DIR
 
-echo "CREATED multivariant assets with multi_ prefix"
+echo "CREATED multivariant assets in proper folder structure"

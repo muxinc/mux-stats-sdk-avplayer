@@ -1,6 +1,7 @@
 #!/bin/bash
 
-ASSETS_DIR=./assets
+# Use the exported ASSETS_DIR from build-all.sh
+ASSETS_DIR=${ASSETS_DIR:-./assets}
 TEST_CASES_DIR=./test-cases
 
 DOWNLOAD_FROM=https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_640x360.m4v
