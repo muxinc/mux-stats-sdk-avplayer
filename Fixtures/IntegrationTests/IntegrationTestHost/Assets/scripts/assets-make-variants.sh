@@ -1,20 +1,17 @@
 #!/bin/bash
 CURRENT_DIR=$PWD
-# Use the exported ASSETS_DIR from build-all.sh
 ASSETS_DIR=${ASSETS_DIR:-$PWD/assets}
 TEST_CASES_DIR=$PWD/test-cases
-
 INPUT_MP4=$TEST_CASES_DIR/input.mp4
-
+if [ ! -f "$INPUT_MP4" ]; then
+    echo "❌ Error: Input file $INPUT_MP4 not found"
+    exit 1
+fi
 mkdir -p $ASSETS_DIR/multivariant/240p
 mkdir -p $ASSETS_DIR/multivariant/360p
-
-cd $ASSETS_DIR
-
+cd $ASSETS_DIR/multivariant
 ffmpeg -v error -y -i "$INPUT_MP4" \
-  -filter_complex "[0:v]split=2[v1][v2]; \
-                   [v1]scale=426:240[v240]; \
-                   [v2]scale=640:360[v360]" \
+  -filter_complex "[0:v]split=2[v1][v2]; [v1]scale=426:240[v240]; [v2]scale=640:360[v360]" \
   -map "[v240]" -map a \
   -map "[v360]" -map a \
   -c:v:0 libx264 -b:v:0 200k -preset veryfast \
@@ -24,10 +21,12 @@ ffmpeg -v error -y -i "$INPUT_MP4" \
   -f hls \
   -hls_time 5 \
   -hls_playlist_type vod \
-  -hls_segment_filename "multivariant/%v/%d.ts" \
-  -master_pl_name multivariant/index.m3u8 \
-  "multivariant/%v/index.m3u8"
-
+  -hls_segment_filename "%v/%d.ts" \
+  -master_pl_name "index.m3u8" \
+  "%v/index.m3u8"
+if [ ! -f "index.m3u8" ]; then
+    echo "❌ Error: Multivariant master playlist was not created"
+    exit 1
+fi
 cd $CURRENT_DIR
-
-echo "CREATED multivariant assets in proper folder structure"
+echo "CREATED multivariant assets"
