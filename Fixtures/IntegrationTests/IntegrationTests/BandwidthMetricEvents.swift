@@ -51,11 +51,7 @@ struct BandwidthMetricEvents {
                 .compactMap { $0 as? Int64 }
                 .map { Date(milliseconds: $0) }
         }
-
-        orderedTimes.forEach{
-            print("Dates: \($0)")
-        }
-
+        
         #expect(requestUrls.toBeUnique())
         #expect(requestUrls.allSatisfy { $0.starts(with: self.baseUrl.absoluteString) })
         #expect(requestHostNames.allSatisfy { $0 == self.host })
@@ -328,13 +324,21 @@ struct BandwidthMetricEvents {
         let requestEvents =  try await playAndWait(for: playerName, player: avPlayer)
         
         let completeEvents = requestEvents.completeEvents()
+        let failedEvents = requestEvents.failedEvents()
         let manifestEvents = requestEvents.manifestEvents()
         let videoEvents = requestEvents.segmentEvents(forType: "video")
+        let cdnHeaders = videoEvents
+            .compactMap { $0.bandwidthMetricData?.requestResponseHeaders }
+            .compactMap { $0["x-cdn"] as? String }
         
         commonExpectations(for: completeEvents)
         #expect(completeEvents.count == 8)
+        #expect(failedEvents.count == 1)
         #expect(manifestEvents.count == 3)
         #expect(videoEvents.count == 6)
+        #expect(cdnHeaders.count == (videoEvents.count - failedEvents.count))
+        #expect(Set(cdnHeaders) == ["cdnA", "cdnB"])
+        // TODO: Expect cdn change event
     }
 }
 
