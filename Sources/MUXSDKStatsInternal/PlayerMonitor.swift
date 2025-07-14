@@ -2,9 +2,16 @@ public import AVFoundation
 import Combine
 public import MuxCore
 
+@objc(MUXSDKLogToBandwidthMetricCalculator)
+public protocol LogToBandwidthMetricCalculator: AnyObject {
+    func calculateBandwidthMetricFromAccessLog(_ log: AVPlayerItemAccessLog)
+    func calculateBandwidthMetricFromErrorLog(_ log: AVPlayerItemErrorLog)
+}
+
 @available(iOS 13, tvOS 13, *)
 @objc(MUXSDKPlayerMonitor)
 public class PlayerMonitor: NSObject, ObservableObject {
+    @objc public weak var calculator: LogToBandwidthMetricCalculator? //TODO Change name
     
     var allEvents: some Publisher<MUXSDKBaseEvent, Never> {
         allEventsSubject
@@ -42,7 +49,27 @@ extension PlayerMonitor {
             player.publisher(for: \.currentItem, options: [.initial])
                 .removeDuplicates()
                 .compactMap { $0 }
-                .flatMap { $0.bandwidthMetricDataEvents() }
+                .flatMap {
+                    let metricsPub = $0
+                       .bandwidthMetricDataEventsUsingAVMetrics()
+                       .eraseToAnyPublisher()
+                       
+                    $0.bandwidthMetricDataEventsUsingAccessLog()
+                        .delay(for: .seconds(1), scheduler: ImmediateIfOnMainQueueScheduler.shared)
+                        .prefix(untilOutputFrom: metricsPub)
+                        .receive(on: ImmediateIfOnMainQueueScheduler.shared)
+                        .sink(receiveValue: { self.calculator?.calculateBandwidthMetricFromAccessLog($0) })
+                        .store(in: &self.cancellables)
+                    
+                    $0.bandwidthMetricDataEventsUsingErrorLog()
+                        .delay(for: .seconds(1), scheduler: ImmediateIfOnMainQueueScheduler.shared)
+                        .prefix(untilOutputFrom: metricsPub)
+                        .receive(on: ImmediateIfOnMainQueueScheduler.shared)
+                        .sink(receiveValue: { self.calculator?.calculateBandwidthMetricFromErrorLog($0) })
+                        .store(in: &self.cancellables)
+                    
+                    return metricsPub
+                }
                 .sink(receiveValue: allEventsSubject.send)
                 .store(in: &cancellables)
         }

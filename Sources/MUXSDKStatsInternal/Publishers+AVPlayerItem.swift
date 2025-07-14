@@ -144,27 +144,24 @@ extension AVPlayerItem {
             }
     }
     
-    nonisolated func bandwidthMetricDataEvents() -> some Publisher<MUXSDKBaseEvent, Never> {
-        let eventsFromAccessLog = bandwidthMetricDataEventsUsingAccessLog()
-        let eventsFromAVMetrics = bandwidthMetricDataEventsUsingAVMetrics().share()
-        
-        return eventsFromAVMetrics.merge(with: eventsFromAccessLog.prefix(untilOutputFrom: eventsFromAVMetrics))
-    }
-    
-    
     nonisolated func bandwidthMetricDataEventsUsingAccessLog()
-    -> some Publisher<MUXSDKBaseEvent, Never> {
-        var state = AccessLogToBandwidthMetricEventState()
+    -> some Publisher<AVPlayerItemAccessLog, Never> {
         return NotificationCenter.default
             .publisher(for: AVPlayerItem.newAccessLogEntryNotification, object: self)
             .compactMap { $0.object as? AVPlayerItem }
             .compactMap { $0.accessLog() }
-            .flatMap { $0.events.publisher }
-            .compactMap { MUXSDKRequestBandwidthEvent(accessLog: $0, state: &state) }
-            .map { $0 as MUXSDKBaseEvent }
             .eraseToAnyPublisher()
     }
-
+    
+    nonisolated func bandwidthMetricDataEventsUsingErrorLog()
+    -> some Publisher<AVPlayerItemErrorLog, Never> {
+        return NotificationCenter.default
+            .publisher(for: AVPlayerItem.newErrorLogEntryNotification, object: self)
+            .compactMap { $0.object as? AVPlayerItem }
+            .compactMap { $0.errorLog() }
+            .eraseToAnyPublisher()
+    }
+    
     nonisolated func bandwidthMetricDataEventsUsingAVMetrics()
         -> AnyPublisher<MUXSDKBaseEvent, Never>
     {
@@ -174,7 +171,7 @@ extension AVPlayerItem {
         
         return Publishers.Merge3(
             metrics(forType: AVMetricHLSPlaylistRequestEvent.self)
-                .publisher  // manifest requests
+                .publisher // manifest requests
                 .compactMap { MUXSDKRequestBandwidthEvent(event: $0) },
             metrics(forType: AVMetricHLSMediaSegmentRequestEvent.self)
                 .publisher  // audio/video/media requests

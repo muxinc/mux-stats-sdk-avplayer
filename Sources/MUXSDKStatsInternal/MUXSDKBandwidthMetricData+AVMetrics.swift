@@ -1,5 +1,5 @@
 //
-//  MUXSDKswift
+//  MUXSDKBandwidthMetricData+AVMetrics.swift
 //  MUXSDKStats
 //
 //  Created by Santiago Puppo on 17/6/25.
@@ -7,52 +7,11 @@
 import AVFoundation
 import MuxCore
 
-public struct AccessLogToBandwidthMetricEventState {
-    public var lastTransferDuration: TimeInterval = 0
-    public var lastTransferredBytes: Int64 = 0
-    
-    public mutating func setLastTransferDuration(_ duration: TimeInterval) {
-        lastTransferDuration = duration
-    }
-    
-    public mutating func setLastTransferredBytes(_ bytes: Int64) {
-        lastTransferredBytes = bytes
-    }
-}
-
-extension MUXSDKBandwidthMetricData {
-    convenience init(accessLog event: AVPlayerItemAccessLogEvent, state: inout AccessLogToBandwidthMetricEventState) {
-        self.init()
-        
-        if let uri = event.uri, let url = URL(string: uri)  {
-            switch url.pathExtension {
-            case "m3u8":
-                self.requestType = "manifest"
-            default:
-                self.requestType = "media"
-            }
-            
-            self.requestHostName = url.host
-            self.requestUrl = url.path
-        }
-        
-        let requestCompletedTimeAprox = Date().timeIntervalSince1970
-        let requestStartAprox = requestCompletedTimeAprox - event.transferDuration;
-        
-        self.requestStart = requestStartAprox as NSNumber
-        self.requestResponseEnd = requestCompletedTimeAprox as NSNumber
-        self.requestBytesLoaded = event.numberOfBytesTransferred - state.lastTransferredBytes as NSNumber
-        
-        state.setLastTransferDuration(event.transferDuration)
-        state.setLastTransferredBytes(event.numberOfBytesTransferred)
-    }
-}
-
 @available(iOS 18, tvOS 18, visionOS 2, *)
 extension MUXSDKBandwidthMetricData {
     convenience public init?(mediaResourceRequestEvent event: AVMetricMediaResourceRequestEvent?) {
         self.init()
-        
+                
         guard let event = event else {
             return nil
         }
@@ -71,10 +30,10 @@ extension MUXSDKBandwidthMetricData {
             }
         }
         
-        self.requestStart = event.requestStartTime.timeIntervalSince1970 * 1000 as NSNumber
-        self.requestResponseStart = event.responseStartTime.timeIntervalSince1970 * 1000 as NSNumber
-        self.requestResponseEnd = event.responseEndTime.timeIntervalSince1970 * 1000 as NSNumber
-        self.requestUrl = event.url?.path()
+        self.requestStart = event.requestStartTime.millisecondsSince1970 as NSNumber
+        self.requestResponseStart = event.responseStartTime.millisecondsSince1970 as NSNumber
+        self.requestResponseEnd = event.responseEndTime.millisecondsSince1970 as NSNumber
+        self.requestUrl = event.url?.absoluteString
         self.requestBytesLoaded = event.byteRange.length as NSNumber
         self.requestHostName = event.url?.host()
         
@@ -93,25 +52,13 @@ extension MUXSDKBandwidthMetricData {
         
         switch event.mediaType {
         case .video:
-            if (event.isMapSegment) {
-                requestType = "video_init"
-            } else {
-                requestType = "video"
-            }
-            break
+            requestType = event.isMapSegment ? "video_init" : "video"
         case .audio:
-            if (event.isMapSegment) {
-                requestType = "audio_init"
-            } else {
-                requestType = "audio"
-            }
-            break
+            requestType = event.isMapSegment ? "audio_init" : "audio"
         case .text, .closedCaption, .subtitle:
             requestType = "subtitle"
-            break
         case .muxed:
             requestType = "media"
-            break
         default:
             requestType = nil
         }
@@ -127,17 +74,16 @@ extension MUXSDKBandwidthMetricData {
     convenience public init?(from transactionMetrics: URLSessionTaskTransactionMetrics) {
         self.init()
         
-        requestStart = transactionMetrics.fetchStartDate.map { NSNumber(value: $0.timeIntervalSince1970 * 1000) }
-        requestResponseStart = transactionMetrics.responseStartDate.map { $0.timeIntervalSince1970 * 1000 as NSNumber }
-        requestResponseEnd = transactionMetrics.responseEndDate.map { $0.timeIntervalSince1970 * 1000 as NSNumber }
-        requestUrl = transactionMetrics.request.url?.path()
+        requestStart = transactionMetrics.fetchStartDate.map { NSNumber(value: $0.millisecondsSince1970) }
+        requestResponseStart = transactionMetrics.responseStartDate.map { $0.millisecondsSince1970 as NSNumber }
+        requestResponseEnd = transactionMetrics.responseEndDate.map { $0.millisecondsSince1970 as NSNumber }
+        requestUrl = transactionMetrics.request.url?.absoluteString
         requestBytesLoaded = transactionMetrics.countOfResponseBodyBytesReceived + transactionMetrics.countOfResponseHeaderBytesReceived as NSNumber
         requestHostName = transactionMetrics.request.url?.host()
         
         loadHeaders(from: transactionMetrics)
     }
     
-    // TODO: Test redirects
     func loadHeaders(from metricEvent: URLSessionTaskTransactionMetrics) {
         guard let response = metricEvent.response as? HTTPURLResponse else {
             return
@@ -153,5 +99,11 @@ extension MUXSDKBandwidthMetricData {
         
         self.requestErrorCode = response.statusCode as NSNumber
         self.requestErrorText = HTTPURLResponse.localizedString(forStatusCode: response.statusCode)
+    }
+}
+
+extension Date {
+    var millisecondsSince1970:Int64 {
+        return Int64((self.timeIntervalSince1970 * 1000.0).rounded())
     }
 }
