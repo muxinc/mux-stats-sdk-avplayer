@@ -33,14 +33,7 @@ extension PlayerMonitor {
 
         player.publisher(for: \.currentItem, options: [.initial])
             .removeDuplicates()
-            .map { item in
-                guard let item = item else {
-                    return Empty<MUXSDKBaseEvent, Never>().eraseToAnyPublisher()
-                }
-                let renditionInfoAndChangeEvents = item.renditionInfoAndChangeEvents()
-                
-                return renditionInfoAndChangeEvents.eraseToAnyPublisher()
-            }
+            .map { $0?.renditionInfoAndChangeEvents().eraseToAnyPublisher() ?? Empty().eraseToAnyPublisher() }
             .switchToLatest()
             .sink(receiveValue: allEventsSubject.send)
             .store(in: &cancellables)
