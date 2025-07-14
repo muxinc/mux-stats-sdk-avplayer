@@ -28,21 +28,13 @@ if [ "${CI:-}" ]; then
 fi
 
 function generate_assets {
-    echo "--- Generating test assets"
-    
     local original_dir="$PWD"
     
     # Navigate to the assets directory and run the generation script
     cd Fixtures/IntegrationTests/IntegrationTestHost/Assets
     bash ./scripts/build-all.sh
     
-    # Copy generated assets to IntegrationTestHost root for bundling
-    echo "Copying generated assets to IntegrationTestHost for bundling..."
-    cp -v assets/* ../
-    
     cd "$original_dir"
-    
-    echo "Assets generation and copy completed"
 }
 
 function test_for {

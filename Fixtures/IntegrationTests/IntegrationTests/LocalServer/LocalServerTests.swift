@@ -6,6 +6,7 @@
 //
 
 import Testing
+import IntegrationTestUtilities
 
 @Suite("Local Server Tests")
 struct LocalServerTests {
@@ -83,14 +84,76 @@ struct LocalServerTests {
         try mockServer.start()
         defer { mockServer.stop() }
         
-        let testUrl = URL(string: mockServer.normalSegmentURL("cmaf/video/0.m4s"))!
+        // Test CMAF video segment
+        let cmafVideoFile = "cmaf/video/0.m4s"
+        let cmafVideoUrl = URL(string: mockServer.normalSegmentURL(cmafVideoFile))!
         
-        // Sends a GET request to the server
-        let (data, response) = try await URLSession.shared.data(from: testUrl)
+        do {
+            let (data, response) = try await URLSession.shared.data(from: cmafVideoUrl)
+            if let response = response as? HTTPURLResponse {
+                print("Response: \(response.statusCode), Data size: \(data.count) bytes")
+                #expect(response.statusCode == 200)
+                #expect(data.count > 0)
+            } else {
+                print("No HTTP response received")
+            }
+        } catch {
+            print("Request failed with error: \(error)")
+            throw error
+        }
         
-        if let response = response as? HTTPURLResponse {
-            #expect(response.statusCode == 200)
-            #expect(data.count > 0)
+        // Test segments video segment
+        let segmentsVideoFile = "segments/0.ts"
+        let segmentsVideoUrl = URL(string: mockServer.normalSegmentURL(segmentsVideoFile))!
+        
+        do {
+            let (data, response) = try await URLSession.shared.data(from: segmentsVideoUrl)
+            if let response = response as? HTTPURLResponse {
+                print("Response: \(response.statusCode), Data size: \(data.count) bytes")
+                #expect(response.statusCode == 200)
+                #expect(data.count > 0)
+            } else {
+                print("No HTTP response received")
+            }
+        } catch {
+            print("Request failed with error: \(error)")
+            throw error
+        }
+        
+        // Test multivariant master playlist
+        let multivariantMasterFile = "multivariant/index.m3u8"
+        let multivariantMasterUrl = URL(string: mockServer.normalSegmentURL(multivariantMasterFile))!
+        
+        do {
+            let (data, response) = try await URLSession.shared.data(from: multivariantMasterUrl)
+            if let response = response as? HTTPURLResponse {
+                print("Response: \(response.statusCode), Data size: \(data.count) bytes")
+                #expect(response.statusCode == 200)
+                #expect(data.count > 0)
+            } else {
+                print("No HTTP response received")
+            }
+        } catch {
+            print("Request failed with error: \(error)")
+            throw error
+        }
+        
+        // Test encrypted playlist
+        let encryptedPlaylistFile = "encrypted/index.m3u8"
+        let encryptedPlaylistUrl = URL(string: mockServer.normalSegmentURL(encryptedPlaylistFile))!
+        
+        do {
+            let (data, response) = try await URLSession.shared.data(from: encryptedPlaylistUrl)
+            if let response = response as? HTTPURLResponse {
+                print("Response: \(response.statusCode), Data size: \(data.count) bytes")
+                #expect(response.statusCode == 200)
+                #expect(data.count > 0)
+            } else {
+                print("No HTTP response received")
+            }
+        } catch {
+            print("Request failed with error: \(error)")
+            throw error
         }
     }
 }

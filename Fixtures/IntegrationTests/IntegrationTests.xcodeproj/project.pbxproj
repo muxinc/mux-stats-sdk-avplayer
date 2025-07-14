@@ -10,6 +10,8 @@
 		09C9196B2DE4E89E00C5F469 /* MockAVPlayerViewControllerBinding.m in Sources */ = {isa = PBXBuildFile; fileRef = 09C919692DE4E89E00C5F469 /* MockAVPlayerViewControllerBinding.m */; };
 		09CA2C622DCE81BE0032474D /* MUXSDKCore+Mock.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CA2C612DCE81BE0032474D /* MUXSDKCore+Mock.m */; };
 		0D3D84D32E2193EE00B3D243 /* Swifter in Frameworks */ = {isa = PBXBuildFile; productRef = 0D3D84D22E2193EE00B3D243 /* Swifter */; };
+		0D3D85162E253AA600B3D243 /* IntegrationTestUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 0D3D85152E253AA600B3D243 /* IntegrationTestUtilities */; };
+		0D3D85182E253B0C00B3D243 /* IntegrationTestAssets in Frameworks */ = {isa = PBXBuildFile; productRef = 0D3D85172E253B0C00B3D243 /* IntegrationTestAssets */; };
 		7255C2F52D7A6EA700E1D797 /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 7255C2F42D7A6EA700E1D797 /* MUXSDKStats */; };
 		7290270B2DB9688400E08127 /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 7290270A2DB9688400E08127 /* MUXSDKStats */; };
 /* End PBXBuildFile section */
@@ -48,7 +50,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Assets.xcassets,
-				Assets/.gitignore,
 				"Assets/scripts/assets-make-cmaf.sh",
 				"Assets/scripts/assets-make-encrypted.sh",
 				"Assets/scripts/assets-make-segments.sh",
@@ -121,7 +122,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D3D85162E253AA600B3D243 /* IntegrationTestUtilities in Frameworks */,
 				7255C2F52D7A6EA700E1D797 /* MUXSDKStats in Frameworks */,
+				0D3D85182E253B0C00B3D243 /* IntegrationTestAssets in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,6 +229,8 @@
 			name = IntegrationTestHost;
 			packageProductDependencies = (
 				7255C2F42D7A6EA700E1D797 /* MUXSDKStats */,
+				0D3D85152E253AA600B3D243 /* IntegrationTestUtilities */,
+				0D3D85172E253B0C00B3D243 /* IntegrationTestAssets */,
 			);
 			productName = IntegrationTestHost;
 			productReference = 7225C9C52D77C2980003066B /* IntegrationTestHost.app */;
@@ -340,6 +345,8 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				0D3D84D12E2193DC00B3D243 /* XCRemoteSwiftPackageReference "swifter" */,
+				0D3D85132E253A7600B3D243 /* XCLocalSwiftPackageReference "../../Packages/IntegrationTestAssets" */,
+				0D3D85142E253AA600B3D243 /* XCLocalSwiftPackageReference "../../Packages/IntegrationTestUtilities" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7225C9C62D77C2980003066B /* Products */;
@@ -841,6 +848,17 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		0D3D85132E253A7600B3D243 /* XCLocalSwiftPackageReference "../../Packages/IntegrationTestAssets" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../Packages/IntegrationTestAssets;
+		};
+		0D3D85142E253AA600B3D243 /* XCLocalSwiftPackageReference "../../Packages/IntegrationTestUtilities" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../Packages/IntegrationTestUtilities;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		0D3D84D12E2193DC00B3D243 /* XCRemoteSwiftPackageReference "swifter" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -857,6 +875,15 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0D3D84D12E2193DC00B3D243 /* XCRemoteSwiftPackageReference "swifter" */;
 			productName = Swifter;
+		};
+		0D3D85152E253AA600B3D243 /* IntegrationTestUtilities */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = IntegrationTestUtilities;
+		};
+		0D3D85172E253B0C00B3D243 /* IntegrationTestAssets */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0D3D85132E253A7600B3D243 /* XCLocalSwiftPackageReference "../../Packages/IntegrationTestAssets" */;
+			productName = IntegrationTestAssets;
 		};
 		7255C2F42D7A6EA700E1D797 /* MUXSDKStats */ = {
 			isa = XCSwiftPackageProductDependency;
