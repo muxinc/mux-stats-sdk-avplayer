@@ -104,8 +104,7 @@ struct IntegrationTests {
         #expect(containsEndEvent)
     }
     
-    func assertChangeVideoSource(from firstURL: String, to secondURL: String, with player: AVPlayer, for playerName: String) {
-        NSLog("## Change video source from \(firstURL) to \(secondURL)")
+    func assertChangeVideoSource(from firstURL: URL, to secondURL: URL, with player: AVPlayer, for playerName: String) throws {
         
         // Create CVD for the new video, to use in the videoChange
         let customerVideoData = MUXSDKCustomerVideoData()
@@ -119,18 +118,12 @@ struct IntegrationTests {
         MUXSDKStats.videoChange(forPlayer: playerName, with: customerData)
         
         // Replace current item with new URL
-        let newURL = URL(string: secondURL)!
-        let newPlayerItem = AVPlayerItem(url: newURL)
+        let newPlayerItem = AVPlayerItem(url: secondURL)
         player.replaceCurrentItem(with: newPlayerItem)
         
         Thread.sleep(forTimeInterval: dispatchDelay)
         
-        let events = getEventsAndReset(for: playerName)
-        
-        guard let events = events else {
-            Issue.record("No events captured during video source change")
-            return
-        }
+        let events = try #require(getEventsAndReset(for: playerName))
         
         // Find the ViewEnd event index
         let viewEndIndex = events.firstIndex { $0 is MUXSDKViewEndEvent }
@@ -148,7 +141,7 @@ struct IntegrationTests {
         let dataEventAfterViewEnd = eventsAfterViewEnd.first { $0 is MUXSDKDataEvent } as? MUXSDKDataEvent
         
         if let dataEvent = dataEventAfterViewEnd {
-            #expect(dataEvent.videoData?.videoSourceUrl != firstURL, "Data event after viewEnd should have a different URL")
+            #expect(dataEvent.videoData?.videoSourceUrl != firstURL.absoluteString, "Data event after viewEnd should have a different URL")
         }
     }
     
@@ -311,9 +304,11 @@ struct IntegrationTests {
         }
         
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
-        let FIRST_VIDEO_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
-        let SECOND_VIDEO_URL = "https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8"
-        let avPlayer = AVPlayer(url: URL(string: FIRST_VIDEO_URL)!)
+        
+        let SECOND_VIDEO_URL = URL(string: "https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8")!
+        
+        let FIRST_VIDEO_URL = URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!
+        let avPlayer = AVPlayer(url: FIRST_VIDEO_URL)
         binding.attach(avPlayer)
         
         // Begin playback of first content title
@@ -323,7 +318,7 @@ struct IntegrationTests {
         assertWaitForNSeconds(n: 5.0, with: avPlayer, for: playerName)
         
         // Select a different content title
-        assertChangeVideoSource(from: FIRST_VIDEO_URL, to: SECOND_VIDEO_URL, with: avPlayer, for: playerName)
+        try assertChangeVideoSource(from: FIRST_VIDEO_URL, to: SECOND_VIDEO_URL, with: avPlayer, for: playerName)
         
         // Start playing the new content
         await assertStartPlaying(with: avPlayer, for: playerName)
@@ -344,8 +339,8 @@ struct IntegrationTests {
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
         
         // Use an invalid URL
-        let INVALID_URL = "https://bitdash-a.akamaihd.net/content/nonexistent/invalid.m3u8"
-        let avPlayer = AVPlayer(url: URL(string: INVALID_URL)!)
+        let INVALID_URL = URL(string:"https://bitdash-a.akamaihd.net/content/nonexistent/invalid.m3u8")!
+        let avPlayer = AVPlayer(url: INVALID_URL)
         binding.attach(avPlayer)
         
         // Try to play the invalid content which should trigger a fatal error
@@ -356,7 +351,7 @@ struct IntegrationTests {
         // Wait for error to occur and be processed
         try? await Task.sleep(nanoseconds: UInt64(dispatchDelay * 2 * 1_000_000_000))
         
-        let events = getEventsAndReset(for: playerName)
+        let events = try #require(getEventsAndReset(for: playerName))
         
         // Check for MUXSDKErrorEvent
         let errorEvents = events?.compactMap { $0 as? MUXSDKErrorEvent } ?? []
@@ -403,8 +398,8 @@ struct IntegrationTests {
         }
         
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
-        let VOD_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
-        let avPlayer = AVPlayer(url: URL(string: VOD_URL)!)
+        let VOD_URL = URL(string:"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!
+        let avPlayer = AVPlayer(url: VOD_URL)
         binding.attach(avPlayer)
         
         // Start playing content
