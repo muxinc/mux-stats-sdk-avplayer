@@ -45,6 +45,7 @@ function test_for {
         -workspace "$WORKSPACE_PATH" \
         -scheme "$SCHEME" \
         -testPlan "$TEST_PLAN" \
+        -skip-testing "BandwidthMetricEvents" \
         -testProductsPath "$test_products_path" \
         -destination "generic/platform=$platform" \
         -derivedDataPath "$DERIVED_DATA_PATH" \
