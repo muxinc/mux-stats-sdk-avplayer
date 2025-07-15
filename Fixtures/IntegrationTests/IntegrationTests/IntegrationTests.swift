@@ -354,7 +354,7 @@ struct IntegrationTests {
         let events = try #require(getEventsAndReset(for: playerName))
         
         // Check for MUXSDKErrorEvent
-        let errorEvents = events?.compactMap { $0 as? MUXSDKErrorEvent } ?? []
+        let errorEvents = events.compactMap { $0 as? MUXSDKErrorEvent }
         let hasErrorEvents = !errorEvents.isEmpty
         #expect(hasErrorEvents, "Expected MUXSDKErrorEvent to be captured for fatal error")
         
