@@ -9,7 +9,12 @@
     }
   ],
   "defaultOptions" : {
-
+    "environmentVariableEntries" : [
+      {
+        "key" : "RUNNING_ON_CI",
+        "value" : "true"
+      }
+    ]
   },
   "testTargets" : [
     {

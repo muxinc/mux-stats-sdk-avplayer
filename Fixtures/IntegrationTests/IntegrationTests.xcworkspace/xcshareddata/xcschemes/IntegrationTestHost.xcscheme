@@ -63,6 +63,17 @@
                ReferencedContainer = "container:IntegrationTests.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0886FEE22E269B2500A6A7CF"
+               BuildableName = "LocalServerTests.xctest"
+               BlueprintName = "LocalServerTests"
+               ReferencedContainer = "container:IntegrationTests.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

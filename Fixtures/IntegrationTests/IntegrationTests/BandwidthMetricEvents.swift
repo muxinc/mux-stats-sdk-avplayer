@@ -8,10 +8,13 @@
 import Testing
 import Combine
 
+// This is specifically for Sauce Labs, since the tests are being run even if they are excluded in the TestPlan.
+let RUNNING_ON_CI = ProcessInfo.processInfo.environment["RUNNING_ON_CI"] == "true"
+
 #if targetEnvironment(simulator)
-@Suite("Bandwidth Metric Events using AVMetrics", .disabled("Needs a real device to run"))
+@Suite("Bandwidth Metric Events using AVMetrics", .disabled("Needs a real device to publish metrics"))
 #else
-@Suite("Bandwidth Metric Events using AVMetrics")
+@Suite("Bandwidth Metric Events using AVMetrics", .disabled(if: RUNNING_ON_CI, "Tests are disabled for CI until we have a Swift server"))
 #endif
 struct BandwidthMetricEvents {
     struct NotSupportedError : Error {}
