@@ -65,8 +65,8 @@ function test_for {
 function run_ci_tests {
     echo "--- Running Sauce Labs Tests"
 
-    saucectl run \
-        --select-suite 'Debug iOS - All Tests - iPhone 16e'
+    saucectl run #\
+        #--select-suite 'Debug iOS - All Tests - iPhone 16e'
 }
 
 # Execute:
