@@ -45,7 +45,6 @@ function test_for {
         -workspace "$WORKSPACE_PATH" \
         -scheme "$SCHEME" \
         -testPlan "$TEST_PLAN" \
-        -skip-testing "BandwidthMetricEvents" \
         -testProductsPath "$test_products_path" \
         -destination "generic/platform=$platform" \
         -derivedDataPath "$DERIVED_DATA_PATH" \
@@ -66,8 +65,8 @@ function test_for {
 function run_ci_tests {
     echo "--- Running Sauce Labs Tests"
 
-    saucectl run #\
-        #--select-suite 'Debug iOS - All Tests - iPhone 16e'
+    saucectl run \
+        --select-suite 'Debug iOS - All Tests - iPhone 16e'
 }
 
 # Execute:

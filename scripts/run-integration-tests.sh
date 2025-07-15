@@ -119,15 +119,14 @@ function test_for {
 
 # Execute:
 
-#TODO: Remove comments
-# test_for 'iOS'
-# test_for 'iOS Simulator' 'iPhone 16 Pro'
-# test_for 'macOS,variant=Mac Catalyst'
-# test_for 'tvOS'
-# test_for 'tvOS Simulator' 'Apple TV 4K (3rd generation) (at 1080p)'
-# test_for 'visionOS'
-# test_for 'visionOS Simulator' 'Apple Vision Pro'
+test_for 'iOS'
+test_for 'iOS Simulator' 'iPhone 16 Pro'
+test_for 'macOS,variant=Mac Catalyst'
+test_for 'tvOS'
+test_for 'tvOS Simulator' 'Apple TV 4K (3rd generation) (at 1080p)'
+test_for 'visionOS'
+test_for 'visionOS Simulator' 'Apple Vision Pro'
 
-# merge_and_export_result_bundles
+merge_and_export_result_bundles
 
 exit "$EXIT_CODE"

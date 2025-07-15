@@ -6,12 +6,16 @@
       "options" : {
         "maximumTestRepetitions" : 5,
         "repeatInNewRunnerProcess" : true,
-        "testRepetitionMode" : "fixedIterations"
+        "testRepetitionMode" : "retryOnFailure"
       }
     }
   ],
   "defaultOptions" : {
     "environmentVariableEntries" : [
+      {
+        "key" : "RUN_SERVER_TESTS_FLAG",
+        "value" : "true"
+      },
       {
         "key" : "TEST_HOST",
         "value" : "localhost"
