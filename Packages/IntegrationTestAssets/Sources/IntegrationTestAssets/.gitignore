@@ -1,2 +1,3 @@
-# Generated assets directory
-assets/ 
+# Ignore contents but allow directory structure
+assets/*
+!assets/.gitkeep 

@@ -50,8 +50,9 @@ function test_for {
     rm -rf "$test_products_path"
 
     # Do not specialize the build (use generic platform)
+    # Note: removed 'clean' to preserve generated assets for SPM package resolution
     set +e
-    xcodebuild clean build-for-testing \
+    xcodebuild build-for-testing \
         -workspace "$WORKSPACE_PATH" \
         -scheme "$SCHEME" \
         -testPlan "$TEST_PLAN" \
@@ -80,6 +81,9 @@ function run_ci_tests {
 }
 
 # Execute:
+
+# Create placeholder assets directory so SPM always recognizes it during package resolution
+mkdir -p "Packages/IntegrationTestAssets/Sources/IntegrationTestAssets/assets"
 
 generate_assets
 
