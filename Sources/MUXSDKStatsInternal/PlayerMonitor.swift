@@ -11,7 +11,7 @@ public protocol LogToBandwidthMetricCalculator: AnyObject {
 @available(iOS 13, tvOS 13, *)
 @objc(MUXSDKPlayerMonitor)
 public class PlayerMonitor: NSObject, ObservableObject {
-    @objc public weak var calculator: LogToBandwidthMetricCalculator? //TODO Change name
+    @objc public weak var calculator: LogToBandwidthMetricCalculator?
     
     var allEvents: some Publisher<MUXSDKBaseEvent, Never> {
         allEventsSubject
