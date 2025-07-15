@@ -3,8 +3,9 @@ import Foundation
 public struct IntegrationTestAssets {
     public static var assetsPath: String {
         #if SWIFT_PACKAGE
-            // When built as a Swift Package, use Bundle.module
-            guard let resourcePath = Bundle.module.path(forResource: "assets", ofType: nil) else {
+            // When built as a Swift Package, find the bundle containing this file
+            let bundle = Bundle(for: BundleToken.self)
+            guard let resourcePath = bundle.path(forResource: "assets", ofType: nil) else {
                 fatalError("Could not find assets directory in package bundle")
             }
             return resourcePath
@@ -17,4 +18,7 @@ public struct IntegrationTestAssets {
             return resourcePath
         #endif
     }
-} 
+}
+
+// Private class to get the bundle containing this file
+private class BundleToken {} 
