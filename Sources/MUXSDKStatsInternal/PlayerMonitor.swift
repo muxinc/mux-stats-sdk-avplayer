@@ -1,5 +1,5 @@
 public import AVFoundation
-import Combine
+public import Combine
 public import MuxCore
 
 @objc(MUXSDKLogToBandwidthMetricCalculator)
@@ -10,7 +10,7 @@ public protocol LogToBandwidthMetricCalculator: AnyObject {
 
 @available(iOS 13, tvOS 13, *)
 @objc(MUXSDKPlayerMonitor)
-public class PlayerMonitor: NSObject, ObservableObject {
+public class PlayerMonitor: NSObject {
     @objc public weak var calculator: LogToBandwidthMetricCalculator?
     
     var allEvents: some Publisher<MUXSDKBaseEvent, Never> {

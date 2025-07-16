@@ -4,8 +4,8 @@
 //
 //  Created by Santiago Puppo on 17/6/25.
 //
-import AVFoundation
-import MuxCore
+public import AVFoundation
+public import MuxCore
 
 @available(iOS 18, tvOS 18, visionOS 2, *)
 extension MUXSDKBandwidthMetricData {
