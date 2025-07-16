@@ -7,6 +7,14 @@
 
 import Testing
 import IntegrationTestUtilities
+import IntegrationTestAssets
+
+struct TestError: Error {
+    let message: String
+    init(_ message: String) {
+        self.message = message
+    }
+}
 
 @Suite("Local Server Tests")
 struct LocalServerTests {
@@ -95,10 +103,10 @@ struct LocalServerTests {
                 #expect(response.statusCode == 200, "Expected HTTP 200, got \(response.statusCode)")
                 #expect(data.count > 0, "Expected data size > 0, got \(data.count) bytes")
             } else {
-                #expect(false, "No HTTP response received")
+                throw TestError("No HTTP response received")
             }
         } catch {
-            #expect(false, "Request failed with error: \(error)")
+            throw TestError("Request failed with error: \(error)")
         }
         
         // Test segments video segment
