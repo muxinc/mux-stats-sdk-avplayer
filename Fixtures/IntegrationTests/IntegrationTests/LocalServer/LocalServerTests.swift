@@ -92,14 +92,13 @@ struct LocalServerTests {
             let (data, response) = try await URLSession.shared.data(from: cmafVideoUrl)
             if let response = response as? HTTPURLResponse {
                 print("Response: \(response.statusCode), Data size: \(data.count) bytes")
-                #expect(response.statusCode == 200)
-                #expect(data.count > 0)
+                #expect(response.statusCode == 200, "Expected HTTP 200, got \(response.statusCode)")
+                #expect(data.count > 0, "Expected data size > 0, got \(data.count) bytes")
             } else {
-                print("No HTTP response received")
+                #expect(false, "No HTTP response received")
             }
         } catch {
-            print("Request failed with error: \(error)")
-            throw error
+            #expect(false, "Request failed with error: \(error)")
         }
         
         // Test segments video segment
@@ -154,6 +153,31 @@ struct LocalServerTests {
         } catch {
             print("Request failed with error: \(error)")
             throw error
+        }
+    }
+    
+    @Test func diagnosticAssetsPath() {
+        let assetsPath = IntegrationTestAssets.assetsPath
+        print("Assets path: \(assetsPath)")
+        
+        // Check if the assets directory exists
+        let fileManager = FileManager.default
+        let assetsExists = fileManager.fileExists(atPath: assetsPath)
+        #expect(assetsExists, "Assets directory does not exist at: \(assetsPath)")
+        
+        // Check if specific files exist
+        let testFiles = [
+            "cmaf/video/0.m4s",
+            "segments/0.ts", 
+            "multivariant/index.m3u8",
+            "encrypted/index.m3u8"
+        ]
+        
+        for testFile in testFiles {
+            let fullPath = "\(assetsPath)/\(testFile)"
+            let fileExists = fileManager.fileExists(atPath: fullPath)
+            print("File \(testFile): \(fileExists ? "EXISTS" : "MISSING") at \(fullPath)")
+            #expect(fileExists, "Test file \(testFile) does not exist at: \(fullPath)")
         }
     }
 }

@@ -74,10 +74,6 @@ function test_for {
 }
 
 function run_ci_tests {
-    echo "--- Running Sauce Labs Tests"
-    echo "🔍 Swift version:"
-    swift --version
-
     saucectl run \
         --select-suite 'Debug iOS - All Tests - iPhone 16e'
 }

@@ -176,11 +176,9 @@ public class MockHLSServer {
                         try writer.write(fileData)
                     }
                 } catch {
-                    print("Error reading file \(filePath): \(error)")
                     return HttpResponse.notFound
                 }
             } else {
-                print("File not found: \(filePath)")
                 return HttpResponse.notFound
             }
         }
