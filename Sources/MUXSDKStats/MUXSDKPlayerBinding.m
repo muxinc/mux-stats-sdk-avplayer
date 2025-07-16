@@ -340,43 +340,43 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
 
 - (void) calculateBandwidthMetricFromAccessLog:(AVPlayerItemAccessLog *) log {
     if (log != nil && log.events.count > 0) {
-        // https://developer.apple.com/documentation/avfoundation/avplayeritemaccesslogevent?language=objc
-        AVPlayerItemAccessLogEvent *event = log.events[log.events.count - 1];
+       // https://developer.apple.com/documentation/avfoundation/avplayeritemaccesslogevent?language=objc
+       AVPlayerItemAccessLogEvent *event = log.events[log.events.count - 1];
 
-        if (_lastTransferEventCount != log.events.count) {
-            _lastTransferDuration= 0;
-            _lastTransferredBytes = 0;
-            _lastTransferEventCount = log.events.count;
-        }
+       if (_lastTransferEventCount != log.events.count) {
+           _lastTransferDuration= 0;
+           _lastTransferredBytes = 0;
+           _lastTransferEventCount = log.events.count;
+       }
 
-        double requestCompletedTime = [[NSDate date] timeIntervalSince1970];
-        // !!! event.observedMinBitrate, event.observedMaxBitrate, event.observedBitrate don't seem to be accurate
-        // we did a charles proxy dump try to calculate the bitrate, and compared with above values. It doesn't match
-        // but if use data stored in requestResponseStart/requestResponseEnd/requestBytesLoaded to compute, the value are very close.
-        MUXSDKBandwidthMetricData *loadData = [[MUXSDKBandwidthMetricData alloc] init];
+       double requestCompletedTime = [[NSDate date] timeIntervalSince1970];
+       // !!! event.observedMinBitrate, event.observedMaxBitrate, event.observedBitrate don't seem to be accurate
+       // we did a charles proxy dump try to calculate the bitrate, and compared with above values. It doesn't match
+       // but if use data stored in requestResponseStart/requestResponseEnd/requestBytesLoaded to compute, the value are very close.
+       MUXSDKBandwidthMetricData *loadData = [[MUXSDKBandwidthMetricData alloc] init];
 
-        if ([[self getPathExtension:event.URI] isEqualToString:@"m3u8"]) {
-            loadData.requestType = @"manifest";
-        } else {
-            loadData.requestType = @"media";
-        }
-        double requestStartSecs = requestCompletedTime - (event.transferDuration - _lastTransferDuration);
-        loadData.requestStart = [NSNumber numberWithLong: (long)(requestStartSecs * 1000)];
-        loadData.requestResponseStart = nil;
-        loadData.requestResponseEnd = [NSNumber numberWithLong: (long)(requestCompletedTime * 1000)];
-        loadData.requestBytesLoaded = [NSNumber numberWithLong: event.numberOfBytesTransferred - _lastTransferredBytes];
-        loadData.requestResponseHeaders = nil;
-        loadData.requestHostName = [self getHostName:event.URI];
-        loadData.requestUrl = event.URI;
-        loadData.requestCurrentLevel = nil;
-        loadData.requestMediaStartTime = nil;
-        loadData.requestMediaDuration = nil;
-        loadData.requestVideoWidth = nil;
-        loadData.requestVideoHeight = nil;
-        loadData.requestRenditionLists = nil;
-        [self dispatchBandwidthMetric:loadData withType:MUXSDKPlaybackEventRequestBandwidthEventCompleteType];
-        _lastTransferredBytes = event.numberOfBytesTransferred;
-        _lastTransferDuration = event.transferDuration;
+       if ([[self getPathExtension:event.URI] isEqualToString:@"m3u8"]) {
+           loadData.requestType = @"manifest";
+       } else {
+           loadData.requestType = @"media";
+       }
+       double requestStartSecs = requestCompletedTime - (event.transferDuration - _lastTransferDuration);
+       loadData.requestStart = [NSNumber numberWithLong: (long)(requestStartSecs * 1000)];
+       loadData.requestResponseStart = nil;
+       loadData.requestResponseEnd = [NSNumber numberWithLong: (long)(requestCompletedTime * 1000)];
+       loadData.requestBytesLoaded = [NSNumber numberWithLong: event.numberOfBytesTransferred - _lastTransferredBytes];
+       loadData.requestResponseHeaders = nil;
+       loadData.requestHostName = [self getHostName:event.URI];
+       loadData.requestUrl = event.URI;
+       loadData.requestCurrentLevel = nil;
+       loadData.requestMediaStartTime = nil;
+       loadData.requestMediaDuration = nil;
+       loadData.requestVideoWidth = nil;
+       loadData.requestVideoHeight = nil;
+       loadData.requestRenditionLists = nil;
+       [self dispatchBandwidthMetric:loadData withType:MUXSDKPlaybackEventRequestBandwidthEventCompleteType];
+       _lastTransferredBytes = event.numberOfBytesTransferred;
+       _lastTransferDuration = event.transferDuration;
     }
 }
 
