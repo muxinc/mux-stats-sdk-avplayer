@@ -233,12 +233,6 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
     return (domain == nil) ? urlString : domain;
 }
 
--(NSString *)getPathExtension:(NSString *)urlString {
-    NSURL* url = [NSURL URLWithString:urlString];
-    NSString *pathExtension = [url pathExtension];
-    return (pathExtension == nil) ? urlString : pathExtension;
-}
-
 //
 // Check that the item in the notification matches the item that we are monitoring
 // This matters when there are multiple AVPlayer instances running simultaneously
@@ -355,7 +349,7 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
        // but if use data stored in requestResponseStart/requestResponseEnd/requestBytesLoaded to compute, the value are very close.
        MUXSDKBandwidthMetricData *loadData = [[MUXSDKBandwidthMetricData alloc] init];
 
-       if ([[self getPathExtension:event.URI] isEqualToString:@"m3u8"]) {
+       if ([[event.URI pathExtension] isEqual:@"m3u8"]) {
            loadData.requestType = @"manifest";
        } else {
            loadData.requestType = @"media";
