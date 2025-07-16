@@ -8,6 +8,13 @@
         "repeatInNewRunnerProcess" : true,
         "testRepetitionMode" : "retryOnFailure"
       }
+    },
+    {
+      "id" : "A45F1A3C-FC11-4AAD-B9DD-B25BA88A8E30",
+      "name" : "Run once",
+      "options" : {
+
+      }
     }
   ],
   "defaultOptions" : {

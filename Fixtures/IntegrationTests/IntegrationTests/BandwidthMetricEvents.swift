@@ -340,8 +340,30 @@ struct BandwidthMetricEvents {
         #expect(manifestEvents.count == 3)
         #expect(videoEvents.count == 6)
         #expect(cdnHeaders.count == (videoEvents.count - failedEvents.count))
-        #expect(Set(cdnHeaders) == ["cdnA", "cdnB"])
-        // TODO: Expect cdn change event
+        #expect(cdnHeaders == ["cdnA", "cdnB", "cdnB", "cdnB", "cdnB"])
+        
+        /*
+        * As long as we swizzleDispatchEvents we wont be able to correctly test this
+        * since that event is fired from core. It also wouldn't make sense to dispatch
+        * the event from here just for the test.
+        *
+        * This is an idea of what the assertion should look like
+        */
+        /*let cdnChangeEvents = getEvents(for: playerName)
+            .filter{ $0.getType() == MUXSDKPlaybackEventCDNChangeEventType }
+            .compactMap { $0 as? MUXSDKPlaybackEvent }
+
+        #expect(cdnChangeEvents.count == 2) // or 1 if we ignore nil -> cdn1
+        if cdnChangeEvents.count == 2,
+            let firstCdnChangeVideoData = cdnChangeEvents[0].videoData,
+            let secondCdnChangeVideoData = cdnChangeEvents[1].videoData
+        {
+            #expect(firstCdnChangeVideoData.videoPreviousCDN == nil)
+            #expect(firstCdnChangeVideoData.videoCDN == "cdnA")
+            // Just these two if count == 1
+            #expect(secondCdnChangeVideoData.videoPreviousCDN == "cdnA")
+            #expect(secondCdnChangeVideoData.videoCDN == "cdnB")
+        }*/
     }
 }
 
