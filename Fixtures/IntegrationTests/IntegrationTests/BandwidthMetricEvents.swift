@@ -407,9 +407,3 @@ extension Array where Element : Hashable {
        try self.sorted(by: by) == self
     }
 }
-
-extension Date {
-    init(milliseconds:Int64) {
-        self = Date(timeIntervalSince1970: TimeInterval(milliseconds / 1000))
-    }
-}

@@ -143,33 +143,11 @@ extension AVPlayerItem {
                 return muxEvent
             }
     }
-    
-    nonisolated func bandwidthMetricDataEventsUsingAccessLog()
-    -> some Publisher<AVPlayerItemAccessLog, Never> {
-        return NotificationCenter.default
-            .publisher(for: AVPlayerItem.newAccessLogEntryNotification, object: self)
-            .compactMap { $0.object as? AVPlayerItem }
-            .compactMap { $0.accessLog() }
-            .eraseToAnyPublisher()
-    }
-    
-    nonisolated func bandwidthMetricDataEventsUsingErrorLog()
-    -> some Publisher<AVPlayerItemErrorLog, Never> {
-        return NotificationCenter.default
-            .publisher(for: AVPlayerItem.newErrorLogEntryNotification, object: self)
-            .compactMap { $0.object as? AVPlayerItem }
-            .compactMap { $0.errorLog() }
-            .eraseToAnyPublisher()
-    }
-    
-    nonisolated func bandwidthMetricDataEventsUsingAVMetrics()
-        -> AnyPublisher<MUXSDKBaseEvent, Never>
-    {
-        guard #available(iOS 18, tvOS 18, visionOS 2, *) else {
-            return Empty<MUXSDKBaseEvent, Never>().eraseToAnyPublisher()
-        }
-        
-        return Publishers.Merge3(
+
+#if !targetEnvironment(simulator)
+    @available(iOS 18, tvOS 18, visionOS 2, *)
+    nonisolated func requestBandwidthEvents() -> some Publisher<MUXSDKRequestBandwidthEvent, Never> {
+        Publishers.Merge3(
             metrics(forType: AVMetricHLSPlaylistRequestEvent.self)
                 .publisher // manifest requests
                 .compactMap { MUXSDKRequestBandwidthEvent(event: $0) },
@@ -180,17 +158,16 @@ extension AVPlayerItem {
                 .publisher  // encryption requests
                 .compactMap { MUXSDKRequestBandwidthEvent(event: $0) }
         )
-        .map { $0 as MUXSDKBaseEvent }
         .catch { error in
             if !(error is CancellationError) {
                 logger.error(
                     "Error from AVMetrics Bandwidth events: \(error)"
                 )
             }
-            return Empty<MUXSDKBaseEvent, Never>()
+            return Empty<MUXSDKRequestBandwidthEvent, Never>()
         }
-        .eraseToAnyPublisher()
     }
+#endif
 }
 
 @available(iOS 15, tvOS 15, *)

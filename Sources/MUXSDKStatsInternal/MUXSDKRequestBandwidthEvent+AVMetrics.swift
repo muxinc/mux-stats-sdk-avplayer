@@ -1,47 +1,55 @@
-//
-//  MUXSDKRequestBandwidthEvent+AVMetrics.swift
-//  MUXSDKStats
-//
-//  Created by Santiago Puppo on 18/6/25.
-//
-public import AVFoundation
-public import MuxCore
+import AVFoundation
+import MuxCore
+
+@available(iOS 18, tvOS 18, visionOS 2, *)
+extension AVMetricMediaResourceRequestEvent {
+    var requestBandwidthEventType: String {
+        if let errorEvent, !errorEvent.didRecover {
+            if let error = errorEvent.error as? URLError,
+               error.code == .cancelled {
+                return MUXSDKPlaybackEventRequestBandwidthEventCancelType
+            }
+            return MUXSDKPlaybackEventRequestBandwidthEventErrorType
+        }
+        return MUXSDKPlaybackEventRequestBandwidthEventCompleteType
+    }
+}
 
 @available(iOS 18, tvOS 18, visionOS 2, *)
 extension MUXSDKRequestBandwidthEvent {
-    convenience private init?(mediaResourceRequestEvent: AVMetricMediaResourceRequestEvent?) {
-        guard let mediaResourceRequestEvent = mediaResourceRequestEvent else {
+    convenience init?(event: AVMetricHLSPlaylistRequestEvent) {
+        guard let mediaResourceRequestEvent = event.mediaResourceRequestEvent,
+              let bandwidthMetricData = MUXSDKBandwidthMetricData(event: event) else {
             return nil
         }
-        
+
         self.init()
-        self.setType(from: mediaResourceRequestEvent)
+
+        type = mediaResourceRequestEvent.requestBandwidthEventType
+        self.bandwidthMetricData = bandwidthMetricData
     }
-    
-    convenience public init?(event: AVMetricHLSPlaylistRequestEvent) {
-        self.init(mediaResourceRequestEvent: event.mediaResourceRequestEvent)
-        self.bandwidthMetricData = MUXSDKBandwidthMetricData.init(event: event)
-    }
-    
-    convenience public init?(event: AVMetricHLSMediaSegmentRequestEvent) {
-        self.init(mediaResourceRequestEvent: event.mediaResourceRequestEvent)
-        self.bandwidthMetricData = MUXSDKBandwidthMetricData.init(event: event)
-    }
-    
-    convenience public init?(event: AVMetricContentKeyRequestEvent) {
-        self.init(mediaResourceRequestEvent: event.mediaResourceRequestEvent)
-        self.bandwidthMetricData = MUXSDKBandwidthMetricData.init(event: event)
-    }
-    
-    private func setType(from event: AVMetricMediaResourceRequestEvent) {
-        if let error = event.errorEvent?.error as NSError? {
-            if error.domain == NSURLErrorDomain && error.code == -999 {
-                self.type = MUXSDKPlaybackEventRequestBandwidthEventCancelType
-            } else {
-                self.type = MUXSDKPlaybackEventRequestBandwidthEventErrorType
-            }
-        } else {
-            self.type = MUXSDKPlaybackEventRequestBandwidthEventCompleteType
+
+    convenience init?(event: AVMetricHLSMediaSegmentRequestEvent) {
+        guard let mediaResourceRequestEvent = event.mediaResourceRequestEvent,
+              let bandwidthMetricData = MUXSDKBandwidthMetricData(event: event) else {
+            return nil
         }
+
+        self.init()
+
+        type = mediaResourceRequestEvent.requestBandwidthEventType
+        self.bandwidthMetricData = bandwidthMetricData
+    }
+
+    convenience init?(event: AVMetricContentKeyRequestEvent) {
+        guard let mediaResourceRequestEvent = event.mediaResourceRequestEvent,
+              let bandwidthMetricData = MUXSDKBandwidthMetricData(event: event) else {
+            return nil
+        }
+
+        self.init()
+
+        type = mediaResourceRequestEvent.requestBandwidthEventType
+        self.bandwidthMetricData = bandwidthMetricData
     }
 }
