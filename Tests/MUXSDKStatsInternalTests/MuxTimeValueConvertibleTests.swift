@@ -61,7 +61,8 @@ struct MuxTimeValueConvertibleTests {
         .zero,
     ]
 
-    @Test(arguments: validTimeIntervals)
+    // Set wrapping required due to Xcode 16 bug "Fatal error: Internal inconsistency: No test reporter for test case argumentIDs"
+    @Test(arguments: Set(validTimeIntervals))
     func validTimeIntervalBehavior(timeInterval: TimeInterval) throws {
         let muxTimeValue = try #require(timeInterval.muxTimeValue)
 
@@ -110,15 +111,20 @@ struct MuxTimeValueConvertibleTests {
         90_000,
     ]
 
-    static let validCMTimes = [
-        CMTime.zero,
-    ] + validTimeIntervals.flatMap { timeInterval in
-        commonTimeScales.map {
-            CMTime(seconds: timeInterval, preferredTimescale: $0)
+    static var validCMTimes: [CMTime] {
+        [
+            CMTime.zero,
+        ]
+        +
+        validTimeIntervals.flatMap { timeInterval in
+            commonTimeScales.map {
+                CMTime(seconds: timeInterval, preferredTimescale: $0)
+            }
         }
     }
 
-    @Test(arguments: validCMTimes)
+    // Set wrapping required due to Xcode 16 bug "Fatal error: Internal inconsistency: No test reporter for test case argumentIDs"
+    @Test(arguments: Set(validCMTimes))
     func validCMTimeBehavior(cmTime: CMTime) throws {
         let muxTimeValue = try #require(cmTime.muxTimeValue)
 
