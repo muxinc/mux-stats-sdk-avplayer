@@ -37,11 +37,11 @@ extension PlaybackEventTiming {
             programDate: playerItem.currentDate()
                 .flatMap { playerItemProgramDate in
                     let playerItemMediaTime = playerItem.currentTime()
-                    let mediaTimeElapsed = (playerItemMediaTime - variantSwitchEvent.mediaTime).seconds
-                    guard mediaTimeElapsed >= 0 else {
+                    let mediaTimeElapsed = playerItemMediaTime - variantSwitchEvent.mediaTime
+                    guard mediaTimeElapsed.isValid, mediaTimeElapsed >= .zero else {
                         return nil
                     }
-                    return playerItemProgramDate - mediaTimeElapsed
+                    return playerItemProgramDate - mediaTimeElapsed.seconds
                 },
             loadedTimeRanges: variantSwitchEvent.loadedTimeRanges)
     }
