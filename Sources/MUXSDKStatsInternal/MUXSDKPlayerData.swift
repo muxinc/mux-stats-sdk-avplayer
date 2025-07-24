@@ -6,9 +6,10 @@ extension MUXSDKPlayerData {
         self.update(other.toQuery())
     }
 
+    @available(iOS 13, tvOS 13, *)
     func updateWithTiming(_ timing: PlaybackEventTiming) {
-        playerPlayheadTime = timing.mediaTime.seconds as NSNumber
-        playerProgramTime = timing.programDate?.timeIntervalSince1970 as NSNumber?
-        playerLiveEdgeProgramTime = timing.liveEdgeProgramDate?.timeIntervalSince1970 as NSNumber?
+        playerPlayheadTime = timing.mediaTime.muxTimeValue
+        playerProgramTime = timing.programDate?.muxTimeValue
+        playerLiveEdgeProgramTime = timing.liveEdgeProgramDate?.muxTimeValue
     }
 }
