@@ -10,6 +10,7 @@ steps:
     label: ":xcode: Build Package"
     artifact_paths:
       - ".build/artifacts/*.xcresult.zip"
+  - wait
   - command: "./scripts/run-integration-tests.sh"
     label: ":xcode_simulator: Integration Tests"
     artifact_paths:
