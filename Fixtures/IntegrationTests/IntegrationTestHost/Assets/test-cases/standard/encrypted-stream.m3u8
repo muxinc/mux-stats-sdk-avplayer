@@ -1,0 +1,15 @@
+#EXTM3U
+#EXT-X-VERSION:3
+
+#EXT-X-KEY:METHOD=AES-128,URI="/normal/encrypted/key.key",IV=0x00000000000000000000000000000001
+
+#EXTINF:5,
+/normal/encrypted/1.ts
+#EXTINF:5,
+/normal/encrypted/2.ts
+#EXTINF:5,
+/normal/encrypted/3.ts
+#EXTINF:5,
+/normal/encrypted/4.ts
+
+#EXT-X-ENDLIST

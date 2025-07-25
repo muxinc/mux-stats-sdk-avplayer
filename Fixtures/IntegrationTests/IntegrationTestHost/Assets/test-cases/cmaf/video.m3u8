@@ -1,0 +1,15 @@
+#EXTM3U
+#EXT-X-VERSION:7
+#EXT-X-INDEPENDENT-SEGMENTS
+
+#EXT-X-MAP:URI="/normal/cmaf/video/video_init.mp4"
+#EXTINF:5.000000,
+/normal/cmaf/video/1.m4s
+#EXTINF:5.000000,
+/normal/cmaf/video/2.m4s
+#EXTINF:5.000000,
+/normal/cmaf/video/3.m4s
+#EXTINF:5.000000,
+/normal/cmaf/video/4.m4s
+
+#EXT-X-ENDLIST
