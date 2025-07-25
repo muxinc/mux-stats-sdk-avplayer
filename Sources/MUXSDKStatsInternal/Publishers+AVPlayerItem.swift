@@ -143,6 +143,31 @@ extension AVPlayerItem {
                 return muxEvent
             }
     }
+
+#if !targetEnvironment(simulator)
+    @available(iOS 18, tvOS 18, visionOS 2, *)
+    nonisolated func requestBandwidthEvents() -> some Publisher<MUXSDKRequestBandwidthEvent, Never> {
+        Publishers.Merge3(
+            metrics(forType: AVMetricHLSPlaylistRequestEvent.self)
+                .publisher // manifest requests
+                .compactMap { MUXSDKRequestBandwidthEvent(event: $0) },
+            metrics(forType: AVMetricHLSMediaSegmentRequestEvent.self)
+                .publisher  // audio/video/media requests
+                .compactMap { MUXSDKRequestBandwidthEvent(event: $0) },
+            metrics(forType: AVMetricContentKeyRequestEvent.self)
+                .publisher  // encryption requests
+                .compactMap { MUXSDKRequestBandwidthEvent(event: $0) }
+        )
+        .catch { error in
+            if !(error is CancellationError) {
+                logger.error(
+                    "Error from AVMetrics Bandwidth events: \(error)"
+                )
+            }
+            return Empty<MUXSDKRequestBandwidthEvent, Never>()
+        }
+    }
+#endif
 }
 
 @available(iOS 15, tvOS 15, *)
