@@ -9,9 +9,7 @@
     }
   ],
   "defaultOptions" : {
-    "environmentVariableEntries" : [
 
-    ]
   },
   "testTargets" : [
     {
@@ -29,13 +27,6 @@
       }
     },
     {
-      "skippedTests" : {
-        "suites" : [
-          {
-            "name" : "BandwidthMetricEvents"
-          }
-        ]
-      },
       "target" : {
         "containerPath" : "container:IntegrationTests.xcodeproj",
         "identifier" : "7225C9D52D77C2980003066B",

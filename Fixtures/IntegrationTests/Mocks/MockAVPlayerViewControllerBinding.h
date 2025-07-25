@@ -9,6 +9,6 @@
 
 @interface MockAVPlayerViewControllerBinding : MUXSDKAVPlayerViewControllerBinding
 
-@property (atomic, assign) BOOL didReturnNil;
+@property (nonatomic, assign) BOOL didReturnNil;
 
 @end

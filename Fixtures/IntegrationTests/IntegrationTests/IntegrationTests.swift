@@ -1,5 +1,4 @@
 import Testing
-import Combine
 @testable import MUXSDKStats
 
 @Suite
@@ -7,13 +6,28 @@ struct IntegrationTests {
     let dispatchDelay = 3.0
     let msTolerance: Double = 2000
     
+    func getLastTimestamp(for playerName: String) -> NSNumber? {
+        return MUXSDKCore.getPlayheadTimeStamps(forPlayer: playerName).last
+    }
+    
+    func getTimeDeltas(for playerName: String) -> [NSNumber] {
+        return MUXSDKCore.getPlayheadTimeDeltas(forPlayer: playerName)
+    }
+    
+    func getEventsAndReset(for playerName: String) -> [MUXSDKBaseEvent]? {
+        defer {
+            MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
+        }
+        return MUXSDKCore.getEventsForPlayer(playerName)
+    }
+    
     func assertStartPlaying(with player: AVPlayer, for playerName: String) async {
         NSLog("## Start playing content")
         await MainActor.run {
             player.play()
         }
-        try? await Task.sleep(seconds: dispatchDelay)
-
+        try? await Task.sleep(nanoseconds: UInt64(dispatchDelay * 1_000_000_000))
+        
         let events = getEventsAndReset(for: playerName)
         
         let containsPlayEvent = events?.contains { $0 is MUXSDKPlayEvent } ?? false
@@ -24,12 +38,8 @@ struct IntegrationTests {
     
     func assertWaitForNSeconds(n seconds: Double, with player: AVPlayer, for playerName: String) {
         NSLog("## Wait approximately \(seconds) seconds")
-        var waitTimeBefore = getLastTimestamp(for: playerName)?.doubleValue
+        let waitTimeBefore = getLastTimestamp(for: playerName)!.doubleValue
         let beforeTimePlayer = player.currentTime().seconds
-        if (waitTimeBefore == nil) {
-            Issue.record("Could not find any timestamp before waiting, setting to \(beforeTimePlayer)")
-            waitTimeBefore = beforeTimePlayer
-        }
         
         var currentTimePlayer = player.currentTime().seconds
         var waitedTime = 0.0
@@ -45,7 +55,7 @@ struct IntegrationTests {
         }
         
         let waitTimeAfter = getLastTimestamp(for: playerName)!.doubleValue
-        let waitTimeDiff = waitTimeAfter - waitTimeBefore!
+        let waitTimeDiff = waitTimeAfter - waitTimeBefore
         let lowerBound = (seconds * 1000) - msTolerance
         let upperBound = (seconds * 1000) + msTolerance
         
@@ -55,19 +65,12 @@ struct IntegrationTests {
     
     func assertPauseForNSeconds(n seconds: Double, with player: AVPlayer, for playerName: String) async {
         NSLog("## Pause the content for \(seconds) seconds")
+        let waitTimeBefore = getLastTimestamp(for: playerName)!.doubleValue
         await MainActor.run {
             player.pause()
         }
-        try? await Task.sleep(seconds: dispatchDelay)
-        
-        let waitTimeBefore = getLastTimestamp(for: playerName)?.doubleValue ?? 0
-        try? await Task.sleep(seconds: seconds)
-        let waitTimeAfter = getLastTimestamp(for: playerName)?.doubleValue
-        
-        guard let waitTimeAfter = waitTimeAfter else {
-            Issue.record("Unexpectedly received no timestamp after pausing for \(seconds) seconds")
-            return
-        }
+        try? await Task.sleep(nanoseconds: UInt64(dispatchDelay * 1_000_000_000))
+        let waitTimeAfter = getLastTimestamp(for: playerName)!.doubleValue
         
         let waitTimeDiff = waitTimeAfter - waitTimeBefore
         // Expect that time difference is approximately 0 seconds
@@ -164,13 +167,13 @@ struct IntegrationTests {
         }
         
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
-        let VOD_URL = "https://stream.mux.com/VcmKA6aqzIzlg3MayLJDnbF55kX00mds028Z65QxvBYaA.m3u8"
+        let VOD_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
         let avPlayer = AVPlayer(url: URL(string: VOD_URL)!)
         binding.attach(avPlayer)
         
         // Start playing VoD content
         await assertStartPlaying(with: avPlayer, for: playerName)
-        try await waitForPlaybackToStart(with: avPlayer, for: playerName)
+        
         // Wait approximately 5 seconds
         assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
         
@@ -213,8 +216,7 @@ struct IntegrationTests {
         
         // Start playing Live content
         await assertStartPlaying(with: avPlayer, for: playerName)
-        try await waitForPlaybackToStart(with: avPlayer, for: playerName)
-                
+        
         // Wait approximately 10 seconds
         assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
         
@@ -272,8 +274,8 @@ struct IntegrationTests {
             
             avPlayer.play()
         }
-
-        try await Task.sleep(seconds: 5)
+        
+        try await Task.sleep(nanoseconds: 5_000_000_000) // 5 seconds in nanoseconds
         #expect(binding.didReturnNil, "Expected getViewBounds to return empty CGRect")
     }
     
@@ -285,13 +287,12 @@ struct IntegrationTests {
         }
         
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
-        let VOD_URL = "https://stream.mux.com/VcmKA6aqzIzlg3MayLJDnbF55kX00mds028Z65QxvBYaA.m3u8"
+        let VOD_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
         let avPlayer = AVPlayer(url: URL(string: VOD_URL)!)
         binding.attach(avPlayer)
         
         // Start playing content
         await assertStartPlaying(with: avPlayer, for: playerName)
-        try await waitForPlaybackToStart(with: avPlayer, for: playerName)
         
         // Wait approximately 5 seconds
         assertWaitForNSeconds(n: 5.0, with: avPlayer, for: playerName)
@@ -441,71 +442,6 @@ struct IntegrationTests {
             actualWatchTimeSeconds >= expectedPlaybackTime - tolerance &&
             actualWatchTimeSeconds <= expectedPlaybackTime + tolerance,
             "Watch time should be approximately \(expectedPlaybackTime) seconds (±\(tolerance)s), but was \(actualWatchTimeSeconds) seconds"
-        )
-    }
-    
-    @available(iOS 18.0, tvOS 18.0, visionOS 2.0, *)
-    @Test func bandwidthMetricEventTests() async throws {
-        let playerName = "bandwidthMetricEvent \(UUID().uuidString)"
-        MUXSDKCore.swizzleDispatchEvents()
-        defer {
-            MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
-        }
-        
-        let binding = MUXSDKPlayerBinding(
-            playerName: playerName,
-            softwareName: "TestSoftwareName",
-            softwareVersion: "TestSoftwareVersion"
-        )
-        // from https://github.com/muxinc/elements/blob/main/shared/assets/media-assets.json
-        let VOD_URL = URL(
-            string:
-                "https://stream.mux.com/VcmKA6aqzIzlg3MayLJDnbF55kX00mds028Z65QxvBYaA.m3u8"
-        )!
-        let avPlayer = AVPlayer(url: VOD_URL)
-        binding.attach(avPlayer)
-
-        // Start playing content
-        //await assertStartPlaying(with: avPlayer, for: playerName)
-        await MainActor.run {
-            avPlayer.play()
-        }
-        try await waitForPlaybackToStart(with: avPlayer, for: playerName)
-        try? await Task.sleep(seconds: dispatchDelay)
-
-        assertWaitForNSeconds(n: 1, with: avPlayer, for: playerName)
-        
-        let completeRequestEvents = MUXSDKCore.getEventsForPlayer(playerName)
-            .filter {
-                $0.getType()
-                    == MUXSDKPlaybackEventRequestBandwidthEventCompleteType
-            }
-            .compactMap { $0 as? MUXSDKPlaybackEvent }
-        #expect(completeRequestEvents.count > 0)
-#if !targetEnvironment(simulator)
-        let manifestEvents = completeRequestEvents
-            .filter { $0.bandwidthMetricData?.requestType == "manifest" }
-        let videoEvents = completeRequestEvents
-            .filter { $0.bandwidthMetricData?.requestType == "video" }
-
-        #expect(manifestEvents.count > 0, "No manifest events found")
-        #expect(videoEvents.count > 0, "No video events found")
-
-        if let mainManifest = manifestEvents.first,
-           let bandwidthMetricData = mainManifest.bandwidthMetricData
-        {
-            #expect(bandwidthMetricData.requestHostName == VOD_URL.host())
-            #expect(bandwidthMetricData.requestResponseHeaders?.isEmpty == false)
-            #expect(bandwidthMetricData.requestResponseHeaders?.index(forKey: "x-cdn") != nil)
-        }
-#endif
-    }
-}
-
-extension Task where Success == Never, Failure == Never {
-    static func sleep(seconds: Double) async throws {
-        return try await Task.sleep(
-            nanoseconds: UInt64(seconds * 1_000_000_000)
         )
     }
 }

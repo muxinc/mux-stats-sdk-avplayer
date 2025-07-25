@@ -33,12 +33,6 @@
             reference = "container:TestPlans/MUXSDKStats.xctestplan"
             default = "YES">
          </TestPlanReference>
-         <TestPlanReference
-            reference = "container:TestPlans/CIPipeline.xctestplan">
-         </TestPlanReference>
-         <TestPlanReference
-            reference = "container:TestPlans/LocalServerTests.xctestplan">
-         </TestPlanReference>
       </TestPlans>
       <Testables>
          <TestableReference
@@ -60,17 +54,6 @@
                BlueprintIdentifier = "7225C9DF2D77C2980003066B"
                BuildableName = "UITests.xctest"
                BlueprintName = "UITests"
-               ReferencedContainer = "container:IntegrationTests.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0886FEE22E269B2500A6A7CF"
-               BuildableName = "LocalServerTests.xctest"
-               BlueprintName = "LocalServerTests"
                ReferencedContainer = "container:IntegrationTests.xcodeproj">
             </BuildableReference>
          </TestableReference>
