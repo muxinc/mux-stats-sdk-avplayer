@@ -1,0 +1,54 @@
+{
+  "configurations" : [
+    {
+      "id" : "ACDDCF23-BC98-4C54-BB12-DC5A34F3C6C3",
+      "name" : "Retry on Failure",
+      "options" : {
+        "maximumTestRepetitions" : 5,
+        "repeatInNewRunnerProcess" : true,
+        "testRepetitionMode" : "retryOnFailure"
+      }
+    },
+    {
+      "id" : "A45F1A3C-FC11-4AAD-B9DD-B25BA88A8E30",
+      "name" : "Run once",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "environmentVariableEntries" : [
+      {
+        "key" : "RUN_SERVER_TESTS_FLAG",
+        "value" : "true"
+      },
+      {
+        "key" : "TEST_HOST",
+        "value" : "localhost"
+      },
+      {
+        "key" : "TEST_PORT",
+        "value" : "8080"
+      }
+    ],
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "skippedTests" : {
+        "suites" : [
+          {
+            "name" : "IntegrationTests"
+          }
+        ]
+      },
+      "target" : {
+        "containerPath" : "container:IntegrationTests.xcodeproj",
+        "identifier" : "7225C9D52D77C2980003066B",
+        "name" : "IntegrationTests"
+      }
+    }
+  ],
+  "version" : 2
+}

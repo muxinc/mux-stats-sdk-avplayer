@@ -43,6 +43,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		0886F74F2E16EF7D00A6A7CF /* Exceptions for "IntegrationTestHost" folder in "IntegrationTestHost" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 7225C9C42D77C2980003066B /* IntegrationTestHost */;
+		};
 		729027032DB967B700E08127 /* Exceptions for "ObjCTarget" folder in "ObjCTarget" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			publicHeaders = (
@@ -55,6 +62,9 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		7225C9C72D77C2980003066B /* IntegrationTestHost */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				0886F74F2E16EF7D00A6A7CF /* Exceptions for "IntegrationTestHost" folder in "IntegrationTestHost" target */,
+			);
 			path = IntegrationTestHost;
 			sourceTree = "<group>";
 		};
@@ -546,6 +556,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = IntegrationTestHost/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -581,6 +592,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = IntegrationTestHost/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
