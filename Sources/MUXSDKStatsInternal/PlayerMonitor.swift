@@ -15,8 +15,6 @@ public class PlayerMonitor: NSObject {
 
     private var cancellables = [AnyCancellable]()
 
-    @objc public private(set) var publishesRequestBandwidthEvents: Bool = false
-
     @objc public func cancel() {
         allEventsSubject.send(completion: .finished)
         cancellables.removeAll()
@@ -44,8 +42,6 @@ extension PlayerMonitor {
                 .switchToLatest()
                 .sink(receiveValue: allEventsSubject.send)
                 .store(in: &cancellables)
-
-            publishesRequestBandwidthEvents = true
         }
 #endif
     }

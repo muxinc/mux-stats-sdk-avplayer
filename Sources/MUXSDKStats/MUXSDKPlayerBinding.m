@@ -154,10 +154,8 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
         self.swiftMonitor = [[MUXSDKPlayerMonitor alloc] initWithPlayer:player onEvent:^(MUXSDKBaseEvent *event) {
             [weakSelf dispatchSwiftMonitorEvent:event];
         }];
-        self.shouldTrackBandwidthMetrics = !self.swiftMonitor.publishesRequestBandwidthEvents;
     } else {
         self.shouldTrackRenditionChanges = YES;
-        self.shouldTrackBandwidthMetrics = YES;
     }
     _player = player;
     __weak MUXSDKPlayerBinding *weakSelf = self;
@@ -460,6 +458,7 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)monitorAVPlayerItem {
+    self.shouldTrackBandwidthMetrics = YES;
     if ((!_automaticVideoChange && !_didTriggerManualVideoChange) || _isAdPlaying) {
         return;
     }
@@ -869,6 +868,10 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
 - (void)dispatchSwiftMonitorEvent:(MUXSDKBaseEvent *)event {
     // Shims for things not yet handled in Swift monitor:
     if ([event isKindOfClass:MUXSDKPlaybackEvent.class]) {
+        if ([event isKindOfClass:MUXSDKRequestBandwidthEvent.class]) {
+            self.shouldTrackBandwidthMetrics = NO;
+        }
+
         MUXSDKPlaybackEvent *playbackEvent = (MUXSDKPlaybackEvent *)event;
 
         if (_isAdPlaying) {
