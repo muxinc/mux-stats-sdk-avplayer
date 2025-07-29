@@ -19,10 +19,13 @@ extension MUXSDKBandwidthMetricData {
         requestResponseStart = event.responseStartTime.muxTimeValue
         requestResponseEnd = event.responseEndTime.muxTimeValue
 
-        requestBytesLoaded = event.byteRange.length as NSNumber
+        let lastTransactionMetrics = event.networkTransactionMetrics?.transactionMetrics.last
 
-        let lastHTTPResponse = event.networkTransactionMetrics?
-            .transactionMetrics.last?.response as? HTTPURLResponse
+        requestBytesLoaded = lastTransactionMetrics.map {
+            $0.countOfResponseHeaderBytesReceived + $0.countOfResponseBodyBytesReceived
+        } as NSNumber?
+
+        let lastHTTPResponse = lastTransactionMetrics?.response as? HTTPURLResponse
 
         requestResponseHeaders = lastHTTPResponse?.allHeaderFields
 
