@@ -21,16 +21,18 @@ extension MUXSDKBandwidthMetricData {
 
         requestBytesLoaded = event.byteRange.length as NSNumber
 
-        requestResponseHeaders = event.networkTransactionMetrics?.transactionMetrics
-            .compactMap { ($0.response as? HTTPURLResponse)?.allHeaderFields }
-            .last
+        let lastHTTPResponse = event.networkTransactionMetrics?
+            .transactionMetrics.last?.response as? HTTPURLResponse
+
+        requestResponseHeaders = lastHTTPResponse?.allHeaderFields
 
         if let errorEvent = event.errorEvent, !errorEvent.didRecover {
-            let nsError = errorEvent.error as NSError
+            requestError = errorEvent.error.localizedDescription
 
-            requestError = nsError.domain
-            requestErrorCode = nsError.code as NSNumber
-            requestErrorText = nsError.localizedFailureReason ?? nsError.localizedDescription
+            if let lastHTTPResponse {
+                requestErrorCode = lastHTTPResponse.statusCode as NSNumber
+                requestErrorText = HTTPURLResponse.localizedString(forStatusCode: lastHTTPResponse.statusCode)
+            }
         }
     }
 
