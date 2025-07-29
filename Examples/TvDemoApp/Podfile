@@ -6,8 +6,7 @@ target 'TvDemoApp' do
 
   # Pods for TvDemoApp
   pod 'Mux-Stats-AVPlayer', :path => '../../'
-  pod 'GoogleAds-IMA-tvOS-SDK', '~> 4.2'
-  pod 'Mux-Stats-Google-IMA', '~> 0.9'
+  pod 'Mux-Stats-Google-IMA'
 end
 
 post_install do |installer|
