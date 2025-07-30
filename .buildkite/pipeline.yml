@@ -7,8 +7,14 @@ steps:
     artifact_paths:
       - ".build/artifacts/*.xcresult.zip"
   - command: "./scripts/build-package.sh"
-    label: ":xcode: Build Package"
+    label: ":xcode: Build for Swift Package Manager"
     artifact_paths:
+      - ".build/artifacts/*.xcresult.zip"
+  - label: ":cocoapods: Build for CocoaPods"
+    command: "./scripts/build-pod.sh"
+    artifact_paths:
+      - ".build/artifacts/Cocoapods-Mux-Stats-AVPlayer.zip"
+      - ".build/artifacts/Mux-Stats-AVPlayer.podspec"
       - ".build/artifacts/*.xcresult.zip"
   - wait
   - command: "./scripts/run-integration-tests.sh"
@@ -31,10 +37,3 @@ steps:
     branches: "releases/*"
   - command: "./scripts/run-tests-cocoapods-ventura.sh build-only"
     label: ":cocoapods: Build Cocoapods Example"
-    branches: "!releases/*"
-  - command: "./scripts/run-tests-cocoapods-ventura.sh"
-    label: ":cocoapods: Test Cocoapods Example"
-    branches: "releases/*"
-  - wait
-  - command: "./scripts/validate-podspec.sh"
-    label: ":cocoapods: Validate Podspec"

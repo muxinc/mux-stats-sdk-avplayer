@@ -5,7 +5,7 @@ target 'TvDemoApp' do
    use_frameworks!
 
   # Pods for TvDemoApp
-  pod 'Mux-Stats-AVPlayer', :path => '../../'
+  pod 'Mux-Stats-AVPlayer'
   pod 'Mux-Stats-Google-IMA'
 end
 
