@@ -35,6 +35,13 @@ extension MUXSDKVideoData {
         }
     }
 
+#if compiler(>=6.2)
+    @available(iOS 26, tvOS 26, visionOS 26, *)
+    func updateWithMediaRendition(_ mediaRendition: AVMetricMediaRendition) {
+//        videoSourceAdvertisedStableID = mediaRendition.stableID
+    }
+#endif
+
     @available(iOS 15, tvOS 15, *)
     static func makeWithRenditionInfo(track: AVAssetTrack, on playerItem: AVPlayerItem) async -> sending Self {
         let videoData = Self()
