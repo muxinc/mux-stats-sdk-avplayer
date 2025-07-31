@@ -48,7 +48,6 @@
 		F444D4471DDB8EBF00FE804F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F444D44A1DDB8EBF00FE804F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F444D44C1DDB8EBF00FE804F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F444D4521DDBB14400FE804F /* MUXSDKStats.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MUXSDKStats.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,7 +147,6 @@
 		F444D4561DDBB14C00FE804F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F444D4521DDBB14400FE804F /* MUXSDKStats.framework */,
 				DBFC18C1F59E3CD220D6FF89 /* Pods_DemoApp.framework */,
 			);
 			name = Frameworks;

@@ -4,12 +4,6 @@ import PackageDescription
 
 let package = Package(
     name: "MUXSDKStats",
-    platforms: [
-        .iOS(.v12),
-        .macCatalyst(.v13),
-        .tvOS(.v12),
-        .visionOS(.v1),
-    ],
     products: [
         .library(name: "MUXSDKStats", targets: ["MUXSDKStats"]),
     ],
@@ -46,12 +40,19 @@ let package = Package(
             dependencies: [
                 "MUXSDKStatsInternal",
             ]),
+        .plugin(
+            name: "GeneratePodspec",
+            capability: .command(
+                intent: .custom(
+                    verb: "generate-podspec",
+                    description: "Generates a podspec for the SDK"))),
     ],
     swiftLanguageModes: [
         .v5,
-    ])
+    ]
+)
 
-for target in package.targets {
+for target in package.targets where target.type != .plugin {
     target.swiftSettings = (target.swiftSettings ?? []) + [
         .enableUpcomingFeature("StrictConcurrency"),
         .enableUpcomingFeature("InternalImportsByDefault"),

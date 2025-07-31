@@ -2,15 +2,7 @@
 #import <CoreMedia/CoreMedia.h>
 #import <UIKit/UIKit.h>
 
-#if MUX_COCOAPODS
-#if __has_include("MUXSDKStats-Swift.h")
-#import "MUXSDKStats-Swift.h"
-#else
-#import <MUXSDKStats/MUXSDKStats-Swift.h>
-#endif
-#else
 @import MUXSDKStatsInternal;
-#endif
 
 #import "MUXSDKStats/MUXSDKPlayerBinding.h"
 
@@ -20,7 +12,7 @@
 
 // SDK constants.
 static NSString *const MUXSDKPluginName = @"apple-mux";
-static NSString *const MUXSDKPluginVersion = @"4.7.0";
+static NSString *const MUXSDKPluginVersion = @"4.8.0";
 static NSString *const MUXSessionDataPrefix = @"io.litix.data.";
 
 // Min number of seconds between timeupdate events. (100ms)
