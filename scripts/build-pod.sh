@@ -135,7 +135,7 @@ function generate_podpsec {
         --allow-writing-to-package-directory \
         --version "$release_version" \
         --core-version "$MUXCORE_VERSION" \
-        --url "https://github.com/muxinc/stats-sdk-avplayer/releases/download/v$release_version/$COCOAPODS_BINARY_ARTIFACT_FILENAME" \
+        --url "https://github.com/muxinc/mux-stats-sdk-avplayer/releases/download/v$release_version/$COCOAPODS_BINARY_ARTIFACT_FILENAME" \
         --checksum "$pod_zip_checksum" \
         --output "$PODSPEC_ARTIFACT_PATH"
 }
