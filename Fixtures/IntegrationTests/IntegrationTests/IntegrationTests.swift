@@ -36,9 +36,9 @@ struct IntegrationTests {
         #expect(containsPlayEvent)
     }
     
-    func assertWaitForNSeconds(n seconds: Double, with player: AVPlayer, for playerName: String) {
+    func assertWaitForNSeconds(n seconds: Double, with player: AVPlayer, for playerName: String) throws {
         NSLog("## Wait approximately \(seconds) seconds")
-        let waitTimeBefore = getLastTimestamp(for: playerName)!.doubleValue
+        let waitTimeBefore = try #require(getLastTimestamp(for: playerName)).doubleValue
         let beforeTimePlayer = player.currentTime().seconds
         
         var currentTimePlayer = player.currentTime().seconds
@@ -54,7 +54,7 @@ struct IntegrationTests {
             }
         }
         
-        let waitTimeAfter = getLastTimestamp(for: playerName)!.doubleValue
+        let waitTimeAfter = try #require(getLastTimestamp(for: playerName)).doubleValue
         let waitTimeDiff = waitTimeAfter - waitTimeBefore
         let lowerBound = (seconds * 1000) - msTolerance
         let upperBound = (seconds * 1000) + msTolerance
@@ -63,15 +63,15 @@ struct IntegrationTests {
         #expect(waitTimeDiff >= lowerBound && waitTimeDiff <= upperBound, "Waited \(waitTimeDiff)ms, expected between \(lowerBound)ms and \(upperBound)ms")
     }
     
-    func assertPauseForNSeconds(n seconds: Double, with player: AVPlayer, for playerName: String) async {
+    func assertPauseForNSeconds(n seconds: Double, with player: AVPlayer, for playerName: String) async throws {
         NSLog("## Pause the content for \(seconds) seconds")
-        let waitTimeBefore = getLastTimestamp(for: playerName)!.doubleValue
+        let waitTimeBefore = try #require(getLastTimestamp(for: playerName)).doubleValue
         await MainActor.run {
             player.pause()
         }
         try? await Task.sleep(nanoseconds: UInt64(dispatchDelay * 1_000_000_000))
-        let waitTimeAfter = getLastTimestamp(for: playerName)!.doubleValue
-        
+        let waitTimeAfter = try #require(getLastTimestamp(for: playerName)).doubleValue
+
         let waitTimeDiff = waitTimeAfter - waitTimeBefore
         // Expect that time difference is approximately 0 seconds
         #expect(waitTimeDiff >= 0 && waitTimeDiff < msTolerance)
@@ -175,29 +175,29 @@ struct IntegrationTests {
         await assertStartPlaying(with: avPlayer, for: playerName)
         
         // Wait approximately 5 seconds
-        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
-        
+        try assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
+
         // Pause the content for 5 seconds
-        await assertPauseForNSeconds(n: 5.0, with: avPlayer, for: playerName)
-        
+        try await assertPauseForNSeconds(n: 5.0, with: avPlayer, for: playerName)
+
         // Unpause the content
         await assertStartPlaying(with: avPlayer, for: playerName)
         
         // Wait approximately 5 seconds
-        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
-        
+        try assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
+
         // Seek backwards in the video 5 seconds
         assertSeekNSeconds(n: -5.0, with: avPlayer, for: playerName)
         
         // Wait approximately 5 seconds
-        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
-        
+        try assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
+
         // Seek forwards in the video 10 seconds
         assertSeekNSeconds(n: 10.0, with: avPlayer, for: playerName)
         
         // Wait approximately 5 seconds
-        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
-        
+        try assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
+
         // Exit the player by going back to the menu
         binding.detachAVPlayer()
     }
@@ -218,29 +218,29 @@ struct IntegrationTests {
         await assertStartPlaying(with: avPlayer, for: playerName)
         
         // Wait approximately 10 seconds
-        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
-        
+        try assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
+
         // Pause the content for 5 seconds
-        await assertPauseForNSeconds(n: 5.0, with: avPlayer, for: playerName)
-        
+        try await assertPauseForNSeconds(n: 5.0, with: avPlayer, for: playerName)
+
         // Unpause the content
         await assertStartPlaying(with: avPlayer, for: playerName)
         
         // Wait approximately 5 seconds
-        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
-        
+        try assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
+
         // Seek backwards in the video 5 seconds
         assertSeekNSeconds(n: -5.0, with: avPlayer, for: playerName)
         
         // Wait approximately 5 seconds
-        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
-        
+        try assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
+
         // Seek forwards in the video 5 seconds
         assertSeekNSeconds(n: 5.0, with: avPlayer, for: playerName)
         
         // Wait approximately 5 seconds
-        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
-        
+        try assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
+
         // Exit the player by going back to the menu
         binding.detachAVPlayer()
     }
@@ -295,8 +295,8 @@ struct IntegrationTests {
         await assertStartPlaying(with: avPlayer, for: playerName)
         
         // Wait approximately 5 seconds
-        assertWaitForNSeconds(n: 5.0, with: avPlayer, for: playerName)
-        
+        try assertWaitForNSeconds(n: 5.0, with: avPlayer, for: playerName)
+
         let vodDurationSeconds = await MainActor.run { () -> Double in
             let duration = avPlayer.currentItem?.asset.duration
             return CMTimeGetSeconds(duration!)
@@ -329,8 +329,8 @@ struct IntegrationTests {
         await assertStartPlaying(with: avPlayer, for: playerName)
         
         // Wait 5 seconds
-        assertWaitForNSeconds(n: 5.0, with: avPlayer, for: playerName)
-        
+        try assertWaitForNSeconds(n: 5.0, with: avPlayer, for: playerName)
+
         // Select a different content title
         try assertChangeVideoSource(from: FIRST_VIDEO_URL, to: SECOND_VIDEO_URL, with: avPlayer, for: playerName)
         
@@ -338,8 +338,8 @@ struct IntegrationTests {
         await assertStartPlaying(with: avPlayer, for: playerName)
         
         // Wait 5 seconds
-        assertWaitForNSeconds(n: 5.0, with: avPlayer, for: playerName)
-        
+        try assertWaitForNSeconds(n: 5.0, with: avPlayer, for: playerName)
+
         binding.detachAVPlayer()
     }
   
