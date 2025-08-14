@@ -16,6 +16,8 @@
 
 #define MUXUniquePlayerName() [NSString stringWithFormat:@"Player for %s (%@)", __PRETTY_FUNCTION__, NSUUID.UUID.UUIDString]
 
+NSString *const MUXTestVODURLString = @"https://stream.mux.com/a4nOgmxGWg6gULfcBbAa00gXyfcwPnAFldF8RdsNyk8M.m3u8";
+
 @interface MuxMockAVPlayerViewController : AVPlayerViewController
 @end
 
@@ -254,7 +256,7 @@ static NSString *Z = @"Z";
     newCustomerData.customerVideoData = newCustomerVideoData;
     // It is required to call videoChangeForPlayer: immediately before telling the player which new source to play.
     [MUXSDKStats videoChangeForPlayer:playName withCustomerData:newCustomerData];
-    NSURL* videoURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
+    NSURL* videoURL = [NSURL URLWithString:MUXTestVODURLString];
     AVPlayerItem *item = [AVPlayerItem playerItemWithURL:videoURL];
     [controller.player replaceCurrentItemWithPlayerItem:item];
 
@@ -395,7 +397,7 @@ static NSString *Z = @"Z";
     customerData.customerVideoData = newCustomerVideoData;
     // It is required to call videoChangeForPlayer: immediately before telling the player which new source to play.
     [MUXSDKStats videoChangeForPlayer:playName withCustomerData:customerData];
-    NSURL* videoURL = [NSURL URLWithString:@"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"];
+    NSURL* videoURL = [NSURL URLWithString:MUXTestVODURLString];
     AVPlayerItem *item = [AVPlayerItem playerItemWithURL:videoURL];
     [controller.player replaceCurrentItemWithPlayerItem:item];
 
