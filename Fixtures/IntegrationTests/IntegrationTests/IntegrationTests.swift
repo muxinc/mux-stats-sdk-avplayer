@@ -427,7 +427,7 @@ struct IntegrationTests {
         try? await Task.sleep(nanoseconds: UInt64(20 * 1_000_000_000))
         
         // End the view
-        let watchTimeEnd = getLastTimestamp(for: playerName)!.doubleValue
+        let watchTimeEnd = try #require(getLastTimestamp(for: playerName)).doubleValue
         binding.detachAVPlayer()
         
         // Calculate actual watch time
