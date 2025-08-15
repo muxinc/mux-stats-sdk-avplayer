@@ -1,6 +1,9 @@
 import Testing
 @testable import MUXSDKStats
 
+let vodURL = URL(string: "https://stream.mux.com/a4nOgmxGWg6gULfcBbAa00gXyfcwPnAFldF8RdsNyk8M.m3u8")!
+let liveURL = URL(string: "https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8")!
+
 @Suite
 struct IntegrationTests {
     let dispatchDelay = 3.0
@@ -36,9 +39,9 @@ struct IntegrationTests {
         #expect(containsPlayEvent)
     }
     
-    func assertWaitForNSeconds(n seconds: Double, with player: AVPlayer, for playerName: String) {
+    func assertWaitForNSeconds(n seconds: Double, with player: AVPlayer, for playerName: String) throws {
         NSLog("## Wait approximately \(seconds) seconds")
-        let waitTimeBefore = getLastTimestamp(for: playerName)!.doubleValue
+        let waitTimeBefore = try #require(getLastTimestamp(for: playerName)).doubleValue
         let beforeTimePlayer = player.currentTime().seconds
         
         var currentTimePlayer = player.currentTime().seconds
@@ -54,7 +57,7 @@ struct IntegrationTests {
             }
         }
         
-        let waitTimeAfter = getLastTimestamp(for: playerName)!.doubleValue
+        let waitTimeAfter = try #require(getLastTimestamp(for: playerName)).doubleValue
         let waitTimeDiff = waitTimeAfter - waitTimeBefore
         let lowerBound = (seconds * 1000) - msTolerance
         let upperBound = (seconds * 1000) + msTolerance
@@ -63,15 +66,15 @@ struct IntegrationTests {
         #expect(waitTimeDiff >= lowerBound && waitTimeDiff <= upperBound, "Waited \(waitTimeDiff)ms, expected between \(lowerBound)ms and \(upperBound)ms")
     }
     
-    func assertPauseForNSeconds(n seconds: Double, with player: AVPlayer, for playerName: String) async {
+    func assertPauseForNSeconds(n seconds: Double, with player: AVPlayer, for playerName: String) async throws {
         NSLog("## Pause the content for \(seconds) seconds")
-        let waitTimeBefore = getLastTimestamp(for: playerName)!.doubleValue
+        let waitTimeBefore = try #require(getLastTimestamp(for: playerName)).doubleValue
         await MainActor.run {
             player.pause()
         }
         try? await Task.sleep(nanoseconds: UInt64(dispatchDelay * 1_000_000_000))
-        let waitTimeAfter = getLastTimestamp(for: playerName)!.doubleValue
-        
+        let waitTimeAfter = try #require(getLastTimestamp(for: playerName)).doubleValue
+
         let waitTimeDiff = waitTimeAfter - waitTimeBefore
         // Expect that time difference is approximately 0 seconds
         #expect(waitTimeDiff >= 0 && waitTimeDiff < msTolerance)
@@ -167,37 +170,36 @@ struct IntegrationTests {
         }
         
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
-        let VOD_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
-        let avPlayer = AVPlayer(url: URL(string: VOD_URL)!)
+        let avPlayer = AVPlayer(url: vodURL)
         binding.attach(avPlayer)
         
         // Start playing VoD content
         await assertStartPlaying(with: avPlayer, for: playerName)
         
         // Wait approximately 5 seconds
-        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
-        
+        try assertWaitForNSeconds(n : 3.0, with: avPlayer, for: playerName)
+
         // Pause the content for 5 seconds
-        await assertPauseForNSeconds(n: 5.0, with: avPlayer, for: playerName)
-        
+        try await assertPauseForNSeconds(n: 3.0, with: avPlayer, for: playerName)
+
         // Unpause the content
         await assertStartPlaying(with: avPlayer, for: playerName)
         
         // Wait approximately 5 seconds
-        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
-        
+        try assertWaitForNSeconds(n : 3.0, with: avPlayer, for: playerName)
+
         // Seek backwards in the video 5 seconds
         assertSeekNSeconds(n: -5.0, with: avPlayer, for: playerName)
         
         // Wait approximately 5 seconds
-        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
-        
+        try assertWaitForNSeconds(n : 2.0, with: avPlayer, for: playerName)
+
         // Seek forwards in the video 10 seconds
-        assertSeekNSeconds(n: 10.0, with: avPlayer, for: playerName)
+        assertSeekNSeconds(n: 4.0, with: avPlayer, for: playerName)
         
         // Wait approximately 5 seconds
-        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
-        
+        try assertWaitForNSeconds(n : 2.0, with: avPlayer, for: playerName)
+
         // Exit the player by going back to the menu
         binding.detachAVPlayer()
     }
@@ -218,29 +220,29 @@ struct IntegrationTests {
         await assertStartPlaying(with: avPlayer, for: playerName)
         
         // Wait approximately 10 seconds
-        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
-        
+        try assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
+
         // Pause the content for 5 seconds
-        await assertPauseForNSeconds(n: 5.0, with: avPlayer, for: playerName)
-        
+        try await assertPauseForNSeconds(n: 5.0, with: avPlayer, for: playerName)
+
         // Unpause the content
         await assertStartPlaying(with: avPlayer, for: playerName)
         
         // Wait approximately 5 seconds
-        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
-        
+        try assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
+
         // Seek backwards in the video 5 seconds
         assertSeekNSeconds(n: -5.0, with: avPlayer, for: playerName)
         
         // Wait approximately 5 seconds
-        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
-        
+        try assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
+
         // Seek forwards in the video 5 seconds
         assertSeekNSeconds(n: 5.0, with: avPlayer, for: playerName)
         
         // Wait approximately 5 seconds
-        assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
-        
+        try assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
+
         // Exit the player by going back to the menu
         binding.detachAVPlayer()
     }
@@ -250,8 +252,7 @@ struct IntegrationTests {
         MUXSDKCore.swizzleDispatchEvents()
         MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
         
-        let LIVE_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
-        let avPlayer = AVPlayer(url: URL(string: LIVE_URL)!)
+        let avPlayer = AVPlayer(url: liveURL)
         let playerViewController = await MainActor.run {
             AVPlayerViewController()
         }
@@ -287,16 +288,15 @@ struct IntegrationTests {
         }
         
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
-        let VOD_URL = "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
-        let avPlayer = AVPlayer(url: URL(string: VOD_URL)!)
+        let avPlayer = AVPlayer(url: vodURL)
         binding.attach(avPlayer)
         
         // Start playing content
         await assertStartPlaying(with: avPlayer, for: playerName)
         
         // Wait approximately 5 seconds
-        assertWaitForNSeconds(n: 5.0, with: avPlayer, for: playerName)
-        
+        try assertWaitForNSeconds(n: 5.0, with: avPlayer, for: playerName)
+
         let vodDurationSeconds = await MainActor.run { () -> Double in
             let duration = avPlayer.currentItem?.asset.duration
             return CMTimeGetSeconds(duration!)
@@ -319,27 +319,24 @@ struct IntegrationTests {
         
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
         
-        let SECOND_VIDEO_URL = URL(string: "https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8")!
-        
-        let FIRST_VIDEO_URL = URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!
-        let avPlayer = AVPlayer(url: FIRST_VIDEO_URL)
+        let avPlayer = AVPlayer(url: vodURL)
         binding.attach(avPlayer)
         
         // Begin playback of first content title
         await assertStartPlaying(with: avPlayer, for: playerName)
         
         // Wait 5 seconds
-        assertWaitForNSeconds(n: 5.0, with: avPlayer, for: playerName)
-        
+        try assertWaitForNSeconds(n: 5.0, with: avPlayer, for: playerName)
+
         // Select a different content title
-        try assertChangeVideoSource(from: FIRST_VIDEO_URL, to: SECOND_VIDEO_URL, with: avPlayer, for: playerName)
+        try assertChangeVideoSource(from: vodURL, to: liveURL, with: avPlayer, for: playerName)
         
         // Start playing the new content
         await assertStartPlaying(with: avPlayer, for: playerName)
         
         // Wait 5 seconds
-        assertWaitForNSeconds(n: 5.0, with: avPlayer, for: playerName)
-        
+        try assertWaitForNSeconds(n: 5.0, with: avPlayer, for: playerName)
+
         binding.detachAVPlayer()
     }
   
@@ -353,8 +350,8 @@ struct IntegrationTests {
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
         
         // Use an invalid URL
-        let INVALID_URL = URL(string:"https://bitdash-a.akamaihd.net/content/nonexistent/invalid.m3u8")!
-        let avPlayer = AVPlayer(url: INVALID_URL)
+        let notFoundURL = URL(string: "https://stream.mux.com/invalid.m3u8")!
+        let avPlayer = AVPlayer(url: notFoundURL)
         binding.attach(avPlayer)
         
         // Try to play the invalid content which should trigger a fatal error
@@ -412,8 +409,7 @@ struct IntegrationTests {
         }
         
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
-        let VOD_URL = URL(string:"https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8")!
-        let avPlayer = AVPlayer(url: VOD_URL)
+        let avPlayer = AVPlayer(url: vodURL)
         binding.attach(avPlayer)
         
         // Start playing content
@@ -427,7 +423,7 @@ struct IntegrationTests {
         try? await Task.sleep(nanoseconds: UInt64(20 * 1_000_000_000))
         
         // End the view
-        let watchTimeEnd = getLastTimestamp(for: playerName)!.doubleValue
+        let watchTimeEnd = try #require(getLastTimestamp(for: playerName)).doubleValue
         binding.detachAVPlayer()
         
         // Calculate actual watch time
