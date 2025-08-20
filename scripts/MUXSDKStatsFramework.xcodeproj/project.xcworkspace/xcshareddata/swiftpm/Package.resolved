@@ -1,4 +1,5 @@
 {
+  "originHash" : "ced72dd94331be52d71e12efffbd77713ab3fcafa191a8c9f8d9b0e5dd4db889",
   "pins" : [
     {
       "identity" : "stats-sdk-objc",
@@ -10,5 +11,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

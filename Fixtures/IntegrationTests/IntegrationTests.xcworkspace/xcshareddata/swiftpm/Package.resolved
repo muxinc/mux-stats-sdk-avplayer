@@ -1,13 +1,13 @@
 {
-  "originHash" : "1dc6529ca9e631da85325fd48e25b4f802d021b74ea1229bc4af5c940f356855",
+  "originHash" : "2012beb575b81c1a6104b98b2b3aa636e5aea5f594088b8b191bbd5a9974aa14",
   "pins" : [
     {
       "identity" : "stats-sdk-objc",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/muxinc/stats-sdk-objc.git",
       "state" : {
-        "revision" : "8c2bfa65f63eb0315b2de12e0063a3281734429a",
-        "version" : "5.4.1"
+        "revision" : "2543664a3ba555863981b7bf17a79025e4501965",
+        "version" : "5.5.0"
       }
     },
     {

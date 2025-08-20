@@ -4,19 +4,13 @@ import PackageDescription
 
 let package = Package(
     name: "MUXSDKStats",
-    platforms: [
-        .iOS(.v12),
-        .macCatalyst(.v13),
-        .tvOS(.v12),
-        .visionOS(.v1),
-    ],
     products: [
         .library(name: "MUXSDKStats", targets: ["MUXSDKStats"]),
     ],
     dependencies: [
         .package(
             url: "https://github.com/muxinc/stats-sdk-objc.git",
-            .upToNextMinor(from: "5.4.0")),
+            from: "5.5.0"),
     ],
     targets: [
         .target(
@@ -29,7 +23,10 @@ let package = Package(
                 .process("Resources"),
             ]),
         .target(
-            name: "MUXSDKStatsInternal"),
+            name: "MUXSDKStatsInternal",
+            dependencies: [
+                .product(name: "MuxCore", package: "stats-sdk-objc"),
+            ]),
         .testTarget(
             name: "MUXSDKStatsTests",
             dependencies: [
@@ -43,12 +40,19 @@ let package = Package(
             dependencies: [
                 "MUXSDKStatsInternal",
             ]),
+        .plugin(
+            name: "GeneratePodspec",
+            capability: .command(
+                intent: .custom(
+                    verb: "generate-podspec",
+                    description: "Generates a podspec for the SDK"))),
     ],
     swiftLanguageModes: [
         .v5,
-    ])
+    ]
+)
 
-for target in package.targets {
+for target in package.targets where target.type != .plugin {
     target.swiftSettings = (target.swiftSettings ?? []) + [
         .enableUpcomingFeature("StrictConcurrency"),
         .enableUpcomingFeature("InternalImportsByDefault"),

@@ -50,7 +50,7 @@ function merge_and_export_result_bundles {
         xcrun xcresulttool merge --output-path "$merged_xcresult_path" "${XCRESULT_BUNDLE_PATHS[@]}"
     fi
 
-    (cd "$BUILD_DIR" && ditto -c -k -X "$XCRESULT_FILENAME" "$XCRESULT_ARTIFACT_PATH")
+    (cd "$BUILD_DIR" && ditto -c -k --norsrc --zlibCompressionLevel 9 --keepParent "$XCRESULT_FILENAME" "$XCRESULT_ARTIFACT_PATH")
 }
 
 function test_for {
@@ -95,7 +95,7 @@ function test_for {
 
         rm -rf "$test_products_artifact_path"
 
-        (cd "$BUILD_DIR" && ditto -c -k -X "$test_products_filename" "$test_products_artifact_path")
+        (cd "$BUILD_DIR" && ditto -c -k --norsrc --zlibCompressionLevel 9 --keepParent "$test_products_filename" "$test_products_artifact_path")
         return
     fi
 

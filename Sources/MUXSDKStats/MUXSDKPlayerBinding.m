@@ -2,24 +2,17 @@
 #import <CoreMedia/CoreMedia.h>
 #import <UIKit/UIKit.h>
 
-#if MUX_COCOAPODS
-#if __has_include("MUXSDKStats-Swift.h")
-#import "MUXSDKStats-Swift.h"
-#else
-#import <MUXSDKStats/MUXSDKStats-Swift.h>
-#endif
-#else
 @import MUXSDKStatsInternal;
-#endif
 
 #import "MUXSDKStats/MUXSDKPlayerBinding.h"
 
+#import "MUXSDKBandwidthMetricData+MUXSDKAccessLog.h"
 #import "MUXSDKConnection.h"
 #import "MUXSDKPlayerBindingConstants.h"
 
 // SDK constants.
 static NSString *const MUXSDKPluginName = @"apple-mux";
-static NSString *const MUXSDKPluginVersion = @"4.7.0";
+static NSString *const MUXSDKPluginVersion = @"4.8.1";
 static NSString *const MUXSessionDataPrefix = @"io.litix.data.";
 
 // Min number of seconds between timeupdate events. (100ms)
@@ -53,6 +46,7 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
     API_AVAILABLE(ios(15), tvos(15));
 
 @property (nonatomic) BOOL shouldTrackRenditionChanges;
+@property (nonatomic) BOOL shouldTrackBandwidthMetrics;
 
 @end
 
@@ -220,12 +214,6 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
     _lastDispatchedAdvertisedBitrate = 0.0;
 }
 
--(NSString *)getHostName:(NSString *)urlString {
-    NSURL* url = [NSURL URLWithString:urlString];
-    NSString *domain = [url host];
-    return (domain == nil) ? urlString : domain;
-}
-
 //
 // Check that the item in the notification matches the item that we are monitoring
 // This matters when there are multiple AVPlayer instances running simultaneously
@@ -275,7 +263,9 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
             if (self.shouldTrackRenditionChanges) {
                 [self handleRenditionChangeInAccessLog:accessLog];
             }
-            [self calculateBandwidthMetricFromAccessLog:accessLog];
+            if (self.shouldTrackBandwidthMetrics) {
+                [self calculateBandwidthMetricFromAccessLog:accessLog];
+            }
             [self updateViewingLivestream:accessLog];
             [self updateFrameDropsFromAccessLog:accessLog];
         }
@@ -325,7 +315,6 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
 
 - (void) calculateBandwidthMetricFromAccessLog:(AVPlayerItemAccessLog *) log {
     if (log != nil && log.events.count > 0) {
-        // https://developer.apple.com/documentation/avfoundation/avplayeritemaccesslogevent?language=objc
         AVPlayerItemAccessLogEvent *event = log.events[log.events.count - 1];
         
        if (_lastTransferEventCount != log.events.count) {
@@ -339,21 +328,12 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
        // we did a charles proxy dump try to calculate the bitrate, and compared with above values. It doesn't match
        // but if use data stored in requestResponseStart/requestResponseEnd/requestBytesLoaded to compute, the value are very close.
        MUXSDKBandwidthMetricData *loadData = [[MUXSDKBandwidthMetricData alloc] init];
-       loadData.requestType = @"media";
+       [loadData updateURLPropertiesAndRequestTypeWithRequestURI:event.URI];
+
        double requestStartSecs = requestCompletedTime - (event.transferDuration - _lastTransferDuration);
        loadData.requestStart = [NSNumber numberWithLong: (long)(requestStartSecs * 1000)];
-       loadData.requestResponseStart = nil;
        loadData.requestResponseEnd = [NSNumber numberWithLong: (long)(requestCompletedTime * 1000)];
        loadData.requestBytesLoaded = [NSNumber numberWithLong: event.numberOfBytesTransferred - _lastTransferredBytes];
-       loadData.requestResponseHeaders = nil;
-       loadData.requestHostName = [self getHostName:event.URI];
-       loadData.requestUrl = event.URI;
-       loadData.requestCurrentLevel = nil;
-       loadData.requestMediaStartTime = nil;
-       loadData.requestMediaDuration = nil;
-       loadData.requestVideoWidth = nil;
-       loadData.requestVideoHeight = nil;
-       loadData.requestRenditionLists = nil;
        [self dispatchBandwidthMetric:loadData withType:MUXSDKPlaybackEventRequestBandwidthEventCompleteType];
        _lastTransferredBytes = event.numberOfBytesTransferred;
        _lastTransferDuration = event.transferDuration;
@@ -370,18 +350,19 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
 
 - (void)handleAVPlayerError:(NSNotification *)notif {
     BOOL isNotificationRelevant = [self isNotificationAboutCurrentPlayerItem:notif];
-    if (isNotificationRelevant) {
+    if (isNotificationRelevant && self.shouldTrackBandwidthMetrics) {
         AVPlayerItemErrorLog *log = [((AVPlayerItem *)notif.object) errorLog];
         if (log != nil && log.events.count > 0) {
-            // https://developer.apple.com/documentation/avfoundation/avplayeritemerrorlogevent?language=objc
             AVPlayerItemErrorLogEvent *errorEvent = log.events[log.events.count - 1];
             MUXSDKBandwidthMetricData *loadData = [[MUXSDKBandwidthMetricData alloc] init];
+            [loadData updateURLPropertiesAndRequestTypeWithRequestURI:errorEvent.URI];
+
             loadData.requestError = errorEvent.errorDomain;
-            loadData.requestType = @"media";
-            loadData.requestUrl = errorEvent.URI;
-            loadData.requestHostName = [self getHostName:errorEvent.URI];
-            loadData.requestErrorCode = [NSNumber numberWithLong: errorEvent.errorStatusCode];
+            loadData.requestErrorCode = @(errorEvent.errorStatusCode);
             loadData.requestErrorText = errorEvent.errorComment;
+            if (@available(iOS 17.5, tvOS 17.5, visionos 1.2, *)) {
+                loadData.requestResponseHeaders = errorEvent.allHTTPResponseHeaderFields;
+            }
             [self dispatchBandwidthMetric:loadData withType:MUXSDKPlaybackEventRequestBandwidthEventErrorType];
         }
     }
@@ -469,6 +450,7 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)monitorAVPlayerItem {
+    self.shouldTrackBandwidthMetrics = YES;
     if ((!_automaticVideoChange && !_didTriggerManualVideoChange) || _isAdPlaying) {
         return;
     }
@@ -878,6 +860,10 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
 - (void)dispatchSwiftMonitorEvent:(MUXSDKBaseEvent *)event {
     // Shims for things not yet handled in Swift monitor:
     if ([event isKindOfClass:MUXSDKPlaybackEvent.class]) {
+        if ([event isKindOfClass:MUXSDKRequestBandwidthEvent.class]) {
+            self.shouldTrackBandwidthMetrics = NO;
+        }
+
         MUXSDKPlaybackEvent *playbackEvent = (MUXSDKPlaybackEvent *)event;
 
         if (_isAdPlaying) {
