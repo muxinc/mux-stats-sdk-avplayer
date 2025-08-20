@@ -857,6 +857,7 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../../Packages/IntegrationTestUtilities;
 		};
+
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
