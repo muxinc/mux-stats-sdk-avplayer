@@ -1,0 +1,14 @@
+#EXTM3U
+#EXT-X-VERSION:5
+#EXT-X-INDEPENDENT-SEGMENTS
+
+#EXTINF:5,
+/normal/segments/1.ts?cdn=cdnB
+#EXTINF:5,
+/normal/segments/2.ts?cdn=cdnB
+#EXTINF:5,
+/normal/segments/3.ts?cdn=cdnB
+#EXTINF:5,
+/normal/segments/4.ts?cdn=cdnB
+
+#EXT-X-ENDLIST

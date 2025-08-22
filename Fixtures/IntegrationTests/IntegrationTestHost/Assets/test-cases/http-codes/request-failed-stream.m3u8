@@ -1,0 +1,14 @@
+#EXTM3U
+#EXT-X-VERSION:5
+#EXT-X-INDEPENDENT-SEGMENTS
+
+#EXTINF:5,
+/normal/segments/1.ts
+#EXTINF:5,
+/not-found/segments/2.ts
+#EXTINF:5,
+/unauthorized/segments/3.ts
+#EXTINF:5,
+/code-406/segments/4.ts
+
+#EXT-X-ENDLIST
