@@ -11,10 +11,19 @@ readonly BUILD_DIR="$PWD/.build"
 readonly ARTIFACTS_DIR="$BUILD_DIR/artifacts"
 readonly DERIVED_DATA_PATH="$BUILD_DIR/DerivedData"
 
+# Add local saucectl to PATH if it exists
+if [ -f "./bin/saucectl" ]; then
+    export PATH="$PWD/bin:$PATH"
+fi
+
 # re-exported so saucectl CLI can use them
 if [ "${CI:-}" ]; then
     export SAUCE_USERNAME=$BUILDKITE_MAC_STADIUM_SAUCE_USERNAME
     export SAUCE_ACCESS_KEY=$BUILDKITE_MAC_STADIUM_SAUCE_ACCESS_KEY
+else
+    # Local development credentials
+    export SAUCE_USERNAME=Ignacio-mux
+    export SAUCE_ACCESS_KEY=19132d53-6561-43b6-a447-c277be36625e
 fi
 
 # Prepare:

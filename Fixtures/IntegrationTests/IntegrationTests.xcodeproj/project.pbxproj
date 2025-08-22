@@ -482,7 +482,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = XX95P4Y787;
+				DEVELOPMENT_TEAM = 7F3HM37253;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -553,7 +553,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = XX95P4Y787;
+				DEVELOPMENT_TEAM = 7F3HM37253;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -580,12 +580,14 @@
 		};
 		7225C9EB2D77C2980003066B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceRelativePath = CodeSigning.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = IntegrationTestHost/IntegrationTestHost.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7F3HM37253;
 				DEVELOPMENT_ASSET_PATHS = "\"IntegrationTestHost/Preview Content\"";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -615,12 +617,14 @@
 		};
 		7225C9EC2D77C2980003066B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceRelativePath = CodeSigning.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = IntegrationTestHost/IntegrationTestHost.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7F3HM37253;
 				DEVELOPMENT_ASSET_PATHS = "\"IntegrationTestHost/Preview Content\"";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -650,10 +654,12 @@
 		};
 		7225C9EE2D77C2980003066B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceRelativePath = CodeSigning.xcconfig;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7F3HM37253;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -673,10 +679,12 @@
 		};
 		7225C9EF2D77C2980003066B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceRelativePath = CodeSigning.xcconfig;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7F3HM37253;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -695,9 +703,11 @@
 		};
 		7225C9F12D77C2980003066B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceRelativePath = CodeSigning.xcconfig;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7F3HM37253;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats-avplayer.UITests${BUNDLE_ID_DISAMBIGUATOR}";
@@ -713,9 +723,11 @@
 		};
 		7225C9F22D77C2980003066B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceRelativePath = CodeSigning.xcconfig;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7F3HM37253;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats-avplayer.UITests${BUNDLE_ID_DISAMBIGUATOR}";
@@ -731,10 +743,12 @@
 		};
 		729027052DB967B700E08127 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceRelativePath = CodeSigning.xcconfig;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7F3HM37253;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -765,10 +779,12 @@
 		};
 		729027062DB967B700E08127 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceRelativePath = CodeSigning.xcconfig;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7F3HM37253;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;

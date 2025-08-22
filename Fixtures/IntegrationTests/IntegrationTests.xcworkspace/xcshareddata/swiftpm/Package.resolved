@@ -1,5 +1,5 @@
 {
-  "originHash" : "0d92a35b97cf28bc4c1f44324d0df74fcc8a48d626d03ba8adf2f9997f60ff69",
+  "originHash" : "01b687b6e0fa657c9444bc73e49f86b7f3220ca3443324d507adef741fdeea2c",
   "pins" : [
     {
       "identity" : "stats-sdk-objc",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "2543664a3ba555863981b7bf17a79025e4501965",
         "version" : "5.5.0"
+      }
+    },
+    {
+      "identity" : "swifter",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/httpswift/swifter.git",
+      "state" : {
+        "revision" : "9483a5d459b45c3ffd059f7b55f9638e268632fd",
+        "version" : "1.5.0"
       }
     }
   ],
