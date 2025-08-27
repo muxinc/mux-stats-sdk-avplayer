@@ -68,6 +68,11 @@ extension MUXSDKBandwidthMetricData {
         default:
             break
         }
+
+#if compiler(>=6.2)
+        // throws an exception, maybe is 26+?
+//        requestMediaDuration = event.segmentDuration.muxTimeValue
+#endif
     }
 
     convenience init?(event: AVMetricContentKeyRequestEvent) {
