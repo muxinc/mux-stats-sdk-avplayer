@@ -62,6 +62,7 @@ struct MuxTimeValueConvertibleTests {
     ]
 
     // Set wrapping required due to Xcode 16 bug "Fatal error: Internal inconsistency: No test reporter for test case argumentIDs"
+    // https://forums.swift.org/t/fatal-error-internal-inconsistency-no-test-reporter-for-test-case-argumentids/75666/8
     @Test(arguments: Set(validTimeIntervals))
     func validTimeIntervalBehavior(timeInterval: TimeInterval) throws {
         let muxTimeValue = try #require(timeInterval.muxTimeValue)
@@ -112,7 +113,7 @@ struct MuxTimeValueConvertibleTests {
     ]
 
     static var validCMTimes: [CMTime] {
-        [
+        let allTimes = [
             CMTime.zero,
         ]
         +
@@ -121,10 +122,18 @@ struct MuxTimeValueConvertibleTests {
                 CMTime(seconds: timeInterval, preferredTimescale: $0)
             }
         }
+
+        // Non-unique arguments lead to Xcode 16 bug "Fatal error: Internal inconsistency: No test reporter for test case argumentIDs"
+        // But also the above produces lots of duplicates.
+        struct HashableCMTimeWrapper: Hashable {
+            let timeValue: CMTime
+        }
+
+        return Set(allTimes.map(HashableCMTimeWrapper.init))
+            .map(\.timeValue)
     }
 
-    // Set wrapping required due to Xcode 16 bug "Fatal error: Internal inconsistency: No test reporter for test case argumentIDs"
-    @Test(arguments: Set(validCMTimes))
+    @Test(arguments: validCMTimes)
     func validCMTimeBehavior(cmTime: CMTime) throws {
         let muxTimeValue = try #require(cmTime.muxTimeValue)
 
