@@ -447,7 +447,7 @@
 		7225C9E82D77C2980003066B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 722CF7F92D83AD980005B60D /* Configuration */;
-			baseConfigurationReferenceRelativePath = CodeSigning.xcconfig;
+			baseConfigurationReferenceRelativePath = CodeSigning.local.xcconfig;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -518,7 +518,7 @@
 		7225C9E92D77C2980003066B /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 722CF7F92D83AD980005B60D /* Configuration */;
-			baseConfigurationReferenceRelativePath = CodeSigning.xcconfig;
+			baseConfigurationReferenceRelativePath = CodeSigning.local.xcconfig;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -580,7 +580,7 @@
 		};
 		7225C9EB2D77C2980003066B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceRelativePath = CodeSigning.xcconfig;
+			baseConfigurationReferenceRelativePath = CodeSigning.local.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -617,7 +617,7 @@
 		};
 		7225C9EC2D77C2980003066B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceRelativePath = CodeSigning.xcconfig;
+			baseConfigurationReferenceRelativePath = CodeSigning.local.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -654,7 +654,7 @@
 		};
 		7225C9EE2D77C2980003066B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceRelativePath = CodeSigning.xcconfig;
+			baseConfigurationReferenceRelativePath = CodeSigning.local.xcconfig;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
@@ -679,7 +679,7 @@
 		};
 		7225C9EF2D77C2980003066B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceRelativePath = CodeSigning.xcconfig;
+			baseConfigurationReferenceRelativePath = CodeSigning.local.xcconfig;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
@@ -703,7 +703,7 @@
 		};
 		7225C9F12D77C2980003066B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceRelativePath = CodeSigning.xcconfig;
+			baseConfigurationReferenceRelativePath = CodeSigning.local.xcconfig;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -723,7 +723,7 @@
 		};
 		7225C9F22D77C2980003066B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceRelativePath = CodeSigning.xcconfig;
+			baseConfigurationReferenceRelativePath = CodeSigning.local.xcconfig;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -743,7 +743,7 @@
 		};
 		729027052DB967B700E08127 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceRelativePath = CodeSigning.xcconfig;
+			baseConfigurationReferenceRelativePath = CodeSigning.local.xcconfig;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -779,7 +779,7 @@
 		};
 		729027062DB967B700E08127 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceRelativePath = CodeSigning.xcconfig;
+			baseConfigurationReferenceRelativePath = CodeSigning.local.xcconfig;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				CODE_SIGN_STYLE = Automatic;

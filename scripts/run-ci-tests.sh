@@ -32,11 +32,8 @@ EXIT_CODE=0
 
 mkdir -p "$BUILD_DIR" "$ARTIFACTS_DIR"
 
-if [ "${CI:-}" ]; then
-    (cd Configuration && ln -sF CodeSigning.sauce.xcconfig CodeSigning.local.xcconfig)
-else
-    (cd Configuration && ln -sF CodeSigning.mux.xcconfig CodeSigning.local.xcconfig)
-fi
+# Always use Sauce Labs configuration for CI tests
+(cd Configuration && ln -sF CodeSigning.sauce.xcconfig CodeSigning.local.xcconfig)
 
 function generate_assets {
     local original_dir="$PWD"

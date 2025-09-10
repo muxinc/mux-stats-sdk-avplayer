@@ -262,7 +262,7 @@
 		0812BF872DC119F4004F921E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 08191E552DC155B2003F912A /* Configuration */;
-			baseConfigurationReferenceRelativePath = CodeSigning.xcconfig;
+			baseConfigurationReferenceRelativePath = CodeSigning.local.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -332,7 +332,7 @@
 		0812BF882DC119F4004F921E /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 08191E552DC155B2003F912A /* Configuration */;
-			baseConfigurationReferenceRelativePath = CodeSigning.xcconfig;
+			baseConfigurationReferenceRelativePath = CodeSigning.local.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
