@@ -3,6 +3,10 @@ set -euo pipefail
 
 # set -x
 
+# Sauce Labs credentials
+export SAUCE_USERNAME=oauth-spuppo-8568d
+export SAUCE_ACCESS_KEY=44ef3788-700b-4730-85f7-646df0d75bf0
+
 readonly WORKSPACE_PATH="$PWD/Fixtures/IntegrationTests/IntegrationTests.xcworkspace"
 readonly SCHEME=MUXSDKStats
 readonly TEST_PLAN=MUXSDKStats

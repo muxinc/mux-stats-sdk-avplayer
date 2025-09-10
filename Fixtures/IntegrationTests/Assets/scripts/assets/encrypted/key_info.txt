@@ -1,0 +1,3 @@
+/normal/hls/key.key
+key.key
+0123456789abcdef0123456789abcdef
