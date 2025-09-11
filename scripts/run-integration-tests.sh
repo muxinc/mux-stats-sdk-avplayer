@@ -27,6 +27,8 @@ mkdir -p "$BUILD_DIR" "$ARTIFACTS_DIR"
 rm -rf "$XCRESULT_ARTIFACT_PATH"
 
 if [ "${CI:-}" ]; then
+    (cd Configuration && ln -sF CodeSigning.sauce.xcconfig CodeSigning.local.xcconfig)
+else
     (cd Configuration && ln -sF CodeSigning.mux.xcconfig CodeSigning.local.xcconfig)
 fi
 
@@ -35,7 +37,35 @@ function generate_assets {
     
     # Navigate to the assets directory and run the generation script
     cd Fixtures/IntegrationTests/IntegrationTestHost/Assets
-    bash ./scripts/build-all.sh
+    
+    # Ensure the target directory exists and is writable
+    local target_dir="../../../../Packages/IntegrationTestAssets/Sources/IntegrationTestAssets/assets"
+    mkdir -p "$target_dir"
+    
+    # Check if we can write to the target directory
+    if [ ! -w "$target_dir" ]; then
+        # Try to generate assets in a temporary location and copy them
+        local temp_dir="/tmp/integration_test_assets_$$"
+        mkdir -p "$temp_dir"
+        export ASSETS_DIR="$temp_dir"
+        
+        bash scripts/download-inputs.sh
+        bash scripts/assets-make-segments.sh
+        bash scripts/assets-make-variants.sh
+        bash scripts/assets-make-cmaf.sh
+        bash scripts/assets-make-encrypted.sh
+        
+        # Copy generated assets to the target directory
+        cp -r "$temp_dir"/* "$target_dir/" 2>/dev/null || {
+            echo "❌ Failed to copy assets to target directory"
+            return 1
+        }
+        
+        rm -rf "$temp_dir"
+    else
+        # Normal execution
+        bash scripts/build-all.sh
+    fi
     
     cd "$original_dir"
 }
@@ -136,6 +166,18 @@ function test_for {
 
 # Create placeholder assets directory so SPM always recognizes it during package resolution
 mkdir -p "Packages/IntegrationTestAssets/Sources/IntegrationTestAssets/assets"
+
+# Install ffmpeg if needed
+if ! command -v ffmpeg &> /dev/null; then
+    if command -v brew &> /dev/null; then
+        brew install ffmpeg
+    elif command -v apt-get &> /dev/null; then
+        sudo apt-get update && sudo apt-get install -y ffmpeg
+    else
+        echo "❌ Error: Cannot install ffmpeg automatically. Please install ffmpeg manually."
+        exit 1
+    fi
+fi
 
 generate_assets
 
