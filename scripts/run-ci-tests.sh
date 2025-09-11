@@ -123,6 +123,21 @@ function run_ci_tests {
     # Create placeholder assets directory so SPM always recognizes it during package resolution
     mkdir -p "Packages/IntegrationTestAssets/Sources/IntegrationTestAssets/assets"
     
+    echo "--- Installing ffmpeg if needed"
+    if ! command -v ffmpeg &> /dev/null; then
+        echo "Installing ffmpeg..."
+        if command -v brew &> /dev/null; then
+            brew install ffmpeg
+        elif command -v apt-get &> /dev/null; then
+            sudo apt-get update && sudo apt-get install -y ffmpeg
+        else
+            echo "❌ Error: Cannot install ffmpeg automatically. Please install ffmpeg manually."
+            exit 1
+        fi
+    else
+        echo "✅ ffmpeg is already available"
+    fi
+    
     echo "--- Generating assets for tests"
     generate_assets
     

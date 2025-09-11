@@ -12,22 +12,53 @@ INPUT_MP4_360="$ASSETS_DIR/input_360p.mp4"
 OUTPUT=($INPUT_MP4 $INPUT_MP4_240 $INPUT_MP4_360)
 
 mkdir -p $ASSETS_DIR
+mkdir -p $TEST_CASES_DIR
 
-ffmpeg -v error -y -i $DOWNLOAD_FROM \
+# Check if ffmpeg is available
+if ! command -v ffmpeg &> /dev/null; then
+    echo "❌ Error: ffmpeg is not available. Please install ffmpeg."
+    exit 1
+fi
+
+echo "Downloading source video from $DOWNLOAD_FROM..."
+
+# Download the source video
+if ! ffmpeg -v error -y -i "$DOWNLOAD_FROM" \
   -t 20 \
   -c copy \
-  "$INPUT_MP4"
+  "$INPUT_MP4"; then
+    echo "❌ Error: Failed to download source video"
+    exit 1
+fi
 
-ffmpeg -v error -y -i "$INPUT_MP4" \
+echo "Creating 240p version..."
+# Create 240p version
+if ! ffmpeg -v error -y -i "$INPUT_MP4" \
   -vf scale=426:240 \
   -c:v libx264 -b:v 200k -preset veryfast \
   -c:a aac -b:a 64k \
-  "$INPUT_MP4_240"
+  "$INPUT_MP4_240"; then
+    echo "❌ Error: Failed to create 240p version"
+    exit 1
+fi
 
-ffmpeg -v error -y -i "$INPUT_MP4" \
+echo "Creating 360p version..."
+# Create 360p version
+if ! ffmpeg -v error -y -i "$INPUT_MP4" \
   -vf scale=640:360 \
   -c:v libx264 -b:v 400k -preset veryfast \
   -c:a aac -b:a 64k \
-  "$INPUT_MP4_360"
+  "$INPUT_MP4_360"; then
+    echo "❌ Error: Failed to create 360p version"
+    exit 1
+fi
+
+# Verify files were created
+if [ ! -f "$INPUT_MP4_240" ] || [ ! -f "$INPUT_MP4_360" ]; then
+    echo "❌ Error: Output files were not created successfully"
+    echo "Files in ASSETS_DIR:"
+    ls -la "$ASSETS_DIR"
+    exit 1
+fi
 
 echo "CREATED $INPUT_MP4 $INPUT_MP4_240 $INPUT_MP4_360"
