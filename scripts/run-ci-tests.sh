@@ -40,7 +40,38 @@ function generate_assets {
     
     # Navigate to the assets directory and run the generation script
     cd Fixtures/IntegrationTests/IntegrationTestHost/Assets
-    bash scripts/build-all.sh
+    
+    # Ensure the target directory exists and is writable
+    local target_dir="../../../../Packages/IntegrationTestAssets/Sources/IntegrationTestAssets/assets"
+    mkdir -p "$target_dir"
+    
+    # Check if we can write to the target directory
+    if [ ! -w "$target_dir" ]; then
+        echo "❌ Cannot write to assets directory: $target_dir"
+        echo "Trying alternative approach..."
+        
+        # Try to generate assets in a temporary location and copy them
+        local temp_dir="/tmp/integration_test_assets_$$"
+        mkdir -p "$temp_dir"
+        export ASSETS_DIR="$temp_dir"
+        
+        bash scripts/download-inputs.sh
+        bash scripts/assets-make-segments.sh
+        bash scripts/assets-make-variants.sh
+        bash scripts/assets-make-cmaf.sh
+        bash scripts/assets-make-encrypted.sh
+        
+        # Copy generated assets to the target directory
+        cp -r "$temp_dir"/* "$target_dir/" 2>/dev/null || {
+            echo "❌ Failed to copy assets to target directory"
+            return 1
+        }
+        
+        rm -rf "$temp_dir"
+    else
+        # Normal execution
+        bash scripts/build-all.sh
+    fi
     
     cd "$original_dir"
 }
@@ -89,10 +120,22 @@ function run_ci_tests {
 
 # Execute:
 
-# Create placeholder assets directory so SPM always recognizes it during package resolution
-mkdir -p "Packages/IntegrationTestAssets/Sources/IntegrationTestAssets/assets"
-
-generate_assets
+    # Create placeholder assets directory so SPM always recognizes it during package resolution
+    mkdir -p "Packages/IntegrationTestAssets/Sources/IntegrationTestAssets/assets"
+    
+    echo "--- Generating assets for tests"
+    generate_assets
+    
+    # Verify assets were generated
+    echo "--- Verifying assets were generated"
+    if [ -f "Packages/IntegrationTestAssets/Sources/IntegrationTestAssets/assets/multivariant/index.m3u8" ]; then
+        echo "✅ Assets generated successfully"
+        ls -la "Packages/IntegrationTestAssets/Sources/IntegrationTestAssets/assets/multivariant/"
+    else
+        echo "❌ Assets not found after generation"
+        echo "Contents of assets directory:"
+        ls -la "Packages/IntegrationTestAssets/Sources/IntegrationTestAssets/assets/" || echo "Directory does not exist"
+    fi
 
 test_for 'iOS'
 
