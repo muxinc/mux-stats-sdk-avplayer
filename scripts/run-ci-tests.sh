@@ -40,7 +40,7 @@ function generate_assets {
     
     # Navigate to the assets directory and run the generation script
     cd Fixtures/IntegrationTests/IntegrationTestHost/Assets
-    bash ./scripts/build-all.sh
+    bash scripts/build-all.sh
     
     cd "$original_dir"
 }
