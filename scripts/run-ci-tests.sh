@@ -47,9 +47,6 @@ function generate_assets {
     
     # Check if we can write to the target directory
     if [ ! -w "$target_dir" ]; then
-        echo "❌ Cannot write to assets directory: $target_dir"
-        echo "Trying alternative approach..."
-        
         # Try to generate assets in a temporary location and copy them
         local temp_dir="/tmp/integration_test_assets_$$"
         mkdir -p "$temp_dir"
@@ -123,9 +120,8 @@ function run_ci_tests {
     # Create placeholder assets directory so SPM always recognizes it during package resolution
     mkdir -p "Packages/IntegrationTestAssets/Sources/IntegrationTestAssets/assets"
     
-    echo "--- Installing ffmpeg if needed"
+    # Install ffmpeg if needed
     if ! command -v ffmpeg &> /dev/null; then
-        echo "Installing ffmpeg..."
         if command -v brew &> /dev/null; then
             brew install ffmpeg
         elif command -v apt-get &> /dev/null; then
@@ -134,23 +130,9 @@ function run_ci_tests {
             echo "❌ Error: Cannot install ffmpeg automatically. Please install ffmpeg manually."
             exit 1
         fi
-    else
-        echo "✅ ffmpeg is already available"
     fi
     
-    echo "--- Generating assets for tests"
     generate_assets
-    
-    # Verify assets were generated
-    echo "--- Verifying assets were generated"
-    if [ -f "Packages/IntegrationTestAssets/Sources/IntegrationTestAssets/assets/multivariant/index.m3u8" ]; then
-        echo "✅ Assets generated successfully"
-        ls -la "Packages/IntegrationTestAssets/Sources/IntegrationTestAssets/assets/multivariant/"
-    else
-        echo "❌ Assets not found after generation"
-        echo "Contents of assets directory:"
-        ls -la "Packages/IntegrationTestAssets/Sources/IntegrationTestAssets/assets/" || echo "Directory does not exist"
-    fi
 
 test_for 'iOS'
 

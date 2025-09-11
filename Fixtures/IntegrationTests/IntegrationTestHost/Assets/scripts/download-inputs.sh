@@ -20,8 +20,6 @@ if ! command -v ffmpeg &> /dev/null; then
     exit 1
 fi
 
-echo "Downloading source video from $DOWNLOAD_FROM..."
-
 # Download the source video
 if ! ffmpeg -v error -y -i "$DOWNLOAD_FROM" \
   -t 20 \
@@ -31,7 +29,6 @@ if ! ffmpeg -v error -y -i "$DOWNLOAD_FROM" \
     exit 1
 fi
 
-echo "Creating 240p version..."
 # Create 240p version
 if ! ffmpeg -v error -y -i "$INPUT_MP4" \
   -vf scale=426:240 \
@@ -42,7 +39,6 @@ if ! ffmpeg -v error -y -i "$INPUT_MP4" \
     exit 1
 fi
 
-echo "Creating 360p version..."
 # Create 360p version
 if ! ffmpeg -v error -y -i "$INPUT_MP4" \
   -vf scale=640:360 \
@@ -56,8 +52,6 @@ fi
 # Verify files were created
 if [ ! -f "$INPUT_MP4_240" ] || [ ! -f "$INPUT_MP4_360" ]; then
     echo "❌ Error: Output files were not created successfully"
-    echo "Files in ASSETS_DIR:"
-    ls -la "$ASSETS_DIR"
     exit 1
 fi
 
