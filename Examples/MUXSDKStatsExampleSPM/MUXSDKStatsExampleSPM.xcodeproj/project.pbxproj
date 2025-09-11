@@ -35,7 +35,6 @@
 		19CB36032ABD2D39002DF48C /* PlayerLayerExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB36022ABD2D39002DF48C /* PlayerLayerExampleViewController.swift */; };
 		19CB36052ABD2D63002DF48C /* ProcessInfo+Mux.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB36042ABD2D63002DF48C /* ProcessInfo+Mux.swift */; };
 		19D409122C1BD57D00C8163C /* ErrorCategorizationExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D409112C1BD57D00C8163C /* ErrorCategorizationExampleViewController.swift */; };
-		4E3FCB712E672FD8009C90E4 /* PlayheadAccuracyTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3FCB702E672FD8009C90E4 /* PlayheadAccuracyTestViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,7 +92,6 @@
 		19CB36022ABD2D39002DF48C /* PlayerLayerExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerLayerExampleViewController.swift; sourceTree = "<group>"; };
 		19CB36042ABD2D63002DF48C /* ProcessInfo+Mux.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProcessInfo+Mux.swift"; sourceTree = "<group>"; };
 		19D409112C1BD57D00C8163C /* ErrorCategorizationExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorCategorizationExampleViewController.swift; sourceTree = "<group>"; };
-		4E3FCB702E672FD8009C90E4 /* PlayheadAccuracyTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayheadAccuracyTestViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -214,7 +212,6 @@
 		19CB35CE2ABD2B5C002DF48C /* MUXSDKStatsExampleSPM */ = {
 			isa = PBXGroup;
 			children = (
-				4E3FCB702E672FD8009C90E4 /* PlayheadAccuracyTestViewController.swift */,
 				19CB35CF2ABD2B5C002DF48C /* AppDelegate.swift */,
 				19CB35D12ABD2B5C002DF48C /* SceneDelegate.swift */,
 				19CB35D32ABD2B5C002DF48C /* BasicPlaybackExampleViewController.swift */,
@@ -473,7 +470,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				19CB36052ABD2D63002DF48C /* ProcessInfo+Mux.swift in Sources */,
-				4E3FCB712E672FD8009C90E4 /* PlayheadAccuracyTestViewController.swift in Sources */,
 				19C386AA2AD3194F009AB018 /* PlayerLayerScalingExampleViewController.swift in Sources */,
 				19C386A82AD12344009AB018 /* MultiplePlayerItemPlaybackExampleViewController.swift in Sources */,
 				19CB35D42ABD2B5C002DF48C /* BasicPlaybackExampleViewController.swift in Sources */,
