@@ -69,6 +69,7 @@ function test_for {
         -derivedDataPath "$DERIVED_DATA_PATH" \
         -allowProvisioningUpdates \
         -disableAutomaticPackageResolution \
+        CODE_SIGNING_ALLOWED=NO \
         | xcbeautify
     local xcodebuild_build_exit_code="$?"
     set -e
