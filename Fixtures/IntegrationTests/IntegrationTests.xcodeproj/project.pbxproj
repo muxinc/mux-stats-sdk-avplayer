@@ -56,20 +56,6 @@
 				"Assets/scripts/assets-make-variants.sh",
 				"Assets/scripts/build-all.sh",
 				"Assets/scripts/download-inputs.sh",
-				Assets/static/subs.vtt,
-				"Assets/test-cases/cdn-change/cdn-change-index.m3u8",
-				"Assets/test-cases/cdn-change/failing-cdn-stream.m3u8",
-				"Assets/test-cases/cdn-change/second-cdn-stream.m3u8",
-				"Assets/test-cases/cmaf/audio.m3u8",
-				"Assets/test-cases/cmaf/cmaf-template-index.m3u8",
-				"Assets/test-cases/cmaf/video.m3u8",
-				"Assets/test-cases/http-codes/redirected-stream.m3u8",
-				"Assets/test-cases/http-codes/request-canceled-stream.m3u8",
-				"Assets/test-cases/http-codes/request-failed-stream.m3u8",
-				"Assets/test-cases/input.mp4",
-				"Assets/test-cases/standard/encrypted-stream.m3u8",
-				"Assets/test-cases/standard/multi-variant.m3u8",
-				"Assets/test-cases/standard/ts-stream.m3u8",
 			);
 			target = 7225C9C42D77C2980003066B /* IntegrationTestHost */;
 		};
