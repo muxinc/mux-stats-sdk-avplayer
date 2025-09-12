@@ -51,4 +51,3 @@ done
 
 cd $CURRENT_DIR
 
-echo "CREATED CMAF assets in proper folder structure"

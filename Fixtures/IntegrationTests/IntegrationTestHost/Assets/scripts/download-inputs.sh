@@ -55,4 +55,3 @@ if [ ! -f "$INPUT_MP4_240" ] || [ ! -f "$INPUT_MP4_360" ]; then
     exit 1
 fi
 
-echo "CREATED $INPUT_MP4 $INPUT_MP4_240 $INPUT_MP4_360"

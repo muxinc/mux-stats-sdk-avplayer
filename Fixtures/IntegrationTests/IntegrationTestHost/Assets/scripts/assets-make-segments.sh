@@ -19,4 +19,3 @@ ffmpeg -v error -y -i "$INPUT_MP4_360" \
   -hls_segment_filename "$ASSETS_DIR/segments/%d.ts" \
   $OUTPUT_M3U8
 
-echo "CREATED $OUTPUT_M3U8"

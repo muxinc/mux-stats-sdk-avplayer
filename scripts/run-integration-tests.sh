@@ -91,7 +91,6 @@ function test_for {
     local platform="$1"
     local destination_name="${2:-}"
 
-    echo "--- Building tests for $platform"
 
     local safe_platform="${platform//[^[:alnum:]]/_}"
     local test_products_filename="$SCHEME-$safe_platform.xctestproducts"
@@ -133,7 +132,6 @@ function test_for {
         return
     fi
 
-    echo "--- Testing $platform via $destination_name"
 
     local result_bundle_path="$BUILD_DIR/$XCRESULT_NAME_BASE-$safe_platform.xcresult"
 

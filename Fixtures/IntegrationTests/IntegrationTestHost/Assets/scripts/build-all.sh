@@ -7,4 +7,3 @@ bash ./scripts/assets-make-segments.sh
 bash ./scripts/assets-make-variants.sh
 bash ./scripts/assets-make-cmaf.sh
 bash ./scripts/assets-make-encrypted.sh
-echo "✅ All assets generated successfully!"

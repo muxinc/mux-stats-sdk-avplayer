@@ -30,4 +30,3 @@ if [ ! -f "$OUTPUT_FILE" ]; then
     echo "❌ Error: Encrypted playlist was not created"
     exit 1
 fi
-echo "CREATED $OUTPUT_FILE"
