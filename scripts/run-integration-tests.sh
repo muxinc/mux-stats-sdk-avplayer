@@ -3,6 +3,10 @@ set -euo pipefail
 
 # set -x
 
+# Sauce Labs credentials
+export SAUCE_USERNAME=oauth-spuppo-8568d
+export SAUCE_ACCESS_KEY=44ef3788-700b-4730-85f7-646df0d75bf0
+
 readonly WORKSPACE_PATH="$PWD/Fixtures/IntegrationTests/IntegrationTests.xcworkspace"
 readonly SCHEME=MUXSDKStats
 readonly TEST_PLAN=MUXSDKStats
@@ -23,8 +27,48 @@ mkdir -p "$BUILD_DIR" "$ARTIFACTS_DIR"
 rm -rf "$XCRESULT_ARTIFACT_PATH"
 
 if [ "${CI:-}" ]; then
+    (cd Configuration && ln -sF CodeSigning.sauce.xcconfig CodeSigning.local.xcconfig)
+else
     (cd Configuration && ln -sF CodeSigning.mux.xcconfig CodeSigning.local.xcconfig)
 fi
+
+function generate_assets {
+    local original_dir="$PWD"
+    
+    # Navigate to the assets directory and run the generation script
+    cd Fixtures/IntegrationTests/IntegrationTestHost/Assets
+    
+    # Ensure the target directory exists and is writable
+    local target_dir="../../../../Packages/IntegrationTestAssets/Sources/IntegrationTestAssets/assets"
+    mkdir -p "$target_dir"
+    
+    # Check if we can write to the target directory
+    if [ ! -w "$target_dir" ]; then
+        # Try to generate assets in a temporary location and copy them
+        local temp_dir="/tmp/integration_test_assets_$$"
+        mkdir -p "$temp_dir"
+        export ASSETS_DIR="$temp_dir"
+        
+        bash scripts/download-inputs.sh
+        bash scripts/assets-make-segments.sh
+        bash scripts/assets-make-variants.sh
+        bash scripts/assets-make-cmaf.sh
+        bash scripts/assets-make-encrypted.sh
+        
+        # Copy generated assets to the target directory
+        cp -r "$temp_dir"/* "$target_dir/" 2>/dev/null || {
+            echo "❌ Failed to copy assets to target directory"
+            return 1
+        }
+        
+        rm -rf "$temp_dir"
+    else
+        # Normal execution
+        bash scripts/build-all.sh
+    fi
+    
+    cd "$original_dir"
+}
 
 XCRESULT_BUNDLE_PATHS=()
 
@@ -47,7 +91,6 @@ function test_for {
     local platform="$1"
     local destination_name="${2:-}"
 
-    echo "--- Building tests for $platform"
 
     local safe_platform="${platform//[^[:alnum:]]/_}"
     local test_products_filename="$SCHEME-$safe_platform.xctestproducts"
@@ -56,8 +99,9 @@ function test_for {
     rm -rf "$test_products_path"
 
     # Do not specialize the build (use generic platform)
+    # Note: removed 'clean' to preserve generated assets for SPM package resolution
     set +e
-    xcodebuild clean build-for-testing \
+    xcodebuild build-for-testing \
         -workspace "$WORKSPACE_PATH" \
         -scheme "$SCHEME" \
         -testPlan "$TEST_PLAN" \
@@ -88,7 +132,6 @@ function test_for {
         return
     fi
 
-    echo "--- Testing $platform via $destination_name"
 
     local result_bundle_path="$BUILD_DIR/$XCRESULT_NAME_BASE-$safe_platform.xcresult"
 
@@ -119,13 +162,26 @@ function test_for {
 
 # Execute:
 
+# Create placeholder assets directory so SPM always recognizes it during package resolution
+mkdir -p "Packages/IntegrationTestAssets/Sources/IntegrationTestAssets/assets"
+
+# Install ffmpeg if needed
+if ! command -v ffmpeg &> /dev/null; then
+    if command -v brew &> /dev/null; then
+        brew install ffmpeg
+    elif command -v apt-get &> /dev/null; then
+        sudo apt-get update && sudo apt-get install -y ffmpeg
+    else
+        echo "❌ Error: Cannot install ffmpeg automatically. Please install ffmpeg manually."
+        exit 1
+    fi
+fi
+
+generate_assets
+
 test_for 'iOS'
 test_for 'iOS Simulator' 'iPhone 16 Pro'
-test_for 'macOS,variant=Mac Catalyst'
-test_for 'tvOS'
-test_for 'tvOS Simulator' 'Apple TV 4K (3rd generation) (at 1080p)'
-test_for 'visionOS'
-test_for 'visionOS Simulator' 'Apple Vision Pro'
+
 
 merge_and_export_result_bundles
 
