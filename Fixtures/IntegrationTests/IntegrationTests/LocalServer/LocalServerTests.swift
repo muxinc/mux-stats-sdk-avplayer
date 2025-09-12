@@ -146,22 +146,22 @@ struct LocalServerTests {
         }
         
         // Test encrypted playlist
-//        let encryptedPlaylistFile = "encrypted/index.m3u8"
-//        let encryptedPlaylistUrl = URL(string: mockServer.normalSegmentURL(encryptedPlaylistFile))!
-//        
-//        do {
-//            let (data, response) = try await URLSession.shared.data(from: encryptedPlaylistUrl)
-//            if let response = response as? HTTPURLResponse {
-//                print("Response: \(response.statusCode), Data size: \(data.count) bytes")
-//                #expect(response.statusCode == 200)
-//                #expect(data.count > 0)
-//            } else {
-//                print("No HTTP response received")
-//            }
-//        } catch {
-//            print("Request failed with error: \(error)")
-//            throw error
-//        }
+        let encryptedPlaylistFile = "encrypted/index.m3u8"
+        let encryptedPlaylistUrl = URL(string: mockServer.normalSegmentURL(encryptedPlaylistFile))!
+        
+        do {
+            let (data, response) = try await URLSession.shared.data(from: encryptedPlaylistUrl)
+            if let response = response as? HTTPURLResponse {
+                print("Response: \(response.statusCode), Data size: \(data.count) bytes")
+                #expect(response.statusCode == 200)
+                #expect(data.count > 0)
+            } else {
+                print("No HTTP response received")
+            }
+        } catch {
+            print("Request failed with error: \(error)")
+            throw error
+        }
     }
     
     @Test func diagnosticAssetsPath() {
