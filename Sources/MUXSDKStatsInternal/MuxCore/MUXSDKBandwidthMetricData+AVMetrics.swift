@@ -3,14 +3,8 @@ import MuxCore
 
 @available(iOS 18, tvOS 18, visionOS 2, *)
 extension MUXSDKBandwidthMetricData {
-    convenience init(metricEvent event: AVMetricEvent) {
-        self.init()
-
-        requestMediaStartTime = event.mediaTime.muxTimeValue
-    }
-
     convenience init(mediaResourceRequestEvent event: AVMetricMediaResourceRequestEvent) {
-        self.init(metricEvent: event)
+        self.init()
 
         requestUrl = event.url?.absoluteString
         requestHostName = event.url?.host()

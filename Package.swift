@@ -48,13 +48,7 @@ let package = Package(
                     description: "Generates a podspec for the SDK"))),
     ],
     swiftLanguageModes: [
-        .v5,
+        .v6,
     ]
 )
 
-for target in package.targets where target.type != .plugin {
-    target.swiftSettings = (target.swiftSettings ?? []) + [
-        .enableUpcomingFeature("StrictConcurrency"),
-        .enableUpcomingFeature("InternalImportsByDefault"),
-    ]
-}

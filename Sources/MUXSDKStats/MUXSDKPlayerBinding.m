@@ -12,7 +12,7 @@
 
 // SDK constants.
 static NSString *const MUXSDKPluginName = @"apple-mux";
-static NSString *const MUXSDKPluginVersion = @"4.8.1";
+static NSString *const MUXSDKPluginVersion = @"4.8.2";
 static NSString *const MUXSessionDataPrefix = @"io.litix.data.";
 
 // Min number of seconds between timeupdate events. (100ms)
@@ -256,20 +256,43 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
 # pragma mark AVPlayerItemAccessLog
 
 - (void)handleAVPlayerAccess:(NSNotification *)notif {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        BOOL isNotificationRelevant = [self isNotificationAboutCurrentPlayerItem:notif];
-        if (isNotificationRelevant) {
-            AVPlayerItemAccessLog *accessLog = [((AVPlayerItem *)notif.object) accessLog];
-            if (self.shouldTrackRenditionChanges) {
-                [self handleRenditionChangeInAccessLog:accessLog];
+    __weak MUXSDKPlayerBinding *weakSelf = self;
+
+    if (!NSThread.isMainThread) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf handleAVPlayerAccess:notif];
+        });
+        return;
+    }
+
+    BOOL isNotificationRelevant = [self isNotificationAboutCurrentPlayerItem:notif];
+    if (!isNotificationRelevant) {
+        return;
+    }
+
+    // -[AVPlayerItem accessLog] can block so access it off the main thread:
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        AVPlayerItemAccessLog *accessLog = [(AVPlayerItem *)notif.object accessLog];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            BOOL isNotificationStillRelevant = [weakSelf isNotificationAboutCurrentPlayerItem:notif];
+            if (!isNotificationStillRelevant) {
+                return;
             }
-            if (self.shouldTrackBandwidthMetrics) {
-                [self calculateBandwidthMetricFromAccessLog:accessLog];
-            }
-            [self updateViewingLivestream:accessLog];
-            [self updateFrameDropsFromAccessLog:accessLog];
-        }
+            [weakSelf handleAVPlayerItemAccessLog:accessLog];
+        });
     });
+}
+
+- (void)handleAVPlayerItemAccessLog:(AVPlayerItemAccessLog *)accessLog {
+    if (self.shouldTrackRenditionChanges) {
+        [self handleRenditionChangeInAccessLog:accessLog];
+    }
+    if (self.shouldTrackBandwidthMetrics) {
+        [self calculateBandwidthMetricFromAccessLog:accessLog];
+    }
+    [self updateViewingLivestream:accessLog];
+    [self updateFrameDropsFromAccessLog:accessLog];
 }
 
 - (void)updateFrameDropsFromAccessLog:(AVPlayerItemAccessLog *)accessLog {

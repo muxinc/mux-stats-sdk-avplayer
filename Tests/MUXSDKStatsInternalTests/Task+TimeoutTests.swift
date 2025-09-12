@@ -20,18 +20,25 @@ struct TaskTimeoutTests {
     @Test func testReturnsEarlyOnTimeoutNonBlocking() async throws {
         await withCheckedContinuation { endOfOperationContinuation in
             Task {
-                var continuationThatTimesOut: CheckedContinuation<Void, Never>? = nil
+                let semaphore = DispatchSemaphore(value: 0)
+
+                let taskThatWaits = Task {
+                    await withCheckedContinuation { continuation in
+                        semaphore.wait()
+                        continuation.resume()
+                    }
+                }
 
                 // waits forever if withTimeout doesn't return before its timed-out operation does
                 _ = await #expect(throws: TimeoutError.self) {
                     try await withTimeout(seconds: 0.1) {
-                        await withCheckedContinuation { continuationThatTimesOut = $0 }
+                        await taskThatWaits.value
                         #expect(Task.isCancelled, "timed-out operation should be cancelled ")
                         endOfOperationContinuation.resume()
                     }
                 }
 
-                continuationThatTimesOut?.resume()
+                #expect(semaphore.signal() != 0)
             }
         }
     }
@@ -39,13 +46,13 @@ struct TaskTimeoutTests {
     @Test func testReturnsEarlyOnTimeoutBlocking() async throws {
         await withCheckedContinuation { endOfOperationContinuation in
             Task {
-                let sempahore = DispatchSemaphore(value: 0)
+                let semaphore = DispatchSemaphore(value: 0)
 
                 // waits forever if withTimeout doesn't return before its timed-out operation does
                 _ = await #expect(throws: TimeoutError.self) {
                     try await withTimeout(seconds: 0.1) {
                         await withCheckedContinuation { continuation in
-                            sempahore.wait()
+                            semaphore.wait()
                             continuation.resume()
                         }
                         #expect(Task.isCancelled, "timed-out operation should be cancelled ")
@@ -53,7 +60,7 @@ struct TaskTimeoutTests {
                     }
                 }
 
-                sempahore.signal()
+                #expect(semaphore.signal() != 0)
             }
         }
     }
