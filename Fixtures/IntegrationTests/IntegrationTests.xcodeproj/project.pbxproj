@@ -54,7 +54,6 @@
 				"Assets/scripts/assets-make-encrypted.sh",
 				"Assets/scripts/assets-make-segments.sh",
 				"Assets/scripts/assets-make-variants.sh",
-				"Assets/scripts/build-all.sh",
 				"Assets/scripts/download-inputs.sh",
 			);
 			target = 7225C9C42D77C2980003066B /* IntegrationTestHost */;
