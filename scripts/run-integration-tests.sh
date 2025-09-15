@@ -4,8 +4,8 @@ set -euo pipefail
 # set -x
 
 # Sauce Labs credentials
-export SAUCE_USERNAME=oauth-spuppo-8568d
-export SAUCE_ACCESS_KEY=44ef3788-700b-4730-85f7-646df0d75bf0
+export SAUCE_USERNAME=$BUILDKITE_MAC_STADIUM_SAUCE_USERNAME
+export SAUCE_ACCESS_KEY=$BUILDKITE_MAC_STADIUM_SAUCE_ACCESS_KEY
 
 readonly WORKSPACE_PATH="$PWD/Fixtures/IntegrationTests/IntegrationTests.xcworkspace"
 readonly SCHEME=MUXSDKStats
@@ -26,11 +26,8 @@ EXIT_CODE=0
 mkdir -p "$BUILD_DIR" "$ARTIFACTS_DIR"
 rm -rf "$XCRESULT_ARTIFACT_PATH"
 
-if [ "${CI:-}" ]; then
-    (cd Configuration && ln -sF CodeSigning.sauce.xcconfig CodeSigning.local.xcconfig)
-else
-    (cd Configuration && ln -sF CodeSigning.mux.xcconfig CodeSigning.local.xcconfig)
-fi
+# Use Sauce Labs configuration for CI tests
+(cd Configuration && ln -sF CodeSigning.sauce.xcconfig CodeSigning.local.xcconfig)
 
 function generate_assets {
     local original_dir="$PWD"
@@ -42,31 +39,24 @@ function generate_assets {
     local target_dir="../../../../Packages/IntegrationTestAssets/Sources/IntegrationTestAssets/assets"
     mkdir -p "$target_dir"
     
-    # Check if we can write to the target directory
-    if [ ! -w "$target_dir" ]; then
-        # Try to generate assets in a temporary location and copy them
-        local temp_dir="/tmp/integration_test_assets_$$"
-        mkdir -p "$temp_dir"
-        export ASSETS_DIR="$temp_dir"
-        
-        bash scripts/download-inputs.sh
-        bash scripts/assets-make-segments.sh
-        bash scripts/assets-make-variants.sh
-        bash scripts/assets-make-cmaf.sh
-        bash scripts/assets-make-encrypted.sh
-        
-        # Copy generated assets to the target directory
-        cp -r "$temp_dir"/* "$target_dir/" 2>/dev/null || {
-            echo "❌ Failed to copy assets to target directory"
-            return 1
-        }
-        
-        rm -rf "$temp_dir"
-    else
-        # Normal execution
-        bash scripts/build-all.sh
-    fi
+    # Generate assets in a temporary location and copy them
+    local temp_dir="/tmp/integration_test_assets_$$"
+    mkdir -p "$temp_dir"
+    export ASSETS_DIR="$temp_dir"
     
+    bash scripts/download-inputs.sh
+    bash scripts/assets-make-segments.sh
+    bash scripts/assets-make-variants.sh
+    bash scripts/assets-make-cmaf.sh
+    bash scripts/assets-make-encrypted.sh
+    
+    # Copy generated assets to the target directory
+    cp -r "$temp_dir"/* "$target_dir/" 2>/dev/null || {
+        echo "❌ Failed to copy assets to target directory"
+        return 1
+    }
+    
+    rm -rf "$temp_dir"
     cd "$original_dir"
 }
 

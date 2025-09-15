@@ -17,14 +17,8 @@ if [ -f "./bin/saucectl" ]; then
 fi
 
 # re-exported so saucectl CLI can use them
-if [ "${CI:-}" ]; then
-    export SAUCE_USERNAME=$BUILDKITE_MAC_STADIUM_SAUCE_USERNAME
-    export SAUCE_ACCESS_KEY=$BUILDKITE_MAC_STADIUM_SAUCE_ACCESS_KEY
-else
-    # Local development credentials
-    export SAUCE_USERNAME=Ignacio-mux
-    export SAUCE_ACCESS_KEY=19132d53-6561-43b6-a447-c277be36625e
-fi
+export SAUCE_USERNAME=$BUILDKITE_MAC_STADIUM_SAUCE_USERNAME
+export SAUCE_ACCESS_KEY=$BUILDKITE_MAC_STADIUM_SAUCE_ACCESS_KEY
 
 # Prepare:
 
@@ -32,7 +26,7 @@ EXIT_CODE=0
 
 mkdir -p "$BUILD_DIR" "$ARTIFACTS_DIR"
 
-# Always use Sauce Labs configuration for CI tests
+# Use Sauce Labs configuration for CI tests
 (cd Configuration && ln -sF CodeSigning.sauce.xcconfig CodeSigning.local.xcconfig)
 
 function generate_assets {
@@ -45,31 +39,24 @@ function generate_assets {
     local target_dir="../../../../Packages/IntegrationTestAssets/Sources/IntegrationTestAssets/assets"
     mkdir -p "$target_dir"
     
-    # Check if we can write to the target directory
-    if [ ! -w "$target_dir" ]; then
-        # Try to generate assets in a temporary location and copy them
-        local temp_dir="/tmp/integration_test_assets_$$"
-        mkdir -p "$temp_dir"
-        export ASSETS_DIR="$temp_dir"
-        
-        bash scripts/download-inputs.sh
-        bash scripts/assets-make-segments.sh
-        bash scripts/assets-make-variants.sh
-        bash scripts/assets-make-cmaf.sh
-        bash scripts/assets-make-encrypted.sh
-        
-        # Copy generated assets to the target directory
-        cp -r "$temp_dir"/* "$target_dir/" 2>/dev/null || {
-            echo "❌ Failed to copy assets to target directory"
-            return 1
-        }
-        
-        rm -rf "$temp_dir"
-    else
-        # Normal execution
-        bash scripts/build-all.sh
-    fi
+    # Generate assets in a temporary location and copy them
+    local temp_dir="/tmp/integration_test_assets_$$"
+    mkdir -p "$temp_dir"
+    export ASSETS_DIR="$temp_dir"
     
+    bash scripts/download-inputs.sh
+    bash scripts/assets-make-segments.sh
+    bash scripts/assets-make-variants.sh
+    bash scripts/assets-make-cmaf.sh
+    bash scripts/assets-make-encrypted.sh
+    
+    # Copy generated assets to the target directory
+    cp -r "$temp_dir"/* "$target_dir/" 2>/dev/null || {
+        echo "❌ Failed to copy assets to target directory"
+        return 1
+    }
+    
+    rm -rf "$temp_dir"
     cd "$original_dir"
 }
 
