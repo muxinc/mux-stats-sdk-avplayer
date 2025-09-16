@@ -27,7 +27,7 @@ mkdir -p "$BUILD_DIR" "$ARTIFACTS_DIR"
 rm -rf "$XCRESULT_ARTIFACT_PATH"
 
 # Use Sauce Labs configuration for CI tests
-export CI=1
+(cd Configuration && ln -sF CodeSigning.sauce.xcconfig CodeSigning.local.xcconfig)
 
 function generate_assets {
     local original_dir="$PWD"

@@ -1,11 +1,5 @@
 // This will be incorporated into the Bundle ID to ensure uniqueness across teams
 BUNDLE_ID_DISAMBIGUATOR=${DEVELOPMENT_TEAM}
 
-// CI configuration - disable code signing for Sauce Labs
-#if defined(CI)
-DEVELOPMENT_TEAM = 
-CODE_SIGNING_ALLOWED = NO
-#else
 // Set DEVELOPMENT_TEAM in this file (ignored by git) to persist it without modifying project files:
 #include? "CodeSigning.local.xcconfig"
-#endif
