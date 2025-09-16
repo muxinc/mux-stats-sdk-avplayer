@@ -1,7 +1,7 @@
 import AVFoundation
 import CoreMedia.CMSync
 
-struct PlaybackEventTiming: Hashable {
+struct PlaybackEventTiming: Sendable, Hashable {
     let mediaTime: CMTime
     let programDate: Date?
     let liveEdgeProgramDate: Date?
