@@ -57,14 +57,12 @@ extension AVPlayerItem {
             }
             .removeDuplicates { $0?.trackID == $1?.trackID }
             .flatMap { videoAssetTrack in
-                // capture timing immediately
-                let timing = PlaybackEventTiming(playerItem: self)
-
                 return Future {
+                    async let timing = self.currentTiming()
                     guard let videoAssetTrack else {
-                        return (timing, MUXSDKVideoData())
+                        return await (timing, MUXSDKVideoData())
                     }
-                    return (timing, await MUXSDKVideoData.makeWithRenditionInfo(track: videoAssetTrack, on: self))
+                    return await (timing, MUXSDKVideoData.makeWithRenditionInfo(track: videoAssetTrack, on: self))
                 }
             }
     }
@@ -126,10 +124,12 @@ extension AVPlayerItem {
     nonisolated func renditionChangeEventsUsingAVMetrics() -> some Publisher<MUXSDKRenditionChangeEvent, Error> {
         metrics(forType: AVMetricPlayerItemVariantSwitchEvent.self)
             .filter(\.didSucceed)
-            .publisher
             .map { metricEvent in
-                let timing = PlaybackEventTiming(variantSwitchEvent: metricEvent, on: self)
-
+                let timing = await PlaybackEventTiming(variantSwitchEvent: metricEvent, on: self)
+                return (metricEvent, timing)
+            }
+            .publisher
+            .map { (metricEvent, timing) in
                 let muxEvent = MUXSDKRenditionChangeEvent()
 
                 let playerData = MUXSDKPlayerData()
