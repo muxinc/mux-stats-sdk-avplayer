@@ -830,7 +830,6 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
 
 - (BOOL)hasPlayer {
     if (!_player) {
-        NSLog(@"MUXSDK-ERROR - Mux failed to find the AVPlayer for player name: %@", _name);
         return NO;
     }
     return YES;
@@ -1365,7 +1364,7 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
 
 @interface MUXSDKAVPlayerViewControllerBinding ()
 
-@property (nonatomic, readonly) AVPlayerViewController *viewController;
+@property (nonatomic, nullable) MUXSDKStrongKVOPlayerVCBinding *kvoBinding;
 
 @end
 
@@ -1378,11 +1377,48 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
                 playerViewController:view];
 }
 
+- (void)setAutomaticallyAttachesPlayerProperty:(BOOL)automaticallyAttachesPlayerProperty {
+    _automaticallyAttachesPlayerProperty = automaticallyAttachesPlayerProperty;
+    if (automaticallyAttachesPlayerProperty) {
+        AVPlayer *player = self.kvoBinding.playerViewController.player;
+        if (player) {
+            [self attachAVPlayer:player];
+        }
+    }
+}
+
+- (AVPlayerViewController *)viewController {
+    return self.kvoBinding.playerViewController;
+}
+
+- (void)setViewController:(AVPlayerViewController *)viewController {
+    if (viewController) {
+        __weak typeof(self) weakSelf = self;
+        self.kvoBinding = [[MUXSDKStrongKVOPlayerVCBinding alloc] initWithPlayerViewController:viewController onPlayerChange:^(AVPlayer *_Nullable player) {
+            [weakSelf playerPropertyDidChange:player];
+        }];
+    } else {
+        self.kvoBinding = nil;
+        [self playerPropertyDidChange:nil];
+    }
+}
+
+- (void)playerPropertyDidChange:(nullable AVPlayer *)newValue {
+    if (!self.automaticallyAttachesPlayerProperty) {
+        return;
+    }
+    if (newValue) {
+        [self attachAVPlayer:newValue];
+    } else {
+        [self detachAVPlayer];
+    }
+}
+
 - (nullable NSValue *)getViewBoundsValue {
     if (![NSThread isMainThread]) {
         return nil;
     }
-    UIView *view = _viewController.viewIfLoaded;
+    UIView *view = self.viewController.viewIfLoaded;
     if (view == nil) {
         return nil;
     }
@@ -1407,7 +1443,7 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
                         softwareName:softwareName
                      softwareVersion:softwareVersion];
     if (self) {
-        _viewController = playerViewController;
+        self.viewController = playerViewController;
     }
     return self;
 }
@@ -1417,7 +1453,7 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
 
 @interface MUXSDKAVPlayerLayerBinding ()
 
-@property (nonatomic, readonly) AVPlayerLayer *view;
+@property (nonatomic, nullable) MUXSDKStrongKVOPlayerLayerBinding *kvoBinding;
 
 @end
 
@@ -1449,13 +1485,50 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
                         softwareName:softwareName
                      softwareVersion:softwareVersion];
     if (self) {
-        _view = playerLayer;
+        self.playerLayer = playerLayer;
     }
     return self;
 }
 
+- (void)setAutomaticallyAttachesPlayerProperty:(BOOL)automaticallyAttachesPlayerProperty {
+    _automaticallyAttachesPlayerProperty = automaticallyAttachesPlayerProperty;
+    if (automaticallyAttachesPlayerProperty) {
+        AVPlayer *player = self.kvoBinding.playerLayer.player;
+        if (player) {
+            [self attachAVPlayer:player];
+        }
+    }
+}
+
+- (AVPlayerLayer *)playerLayer {
+    return self.kvoBinding.playerLayer;
+}
+
+- (void)setPlayerLayer:(AVPlayerLayer *)playerLayer {
+    if (playerLayer) {
+        __weak typeof(self) weakSelf = self;
+        self.kvoBinding = [[MUXSDKStrongKVOPlayerLayerBinding alloc] initWithPlayerLayer:playerLayer onPlayerChange:^(AVPlayer *_Nullable player) {
+            [weakSelf playerPropertyDidChange:player];
+        }];
+    } else {
+        self.kvoBinding = nil;
+        [self playerPropertyDidChange:nil];
+    }
+}
+
+- (void)playerPropertyDidChange:(nullable AVPlayer *)newValue {
+    if (!self.automaticallyAttachesPlayerProperty) {
+        return;
+    }
+    if (newValue) {
+        [self attachAVPlayer:newValue];
+    } else {
+        [self detachAVPlayer];
+    }
+}
+
 - (nullable NSValue *)getViewBoundsValue {
-    return [NSValue valueWithCGRect:_view.bounds];
+    return @(self.playerLayer.bounds);
 }
 
 @end
