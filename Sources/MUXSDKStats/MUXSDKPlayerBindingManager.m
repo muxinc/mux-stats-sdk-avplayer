@@ -38,7 +38,7 @@
 
 - (void) newViewForPlayer:(NSString *_Nonnull) name {
     if (![self hasInitializedPlayerBinding: name]) {
-        MUXSDKPlayerBinding *binding = [self.viewControllers valueForKey:name];
+        MUXSDKPlayerBinding *binding = self.bindingsByPlayerName[name];
            if (binding != nil) {
                MUXSDKCustomerPlayerData *playerData = [self.customerPlayerDataStore playerDataForPlayerName:name];
                MUXSDKCustomerVideoData *videoData = [self.customerVideoDataStore videoDataForPlayerName:name];
@@ -82,7 +82,7 @@
 }
 
 - (void) videoChangedForPlayer:(NSString *_Nonnull) name {
-    MUXSDKPlayerBinding *binding = [self.viewControllers valueForKey:name];
+    MUXSDKPlayerBinding *binding = self.bindingsByPlayerName[name];
     if (binding != nil) {
         [binding dispatchViewInit];
         MUXSDKCustomerPlayerData *playerData = [self.customerPlayerDataStore playerDataForPlayerName:name];
