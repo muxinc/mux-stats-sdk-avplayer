@@ -1477,13 +1477,13 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
 @end
 
 
-@interface MUXSDKAVPlayerBinding ()
+@interface MUXSDKFixedPlayerSizeBinding ()
 
 @property (nonatomic, readonly) CGSize fixedPlayerSize;
 
 @end
 
-@implementation MUXSDKAVPlayerBinding
+@implementation MUXSDKFixedPlayerSizeBinding
 
 - (nonnull id)initWithPlayerName:(nonnull NSString *)playerName
                     softwareName:(nullable NSString *)softwareName
@@ -1525,5 +1525,10 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
         _fixedPlayerSize.height
     )];
 }
+
+@end
+
+// Stub implementation
+@implementation MUXSDKAVPlayerBinding
 
 @end
