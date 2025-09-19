@@ -17,6 +17,7 @@ readonly DERIVED_DATA_PATH="$BUILD_PATH/DerivedData"
 
 readonly XCARCHIVE_NAME_BASE="$SCHEME"
 
+readonly FRAMEWORK_FILENAME="MUXSDKStats.framework"
 readonly XCFRAMEWORK_FILENAME="MUXSDKStats.xcframework"
 readonly XCFRAMEWORK_PATH="$BUILD_PATH/$XCFRAMEWORK_FILENAME"
 
@@ -101,15 +102,17 @@ function create_signed_xcframework {
     for path in ${XCARCHIVE_PATHS[@]}; do
         xcodebuild_args+=(
             -archive "$path"
-            -framework MUXSDKStats.framework
+            -framework "$FRAMEWORK_FILENAME"
         )
     done
 
     xcodebuild -create-xcframework "${xcodebuild_args[@]}" -output "$XCFRAMEWORK_PATH"
 
+    find "$XCFRAMEWORK_PATH" -type d -name "_CodeSignature" -exec rm -r {} +
+
     codesign --timestamp --verbose --sign "$CODE_SIGNING_IDENTITY" "$XCFRAMEWORK_PATH"
 
-    codesign --verify --verbose "$XCFRAMEWORK_PATH" 
+    codesign --verify --verbose "$XCFRAMEWORK_PATH"
 }
 
 function assemble_pod {
@@ -127,7 +130,7 @@ function assemble_pod {
 function generate_podpsec {
     echo "--- Generating Podspec"
 
-    local release_version=$(defaults read "$XCFRAMEWORK_PATH/ios-arm64/MUXSDKStats.framework/Info.plist" CFBundleShortVersionString)
+    local release_version=$(defaults read "$XCFRAMEWORK_PATH/ios-arm64/$FRAMEWORK_FILENAME/Info.plist" CFBundleShortVersionString)
 
     local pod_zip_checksum=$(sha256 --quiet "$COCOAPODS_BINARY_ARTIFACT_PATH")
 
