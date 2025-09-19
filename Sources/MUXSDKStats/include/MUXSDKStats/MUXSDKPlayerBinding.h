@@ -227,7 +227,7 @@ API_UNAVAILABLE(visionos)
 
 @end
 
-@interface MUXSDKAVPlayerBinding : MUXSDKPlayerBinding
+@interface MUXSDKFixedPlayerSizeBinding : MUXSDKPlayerBinding
 
 
 /// Initializes a binding that listens for and dispatches player events
@@ -251,4 +251,9 @@ API_UNAVAILABLE(visionos)
                  softwareVersion:(nullable NSString *)softwareVersion
                  fixedPlayerSize:(CGSize)fixedPlayerSize;
 
+@end
+
+// Support a previous naming of this class
+DEPRECATED_MSG_ATTRIBUTE("Please migrate to MUXSDKFixedPlayerSizeBinding")
+@interface MUXSDKAVPlayerBinding: MUXSDKFixedPlayerSizeBinding
 @end
