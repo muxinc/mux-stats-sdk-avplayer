@@ -183,6 +183,12 @@ typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
                  softwareVersion:(nullable NSString *)softwareVersion
             playerViewController:(nonnull AVPlayerViewController *)playerViewController;
 
+// FIXME: move to private header
+@property (nonatomic, nullable) AVPlayerViewController *viewController;
+
+// TODO: document that this is enabled by default by `MUXSDKStats`
+@property (nonatomic) BOOL automaticallyAttachesPlayerProperty;
+
 @end
 
 API_UNAVAILABLE(visionos) 
@@ -224,6 +230,12 @@ API_UNAVAILABLE(visionos)
                     softwareName:(nullable NSString *)softwareName
                  softwareVersion:(nullable NSString *)softwareVersion
                      playerLayer:(nonnull AVPlayerLayer *)playerLayer;
+
+// FIXME: move to private header
+@property (nonatomic, nullable) AVPlayerLayer *playerLayer;
+
+// TODO: document that this is enabled by default by `MUXSDKStats`
+@property (nonatomic) BOOL automaticallyAttachesPlayerProperty;
 
 @end
 
