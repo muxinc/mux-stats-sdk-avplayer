@@ -4,7 +4,7 @@ import Testing
 let vodURL = URL(string: "https://stream.mux.com/a4nOgmxGWg6gULfcBbAa00gXyfcwPnAFldF8RdsNyk8M.m3u8")!
 let liveURL = URL(string: "https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8")!
 
-@Suite
+@Suite(.serialized)
 struct IntegrationTests {
     let dispatchDelay = 3.0
     let msTolerance: Double = 2000
