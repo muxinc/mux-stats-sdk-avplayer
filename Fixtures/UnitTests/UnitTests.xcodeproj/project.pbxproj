@@ -420,11 +420,9 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,3,7";
 			};
 			name = Debug;
 		};
@@ -457,11 +455,9 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "appletvos appletvsimulator iphoneos iphonesimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,3,7";
 			};
 			name = Release;
 		};
@@ -482,10 +478,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats-avplayer.UnitTests${BUNDLE_ID_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestsHost.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestsHost";
 				XROS_DEPLOYMENT_TARGET = 1.3;
 			};
@@ -508,10 +503,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.stats-avplayer.UnitTests${BUNDLE_ID_DISAMBIGUATOR}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UnitTestsHost.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UnitTestsHost";
 				XROS_DEPLOYMENT_TARGET = 1.3;
 			};
