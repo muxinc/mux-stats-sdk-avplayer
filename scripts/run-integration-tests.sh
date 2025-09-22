@@ -5,7 +5,7 @@ set -euo pipefail
 
 readonly WORKSPACE_PATH="$PWD/Fixtures/IntegrationTests/IntegrationTests.xcworkspace"
 readonly SCHEME=MUXSDKStats
-readonly TEST_PLAN=MUXSDKStats
+readonly TEST_PLAN=CIPipeline
 
 readonly BUILD_DIR="$PWD/.build"
 readonly ARTIFACTS_DIR="$BUILD_DIR/artifacts"
