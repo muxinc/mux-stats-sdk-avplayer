@@ -38,7 +38,7 @@
     
     sut.customerPlayerDataStore = playerDataStore;
     sut.customerVideoDataStore = videoDataStore;
-    sut.viewControllers = vcs;
+    sut.bindingsByPlayerName = vcs;
 
     NSURL *url = [[NSURL alloc] initWithString:@"https://foo.mp4"];
     AVPlayer *player = [AVPlayer playerWithURL:url];
@@ -65,7 +65,7 @@
     return binding;
 }
 
-- (MUXSDKAVPlayerBinding *) setupAVPlayerBinding:(NSString *)name
+- (MUXSDKFixedPlayerSizeBinding *) setupAVPlayerBinding:(NSString *)name
                                     softwareName:(NSString *)softwareName
                                  softwareVersion:(NSString *)softwareVersion
                                  fixedPlayerSize:(CGSize)fixedPlayerSize {
@@ -76,7 +76,7 @@
 
     sut.customerPlayerDataStore = playerDataStore;
     sut.customerVideoDataStore = videoDataStore;
-    sut.viewControllers = vcs;
+    sut.bindingsByPlayerName = vcs;
 
     // Set up player
     NSURL *url = [[NSURL alloc] initWithString:@"https://foo.mp4"];
@@ -90,7 +90,7 @@
     [videoDataStore setVideoData:customerVideoData forPlayerName:name];
 
     // Create Player Binding
-    MUXSDKAVPlayerBinding *binding = [[MUXSDKAVPlayerBinding alloc] initWithPlayerName:name
+    MUXSDKFixedPlayerSizeBinding *binding = [[MUXSDKFixedPlayerSizeBinding alloc] initWithPlayerName:name
                                                                           softwareName:softwareName
                                                                        softwareVersion:softwareVersion
                                                                        fixedPlayerSize:fixedPlayerSize];
@@ -263,7 +263,7 @@
 
 - (void)testAVPlayerBindingAutomaticErrorTrackingEnabled {
     NSString *name = @"awesome-player";
-    MUXSDKAVPlayerBinding *binding = [self setupAVPlayerBinding:name
+    MUXSDKFixedPlayerSizeBinding *binding = [self setupAVPlayerBinding:name
                                                    softwareName:@"TestSoftware"
                                                 softwareVersion:@"0.1.0"
                                                 fixedPlayerSize:CGSizeMake(100.0, 100.0)];
@@ -312,7 +312,7 @@
 
 - (void)testAVPlayerBindingAutomaticErrorTrackingDisabled {
     NSString *name = @"awesome-player";
-    MUXSDKAVPlayerBinding *binding = [self setupAVPlayerBinding:name
+    MUXSDKFixedPlayerSizeBinding *binding = [self setupAVPlayerBinding:name
                                                    softwareName:@"TestSoftware"
                                                 softwareVersion:@"0.1.0"
                                                 fixedPlayerSize:CGSizeMake(100.0, 100.0)];

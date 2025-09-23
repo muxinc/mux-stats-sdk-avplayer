@@ -22,7 +22,7 @@
 @property (nonatomic, weak) id<MUXSDKCustomerVideoDataStoring> _Nullable customerVideoDataStore;
 @property (nonatomic, weak) id<MUXSDKCustomerViewDataStoring> _Nullable customerViewDataStore;
 @property (nonatomic, weak) id<MUXSDKCustomerCustomDataStoring> _Nullable customerCustomDataStore;
-@property (nonatomic, weak) NSDictionary * _Nullable viewControllers;
+@property (nonatomic, weak) NSDictionary<NSString *, __kindof MUXSDKPlayerBinding *> *bindingsByPlayerName;
 
 - (void) newViewForPlayer:(NSString *_Nonnull) name;
 - (void) onPlayerDestroyed:(NSString *_Nonnull) name;
