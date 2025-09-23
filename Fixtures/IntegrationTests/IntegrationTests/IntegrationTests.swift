@@ -4,7 +4,7 @@ import Testing
 let vodURL = URL(string: "https://stream.mux.com/a4nOgmxGWg6gULfcBbAa00gXyfcwPnAFldF8RdsNyk8M.m3u8")!
 let liveURL = URL(string: "https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8")!
 
-@Suite
+@Suite(.serialized)
 struct IntegrationTests {
     let dispatchDelay = 3.0
     let msTolerance: Double = 2000
@@ -165,9 +165,7 @@ struct IntegrationTests {
     @Test func vodPlaybackTest() async throws {
         let playerName = "vodPlayer \(UUID().uuidString)"
         MUXSDKCore.swizzleDispatchEvents()
-        defer {
-            MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
-        }
+        MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
         
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
         let avPlayer = AVPlayer(url: vodURL)
@@ -199,17 +197,12 @@ struct IntegrationTests {
         
         // Wait approximately 5 seconds
         try assertWaitForNSeconds(n : 2.0, with: avPlayer, for: playerName)
-
-        // Exit the player by going back to the menu
-        binding.detachAVPlayer()
     }
     
     @Test func livePlaybackTest() async throws {
         let playerName = "livePlayerName \(UUID().uuidString)"
         MUXSDKCore.swizzleDispatchEvents()
-        defer {
-            MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
-        }
+        MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
         
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
         let LIVE_URL = "https://stream.mux.com/v69RSHhFelSm4701snP22dYz2jICy4E4FUyk02rW4gxRM.m3u8"
@@ -242,9 +235,6 @@ struct IntegrationTests {
         
         // Wait approximately 5 seconds
         try assertWaitForNSeconds(n : 5.0, with: avPlayer, for: playerName)
-
-        // Exit the player by going back to the menu
-        binding.detachAVPlayer()
     }
     
     @Test func playOffMainThreadTest() async throws {
@@ -283,9 +273,7 @@ struct IntegrationTests {
     @Test func vodEndingTest() async throws {
         let playerName = "vodEndingPlayerName \(UUID().uuidString)"
         MUXSDKCore.swizzleDispatchEvents()
-        defer {
-            MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
-        }
+        MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
         
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
         let avPlayer = AVPlayer(url: vodURL)
@@ -313,9 +301,7 @@ struct IntegrationTests {
     @Test func changingSourceTest() async throws {
         let playerName = "changingSourcePlayer \(UUID().uuidString)"
         MUXSDKCore.swizzleDispatchEvents()
-        defer {
-            MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
-        }
+        MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
         
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
         
@@ -336,16 +322,12 @@ struct IntegrationTests {
         
         // Wait 5 seconds
         try assertWaitForNSeconds(n: 5.0, with: avPlayer, for: playerName)
-
-        binding.detachAVPlayer()
     }
   
   @Test func fatalErrorTest() async throws {
         let playerName = "fatalErrorPlayer \(UUID().uuidString)"
         MUXSDKCore.swizzleDispatchEvents()
-        defer {
-            MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
-        }
+        MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
         
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
         
@@ -396,17 +378,12 @@ struct IntegrationTests {
         #expect(hasErrorCode, "Expected error code to be captured in fatal error event")
         #expect(hasErrorMessage, "Expected error message to be captured in fatal error event")
         #expect(hasFatalError, "Expected the error to be fatal")
-        
-        // Exit
-        binding.detachAVPlayer()
     }
   
   @Test func watchTimeTest() async throws {
         let playerName = "watchTimePlayer \(UUID().uuidString)"
         MUXSDKCore.swizzleDispatchEvents()
-        defer {
-            MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
-        }
+        MUXSDKCore.resetCapturedEvents(forPlayer: playerName)
         
         let binding = MUXSDKPlayerBinding(playerName: playerName, softwareName: "TestSoftwareName", softwareVersion: "TestSoftwareVersion")
         let avPlayer = AVPlayer(url: vodURL)
@@ -424,7 +401,6 @@ struct IntegrationTests {
         
         // End the view
         let watchTimeEnd = try #require(getLastTimestamp(for: playerName)).doubleValue
-        binding.detachAVPlayer()
         
         // Calculate actual watch time
         let actualWatchTimeMs = watchTimeEnd - (watchTimeStart ?? 0)

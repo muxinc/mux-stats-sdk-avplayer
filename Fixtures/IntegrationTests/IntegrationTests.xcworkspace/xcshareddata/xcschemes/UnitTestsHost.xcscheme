@@ -30,7 +30,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:TestPlans/MUXSDKStats.xctestplan"
+            reference = "container:TestPlans/CIPipeline.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>
