@@ -603,10 +603,6 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
     return CMTimeGetSeconds([_player currentTime]) * 1000;
 }
 
-- (CGRect)getVideoBounds {
-    return CGRectMake(0, 0, 0, 0);
-}
-
 - (CGRect)getViewBounds {
     return [self getViewBoundsValue].CGRectValue;
 }
@@ -1382,14 +1378,6 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
                 playerViewController:view];
 }
 
-- (CGRect)getVideoBounds {
-#if TARGET_OS_TV
-    return [[_viewController view] bounds];
-#else
-    return [_viewController videoBounds];
-#endif
-}
-
 - (nullable NSValue *)getViewBoundsValue {
     if (![NSThread isMainThread]) {
         return nil;
@@ -1466,10 +1454,6 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
     return self;
 }
 
-- (CGRect)getVideoBounds {
-    return [_view videoRect];
-}
-
 - (nullable NSValue *)getViewBoundsValue {
     return [NSValue valueWithCGRect:_view.bounds];
 }
@@ -1506,15 +1490,6 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
         _fixedPlayerSize = fixedPlayerSize;
     }
     return self;
-}
-
-- (CGRect)getVideoBounds {
-    return CGRectMake(
-                      0.0,
-                      0.0,
-                      0.0,
-                      0.0
-                      );
 }
 
 - (nullable NSValue *)getViewBoundsValue {
