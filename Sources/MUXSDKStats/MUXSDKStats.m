@@ -620,9 +620,13 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
             jsonData = [NSJSONSerialization dataWithJSONObject:extraData
                                                        options:(NSJSONWritingOptions)0
                                                          error:&serializationError];
-            // TODO: Log this
+            if (serializationError) {
+                NSLog(@"Unexpected error while serilzing playback mode JSON: %@", serializationError.localizedDescription);
+                return;
+            }
         } else {
-            // TODO: Log this
+            NSLog(@"Provided playback_mode_data was not serializeable as JSON");
+            return;
         }
         
         [binding dispatchPlaybackModeChange:mode withData:jsonData];
