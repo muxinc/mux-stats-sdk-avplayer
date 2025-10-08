@@ -301,7 +301,7 @@ FOUNDATION_EXPORT
  */
 + (void) playbackModeChangeForPlayer:(nonnull NSString *) name
                     withPlaybackMode:(nonnull MUXSDKPlaybackMode) mode
-                   withExtraEncodedData:(nonnull NSData *) encodedData;
+                   withExtraEncodedJSONData:(nonnull NSData *) encodedData;
 
 /*!
  Signals that the video is being played in a particular way, eg, fullscreen or picture-in-picture.

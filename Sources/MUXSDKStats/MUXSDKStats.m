@@ -594,19 +594,39 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
 
 + (void) playbackModeChangeForPlayer:(nonnull NSString *) name
                     withPlaybackMode:(nonnull MUXSDKPlaybackMode) mode {
-    
+    MUXSDKPlayerBinding *binding = [_bindingsByPlayerName valueForKey:name];
+    if (binding) {
+        [binding dispatchPlaybackModeChange:mode withData:nil];
+    }
 }
 
 + (void) playbackModeChangeForPlayer:(nonnull NSString *) name
                     withPlaybackMode:(nonnull MUXSDKPlaybackMode) mode
-                withExtraEncodedData:(nonnull NSData *) encodedData {
-    
+            withExtraEncodedJSONData:(nonnull NSData *) encodedData {
+    MUXSDKPlayerBinding *binding = [_bindingsByPlayerName valueForKey:name];
+    if (binding) {
+        [binding dispatchPlaybackModeChange:mode withData:encodedData];
+    }
 }
 
 + (void) playbackModeChangeForPlayer:(nonnull NSString *) name
                     withPlaybackMode:(nonnull MUXSDKPlaybackMode) mode
                        withExtraData:(nonnull NSDictionary *) extraData {
-    
+    MUXSDKPlayerBinding *binding = [_bindingsByPlayerName valueForKey:name];
+    if (binding) {
+        NSData *jsonData = nil;
+        if ([NSJSONSerialization isValidJSONObject:extraData]) {
+            NSError *serializationError = nil;
+            jsonData = [NSJSONSerialization dataWithJSONObject:extraData
+                                                       options:(NSJSONWritingOptions)0
+                                                         error:&serializationError];
+            // TODO: Log this
+        } else {
+            // TODO: Log this
+        }
+        
+        [binding dispatchPlaybackModeChange:mode withData:nil];
+    }
 }
 
 
