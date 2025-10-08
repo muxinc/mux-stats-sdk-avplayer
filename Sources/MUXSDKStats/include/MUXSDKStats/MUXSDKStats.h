@@ -315,6 +315,19 @@ FOUNDATION_EXPORT
                     withPlaybackMode:(nonnull MUXSDKPlaybackMode) mode
                        withExtraData:(nonnull NSDictionary *) extraData;
 
+// TODO: Do we actually want this overload? It's only useful for objc callers, who can just use the dict overload if they want, without much extra effort
+///*!
+// Signals that the video is being played in a particular way, eg, fullscreen or picture-in-picture.
+// The default playback mode is ``MUXSDKPlaybackModeStandard``
+// 
+// @param name The name of the player to update
+// @param mode The playback mode that was entered
+// @param extraData Data that should be sent along with this event. The values in this dictionary must be encodeable as JSON
+// */
+//+ (void) playbackModeChangeForPlayer:(nonnull NSString *) name
+//                    withPlaybackMode:(nonnull MUXSDKPlaybackMode) mode
+//                       withExtras:(nonnull id) extraData;
+
 #pragma mark - Error Dispatch
 
 /// Records an error related to the named player and

@@ -625,7 +625,7 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
             // TODO: Log this
         }
         
-        [binding dispatchPlaybackModeChange:mode withData:nil];
+        [binding dispatchPlaybackModeChange:mode withData:jsonData];
     }
 }
 
