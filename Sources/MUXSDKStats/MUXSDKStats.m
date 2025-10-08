@@ -632,8 +632,6 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
         [binding dispatchPlaybackModeChange:mode withData:jsonData];
     }
 }
-
-
     
 #pragma mark Error
 
