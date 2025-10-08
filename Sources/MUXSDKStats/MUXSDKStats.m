@@ -590,6 +590,27 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
     [player dispatchOrientationChange:orientation];
 }
 
+#pragma mark Playback Mode
+
++ (void) playbackModeChangeForPlayer:(nonnull NSString *) name
+                    withPlaybackMode:(nonnull MUXSDKPlaybackMode) mode {
+    
+}
+
++ (void) playbackModeChangeForPlayer:(nonnull NSString *) name
+                    withPlaybackMode:(nonnull MUXSDKPlaybackMode) mode
+                withExtraEncodedData:(nonnull NSData *) encodedData {
+    
+}
+
++ (void) playbackModeChangeForPlayer:(nonnull NSString *) name
+                    withPlaybackMode:(nonnull MUXSDKPlaybackMode) mode
+                       withExtraData:(nonnull NSDictionary *) extraData {
+    
+}
+
+
+    
 #pragma mark Error
 
 + (void)dispatchError:(nonnull NSString *)errorCode
