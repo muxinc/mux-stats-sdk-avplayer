@@ -279,6 +279,42 @@ FOUNDATION_EXPORT
 + (void) orientationChangeForPlayer:(nonnull NSString *) name  
                     withOrientation:(MUXSDKViewOrientation) orientation;
 
+#pragma mark - Playback Mode
+
+/*!
+ Signals that the video is being played in a particular way, eg, fullscreen or picture-in-picture.
+ The default playback mode is ``MUXSDKPlaybackModeStandard``
+ 
+ @param name The name of the player to update
+ @param mode The playback mode that was entered
+ */
++ (void) playbackModeChangeForPlayer:(nonnull NSString *) name
+                    withPlaybackMode:(nonnull MUXSDKPlaybackMode) mode;
+
+/*!
+ Signals that the video is being played in a particular way, eg, fullscreen or picture-in-picture.
+ The default playback mode is ``MUXSDKPlaybackModeStandard``
+ 
+ @param name The name of the player to update
+ @param mode The playback mode that was entered
+ @param encoded Encoded JSON data that should be sent along with this event. Can be any arbirary JSON object (but not an array)
+ */
++ (void) playbackModeChangeForPlayer:(nonnull NSString *) name
+                    withPlaybackMode:(nonnull MUXSDKPlaybackMode) mode
+                   withExtraEncodedData:(nonnull NSData *) encodedData;
+
+/*!
+ Signals that the video is being played in a particular way, eg, fullscreen or picture-in-picture.
+ The default playback mode is ``MUXSDKPlaybackModeStandard``
+ 
+ @param name The name of the player to update
+ @param mode The playback mode that was entered
+ @param extraData Data that should be sent along with this event. The values in this dictionary must be encodeable as JSON
+ */
++ (void) playbackModeChangeForPlayer:(nonnull NSString *) name
+                    withPlaybackMode:(nonnull MUXSDKPlaybackMode) mode
+                       withExtraData:(nonnull NSDictionary *) extraData;
+
 #pragma mark - Error Dispatch
 
 /// Records an error related to the named player and
