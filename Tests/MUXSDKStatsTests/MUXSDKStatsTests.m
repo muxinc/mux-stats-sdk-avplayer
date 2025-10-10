@@ -752,7 +752,6 @@ static NSString *Z = @"Z";
         return [[evaluatedObject getType] isEqualToString:@"playbackmodechange"];
     }];
     NSArray *playbackModeChangeEvents = [events filteredArrayUsingPredicate:filterPlaybackModeEvents];
-    NSLog(@"remove me");
     
     // 1st event
     MUXSDKPlaybackEvent *event0 = [playbackModeChangeEvents objectAtIndex:0];
