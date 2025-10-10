@@ -723,23 +723,29 @@ static NSString *Z = @"Z";
                            dataWithJSONObject: @{@"encodedJSONItemStr": @"encodedJSONStringValue", @"encodedJSONItemNumber": @10000}
                            options: (NSJSONWritingOptions)0
                            error: &serialzationError];
+    
     if (serialzationError) {
-        XCTFail(@"Couldn't serialize the test data, uh-oh");
+        XCTFail(@"Couldn't serialize the test data. Aborting test");
     }
     
+    // no data
     [MUXSDKStats playbackModeChangeForPlayer:playName withPlaybackMode:MUXSDKPlaybackModeInline];
+    // data as dict
     [MUXSDKStats playbackModeChangeForPlayer:playName
                             withPlaybackMode:MUXSDKPlaybackModeBackground
                                withExtraData:@{@"item1": @1, @"item2": @"value"}
     ];
+    // Different mode, same mode data. Data shouldn't be de-duped
     [MUXSDKStats playbackModeChangeForPlayer:playName
                             withPlaybackMode:@"custom_mode"
-                               withExtraData:@{@"custom_item1": @1, @"custom_item2": @"value"}
+                               withExtraData:@{@"item1": @1, @"item2": @"value"}
     ];
+    // Encoded JSON should be evaluated correctly
     [MUXSDKStats playbackModeChangeForPlayer:playName
                             withPlaybackMode:@"custom_mode"
-                               withExtraData:@{@"item1": @1, @"item2": @"value2"}
+                    withExtraEncodedJSONData:encodedJSON
     ];
+    //.. There's also a case where we send non-json data via withExtraEncodedJSONData but it's tested in the core, and the core is mocked here so we can't do it in this test anyway
     
     NSArray<id <MUXSDKEventTyping>> *events = [MUXSDKCore snapshotOfEventsForPlayer:playName];
     NSPredicate *filterPlaybackModeEvents = [NSPredicate predicateWithBlock:^BOOL(id <MUXSDKEventTyping> _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
@@ -747,6 +753,31 @@ static NSString *Z = @"Z";
     }];
     NSArray *playbackModeChangeEvents = [events filteredArrayUsingPredicate:filterPlaybackModeEvents];
     NSLog(@"remove me");
+    
+    // 1st event
+    MUXSDKPlaybackEvent *event0 = [playbackModeChangeEvents objectAtIndex:0];
+    XCTAssertEqual(MUXSDKPlaybackModeInline, event0.playerData.playerPlaybackMode);
+    
+    // 2nd event
+    NSString *expectedJson1 = @"{\"item1\":1,\"item2\":\"value\"}";
+    MUXSDKPlaybackEvent *event1 = [playbackModeChangeEvents objectAtIndex:1];
+    MUXSDKPlayerData *playerData1 = event1.playerData;
+    XCTAssertEqual(MUXSDKPlaybackModeBackground, event1.playerData.playerPlaybackMode);
+    XCTAssertTrue([expectedJson1 isEqualToString:[[NSString alloc] initWithData:playerData1.playerPlaybackModeData encoding:NSUTF8StringEncoding]]);
+    
+    // 3rd event
+    NSString *expectedJson2 = @"{\"item1\":1,\"item2\":\"value\"}";
+    MUXSDKPlaybackEvent *event2 = [playbackModeChangeEvents objectAtIndex:2];
+    MUXSDKPlayerData *playerData2 = event2.playerData;
+    XCTAssertEqual(@"custom_mode", event2.playerData.playerPlaybackMode);
+    XCTAssertTrue([expectedJson2 isEqualToString:[[NSString alloc] initWithData:playerData2.playerPlaybackModeData encoding:NSUTF8StringEncoding]]);
+    
+    // 4th event
+    NSString *expectedJson3 = @"{\"encodedJSONItemStr\":\"encodedJSONStringValue\",\"encodedJSONItemNumber\":10000}";
+    MUXSDKPlaybackEvent *event3 = [playbackModeChangeEvents objectAtIndex:3];
+    MUXSDKPlayerData *playerData3 = event3.playerData;
+    XCTAssertEqual(@"custom_mode", event3.playerData.playerPlaybackMode);
+    XCTAssertTrue([expectedJson3 isEqualToString:[[NSString alloc] initWithData:playerData3.playerPlaybackModeData encoding:NSUTF8StringEncoding]]);
 }
 
 - (void) testRenditionChangeEvent API_UNAVAILABLE(visionos) {
