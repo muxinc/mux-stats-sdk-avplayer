@@ -705,6 +705,50 @@ static NSString *Z = @"Z";
     [MUXSDKStats destroyPlayer:playName];
 }
 
+- (void) testPlaybackModeChange {
+    XCTSkipIf(TARGET_OS_VISION);
+
+    MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
+    MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
+    MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
+    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
+                                                                                    videoData:customerVideoData
+                                                                                     viewData:nil];
+
+    NSString *playName = MUXUniquePlayerName();
+    [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
+    
+    NSError *serialzationError = nil;
+    NSData *encodedJSON = [NSJSONSerialization
+                           dataWithJSONObject: @{@"encodedJSONItemStr": @"encodedJSONStringValue", @"encodedJSONItemNumber": @10000}
+                           options: (NSJSONWritingOptions)0
+                           error: &serialzationError];
+    if (serialzationError) {
+        XCTFail(@"Couldn't serialize the test data, uh-oh");
+    }
+    
+    [MUXSDKStats playbackModeChangeForPlayer:playName withPlaybackMode:MUXSDKPlaybackModeInline];
+    [MUXSDKStats playbackModeChangeForPlayer:playName
+                            withPlaybackMode:MUXSDKPlaybackModeBackground
+                               withExtraData:@{@"item1": @1, @"item2": @"value"}
+    ];
+    [MUXSDKStats playbackModeChangeForPlayer:playName
+                            withPlaybackMode:@"custom_mode"
+                               withExtraData:@{@"custom_item1": @1, @"custom_item2": @"value"}
+    ];
+    [MUXSDKStats playbackModeChangeForPlayer:playName
+                            withPlaybackMode:@"custom_mode"
+                               withExtraData:@{@"item1": @1, @"item2": @"value2"}
+    ];
+    
+    NSArray<id <MUXSDKEventTyping>> *events = [MUXSDKCore snapshotOfEventsForPlayer:playName];
+    NSPredicate *filterPlaybackModeEvents = [NSPredicate predicateWithBlock:^BOOL(id <MUXSDKEventTyping> _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+        return [[evaluatedObject getType] isEqualToString:@"playbackmodechange"];
+    }];
+    NSArray *playbackModeChangeEvents = [events filteredArrayUsingPredicate:filterPlaybackModeEvents];
+    NSLog(@"remove me");
+}
+
 - (void) testRenditionChangeEvent API_UNAVAILABLE(visionos) {
     XCTSkipIf(TARGET_OS_VISION);
 
