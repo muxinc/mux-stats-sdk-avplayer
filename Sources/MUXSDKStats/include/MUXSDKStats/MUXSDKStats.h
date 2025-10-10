@@ -313,7 +313,7 @@ FOUNDATION_EXPORT
  */
 + (void) playbackModeChangeForPlayer:(nonnull NSString *) name
                     withPlaybackMode:(nonnull MUXSDKPlaybackMode) mode
-                       withExtraData:(nonnull NSDictionary *) extraData;
+                       withExtraData:(nonnull NSDictionary<NSString *, id> *) extraData;
 
 #pragma mark - Error Dispatch
 
