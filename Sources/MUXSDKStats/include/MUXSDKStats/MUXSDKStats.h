@@ -297,7 +297,7 @@ FOUNDATION_EXPORT
  
  @param name The name of the player to update
  @param mode The playback mode that was entered
- @param encoded Encoded JSON data that should be sent along with this event. Can be any arbirary JSON object (but not an array). If this data doesn't represent valid JSON, then the event will be dropped
+ @param encodedData Encoded JSON data that should be sent along with this event. Can be any arbirary JSON object (but not an array). If this data doesn't represent valid JSON, then the event will be dropped
  */
 + (void) playbackModeChangeForPlayer:(nonnull NSString *) name
                     withPlaybackMode:(nonnull MUXSDKPlaybackMode) mode
