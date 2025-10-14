@@ -707,8 +707,8 @@ static NSString *Z = @"Z";
 
 - (void) testPlaybackModeChange {
     XCTSkipIf(TARGET_OS_VISION);
-
-    MuxMockAVPlayerLayer *controller = [[MuxMockAVPlayerLayer alloc] init];
+    
+    MuxMockAVPlayerViewController *controller = [[MuxMockAVPlayerViewController alloc] init];
     MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"YOUR_COMPANY_NAME"];
     MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
     MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:customerPlayerData
@@ -716,8 +716,8 @@ static NSString *Z = @"Z";
                                                                                      viewData:nil];
 
     NSString *playName = MUXUniquePlayerName();
-    [MUXSDKStats monitorAVPlayerLayer:controller withPlayerName:playName customerData:customerData];
-    
+    [MUXSDKStats monitorAVPlayerViewController:controller withPlayerName:playName customerData:customerData];
+
     NSError *serialzationError = nil;
     NSData *encodedJSON = [NSJSONSerialization
                            dataWithJSONObject: @{@"encodedJSONItemStr": @"encodedJSONStringValue", @"encodedJSONItemNumber": @10000}
