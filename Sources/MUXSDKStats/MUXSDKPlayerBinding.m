@@ -996,6 +996,17 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
     [MUXSDKCore dispatchEvent:event forPlayer:_name];
 }
 
+- (void)dispatchPlaybackModeChange:(MUXSDKPlaybackMode)mode withData:(NSData *)data {
+    MUXSDKPlaybackModeChangeEvent *event = [[MUXSDKPlaybackModeChangeEvent alloc] init];
+    MUXSDKPlayerData *playerData = [self getPlayerData];
+    playerData.playerPlaybackMode = mode;
+    playerData.playerPlaybackModeData = data;
+    
+    event.playerData = playerData;
+    
+    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+}
+
 - (void)dispatchError {
     if (!_automaticErrorTracking) {
         return;

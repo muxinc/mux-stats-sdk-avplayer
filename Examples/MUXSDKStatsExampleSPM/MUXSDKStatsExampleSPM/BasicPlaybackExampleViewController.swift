@@ -41,7 +41,7 @@ class BasicPlaybackExampleViewController: UIViewController {
         playerViewController.allowsPictureInPicturePlayback = false
 
         displayPlayerViewController()
-
+        
         MUXSDKStats.monitorAVPlayerViewController(
             playerViewController,
             withPlayerName: playerName,

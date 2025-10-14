@@ -590,6 +590,46 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
     [player dispatchOrientationChange:orientation];
 }
 
+#pragma mark Playback Mode
+
++ (void) playbackModeChangeForPlayer:(nonnull NSString *) name
+                    withPlaybackMode:(nonnull MUXSDKPlaybackMode) mode {
+    MUXSDKPlayerBinding *binding = [_bindingsByPlayerName valueForKey:name];
+    if (binding) {
+        [binding dispatchPlaybackModeChange:mode withData:nil];
+    }
+}
+
++ (void) playbackModeChangeForPlayer:(nonnull NSString *) name
+                    withPlaybackMode:(nonnull MUXSDKPlaybackMode) mode
+            extraEncodedJSONData:(nonnull NSData *) encodedData {
+    MUXSDKPlayerBinding *binding = [_bindingsByPlayerName valueForKey:name];
+    if (binding) {
+        [binding dispatchPlaybackModeChange:mode withData:encodedData];
+    }
+}
+
++ (void) playbackModeChangeForPlayer:(nonnull NSString *) name
+                    withPlaybackMode:(nonnull MUXSDKPlaybackMode) mode
+                       extraData:(nonnull NSDictionary *) extraData {
+    NSData *jsonData = nil;
+    if ([NSJSONSerialization isValidJSONObject:extraData]) {
+        NSError *serializationError = nil;
+        jsonData = [NSJSONSerialization dataWithJSONObject:extraData
+                                                   options:(NSJSONWritingOptions)0
+                                                     error:&serializationError];
+        if (serializationError) {
+            NSLog(@"Unexpected error while serilzing playback mode JSON: %@", serializationError.localizedDescription);
+            return;
+        }
+    } else {
+        NSLog(@"Provided playback_mode_data was not serializeable as JSON");
+        return;
+    }
+    
+    [MUXSDKStats playbackModeChangeForPlayer:name withPlaybackMode:mode extraEncodedJSONData:jsonData];
+}
+    
 #pragma mark Error
 
 + (void)dispatchError:(nonnull NSString *)errorCode
