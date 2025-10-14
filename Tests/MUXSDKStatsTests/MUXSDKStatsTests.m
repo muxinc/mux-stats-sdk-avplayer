@@ -720,7 +720,7 @@ static NSString *Z = @"Z";
 
     NSError *serialzationError = nil;
     NSData *encodedJSON = [NSJSONSerialization
-                           dataWithJSONObject: @{@"encodedJSONItemStr": @"encodedJSONStringValue", @"encodedJSONItemNumber": @10000}
+                           dataWithJSONObject: @{@"encodedJSONItemNumber": @10000, @"encodedJSONItemStr": @"encodedJSONStringValue"}
                            options: (NSJSONWritingOptions)0
                            error: &serialzationError];
     
@@ -733,17 +733,17 @@ static NSString *Z = @"Z";
     // data as dict
     [MUXSDKStats playbackModeChangeForPlayer:playName
                             withPlaybackMode:MUXSDKPlaybackModeBackground
-                               withExtraData:@{@"item1": @1, @"item2": @"value"}
+                                   extraData:@{@"item1": @1, @"item2": @"value"}
     ];
     // Different mode, same mode data. Data shouldn't be de-duped
     [MUXSDKStats playbackModeChangeForPlayer:playName
                             withPlaybackMode:@"custom_mode"
-                               withExtraData:@{@"item1": @1, @"item2": @"value"}
+                               extraData:@{@"item1": @1, @"item2": @"value"}
     ];
     // Encoded JSON should be evaluated correctly
     [MUXSDKStats playbackModeChangeForPlayer:playName
                             withPlaybackMode:@"custom_mode"
-                    withExtraEncodedJSONData:encodedJSON
+                        extraEncodedJSONData:encodedJSON
     ];
     //.. There's also a case where we send non-json data via withExtraEncodedJSONData but it's tested in the core, and the core is mocked here so we can't do it in this test anyway
     

@@ -602,7 +602,7 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
 
 + (void) playbackModeChangeForPlayer:(nonnull NSString *) name
                     withPlaybackMode:(nonnull MUXSDKPlaybackMode) mode
-            withExtraEncodedJSONData:(nonnull NSData *) encodedData {
+            extraEncodedJSONData:(nonnull NSData *) encodedData {
     MUXSDKPlayerBinding *binding = [_bindingsByPlayerName valueForKey:name];
     if (binding) {
         [binding dispatchPlaybackModeChange:mode withData:encodedData];
@@ -611,7 +611,7 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
 
 + (void) playbackModeChangeForPlayer:(nonnull NSString *) name
                     withPlaybackMode:(nonnull MUXSDKPlaybackMode) mode
-                       withExtraData:(nonnull NSDictionary *) extraData {
+                       extraData:(nonnull NSDictionary *) extraData {
     NSData *jsonData = nil;
     if ([NSJSONSerialization isValidJSONObject:extraData]) {
         NSError *serializationError = nil;
@@ -627,7 +627,7 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
         return;
     }
     
-    [MUXSDKStats playbackModeChangeForPlayer:name withPlaybackMode:mode withExtraEncodedJSONData:jsonData];
+    [MUXSDKStats playbackModeChangeForPlayer:name withPlaybackMode:mode extraEncodedJSONData:jsonData];
 }
     
 #pragma mark Error
