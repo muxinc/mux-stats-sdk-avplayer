@@ -772,7 +772,7 @@ static NSString *Z = @"Z";
     XCTAssertTrue([expectedJson2 isEqualToString:[[NSString alloc] initWithData:playerData2.playerPlaybackModeData encoding:NSUTF8StringEncoding]]);
     
     // 4th event
-    NSString *expectedJson3 = @"{\"encodedJSONItemStr\":\"encodedJSONStringValue\",\"encodedJSONItemNumber\":10000}";
+    NSString *expectedJson3 = @"{\"encodedJSONItemNumber\":10000,\"encodedJSONItemStr\":\"encodedJSONStringValue\"}";
     MUXSDKPlaybackEvent *event3 = [playbackModeChangeEvents objectAtIndex:3];
     MUXSDKPlayerData *playerData3 = event3.playerData;
     XCTAssertEqual(@"custom_mode", event3.playerData.playerPlaybackMode);
