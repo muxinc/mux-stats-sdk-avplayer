@@ -720,7 +720,7 @@ static NSString *Z = @"Z";
 
     NSError *serialzationError = nil;
     NSData *encodedJSON = [NSJSONSerialization
-                           dataWithJSONObject: @{@"encodedJSONItemNumber": @10000, @"encodedJSONItemStr": @"encodedJSONStringValue"}
+                           dataWithJSONObject: @{@"encodedJSONItemStr": @"encodedJSONStringValue",@"encodedJSONItemNumber": @10000}
                            options: (NSJSONWritingOptions)0
                            error: &serialzationError];
     
@@ -772,7 +772,12 @@ static NSString *Z = @"Z";
     XCTAssertTrue([expectedJson2 isEqualToString:[[NSString alloc] initWithData:playerData2.playerPlaybackModeData encoding:NSUTF8StringEncoding]]);
     
     // 4th event
+    // mac catalyst sorts your json keys whether you like it or not, but order's not important for the test
+#if TARGET_OS_MACCATALYST
     NSString *expectedJson3 = @"{\"encodedJSONItemNumber\":10000,\"encodedJSONItemStr\":\"encodedJSONStringValue\"}";
+#else
+    NSString *expectedJson3 = @"{\"encodedJSONItemStr\":\"encodedJSONStringValue\",\"encodedJSONItemNumber\":10000}";
+#endif
     MUXSDKPlaybackEvent *event3 = [playbackModeChangeEvents objectAtIndex:3];
     MUXSDKPlayerData *playerData3 = event3.playerData;
     XCTAssertEqual(@"custom_mode", event3.playerData.playerPlaybackMode);
