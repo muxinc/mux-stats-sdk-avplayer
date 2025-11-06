@@ -1265,46 +1265,6 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
     }
 }
 
-- (NSString *)getPlayerState {
-    switch (_state) {
-        case MUXSDKPlayerStatePaused:
-            return @"Paused";
-            break;
-
-        case MUXSDKPlayerStatePlay:
-            return @"Play";
-            break;
-
-        case MUXSDKPlayerStateBuffering:
-            return @"Buffering";
-            break;
-
-        case MUXSDKPlayerStateError:
-            return @"Error";
-            break;
-
-        case MUXSDKPlayerStateReady:
-            return @"Ready";
-            break;
-
-        case MUXSDKPlayerStatePlaying:
-            return @"Playing";
-            break;
-
-        case MUXSDKPlayerStateViewInit:
-            return @"Init";
-            break;
-
-        case MUXSDKPlayerStateViewEnd:
-            return @"End";
-            break;
-
-        default:
-            return @"Unknown";
-            break;
-    }
-}
-
 - (BOOL)isPlayerInErrorState {
     if (!_player || !_playerItem) {
         return NO;

@@ -523,12 +523,6 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
     }
 }
 
-+ (void)programChangeForPlayer:(nonnull NSString *)name
-                 withVideoData:(nullable MUXSDKCustomerVideoData *)videoData {
-    MUXSDKCustomerData *customerData = [[MUXSDKCustomerData alloc] initWithCustomerPlayerData:nil videoData:videoData viewData:nil];
-    [self programChangeForPlayer:name withCustomerData:customerData];
-}
-
 + (void)setAutomaticVideoChange:(NSString *)name enabled:(Boolean)enabled {
     MUXSDKPlayerBinding *player = [_bindingsByPlayerName valueForKey:name];
     if (player) {
