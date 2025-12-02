@@ -65,6 +65,12 @@ extension MUXSDKBandwidthMetricData {
         default:
             break
         }
+
+#if compiler(>=6.2)
+        if #available(iOS 26, tvOS 26, visionOS 26, *) {
+            requestMediaDuration = event.segmentDuration.muxTimeValue
+        }
+#endif
     }
 
     convenience init?(event: AVMetricContentKeyRequestEvent) {

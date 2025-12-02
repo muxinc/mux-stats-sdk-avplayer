@@ -138,6 +138,11 @@ extension AVPlayerItem {
 
                 let videoData = MUXSDKVideoData()
                 videoData.updateWithAssetVariant(metricEvent.toVariant)
+#if compiler(>=6.2)
+                if #available(iOS 26, tvOS 26, visionOS 26, *) {
+                    videoData.updateWithMediaRendition(metricEvent.videoRendition)
+                }
+#endif
                 muxEvent.videoData = videoData
 
                 return muxEvent
