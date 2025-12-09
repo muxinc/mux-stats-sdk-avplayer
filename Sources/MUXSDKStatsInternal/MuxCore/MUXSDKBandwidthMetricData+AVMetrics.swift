@@ -9,24 +9,27 @@ extension MUXSDKBandwidthMetricData {
         requestUrl = event.url?.absoluteString
         requestHostName = event.url?.host()
 
-        requestStart = event.requestStartTime.muxTimeValue
-        requestResponseStart = event.responseStartTime.muxTimeValue
-        requestResponseEnd = event.responseEndTime.muxTimeValue
+        let allTaskMetrics = event.networkTransactionMetrics?.transactionMetrics
 
-        let lastTransactionMetrics = event.networkTransactionMetrics?.transactionMetrics.last
+        if let allTaskMetrics, !allTaskMetrics.isEmpty {
+            let firstTask = allTaskMetrics.first!
+            let lastTask = allTaskMetrics.last!
 
-        requestBytesLoaded = lastTransactionMetrics.map {
-            $0.countOfResponseHeaderBytesReceived + $0.countOfResponseBodyBytesReceived
-        } as NSNumber?
+            requestStart = firstTask.fetchStartDate?.muxTimeValue
+            requestResponseStart = lastTask.responseStartDate?.muxTimeValue
+            requestResponseEnd = lastTask.responseEndDate?.muxTimeValue
 
-        let lastHTTPResponse = lastTransactionMetrics?.response as? HTTPURLResponse
+            requestBytesLoaded = (
+                lastTask.countOfResponseHeaderBytesReceived + lastTask.countOfResponseBodyBytesReceived
+            ) as NSNumber
 
-        requestResponseHeaders = lastHTTPResponse?.allHeaderFields
+            requestResponseHeaders = (lastTask.response as? HTTPURLResponse)?.allHeaderFields
+        }
 
         if let errorEvent = event.errorEvent, !errorEvent.didRecover {
             requestError = errorEvent.error.localizedDescription
 
-            if let lastHTTPResponse {
+            if let lastHTTPResponse = allTaskMetrics?.last?.response as? HTTPURLResponse {
                 requestErrorCode = lastHTTPResponse.statusCode as NSNumber
                 requestErrorText = HTTPURLResponse.localizedString(forStatusCode: lastHTTPResponse.statusCode)
             }
