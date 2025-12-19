@@ -4,10 +4,9 @@
 
 @import MUXSDKStatsInternal;
 
-#import "MUXSDKStats/MUXSDKPlayerBinding.h"
+#import "MUXSDKPlayerBinding+ViewState.h"
 
 #import "MUXSDKBandwidthMetricData+MUXSDKAccessLog.h"
-#import "MUXSDKConnection.h"
 #import "MUXSDKPlayerBindingConstants.h"
 
 // SDK constants.
@@ -42,6 +41,7 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
 
 @interface MUXSDKPlayerBinding ()
 
+@property (nonatomic, readonly) MUXSDKNetworkMonitor *networkMonitor;
 @property (nonatomic, nullable) MUXSDKPlayerMonitor *swiftMonitor
     API_AVAILABLE(ios(15), tvos(15));
 
@@ -114,6 +114,11 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
         _automaticVideoChange = true;
         _didTriggerManualVideoChange = false;
         _playbackIsLivestream = false;
+        _state = MUXSDKPlayerStateUnknown;
+        __weak typeof(self) weakSelf = self;
+        _networkMonitor = [[MUXSDKNetworkMonitor alloc] initOnEvent:^(MUXSDKNetworkChangeEvent *event) {
+            [weakSelf dispatchNetworkMonitorEvent:event];
+        }];
     }
     return(self);
 }
@@ -197,15 +202,6 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAVPlayerAccess:) name:AVPlayerItemNewAccessLogEntryNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRenditionChange:) name:RenditionChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAVPlayerError:) name:AVPlayerItemNewErrorLogEntryNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleConnectionTypeDetected:) name:@"com.mux.connection-type-detected" object:nil];
-    
-    //
-    // dylanjhaveri
-    // See MUXSDKConnection.m for the tvos shortcoming
-    //
-    if ([[UIDevice currentDevice] userInterfaceIdiom] != UIUserInterfaceIdiomTV) {
-        [MUXSDKConnection detectConnectionType];
-    }
     
     _lastTransferEventCount = 0;
     _lastTransferDuration= 0;
@@ -222,18 +218,6 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
     return notif.object == _playerItem;
 }
 
-- (void)handleConnectionTypeDetected:(NSNotification *)notif {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *type = [notif.userInfo valueForKey:@"type"];
-        if (type != nil) {
-            MUXSDKDataEvent *dataEvent = [[MUXSDKDataEvent alloc] init];
-            MUXSDKViewerData *viewerData = [[MUXSDKViewerData alloc] init];
-            [viewerData setViewerConnectionType:type];
-            [dataEvent setViewerData:viewerData];
-            [MUXSDKCore dispatchGlobalDataEvent:dataEvent];
-        }
-    });
-}
 - (void)handleApplicationWillTerminate:(NSNotification *)notification {
     [self dispatchViewEnd];
     [self stopMonitoringAVPlayerItem];
@@ -469,6 +453,13 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
     if (_timeUpdateTimer) {
         [_timeUpdateTimer invalidate];
         _timeUpdateTimer = nil;
+    }
+}
+
+- (void)viewDidInitialize {
+    MUXSDKNetworkChangeEvent *networkChangeEvent = [self.networkMonitor networkChangeEventForCurrentState];
+    if (networkChangeEvent) {
+        [self dispatchNetworkMonitorEvent:networkChangeEvent];
     }
 }
 
@@ -892,6 +883,30 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
         [self updatePlayerMetadata:playbackEvent.playerData];
         [self updatePlayerDimensions:playbackEvent.playerData];
     }
+
+    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+}
+
+- (void)dispatchNetworkMonitorEvent:(MUXSDKNetworkChangeEvent *)event {
+    if (![self hasPlayer]) {
+        return;
+    }
+
+    switch (_state) {
+        case MUXSDKPlayerStateError:
+        case MUXSDKPlayerStateViewEnd:
+        case MUXSDKPlayerStateUnknown:
+            return;
+        case MUXSDKPlayerStateViewInit:
+        case MUXSDKPlayerStateReady:
+        case MUXSDKPlayerStatePlay:
+        case MUXSDKPlayerStateBuffering:
+        case MUXSDKPlayerStatePlaying:
+        case MUXSDKPlayerStatePaused:
+            break;
+    }
+
+    event.playerData = [self getPlayerData];
 
     [MUXSDKCore dispatchEvent:event forPlayer:_name];
 }

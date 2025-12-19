@@ -12,6 +12,7 @@ typedef NS_ENUM(NSUInteger, MUXSDKPlayerState) {
     MUXSDKPlayerStatePaused,
     MUXSDKPlayerStateError,
     MUXSDKPlayerStateViewEnd,
+    MUXSDKPlayerStateUnknown = NSUIntegerMax,
 };
 
 typedef NS_ENUM(NSUInteger, MUXSDKViewOrientation) {
