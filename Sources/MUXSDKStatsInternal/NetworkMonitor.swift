@@ -21,9 +21,14 @@ extension NetworkState {
             connectionType = .other
         }
 
+#if compiler(>=6.2)
         if #available(iOS 26, tvOS 26, visionOS 26, *) {
             isLowDataMode = path.isConstrained || path.isUltraConstrained
-        } else if #available(iOS 13, tvOS 13, *) {
+            return
+        }
+#endif
+
+        if #available(iOS 13, tvOS 13, *) {
             isLowDataMode = path.isConstrained
         } else {
             isLowDataMode = nil
