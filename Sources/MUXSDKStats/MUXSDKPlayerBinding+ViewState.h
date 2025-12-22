@@ -4,6 +4,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MUXSDKPlayerBinding (MUXSDKViewState)
 
+@property (readonly, nonatomic) MUXSDKPlayerState state;
+
 - (void)viewDidInitialize;
 
 @end

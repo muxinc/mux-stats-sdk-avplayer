@@ -137,6 +137,17 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
     return _automaticVideoChange;
 }
 
+- (MUXSDKPlayerState)state {
+    return _state;
+}
+
+- (void)viewDidInitialize {
+    MUXSDKNetworkChangeEvent *networkChangeEvent = [self.networkMonitor networkChangeEventForCurrentState];
+    if (networkChangeEvent) {
+        [self dispatchNetworkMonitorEvent:networkChangeEvent];
+    }
+}
+
 - (void)attachAVPlayer:(AVPlayer *)player {
     if (_player) {
         [self detachAVPlayer];
@@ -453,13 +464,6 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
     if (_timeUpdateTimer) {
         [_timeUpdateTimer invalidate];
         _timeUpdateTimer = nil;
-    }
-}
-
-- (void)viewDidInitialize {
-    MUXSDKNetworkChangeEvent *networkChangeEvent = [self.networkMonitor networkChangeEventForCurrentState];
-    if (networkChangeEvent) {
-        [self dispatchNetworkMonitorEvent:networkChangeEvent];
     }
 }
 
