@@ -47,9 +47,9 @@
                MUXSDKCustomData *customData = [self.customerCustomDataStore customDataForPlayerName:name];
                [binding dispatchViewInit];
                [self dispatchDataEventForPlayerName:name playerData:playerData videoData:videoData viewData: viewData customData:customData videoChange:NO];
+               [binding viewDidInitialize];
                [binding dispatchPlayerReady];
                [self.playerReadyBindings addObject:name];
-               [binding viewDidInitialize];
            }
     }
 }
