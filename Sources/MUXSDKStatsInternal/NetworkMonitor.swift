@@ -54,7 +54,7 @@ extension MUXSDKNetworkChangeEvent {
         }
     }
 
-    @objc public init(onEvent: @Sendable @escaping @MainActor (MUXSDKNetworkChangeEvent) -> Void) {
+    @objc public init(eventHandler onEvent: @Sendable @escaping @MainActor (MUXSDKNetworkChangeEvent) -> Void) {
         self.onEvent = onEvent
         super.init()
         pathMonitor.pathUpdateHandler = { [weak self] path in

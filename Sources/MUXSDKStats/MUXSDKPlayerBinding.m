@@ -116,7 +116,7 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
         _playbackIsLivestream = false;
         _state = MUXSDKPlayerStateUnknown;
         __weak typeof(self) weakSelf = self;
-        _networkMonitor = [[MUXSDKNetworkMonitor alloc] initOnEvent:^(MUXSDKNetworkChangeEvent *event) {
+        _networkMonitor = [[MUXSDKNetworkMonitor alloc] initWithEventHandler:^(MUXSDKNetworkChangeEvent *event) {
             [weakSelf dispatchNetworkMonitorEvent:event];
         }];
     }
