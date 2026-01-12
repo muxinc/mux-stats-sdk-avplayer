@@ -51,4 +51,3 @@ let package = Package(
         .v6,
     ]
 )
-
