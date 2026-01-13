@@ -142,10 +142,7 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
 }
 
 - (void)viewDidInitialize {
-    MUXSDKNetworkChangeEvent *networkChangeEvent = [self.networkMonitor networkChangeEventForCurrentState];
-    if (networkChangeEvent) {
-        [self dispatchNetworkMonitorEvent:networkChangeEvent];
-    }
+    [self.networkMonitor triggerNetworkChangeEvent];
 }
 
 - (void)attachAVPlayer:(AVPlayer *)player {

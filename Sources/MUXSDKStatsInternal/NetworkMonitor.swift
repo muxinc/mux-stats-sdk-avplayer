@@ -59,7 +59,7 @@ extension MUXSDKNetworkChangeEvent {
         }
     }
 
-    @objc public init(eventHandler onEvent: @Sendable @escaping @MainActor (MUXSDKNetworkChangeEvent) -> Void) {
+    @objc nonisolated public init(eventHandler onEvent: @Sendable @escaping @MainActor (MUXSDKNetworkChangeEvent) -> Void) {
         self.onEvent = onEvent
         super.init()
         pathMonitor.pathUpdateHandler = { [weak self] path in
@@ -76,7 +76,22 @@ extension MUXSDKNetworkChangeEvent {
         pathMonitor.start(queue: .main)
     }
 
-    @objc public func networkChangeEventForCurrentState() -> MUXSDKNetworkChangeEvent? {
-        networkState.map(MUXSDKNetworkChangeEvent.init(networkState:))
+    private func triggerNetworkChangeEventIsolated() {
+        guard let networkState else {
+            return
+        }
+        onEvent(MUXSDKNetworkChangeEvent(networkState: networkState))
+    }
+
+    @objc nonisolated public func triggerNetworkChangeEvent() {
+        guard #available(iOS 13, tvOS 13, *), DispatchQueue.isMainQueue else {
+            DispatchQueue.main.async { [weak self] in
+                self?.triggerNetworkChangeEventIsolated()
+            }
+            return
+        }
+        MainActor.assumeIsolated {
+            triggerNetworkChangeEventIsolated()
+        }
     }
 }
