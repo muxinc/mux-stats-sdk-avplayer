@@ -148,7 +148,9 @@ function lint_podspec {
     cp -ac "$PODSPEC_ARTIFACT_PATH" "$pod_contents_path"
 
     pushd "$pod_contents_path"
-    
+
+    pod repo update
+
     echo "--- Linting Podspec (default options)"
     LC_ALL=en_US.UTF-8 pod lib lint
 
