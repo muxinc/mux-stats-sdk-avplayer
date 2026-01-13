@@ -6,6 +6,7 @@
 //  Copyright © 2020 Mux, Inc. All rights reserved.
 //
 
+#import "MUXSDKPlayerBinding+ViewState.h"
 #import "MUXSDKPlayerBindingManager.h"
 
 @interface MUXSDKPlayerBindingManager()
@@ -46,6 +47,7 @@
                MUXSDKCustomData *customData = [self.customerCustomDataStore customDataForPlayerName:name];
                [binding dispatchViewInit];
                [self dispatchDataEventForPlayerName:name playerData:playerData videoData:videoData viewData: viewData customData:customData videoChange:NO];
+               [binding viewDidInitialize];
                [binding dispatchPlayerReady];
                [self.playerReadyBindings addObject:name];
            }
@@ -90,6 +92,7 @@
         MUXSDKCustomerViewData *viewData = [self.customerViewDataStore viewDataForPlayerName:name];
         MUXSDKCustomData *customData = [self.customerCustomDataStore customDataForPlayerName:name];
         [self dispatchDataEventForPlayerName:name playerData:playerData videoData:videoData viewData: viewData customData:customData videoChange:YES];
+        [binding viewDidInitialize];
     }
 }
 

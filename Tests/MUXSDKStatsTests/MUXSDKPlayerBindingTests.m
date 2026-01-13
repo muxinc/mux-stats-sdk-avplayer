@@ -7,10 +7,13 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "MUXSDKPlayerBinding+ViewState.h"
 #import "MUXSDKPlayerBindingManager.h"
 #import "MUXSDKCustomerPlayerDataStore.h"
 #import "MUXSDKCustomerVideoDataStore.h"
 #import "Utils/MUXSDKCore+Mock.h"
+
+#define MUXSDKUniquePlayerName() [NSString stringWithFormat:@"Player for %s (%@)", __PRETTY_FUNCTION__, NSUUID.UUID.UUIDString]
 
 @interface MUXSDKPlayerBindingTests : XCTestCase
 
@@ -19,6 +22,7 @@
 @implementation MUXSDKPlayerBindingTests
 
 - (void) setUp {
+    self.continueAfterFailure = NO;
     [MUXSDKCore swizzleDispatchEvents];
     [MUXSDKCore resetCapturedEvents];
 }
@@ -31,15 +35,6 @@
 - (MUXSDKAVPlayerViewControllerBinding *) setupViewControllerPlayerBinding:(NSString *)name
                                                               softwareName:(NSString *)softwareName
                                                            softwareVersion:(NSString *)softwareVersion {
-    MUXSDKPlayerBindingManager *sut = [[MUXSDKPlayerBindingManager alloc] init];
-    MUXSDKCustomerPlayerDataStore *playerDataStore = [[MUXSDKCustomerPlayerDataStore alloc] init];
-    MUXSDKCustomerVideoDataStore *videoDataStore = [[MUXSDKCustomerVideoDataStore alloc] init];
-    NSMutableDictionary *vcs = [[NSMutableDictionary alloc] init];
-    
-    sut.customerPlayerDataStore = playerDataStore;
-    sut.customerVideoDataStore = videoDataStore;
-    sut.bindingsByPlayerName = vcs;
-
     NSURL *url = [[NSURL alloc] initWithString:@"https://foo.mp4"];
     AVPlayer *player = [AVPlayer playerWithURL:url];
     AVPlayerViewController *controller = [[AVPlayerViewController alloc] init];
@@ -47,21 +42,23 @@
     
     // Set up customer metadata
     MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"A KEY"];
+    customerPlayerData.playerSoftwareName = softwareName;
+    customerPlayerData.playerSoftwareVersion = softwareVersion;
     MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
     [customerVideoData setVideoTitle:@"01234"];
-    [playerDataStore setPlayerData:customerPlayerData forPlayerName:name];
-    [videoDataStore setVideoData:customerVideoData forPlayerName:name];
-    
+
+    MUXSDKCustomerData *customerData = [MUXSDKCustomerData new];
+    customerData.customerPlayerData = customerPlayerData;
+    customerData.customerVideoData = customerVideoData;
+
     // Create Player Binding
-    MUXSDKAVPlayerViewControllerBinding *binding = [[MUXSDKAVPlayerViewControllerBinding alloc] initWithPlayerName:name
-                                                                                                      softwareName:softwareName
-                                                                                                   softwareVersion:softwareVersion
-                                                                                              playerViewController:controller];
-
-    [vcs setObject:binding forKey:name];
-
-    [binding attachAVPlayer:player];
-    [sut newViewForPlayer:name];
+    __kindof MUXSDKPlayerBinding *binding = [MUXSDKStats monitorAVPlayerViewController:controller
+                                                                        withPlayerName:name
+                                                                          customerData:customerData
+                                                                automaticErrorTracking:YES
+                                                                beaconCollectionDomain:nil];
+    XCTAssert([binding isKindOfClass:MUXSDKAVPlayerViewControllerBinding.class]);
+    XCTAssertEqual(binding.state, MUXSDKPlayerStateReady);
     return binding;
 }
 
@@ -69,40 +66,41 @@
                                     softwareName:(NSString *)softwareName
                                  softwareVersion:(NSString *)softwareVersion
                                  fixedPlayerSize:(CGSize)fixedPlayerSize {
-    MUXSDKPlayerBindingManager *sut = [[MUXSDKPlayerBindingManager alloc] init];
-    MUXSDKCustomerPlayerDataStore *playerDataStore = [[MUXSDKCustomerPlayerDataStore alloc] init];
-    MUXSDKCustomerVideoDataStore *videoDataStore = [[MUXSDKCustomerVideoDataStore alloc] init];
-    NSMutableDictionary *vcs = [[NSMutableDictionary alloc] init];
-
-    sut.customerPlayerDataStore = playerDataStore;
-    sut.customerVideoDataStore = videoDataStore;
-    sut.bindingsByPlayerName = vcs;
-
     // Set up player
     NSURL *url = [[NSURL alloc] initWithString:@"https://foo.mp4"];
     AVPlayer *player = [AVPlayer playerWithURL:url];
 
     // Set up customer metadata
     MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"A KEY"];
+    customerPlayerData.playerSoftwareName = softwareName;
+    customerPlayerData.playerSoftwareVersion = softwareVersion;
     MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
     [customerVideoData setVideoTitle:@"01234"];
-    [playerDataStore setPlayerData:customerPlayerData forPlayerName:name];
-    [videoDataStore setVideoData:customerVideoData forPlayerName:name];
+
+    MUXSDKCustomerData *customerData = [MUXSDKCustomerData new];
+    customerData.customerPlayerData = customerPlayerData;
+    customerData.customerVideoData = customerVideoData;
 
     // Create Player Binding
-    MUXSDKFixedPlayerSizeBinding *binding = [[MUXSDKFixedPlayerSizeBinding alloc] initWithPlayerName:name
-                                                                          softwareName:softwareName
-                                                                       softwareVersion:softwareVersion
-                                                                       fixedPlayerSize:fixedPlayerSize];
-    [vcs setObject:binding forKey:name];
-
-    [binding attachAVPlayer:player];
-    [sut newViewForPlayer:name];
+    __kindof MUXSDKPlayerBinding *binding = [MUXSDKStats monitorAVPlayer:player
+                                                          withPlayerName:name
+                                                         fixedPlayerSize:fixedPlayerSize
+                                                            customerData:customerData
+                                                  automaticErrorTracking:YES
+                                                  beaconCollectionDomain:nil];
+    XCTAssert([binding isKindOfClass:MUXSDKFixedPlayerSizeBinding.class]);
+    XCTAssertEqual(binding.state, MUXSDKPlayerStateReady);
     return binding;
 }
 
+- (void)testPlayerBindingStateUnknownAtInitialization {
+    MUXSDKPlayerBinding *binding = [[MUXSDKPlayerBinding alloc] initWithName:MUXSDKUniquePlayerName()
+                                                                 andSoftware:@"TestSoftware"];
+    XCTAssertEqual(binding.state, MUXSDKPlayerStateUnknown);
+}
+
 - (void)testPlayerBindingManagerStartsNewViews {
-    NSString *name = @"Test";
+    NSString *name = MUXSDKUniquePlayerName();
     [self setupViewControllerPlayerBinding:name
                               softwareName:@"TestSoftware"
                            softwareVersion:@"0.1.0"];
@@ -118,12 +116,13 @@
 }
 
 - (void)testAVPlayerViewControllerBindingAutomaticErrorTrackingEnabled {
-    NSString *name = @"awesome-player";
+    NSString *name = MUXSDKUniquePlayerName();
     MUXSDKAVPlayerViewControllerBinding *binding = [self setupViewControllerPlayerBinding:name
                                                                              softwareName:@"TestSoftware"
                                                                           softwareVersion:@"0.1.0"];
 
     [binding dispatchError];
+    XCTAssertEqual(binding.state, MUXSDKPlayerStateError);
     XCTAssertEqual(5, [MUXSDKCore eventsCountForPlayer:name]);
     id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:4 forPlayer:name];
     XCTAssertEqual([event getType], MUXSDKPlaybackEventErrorEventType);
@@ -141,7 +140,7 @@
 }
 
 - (void)testAVPlayerViewControllerBindingErrorMetadata {
-    NSString *name = @"awesome-player";
+    NSString *name = MUXSDKUniquePlayerName();
     MUXSDKAVPlayerViewControllerBinding *binding = [self setupViewControllerPlayerBinding:name
                                                                              softwareName:@"TestSoftware"
                                                                           softwareVersion:@"0.1.0"];
@@ -168,7 +167,7 @@
 }
 
 - (void)testAVPlayerViewControllerBindingErrorSeverity {
-    NSString *name = @"awesome-player";
+    NSString *name = MUXSDKUniquePlayerName();
     MUXSDKAVPlayerViewControllerBinding *binding = [self setupViewControllerPlayerBinding:name
                                                                              softwareName:@"TestSoftware"
                                                                           softwareVersion:@"0.1.0"];
@@ -201,7 +200,7 @@
 }
 
 - (void)testAVPlayerViewControllerBindingErrorBusinessException {
-    NSString *name = @"awesome-player";
+    NSString *name = MUXSDKUniquePlayerName();
     MUXSDKAVPlayerViewControllerBinding *binding = [self setupViewControllerPlayerBinding:name
                                                                              softwareName:@"TestSoftware"
                                                                           softwareVersion:@"0.1.0"];
@@ -238,40 +237,41 @@
 }
 
 - (void)testAVPlayerViewControllerBindingAutomaticErrorTrackingDisabled {
-    NSString *name = @"awesome-player";
+    NSString *name = MUXSDKUniquePlayerName();
     MUXSDKAVPlayerViewControllerBinding *binding = [self setupViewControllerPlayerBinding:name
                                                                              softwareName:@"TestSoftware"
                                                                           softwareVersion:@"0.1.0"];
     [binding setAutomaticErrorTracking:false];
 
     [binding dispatchError];
+    XCTAssertNotEqual(binding.state, MUXSDKPlayerStateError);
     XCTAssertEqual(3, [MUXSDKCore eventsCountForPlayer:name]);
     id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:2 forPlayer:name];
     XCTAssertEqual([event getType], MUXSDKPlaybackEventPlayerReadyEventType);
 
     MUXSDKPlaybackEvent *playbackEvent = (MUXSDKPlaybackEvent *)event;
-    XCTAssertEqual(
+    XCTAssertEqualObjects(
                    playbackEvent.playerData.playerSoftwareName,
                    @"TestSoftware"
                    );
 
-    XCTAssertEqual(
+    XCTAssertEqualObjects(
                    playbackEvent.playerData.playerSoftwareVersion,
                    @"0.1.0"
                    );
 }
 
 - (void)testAVPlayerBindingAutomaticErrorTrackingEnabled {
-    NSString *name = @"awesome-player";
+    NSString *name = MUXSDKUniquePlayerName();
     MUXSDKFixedPlayerSizeBinding *binding = [self setupAVPlayerBinding:name
                                                    softwareName:@"TestSoftware"
                                                 softwareVersion:@"0.1.0"
                                                 fixedPlayerSize:CGSizeMake(100.0, 100.0)];
-
-    [binding dispatchViewInit];
-    [binding dispatchPlayerReady];
+    XCTAssertEqual(binding.state, MUXSDKPlayerStateReady);
     [binding dispatchPlay];
+    XCTAssertEqual(binding.state, MUXSDKPlayerStatePlay);
     [binding dispatchPlaying];
+    XCTAssertEqual(binding.state, MUXSDKPlayerStatePlaying);
 
     NSUInteger count = [MUXSDKCore eventsCountForPlayer:name];
 
@@ -292,36 +292,35 @@
                             0.01
                            );
 
-            XCTAssertEqual(
+            XCTAssertEqualObjects(
                            playbackEvent.playerData.playerSoftwareName,
                            @"TestSoftware"
                            );
 
-            XCTAssertEqual(
+            XCTAssertEqualObjects(
                            playbackEvent.playerData.playerSoftwareVersion,
                            @"0.1.0"
                            );
         }
-
     }
 
     id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:2 forPlayer:name];
     XCTAssertEqual([event getType], MUXSDKPlaybackEventPlayerReadyEventType);
-
 }
 
 - (void)testAVPlayerBindingAutomaticErrorTrackingDisabled {
-    NSString *name = @"awesome-player";
+    NSString *name = MUXSDKUniquePlayerName();
     MUXSDKFixedPlayerSizeBinding *binding = [self setupAVPlayerBinding:name
                                                    softwareName:@"TestSoftware"
                                                 softwareVersion:@"0.1.0"
                                                 fixedPlayerSize:CGSizeMake(100.0, 100.0)];
     [binding setAutomaticErrorTracking:false];
 
-    [binding dispatchViewInit];
-    [binding dispatchPlayerReady];
+    XCTAssertEqual(binding.state, MUXSDKPlayerStateReady);
     [binding dispatchPlay];
+    XCTAssertEqual(binding.state, MUXSDKPlayerStatePlay);
     [binding dispatchPlaying];
+    XCTAssertEqual(binding.state, MUXSDKPlayerStatePlaying);
 
     NSUInteger count = [MUXSDKCore eventsCountForPlayer:name];
 
@@ -342,18 +341,16 @@
                             0.01
                            );
 
-            XCTAssertEqual(
+            XCTAssertEqualObjects(
                            playbackEvent.playerData.playerSoftwareName,
                            @"TestSoftware"
                            );
 
-            XCTAssertEqual(
+            XCTAssertEqualObjects(
                            playbackEvent.playerData.playerSoftwareVersion,
                            @"0.1.0"
                            );
-
         }
-
     }
 
     id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:2 
