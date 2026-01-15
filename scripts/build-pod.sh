@@ -149,7 +149,8 @@ function lint_podspec {
 
     pushd "$pod_contents_path"
 
-    pod repo update
+    echo "--- Updating Cocoapods repos"
+    LC_ALL=en_US.UTF-8 pod repo update
 
     echo "--- Linting Podspec (default options)"
     LC_ALL=en_US.UTF-8 pod lib lint
