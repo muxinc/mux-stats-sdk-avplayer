@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 71;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -51,14 +51,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		7206D00B2F19B6E20048F641 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		7206D00B2F19B6E20048F641 /* Exceptions for "MUXSDKStatsExampleSPM" folder in "MUXSDKStatsExampleSPM" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
 			target = 19CB35CB2ABD2B5C002DF48C /* MUXSDKStatsExampleSPM */;
 		};
-		7206D0202F19B6EA0048F641 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		7206D0202F19B6EA0048F641 /* Exceptions for "MUXSDKStatsExampleSPMVisionOS" folder in "MUXSDKStatsExampleSPMVisionOS" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -68,13 +68,48 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		7206CFED2F19B6DE0048F641 /* Packages */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Packages; sourceTree = "<group>"; };
-		7206CFFD2F19B6E20048F641 /* MUXSDKStatsExampleSPM */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (7206D00B2F19B6E20048F641 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = MUXSDKStatsExampleSPM; sourceTree = "<group>"; };
-		7206D00D2F19B6E50048F641 /* MUXSDKStatsExampleSPMTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MUXSDKStatsExampleSPMTests; sourceTree = "<group>"; };
-		7206D0112F19B6E70048F641 /* MUXSDKStatsExampleSPMUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MUXSDKStatsExampleSPMUITests; sourceTree = "<group>"; };
-		7206D01A2F19B6EA0048F641 /* MUXSDKStatsExampleSPMVisionOS */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (7206D0202F19B6EA0048F641 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = MUXSDKStatsExampleSPMVisionOS; sourceTree = "<group>"; };
-		7206D0222F19B6EC0048F641 /* MUXSDKStatsExampleSPMVisionOSTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MUXSDKStatsExampleSPMVisionOSTests; sourceTree = "<group>"; };
-		722CF7FD2D83AE040005B60D /* Configuration */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); name = Configuration; path = ../../Configuration; sourceTree = SOURCE_ROOT; };
+		7206CFED2F19B6DE0048F641 /* Packages */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Packages;
+			sourceTree = "<group>";
+		};
+		7206CFFD2F19B6E20048F641 /* MUXSDKStatsExampleSPM */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				7206D00B2F19B6E20048F641 /* Exceptions for "MUXSDKStatsExampleSPM" folder in "MUXSDKStatsExampleSPM" target */,
+			);
+			path = MUXSDKStatsExampleSPM;
+			sourceTree = "<group>";
+		};
+		7206D00D2F19B6E50048F641 /* MUXSDKStatsExampleSPMTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MUXSDKStatsExampleSPMTests;
+			sourceTree = "<group>";
+		};
+		7206D0112F19B6E70048F641 /* MUXSDKStatsExampleSPMUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MUXSDKStatsExampleSPMUITests;
+			sourceTree = "<group>";
+		};
+		7206D01A2F19B6EA0048F641 /* MUXSDKStatsExampleSPMVisionOS */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				7206D0202F19B6EA0048F641 /* Exceptions for "MUXSDKStatsExampleSPMVisionOS" folder in "MUXSDKStatsExampleSPMVisionOS" target */,
+			);
+			path = MUXSDKStatsExampleSPMVisionOS;
+			sourceTree = "<group>";
+		};
+		7206D0222F19B6EC0048F641 /* MUXSDKStatsExampleSPMVisionOSTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MUXSDKStatsExampleSPMVisionOSTests;
+			sourceTree = "<group>";
+		};
+		722CF7FD2D83AE040005B60D /* Configuration */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			name = Configuration;
+			path = ../../Configuration;
+			sourceTree = SOURCE_ROOT;
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -300,7 +335,6 @@
 				};
 			};
 			buildConfigurationList = 19CB35C72ABD2B5C002DF48C /* Build configuration list for PBXProject "MUXSDKStatsExampleSPM" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -311,6 +345,7 @@
 			packageReferences = (
 				195800EC2B51C3F5008BE2EB /* XCLocalSwiftPackageReference "../.." */,
 			);
+			preferredProjectObjectVersion = 77;
 			productRefGroup = 19CB35CD2ABD2B5C002DF48C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
