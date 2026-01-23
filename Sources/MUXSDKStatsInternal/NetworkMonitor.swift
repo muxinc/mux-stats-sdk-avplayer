@@ -94,4 +94,8 @@ extension MUXSDKNetworkChangeEvent {
             triggerNetworkChangeEventIsolated()
         }
     }
+
+    deinit {
+        pathMonitor.cancel()
+    }
 }
