@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/muxinc/stats-sdk-objc.git",
       "state" : {
-        "revision" : "26eeeffe92cc6468588de4051eab0b4ae5a26cd1",
-        "version" : "5.8.0"
+        "revision" : "e4ee85c6170fde1bc217e5842f535d2df756117e",
+        "version" : "5.8.1"
       }
     }
   ],
