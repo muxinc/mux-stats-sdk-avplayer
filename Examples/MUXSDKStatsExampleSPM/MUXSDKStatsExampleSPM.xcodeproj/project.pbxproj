@@ -7,24 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1958000A2B4F6BA3008BE2EB /* MuxCore in Frameworks */ = {isa = PBXBuildFile; productRef = 195800092B4F6BA3008BE2EB /* MuxCore */; };
-		195800132B4F6DB8008BE2EB /* MuxCore in Frameworks */ = {isa = PBXBuildFile; productRef = 195800122B4F6DB8008BE2EB /* MuxCore */; };
-		195800162B4F77E6008BE2EB /* MuxCore in Frameworks */ = {isa = PBXBuildFile; productRef = 195800152B4F77E6008BE2EB /* MuxCore */; };
-		195800DA2B4FA9D3008BE2EB /* MuxCore in Frameworks */ = {isa = PBXBuildFile; productRef = 195800D92B4FA9D3008BE2EB /* MuxCore */; };
-		195800EB2B51BE17008BE2EB /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 195800EA2B51BE17008BE2EB /* MUXSDKStats */; };
-		195800EE2B51C3F5008BE2EB /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 195800ED2B51C3F5008BE2EB /* MUXSDKStats */; };
-		19B805822B4F6875003DA705 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = 19B805812B4F6875003DA705 /* RealityKitContent */; };
 		19CB36012ABD2B88002DF48C /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 19CB36002ABD2B88002DF48C /* MUXSDKStats */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		19B805922B4F6877003DA705 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 19CB35C42ABD2B5C002DF48C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 19B8057D2B4F6875003DA705;
-			remoteInfo = MUXSDKStatsExampleSPMVisionOS;
-		};
 		19CB35E32ABD2B5D002DF48C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 19CB35C42ABD2B5C002DF48C /* Project object */;
@@ -43,8 +29,6 @@
 
 /* Begin PBXFileReference section */
 		19ABBEA92B650DB2004A3634 /* MUXSDKStatsExampleSPM.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = MUXSDKStatsExampleSPM.xctestplan; sourceTree = "<group>"; };
-		19B8057E2B4F6875003DA705 /* MUXSDKStatsExampleSPMVisionOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MUXSDKStatsExampleSPMVisionOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		19B805912B4F6877003DA705 /* MUXSDKStatsExampleSPMVisionOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MUXSDKStatsExampleSPMVisionOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		19CB35CC2ABD2B5C002DF48C /* MUXSDKStatsExampleSPM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MUXSDKStatsExampleSPM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		19CB35E22ABD2B5D002DF48C /* MUXSDKStatsExampleSPMTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MUXSDKStatsExampleSPMTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		19CB35EC2ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MUXSDKStatsExampleSPMUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,21 +42,9 @@
 			);
 			target = 19CB35CB2ABD2B5C002DF48C /* MUXSDKStatsExampleSPM */;
 		};
-		7206D0202F19B6EA0048F641 /* Exceptions for "MUXSDKStatsExampleSPMVisionOS" folder in "MUXSDKStatsExampleSPMVisionOS" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 19B8057D2B4F6875003DA705 /* MUXSDKStatsExampleSPMVisionOS */;
-		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		7206CFED2F19B6DE0048F641 /* Packages */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Packages;
-			sourceTree = "<group>";
-		};
 		7206CFFD2F19B6E20048F641 /* MUXSDKStatsExampleSPM */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -91,19 +63,6 @@
 			path = MUXSDKStatsExampleSPMUITests;
 			sourceTree = "<group>";
 		};
-		7206D01A2F19B6EA0048F641 /* MUXSDKStatsExampleSPMVisionOS */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				7206D0202F19B6EA0048F641 /* Exceptions for "MUXSDKStatsExampleSPMVisionOS" folder in "MUXSDKStatsExampleSPMVisionOS" target */,
-			);
-			path = MUXSDKStatsExampleSPMVisionOS;
-			sourceTree = "<group>";
-		};
-		7206D0222F19B6EC0048F641 /* MUXSDKStatsExampleSPMVisionOSTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = MUXSDKStatsExampleSPMVisionOSTests;
-			sourceTree = "<group>";
-		};
 		722CF7FD2D83AE040005B60D /* Configuration */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			name = Configuration;
@@ -113,27 +72,6 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		19B8057B2B4F6875003DA705 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				195800EB2B51BE17008BE2EB /* MUXSDKStats in Frameworks */,
-				195800132B4F6DB8008BE2EB /* MuxCore in Frameworks */,
-				1958000A2B4F6BA3008BE2EB /* MuxCore in Frameworks */,
-				195800162B4F77E6008BE2EB /* MuxCore in Frameworks */,
-				195800EE2B51C3F5008BE2EB /* MUXSDKStats in Frameworks */,
-				19B805822B4F6875003DA705 /* RealityKitContent in Frameworks */,
-				195800DA2B4FA9D3008BE2EB /* MuxCore in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		19B8058E2B4F6877003DA705 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		19CB35C92ABD2B5C002DF48C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -164,12 +102,9 @@
 			children = (
 				722CF7FD2D83AE040005B60D /* Configuration */,
 				19ABBEA92B650DB2004A3634 /* MUXSDKStatsExampleSPM.xctestplan */,
-				7206CFED2F19B6DE0048F641 /* Packages */,
 				7206CFFD2F19B6E20048F641 /* MUXSDKStatsExampleSPM */,
 				7206D00D2F19B6E50048F641 /* MUXSDKStatsExampleSPMTests */,
 				7206D0112F19B6E70048F641 /* MUXSDKStatsExampleSPMUITests */,
-				7206D01A2F19B6EA0048F641 /* MUXSDKStatsExampleSPMVisionOS */,
-				7206D0222F19B6EC0048F641 /* MUXSDKStatsExampleSPMVisionOSTests */,
 				19CB35CD2ABD2B5C002DF48C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -180,8 +115,6 @@
 				19CB35CC2ABD2B5C002DF48C /* MUXSDKStatsExampleSPM.app */,
 				19CB35E22ABD2B5D002DF48C /* MUXSDKStatsExampleSPMTests.xctest */,
 				19CB35EC2ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITests.xctest */,
-				19B8057E2B4F6875003DA705 /* MUXSDKStatsExampleSPMVisionOS.app */,
-				19B805912B4F6877003DA705 /* MUXSDKStatsExampleSPMVisionOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -189,56 +122,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		19B8057D2B4F6875003DA705 /* MUXSDKStatsExampleSPMVisionOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 19B8059B2B4F6877003DA705 /* Build configuration list for PBXNativeTarget "MUXSDKStatsExampleSPMVisionOS" */;
-			buildPhases = (
-				19B8057A2B4F6875003DA705 /* Sources */,
-				19B8057B2B4F6875003DA705 /* Frameworks */,
-				19B8057C2B4F6875003DA705 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				7206D01A2F19B6EA0048F641 /* MUXSDKStatsExampleSPMVisionOS */,
-			);
-			name = MUXSDKStatsExampleSPMVisionOS;
-			packageProductDependencies = (
-				19B805812B4F6875003DA705 /* RealityKitContent */,
-				195800092B4F6BA3008BE2EB /* MuxCore */,
-				195800122B4F6DB8008BE2EB /* MuxCore */,
-				195800152B4F77E6008BE2EB /* MuxCore */,
-				195800D92B4FA9D3008BE2EB /* MuxCore */,
-				195800EA2B51BE17008BE2EB /* MUXSDKStats */,
-				195800ED2B51C3F5008BE2EB /* MUXSDKStats */,
-			);
-			productName = MUXSDKStatsExampleSPMVisionOS;
-			productReference = 19B8057E2B4F6875003DA705 /* MUXSDKStatsExampleSPMVisionOS.app */;
-			productType = "com.apple.product-type.application";
-		};
-		19B805902B4F6877003DA705 /* MUXSDKStatsExampleSPMVisionOSTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 19B8059C2B4F6877003DA705 /* Build configuration list for PBXNativeTarget "MUXSDKStatsExampleSPMVisionOSTests" */;
-			buildPhases = (
-				19B8058D2B4F6877003DA705 /* Sources */,
-				19B8058E2B4F6877003DA705 /* Frameworks */,
-				19B8058F2B4F6877003DA705 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				19B805932B4F6877003DA705 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				7206D0222F19B6EC0048F641 /* MUXSDKStatsExampleSPMVisionOSTests */,
-			);
-			name = MUXSDKStatsExampleSPMVisionOSTests;
-			productName = MUXSDKStatsExampleSPMVisionOSTests;
-			productReference = 19B805912B4F6877003DA705 /* MUXSDKStatsExampleSPMVisionOSTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		19CB35CB2ABD2B5C002DF48C /* MUXSDKStatsExampleSPM */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 19CB35F62ABD2B5D002DF48C /* Build configuration list for PBXNativeTarget "MUXSDKStatsExampleSPM" */;
@@ -314,13 +197,6 @@
 				LastSwiftUpdateCheck = 1520;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
-					19B8057D2B4F6875003DA705 = {
-						CreatedOnToolsVersion = 15.2;
-					};
-					19B805902B4F6877003DA705 = {
-						CreatedOnToolsVersion = 15.2;
-						TestTargetID = 19B8057D2B4F6875003DA705;
-					};
 					19CB35CB2ABD2B5C002DF48C = {
 						CreatedOnToolsVersion = 15.0;
 					};
@@ -353,27 +229,11 @@
 				19CB35CB2ABD2B5C002DF48C /* MUXSDKStatsExampleSPM */,
 				19CB35E12ABD2B5D002DF48C /* MUXSDKStatsExampleSPMTests */,
 				19CB35EB2ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITests */,
-				19B8057D2B4F6875003DA705 /* MUXSDKStatsExampleSPMVisionOS */,
-				19B805902B4F6877003DA705 /* MUXSDKStatsExampleSPMVisionOSTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		19B8057C2B4F6875003DA705 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		19B8058F2B4F6877003DA705 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		19CB35CA2ABD2B5C002DF48C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -398,20 +258,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		19B8057A2B4F6875003DA705 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		19B8058D2B4F6877003DA705 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		19CB35C82ABD2B5C002DF48C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -436,11 +282,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		19B805932B4F6877003DA705 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 19B8057D2B4F6875003DA705 /* MUXSDKStatsExampleSPMVisionOS */;
-			targetProxy = 19B805922B4F6877003DA705 /* PBXContainerItemProxy */;
-		};
 		19CB35E42ABD2B5D002DF48C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 19CB35CB2ABD2B5C002DF48C /* MUXSDKStatsExampleSPM */;
@@ -454,100 +295,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		19B805972B4F6877003DA705 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"MUXSDKStatsExampleSPMVisionOS/Preview Content\"";
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.data.-MUXSDKStatsExampleSPMVisionOS.MUXSDKStatsExampleSPMVisionOS${BUNDLE_ID_DISAMBIGUATOR}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = xros;
-				SUPPORTED_PLATFORMS = "xros xrsimulator";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				XROS_DEPLOYMENT_TARGET = 1.0;
-			};
-			name = Debug;
-		};
-		19B805982B4F6877003DA705 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"MUXSDKStatsExampleSPMVisionOS/Preview Content\"";
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.data.-MUXSDKStatsExampleSPMVisionOS.MUXSDKStatsExampleSPMVisionOS${BUNDLE_ID_DISAMBIGUATOR}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = xros;
-				SUPPORTED_PLATFORMS = "xros xrsimulator";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				XROS_DEPLOYMENT_TARGET = 1.0;
-			};
-			name = Release;
-		};
-		19B805992B4F6877003DA705 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.data.-MUXSDKStatsExampleSPMVisionOS.MUXSDKStatsExampleSPMVisionOSTests${BUNDLE_ID_DISAMBIGUATOR}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = xros;
-				SUPPORTED_PLATFORMS = "xros xrsimulator";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MUXSDKStatsExampleSPMVisionOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MUXSDKStatsExampleSPMVisionOS";
-				XROS_DEPLOYMENT_TARGET = 1.0;
-			};
-			name = Debug;
-		};
-		19B8059A2B4F6877003DA705 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.data.-MUXSDKStatsExampleSPMVisionOS.MUXSDKStatsExampleSPMVisionOSTests${BUNDLE_ID_DISAMBIGUATOR}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = xros;
-				SUPPORTED_PLATFORMS = "xros xrsimulator";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MUXSDKStatsExampleSPMVisionOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MUXSDKStatsExampleSPMVisionOS";
-				XROS_DEPLOYMENT_TARGET = 1.0;
-			};
-			name = Release;
-		};
 		19CB35F42ABD2B5D002DF48C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 722CF7FD2D83AE040005B60D /* Configuration */;
@@ -802,24 +549,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		19B8059B2B4F6877003DA705 /* Build configuration list for PBXNativeTarget "MUXSDKStatsExampleSPMVisionOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				19B805972B4F6877003DA705 /* Debug */,
-				19B805982B4F6877003DA705 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		19B8059C2B4F6877003DA705 /* Build configuration list for PBXNativeTarget "MUXSDKStatsExampleSPMVisionOSTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				19B805992B4F6877003DA705 /* Debug */,
-				19B8059A2B4F6877003DA705 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		19CB35C72ABD2B5C002DF48C /* Build configuration list for PBXProject "MUXSDKStatsExampleSPM" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -866,34 +595,6 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		195800092B4F6BA3008BE2EB /* MuxCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MuxCore;
-		};
-		195800122B4F6DB8008BE2EB /* MuxCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MuxCore;
-		};
-		195800152B4F77E6008BE2EB /* MuxCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MuxCore;
-		};
-		195800D92B4FA9D3008BE2EB /* MuxCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MuxCore;
-		};
-		195800EA2B51BE17008BE2EB /* MUXSDKStats */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MUXSDKStats;
-		};
-		195800ED2B51C3F5008BE2EB /* MUXSDKStats */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MUXSDKStats;
-		};
-		19B805812B4F6875003DA705 /* RealityKitContent */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = RealityKitContent;
-		};
 		19CB36002ABD2B88002DF48C /* MUXSDKStats */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MUXSDKStats;
