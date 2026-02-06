@@ -37,20 +37,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		7206D0622F19B72E0048F641 /* Exceptions for "Mocks" folder in "IntegrationTestHost" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"MUXSDKCore+Mock.m",
-			);
-			target = 7225C9C42D77C2980003066B /* IntegrationTestHost */;
-		};
-		7206D0632F19B72E0048F641 /* Exceptions for "Mocks" folder in "IntegrationTests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				MockAVPlayerViewControllerBinding.m,
-			);
-			target = 7225C9D52D77C2980003066B /* IntegrationTests */;
-		};
 		729027032DB967B700E08127 /* Exceptions for "ObjCTarget" folder in "ObjCTarget" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			publicHeaders = (
@@ -63,10 +49,6 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		7206D05F2F19B72E0048F641 /* Mocks */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				7206D0622F19B72E0048F641 /* Exceptions for "Mocks" folder in "IntegrationTestHost" target */,
-				7206D0632F19B72E0048F641 /* Exceptions for "Mocks" folder in "IntegrationTests" target */,
-			);
 			path = Mocks;
 			sourceTree = "<group>";
 		};
@@ -218,6 +200,7 @@
 				7225C9D82D77C2980003066B /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
+				7206D05F2F19B72E0048F641 /* Mocks */,
 				7225C9D92D77C2980003066B /* IntegrationTests */,
 			);
 			name = IntegrationTests;
