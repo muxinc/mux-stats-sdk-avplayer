@@ -27,7 +27,7 @@ if [ "${CI:-}" ]; then
     (cd Configuration && ln -sF CodeSigning.mux.xcconfig CodeSigning.local.xcconfig)
 fi
 
-function test_for {
+function build_for {
     local platform="$1"
     local destination_name="${2:-}"
 
@@ -57,8 +57,8 @@ function test_for {
     if [ "$xcodebuild_build_exit_code" -ne 0 ]; then
         echo "^^^ +++"
         echo "xcodebuild exited with code $xcodebuild_build_exit_code"
-        EXIT_CODE=1
-        return
+        # Do not continue when builds fail
+        exit 1
     fi
 }
 
@@ -71,7 +71,7 @@ function run_ci_tests {
 
 # Execute:
 
-test_for 'iOS'
+build_for 'iOS'
 
 run_ci_tests
 
