@@ -73,8 +73,9 @@ function test_for {
     if [ "$xcodebuild_build_exit_code" -ne 0 ]; then
         echo "^^^ +++"
         echo "xcodebuild exited with code $xcodebuild_build_exit_code"
-        EXIT_CODE=1
-        return
+        # Do not continue when builds fail
+        merge_and_export_result_bundles
+        exit 1
     fi
 
     if [ -z "$destination_name" ]; then
