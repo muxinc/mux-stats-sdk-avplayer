@@ -3,48 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 71;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		195762142AD64B2800128565 /* AudioOnlyPlaybackExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195762132AD64B2800128565 /* AudioOnlyPlaybackExampleViewController.swift */; };
-		1958000A2B4F6BA3008BE2EB /* MuxCore in Frameworks */ = {isa = PBXBuildFile; productRef = 195800092B4F6BA3008BE2EB /* MuxCore */; };
-		195800132B4F6DB8008BE2EB /* MuxCore in Frameworks */ = {isa = PBXBuildFile; productRef = 195800122B4F6DB8008BE2EB /* MuxCore */; };
-		195800162B4F77E6008BE2EB /* MuxCore in Frameworks */ = {isa = PBXBuildFile; productRef = 195800152B4F77E6008BE2EB /* MuxCore */; };
-		195800DA2B4FA9D3008BE2EB /* MuxCore in Frameworks */ = {isa = PBXBuildFile; productRef = 195800D92B4FA9D3008BE2EB /* MuxCore */; };
-		195800EB2B51BE17008BE2EB /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 195800EA2B51BE17008BE2EB /* MUXSDKStats */; };
-		195800EE2B51C3F5008BE2EB /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 195800ED2B51C3F5008BE2EB /* MUXSDKStats */; };
-		19B805822B4F6875003DA705 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = 19B805812B4F6875003DA705 /* RealityKitContent */; };
-		19B805842B4F6875003DA705 /* MUXSDKStatsExampleSPMVisionOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B805832B4F6875003DA705 /* MUXSDKStatsExampleSPMVisionOSApp.swift */; };
-		19B805862B4F6875003DA705 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B805852B4F6875003DA705 /* ContentView.swift */; };
-		19B805882B4F6877003DA705 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 19B805872B4F6877003DA705 /* Assets.xcassets */; };
-		19B8058B2B4F6877003DA705 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 19B8058A2B4F6877003DA705 /* Preview Assets.xcassets */; };
-		19B805962B4F6877003DA705 /* MUXSDKStatsExampleSPMVisionOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B805952B4F6877003DA705 /* MUXSDKStatsExampleSPMVisionOSTests.swift */; };
-		19C386A82AD12344009AB018 /* MultiplePlayerItemPlaybackExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C386A72AD12343009AB018 /* MultiplePlayerItemPlaybackExampleViewController.swift */; };
-		19C386AA2AD3194F009AB018 /* PlayerLayerScalingExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C386A92AD3194F009AB018 /* PlayerLayerScalingExampleViewController.swift */; };
-		19CB35D02ABD2B5C002DF48C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB35CF2ABD2B5C002DF48C /* AppDelegate.swift */; };
-		19CB35D22ABD2B5C002DF48C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB35D12ABD2B5C002DF48C /* SceneDelegate.swift */; };
-		19CB35D42ABD2B5C002DF48C /* BasicPlaybackExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB35D32ABD2B5C002DF48C /* BasicPlaybackExampleViewController.swift */; };
-		19CB35D72ABD2B5C002DF48C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19CB35D52ABD2B5C002DF48C /* Main.storyboard */; };
-		19CB35D92ABD2B5D002DF48C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 19CB35D82ABD2B5D002DF48C /* Assets.xcassets */; };
-		19CB35DC2ABD2B5D002DF48C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 19CB35DA2ABD2B5D002DF48C /* LaunchScreen.storyboard */; };
-		19CB35E72ABD2B5D002DF48C /* MUXSDKStatsExampleSPMTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB35E62ABD2B5D002DF48C /* MUXSDKStatsExampleSPMTests.swift */; };
-		19CB35F12ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB35F02ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITests.swift */; };
-		19CB35F32ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB35F22ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITestsLaunchTests.swift */; };
 		19CB36012ABD2B88002DF48C /* MUXSDKStats in Frameworks */ = {isa = PBXBuildFile; productRef = 19CB36002ABD2B88002DF48C /* MUXSDKStats */; };
-		19CB36032ABD2D39002DF48C /* PlayerLayerExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB36022ABD2D39002DF48C /* PlayerLayerExampleViewController.swift */; };
-		19CB36052ABD2D63002DF48C /* ProcessInfo+Mux.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CB36042ABD2D63002DF48C /* ProcessInfo+Mux.swift */; };
-		19D409122C1BD57D00C8163C /* ErrorCategorizationExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D409112C1BD57D00C8163C /* ErrorCategorizationExampleViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		19B805922B4F6877003DA705 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 19CB35C42ABD2B5C002DF48C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 19B8057D2B4F6875003DA705;
-			remoteInfo = MUXSDKStatsExampleSPMVisionOS;
-		};
 		19CB35E32ABD2B5D002DF48C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 19CB35C42ABD2B5C002DF48C /* Project object */;
@@ -62,64 +28,50 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		194C6D432ABD518A003F965E /* mux-stats-sdk-avplayer */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "mux-stats-sdk-avplayer"; path = ../..; sourceTree = "<group>"; };
-		195762132AD64B2800128565 /* AudioOnlyPlaybackExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioOnlyPlaybackExampleViewController.swift; sourceTree = "<group>"; };
 		19ABBEA92B650DB2004A3634 /* MUXSDKStatsExampleSPM.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = MUXSDKStatsExampleSPM.xctestplan; sourceTree = "<group>"; };
-		19B8057E2B4F6875003DA705 /* MUXSDKStatsExampleSPMVisionOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MUXSDKStatsExampleSPMVisionOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		19B805802B4F6875003DA705 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = RealityKitContent; path = Packages/RealityKitContent; sourceTree = "<group>"; };
-		19B805832B4F6875003DA705 /* MUXSDKStatsExampleSPMVisionOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUXSDKStatsExampleSPMVisionOSApp.swift; sourceTree = "<group>"; };
-		19B805852B4F6875003DA705 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		19B805872B4F6877003DA705 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		19B8058A2B4F6877003DA705 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		19B8058C2B4F6877003DA705 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		19B805912B4F6877003DA705 /* MUXSDKStatsExampleSPMVisionOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MUXSDKStatsExampleSPMVisionOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		19B805952B4F6877003DA705 /* MUXSDKStatsExampleSPMVisionOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUXSDKStatsExampleSPMVisionOSTests.swift; sourceTree = "<group>"; };
-		19C386A72AD12343009AB018 /* MultiplePlayerItemPlaybackExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplePlayerItemPlaybackExampleViewController.swift; sourceTree = "<group>"; };
-		19C386A92AD3194F009AB018 /* PlayerLayerScalingExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerLayerScalingExampleViewController.swift; sourceTree = "<group>"; };
 		19CB35CC2ABD2B5C002DF48C /* MUXSDKStatsExampleSPM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MUXSDKStatsExampleSPM.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		19CB35CF2ABD2B5C002DF48C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		19CB35D12ABD2B5C002DF48C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		19CB35D32ABD2B5C002DF48C /* BasicPlaybackExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicPlaybackExampleViewController.swift; sourceTree = "<group>"; };
-		19CB35D62ABD2B5C002DF48C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		19CB35D82ABD2B5D002DF48C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		19CB35DB2ABD2B5D002DF48C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		19CB35DD2ABD2B5D002DF48C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		19CB35E22ABD2B5D002DF48C /* MUXSDKStatsExampleSPMTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MUXSDKStatsExampleSPMTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		19CB35E62ABD2B5D002DF48C /* MUXSDKStatsExampleSPMTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUXSDKStatsExampleSPMTests.swift; sourceTree = "<group>"; };
 		19CB35EC2ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MUXSDKStatsExampleSPMUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		19CB35F02ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUXSDKStatsExampleSPMUITests.swift; sourceTree = "<group>"; };
-		19CB35F22ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUXSDKStatsExampleSPMUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		19CB36022ABD2D39002DF48C /* PlayerLayerExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerLayerExampleViewController.swift; sourceTree = "<group>"; };
-		19CB36042ABD2D63002DF48C /* ProcessInfo+Mux.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProcessInfo+Mux.swift"; sourceTree = "<group>"; };
-		19D409112C1BD57D00C8163C /* ErrorCategorizationExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorCategorizationExampleViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		7206D00B2F19B6E20048F641 /* Exceptions for "MUXSDKStatsExampleSPM" folder in "MUXSDKStatsExampleSPM" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 19CB35CB2ABD2B5C002DF48C /* MUXSDKStatsExampleSPM */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		722CF7FD2D83AE040005B60D /* Configuration */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); name = Configuration; path = ../../Configuration; sourceTree = SOURCE_ROOT; };
+		7206CFFD2F19B6E20048F641 /* MUXSDKStatsExampleSPM */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				7206D00B2F19B6E20048F641 /* Exceptions for "MUXSDKStatsExampleSPM" folder in "MUXSDKStatsExampleSPM" target */,
+			);
+			path = MUXSDKStatsExampleSPM;
+			sourceTree = "<group>";
+		};
+		7206D00D2F19B6E50048F641 /* MUXSDKStatsExampleSPMTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MUXSDKStatsExampleSPMTests;
+			sourceTree = "<group>";
+		};
+		7206D0112F19B6E70048F641 /* MUXSDKStatsExampleSPMUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MUXSDKStatsExampleSPMUITests;
+			sourceTree = "<group>";
+		};
+		722CF7FD2D83AE040005B60D /* Configuration */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			name = Configuration;
+			path = ../../Configuration;
+			sourceTree = SOURCE_ROOT;
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		19B8057B2B4F6875003DA705 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				195800EB2B51BE17008BE2EB /* MUXSDKStats in Frameworks */,
-				195800132B4F6DB8008BE2EB /* MuxCore in Frameworks */,
-				1958000A2B4F6BA3008BE2EB /* MuxCore in Frameworks */,
-				195800162B4F77E6008BE2EB /* MuxCore in Frameworks */,
-				195800EE2B51C3F5008BE2EB /* MUXSDKStats in Frameworks */,
-				19B805822B4F6875003DA705 /* RealityKitContent in Frameworks */,
-				195800DA2B4FA9D3008BE2EB /* MuxCore in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		19B8058E2B4F6877003DA705 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		19CB35C92ABD2B5C002DF48C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -145,54 +97,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		194C6D422ABD518A003F965E /* Packages */ = {
-			isa = PBXGroup;
-			children = (
-				194C6D432ABD518A003F965E /* mux-stats-sdk-avplayer */,
-				19B805802B4F6875003DA705 /* RealityKitContent */,
-			);
-			name = Packages;
-			sourceTree = "<group>";
-		};
-		19B8057F2B4F6875003DA705 /* MUXSDKStatsExampleSPMVisionOS */ = {
-			isa = PBXGroup;
-			children = (
-				19B805832B4F6875003DA705 /* MUXSDKStatsExampleSPMVisionOSApp.swift */,
-				19B805852B4F6875003DA705 /* ContentView.swift */,
-				19B805872B4F6877003DA705 /* Assets.xcassets */,
-				19B8058C2B4F6877003DA705 /* Info.plist */,
-				19B805892B4F6877003DA705 /* Preview Content */,
-			);
-			path = MUXSDKStatsExampleSPMVisionOS;
-			sourceTree = "<group>";
-		};
-		19B805892B4F6877003DA705 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				19B8058A2B4F6877003DA705 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		19B805942B4F6877003DA705 /* MUXSDKStatsExampleSPMVisionOSTests */ = {
-			isa = PBXGroup;
-			children = (
-				19B805952B4F6877003DA705 /* MUXSDKStatsExampleSPMVisionOSTests.swift */,
-			);
-			path = MUXSDKStatsExampleSPMVisionOSTests;
-			sourceTree = "<group>";
-		};
 		19CB35C32ABD2B5C002DF48C = {
 			isa = PBXGroup;
 			children = (
 				722CF7FD2D83AE040005B60D /* Configuration */,
 				19ABBEA92B650DB2004A3634 /* MUXSDKStatsExampleSPM.xctestplan */,
-				194C6D422ABD518A003F965E /* Packages */,
-				19CB35CE2ABD2B5C002DF48C /* MUXSDKStatsExampleSPM */,
-				19CB35E52ABD2B5D002DF48C /* MUXSDKStatsExampleSPMTests */,
-				19CB35EF2ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITests */,
-				19B8057F2B4F6875003DA705 /* MUXSDKStatsExampleSPMVisionOS */,
-				19B805942B4F6877003DA705 /* MUXSDKStatsExampleSPMVisionOSTests */,
+				7206CFFD2F19B6E20048F641 /* MUXSDKStatsExampleSPM */,
+				7206D00D2F19B6E50048F641 /* MUXSDKStatsExampleSPMTests */,
+				7206D0112F19B6E70048F641 /* MUXSDKStatsExampleSPMUITests */,
 				19CB35CD2ABD2B5C002DF48C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -203,96 +115,13 @@
 				19CB35CC2ABD2B5C002DF48C /* MUXSDKStatsExampleSPM.app */,
 				19CB35E22ABD2B5D002DF48C /* MUXSDKStatsExampleSPMTests.xctest */,
 				19CB35EC2ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITests.xctest */,
-				19B8057E2B4F6875003DA705 /* MUXSDKStatsExampleSPMVisionOS.app */,
-				19B805912B4F6877003DA705 /* MUXSDKStatsExampleSPMVisionOSTests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		19CB35CE2ABD2B5C002DF48C /* MUXSDKStatsExampleSPM */ = {
-			isa = PBXGroup;
-			children = (
-				19CB35CF2ABD2B5C002DF48C /* AppDelegate.swift */,
-				19CB35D12ABD2B5C002DF48C /* SceneDelegate.swift */,
-				19CB35D32ABD2B5C002DF48C /* BasicPlaybackExampleViewController.swift */,
-				19CB36022ABD2D39002DF48C /* PlayerLayerExampleViewController.swift */,
-				19C386A72AD12343009AB018 /* MultiplePlayerItemPlaybackExampleViewController.swift */,
-				19C386A92AD3194F009AB018 /* PlayerLayerScalingExampleViewController.swift */,
-				195762132AD64B2800128565 /* AudioOnlyPlaybackExampleViewController.swift */,
-				19D409112C1BD57D00C8163C /* ErrorCategorizationExampleViewController.swift */,
-				19CB36042ABD2D63002DF48C /* ProcessInfo+Mux.swift */,
-				19CB35D52ABD2B5C002DF48C /* Main.storyboard */,
-				19CB35D82ABD2B5D002DF48C /* Assets.xcassets */,
-				19CB35DA2ABD2B5D002DF48C /* LaunchScreen.storyboard */,
-				19CB35DD2ABD2B5D002DF48C /* Info.plist */,
-			);
-			path = MUXSDKStatsExampleSPM;
-			sourceTree = "<group>";
-		};
-		19CB35E52ABD2B5D002DF48C /* MUXSDKStatsExampleSPMTests */ = {
-			isa = PBXGroup;
-			children = (
-				19CB35E62ABD2B5D002DF48C /* MUXSDKStatsExampleSPMTests.swift */,
-			);
-			path = MUXSDKStatsExampleSPMTests;
-			sourceTree = "<group>";
-		};
-		19CB35EF2ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITests */ = {
-			isa = PBXGroup;
-			children = (
-				19CB35F02ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITests.swift */,
-				19CB35F22ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITestsLaunchTests.swift */,
-			);
-			path = MUXSDKStatsExampleSPMUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		19B8057D2B4F6875003DA705 /* MUXSDKStatsExampleSPMVisionOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 19B8059B2B4F6877003DA705 /* Build configuration list for PBXNativeTarget "MUXSDKStatsExampleSPMVisionOS" */;
-			buildPhases = (
-				19B8057A2B4F6875003DA705 /* Sources */,
-				19B8057B2B4F6875003DA705 /* Frameworks */,
-				19B8057C2B4F6875003DA705 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = MUXSDKStatsExampleSPMVisionOS;
-			packageProductDependencies = (
-				19B805812B4F6875003DA705 /* RealityKitContent */,
-				195800092B4F6BA3008BE2EB /* MuxCore */,
-				195800122B4F6DB8008BE2EB /* MuxCore */,
-				195800152B4F77E6008BE2EB /* MuxCore */,
-				195800D92B4FA9D3008BE2EB /* MuxCore */,
-				195800EA2B51BE17008BE2EB /* MUXSDKStats */,
-				195800ED2B51C3F5008BE2EB /* MUXSDKStats */,
-			);
-			productName = MUXSDKStatsExampleSPMVisionOS;
-			productReference = 19B8057E2B4F6875003DA705 /* MUXSDKStatsExampleSPMVisionOS.app */;
-			productType = "com.apple.product-type.application";
-		};
-		19B805902B4F6877003DA705 /* MUXSDKStatsExampleSPMVisionOSTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 19B8059C2B4F6877003DA705 /* Build configuration list for PBXNativeTarget "MUXSDKStatsExampleSPMVisionOSTests" */;
-			buildPhases = (
-				19B8058D2B4F6877003DA705 /* Sources */,
-				19B8058E2B4F6877003DA705 /* Frameworks */,
-				19B8058F2B4F6877003DA705 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				19B805932B4F6877003DA705 /* PBXTargetDependency */,
-			);
-			name = MUXSDKStatsExampleSPMVisionOSTests;
-			productName = MUXSDKStatsExampleSPMVisionOSTests;
-			productReference = 19B805912B4F6877003DA705 /* MUXSDKStatsExampleSPMVisionOSTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		19CB35CB2ABD2B5C002DF48C /* MUXSDKStatsExampleSPM */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 19CB35F62ABD2B5D002DF48C /* Build configuration list for PBXNativeTarget "MUXSDKStatsExampleSPM" */;
@@ -304,6 +133,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				7206CFFD2F19B6E20048F641 /* MUXSDKStatsExampleSPM */,
 			);
 			name = MUXSDKStatsExampleSPM;
 			packageProductDependencies = (
@@ -326,6 +158,9 @@
 			dependencies = (
 				19CB35E42ABD2B5D002DF48C /* PBXTargetDependency */,
 			);
+			fileSystemSynchronizedGroups = (
+				7206D00D2F19B6E50048F641 /* MUXSDKStatsExampleSPMTests */,
+			);
 			name = MUXSDKStatsExampleSPMTests;
 			productName = MUXSDKStatsExampleSPMTests;
 			productReference = 19CB35E22ABD2B5D002DF48C /* MUXSDKStatsExampleSPMTests.xctest */;
@@ -344,6 +179,9 @@
 			dependencies = (
 				19CB35EE2ABD2B5D002DF48C /* PBXTargetDependency */,
 			);
+			fileSystemSynchronizedGroups = (
+				7206D0112F19B6E70048F641 /* MUXSDKStatsExampleSPMUITests */,
+			);
 			name = MUXSDKStatsExampleSPMUITests;
 			productName = MUXSDKStatsExampleSPMUITests;
 			productReference = 19CB35EC2ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITests.xctest */;
@@ -359,13 +197,6 @@
 				LastSwiftUpdateCheck = 1520;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
-					19B8057D2B4F6875003DA705 = {
-						CreatedOnToolsVersion = 15.2;
-					};
-					19B805902B4F6877003DA705 = {
-						CreatedOnToolsVersion = 15.2;
-						TestTargetID = 19B8057D2B4F6875003DA705;
-					};
 					19CB35CB2ABD2B5C002DF48C = {
 						CreatedOnToolsVersion = 15.0;
 					};
@@ -380,7 +211,6 @@
 				};
 			};
 			buildConfigurationList = 19CB35C72ABD2B5C002DF48C /* Build configuration list for PBXProject "MUXSDKStatsExampleSPM" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -391,6 +221,7 @@
 			packageReferences = (
 				195800EC2B51C3F5008BE2EB /* XCLocalSwiftPackageReference "../.." */,
 			);
+			preferredProjectObjectVersion = 77;
 			productRefGroup = 19CB35CD2ABD2B5C002DF48C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -398,36 +229,15 @@
 				19CB35CB2ABD2B5C002DF48C /* MUXSDKStatsExampleSPM */,
 				19CB35E12ABD2B5D002DF48C /* MUXSDKStatsExampleSPMTests */,
 				19CB35EB2ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITests */,
-				19B8057D2B4F6875003DA705 /* MUXSDKStatsExampleSPMVisionOS */,
-				19B805902B4F6877003DA705 /* MUXSDKStatsExampleSPMVisionOSTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		19B8057C2B4F6875003DA705 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				19B8058B2B4F6877003DA705 /* Preview Assets.xcassets in Resources */,
-				19B805882B4F6877003DA705 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		19B8058F2B4F6877003DA705 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		19CB35CA2ABD2B5C002DF48C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				19CB35DC2ABD2B5D002DF48C /* LaunchScreen.storyboard in Resources */,
-				19CB35D92ABD2B5D002DF48C /* Assets.xcassets in Resources */,
-				19CB35D72ABD2B5C002DF48C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -448,36 +258,10 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		19B8057A2B4F6875003DA705 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				19B805862B4F6875003DA705 /* ContentView.swift in Sources */,
-				19B805842B4F6875003DA705 /* MUXSDKStatsExampleSPMVisionOSApp.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		19B8058D2B4F6877003DA705 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				19B805962B4F6877003DA705 /* MUXSDKStatsExampleSPMVisionOSTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		19CB35C82ABD2B5C002DF48C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				19CB36052ABD2D63002DF48C /* ProcessInfo+Mux.swift in Sources */,
-				19C386AA2AD3194F009AB018 /* PlayerLayerScalingExampleViewController.swift in Sources */,
-				19C386A82AD12344009AB018 /* MultiplePlayerItemPlaybackExampleViewController.swift in Sources */,
-				19CB35D42ABD2B5C002DF48C /* BasicPlaybackExampleViewController.swift in Sources */,
-				19CB35D02ABD2B5C002DF48C /* AppDelegate.swift in Sources */,
-				19D409122C1BD57D00C8163C /* ErrorCategorizationExampleViewController.swift in Sources */,
-				195762142AD64B2800128565 /* AudioOnlyPlaybackExampleViewController.swift in Sources */,
-				19CB36032ABD2D39002DF48C /* PlayerLayerExampleViewController.swift in Sources */,
-				19CB35D22ABD2B5C002DF48C /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -485,7 +269,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				19CB35E72ABD2B5D002DF48C /* MUXSDKStatsExampleSPMTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -493,19 +276,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				19CB35F32ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITestsLaunchTests.swift in Sources */,
-				19CB35F12ABD2B5D002DF48C /* MUXSDKStatsExampleSPMUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		19B805932B4F6877003DA705 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 19B8057D2B4F6875003DA705 /* MUXSDKStatsExampleSPMVisionOS */;
-			targetProxy = 19B805922B4F6877003DA705 /* PBXContainerItemProxy */;
-		};
 		19CB35E42ABD2B5D002DF48C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 19CB35CB2ABD2B5C002DF48C /* MUXSDKStatsExampleSPM */;
@@ -518,120 +294,7 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		19CB35D52ABD2B5C002DF48C /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				19CB35D62ABD2B5C002DF48C /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		19CB35DA2ABD2B5D002DF48C /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				19CB35DB2ABD2B5D002DF48C /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
-		19B805972B4F6877003DA705 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"MUXSDKStatsExampleSPMVisionOS/Preview Content\"";
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.data.-MUXSDKStatsExampleSPMVisionOS.MUXSDKStatsExampleSPMVisionOS${BUNDLE_ID_DISAMBIGUATOR}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = xros;
-				SUPPORTED_PLATFORMS = "xros xrsimulator";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				XROS_DEPLOYMENT_TARGET = 1.0;
-			};
-			name = Debug;
-		};
-		19B805982B4F6877003DA705 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"MUXSDKStatsExampleSPMVisionOS/Preview Content\"";
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.data.-MUXSDKStatsExampleSPMVisionOS.MUXSDKStatsExampleSPMVisionOS${BUNDLE_ID_DISAMBIGUATOR}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = xros;
-				SUPPORTED_PLATFORMS = "xros xrsimulator";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				XROS_DEPLOYMENT_TARGET = 1.0;
-			};
-			name = Release;
-		};
-		19B805992B4F6877003DA705 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.data.-MUXSDKStatsExampleSPMVisionOS.MUXSDKStatsExampleSPMVisionOSTests${BUNDLE_ID_DISAMBIGUATOR}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = xros;
-				SUPPORTED_PLATFORMS = "xros xrsimulator";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MUXSDKStatsExampleSPMVisionOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MUXSDKStatsExampleSPMVisionOS";
-				XROS_DEPLOYMENT_TARGET = 1.0;
-			};
-			name = Debug;
-		};
-		19B8059A2B4F6877003DA705 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mux.data.-MUXSDKStatsExampleSPMVisionOS.MUXSDKStatsExampleSPMVisionOSTests${BUNDLE_ID_DISAMBIGUATOR}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = xros;
-				SUPPORTED_PLATFORMS = "xros xrsimulator";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MUXSDKStatsExampleSPMVisionOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MUXSDKStatsExampleSPMVisionOS";
-				XROS_DEPLOYMENT_TARGET = 1.0;
-			};
-			name = Release;
-		};
 		19CB35F42ABD2B5D002DF48C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = 722CF7FD2D83AE040005B60D /* Configuration */;
@@ -886,24 +549,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		19B8059B2B4F6877003DA705 /* Build configuration list for PBXNativeTarget "MUXSDKStatsExampleSPMVisionOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				19B805972B4F6877003DA705 /* Debug */,
-				19B805982B4F6877003DA705 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		19B8059C2B4F6877003DA705 /* Build configuration list for PBXNativeTarget "MUXSDKStatsExampleSPMVisionOSTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				19B805992B4F6877003DA705 /* Debug */,
-				19B8059A2B4F6877003DA705 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		19CB35C72ABD2B5C002DF48C /* Build configuration list for PBXProject "MUXSDKStatsExampleSPM" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -950,34 +595,6 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		195800092B4F6BA3008BE2EB /* MuxCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MuxCore;
-		};
-		195800122B4F6DB8008BE2EB /* MuxCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MuxCore;
-		};
-		195800152B4F77E6008BE2EB /* MuxCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MuxCore;
-		};
-		195800D92B4FA9D3008BE2EB /* MuxCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MuxCore;
-		};
-		195800EA2B51BE17008BE2EB /* MUXSDKStats */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MUXSDKStats;
-		};
-		195800ED2B51C3F5008BE2EB /* MUXSDKStats */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = MUXSDKStats;
-		};
-		19B805812B4F6875003DA705 /* RealityKitContent */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = RealityKitContent;
-		};
 		19CB36002ABD2B88002DF48C /* MUXSDKStats */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MUXSDKStats;

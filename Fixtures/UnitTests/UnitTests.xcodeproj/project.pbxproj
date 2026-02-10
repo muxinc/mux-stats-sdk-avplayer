@@ -54,7 +54,7 @@
 				08191E682DC155C6003F912A /* Exceptions for "MUXSDKStatsTests" folder in "UnitTests" target */,
 			);
 			name = MUXSDKStatsTests;
-			path = ../../../Tests/MUXSDKStatsTests;
+			path = ../../Tests/MUXSDKStatsTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -83,7 +83,7 @@
 			children = (
 				08191E552DC155B2003F912A /* Configuration */,
 				08191E4E2DC14F27003F912A /* UnitTestsHost */,
-				08191D902DC11EDA003F912A /* UnitTests */,
+				08191E622DC155C6003F912A /* MUXSDKStatsTests */,
 				08191DCA2DC1215D003F912A /* Frameworks */,
 				0812BF682DC119F2004F921E /* Products */,
 			);
@@ -96,14 +96,6 @@
 				0812BF752DC119F4004F921E /* UnitTests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		08191D902DC11EDA003F912A /* UnitTests */ = {
-			isa = PBXGroup;
-			children = (
-				08191E622DC155C6003F912A /* MUXSDKStatsTests */,
-			);
-			path = UnitTests;
 			sourceTree = "<group>";
 		};
 		08191DCA2DC1215D003F912A /* Frameworks */ = {
