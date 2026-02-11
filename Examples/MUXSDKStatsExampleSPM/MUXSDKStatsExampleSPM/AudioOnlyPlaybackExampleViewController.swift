@@ -5,7 +5,6 @@
 
 import AVFoundation
 import UIKit
-
 import MuxCore
 import MUXSDKStats
 
@@ -19,6 +18,11 @@ class AudioOnlyPlaybackExampleViewController: UIViewController {
     }
     let playerName = "AudioOnlyPlaybackExample"
     lazy var player = AVPlayer(url: playbackURL)
+
+    deinit {
+        player.pause()
+        MUXSDKStats.destroyPlayer(playerName)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,11 +51,5 @@ class AudioOnlyPlaybackExampleViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         player.play()
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        MUXSDKStats.destroyPlayer(playerName)
-        player.pause()
-        super.viewWillDisappear(animated)
     }
 }

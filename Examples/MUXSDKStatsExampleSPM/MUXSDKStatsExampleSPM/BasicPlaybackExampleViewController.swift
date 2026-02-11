@@ -19,6 +19,11 @@ class BasicPlaybackExampleViewController: UIViewController {
     let playerName = "AVPlayerViewControllerExample"
     lazy var playerViewController = AVPlayerViewController()
 
+    deinit {
+        playerViewController.player?.pause()
+        MUXSDKStats.destroyPlayer(playerName)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -80,17 +85,5 @@ class BasicPlaybackExampleViewController: UIViewController {
         super.viewDidAppear(animated)
 
         playerViewController.player?.play()
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        if !playerViewController.allowsPictureInPicturePlayback {
-            playerViewController.player?.pause()
-
-            MUXSDKStats.destroyPlayer(
-                playerName
-            )
-        }
-
-        super.viewWillDisappear(animated)
     }
 }
