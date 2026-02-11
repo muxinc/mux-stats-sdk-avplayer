@@ -12,8 +12,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var videoViewController: BasicPlaybackExampleViewController? = nil
     var player: AVPlayer? = nil
 
-    var enteringPictureInPicture: Bool = false
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
@@ -46,7 +44,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // have a avPlayerSavedReference (from the last time it went into the background)
         // Let's re-attached our avPlayerSavedReference onto our ViewController
 
-        if let videoViewController, let player, !enteringPictureInPicture {
+        if let videoViewController, let player {
             player.currentItem?.preferredPeakBitRate = 0
             videoViewController.playerViewController.player = player
             self.player = nil
@@ -56,7 +54,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidEnterBackground(_ scene: UIScene) {
         // Detach our avPlayer from the view controller, but save
         // a reference to it so we can re-attach it later
-        if let videoViewController, !enteringPictureInPicture {
+        if let videoViewController {
             player = videoViewController.playerViewController.player
             videoViewController.playerViewController.player = nil
         }
