@@ -34,6 +34,8 @@ class AVQueuePlayerExampleViewController: MultiplePlayerItemPlaybackExampleViewC
         )
 
         self.playerViewController.player = player
+
+        MUXSDKStats.update(playerViewController, withPlayerName: playerName)
     }
 }
 
