@@ -37,6 +37,11 @@ class PlayerLayerExampleViewController: UIViewController {
 
     lazy var playerView = PlayerView()
 
+    deinit {
+        playerView.player?.pause()
+        MUXSDKStats.destroyPlayer(playerName)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -90,11 +95,5 @@ class PlayerLayerExampleViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         playerView.player?.play()
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        MUXSDKStats.destroyPlayer(playerName)
-        playerView.player?.pause()
-        super.viewWillDisappear(animated)
     }
 }

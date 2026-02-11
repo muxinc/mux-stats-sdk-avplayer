@@ -6,7 +6,6 @@
 import AVFoundation
 import AVKit
 import UIKit
-
 import MUXSDKStats
 import MuxCore
 
@@ -21,6 +20,11 @@ class ErrorCategorizationExampleViewController: UIViewController {
     let playerName = "ErrorCategorizationExample"
     lazy var player = AVPlayer(url: playbackURL)
     lazy var playerViewController = AVPlayerViewController()
+
+    deinit {
+        playerViewController.player?.pause()
+        MUXSDKStats.destroyPlayer(playerName)
+    }
 
     override var childForStatusBarStyle: UIViewController? {
         playerViewController
@@ -58,7 +62,8 @@ class ErrorCategorizationExampleViewController: UIViewController {
             children: [
                 UIAction(
                     title: "Submit Playback Error with Fatal Severity",
-                    handler: { _ in
+                    handler: { [weak self] _ in
+                        guard let self else { return }
                         MUXSDKStats.dispatchError(
                             "123",
                             withMessage: "Playback Error with Fatal Severity: Manually Dispatched",
@@ -68,7 +73,8 @@ class ErrorCategorizationExampleViewController: UIViewController {
                 ),
                 UIAction(
                     title: "Submit Playback Error with Warning Severity",
-                    handler: { _ in
+                    handler: { [weak self] _ in
+                        guard let self else { return }
                         MUXSDKStats.dispatchError(
                             "456",
                             withMessage: "Playback Error with Warning Severity: Manually Dispatched",
@@ -79,7 +85,8 @@ class ErrorCategorizationExampleViewController: UIViewController {
                 ),
                 UIAction(
                     title: "Submit Business Exception Error with Fatal Severity",
-                    handler: { _ in
+                    handler: { [weak self] _ in
+                        guard let self else { return }
                         MUXSDKStats.dispatchError(
                             "789",
                             withMessage: "Business Exception Error with Fatal Severity: Manually Dispatched",
@@ -91,7 +98,8 @@ class ErrorCategorizationExampleViewController: UIViewController {
                 ),
                 UIAction(
                     title: "Submit Business Exception Error with Warning Severity",
-                    handler: { _ in
+                    handler: { [weak self] _ in
+                        guard let self else { return }
                         MUXSDKStats.dispatchError(
                             "012",
                             withMessage: "Business Exception Error with Warning Severity: Manually Dispatched",
@@ -143,14 +151,5 @@ class ErrorCategorizationExampleViewController: UIViewController {
         super.viewDidAppear(animated)
 
         playerViewController.player?.play()
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        playerViewController.player?.pause()
-        MUXSDKStats.destroyPlayer(
-            playerName
-        )
-
-        super.viewWillDisappear(animated)
     }
 }

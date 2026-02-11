@@ -5,7 +5,6 @@
 
 import AVKit
 import UIKit
-
 import MUXSDKStats
 
 class AVQueuePlayerExampleViewController: MultiplePlayerItemPlaybackExampleViewController {
@@ -68,12 +67,12 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
     var playerItems: [AVPlayerItem] = [
         AVPlayerItem(
             url: URL(
-                string: "https://stream.mux.com/qIy2uu9BfvomNnH02hFPysxeXvL6FkFXs63wTqnEiaYs.m3u8"
+                string: "https://stream.mux.com/00ezSo01tK00mfbBKDLUtKnwVsUKF2y5cjBMvJwBh5Z0202g.m3u8"
             )!
         ),
         AVPlayerItem(
             url: URL(
-                string: "https://stream.mux.com/7Tqs5u3MoQhGOk7XoyT81bjoPFFkOPQIH32Pt4XDbyQ.m3u8"
+                string: "https://stream.mux.com/u02xH9SB1ZZNNjPiQp4l6mhzBKJ101uExYx4LU02J5Xm88.m3u8"
             )!
         )
     ]
@@ -85,6 +84,12 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+        playerViewController.player?.pause()
+        MUXSDKStats.destroyPlayer(playerName)
     }
 
     override func viewDidLoad() {
@@ -102,10 +107,6 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
         )
 
         playerViewController.player = player
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
 
         displayPlayerViewController()
 
@@ -133,14 +134,6 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
         super.viewDidAppear(animated)
 
         playerViewController.player?.play()
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        MUXSDKStats.destroyPlayer(
-            playerName
-        )
-
-        super.viewWillDisappear(animated)
     }
 
     func displayPlayerViewController() {

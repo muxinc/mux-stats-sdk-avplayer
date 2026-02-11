@@ -9,7 +9,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    var videoViewController: BasicPlaybackExampleViewController? = nil
+    weak var videoViewController: BasicPlaybackExampleViewController?
     var player: AVPlayer? = nil
 
     var enteringPictureInPicture: Bool = false
