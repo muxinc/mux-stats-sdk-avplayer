@@ -37,7 +37,6 @@ class BasicPlaybackExampleViewController: UIViewController {
 
         let player = AVPlayer(url: playbackURL)
         playerViewController.player = player
-        playerViewController.delegate = self
         playerViewController.allowsPictureInPicturePlayback = false
 
         displayPlayerViewController()
@@ -81,14 +80,6 @@ class BasicPlaybackExampleViewController: UIViewController {
         super.viewDidAppear(animated)
 
         playerViewController.player?.play()
-
-        guard let scene = UIApplication.shared.connectedScenes.first else {
-            return
-        }
-
-        if let sceneDelegate = scene.delegate as? SceneDelegate {
-            sceneDelegate.videoViewController = self
-        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -101,19 +92,5 @@ class BasicPlaybackExampleViewController: UIViewController {
         }
 
         super.viewWillDisappear(animated)
-    }
-}
-
-extension BasicPlaybackExampleViewController: AVPlayerViewControllerDelegate {
-    func playerViewControllerWillStartPictureInPicture(
-        _ playerViewController: AVPlayerViewController
-    ) {
-        guard let scene = UIApplication.shared.connectedScenes.first else {
-            return
-        }
-
-        if let sceneDelegate = scene.delegate as? SceneDelegate {
-            sceneDelegate.enteringPictureInPicture = true
-        }
     }
 }
