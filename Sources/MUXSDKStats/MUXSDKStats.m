@@ -156,7 +156,7 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
     // Destroy any previously existing player with this name.
     [self destroyPlayer:name];
 
-    if (player.player) {
+    {
         MUXSDKCustomerPlayerData *playerData = customerData.customerPlayerData;
         MUXSDKCustomerVideoData *videoData = customerData.customerVideoData;
         MUXSDKCustomerViewData *viewData = customerData.customerViewData;
@@ -194,12 +194,9 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
         }
         [_bindingsByPlayerName setValue:newBinding forKey:name];
 
-        [newBinding attachAVPlayer:player.player];
+        newBinding.automaticallyAttachesPlayerProperty = YES;
         [_playerBindingManager newViewForPlayer:name];
         return newBinding;
-    } else {
-        NSLog(@"MUXSDK-ERROR - Mux failed to configure the monitor because AVPlayerViewController.player was NULL for player name: %@", name);
-        return NULL;
     }
 }
 
@@ -237,7 +234,16 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
         }
         if ([binding isKindOfClass:MUXSDKAVPlayerViewControllerBinding.class]) {
             MUXSDKAVPlayerViewControllerBinding *avpvcBinding = binding;
-            [avpvcBinding attachAVPlayer:viewController.player];
+            avpvcBinding.viewController = viewController;
+            // Preserve the historical functionality of this method:
+            if (!avpvcBinding.automaticallyAttachesPlayerProperty) {
+                AVPlayer *player = viewController.player;
+                if (player) {
+                    [avpvcBinding attachAVPlayer:player];
+                } else {
+                    [avpvcBinding detachAVPlayer];
+                }
+            }
         } else {
             NSLog(@"MUXSDK-ERROR - Mux failed to update the monitor because the previous player with name %@ was not set up via monitorAVPlayerViewController", name);
         }
@@ -258,7 +264,7 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
     // Destroy any previously existing player with this name.
     [self destroyPlayer:name];
 
-    if (player.player) {
+    {
         MUXSDKCustomerPlayerData *playerData = customerData.customerPlayerData;
         MUXSDKCustomerVideoData *videoData = customerData.customerVideoData;
         MUXSDKCustomerViewData *viewData = customerData.customerViewData;
@@ -295,12 +301,9 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
         }
         [_bindingsByPlayerName setValue:newBinding forKey:name];
 
-        [newBinding attachAVPlayer:player.player];
+        newBinding.automaticallyAttachesPlayerProperty = YES;
         [_playerBindingManager newViewForPlayer:name];
         return newBinding;
-    } else {
-        NSLog(@"MUXSDK-ERROR - Mux failed to configure the monitor because AVPlayerLayer.player was NULL for player name: %@", name);
-        return NULL;
     }
 }
 
@@ -338,7 +341,16 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
         }
         if ([binding isKindOfClass:MUXSDKAVPlayerLayerBinding.class]) {
             MUXSDKAVPlayerLayerBinding *avplBinding = binding;
-            [avplBinding attachAVPlayer:playerLayer.player];
+            avplBinding.playerLayer = playerLayer;
+            // Preserve the historical functionality of this method:
+            if (!avplBinding.automaticallyAttachesPlayerProperty) {
+                AVPlayer *player = playerLayer.player;
+                if (player) {
+                    [avplBinding attachAVPlayer:player];
+                } else {
+                    [avplBinding detachAVPlayer];
+                }
+            }
         } else {
             NSLog(@"MUXSDK-ERROR - Mux failed to update the monitor because the previous player with name %@ was not set up via monitorAVPlayerLayer", name);
         }
@@ -426,7 +438,7 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
     return newBinding;
 }
 
-+ (void)updateAVPlayer:(AVPlayer *)player
++ (void)updateAVPlayer:(nullable AVPlayer *)player
         withPlayerName:(NSString *)name
        fixedPlayerSize:(CGSize)fixedPlayerSize {
     [self initSDKWithCustomerViewerData:nil];
@@ -435,7 +447,11 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
     if (binding) {
         if ([binding isKindOfClass:MUXSDKFixedPlayerSizeBinding.class]) {
             MUXSDKFixedPlayerSizeBinding *fixedSizeBinding = binding;
-            [fixedSizeBinding attachAVPlayer:player];
+            if (player) {
+                [fixedSizeBinding attachAVPlayer:player];
+            } else {
+                [fixedSizeBinding detachAVPlayer];
+            }
         } else {
             NSLog(@"MUXSDK-ERROR - Mux failed to update the monitor because the previous player with name %@ was not set up via monitorAVPlayer", name);
         }
@@ -463,13 +479,17 @@ static MUXSDKCustomerCustomDataStore *_customerCustomDataStore;
     [_bindingsByPlayerName removeObjectForKey:name];
     if ([binding isKindOfClass:MUXSDKAVPlayerViewControllerBinding.class]) {
         MUXSDKAVPlayerViewControllerBinding *avpvcBinding = binding;
+        avpvcBinding.automaticallyAttachesPlayerProperty = NO;
         [avpvcBinding dispatchViewEnd];
         [avpvcBinding detachAVPlayer];
+        avpvcBinding.viewController = nil;
 #if !TARGET_OS_VISION
     } else if ([binding isKindOfClass:MUXSDKAVPlayerLayerBinding.class]) {
         MUXSDKAVPlayerLayerBinding *avplBinding = binding;
+        avplBinding.automaticallyAttachesPlayerProperty = NO;
         [avplBinding dispatchViewEnd];
         [avplBinding detachAVPlayer];
+        avplBinding.playerLayer = nil;
 #endif // !TARGET_OS_VISION
     } else if ([binding isKindOfClass:MUXSDKFixedPlayerSizeBinding.class]) {
         MUXSDKFixedPlayerSizeBinding *fixedSizeBinding = binding;
