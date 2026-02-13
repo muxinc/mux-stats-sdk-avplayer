@@ -3,12 +3,8 @@
 //  MUXSDKStatsExampleSPM
 //
 
-import AVFoundation
-import AVKit
 import UIKit
-
 import MUXSDKStats
-import MuxCore
 
 class ErrorCategorizationExampleViewController: UIViewController {
     var playbackURL: URL {
@@ -29,6 +25,11 @@ class ErrorCategorizationExampleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Step 1: Create your AVPlayer and assign it to AVPlayerViewController.
+        let player = AVPlayer(url: playbackURL)
+        playerViewController.player = player
+
+        // Step 2: Build Mux customer metadata.
         let playerData = MUXSDKCustomerPlayerData()
         playerData.environmentKey = ProcessInfo.processInfo.environmentKey
 
@@ -42,72 +43,23 @@ class ErrorCategorizationExampleViewController: UIViewController {
             viewData: nil
         )
 
-        let player = AVPlayer(url: playbackURL)
-        playerViewController.player = player
-
-        displayPlayerViewController()
-
+        // Step 3: Start monitoring this player view controller with a stable player name.
         MUXSDKStats.monitorAVPlayerViewController(
             playerViewController,
             withPlayerName: playerName,
             customerData: customerData!
         )
 
-        let errorSubmissionsMenu = UIMenu(
-            title: "Submit Errors",
-            children: [
-                UIAction(
-                    title: "Submit Playback Error with Fatal Severity",
-                    handler: { _ in
-                        MUXSDKStats.dispatchError(
-                            "123",
-                            withMessage: "Playback Error with Fatal Severity: Manually Dispatched",
-                            forPlayer: self.playerName
-                        )
-                    }
-                ),
-                UIAction(
-                    title: "Submit Playback Error with Warning Severity",
-                    handler: { _ in
-                        MUXSDKStats.dispatchError(
-                            "456",
-                            withMessage: "Playback Error with Warning Severity: Manually Dispatched",
-                            severity: MUXSDKErrorSeverity.warning,
-                            forPlayer: self.playerName
-                        )
-                    }
-                ),
-                UIAction(
-                    title: "Submit Business Exception Error with Fatal Severity",
-                    handler: { _ in
-                        MUXSDKStats.dispatchError(
-                            "789",
-                            withMessage: "Business Exception Error with Fatal Severity: Manually Dispatched",
-                            severity: MUXSDKErrorSeverity.fatal,
-                            isBusinessException: true,
-                            forPlayer: self.playerName
-                        )
-                    }
-                ),
-                UIAction(
-                    title: "Submit Business Exception Error with Warning Severity",
-                    handler: { _ in
-                        MUXSDKStats.dispatchError(
-                            "012",
-                            withMessage: "Business Exception Error with Warning Severity: Manually Dispatched",
-                            severity: MUXSDKErrorSeverity.warning,
-                            isBusinessException: true,
-                            forPlayer: self.playerName
-                        )
-                    }
-                ),
-            ]
-        )
+        // Step 4: Present the player UI and start playback.
+        displayPlayerViewController()
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "Submit Errors",
-            menu: errorSubmissionsMenu
-        )
+        // Optional: Add actions to dispatch example playback/business errors.
+        setupErrorSubmissionActions()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        playerViewController.player?.play()
     }
 
     func displayPlayerViewController() {
@@ -133,24 +85,71 @@ class ErrorCategorizationExampleViewController: UIViewController {
         playerViewController.didMove(toParent:self)
     }
 
-    func hidePlayerViewController() {
-        playerViewController.willMove(toParent: nil)
-        playerViewController.view.removeFromSuperview()
-        playerViewController.removeFromParent()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        playerViewController.player?.play()
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        playerViewController.player?.pause()
-        MUXSDKStats.destroyPlayer(
-            playerName
+    func setupErrorSubmissionActions() {
+        let errorSubmissionsMenu = UIMenu(
+            title: "Submit Errors",
+            children: [
+                UIAction(
+                    title: "Submit Playback Error with Fatal Severity",
+                    handler: { [weak self] _ in
+                        guard let self else { return }
+                        MUXSDKStats.dispatchError(
+                            "123",
+                            withMessage: "Playback Error with Fatal Severity: Manually Dispatched",
+                            forPlayer: self.playerName
+                        )
+                    }
+                ),
+                UIAction(
+                    title: "Submit Playback Error with Warning Severity",
+                    handler: { [weak self] _ in
+                        guard let self else { return }
+                        MUXSDKStats.dispatchError(
+                            "456",
+                            withMessage: "Playback Error with Warning Severity: Manually Dispatched",
+                            severity: MUXSDKErrorSeverity.warning,
+                            forPlayer: self.playerName
+                        )
+                    }
+                ),
+                UIAction(
+                    title: "Submit Business Exception Error with Fatal Severity",
+                    handler: { [weak self] _ in
+                        guard let self else { return }
+                        MUXSDKStats.dispatchError(
+                            "789",
+                            withMessage: "Business Exception Error with Fatal Severity: Manually Dispatched",
+                            severity: MUXSDKErrorSeverity.fatal,
+                            isBusinessException: true,
+                            forPlayer: self.playerName
+                        )
+                    }
+                ),
+                UIAction(
+                    title: "Submit Business Exception Error with Warning Severity",
+                    handler: { [weak self] _ in
+                        guard let self else { return }
+                        MUXSDKStats.dispatchError(
+                            "012",
+                            withMessage: "Business Exception Error with Warning Severity: Manually Dispatched",
+                            severity: MUXSDKErrorSeverity.warning,
+                            isBusinessException: true,
+                            forPlayer: self.playerName
+                        )
+                    }
+                ),
+            ]
         )
 
-        super.viewWillDisappear(animated)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: "Submit Errors",
+            menu: errorSubmissionsMenu
+        )
+    }
+
+    deinit {
+        // Step 5: When done with this AVPlayer instance, call destroyPlayer to remove observers.
+        playerViewController.player?.pause()
+        MUXSDKStats.destroyPlayer(playerName)
     }
 }
