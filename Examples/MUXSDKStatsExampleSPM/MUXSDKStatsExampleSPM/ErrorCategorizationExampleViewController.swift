@@ -3,11 +3,8 @@
 //  MUXSDKStatsExampleSPM
 //
 
-import AVFoundation
-import AVKit
 import UIKit
 import MUXSDKStats
-import MuxCore
 
 class ErrorCategorizationExampleViewController: UIViewController {
     var playbackURL: URL {
@@ -21,11 +18,6 @@ class ErrorCategorizationExampleViewController: UIViewController {
     lazy var player = AVPlayer(url: playbackURL)
     lazy var playerViewController = AVPlayerViewController()
 
-    deinit {
-        playerViewController.player?.pause()
-        MUXSDKStats.destroyPlayer(playerName)
-    }
-
     override var childForStatusBarStyle: UIViewController? {
         playerViewController
     }
@@ -33,6 +25,11 @@ class ErrorCategorizationExampleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Step 1: Create your AVPlayer and assign it to AVPlayerViewController.
+        let player = AVPlayer(url: playbackURL)
+        playerViewController.player = player
+
+        // Step 2: Build Mux customer metadata.
         let playerData = MUXSDKCustomerPlayerData()
         playerData.environmentKey = ProcessInfo.processInfo.environmentKey
 
@@ -46,17 +43,49 @@ class ErrorCategorizationExampleViewController: UIViewController {
             viewData: nil
         )
 
-        let player = AVPlayer(url: playbackURL)
-        playerViewController.player = player
-
-        displayPlayerViewController()
-
+        // Step 3: Start monitoring this player view controller with a stable player name.
         MUXSDKStats.monitorAVPlayerViewController(
             playerViewController,
             withPlayerName: playerName,
             customerData: customerData!
         )
 
+        // Step 4: Present the player UI and start playback.
+        displayPlayerViewController()
+
+        // Optional: Add actions to dispatch example playback/business errors.
+        setupErrorSubmissionActions()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        playerViewController.player?.play()
+    }
+
+    func displayPlayerViewController() {
+        playerViewController.willMove(toParent:self)
+        self.addChild(playerViewController)
+        playerViewController.view
+            .translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(playerViewController.view)
+        self.view.addConstraints([
+            self.view.topAnchor.constraint(
+                equalTo: playerViewController.view.safeAreaLayoutGuide.topAnchor
+            ),
+            self.view.bottomAnchor.constraint(
+                equalTo: playerViewController.view.safeAreaLayoutGuide.bottomAnchor
+            ),
+            self.view.leadingAnchor.constraint(
+                equalTo: playerViewController.view.leadingAnchor
+            ),
+            self.view.trailingAnchor.constraint(
+                equalTo: playerViewController.view.trailingAnchor
+            )
+        ])
+        playerViewController.didMove(toParent:self)
+    }
+
+    func setupErrorSubmissionActions() {
         let errorSubmissionsMenu = UIMenu(
             title: "Submit Errors",
             children: [
@@ -118,38 +147,9 @@ class ErrorCategorizationExampleViewController: UIViewController {
         )
     }
 
-    func displayPlayerViewController() {
-        playerViewController.willMove(toParent:self)
-        self.addChild(playerViewController)
-        playerViewController.view
-            .translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(playerViewController.view)
-        self.view.addConstraints([
-            self.view.topAnchor.constraint(
-                equalTo: playerViewController.view.safeAreaLayoutGuide.topAnchor
-            ),
-            self.view.bottomAnchor.constraint(
-                equalTo: playerViewController.view.safeAreaLayoutGuide.bottomAnchor
-            ),
-            self.view.leadingAnchor.constraint(
-                equalTo: playerViewController.view.leadingAnchor
-            ),
-            self.view.trailingAnchor.constraint(
-                equalTo: playerViewController.view.trailingAnchor
-            )
-        ])
-        playerViewController.didMove(toParent:self)
-    }
-
-    func hidePlayerViewController() {
-        playerViewController.willMove(toParent: nil)
-        playerViewController.view.removeFromSuperview()
-        playerViewController.removeFromParent()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        playerViewController.player?.play()
+    deinit {
+        // Step 5: When done with this AVPlayer instance, call destroyPlayer to remove observers.
+        playerViewController.player?.pause()
+        MUXSDKStats.destroyPlayer(playerName)
     }
 }

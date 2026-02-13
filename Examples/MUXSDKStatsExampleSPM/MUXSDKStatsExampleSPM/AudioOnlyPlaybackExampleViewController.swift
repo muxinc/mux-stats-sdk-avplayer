@@ -3,14 +3,12 @@
 //  MUXSDKStatsExampleSPM
 //
 
-import AVFoundation
 import UIKit
-import MuxCore
 import MUXSDKStats
 
 class AudioOnlyPlaybackExampleViewController: UIViewController {
     var playbackURL: URL {
-        let playbackID = ProcessInfo.processInfo.playbackID ?? "27BKMLqT01tOznamh45ntvWXg00eZBRq3IFLTHX2T1rbY"
+        let playbackID = ProcessInfo.processInfo.playbackID ?? "00ezSo01tK00mfbBKDLUtKnwVsUKF2y5cjBMvJwBh5Z0202g"
 
         return URL(
             string: "https://stream.mux.com/\(playbackID).m3u8"
@@ -19,14 +17,10 @@ class AudioOnlyPlaybackExampleViewController: UIViewController {
     let playerName = "AudioOnlyPlaybackExample"
     lazy var player = AVPlayer(url: playbackURL)
 
-    deinit {
-        player.pause()
-        MUXSDKStats.destroyPlayer(playerName)
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Step 1: Build Mux customer metadata.
         let playerData = MUXSDKCustomerPlayerData()
         playerData.environmentKey = ProcessInfo.processInfo.environmentKey
 
@@ -40,9 +34,10 @@ class AudioOnlyPlaybackExampleViewController: UIViewController {
             viewData: nil
         )!
 
+        // Step 2: Start monitoring this AVPlayer with a stable player name.
         MUXSDKStats.monitorAVPlayer(
             player,
-            withPlayerName: playerName, 
+            withPlayerName: playerName,
             fixedPlayerSize: .zero,
             customerData: customerData
         )
@@ -51,5 +46,11 @@ class AudioOnlyPlaybackExampleViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         player.play()
+    }
+
+    deinit {
+        // Step 3: When done with this AVPlayer instance, call destroyPlayer to remove observers.
+        player.pause()
+        MUXSDKStats.destroyPlayer(playerName)
     }
 }

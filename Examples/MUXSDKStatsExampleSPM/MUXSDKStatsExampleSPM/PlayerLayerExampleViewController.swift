@@ -25,7 +25,7 @@ class PlayerView: UIView {
 /// Bare bones AVPlayerLayer example without controls or
 /// other affordances
 class PlayerLayerExampleViewController: UIViewController {
-    
+
     var playbackURL: URL {
         let playbackID = ProcessInfo.processInfo.playbackID ?? "qxb01i6T202018GFS02vp9RIe01icTcDCjVzQpmaB00CUisJ4"
 
@@ -34,17 +34,15 @@ class PlayerLayerExampleViewController: UIViewController {
         )!
     }
     let playerName = "AVPlayerLayerExample"
-
     lazy var playerView = PlayerView()
-
-    deinit {
-        playerView.player?.pause()
-        MUXSDKStats.destroyPlayer(playerName)
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Step 1: Create your AVPlayer and assign it to the AVPlayerLayer-backed view.
+        playerView.player = AVPlayer(url: playbackURL)
+
+        // Step 2: Build Mux customer metadata.
         let playerData = MUXSDKCustomerPlayerData()
         playerData.environmentKey = ProcessInfo.processInfo.environmentKey
 
@@ -52,14 +50,36 @@ class PlayerLayerExampleViewController: UIViewController {
         videoData.videoId = "AVPlayerLayerPlaybackExample"
         videoData.videoTitle = "Video Behind the Scenes"
 
-        let customerData = MUXSDKCustomerData(
+        guard let customerData = MUXSDKCustomerData(
             customerPlayerData: playerData,
             videoData: videoData,
             viewData: nil
-        )!
+        ) else {
+            return
+        }
 
+        guard let playerLayer = playerView.layer as? AVPlayerLayer else {
+            return
+        }
+
+        // Step 3: Start monitoring this AVPlayerLayer with a stable player name.
+        MUXSDKStats.monitorAVPlayerLayer(
+            playerLayer,
+            withPlayerName: playerName,
+            customerData: customerData
+        )
+
+        // Step 4: Present the player UI and start playback.
+        displayPlayerView()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        playerView.player?.play()
+    }
+
+    func displayPlayerView() {
         playerView.backgroundColor = .black
-
         playerView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(playerView)
         view.addConstraints([
@@ -76,24 +96,11 @@ class PlayerLayerExampleViewController: UIViewController {
                 equalTo: playerView.bottomAnchor
             ),
         ])
-
-        playerView.player = AVPlayer(
-            url: playbackURL
-        )
-
-        guard let playerLayer = playerView.layer as? AVPlayerLayer else {
-            return
-        }
-
-        MUXSDKStats.monitorAVPlayerLayer(
-            playerLayer,
-            withPlayerName: playerName,
-            customerData: customerData
-        )
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        playerView.player?.play()
+    deinit {
+        // Step 5: When done with this AVPlayer instance, call destroyPlayer to remove observers.
+        playerView.player?.pause()
+        MUXSDKStats.destroyPlayer(playerName)
     }
 }

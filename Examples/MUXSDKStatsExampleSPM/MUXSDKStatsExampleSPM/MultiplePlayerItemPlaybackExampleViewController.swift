@@ -89,7 +89,6 @@ class MultiplePlayerItemPlaybackExampleViewController: UIViewController {
     }
 
     deinit {
-        NotificationCenter.default.removeObserver(self)
         playerViewController.player?.pause()
         MUXSDKStats.destroyPlayer(playerName)
     }
