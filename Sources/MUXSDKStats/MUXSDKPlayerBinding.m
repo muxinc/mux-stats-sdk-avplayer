@@ -769,12 +769,8 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
     [self updatePlayerMetadata:playerData];
     [self updatePlayerDimensions:playerData];
 
-    // Not sure if both checks are necessary here as when rate is 0 we expect to be paused and vice versa.
-    if (_player.rate == 0.0) { // || _player.timeControlStatus == AVPlayerTimeControlStatusPaused) {
-        [playerData setPlayerIsPaused:[NSNumber numberWithBool:YES]];
-    } else {
-        [playerData setPlayerIsPaused:[NSNumber numberWithBool:NO]];
-    }
+    playerData.playerIsPaused = @(_player.timeControlStatus != AVPlayerTimeControlStatusPlaying);
+
     if (!_isAdPlaying) {
         float ms = CMTimeGetSeconds(_player.currentTime) * 1000;
         [self setPlayerPlayheadTime:ms onPlayerData:playerData];
