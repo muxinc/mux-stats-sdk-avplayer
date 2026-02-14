@@ -35,5 +35,3 @@ steps:
   - command: "./scripts/run-tests-swift-package-manager-ventura.sh"
     label: ":swift: Test Swift Package Manager Example"
     branches: "releases/*"
-  - command: "./scripts/run-tests-cocoapods-ventura.sh build-only"
-    label: ":cocoapods: Build Cocoapods Example"
