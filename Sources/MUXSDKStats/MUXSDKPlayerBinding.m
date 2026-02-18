@@ -110,6 +110,7 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
         _name = playerName;
         _softwareName = softwareName;
         _softwareVersion = softwareVersion;
+        _totalFrameDrops = -1;
         _automaticErrorTracking = true;
         _automaticVideoChange = true;
         _didTriggerManualVideoChange = false;
@@ -636,6 +637,8 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
     _lastDispatchedAdvertisedBitrate = 0.0;
     _sourceDimensionsHaveChanged = NO;
     _lastDispatchedVideoSize = CGSizeMake(0, 0);
+    _totalFrameDrops = -1;
+    _totalFrameDropsHasChanged = NO;
 }
 
 - (void)checkVideoData {
@@ -682,7 +685,7 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
     }
 
     NSNumber *checkedFrameDrops = nil;
-    if(_totalFrameDropsHasChanged && _totalFrameDrops > 0) {
+    if(_totalFrameDropsHasChanged && _totalFrameDrops >= 0) {
         _totalFrameDropsHasChanged = NO;
         videoDataUpdated = YES;
         checkedFrameDrops = [NSNumber numberWithLong:_totalFrameDrops];
