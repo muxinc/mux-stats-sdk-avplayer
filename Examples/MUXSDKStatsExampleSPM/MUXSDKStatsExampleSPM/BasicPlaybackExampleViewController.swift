@@ -1,10 +1,9 @@
 //
-//  ViewController.swift
+//  BasicPlaybackExampleViewController.swift
 //  MUXSDKStatsExampleSPM
 //
 
 import UIKit
-import AVKit
 import MUXSDKStats
 
 class BasicPlaybackExampleViewController: UIViewController {
@@ -22,6 +21,11 @@ class BasicPlaybackExampleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Step 1: Create your AVPlayer and assign it to AVPlayerViewController.
+        let player = AVPlayer(url: playbackURL)
+        playerViewController.player = player
+
+        // Step 2: Build Mux customer metadata.
         let playerData = MUXSDKCustomerPlayerData()
         playerData.environmentKey = ProcessInfo.processInfo.environmentKey
 
@@ -29,23 +33,28 @@ class BasicPlaybackExampleViewController: UIViewController {
         videoData.videoId = "BasicPlaybackAVPlayerViewControllerExample"
         videoData.videoTitle = "Video Behind the Scenes"
 
-        let customerData = MUXSDKCustomerData(
+        guard let customerData = MUXSDKCustomerData(
             customerPlayerData: playerData,
             videoData: videoData,
             viewData: nil
-        )
+        ) else {
+            return
+        }
 
-        let player = AVPlayer(url: playbackURL)
-        playerViewController.player = player
-        playerViewController.allowsPictureInPicturePlayback = false
-
-        displayPlayerViewController()
-        
+        // Step 3: Start monitoring this player view controller with a stable player name.
         MUXSDKStats.monitorAVPlayerViewController(
             playerViewController,
             withPlayerName: playerName,
-            customerData: customerData!
+            customerData: customerData
         )
+
+        // Step 4: Present the player UI and start playback.
+        displayPlayerViewController()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        playerViewController.player?.play()
     }
 
     func displayPlayerViewController() {
@@ -70,27 +79,9 @@ class BasicPlaybackExampleViewController: UIViewController {
         playerViewController.didMove(toParent:self)
     }
 
-    func hidePlayerViewController() {
-        playerViewController.willMove(toParent: nil)
-        playerViewController.view.removeFromSuperview()
-        playerViewController.removeFromParent()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        playerViewController.player?.play()
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        if !playerViewController.allowsPictureInPicturePlayback {
-            playerViewController.player?.pause()
-
-            MUXSDKStats.destroyPlayer(
-                playerName
-            )
-        }
-
-        super.viewWillDisappear(animated)
+    deinit {
+        // Step 5: When done with this AVPlayer instance, call destroyPlayer to remove observers.
+        playerViewController.player?.pause()
+        MUXSDKStats.destroyPlayer(playerName)
     }
 }
