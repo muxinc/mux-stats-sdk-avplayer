@@ -1,6 +1,0 @@
-platform :ios, '12.0'
-
-target 'DemoApp' do
-  use_frameworks!
-  pod 'Mux-Stats-AVPlayer'
-end
