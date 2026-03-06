@@ -1,6 +1,6 @@
 import AVFoundation
 import Combine
-import MuxCore
+@preconcurrency import MuxCore
 
 @available(iOS 15, tvOS 15, *)
 extension AVPlayerItem {
@@ -62,42 +62,12 @@ extension AVPlayerItem {
             }
     }
 
-    nonisolated func renditionInfoAndChangeEvents() -> some Publisher<MUXSDKBaseEvent, Never> {
-        let timedRenditionInfo = timedRenditionInfoPublisher()
+    nonisolated func renditionChangeEvents() -> some Publisher<MUXSDKRenditionChangeEvent, Never> {
+        let changeEventsUsingTracks = timedRenditionInfoPublisher()
             .catch { _ in
                 // Ignore status failed error
                 return Empty<(PlaybackEventTiming, MUXSDKVideoData), Never>()
             }
-
-        // Represents an initial data event containing the current state
-        let initialEvent = timedRenditionInfo
-            .first()
-            .map { timing, videoData in
-                let event = MUXSDKDataEvent()
-
-                event.videoData = videoData
-
-                return event
-            }
-
-#if !targetEnvironment(simulator)
-        if #available(iOS 18, tvOS 18, visionOS 2, *) {
-            let changeEvents = renditionChangeEventsUsingAVMetrics()
-                .catch { error in
-                    if !(error is CancellationError) {
-                        logger.error("Error from AVMetrics variant switch events: \(error)")
-                    }
-                    return Empty<MUXSDKRenditionChangeEvent, Never>()
-                }
-
-            return Publishers.Concatenate(
-                prefix: initialEvent.map { $0 as MUXSDKBaseEvent },
-                suffix: changeEvents.map { $0 as MUXSDKBaseEvent })
-        }
-#endif
-
-        let changeEvents = timedRenditionInfo
-            .dropFirst()
             .map { timing, videoData in
                 let event = MUXSDKRenditionChangeEvent()
 
@@ -110,24 +80,34 @@ extension AVPlayerItem {
                 return event
             }
 
-        return Publishers.Concatenate(
-            prefix: initialEvent.map { $0 as MUXSDKBaseEvent },
-            suffix: changeEvents.map { $0 as MUXSDKBaseEvent })
+#if !targetEnvironment(simulator)
+        if #available(iOS 18, tvOS 18, visionOS 2, *) {
+            let remainingEvents = renditionChangeEventsAfterInitialEvent()
+                .catch { error in
+                    if !(error is CancellationError) {
+                        logger.error("Error from AVMetrics variant switch events: \(error)")
+                    }
+                    return Empty<MUXSDKRenditionChangeEvent, Never>()
+                }
+
+            return Publishers.Concatenate(
+                prefix: changeEventsUsingTracks.first(),
+                suffix: remainingEvents)
+        }
+#endif
+
+        return changeEventsUsingTracks
     }
 
     @available(iOS 18, tvOS 18, visionOS 2, *)
-    nonisolated func renditionChangeEventsUsingAVMetrics() -> some Publisher<MUXSDKRenditionChangeEvent, Error> {
+    nonisolated func renditionChangeEventsAfterInitialEvent() -> some Publisher<MUXSDKRenditionChangeEvent, Error> {
         metrics(forType: AVMetricPlayerItemVariantSwitchEvent.self)
             .filter(\.didSucceed)
             .map { metricEvent in
-                let timing = await PlaybackEventTiming(variantSwitchEvent: metricEvent, on: self)
-                return (metricEvent, timing)
-            }
-            .publisher
-            .map { (metricEvent, timing) in
                 let muxEvent = MUXSDKRenditionChangeEvent()
 
                 let playerData = MUXSDKPlayerData()
+                let timing = await PlaybackEventTiming(variantSwitchEvent: metricEvent, on: self)
                 playerData.updateWithTiming(timing)
                 muxEvent.playerData = playerData
 
@@ -137,6 +117,7 @@ extension AVPlayerItem {
 
                 return muxEvent
             }
+            .publisher
     }
 
 #if !targetEnvironment(simulator)

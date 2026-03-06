@@ -30,7 +30,7 @@ extension PlayerMonitor {
             .removeDuplicates()
 
         currentItemPublisher
-            .map { $0?.renditionInfoAndChangeEvents().eraseToAnyPublisher() ?? Empty().eraseToAnyPublisher() }
+            .map { $0?.renditionChangeEvents().eraseToAnyPublisher() ?? Empty().eraseToAnyPublisher() }
             .switchToLatest()
             .sink(receiveValue: allEventsSubject.send)
             .store(in: &cancellables)
