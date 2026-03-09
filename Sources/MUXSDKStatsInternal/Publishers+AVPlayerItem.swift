@@ -52,7 +52,8 @@ extension AVPlayerItem {
             }
             .removeDuplicates { $0?.trackID == $1?.trackID }
             .flatMap { videoAssetTrack in
-                return Future {
+                // Boost priority as this kicks off a chain of timing-sensitive operations
+                return Future(priority: .userInitiated) {
                     async let timing = self.currentTiming()
                     guard let videoAssetTrack else {
                         return await (timing, MUXSDKVideoData())
