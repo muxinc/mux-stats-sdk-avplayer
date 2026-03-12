@@ -50,7 +50,10 @@ extension AVPlayerItem {
                 }
                 return videoAssetTrack
             }
-            .removeDuplicates { $0?.trackID == $1?.trackID }
+        // AVPlayerItemTracks and AVAssetTracks are replaced for various reasons during
+        // playback, during seeking for example. While the following will unique these
+        // objects, a new object here may still refer to the same rendition:
+            .removeDuplicates()
             .flatMap { videoAssetTrack in
                 // Boost priority as this kicks off a chain of timing-sensitive operations
                 return Future(priority: .userInitiated) {
@@ -60,6 +63,15 @@ extension AVPlayerItem {
                     }
                     return await (timing, MUXSDKVideoData.makeWithRenditionInfo(track: videoAssetTrack, on: self))
                 }
+            }
+        // Determine uniqueness (and therefore rendition changes) based on fully populated
+        // video data:
+            .removeDuplicates { timedInfoA, timedInfoB in
+                let (_, videoDataA) = timedInfoA
+                let (_, videoDataB) = timedInfoB
+                let queryDictA = videoDataA.toQuery() as NSDictionary
+                let queryDictB = videoDataB.toQuery() as NSDictionary
+                return queryDictA == queryDictB
             }
     }
 
