@@ -10,7 +10,7 @@ let package = Package(
     dependencies: [
         .package(
             url: "https://github.com/muxinc/stats-sdk-objc.git",
-            from: "5.8.0"),
+            from: "5.11.0"),
     ],
     targets: [
         .target(
