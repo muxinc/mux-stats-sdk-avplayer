@@ -7,5 +7,5 @@ This integration is built on top of [Mux's core Objective-C library](https://git
 ## Integration Instructions
 Full integration instructions can be found here: https://docs.mux.com/docs/avplayer-integration-guide.
 
-## Sample apps
+## Sample appst
 * Examples/MUXSDKStatsExampleSPM - Swift Package Manager demo
