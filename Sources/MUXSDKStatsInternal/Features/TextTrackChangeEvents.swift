@@ -125,7 +125,7 @@ struct TextTrackChangeEvents {
             .flatMap { playerItem in
 
                 let captureMediaSelectionOption = {
-                    Future { @MainActor in
+                    Future(priority: .userInitiated) { @MainActor in
                         async let timing = await playerItem.currentTiming()
 
                         let selectionInfo = await MediaSelectionOptionInfo(playerItem.currentMediaSelection)
