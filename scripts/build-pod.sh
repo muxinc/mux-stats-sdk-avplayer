@@ -72,6 +72,7 @@ function build_for {
         -resultBundlePath "$result_bundle_path" \
         -disableAutomaticPackageResolution \
         -derivedDataPath "$DERIVED_DATA_PATH" \
+        -scmProvider system \
         MERGEABLE_LIBRARY=NO \
         BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
         SKIP_INSTALL=NO \

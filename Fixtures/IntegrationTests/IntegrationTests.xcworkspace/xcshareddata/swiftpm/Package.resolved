@@ -1,13 +1,13 @@
 {
-  "originHash" : "8e8ce12178f8479bd50996e9da4e4ec21fefa88816757aaeabf97c26cf19925d",
+  "originHash" : "af406a2480b3962af06c67874e3cf896b95675ebe6fd61903b521acfa926108f",
   "pins" : [
     {
-      "identity" : "stats-sdk-objc",
+      "identity" : "mux-stats-sdk-objc",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/muxinc/stats-sdk-objc.git",
+      "location" : "git@github.com:muxinc/mux-stats-sdk-objc.git",
       "state" : {
-        "revision" : "aba0b57a2fb75e154848b30ad8ec07283b520b75",
-        "version" : "5.11.0"
+        "branch" : "feature/nat-333-text-track-changes",
+        "revision" : "e021747caf86eab9928b251950979b1f275dc7b0"
       }
     }
   ],

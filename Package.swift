@@ -10,7 +10,7 @@ let package = Package(
     dependencies: [
         .package(
             name: "stats-sdk-objc",
-            url: "https://github.com/muxinc/mux-stats-sdk-objc.git",
+            url: "git@github.com:muxinc/mux-stats-sdk-objc.git",
             branch: "feature/nat-333-text-track-changes"),
     ],
     targets: [

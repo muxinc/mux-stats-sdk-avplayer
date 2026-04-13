@@ -64,6 +64,7 @@ function test_for {
         -testProductsPath "$test_products_path" \
         -destination "generic/platform=$platform" \
         -derivedDataPath "$DERIVED_DATA_PATH" \
+        -scmProvider system \
         -allowProvisioningUpdates \
         -disableAutomaticPackageResolution \
         | xcbeautify

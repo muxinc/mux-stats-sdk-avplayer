@@ -50,6 +50,7 @@ function test_for {
         -destination "generic/platform=$platform" \
         -derivedDataPath "$DERIVED_DATA_PATH" \
         -disableAutomaticPackageResolution \
+        -scmProvider system \
         | xcbeautify
     local xcodebuild_build_exit_code="$?"
     set -e
