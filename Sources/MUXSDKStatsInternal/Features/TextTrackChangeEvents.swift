@@ -7,6 +7,8 @@ extension MUXSDKTextTrackType {
         switch mediaType {
         case .subtitle:
             self = .subtitles
+        case .text:
+            self = .subtitles
         case .closedCaption:
             self = .closedCaptions
         default:
