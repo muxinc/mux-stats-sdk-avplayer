@@ -212,7 +212,7 @@ extension MUXSDKTextTrackChangeEvent {
                 textTrackLanguage: nil)
         }
 
-        playerData?.updateWithTiming(timing)
+        updateWithTiming(timing)
     }
 
     convenience init(timing: PlaybackEventTiming,
@@ -225,6 +225,6 @@ extension MUXSDKTextTrackChangeEvent {
             textTrackName: selectionOption.name,
             textTrackLanguage: selectionOption.language)
 
-        playerData?.updateWithTiming(timing)
+        updateWithTiming(timing)
     }
 }
