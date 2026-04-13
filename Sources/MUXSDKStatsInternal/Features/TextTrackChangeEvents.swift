@@ -47,21 +47,22 @@ extension MUXSDKTextTrackFormat {
 struct TextTrackChangeEvents {
 
     /// Represents the selected text track option (see AVMediaSelectionOption) but not necessarily the current presentation state
-    struct MediaSelectionOptionInfo: Equatable, Hashable, Sendable {
+    struct LegibleMediaSelectionOptionInfo: Equatable, Hashable, Sendable {
         let name: String
-        let trackType: MUXSDKTextTrackType
         let mediaType: AVMediaType
         let language: String?
 
+        var trackType: MUXSDKTextTrackType? {
+            MUXSDKTextTrackType(mediaType)
+        }
+
         @MainActor
         init?(_ mediaSelection: AVMediaSelection) async {
-            guard let mediaSelectionOption = await mediaSelection.selectedMediaOptionInGroup(for: .legible),
-                  let trackType = MUXSDKTextTrackType(mediaSelectionOption.mediaType) else {
+            guard let mediaSelectionOption = await mediaSelection.selectedMediaOptionInGroup(for: .legible) else {
                 return nil
             }
 
-            self.trackType = trackType
-            self.mediaType = mediaSelectionOption.mediaType
+            mediaType = mediaSelectionOption.mediaType
 
             if let hlsName = await mediaSelectionOption.loadHLSNameAttributeValue() {
                 name = hlsName
@@ -128,7 +129,7 @@ struct TextTrackChangeEvents {
                     Future(priority: .userInitiated) { @MainActor in
                         async let timing = await playerItem.currentTiming()
 
-                        let selectionInfo = await MediaSelectionOptionInfo(playerItem.currentMediaSelection)
+                        let selectionInfo = await LegibleMediaSelectionOptionInfo(playerItem.currentMediaSelection)
 
                         return (
                             timing: await timing,
@@ -195,7 +196,7 @@ extension AVPlayerItem {
 @available(iOS 15, tvOS 15, *)
 extension MUXSDKTextTrackChangeEvent {
     convenience init(timing: PlaybackEventTiming,
-                     selectionOption: TextTrackChangeEvents.MediaSelectionOptionInfo?) {
+                     selectionOption: TextTrackChangeEvents.LegibleMediaSelectionOptionInfo?) {
         if let selectionOption {
             self.init(
                 timing: timing,
@@ -215,7 +216,7 @@ extension MUXSDKTextTrackChangeEvent {
     }
 
     convenience init(timing: PlaybackEventTiming,
-                     selectionOption: TextTrackChangeEvents.MediaSelectionOptionInfo,
+                     selectionOption: TextTrackChangeEvents.LegibleMediaSelectionOptionInfo,
                      assetTrack: TextTrackChangeEvents.AssetTrackInfo?) {
         self.init(
             textTrackEnabled: true as NSNumber,
