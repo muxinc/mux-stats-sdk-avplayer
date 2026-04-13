@@ -32,9 +32,9 @@ extension MUXSDKTextTrackFormat {
     init?(_ mediaSubType: CMFormatDescription.MediaSubType) {
         switch mediaSubType {
         case .cea608:
-            self = .CEA608
+            self = .cea608
         case .cea708:
-            self = .CEA708
+            self = .cea708
         case .webVTT:
             self = .webVTT
         default:
