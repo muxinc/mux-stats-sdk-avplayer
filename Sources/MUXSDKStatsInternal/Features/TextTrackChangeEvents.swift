@@ -198,19 +198,18 @@ extension MUXSDKTextTrackChangeEvent {
                      selectionOption: TextTrackChangeEvents.MediaSelectionOptionInfo?) {
         if let selectionOption {
             self.init(
-                textTrackEnabled: true as NSNumber,
-                textTrackType: selectionOption.trackType,
-                textTrackFormat: nil,
-                textTrackName: selectionOption.name,
-                textTrackLanguage: selectionOption.language)
-        } else {
-            self.init(
-                textTrackEnabled: false as NSNumber,
-                textTrackType: nil,
-                textTrackFormat: nil,
-                textTrackName: nil,
-                textTrackLanguage: nil)
+                timing: timing,
+                selectionOption: selectionOption,
+                assetTrack: nil)
+            return
         }
+
+        self.init(
+            textTrackEnabled: false as NSNumber,
+            textTrackType: nil,
+            textTrackFormat: nil,
+            textTrackName: nil,
+            textTrackLanguage: nil)
 
         updateWithTiming(timing)
     }
