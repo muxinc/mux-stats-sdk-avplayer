@@ -16,6 +16,7 @@ steps:
       - ".build/artifacts/Cocoapods-Mux-Stats-AVPlayer.zip"
       - ".build/artifacts/Mux-Stats-AVPlayer.podspec"
       - ".build/artifacts/*.xcresult.zip"
+    branches: "releases/*"
   - wait
   - command: "./scripts/run-integration-tests.sh"
     label: ":xcode_simulator: Integration Tests"
