@@ -147,6 +147,8 @@ struct TextTrackChangeEvents {
                 let mediaSelectionOptionPublisher = Publishers.Concatenate(
                     prefix: captureMediaSelectionOption(),
                     suffix: mediaSelectionOptionChanges)
+                // This can be a very noisy event stream, with intermediate states reported for fractions of a second:
+                    .debounce(for: .seconds(minimumIntervalBetweenEvents), scheduler: DispatchQueue.global())
                     .removeDuplicates { a, b in
                         a.selectionInfo == b.selectionInfo
                     }
@@ -181,7 +183,6 @@ struct TextTrackChangeEvents {
                             selectionOption: selectionOption,
                             assetTrack: nil)
                     }
-                    .debounce(for: .seconds(minimumIntervalBetweenEvents), scheduler: DispatchQueue.global())
             }
     }
 }
