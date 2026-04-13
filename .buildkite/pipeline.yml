@@ -14,6 +14,7 @@ steps:
       - ".build/artifacts/Package.resolved"
   - label: ":cocoapods: Build for CocoaPods"
     command: "./scripts/build-pod.sh"
+    branches: "releases/*"
     artifact_paths:
       - ".build/artifacts/Cocoapods-Mux-Stats-AVPlayer.zip"
       - ".build/artifacts/Mux-Stats-AVPlayer.podspec"
