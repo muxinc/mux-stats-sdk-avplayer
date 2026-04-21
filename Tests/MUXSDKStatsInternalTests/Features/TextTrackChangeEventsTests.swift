@@ -270,4 +270,76 @@ struct TextTrackChangeEventsTests {
             #expect(thirdEvent.playerTextTrackLanguage == "en")
         }
     }
+
+    @available(iOS 15, tvOS 15, *)
+    @Test func smoothsBurstOfEvents() async throws {
+        try await confirmation("two events are fired", expectedCount: 2) { confirmation in
+            let player = AVPlayer()
+            player.appliesMediaSelectionCriteriaAutomatically = false
+            let playerItem = AVPlayerItem(url: bipBopExampleURL)
+
+            try await { @MainActor in
+                let group = try #require(await playerItem.asset.loadMediaSelectionGroup(for: .legible))
+                playerItem.select(nil, in: group)
+            }()
+
+            player.replaceCurrentItem(with: playerItem)
+
+            let ttce = TextTrackChangeEvents(playerItem: playerItem)
+
+            let events = ttce.allEvents()
+                .handleEvents(receiveOutput: { _ in confirmation() })
+                .buffer(size: 10, prefetch: .byRequest, whenFull: .dropOldest)
+                .values
+
+            var iterator = events.makeAsyncIterator()
+
+            await MainActor.run {
+                player.play()
+            }
+
+            let firstEvent = try #require(await iterator.next())
+            #expect(firstEvent.playerData?.playerPlayheadTime == 0 as NSNumber)
+            #expect(firstEvent.playerTextTrackEnabled == false as NSNumber)
+            #expect(firstEvent.playerTextTrackName == nil)
+            #expect(firstEvent.playerTextTrackType == nil)
+            #expect(firstEvent.playerTextTrackFormat == nil)
+            #expect(firstEvent.playerTextTrackLanguage == nil)
+
+            try await Task.sleep(nanoseconds: NSEC_PER_SEC/2)
+
+            // would generate an event with subtitles enabled
+            try await { @MainActor in
+                let group = try #require(await playerItem.asset.loadMediaSelectionGroup(for: .legible))
+                let subtitleOption = try #require(group.options.first(where: { $0.mediaType == .subtitle }))
+                playerItem.select(subtitleOption, in: group)
+            }()
+
+            // would generate an event with no track
+            try await { @MainActor in
+                let group = try #require(await playerItem.asset.loadMediaSelectionGroup(for: .legible))
+                playerItem.select(nil, in: group)
+            }()
+
+            // should generate an event with cc enabled
+            let timeBeforeSecondEvent = try await { @MainActor in
+                let group = try #require(await playerItem.asset.loadMediaSelectionGroup(for: .legible))
+                let ccOption = try #require(group.options.first(where: { $0.mediaType == .closedCaption }))
+                defer {
+                    playerItem.select(ccOption, in: group)
+                }
+                return try #require(playerItem.currentTime().muxTimeValue)
+            }()
+
+            let secondEvent = try #require(await iterator.next())
+            #expect(try #require(secondEvent.playerData?.playerPlayheadTime).compare(timeBeforeSecondEvent) != .orderedAscending)
+            #expect(secondEvent.playerTextTrackEnabled == true as NSNumber)
+            #expect(secondEvent.playerTextTrackName == "English")
+            #expect(secondEvent.playerTextTrackType == .closedCaptions)
+            #expect(secondEvent.playerTextTrackFormat == .cea608)
+            #expect(secondEvent.playerTextTrackLanguage == "en")
+
+            try await Task.sleep(nanoseconds: NSEC_PER_SEC/2)
+        }
+    }
 }
