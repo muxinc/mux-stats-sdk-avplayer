@@ -51,6 +51,11 @@ struct TextTrackChangeEventsTests {
             player.appliesMediaSelectionCriteriaAutomatically = false
             let playerItem = AVPlayerItem(url: bipBopExampleURL)
 
+            try await { @MainActor in
+                let group = try #require(await playerItem.asset.loadMediaSelectionGroup(for: .legible))
+                playerItem.select(nil, in: group)
+            }()
+
             let ttce = TextTrackChangeEvents(playerItem: playerItem)
 
             let events = ttce.allEvents()
@@ -116,6 +121,11 @@ struct TextTrackChangeEventsTests {
             let player = AVPlayer()
             player.appliesMediaSelectionCriteriaAutomatically = false
             let playerItem = AVPlayerItem(url: bipBopExampleURL)
+
+            try await { @MainActor in
+                let group = try #require(await playerItem.asset.loadMediaSelectionGroup(for: .legible))
+                playerItem.select(nil, in: group)
+            }()
 
             player.replaceCurrentItem(with: playerItem)
 
@@ -191,6 +201,12 @@ struct TextTrackChangeEventsTests {
             let player = AVPlayer()
             player.appliesMediaSelectionCriteriaAutomatically = false
             let playerItem = AVPlayerItem(url: bipBopExampleURL)
+
+            try await { @MainActor in
+                let group = try #require(await playerItem.asset.loadMediaSelectionGroup(for: .legible))
+                playerItem.select(nil, in: group)
+            }()
+
             player.replaceCurrentItem(with: playerItem)
 
             let ttce = TextTrackChangeEvents(playerItem: playerItem)
