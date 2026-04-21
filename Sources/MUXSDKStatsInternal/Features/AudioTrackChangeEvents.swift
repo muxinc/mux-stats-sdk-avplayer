@@ -128,6 +128,8 @@ struct AudioTrackChangeEvents {
         }
 
         static func codecString(for formatID: AudioFormatID) -> String? {
+            // Explicit mappings only for common streaming-video audio codecs.
+            // Return nil for anything else rather than guessing.
             switch formatID {
             case kAudioFormatAC3:
                 return "ac-3"
