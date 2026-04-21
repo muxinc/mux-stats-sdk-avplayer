@@ -41,6 +41,12 @@ extension PlayerMonitor {
             .sink(receiveValue: allEventsSubject.send)
             .store(in: &cancellables)
 
+        currentItemPublisher
+            .map { $0?.audioTrackChangeEvents().eraseToAnyPublisher() ?? Empty().eraseToAnyPublisher() }
+            .switchToLatest()
+            .sink(receiveValue: allEventsSubject.send)
+            .store(in: &cancellables)
+
 #if !targetEnvironment(simulator)
         if #available(iOS 18.0, tvOS 18.0, visionOS 2.0, *) {
             currentItemPublisher

@@ -11,7 +11,7 @@ let package = Package(
         .package(
             name: "stats-sdk-objc",
             url: "git@github.com:muxinc/mux-stats-sdk-objc.git",
-            branch: "feature/nat-333-text-track-changes"),
+            branch: "feature/nat-416-audio-track-changes"),
     ],
     targets: [
         .target(
