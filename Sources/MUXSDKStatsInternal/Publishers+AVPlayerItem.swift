@@ -9,19 +9,18 @@ extension AVPlayerItem {
         var playerItemError: Error?
     }
 
-    /// Publishes `tracks` once initial loading completes, failing when overall loading fails
-    nonisolated var tracksReadyToPlayPublisher: some Publisher<[AVPlayerItemTrack], StatusFailedError> {
+    /// Publishes `self` once initial loading completes, failing when overall loading fails
+    nonisolated var readyToPlayPublisher: some Publisher<AVPlayerItem, StatusFailedError> {
         publisher(for: \.status, options: [.initial])
             .removeDuplicates()
             .map { status in
                 switch status {
                 case .unknown:
-                    return Empty<[AVPlayerItemTrack], StatusFailedError>()
+                    return Empty<AVPlayerItem, StatusFailedError>()
                         .eraseToAnyPublisher()
 
                 case .readyToPlay:
-                    return self.publisher(for: \.tracks, options: [.initial])
-                        .removeDuplicates()
+                    return Just(self)
                         .setFailureType(to: StatusFailedError.self)
                         .eraseToAnyPublisher()
 
@@ -37,7 +36,11 @@ extension AVPlayerItem {
     }
 
     nonisolated func timedRenditionInfoPublisher() -> some Publisher<(PlaybackEventTiming, MUXSDKVideoData), StatusFailedError> {
-        tracksReadyToPlayPublisher
+        readyToPlayPublisher
+            .flatMap { playerItem in
+                playerItem.publisher(for: \.tracks, options: [.initial])
+                    .removeDuplicates()
+            }
             // @MainActor isolated: AVPlayerItemTrack (and therefore its assetTrack property)
             .receive(on: ImmediateIfOnMainQueueScheduler.shared)
             .map { (tracks: [AVPlayerItemTrack]) -> AVAssetTrack? in
