@@ -1,8 +1,33 @@
+@preconcurrency import AVFoundation
 import AudioToolbox
 import CoreMedia
-import MuxCore
+@preconcurrency import MuxCore
 @testable import MUXSDKStatsInternal
 import Testing
+
+private let multiAudioTestStreamURL = URL(string: "https://devstreaming-cdn.apple.com/videos/streaming/examples/adv_dv_atmos/main.m3u8")!
+private let describesVideoCharacteristic = AVMediaCharacteristic("public.accessibility.describes-video")
+
+@available(iOS 15, tvOS 15, *)
+@MainActor
+private func waitForTrackInfo(
+    on playerItem: AVPlayerItem,
+    named expectedName: String,
+    timeout: TimeInterval = 30
+) async throws -> AudioTrackChangeEvents.AudioTrackInfo {
+    let timeoutDate = Date().addingTimeInterval(timeout)
+
+    while Date() < timeoutDate {
+        if let trackInfo = await AudioTrackChangeEvents.AudioTrackInfo(playerItem),
+           trackInfo.name == expectedName {
+            return trackInfo
+        }
+
+        try await Task.sleep(nanoseconds: 100_000_000)
+    }
+
+    throw TimeoutError()
+}
 
 struct AudioTrackChangeEventsTests {
     @Test(arguments: [
@@ -107,5 +132,32 @@ struct AudioTrackChangeEventsTests {
         #expect(playerData.playerAudioTrackBitrate?.intValue == 128_000)
         #expect(playerData.playerAudioTrackChannels == MUXSDKAudioTrackChannelLayout.stereo)
         #expect(playerData.playerPlayheadTime?.intValue == 12_345)
+    }
+
+    @MainActor
+    @Test
+    func audibleMediaSelectionChangePublishesUpdatedTrackInfo() async throws {
+        guard #available(iOS 15, tvOS 15, *) else {
+            return
+        }
+
+        let playerItem = AVPlayerItem(url: multiAudioTestStreamURL)
+
+        let initialTrackInfo = try await waitForTrackInfo(on: playerItem, named: "English")
+        #expect(initialTrackInfo.language == "en-US")
+
+        let audibleGroup = try #require(
+            try await playerItem.asset.loadMediaSelectionGroup(for: .audible)
+        )
+        let dvsOption = try #require(audibleGroup.options.first(where: {
+            $0.hasMediaCharacteristic(describesVideoCharacteristic)
+        }))
+
+        await MainActor.run {
+            playerItem.select(dvsOption, in: audibleGroup)
+        }
+
+        let changedTrackInfo = try await waitForTrackInfo(on: playerItem, named: "English (DVS)")
+        #expect(changedTrackInfo.language == "en-US")
     }
 }

@@ -4,6 +4,93 @@ import Combine
 @preconcurrency import MuxCore
 
 @available(iOS 15, tvOS 15, *)
+extension AudioFormatID {
+    var rfc6381CodecsParameterValue: String? {
+        // Explicit mappings only for common streaming-video audio codecs.
+        // Return nil for anything else rather than guessing.
+        switch self {
+        case kAudioFormatAC3:
+            return "ac-3"
+        case kAudioFormatEnhancedAC3:
+            return "ec-3"
+        case kAudioFormatMPEG4AAC:
+            return "mp4a.40.2"
+        case kAudioFormatMPEG4AAC_HE:
+            return "mp4a.40.5"
+        case kAudioFormatMPEG4AAC_HE_V2:
+            return "mp4a.40.29"
+        case kAudioFormatMPEGD_USAC:
+            return "mp4a.40.42"
+        case kAudioFormatOpus:
+            return "opus"
+        default:
+            return nil
+        }
+    }
+}
+
+@available(iOS 15, tvOS 15, *)
+extension MUXSDKAudioTrackChannelLayout {
+    init?(audioFormatDescription: CMAudioFormatDescription) {
+        var channelLayoutSize = 0
+        if let channelLayout = CMAudioFormatDescriptionGetChannelLayout(
+            audioFormatDescription,
+            sizeOut: &channelLayoutSize
+        ), channelLayout.pointee.mChannelLayoutTag.isAtmos {
+            self = .atmos
+            return
+        }
+
+        guard let audioFormat = CMAudioFormatDescriptionGetRichestDecodableFormat(audioFormatDescription)
+            ?? CMAudioFormatDescriptionGetMostCompatibleFormat(audioFormatDescription) else {
+            return nil
+        }
+
+        self.init(
+            channelCount: Int(audioFormat.pointee.mASBD.mChannelsPerFrame),
+            audioChannelLayoutTag: nil
+        )
+    }
+
+    init?(channelCount: Int, audioChannelLayoutTag: AudioChannelLayoutTag?) {
+        if let audioChannelLayoutTag, audioChannelLayoutTag.isAtmos {
+            self = .atmos
+            return
+        }
+
+        switch channelCount {
+        case 1:
+            self = .mono
+        case 2:
+            self = .stereo
+        case 6:
+            self = .fivePointOne
+        case 8:
+            self = .sevenPointOne
+        case let count where count > 0:
+            self = .init("\(count)")
+        default:
+            return nil
+        }
+    }
+}
+
+private extension AudioChannelLayoutTag {
+    var isAtmos: Bool {
+        switch self {
+        case kAudioChannelLayoutTag_Atmos_5_1_2,
+             kAudioChannelLayoutTag_Atmos_5_1_4,
+             kAudioChannelLayoutTag_Atmos_7_1_2,
+             kAudioChannelLayoutTag_Atmos_7_1_4,
+             kAudioChannelLayoutTag_Atmos_9_1_6:
+            return true
+        default:
+            return false
+        }
+    }
+}
+
+@available(iOS 15, tvOS 15, *)
 struct AudioTrackChangeEvents {
 
     struct AudioTrackInfo: Equatable, Hashable, Sendable {
@@ -124,30 +211,11 @@ struct AudioTrackChangeEvents {
                 return nil
             }
 
-            return codecString(for: formatDescription.mediaSubType.rawValue)
+            return formatDescription.mediaSubType.rawValue.rfc6381CodecsParameterValue
         }
 
         static func codecString(for formatID: AudioFormatID) -> String? {
-            // Explicit mappings only for common streaming-video audio codecs.
-            // Return nil for anything else rather than guessing.
-            switch formatID {
-            case kAudioFormatAC3:
-                return "ac-3"
-            case kAudioFormatEnhancedAC3:
-                return "ec-3"
-            case kAudioFormatMPEG4AAC:
-                return "mp4a.40.2"
-            case kAudioFormatMPEG4AAC_HE:
-                return "mp4a.40.5"
-            case kAudioFormatMPEG4AAC_HE_V2:
-                return "mp4a.40.29"
-            case kAudioFormatMPEGD_USAC:
-                return "mp4a.40.42"
-            case kAudioFormatOpus:
-                return "opus"
-            default:
-                return nil
-            }
+            formatID.rfc6381CodecsParameterValue
         }
 
         static func channelLayout(for formatDescription: CMFormatDescription) -> MUXSDKAudioTrackChannelLayout? {
@@ -155,64 +223,14 @@ struct AudioTrackChangeEvents {
                 return nil
             }
 
-            let audioFormatDescription = formatDescription as CMAudioFormatDescription
-
-            var channelLayoutSize = 0
-            if let channelLayout = CMAudioFormatDescriptionGetChannelLayout(
-                audioFormatDescription,
-                sizeOut: &channelLayoutSize
-            ) {
-                let layoutTag = channelLayout.pointee.mChannelLayoutTag
-                if isAtmos(layoutTag: layoutTag) {
-                    return .atmos
-                }
-            }
-
-            guard let audioFormat = CMAudioFormatDescriptionGetRichestDecodableFormat(audioFormatDescription)
-                ?? CMAudioFormatDescriptionGetMostCompatibleFormat(audioFormatDescription) else {
-                return nil
-            }
-
-            return channelLayout(
-                channelCount: Int(audioFormat.pointee.mASBD.mChannelsPerFrame),
-                audioChannelLayoutTag: nil)
+            return .init(audioFormatDescription: formatDescription as CMAudioFormatDescription)
         }
 
         static func channelLayout(
             channelCount: Int,
             audioChannelLayoutTag: AudioChannelLayoutTag?
         ) -> MUXSDKAudioTrackChannelLayout? {
-            if let audioChannelLayoutTag, isAtmos(layoutTag: audioChannelLayoutTag) {
-                return .atmos
-            }
-
-            switch channelCount {
-            case 1:
-                return .mono
-            case 2:
-                return .stereo
-            case 6:
-                return .fivePointOne
-            case 8:
-                return .sevenPointOne
-            case let count where count > 0:
-                return .init("\(count)")
-            default:
-                return nil
-            }
-        }
-
-        private static func isAtmos(layoutTag: AudioChannelLayoutTag) -> Bool {
-            switch layoutTag {
-            case kAudioChannelLayoutTag_Atmos_5_1_2,
-                 kAudioChannelLayoutTag_Atmos_5_1_4,
-                 kAudioChannelLayoutTag_Atmos_7_1_2,
-                 kAudioChannelLayoutTag_Atmos_7_1_4,
-                 kAudioChannelLayoutTag_Atmos_9_1_6:
-                return true
-            default:
-                return false
-            }
+            .init(channelCount: channelCount, audioChannelLayoutTag: audioChannelLayoutTag)
         }
 
         private static func uniqueValue<T: Hashable>(_ values: [T]) -> T? {
@@ -294,7 +312,7 @@ extension MUXSDKAudioTrackChangeEvent {
                 audioTrackName: trackInfo.name,
                 audioTrackLanguage: trackInfo.language,
                 audioTrackCodec: trackInfo.codec,
-                audioTrackBitrate: trackInfo.bitrate.map(NSNumber.init(value:)),
+                audioTrackBitrate: trackInfo.bitrate as NSNumber?,
                 audioTrackChannels: trackInfo.channels)
         } else {
             self.init(
