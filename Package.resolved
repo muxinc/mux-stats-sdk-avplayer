@@ -1,13 +1,13 @@
 {
-  "originHash" : "af406a2480b3962af06c67874e3cf896b95675ebe6fd61903b521acfa926108f",
+  "originHash" : "a4da08a770d5023080a7387443169b55ad24136531b9e43ff69735ef985c6aee",
   "pins" : [
     {
       "identity" : "mux-stats-sdk-objc",
       "kind" : "remoteSourceControl",
       "location" : "git@github.com:muxinc/mux-stats-sdk-objc.git",
       "state" : {
-        "branch" : "feature/nat-333-text-track-changes",
-        "revision" : "e021747caf86eab9928b251950979b1f275dc7b0"
+        "branch" : "feature/nat-416-audio-track-changes",
+        "revision" : "963d1b1a5de38a9d2ce47f37429fcf713e8648b9"
       }
     }
   ],
