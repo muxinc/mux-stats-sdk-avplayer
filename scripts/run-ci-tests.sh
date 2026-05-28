@@ -4,6 +4,7 @@ set -euo pipefail
 # set -x
 
 readonly WORKSPACE_PATH="$PWD/Fixtures/IntegrationTests/IntegrationTests.xcworkspace"
+readonly PACKAGE_RESOLVED_FILE="$WORKSPACE_PATH/xcshareddata/swiftpm/Package.resolved"
 readonly SCHEME=MUXSDKStats
 readonly TEST_PLAN=CIPipeline
 
@@ -26,6 +27,14 @@ mkdir -p "$BUILD_DIR" "$ARTIFACTS_DIR"
 if [ "${CI:-}" ]; then
     (cd Configuration && ln -sF CodeSigning.mux.xcconfig CodeSigning.local.xcconfig)
 fi
+
+function resolve_packages {
+    echo "--- Resolving package dependencies"
+
+    xcodebuild -resolvePackageDependencies -workspace "$WORKSPACE_PATH" -scheme "$SCHEME"
+
+    cp -ac "$PACKAGE_RESOLVED_FILE" "$ARTIFACTS_DIR"
+}
 
 function build_for {
     local platform="$1"
@@ -70,6 +79,8 @@ function run_ci_tests {
 }
 
 # Execute:
+
+resolve_packages
 
 build_for 'iOS'
 
