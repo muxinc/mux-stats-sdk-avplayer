@@ -4,6 +4,7 @@ set -euo pipefail
 # set -x
 
 readonly SCHEME=MUXSDKStats
+readonly PACKAGE_RESOLVED_FILE="$PWD/Package.resolved"
 
 readonly BUILD_DIR="$PWD/.build"
 readonly ARTIFACTS_DIR="$BUILD_DIR/artifacts"
@@ -35,6 +36,14 @@ function merge_and_export_result_bundles {
     fi
 
     (cd "$BUILD_DIR" && ditto -c -k -X --keepParent "$XCRESULT_FILENAME" "$XCRESULT_ARTIFACT_PATH")
+}
+
+function resolve_packages {
+    echo "--- Resolving package dependencies"
+
+    xcodebuild -resolvePackageDependencies
+
+    cp -ac "$PACKAGE_RESOLVED_FILE" "$ARTIFACTS_DIR"
 }
 
 function build_for {
@@ -75,6 +84,8 @@ function build_for {
 }
 
 # Execute:
+
+resolve_packages
 
 build_for 'iOS'
 build_for 'iOS Simulator'

@@ -4,6 +4,7 @@ set -euo pipefail
 # set -x
 
 readonly WORKSPACE_PATH="$PWD/Fixtures/IntegrationTests/IntegrationTests.xcworkspace"
+readonly PACKAGE_RESOLVED_FILE="$WORKSPACE_PATH/xcshareddata/swiftpm/Package.resolved"
 readonly SCHEME=MUXSDKStats
 readonly TEST_PLAN=CIPipeline
 
@@ -41,6 +42,14 @@ function merge_and_export_result_bundles {
     fi
 
     (cd "$BUILD_DIR" && ditto -c -k --norsrc --zlibCompressionLevel 9 --keepParent "$XCRESULT_FILENAME" "$XCRESULT_ARTIFACT_PATH")
+}
+
+function resolve_packages {
+    echo "--- Resolving package dependencies"
+
+    xcodebuild -resolvePackageDependencies -workspace "$WORKSPACE_PATH" -scheme "$SCHEME"
+
+    cp -ac "$PACKAGE_RESOLVED_FILE" "$ARTIFACTS_DIR"
 }
 
 function test_for {
@@ -119,6 +128,8 @@ function test_for {
 }
 
 # Execute:
+
+resolve_packages
 
 test_for 'iOS'
 test_for 'iOS Simulator' 'iPhone 16 Pro'

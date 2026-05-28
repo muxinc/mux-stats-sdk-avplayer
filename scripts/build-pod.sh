@@ -9,10 +9,11 @@ readonly CODE_SIGNING_IDENTITY="Apple Distribution: Mux, Inc (XX95P4Y787)"
 
 readonly SCHEME=MUXSDKStatsFramework
 readonly PROJECT=scripts/MUXSDKStatsFramework.xcodeproj
+readonly PACKAGE_RESOLVED_FILE="$PROJECT/project.xcworkspace/xcshareddata/swiftpm/Package.resolved"
 
 readonly PACKAGE_ROOT_PATH="$PWD"
 readonly BUILD_PATH="$PWD/.build"
-readonly ARTIFACTS_PATH="$BUILD_PATH/artifacts"
+readonly ARTIFACTS_DIR="$BUILD_PATH/artifacts"
 readonly DERIVED_DATA_PATH="$BUILD_PATH/DerivedData"
 
 readonly XCARCHIVE_NAME_BASE="$SCHEME"
@@ -22,18 +23,18 @@ readonly XCFRAMEWORK_FILENAME="MUXSDKStats.xcframework"
 readonly XCFRAMEWORK_PATH="$BUILD_PATH/$XCFRAMEWORK_FILENAME"
 
 readonly COCOAPODS_BINARY_ARTIFACT_FILENAME="Cocoapods-Mux-Stats-AVPlayer.zip"
-readonly COCOAPODS_BINARY_ARTIFACT_PATH="$ARTIFACTS_PATH/$COCOAPODS_BINARY_ARTIFACT_FILENAME"
-readonly PODSPEC_ARTIFACT_PATH="$ARTIFACTS_PATH/Mux-Stats-AVPlayer.podspec"
+readonly COCOAPODS_BINARY_ARTIFACT_PATH="$ARTIFACTS_DIR/$COCOAPODS_BINARY_ARTIFACT_FILENAME"
+readonly PODSPEC_ARTIFACT_PATH="$ARTIFACTS_DIR/Mux-Stats-AVPlayer.podspec"
 
 readonly XCRESULT_NAME_BASE="$SCHEME-Build"
 readonly XCRESULT_FILENAME="$XCRESULT_NAME_BASE.xcresult"
 readonly XCRESULT_PATH="$BUILD_PATH/$XCRESULT_FILENAME"
-readonly XCRESULT_ZIP_ARTIFACT_PATH="$ARTIFACTS_PATH/$XCRESULT_FILENAME.zip"
+readonly XCRESULT_ZIP_ARTIFACT_PATH="$ARTIFACTS_DIR/$XCRESULT_FILENAME.zip"
 
 # Prepare:
 
-rm -rf "$BUILD_PATH" "$ARTIFACTS_PATH"
-mkdir -p "$BUILD_PATH" "$ARTIFACTS_PATH"
+rm -rf "$BUILD_PATH" "$ARTIFACTS_DIR"
+mkdir -p "$BUILD_PATH" "$ARTIFACTS_DIR"
 
 XCRESULT_BUNDLE_PATHS=()
 XCARCHIVE_PATHS=()
@@ -50,6 +51,14 @@ function merge_and_export_result_bundles {
     fi
 
     ditto -c -k --norsrc --zlibCompressionLevel 9 --keepParent "$XCRESULT_PATH" "$XCRESULT_ZIP_ARTIFACT_PATH"
+}
+
+function resolve_packages {
+    echo "--- Resolving package dependencies"
+
+    xcodebuild -resolvePackageDependencies -project "$PROJECT"
+
+    cp -ac "$PACKAGE_RESOLVED_FILE" "$ARTIFACTS_DIR"
 }
 
 function build_for {
@@ -168,6 +177,8 @@ function lint_podspec {
 }
 
 # Execute:
+
+resolve_packages
 
 build_for iphoneos 'iOS'
 build_for iphonesimulator 'iOS Simulator'
