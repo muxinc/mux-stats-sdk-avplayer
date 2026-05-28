@@ -28,6 +28,8 @@ steps:
       - ".build/artifacts/Package.resolved"
   - command: "./scripts/run-ci-tests.sh"
     label: ":test_tube: CI Tests"
+    artifact_paths:
+      - ".build/artifacts/Package.resolved"
   - wait
   - command: "./scripts/version-check.sh"
     label: ":clipboard: Validate Version Metadata"
