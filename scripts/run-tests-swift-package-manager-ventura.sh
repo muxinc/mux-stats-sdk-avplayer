@@ -16,6 +16,8 @@ then
     exit 1
 fi
 
+mkdir -p "$BUILD_DIR" "$ARTIFACTS_DIR"
+
 function resolve_packages {
     echo "--- Resolving package dependencies"
 
