@@ -82,4 +82,50 @@ struct TaskTimeoutTests {
             #expect(!Task.isCancelled, "operation should not be cancelled ")
         }
     }
+
+    @Test func testPropagatesParentCancellation() async throws {
+        try await confirmation { wasCancelled in
+            let operationStartedSemaphore = DispatchSemaphore(value: 0)
+
+            let parent = Task {
+                try await withTimeout(seconds: 5) {
+                    await withTaskCancellationHandler {
+                        #expect(!Task.isCancelled)
+                        #expect(operationStartedSemaphore.signal() != 0)
+                        while !Task.isCancelled {
+                            await Task.yield()
+                        }
+                    } onCancel: {
+                        wasCancelled.confirm()
+                    }
+                }
+            }
+
+            // wait for operation to begin
+            await withCheckedContinuation { continuation in
+                operationStartedSemaphore.wait()
+                continuation.resume()
+            }
+
+            parent.cancel()
+
+            try await parent.value
+        }
+    }
+
+    @Test func testPropagatesAlreadyCancelledParent() async throws {
+        let parent = Task {
+            while !Task.isCancelled {
+                await Task.yield()
+            }
+
+            try await withTimeout(seconds: 5) {
+                #expect(Task.isCancelled)
+            }
+        }
+
+        parent.cancel()
+
+        try await parent.value
+    }
 }
