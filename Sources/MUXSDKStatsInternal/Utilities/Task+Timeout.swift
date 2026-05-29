@@ -8,23 +8,31 @@ func withTimeout<T: Sendable>(seconds: TimeInterval, operation: sending @escapin
     let workTask = Task {
         try await operation()
     }
-    return try await withCheckedThrowingContinuation { continuation in
-        Task {
-            await withThrowingTaskGroup(of: T.self) { group in
-                defer {
-                    workTask.cancel()
-                    group.cancelAll()
+    return try await withTaskCancellationHandler {
+        try await withCheckedThrowingContinuation { continuation in
+            Task {
+                await withThrowingTaskGroup(of: T.self) { group in
+                    defer {
+                        workTask.cancel()
+                        group.cancelAll()
+                    }
+                    group.addTask {
+                        try await workTask.value
+                    }
+                    group.addTask {
+                        if #available(iOS 16, tvOS 16, *) {
+                            try await Task.sleep(for: .seconds(seconds))
+                        } else {
+                            try await Task.sleep(nanoseconds: UInt64(seconds * Double(NSEC_PER_SEC)))
+                        }
+                        throw TimeoutError()
+                    }
+                    let firstResult = await group.nextResult()!
+                    continuation.resume(with: firstResult)
                 }
-                group.addTask {
-                    try await workTask.value
-                }
-                group.addTask {
-                    try await Task.sleep(nanoseconds: UInt64(seconds * Double(NSEC_PER_SEC)))
-                    throw TimeoutError()
-                }
-                let firstResult = await group.nextResult()!
-                continuation.resume(with: firstResult)
             }
         }
+    } onCancel: {
+        workTask.cancel()
     }
 }
