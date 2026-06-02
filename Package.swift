@@ -9,9 +9,8 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            name: "stats-sdk-objc",
-            url: "git@github.com:muxinc/mux-stats-sdk-objc.git",
-            branch: "master"),
+            url: "https://github.com/muxinc/stats-sdk-objc.git",
+            from: "5.11.0"),
     ],
     targets: [
         .target(
