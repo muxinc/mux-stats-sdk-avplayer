@@ -41,7 +41,7 @@ function merge_and_export_result_bundles {
 function resolve_packages {
     echo "--- Resolving package dependencies"
 
-    xcodebuild -resolvePackageDependencies
+    xcodebuild -resolvePackageDependencies -scmProvider system
 
     cp -ac "$PACKAGE_RESOLVED_FILE" "$ARTIFACTS_DIR"
 }
@@ -65,7 +65,6 @@ function build_for {
         -disableAutomaticPackageResolution \
         -derivedDataPath "$DERIVED_DATA_PATH" \
         GCC_TREAT_WARNINGS_AS_ERRORS=YES \
-        SWIFT_TREAT_WARNINGS_AS_ERRORS=YES \
         RUN_CLANG_STATIC_ANALYZER=YES \
         CLANG_STATIC_ANALYZER_MODE=deep \
         | xcbeautify

@@ -21,7 +21,7 @@ mkdir -p "$BUILD_DIR" "$ARTIFACTS_DIR"
 function resolve_packages {
     echo "--- Resolving package dependencies"
 
-    xcodebuild -resolvePackageDependencies -project "MUXSDKStatsExampleSPM.xcodeproj"
+    xcodebuild -resolvePackageDependencies -scmProvider system -project "MUXSDKStatsExampleSPM.xcodeproj"
 
     cp -ac "$PACKAGE_RESOLVED_FILE" "$ARTIFACTS_DIR"
 }

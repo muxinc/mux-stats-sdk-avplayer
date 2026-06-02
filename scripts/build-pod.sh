@@ -56,7 +56,7 @@ function merge_and_export_result_bundles {
 function resolve_packages {
     echo "--- Resolving package dependencies"
 
-    xcodebuild -resolvePackageDependencies -project "$PROJECT"
+    xcodebuild -resolvePackageDependencies -scmProvider system -project "$PROJECT"
 
     cp -ac "$PACKAGE_RESOLVED_FILE" "$ARTIFACTS_DIR"
 }

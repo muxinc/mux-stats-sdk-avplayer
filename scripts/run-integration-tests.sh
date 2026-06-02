@@ -47,7 +47,7 @@ function merge_and_export_result_bundles {
 function resolve_packages {
     echo "--- Resolving package dependencies"
 
-    xcodebuild -resolvePackageDependencies -workspace "$WORKSPACE_PATH" -scheme "$SCHEME"
+    xcodebuild -resolvePackageDependencies -scmProvider system -workspace "$WORKSPACE_PATH" -scheme "$SCHEME"
 
     cp -ac "$PACKAGE_RESOLVED_FILE" "$ARTIFACTS_DIR"
 }
