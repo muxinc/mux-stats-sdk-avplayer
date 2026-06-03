@@ -31,7 +31,10 @@ fi
 function resolve_packages {
     echo "--- Resolving package dependencies"
 
-    xcodebuild -resolvePackageDependencies -workspace "$WORKSPACE_PATH" -scheme "$SCHEME"
+    xcodebuild -resolvePackageDependencies \
+        -workspace "$WORKSPACE_PATH" \
+        -scheme "$SCHEME" \
+        -scmProvider system
 
     cp -ac "$PACKAGE_RESOLVED_FILE" "$ARTIFACTS_DIR"
 }

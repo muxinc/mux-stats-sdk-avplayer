@@ -21,7 +21,9 @@ mkdir -p "$BUILD_DIR" "$ARTIFACTS_DIR"
 function resolve_packages {
     echo "--- Resolving package dependencies"
 
-    xcodebuild -resolvePackageDependencies -project "MUXSDKStatsExampleSPM.xcodeproj"
+    xcodebuild -resolvePackageDependencies \
+        -project "$PROJECT" \
+        -scmProvider system
 
     cp -ac "$PACKAGE_RESOLVED_FILE" "$ARTIFACTS_DIR"
 }
@@ -46,8 +48,8 @@ echo "▸ Testing SDK on iOS Simulator - iPhone 16 Pro"
 resolve_packages
 
 xcodebuild clean build-for-testing \
-    -project MUXSDKStatsExampleSPM.xcodeproj \
-    -scheme "MUXSDKStatsExampleSPM" \
+    -project "$PROJECT" \
+    -scheme "$SCHEME" \
     -destination 'generic/platform=iOS Simulator' \
     -derivedDataPath "$DERIVED_DATA_PATH" \
     -allowProvisioningUpdates \
@@ -59,8 +61,8 @@ if [ "${1:-}" == 'build-only' ]; then
 fi
 
 xcodebuild test-without-building \
-    -project MUXSDKStatsExampleSPM.xcodeproj \
-    -scheme "MUXSDKStatsExampleSPM" \
+    -project "$PROJECT" \
+    -scheme "$SCHEME" \
     -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
     -derivedDataPath "$DERIVED_DATA_PATH" \
     | xcbeautify
