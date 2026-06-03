@@ -30,7 +30,7 @@ steps:
   - command: "./scripts/run-ci-tests.sh"
     label: ":test_tube: CI Tests"
     env:
-      DEVELOPER_DIR: "/Applications/Xcode_26.2.app"
+      DEVELOPER_DIR: "/Applications/Xcode_26.5.app"
     artifact_paths:
       - ".build/artifacts/Package.resolved"
   - wait
