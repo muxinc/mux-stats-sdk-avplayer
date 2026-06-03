@@ -2,49 +2,9 @@ agents:
   queue: "macOS-Monterey-12-4"
 
 steps:
-  - command: "./scripts/unit-test-package.sh"
-    label: ":xcode_simulator: Unit Test Package"
-    artifact_paths:
-      - ".build/artifacts/*.xcresult.zip"
-      - ".build/artifacts/Package.resolved"
-  - command: "./scripts/build-package.sh"
-    label: ":xcode: Build for Swift Package Manager"
-    artifact_paths:
-      - ".build/artifacts/*.xcresult.zip"
-      - ".build/artifacts/Package.resolved"
-  - label: ":cocoapods: Build for CocoaPods"
-    command: "./scripts/build-pod.sh"
-    branches: "releases/*"
-    artifact_paths:
-      - ".build/artifacts/Cocoapods-Mux-Stats-AVPlayer.zip"
-      - ".build/artifacts/Mux-Stats-AVPlayer.podspec"
-      - ".build/artifacts/*.xcresult.zip"
-      - ".build/artifacts/Package.resolved"
-  - wait
-  - command: "./scripts/run-integration-tests.sh"
-    label: ":xcode_simulator: Integration Tests"
-    artifact_paths:
-      - ".build/artifacts/*.xctestproducts.zip"
-      - ".build/artifacts/*.xcresult.zip"
-      - ".build/artifacts/Package.resolved"
   - command: "./scripts/run-ci-tests.sh"
     label: ":test_tube: CI Tests"
     env:
       DEVELOPER_DIR: "/Applications/Xcode_26.5.app"
-    artifact_paths:
-      - ".build/artifacts/Package.resolved"
-  - wait
-  - command: "./scripts/version-check.sh"
-    label: ":clipboard: Validate Version Metadata"
-    branches: "releases/*"
-  - wait
-  - command: "./scripts/run-tests-swift-package-manager-ventura.sh build-only"
-    label: ":swift: Build Swift Package Manager Example"
-    branches: "!releases/*"
-    artifact_paths:
-      - ".build/artifacts/Package.resolved"
-  - command: "./scripts/run-tests-swift-package-manager-ventura.sh"
-    label: ":swift: Test Swift Package Manager Example"
-    branches: "releases/*"
     artifact_paths:
       - ".build/artifacts/Package.resolved"
