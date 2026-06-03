@@ -78,7 +78,7 @@ function run_ci_tests {
     echo "--- Running Sauce Labs Tests"
 
     saucectl run \
-        --select-suite 'Debug iOS - All Tests - iPhone 16e'
+        --select-suite 'iOS 26'
 }
 
 # Execute:
