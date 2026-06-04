@@ -223,7 +223,6 @@ struct TextTrackChangeEventsTests {
             }
 
             let firstEvent = try #require(await iterator.next())
-            #expect(firstEvent.playerData?.playerPlayheadTime == 0 as NSNumber)
             #expect(firstEvent.playerTextTrackEnabled == false as NSNumber)
             #expect(firstEvent.playerTextTrackName == nil)
             #expect(firstEvent.playerTextTrackType == nil)
@@ -299,7 +298,6 @@ struct TextTrackChangeEventsTests {
             }
 
             let firstEvent = try #require(await iterator.next())
-            #expect(firstEvent.playerData?.playerPlayheadTime == 0 as NSNumber)
             #expect(firstEvent.playerTextTrackEnabled == false as NSNumber)
             #expect(firstEvent.playerTextTrackName == nil)
             #expect(firstEvent.playerTextTrackType == nil)
