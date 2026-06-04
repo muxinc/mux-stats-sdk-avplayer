@@ -135,7 +135,7 @@ function test_for {
 resolve_packages
 
 test_for 'iOS'
-test_for 'iOS Simulator' 'iPhone 16 Pro'
+test_for 'iOS Simulator' 'iPhone 17 Pro'
 test_for 'macOS,variant=Mac Catalyst'
 test_for 'tvOS'
 test_for 'tvOS Simulator' 'Apple TV 4K (3rd generation) (at 1080p)'

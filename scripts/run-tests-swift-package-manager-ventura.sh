@@ -43,7 +43,7 @@ xcodebuild -list -json
 echo "▸ Running ${SCHEME} Test when installed using Swift Package Manager"
 echo ""
 
-echo "▸ Testing SDK on iOS Simulator - iPhone 16 Pro"
+echo "▸ Testing SDK on iOS Simulator"
 
 resolve_packages
 
@@ -63,6 +63,6 @@ fi
 xcodebuild test-without-building \
     -project "$PROJECT" \
     -scheme "$SCHEME" \
-    -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+    -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
     -derivedDataPath "$DERIVED_DATA_PATH" \
     | xcbeautify
