@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Keep this at "~> X.Y" to match the behavior of the "from:" requirement in Package.swift
-readonly MUXCORE_VERSION="~> 5.11"
+readonly MUXCORE_VERSION="~> 5.12"
 
 readonly CODE_SIGNING_IDENTITY="Apple Distribution: Mux, Inc (XX95P4Y787)"
 
