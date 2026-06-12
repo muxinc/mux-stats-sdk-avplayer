@@ -142,7 +142,8 @@ struct TextTrackChangeEvents {
                     .publisher(
                         for: AVPlayerItem.mediaSelectionDidChangeNotification,
                         object: playerItem)
-                    .flatMap(maxPublishers: .max(1)) { _ in captureMediaSelectionOption() }
+                    .map { _ in captureMediaSelectionOption() }
+                    .switchToLatest()
 
                 let mediaSelectionOptionPublisher = Publishers.Concatenate(
                     prefix: captureMediaSelectionOption(),
