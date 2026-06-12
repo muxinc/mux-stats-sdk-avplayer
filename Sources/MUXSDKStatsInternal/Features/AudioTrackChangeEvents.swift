@@ -273,7 +273,7 @@ struct AudioTrackChangeEvents {
                     .publisher(
                         for: AVPlayerItem.mediaSelectionDidChangeNotification,
                         object: playerItem)
-                    .flatMap { _ in captureAudioTrackInfo() }
+                    .flatMap(maxPublishers: .max(1)) { _ in captureAudioTrackInfo() }
 
                 let audioTrackPublisher = Publishers.Concatenate(
                     prefix: captureAudioTrackInfo(),
