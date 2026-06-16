@@ -73,6 +73,27 @@ struct AudioTrackChangeEventsTests {
         #expect(AudioTrackChangeEvents.AssetTrackInfo.codecString(for: formatID) == expected)
     }
 
+    @Test(arguments: [
+        (AudioFormatID(kAudioFormatMPEG4AAC), "mp4a.40.2"),
+        (AudioFormatID(kAudioFormatMPEG4AAC_HE), "mp4a.40.5"),
+        (AudioFormatID(kAudioFormatMPEG4AAC_HE_V2), "mp4a.40.29"),
+        (AudioFormatID(kAudioFormatMPEGD_USAC), "mp4a.40.42"),
+        (AudioFormatID(kAudioFormatEnhancedAC3), "ec-3"),
+        (AudioFormatID(kAudioFormatAC3), "ac-3"),
+    ])
+    func codecStringForFormatDescription(formatID: AudioFormatID, expected: String?) throws {
+        guard #available(iOS 15, tvOS 15, *) else {
+            return
+        }
+
+        // Synthetic format descriptions validate this overload and its fallback behavior.
+        // AVFoundation-created HE-AAC descriptions are still needed to exercise mediaSubType
+        // flattening to AAC-LC while the richest decodable format remains HE-AAC.
+        let formatDescription = try audioFormatDescription(formatID: formatID)
+
+        #expect(AudioTrackChangeEvents.AssetTrackInfo.codecString(for: formatDescription) == expected)
+    }
+
     @Test
     func disabledEventOmitsOptionalMetadata() throws {
         guard #available(iOS 15, tvOS 15, *) else {
@@ -160,4 +181,36 @@ struct AudioTrackChangeEventsTests {
         let changedTrackInfo = try await waitForTrackInfo(on: playerItem, named: "English (DVS)")
         #expect(changedTrackInfo.language == "en-US")
     }
+}
+
+@available(iOS 15, tvOS 15, *)
+private func audioFormatDescription(formatID: AudioFormatID) throws -> CMFormatDescription {
+    var asbd = AudioStreamBasicDescription(
+        mSampleRate: 48_000,
+        mFormatID: formatID,
+        mFormatFlags: 0,
+        mBytesPerPacket: 0,
+        mFramesPerPacket: 1024,
+        mBytesPerFrame: 0,
+        mChannelsPerFrame: 2,
+        mBitsPerChannel: 0,
+        mReserved: 0
+    )
+    var formatDescription: CMAudioFormatDescription?
+    let status = CMAudioFormatDescriptionCreate(
+        allocator: kCFAllocatorDefault,
+        asbd: &asbd,
+        layoutSize: 0,
+        layout: nil,
+        magicCookieSize: 0,
+        magicCookie: nil,
+        extensions: nil,
+        formatDescriptionOut: &formatDescription
+    )
+
+    guard status == noErr, let formatDescription else {
+        throw NSError(domain: NSOSStatusErrorDomain, code: Int(status))
+    }
+
+    return formatDescription
 }
