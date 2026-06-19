@@ -205,7 +205,7 @@ FOUNDATION_EXPORT
  @param       fixedPlayerSize A fixed size of your player that will not change, inclusive of any letter boxed or pillar boxed areas. If monitoring audio only media, pass in CGSizeMake(0.0, 0.0)
  @discussion  Use this method to change which AVPlayer a Mux player monitor is watching. The player monitor must previously have been created via a monitorAVPlayer call.
  */
-+ (void)updateAVPlayer:(nonnull AVPlayer *)player
++ (void)updateAVPlayer:(nullable AVPlayer *)player
         withPlayerName:(nonnull NSString *)name
        fixedPlayerSize:(CGSize)fixedPlayerSize;
 
