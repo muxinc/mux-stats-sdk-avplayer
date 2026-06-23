@@ -211,6 +211,12 @@ struct AudioTrackChangeEvents {
                 return nil
             }
 
+            let audioFormatDescription = formatDescription as CMAudioFormatDescription
+            if let richestFormat = CMAudioFormatDescriptionGetRichestDecodableFormat(audioFormatDescription),
+               let codecString = codecString(for: richestFormat.pointee.mASBD.mFormatID) {
+                return codecString
+            }
+
             return formatDescription.mediaSubType.rawValue.rfc6381CodecsParameterValue
         }
 
