@@ -91,13 +91,75 @@ function find_build_number {
     echo "$builds_json" | jq --raw-output '.[0].number // empty'
 }
 
+function podspec_checksum {
+    awk -F"'" '/:sha256[[:space:]]*=>/ { print $2; exit }' "$PODSPEC_NAME"
+}
+
 function verify_artifacts {
+    local expected_checksum actual_checksum
+
     grep -q "s.version *= *'$RELEASE_VERSION'" "$PODSPEC_NAME"
     grep -q "releases/download/$RELEASE_TAG/$ZIP_NAME" "$PODSPEC_NAME"
+
+    expected_checksum="$(podspec_checksum)"
+    if [[ -z "$expected_checksum" ]]; then
+        echo "Podspec does not contain a :sha256 source checksum." >&2
+        exit 1
+    fi
+
+    actual_checksum="$(shasum -a 256 "$ZIP_NAME" | awk '{ print $1 }')"
+    if [[ "$actual_checksum" != "$expected_checksum" ]]; then
+        echo "Zip checksum does not match podspec checksum." >&2
+        echo "Expected: $expected_checksum" >&2
+        echo "Actual:   $actual_checksum" >&2
+        exit 1
+    fi
+}
+
+function verify_draft_release {
+    local is_draft
+
+    is_draft="$(
+        gh release view "$RELEASE_TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --json isDraft \
+            --jq '.isDraft'
+    )"
+
+    if [[ "$is_draft" != "true" ]]; then
+        echo "GitHub release $RELEASE_TAG must be a draft before uploading artifacts." >&2
+        exit 1
+    fi
+}
+
+function verify_release_assets {
+    local assets_json missing_assets=()
+
+    assets_json="$(
+        gh release view "$RELEASE_TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --json assets
+    )"
+
+    for asset_name in "$ZIP_NAME" "$PODSPEC_NAME"; do
+        if ! echo "$assets_json" | jq --exit-status --arg name "$asset_name" \
+            '.assets[] | select(.name == $name)' >/dev/null; then
+            missing_assets+=("$asset_name")
+        fi
+    done
+
+    if [[ "${#missing_assets[@]}" -gt 0 ]]; then
+        echo "GitHub release $RELEASE_TAG is missing expected assets: ${missing_assets[*]}" >&2
+        exit 1
+    fi
+
+    echo "Verified GitHub release assets:"
+    echo "$assets_json" | jq --raw-output '.assets[] | " - \(.name)"'
 }
 
 require_command curl
 require_command jq
+require_command shasum
 
 require_env BUILDKITE_API_TOKEN
 require_env VERSION
@@ -162,10 +224,11 @@ echo "Verified release artifacts:"
 ls -lh "$ZIP_NAME" "$PODSPEC_NAME"
 
 if [[ "$UPLOAD" == "true" ]]; then
-    gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null
+    verify_draft_release
     gh release upload "$RELEASE_TAG" "$ZIP_NAME" "$PODSPEC_NAME" \
         --repo "$GITHUB_REPOSITORY" \
         --clobber
+    verify_release_assets
     echo "Uploaded artifacts to GitHub release $RELEASE_TAG."
 else
     echo "Dry run complete. Set UPLOAD=true to upload artifacts to the GitHub release."
