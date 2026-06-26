@@ -91,6 +91,28 @@ function find_build_number {
     echo "$builds_json" | jq --raw-output '.[0].number // empty'
 }
 
+function verify_build {
+    local build_json build_state build_branch
+
+    build_json="$(
+        buildkite_api \
+            "https://api.buildkite.com/v2/organizations/$BUILDKITE_ORG/pipelines/$BUILDKITE_PIPELINE/builds/$BUILD_NUMBER"
+    )"
+
+    build_state="$(echo "$build_json" | jq --raw-output '.state // empty')"
+    build_branch="$(echo "$build_json" | jq --raw-output '.branch // empty')"
+
+    if [[ "$build_state" != "passed" ]]; then
+        echo "Buildkite build #$BUILD_NUMBER must be passed, but state is '$build_state'." >&2
+        exit 1
+    fi
+
+    if [[ "$build_branch" != "$RELEASE_BRANCH" ]]; then
+        echo "Buildkite build #$BUILD_NUMBER must be for branch $RELEASE_BRANCH, but branch is '$build_branch'." >&2
+        exit 1
+    fi
+}
+
 function podspec_checksum {
     awk -F"'" '/:sha256[[:space:]]*=>/ { print $2; exit }' "$PODSPEC_NAME"
 }
@@ -204,6 +226,8 @@ fi
 echo "Using Buildkite build: $BUILDKITE_ORG/$BUILDKITE_PIPELINE #$BUILD_NUMBER"
 echo "Using release tag: $RELEASE_TAG"
 echo "Upload enabled: $UPLOAD"
+
+verify_build
 
 artifact_dir="$(mktemp -d)"
 trap 'rm -rf "$artifact_dir"' EXIT
