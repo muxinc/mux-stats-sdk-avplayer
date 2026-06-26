@@ -127,6 +127,11 @@ if [[ "$UPLOAD" == "true" ]]; then
     export GH_TOKEN="$GITHUB_TOKEN"
 fi
 
+if [[ -n "${BUILDKITE_BUILD_NUMBER:-}" && ! "$BUILDKITE_BUILD_NUMBER" =~ ^[0-9]+$ ]]; then
+    echo "BUILDKITE_BUILD_NUMBER must be numeric." >&2
+    exit 1
+fi
+
 readonly BUILD_NUMBER="${BUILDKITE_BUILD_NUMBER:-$(find_build_number)}"
 
 if [[ -z "$BUILD_NUMBER" ]]; then
