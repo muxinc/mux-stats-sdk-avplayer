@@ -1,0 +1,38 @@
+name: Upload Buildkite Release Artifacts
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version, for example v4.14.0"
+        required: true
+      build_number:
+        description: "Optional Buildkite build number. If omitted, the latest passed releases/vX.Y.Z build is used."
+        required: false
+      upload:
+        description: "Upload verified artifacts to the draft GitHub release"
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+
+permissions:
+  contents: write
+
+jobs:
+  upload:
+    name: Verify and upload release artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify and optionally upload Buildkite artifacts
+        env:
+          BUILDKITE_API_TOKEN: ${{ secrets.BUILDKITE_API_TOKEN }}
+          BUILDKITE_BUILD_NUMBER: ${{ inputs.build_number }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UPLOAD: ${{ inputs.upload }}
+          VERSION: ${{ inputs.version }}
+        run: bash ./scripts/upload-buildkite-release-artifacts.sh
