@@ -48,3 +48,19 @@ steps:
     branches: "releases/*"
     artifact_paths:
       - ".build/artifacts/Package.resolved"
+  - wait
+  # Release publishing. Runs only on vX.Y.Z tag builds (created automatically
+  # when a releases/vX.Y.Z PR merges). Builds the CocoaPods artifacts and
+  # attaches them to a DRAFT GitHub release for maintainer review. Requires the
+  # agent to provide a GitHub token (GITHUB_TOKEN) with contents:write on this
+  # repo, plus `gh` on PATH. See RELEASING.md.
+  - label: ":rocket: Publish Release Artifacts"
+    if: build.tag =~ /^v[0-9]+\.[0-9]+\.[0-9]+$/
+    command:
+      - "./scripts/build-pod.sh"
+      - "./scripts/publish-release.sh"
+    artifact_paths:
+      - ".build/artifacts/Cocoapods-Mux-Stats-AVPlayer.zip"
+      - ".build/artifacts/Mux-Stats-AVPlayer.podspec"
+      - ".build/artifacts/*.xcresult.zip"
+      - ".build/artifacts/Package.resolved"

@@ -1,36 +1,65 @@
-name: Draft a new release
+name: Tag and draft a merged release
+
+# When a releases/vX.Y.Z PR merges into master, GitHub owns the "release object"
+# side of the handoff:
+#   - create the vX.Y.Z tag on the merge commit
+#   - create the DRAFT GitHub release (with generated notes) for that tag
+# Buildkite then owns the "binaries" side: it builds the tag and uploads the
+# signed CocoaPods artifacts to this draft release
+# (see .buildkite/pipeline.yml + scripts/publish-release.sh).
+# A maintainer reviews and publishes the draft. SwiftPM resolves from the tag.
 
 on:
   pull_request:
     types: [ closed ]
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
-  draft:
-    # Change the quoted text to match your release branch naming convention
+  tag:
+    name: Create the release tag on the merge commit
     if: startsWith(github.head_ref, 'releases/v') && github.event.pull_request.merged
     runs-on: ubuntu-latest
-    name: Create the Release on the destination branch
     steps:
-      - uses: actions/checkout@v3
-      - name: Parse the tag name out of the release branch
+      - name: Derive tag from the release branch
         id: version
-        run: >
-          echo "tag_name="$(echo ${{ github.head_ref }} | grep -E "^release.?[\/-]" | sed -E "s/release.?[\/-]//")"" >> $GITHUB_OUTPUT
-      - name: Create the release
-        id: release
-        uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.version.outputs.tag_name }}
-          release_name: ${{ steps.version.outputs.tag_name }}
-          body: ${{ github.event.pull_request.body }}
-          commitish: ${{ github.event.pull_request.merge_commit_sha }}
-          draft: true
-      - uses: mshick/add-pr-comment@v1
-        name: Link the Release to the PR
-        with:
-          message: A draft release has been created for this version. Find it here! ${{ steps.release.outputs.html_url }}
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          repo-token-user-login: 'github-actions[bot]' # The user.login for temporary GitHub tokens
-          allow-repeats: false
+          HEAD_REF: ${{ github.head_ref }}
+        run: echo "tag=${HEAD_REF#releases/}" >> "$GITHUB_OUTPUT"
+
+      - name: Create and push the tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.version.outputs.tag }}
+          SHA: ${{ github.event.pull_request.merge_commit_sha }}
+          REPO: ${{ github.repository }}
+        run: |
+          gh api "repos/${REPO}/git/refs" \
+            -f ref="refs/tags/${TAG}" \
+            -f sha="${SHA}"
+          echo "Created tag ${TAG} at ${SHA}"
+
+      - name: Create the draft GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.version.outputs.tag }}
+          REPO: ${{ github.repository }}
+        run: |
+          gh release create "${TAG}" \
+            --repo "${REPO}" \
+            --draft \
+            --verify-tag \
+            --title "${TAG}" \
+            --generate-notes
+          echo "Created draft release ${TAG}"
+
+      - name: Comment on the PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.version.outputs.tag }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          gh pr comment "${PR}" --body \
+            "Tag \`${TAG}\` and a draft release were created on the merge commit. Buildkite will build the tag and attach the CocoaPods artifacts to the draft release for review."

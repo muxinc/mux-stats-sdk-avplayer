@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+# Minimal `gh` mock for testing scripts/publish-release.sh offline.
+# State lives in $MOCK_GH_STATE (KEY=VALUE lines: EXISTS, DRAFT, ASSETS).
+# Every invocation is appended to $MOCK_GH_LOG.
+set -euo pipefail
+
+state="${MOCK_GH_STATE:?MOCK_GH_STATE not set}"
+echo "gh $*" >> "${MOCK_GH_LOG:-/dev/null}"
+
+get() { grep -E "^$1=" "$state" 2>/dev/null | head -1 | cut -d= -f2- || true; }
+set_kv() {
+    local key="$1" value="$2" tmp
+    tmp="$(mktemp)"
+    grep -vE "^$key=" "$state" 2>/dev/null > "$tmp" || true
+    echo "$key=$value" >> "$tmp"
+    mv "$tmp" "$state"
+}
+
+sub="${1:-}"
+action="${2:-}"
+
+case "$sub $action" in
+    "release view")
+        [[ "$(get EXISTS)" == "true" ]] || { echo "release not found" >&2; exit 1; }
+        draft="$(get DRAFT)"; assets="$(get ASSETS)"
+        assets_arr="$(printf '%s' "$assets" | tr ',' '\n' | sed '/^$/d' | jq -R '{name: .}' | jq -s '.')"
+        jq -n \
+            --argjson isDraft "${draft:-false}" \
+            --argjson assets "$assets_arr" \
+            --arg url "https://github.com/muxinc/mux-stats-sdk-avplayer/releases/tag/$(get TAG)" \
+            '{isDraft: $isDraft, assets: $assets, url: $url}'
+        ;;
+    "release create")
+        set_kv EXISTS true
+        set_kv DRAFT true
+        echo "created"
+        ;;
+    "release upload")
+        shift 2 # drop "release" "upload"
+        tag=""; files=()
+        while [[ $# -gt 0 ]]; do
+            case "$1" in
+                --repo) shift 2; continue ;;
+                --clobber) shift; continue ;;
+                --*) shift; continue ;;
+                *) if [[ -z "$tag" ]]; then tag="$1"; else files+=("$1"); fi; shift ;;
+            esac
+        done
+        assets="$(get ASSETS)"
+        for f in "${files[@]}"; do
+            base="$(basename "$f")"
+            assets="${assets:+$assets,}$base"
+        done
+        set_kv ASSETS "$assets"
+        echo "uploaded ${files[*]:-}"
+        ;;
+    *)
+        echo "fake gh: unhandled command: $*" >&2
+        exit 2
+        ;;
+esac
