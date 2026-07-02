@@ -63,24 +63,24 @@ check "idempotent: re-run keeps 4.16.0" \
 
 # 4. Invalid version rejected (and nothing changed).
 repo="$WORK/r4"; make_repo "$repo" "0.0.0"
-REPO_ROOT="$repo" bash "$SCRIPT" 4.15 >/dev/null 2>&1
-check "invalid version: exits non-zero" "[[ $? -ne 0 ]]"
+REPO_ROOT="$repo" bash "$SCRIPT" 4.15 >/dev/null 2>&1; rc=$?
+check "invalid version: exits non-zero" "[[ $rc -ne 0 ]]"
 check "invalid version: leaves files unchanged" \
     "grep -q '^MARKETING_VERSION=0.0.0$' '$repo/scripts/MUXSDKStatsFramework.xcconfig'"
 
 # 5. Missing argument rejected.
-REPO_ROOT="$WORK/r4" bash "$SCRIPT" >/dev/null 2>&1
-check "missing arg: exits non-zero" "[[ $? -ne 0 ]]"
+REPO_ROOT="$WORK/r4" bash "$SCRIPT" >/dev/null 2>&1; rc=$?
+check "missing arg: exits non-zero" "[[ $rc -ne 0 ]]"
 
 # 6. --help exits 0.
-REPO_ROOT="$WORK/r4" bash "$SCRIPT" --help >/dev/null 2>&1
-check "--help: exits 0" "[[ $? -eq 0 ]]"
+REPO_ROOT="$WORK/r4" bash "$SCRIPT" --help >/dev/null 2>&1; rc=$?
+check "--help: exits 0" "[[ $rc -eq 0 ]]"
 
 # 7. Locator missing -> fails loudly.
 repo="$WORK/r7"; make_repo "$repo" "0.0.0"
 : > "$repo/scripts/MUXSDKStatsFramework.xcconfig" # wipe MARKETING_VERSION line
-REPO_ROOT="$repo" bash "$SCRIPT" 4.15.0 >/dev/null 2>&1
-check "missing locator: exits non-zero" "[[ $? -ne 0 ]]"
+REPO_ROOT="$repo" bash "$SCRIPT" 4.15.0 >/dev/null 2>&1; rc=$?
+check "missing locator: exits non-zero" "[[ $rc -ne 0 ]]"
 
 echo
 echo "Results: $pass passed, $fail failed"
