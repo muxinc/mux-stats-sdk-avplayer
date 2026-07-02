@@ -1,13 +1,7 @@
 name: Tag and draft a merged release
 
-# When a releases/vX.Y.Z PR merges into master, GitHub owns the "release object"
-# side of the handoff:
-#   - create the vX.Y.Z tag on the merge commit
-#   - create the DRAFT GitHub release (with generated notes) for that tag
-# Buildkite then owns the "binaries" side: it builds the tag and uploads the
-# signed CocoaPods artifacts to this draft release
-# (see .buildkite/pipeline.yml + scripts/publish-release.sh).
-# A maintainer reviews and publishes the draft. SwiftPM resolves from the tag.
+# On merge of a releases/vX.Y.Z PR, create the vX.Y.Z tag + a draft release.
+# The tag triggers Buildkite to build and attach the CocoaPods artifacts.
 
 on:
   pull_request:

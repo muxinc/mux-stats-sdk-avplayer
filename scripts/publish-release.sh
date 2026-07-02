@@ -1,27 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Attach the CocoaPods release artifacts to the GitHub release for the current
-# tag. Intended to run in the Buildkite tag build, immediately after
-# build-pod.sh has produced the artifacts in .build/artifacts.
-#
-# It does NOT download anything from Buildkite and needs no Buildkite API token:
-# the artifacts are already on the agent. It only needs a GitHub token with
-# `contents: write` on this repository (injected by the agent as GITHUB_TOKEN).
-#
-# Division of labour: the GitHub Actions release workflow owns the release object
-# (it creates the tag and the draft release with notes on merge). This script
-# owns the binaries: it verifies and uploads them to that draft.
-#
-# Behaviour:
-#   - verifies the built podspec/zip actually belong to this tag
-#     (version, source URL, and sha256 checksum)
-#   - uploads the zip + podspec to the tag's DRAFT release (idempotent)
-#   - creates the draft as a FALLBACK only if the workflow did not (e.g. a
-#     manually pushed tag, or a re-run after a failed workflow)
-#   - refuses to touch an already-published release
-#
-# A maintainer reviews the draft and publishes it manually.
+# Verify the CocoaPods artifacts (built by build-pod.sh) and upload them to the
+# tag's draft GitHub release. Runs in the Buildkite tag build.
+# Needs `gh` and a GITHUB_TOKEN with contents:write on this repo (from the agent).
+# The release workflow normally creates the draft; this creates it as a fallback.
 
 readonly ZIP_NAME="Cocoapods-Mux-Stats-AVPlayer.zip"
 readonly PODSPEC_NAME="Mux-Stats-AVPlayer.podspec"
@@ -35,7 +18,7 @@ function require_command {
     command -v "$1" >/dev/null 2>&1 || die "Missing required command: $1"
 }
 
-# Extract the sha256 the podspec declares for its source zip (`:sha256 => '...'`).
+# sha256 the podspec declares for its source zip (`:sha256 => '...'`).
 function podspec_checksum {
     awk -F"'" '/:sha256[[:space:]]*=>/ { print $2; exit }' "$1"
 }
@@ -44,8 +27,7 @@ require_command gh
 require_command jq
 require_command shasum
 
-# The version is the tag being built. Buildkite sets BUILDKITE_TAG on tag
-# builds; VERSION can override it for local testing.
+# Version = the tag being built (BUILDKITE_TAG); VERSION overrides for local runs.
 VERSION="${VERSION:-${BUILDKITE_TAG:-}}"
 [[ -n "$VERSION" ]] \
     || die "No version found. Set BUILDKITE_TAG (tag build) or VERSION (local)."
@@ -57,8 +39,6 @@ readonly RELEASE_TAG="v$RELEASE_VERSION"
 readonly GITHUB_REPOSITORY="${GITHUB_REPOSITORY:-muxinc/mux-stats-sdk-avplayer}"
 readonly ARTIFACTS_DIR="${ARTIFACTS_DIR:-.build/artifacts}"
 
-# gh authenticates from GH_TOKEN/GITHUB_TOKEN. The Buildkite agent must inject a
-# GitHub token scoped to contents:write on this repo.
 if [[ -n "${GITHUB_TOKEN:-}" ]]; then
     export GH_TOKEN="$GITHUB_TOKEN"
 fi
@@ -71,7 +51,6 @@ readonly podspec_path="$ARTIFACTS_DIR/$PODSPEC_NAME"
 [[ -f "$zip_path" ]] || die "Missing artifact: $zip_path (did build-pod.sh run?)"
 [[ -f "$podspec_path" ]] || die "Missing artifact: $podspec_path (did build-pod.sh run?)"
 
-# --- Verify the built artifacts actually belong to this tag ---
 grep -q "s.version *= *'$RELEASE_VERSION'" "$podspec_path" \
     || die "Podspec version does not match $RELEASE_VERSION."
 grep -q "releases/download/$RELEASE_TAG/$ZIP_NAME" "$podspec_path" \
@@ -88,14 +67,13 @@ Actual:   $actual_checksum"
 echo "Verified artifacts for $RELEASE_TAG:"
 ls -lh "$zip_path" "$podspec_path"
 
-# --- Find the DRAFT release (normally created by the release workflow) ---
 if release_json="$(gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json isDraft 2>/dev/null)"; then
     [[ "$(echo "$release_json" | jq --raw-output '.isDraft')" == "true" ]] \
         || die "Release $RELEASE_TAG is already published. Refusing to modify a published release."
     echo "Using draft release $RELEASE_TAG."
 else
-    # Fallback: the release workflow normally creates this draft on merge. Create
-    # it here so a manually pushed tag or a workflow re-run still works.
+    # Fallback: normally the release workflow creates the draft; create it here
+    # for a manually pushed tag or a workflow re-run.
     echo "Draft release $RELEASE_TAG not found; creating it (fallback)."
     gh release create "$RELEASE_TAG" \
         --repo "$GITHUB_REPOSITORY" \
@@ -105,12 +83,10 @@ else
         --generate-notes
 fi
 
-# --- Upload the artifacts (idempotent) ---
 gh release upload "$RELEASE_TAG" "$zip_path" "$podspec_path" \
     --repo "$GITHUB_REPOSITORY" \
     --clobber
 
-# --- Confirm both assets are attached ---
 assets_json="$(gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json assets,url)"
 for asset_name in "$ZIP_NAME" "$PODSPEC_NAME"; do
     echo "$assets_json" | jq --exit-status --arg name "$asset_name" \

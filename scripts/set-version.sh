@@ -1,24 +1,14 @@
 #!/usr/bin/env bash
 #
-# set-version.sh — Set a new release version across the codebase.
-#
-# Usage:
-#   scripts/set-version.sh X.Y.Z
-#
-# Mirrors scripts/set-version.sh in the other Mux iOS SDK repos so the release
-# step is the same command everywhere. Here it updates the two files that
-# hardcode the SDK version:
-#   - scripts/MUXSDKStatsFramework.xcconfig        -> MARKETING_VERSION
-#   - Sources/MUXSDKStats/MUXSDKPlayerBinding.m    -> MUXSDKPluginVersion
-#
-# It deliberately does NOT touch the MuxCore dependency version (Package.swift /
-# MUXCORE_VERSION) — that is a separate dependency on its own cadence.
+# set-version.sh X.Y.Z — set the release version in the files that hardcode it:
+#   scripts/MUXSDKStatsFramework.xcconfig     -> MARKETING_VERSION
+#   Sources/MUXSDKStats/MUXSDKPlayerBinding.m -> MUXSDKPluginVersion
+# Does NOT touch the MuxCore version (Package.swift / MUXCORE_VERSION) — separate cadence.
+# Mirrors set-version.sh in the other Mux iOS SDK repos.
 set -euo pipefail
 IFS=$'\n\t'
 
-# --- Locate the repository root relative to this script -----------------------
-# Resolve regardless of the caller's current working directory. REPO_ROOT can be
-# overridden (used by the tests).
+# Repo root, resolved regardless of cwd. REPO_ROOT can be overridden (tests).
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="${REPO_ROOT:-$(cd "${SCRIPT_DIR}/.." && pwd)}"
 readonly SCRIPT_DIR REPO_ROOT

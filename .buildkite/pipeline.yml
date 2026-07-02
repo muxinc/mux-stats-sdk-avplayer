@@ -2,9 +2,7 @@ agents:
   queue: "macOS-Monterey-12-4"
 
 steps:
-  # Standard CI runs on branches/master (build.tag == null). On a vX.Y.Z tag
-  # build, all of these are skipped and only "Publish Release Artifacts" runs —
-  # the tag commit was already validated on the release branch + master.
+  # Standard CI. Skipped on vX.Y.Z tag builds, where only Publish runs.
   - command: "./scripts/unit-test-package.sh"
     label: ":xcode_simulator: Unit Test Package"
     if: build.tag == null
@@ -56,11 +54,7 @@ steps:
     artifact_paths:
       - ".build/artifacts/Package.resolved"
   - wait
-  # Release publishing. Runs only on vX.Y.Z tag builds (created automatically
-  # when a releases/vX.Y.Z PR merges). Builds the CocoaPods artifacts and
-  # attaches them to a DRAFT GitHub release for maintainer review. Requires the
-  # agent to provide a GitHub token (GITHUB_TOKEN) with contents:write on this
-  # repo, plus `gh` on PATH. See RELEASING.md.
+  # Runs only on vX.Y.Z tag builds. Needs `gh` + GITHUB_TOKEN (contents:write) on the agent.
   - label: ":rocket: Publish Release Artifacts"
     if: build.tag =~ /^v[0-9]+\.[0-9]+\.[0-9]+$/
     command:
