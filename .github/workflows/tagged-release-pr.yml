@@ -24,30 +24,43 @@ jobs:
         run: echo "tag=${HEAD_REF#releases/}" >> "$GITHUB_OUTPUT"
 
       - name: Create and push the tag
+        shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: ${{ steps.version.outputs.tag }}
           SHA: ${{ github.event.pull_request.merge_commit_sha }}
           REPO: ${{ github.repository }}
         run: |
-          gh api "repos/${REPO}/git/refs" \
-            -f ref="refs/tags/${TAG}" \
-            -f sha="${SHA}"
-          echo "Created tag ${TAG} at ${SHA}"
+          existing="$(gh api "repos/${REPO}/git/ref/tags/${TAG}" --jq '.object.sha' 2>/dev/null || true)"
+          if [[ -z "${existing}" ]]; then
+            gh api "repos/${REPO}/git/refs" -f ref="refs/tags/${TAG}" -f sha="${SHA}"
+            echo "Created tag ${TAG} at ${SHA}"
+          elif [[ "${existing}" == "${SHA}" ]]; then
+            echo "Tag ${TAG} already exists at ${SHA}; continuing."
+          else
+            echo "Tag ${TAG} already exists but points to ${existing}, not ${SHA}." >&2
+            exit 1
+          fi
 
       - name: Create the draft GitHub release
+        shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: ${{ steps.version.outputs.tag }}
           REPO: ${{ github.repository }}
+          PR_BODY: ${{ github.event.pull_request.body }}
         run: |
-          gh release create "${TAG}" \
-            --repo "${REPO}" \
-            --draft \
-            --verify-tag \
-            --title "${TAG}" \
-            --generate-notes
-          echo "Created draft release ${TAG}"
+          if gh release view "${TAG}" --repo "${REPO}" >/dev/null 2>&1; then
+            echo "Draft release ${TAG} already exists; continuing."
+          else
+            gh release create "${TAG}" \
+              --repo "${REPO}" \
+              --draft \
+              --verify-tag \
+              --title "${TAG}" \
+              --notes "${PR_BODY}"
+            echo "Created draft release ${TAG}"
+          fi
 
       - name: Comment on the PR
         env:
