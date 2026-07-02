@@ -2,13 +2,18 @@ agents:
   queue: "macOS-Monterey-12-4"
 
 steps:
+  # Standard CI runs on branches/master (build.tag == null). On a vX.Y.Z tag
+  # build, all of these are skipped and only "Publish Release Artifacts" runs —
+  # the tag commit was already validated on the release branch + master.
   - command: "./scripts/unit-test-package.sh"
     label: ":xcode_simulator: Unit Test Package"
+    if: build.tag == null
     artifact_paths:
       - ".build/artifacts/*.xcresult.zip"
       - ".build/artifacts/Package.resolved"
   - command: "./scripts/build-package.sh"
     label: ":xcode: Build for Swift Package Manager"
+    if: build.tag == null
     artifact_paths:
       - ".build/artifacts/*.xcresult.zip"
       - ".build/artifacts/Package.resolved"
@@ -23,12 +28,14 @@ steps:
   - wait
   - command: "./scripts/run-integration-tests.sh"
     label: ":xcode_simulator: Integration Tests"
+    if: build.tag == null
     artifact_paths:
       - ".build/artifacts/*.xctestproducts.zip"
       - ".build/artifacts/*.xcresult.zip"
       - ".build/artifacts/Package.resolved"
   - command: "./scripts/run-ci-tests.sh"
     label: ":test_tube: CI Tests"
+    if: build.tag == null
     env:
       DEVELOPER_DIR: "/Applications/Xcode_26.2.app"
     artifact_paths:
@@ -40,7 +47,7 @@ steps:
   - wait
   - command: "./scripts/run-tests-swift-package-manager-ventura.sh build-only"
     label: ":swift: Build Swift Package Manager Example"
-    branches: "!releases/*"
+    if: build.branch !~ /^releases\// && build.tag == null
     artifact_paths:
       - ".build/artifacts/Package.resolved"
   - command: "./scripts/run-tests-swift-package-manager-ventura.sh"
