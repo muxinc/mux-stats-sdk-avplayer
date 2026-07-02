@@ -50,8 +50,12 @@ jobs:
           REPO: ${{ github.repository }}
           PR_BODY: ${{ github.event.pull_request.body }}
         run: |
-          if gh release view "${TAG}" --repo "${REPO}" >/dev/null 2>&1; then
+          state="$(gh release view "${TAG}" --repo "${REPO}" --json isDraft --jq '.isDraft' 2>/dev/null || true)"
+          if [[ "${state}" == "true" ]]; then
             echo "Draft release ${TAG} already exists; continuing."
+          elif [[ "${state}" == "false" ]]; then
+            echo "Release ${TAG} already exists and is published; refusing to proceed." >&2
+            exit 1
           else
             gh release create "${TAG}" \
               --repo "${REPO}" \
