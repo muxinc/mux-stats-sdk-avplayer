@@ -202,11 +202,12 @@ Continue only after the maintainer approves the notes and attached artifacts.
 3. Verify.
    ```sh
    gh release view vX.Y.Z --json tagName,isDraft,isPrerelease,assets,url
-   git rev-list -n 1 vX.Y.Z
-   git rev-parse origin/master
+   git fetch origin master --tags
+   git merge-base --is-ancestor vX.Y.Z origin/master && echo "tag is on master"
    ```
    Confirm it is published (not a draft), not an unintended prerelease, the tag
-   commit matches the merged release commit, and both artifacts are attached.
+   is on `master` (the ancestor check succeeds — `origin/master` may have moved
+   past the tag, which is fine), and both artifacts are attached.
 
 ### Publish CocoaPods
 
