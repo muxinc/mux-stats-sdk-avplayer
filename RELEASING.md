@@ -220,13 +220,21 @@ only resolves once the release is public).
    If trunk access is not configured, stop and let a maintainer complete
    CocoaPods registration and email authorization locally.
 
-2. Publish, using the podspec attached to the release.
+2. Download the podspec from the release and verify it before pushing (a final
+   guard before the public, hard-to-undo push).
    ```sh
    gh release download vX.Y.Z --pattern 'Mux-Stats-AVPlayer.podspec'
+   grep -q "s.version *= *'X.Y.Z'" Mux-Stats-AVPlayer.podspec
+   grep -q "releases/download/vX.Y.Z/" Mux-Stats-AVPlayer.podspec
+   ```
+   Both greps must succeed — the version and source URL match this release.
+
+3. Publish to CocoaPods.
+   ```sh
    pod trunk push Mux-Stats-AVPlayer.podspec
    ```
 
-3. Confirm CocoaPods sees the new version.
+4. Confirm CocoaPods sees the new version.
    ```sh
    pod trunk info Mux-Stats-AVPlayer
    ```
@@ -242,8 +250,10 @@ when release notes or customer-facing behavior require it.
    ```
 
 2. Update docs when the release changes customer-facing behavior, setup,
-   defaults, installation, or API usage; add a changelog post for significant
-   updates. If no docs change is needed, report that decision and why.
+   defaults, installation, or API usage. In particular, update the release-notes
+   section of the [Monitor AVPlayer guide](https://docs.mux.com/guides/monitor-avplayer#release-notes)
+   (its source lives in the internal docs repo). Add a changelog post for
+   significant updates. If no docs change is needed, report that decision and why.
 
 3. Open the docs PR from the docs repo's default branch and wait for review.
 
