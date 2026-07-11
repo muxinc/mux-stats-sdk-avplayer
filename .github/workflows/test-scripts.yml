@@ -1,0 +1,25 @@
+name: Script tests
+
+# Runs the offline test suites for the release scripts on PRs that touch
+# scripts/. No macOS, secrets, or network needed — the tests mock `gh` and use
+# fixtures, so they run on a plain Linux runner in seconds.
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/**'
+
+jobs:
+  test:
+    name: Run script test suites
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run scripts/tests
+        run: |
+          status=0
+          for t in scripts/tests/test-*.sh; do
+            echo "== $t =="
+            bash "$t" || status=1
+          done
+          exit $status
