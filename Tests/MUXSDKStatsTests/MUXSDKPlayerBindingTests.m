@@ -93,6 +93,33 @@
     return binding;
 }
 
+- (MUXSDKAVPlayerViewControllerBinding *) setupViewControllerPlayerBindingForPlayer:(AVPlayer *)player
+                                                                               name:(NSString *)name {
+    AVPlayerViewController *controller = [[AVPlayerViewController alloc] init];
+    controller.player = player;
+
+    // Set up customer metadata
+    MUXSDKCustomerPlayerData *customerPlayerData = [[MUXSDKCustomerPlayerData alloc] initWithEnvironmentKey:@"A KEY"];
+    customerPlayerData.playerSoftwareName = @"TestSoftware";
+    customerPlayerData.playerSoftwareVersion = @"0.1.0";
+    MUXSDKCustomerVideoData *customerVideoData = [[MUXSDKCustomerVideoData alloc] init];
+    customerVideoData.videoTitle = @"01234";
+
+    MUXSDKCustomerData *customerData = [MUXSDKCustomerData new];
+    customerData.customerPlayerData = customerPlayerData;
+    customerData.customerVideoData = customerVideoData;
+
+    // Create Player Binding
+    __kindof MUXSDKPlayerBinding *binding = [MUXSDKStats monitorAVPlayerViewController:controller
+                                                                        withPlayerName:name
+                                                                          customerData:customerData
+                                                                automaticErrorTracking:YES
+                                                                beaconCollectionDomain:nil];
+    XCTAssert([binding isKindOfClass:MUXSDKAVPlayerViewControllerBinding.class]);
+    XCTAssertEqual(binding.state, MUXSDKPlayerStateReady);
+    return binding;
+}
+
 - (void)testPlayerBindingStateUnknownAtInitialization {
     MUXSDKPlayerBinding *binding = [[MUXSDKPlayerBinding alloc] initWithName:MUXSDKUniquePlayerName()
                                                                  andSoftware:@"TestSoftware"];
@@ -259,6 +286,71 @@
                    playbackEvent.playerData.playerSoftwareVersion,
                    @"0.1.0"
                    );
+}
+
+- (void)testFailedToPlayToEndTimeDispatchesErrorEventWithoutErrorState {
+    NSString *name = MUXSDKUniquePlayerName();
+    NSURL *url = [[NSURL alloc] initWithString:@"https://foo.mp4"];
+    AVPlayer *player = [AVPlayer playerWithURL:url];
+    MUXSDKAVPlayerViewControllerBinding *binding = [self setupViewControllerPlayerBindingForPlayer:player
+                                                                                              name:name];
+
+    NSError *error = [NSError errorWithDomain:NSURLErrorDomain
+                                         code:NSURLErrorNetworkConnectionLost
+                                     userInfo:@{NSLocalizedDescriptionKey: @"The network connection was lost."}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:AVPlayerItemFailedToPlayToEndTimeNotification
+                                                        object:player.currentItem
+                                                      userInfo:@{AVPlayerItemFailedToPlayToEndTimeErrorKey: error}];
+
+    XCTAssertNotEqual(binding.state, MUXSDKPlayerStateError);
+    XCTAssertEqual(5, [MUXSDKCore eventsCountForPlayer:name]);
+    id<MUXSDKEventTyping> event = [MUXSDKCore eventAtIndex:4 forPlayer:name];
+    XCTAssertEqual([event getType], MUXSDKPlaybackEventErrorEventType);
+
+    MUXSDKErrorEvent *errorEvent = (MUXSDKErrorEvent *)event;
+    XCTAssertEqualObjects(errorEvent.playerData.playerErrorCode, @"-1005");
+    XCTAssertEqualObjects(errorEvent.playerData.playerErrorMessage, @"The network connection was lost.");
+    XCTAssertEqual(errorEvent.severity, MUXSDKErrorSeverityFatal);
+}
+
+- (void)testFailedToPlayToEndTimeIgnoresOtherPlayerItems {
+    NSString *name = MUXSDKUniquePlayerName();
+    NSURL *url = [[NSURL alloc] initWithString:@"https://foo.mp4"];
+    AVPlayer *player = [AVPlayer playerWithURL:url];
+    MUXSDKAVPlayerViewControllerBinding *binding = [self setupViewControllerPlayerBindingForPlayer:player
+                                                                                              name:name];
+    NSUInteger eventsCountBefore = [MUXSDKCore eventsCountForPlayer:name];
+
+    AVPlayerItem *otherItem = [AVPlayerItem playerItemWithURL:url];
+    NSError *error = [NSError errorWithDomain:NSURLErrorDomain
+                                         code:NSURLErrorNetworkConnectionLost
+                                     userInfo:@{NSLocalizedDescriptionKey: @"The network connection was lost."}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:AVPlayerItemFailedToPlayToEndTimeNotification
+                                                        object:otherItem
+                                                      userInfo:@{AVPlayerItemFailedToPlayToEndTimeErrorKey: error}];
+
+    XCTAssertNotEqual(binding.state, MUXSDKPlayerStateError);
+    XCTAssertEqual(eventsCountBefore, [MUXSDKCore eventsCountForPlayer:name]);
+}
+
+- (void)testFailedToPlayToEndTimeAutomaticErrorTrackingDisabled {
+    NSString *name = MUXSDKUniquePlayerName();
+    NSURL *url = [[NSURL alloc] initWithString:@"https://foo.mp4"];
+    AVPlayer *player = [AVPlayer playerWithURL:url];
+    MUXSDKAVPlayerViewControllerBinding *binding = [self setupViewControllerPlayerBindingForPlayer:player
+                                                                                              name:name];
+    [binding setAutomaticErrorTracking:false];
+    NSUInteger eventsCountBefore = [MUXSDKCore eventsCountForPlayer:name];
+
+    NSError *error = [NSError errorWithDomain:NSURLErrorDomain
+                                         code:NSURLErrorNetworkConnectionLost
+                                     userInfo:@{NSLocalizedDescriptionKey: @"The network connection was lost."}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:AVPlayerItemFailedToPlayToEndTimeNotification
+                                                        object:player.currentItem
+                                                      userInfo:@{AVPlayerItemFailedToPlayToEndTimeErrorKey: error}];
+
+    XCTAssertNotEqual(binding.state, MUXSDKPlayerStateError);
+    XCTAssertEqual(eventsCountBefore, [MUXSDKCore eventsCountForPlayer:name]);
 }
 
 - (void)testAVPlayerBindingAutomaticErrorTrackingEnabled {
