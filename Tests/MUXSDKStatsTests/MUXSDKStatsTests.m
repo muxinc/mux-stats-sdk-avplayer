@@ -721,7 +721,7 @@ static NSString *Z = @"Z";
     NSError *serialzationError = nil;
     NSData *encodedJSON = [NSJSONSerialization
                            dataWithJSONObject: @{@"encodedJSONItemStr": @"encodedJSONStringValue",@"encodedJSONItemNumber": @10000}
-                           options: (NSJSONWritingOptions)0
+                           options: NSJSONWritingSortedKeys
                            error: &serialzationError];
     
     if (serialzationError) {
@@ -762,26 +762,21 @@ static NSString *Z = @"Z";
     MUXSDKPlaybackEvent *event1 = [playbackModeChangeEvents objectAtIndex:1];
     MUXSDKPlayerData *playerData1 = event1.playerData;
     XCTAssertEqual(MUXSDKPlaybackModeBackground, event1.playerData.playerPlaybackMode);
-    XCTAssertTrue([expectedJson1 isEqualToString:[[NSString alloc] initWithData:playerData1.playerPlaybackModeData encoding:NSUTF8StringEncoding]]);
-    
+    XCTAssertEqualObjects(expectedJson1, [[NSString alloc] initWithData:playerData1.playerPlaybackModeData encoding:NSUTF8StringEncoding]);
+
     // 3rd event
     NSString *expectedJson2 = @"{\"item1\":1,\"item2\":\"value\"}";
     MUXSDKPlaybackEvent *event2 = [playbackModeChangeEvents objectAtIndex:2];
     MUXSDKPlayerData *playerData2 = event2.playerData;
     XCTAssertEqual(@"custom_mode", event2.playerData.playerPlaybackMode);
-    XCTAssertTrue([expectedJson2 isEqualToString:[[NSString alloc] initWithData:playerData2.playerPlaybackModeData encoding:NSUTF8StringEncoding]]);
-    
+    XCTAssertEqualObjects(expectedJson2, [[NSString alloc] initWithData:playerData2.playerPlaybackModeData encoding:NSUTF8StringEncoding]);
+
     // 4th event
-    // mac catalyst sorts your json keys whether you like it or not, but order's not important for the test
-#if TARGET_OS_MACCATALYST
     NSString *expectedJson3 = @"{\"encodedJSONItemNumber\":10000,\"encodedJSONItemStr\":\"encodedJSONStringValue\"}";
-#else
-    NSString *expectedJson3 = @"{\"encodedJSONItemStr\":\"encodedJSONStringValue\",\"encodedJSONItemNumber\":10000}";
-#endif
     MUXSDKPlaybackEvent *event3 = [playbackModeChangeEvents objectAtIndex:3];
     MUXSDKPlayerData *playerData3 = event3.playerData;
     XCTAssertEqual(@"custom_mode", event3.playerData.playerPlaybackMode);
-    XCTAssertTrue([expectedJson3 isEqualToString:[[NSString alloc] initWithData:playerData3.playerPlaybackModeData encoding:NSUTF8StringEncoding]]);
+    XCTAssertEqualObjects(expectedJson3, [[NSString alloc] initWithData:playerData3.playerPlaybackModeData encoding:NSUTF8StringEncoding]);
 }
 
 - (void) testRenditionChangeEvent API_UNAVAILABLE(visionos) {
