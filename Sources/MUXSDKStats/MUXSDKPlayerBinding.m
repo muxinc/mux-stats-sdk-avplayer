@@ -388,6 +388,14 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
 # pragma mark AVPlayerItemFailedToPlayToEndTime
 
 - (void)handleFailedToPlayToEndTimeNotification:(NSNotification *)notification {
+    if (!NSThread.isMainThread) {
+        __weak typeof(self) weakSelf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf handleFailedToPlayToEndTimeNotification:notification];
+        });
+        return;
+    }
+
     // Skip if an error was already dispatched for this session.
     if (!_automaticErrorTracking || _state == MUXSDKPlayerStateError || ![self isNotificationAboutCurrentPlayerItem:notification] || ![self hasPlayer]) {
         return;
