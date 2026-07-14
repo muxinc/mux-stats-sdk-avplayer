@@ -396,7 +396,7 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
         return;
     }
 
-    // Skip if an error was already dispatched for this session.
+    // MUXSDKPlayerStateError indicates an error was already dispatched for this failure.
     if (!_automaticErrorTracking || _state == MUXSDKPlayerStateError || ![self isNotificationAboutCurrentPlayerItem:notification] || ![self hasPlayer]) {
         return;
     }
