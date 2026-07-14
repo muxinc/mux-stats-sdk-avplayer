@@ -60,6 +60,9 @@ is missing, stop and ask a maintainer rather than working around it.
   installation token or fine-grained token — not a personal token), and has
   `gh` on `PATH`.
 - CocoaPods trunk access is available locally for the final `pod trunk push`.
+- The active local Xcode has simulator runtimes matching its SDK version for
+  every platform declared by the podspec (iOS, tvOS, and visionOS). Check with
+  `xcodebuild -version` and `xcrun simctl list runtimes` before validation.
 
 ## Release Runbook
 
@@ -135,10 +138,16 @@ version.
 
 8. Validate locally where possible.
    ```sh
-   xcrun swift build
-   xcrun swift test
+   for test_script in scripts/tests/test-*.sh; do bash "$test_script"; done
+   ./scripts/build-package.sh
+   ./scripts/unit-test-package.sh
    git diff --check
    ```
+   Do not use plain `swift build` or `swift test`: they target native macOS,
+   which the MuxCore XCFramework does not support. The repository scripts build
+   and test the supported Apple platforms instead. If a platform leg fails
+   because its matching simulator runtime is unavailable, install that runtime
+   before continuing.
    Do not claim Buildkite has passed before it has.
 
 9. Commit, push, and open the release PR.
@@ -152,6 +161,8 @@ version.
 10. Wait for the changelog workflow to update the PR, then review and curate the
     release notes with the maintainer. On a release branch, Buildkite also runs
     the version check, full SPM test, and pod lint — confirm these pass.
+    Compare the changes since the previous release tag; do not accept notes that
+    only say `Version Bump` when customer-facing changes are included.
 
 11. Stop until the PR is approved and merged.
 
@@ -230,12 +241,21 @@ only resolves once the release is public).
    ```
    Both greps must succeed — the version and source URL match this release.
 
-3. Publish to CocoaPods.
+3. Run a final local lint of the downloaded podspec.
+   ```sh
+   xcodebuild -version
+   xcrun simctl list runtimes
+   pod spec lint Mux-Stats-AVPlayer.podspec
+   ```
+   Confirm the active Xcode has matching iOS, tvOS, and visionOS runtimes. Do
+   not bypass a missing-platform failure with skip flags.
+
+4. Publish to CocoaPods.
    ```sh
    pod trunk push Mux-Stats-AVPlayer.podspec
    ```
 
-4. Confirm CocoaPods sees the new version.
+5. Confirm CocoaPods sees the new version.
    ```sh
    pod trunk info Mux-Stats-AVPlayer
    ```

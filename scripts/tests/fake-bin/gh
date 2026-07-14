@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Minimal `gh` mock for testing scripts/publish-release.sh offline.
-# State lives in $MOCK_GH_STATE (KEY=VALUE lines: EXISTS, DRAFT, ASSETS).
+# Minimal `gh` mock for testing release scripts offline.
+# State lives in $MOCK_GH_STATE (KEY=VALUE lines).
 # Every invocation is appended to $MOCK_GH_LOG.
 set -euo pipefail
 
@@ -19,7 +19,69 @@ set_kv() {
 sub="${1:-}"
 action="${2:-}"
 
+if [[ "$sub" == "api" ]]; then
+    endpoint="$action"
+    if [[ "$(get API_FAIL)" == "true" ]]; then
+        echo "simulated GitHub API failure" >&2
+        exit 1
+    fi
+
+    case "$endpoint" in
+        */git/matching-refs/tags/*)
+            exact_sha="$(get TAG_SHA)"
+            partial_sha="$(get PARTIAL_TAG_SHA)"
+            jq -n \
+                --arg tag "$(get TAG)" \
+                --arg exact "$exact_sha" \
+                --arg partial "$partial_sha" \
+                '[
+                    if $exact == "" then empty else
+                        {ref: ("refs/tags/" + $tag), object: {sha: $exact}}
+                    end,
+                    if $partial == "" then empty else
+                        {ref: ("refs/tags/" + $tag + "-partial"), object: {sha: $partial}}
+                    end
+                ]'
+            exit 0
+            ;;
+        */git/refs)
+            ref=""; sha=""
+            shift 2
+            while [[ $# -gt 0 ]]; do
+                case "$1" in
+                    ref=*) ref="${1#ref=}" ;;
+                    sha=*) sha="${1#sha=}" ;;
+                esac
+                shift
+            done
+            set_kv TAG "${ref#refs/tags/}"
+            set_kv TAG_SHA "$sha"
+            jq -n --arg ref "$ref" --arg sha "$sha" \
+                '{ref: $ref, object: {sha: $sha}}'
+            exit 0
+            ;;
+        *)
+            echo "fake gh: unhandled api endpoint: $endpoint" >&2
+            exit 2
+            ;;
+    esac
+fi
+
 case "$sub $action" in
+    "release list")
+        if [[ "$(get RELEASE_LIST_FAIL)" == "true" ]]; then
+            echo "simulated release list failure" >&2
+            exit 1
+        fi
+        if [[ "$(get EXISTS)" == "true" ]]; then
+            jq -n \
+                --arg tagName "$(get TAG)" \
+                --argjson isDraft "$(get DRAFT)" \
+                '[{tagName: $tagName, isDraft: $isDraft}]'
+        else
+            echo '[]'
+        fi
+        ;;
     "release view")
         [[ "$(get EXISTS)" == "true" ]] || { echo "release not found" >&2; exit 1; }
         draft="$(get DRAFT)"; assets="$(get ASSETS)"
