@@ -1,5 +1,6 @@
 public import AVFoundation
 import Combine
+import Dispatch
 public import MuxCore
 
 
@@ -16,6 +17,29 @@ public class PlayerMonitor: NSObject {
     private var cancellables = [AnyCancellable]()
 
     @objc public func cancel() {
+        // Events are delivered on the main queue (see `init(player:onEvent:)`'s
+        // `.receive(on: ImmediateIfOnMainQueueScheduler.shared)`). Teardown must be
+        // serialized with that delivery: callers (`-[MUXSDKPlayerBinding
+        // detachAVPlayer]` -> `destroyPlayer`/`dealloc`) may invoke `cancel()` from
+        // any thread, and tearing the subscription graph down off the main queue can
+        // race an in-flight main-queue delivery and use-after-free the event being
+        // dispatched (Pylon #26827). Hop to main so cancellation and delivery never
+        // overlap. `self` is captured strongly so the graph stays alive until torn
+        // down even if the caller drops its reference immediately after.
+        if DispatchQueue.isMainQueue {
+            performCancel()
+        } else {
+            // `PlayerMonitor` isn't Sendable, but `performCancel()` and everything it
+            // touches run exclusively on the main queue (serialized with delivery), so
+            // smuggling `self` across the hop is safe.
+            nonisolated(unsafe) let unsafeSelf = self
+            DispatchQueue.main.async {
+                unsafeSelf.performCancel()
+            }
+        }
+    }
+
+    private func performCancel() {
         allEventsSubject.send(completion: .finished)
         cancellables.removeAll()
     }
