@@ -7,21 +7,21 @@ import Combine
 @objc(MUXSDKPlayerMonitor)
 public final class PlayerMonitor: NSObject {
 
-    private var cancellable: AnyCancellable?
-
+    private let cancellationLock =  NSLock()
+    private var subscriptionHandle: AnyCancellable?
     private var isCancelledFlag: Bool = false
-    private let isCancelledLock =  NSLock()
 
-    private nonisolated var isCancelled: Bool {
-        isCancelledLock.withLock { isCancelledFlag }
+    private var isCancelled: Bool {
+        cancellationLock.withLock { isCancelledFlag }
     }
 
     /// Cancels future events and makes a best-effort attempt to cancel any in-flight onEvent callback
     @objc public nonisolated func cancel() {
-        isCancelledLock.withLock {
+        let handle = cancellationLock.withLock {
             isCancelledFlag = true
+            return exchange(&subscriptionHandle, with: nil)
         }
-        cancellable?.cancel()
+        handle?.cancel()
     }
 
     @objc public init(player: AVPlayer, onEvent: @Sendable @escaping @MainActor (MUXSDKBaseEvent) -> Void) {
@@ -50,7 +50,7 @@ public final class PlayerMonitor: NSObject {
             }
             .switchToLatest()
 
-        cancellable = allEvents
+        let handle = allEvents
             .subscribe(on: ImmediateIfOnMainQueueScheduler.shared)
             .receive(on: ImmediateIfOnMainQueueScheduler.shared)
             .sink(receiveValue: { [weak self] event in
@@ -61,5 +61,12 @@ public final class PlayerMonitor: NSObject {
                     onEvent(event)
                 }
             })
+
+        cancellationLock.withLock {
+            guard isCancelledFlag == false else {
+                return
+            }
+            subscriptionHandle = handle
+        }
     }
 }
