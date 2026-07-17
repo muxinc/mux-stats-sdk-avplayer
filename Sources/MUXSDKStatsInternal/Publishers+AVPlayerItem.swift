@@ -57,15 +57,13 @@ extension AVPlayerItem {
         // playback, during seeking for example. While the following will unique these
         // objects, a new object here may still refer to the same rendition:
             .removeDuplicates()
-            .flatMap { videoAssetTrack in
-                // Boost priority as this kicks off a chain of timing-sensitive operations
-                return Future(priority: .userInitiated) {
-                    async let timing = self.currentTiming()
-                    guard let videoAssetTrack else {
-                        return await (timing, MUXSDKVideoData())
-                    }
-                    return await (timing, MUXSDKVideoData.makeWithRenditionInfo(track: videoAssetTrack, on: self))
+            // Boost priority as this kicks off a chain of timing-sensitive operations
+            .map(priority: .userInitiated) { videoAssetTrack in
+                async let timing = self.currentTiming()
+                guard let videoAssetTrack else {
+                    return await (timing, MUXSDKVideoData())
                 }
+                return await (timing, MUXSDKVideoData.makeWithRenditionInfo(track: videoAssetTrack, on: self))
             }
         // Determine uniqueness (and therefore rendition changes) based on fully populated
         // video data:
