@@ -8,6 +8,7 @@ on:
   pull_request:
     paths:
       - 'scripts/**'
+      - '.github/workflows/tagged-release-pr.yml'
 
 jobs:
   test:

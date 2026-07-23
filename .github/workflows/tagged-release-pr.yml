@@ -17,54 +17,23 @@ jobs:
     if: startsWith(github.head_ref, 'releases/v') && github.event.pull_request.merged
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+
       - name: Derive tag from the release branch
         id: version
         env:
           HEAD_REF: ${{ github.head_ref }}
         run: echo "tag=${HEAD_REF#releases/}" >> "$GITHUB_OUTPUT"
 
-      - name: Create and push the tag
+      - name: Create the tag and draft release
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: ${{ steps.version.outputs.tag }}
           SHA: ${{ github.event.pull_request.merge_commit_sha }}
           REPO: ${{ github.repository }}
-        run: |
-          existing="$(gh api "repos/${REPO}/git/ref/tags/${TAG}" --jq '.object.sha' 2>/dev/null || true)"
-          if [[ -z "${existing}" ]]; then
-            gh api "repos/${REPO}/git/refs" -f ref="refs/tags/${TAG}" -f sha="${SHA}"
-            echo "Created tag ${TAG} at ${SHA}"
-          elif [[ "${existing}" == "${SHA}" ]]; then
-            echo "Tag ${TAG} already exists at ${SHA}; continuing."
-          else
-            echo "Tag ${TAG} already exists but points to ${existing}, not ${SHA}." >&2
-            exit 1
-          fi
-
-      - name: Create the draft GitHub release
-        shell: bash
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG: ${{ steps.version.outputs.tag }}
-          REPO: ${{ github.repository }}
           PR_BODY: ${{ github.event.pull_request.body }}
-        run: |
-          state="$(gh release view "${TAG}" --repo "${REPO}" --json isDraft --jq '.isDraft' 2>/dev/null || true)"
-          if [[ "${state}" == "true" ]]; then
-            echo "Draft release ${TAG} already exists; continuing."
-          elif [[ "${state}" == "false" ]]; then
-            echo "Release ${TAG} already exists and is published; refusing to proceed." >&2
-            exit 1
-          else
-            gh release create "${TAG}" \
-              --repo "${REPO}" \
-              --draft \
-              --verify-tag \
-              --title "${TAG}" \
-              --notes "${PR_BODY}"
-            echo "Created draft release ${TAG}"
-          fi
+        run: scripts/create-tagged-release.sh
 
       - name: Comment on the PR
         env:
