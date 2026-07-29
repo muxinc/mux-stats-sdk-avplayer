@@ -211,6 +211,7 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAVPlayerAccess:) name:AVPlayerItemNewAccessLogEntryNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRenditionChange:) name:RenditionChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAVPlayerError:) name:AVPlayerItemNewErrorLogEntryNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleFailedToPlayToEndTimeNotification:) name:AVPlayerItemFailedToPlayToEndTimeNotification object:nil];
     
     _lastTransferEventCount = 0;
     _lastTransferDuration= 0;
@@ -384,6 +385,38 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
     }
 }
 
+# pragma mark AVPlayerItemFailedToPlayToEndTime
+
+- (void)handleFailedToPlayToEndTimeNotification:(NSNotification *)notification {
+    if (!NSThread.isMainThread) {
+        __weak typeof(self) weakSelf = self;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf handleFailedToPlayToEndTimeNotification:notification];
+        });
+        return;
+    }
+
+    // MUXSDKPlayerStateError indicates an error was already dispatched for this failure.
+    if (!_automaticErrorTracking || _state == MUXSDKPlayerStateError || ![self isNotificationAboutCurrentPlayerItem:notification] || ![self hasPlayer]) {
+        return;
+    }
+    NSError *error = notification.userInfo[AVPlayerItemFailedToPlayToEndTimeErrorKey];
+    if (![error isKindOfClass:[NSError class]]) {
+        return;
+    }
+    [self checkVideoData];
+    MUXSDKPlayerData *playerData = [self getPlayerData];
+    NSInteger errorCode = error.code;
+    if (errorCode != 0 && errorCode != NSNotFound) {
+        playerData.playerErrorCode = @(errorCode).stringValue;
+    }
+    playerData.playerErrorMessage = error.localizedDescription;
+    MUXSDKErrorEvent *event = [MUXSDKErrorEvent new];
+    event.playerData = playerData;
+    event.severity = MUXSDKErrorSeverityFatal;
+    [MUXSDKCore dispatchEvent:event forPlayer:_name];
+}
+
 - (void)timeUpdateTimer:(NSTimer *)timer {
     if (![self isTryingToPlay] && ![self isBuffering] && !_isAdPlaying) {
         [self dispatchTimeUpdateFromTimer];
@@ -396,6 +429,7 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemNewAccessLogEntryNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RenditionChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemNewErrorLogEntryNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemFailedToPlayToEndTimeNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"com.mux.connection-type-detected" object:nil];
 }
 
