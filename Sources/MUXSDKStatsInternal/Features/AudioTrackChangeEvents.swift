@@ -280,14 +280,15 @@ struct AudioTrackChangeEvents {
                         for: AVPlayerItem.mediaSelectionDidChangeNotification,
                         object: playerItem)
                     .map { _ in captureAudioTrackInfo() }
-                    .switchToLatest()
 
                 let audioTrackPublisher = Publishers.Concatenate(
-                    prefix: captureAudioTrackInfo(),
+                    prefix: Just(captureAudioTrackInfo()),
                     suffix: audioTrackChanges)
                     // This can be a very noisy event stream, with intermediate states
                     // reported for fractions of a second.
                     .debounce(for: .seconds(minimumIntervalBetweenEvents), scheduler: DispatchQueue.global())
+                    .buffer(size: 5, prefetch: .keepFull, whenFull: .dropOldest)
+                    .flatMap(maxPublishers: .max(1)) { $0 }
                     .removeDuplicates { a, b in
                         a.trackInfo == b.trackInfo
                     }
