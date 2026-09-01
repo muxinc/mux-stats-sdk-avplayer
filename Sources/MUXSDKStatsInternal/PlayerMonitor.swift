@@ -7,21 +7,11 @@ import Combine
 @objc(MUXSDKPlayerMonitor)
 public final class PlayerMonitor: NSObject {
 
-    private let cancellationLock =  NSLock()
-    private var subscriptionHandle: AnyCancellable?
-    private var isCancelledFlag: Bool = false
-
-    private var isCancelled: Bool {
-        cancellationLock.withLock { isCancelledFlag }
-    }
+    private let subscriptionWrapper = SubscriptionWrapper()
 
     /// Cancels future events and makes a best-effort attempt to cancel any in-flight onEvent callback
     @objc public nonisolated func cancel() {
-        let handle = cancellationLock.withLock {
-            isCancelledFlag = true
-            return exchange(&subscriptionHandle, with: nil)
-        }
-        handle?.cancel()
+        subscriptionWrapper.cancel()
     }
 
     @objc public init(player: AVPlayer, onEvent: @Sendable @escaping @MainActor (MUXSDKBaseEvent) -> Void) {
@@ -54,7 +44,7 @@ public final class PlayerMonitor: NSObject {
             .subscribe(on: ImmediateIfOnMainQueueScheduler.shared)
             .receive(on: ImmediateIfOnMainQueueScheduler.shared)
             .sink(receiveValue: { [weak self] event in
-                guard self?.isCancelled == false else {
+                guard self?.subscriptionWrapper.isCancelled == false else {
                     return
                 }
                 MainActor.assumeIsolated {
@@ -62,11 +52,40 @@ public final class PlayerMonitor: NSObject {
                 }
             })
 
-        cancellationLock.withLock {
-            guard isCancelledFlag == false else {
-                return
+        subscriptionWrapper.setOrCancelSubscriptionHandle(handle)
+    }
+}
+
+@available(iOS 15, tvOS 15, *)
+extension PlayerMonitor {
+    // Stand-in for OSAllocatedUnfairLock (unavailable on iOS 15)
+    private final class SubscriptionWrapper {
+        private let lock = NSLock()
+        // guarded by lock
+        private var subscriptionHandle: AnyCancellable?
+        // guarded by lock
+        private var isCancelledFlag: Bool = false
+
+        func setOrCancelSubscriptionHandle(_ handle: AnyCancellable) {
+            let toCancel: AnyCancellable? = lock.withLock {
+                guard isCancelledFlag == false else {
+                    return handle
+                }
+                return exchange(&subscriptionHandle, with: handle)
             }
-            subscriptionHandle = handle
+            toCancel?.cancel()
+        }
+
+        func cancel() {
+            let toCancel = lock.withLock {
+                isCancelledFlag = true
+                return exchange(&subscriptionHandle, with: nil)
+            }
+            toCancel?.cancel()
+        }
+
+        var isCancelled: Bool {
+            lock.withLock { isCancelledFlag }
         }
     }
 }
