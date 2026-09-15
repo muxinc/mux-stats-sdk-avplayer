@@ -1,75 +1,91 @@
 public import AVFoundation
 import Combine
-public import MuxCore
+@preconcurrency public import MuxCore
 
 
-@available(iOS 13, tvOS 13, *)
+@available(iOS 15, tvOS 15, *)
 @objc(MUXSDKPlayerMonitor)
-public class PlayerMonitor: NSObject {
+public final class PlayerMonitor: NSObject {
 
-    var allEvents: some Publisher<MUXSDKBaseEvent, Never> {
-        allEventsSubject
+    private let subscriptionWrapper = SubscriptionWrapper()
+
+    /// Cancels future events and makes a best-effort attempt to cancel any in-flight onEvent callback
+    @objc public nonisolated func cancel() {
+        subscriptionWrapper.cancel()
     }
 
-    private let allEventsSubject = PassthroughSubject<MUXSDKBaseEvent, Never>()
+    @objc public init(player: AVPlayer, onEvent: @Sendable @escaping @MainActor (MUXSDKBaseEvent) -> Void) {
+        super.init()
 
-    private var cancellables = [AnyCancellable]()
+        let allEvents = player.publisher(for: \.currentItem, options: [.initial])
+            .removeDuplicates()
+            .map { (playerItem: AVPlayerItem?) -> AnyPublisher<MUXSDKBaseEvent, Never> in
+                guard let playerItem else {
+                    return Empty().eraseToAnyPublisher()
+                }
 
-    @objc public func cancel() {
-        allEventsSubject.send(completion: .finished)
-        cancellables.removeAll()
+                let merged = playerItem.renditionChangeEvents().map { $0 as MUXSDKBaseEvent }
+                    .merge(with: playerItem.textTrackChangeEvents().map { $0 as MUXSDKBaseEvent })
+                    .merge(with: playerItem.audioTrackChangeEvents().map { $0 as MUXSDKBaseEvent })
+
+#if !targetEnvironment(simulator)
+                if #available(iOS 18, tvOS 18, visionOS 2, *) {
+                    return merged
+                        .merge(with: playerItem.requestBandwidthEvents().map { $0 as MUXSDKBaseEvent })
+                        .eraseToAnyPublisher()
+                }
+#endif
+
+                return merged.eraseToAnyPublisher()
+            }
+            .switchToLatest()
+
+        let handle = allEvents
+            .subscribe(on: ImmediateIfOnMainQueueScheduler.shared)
+            .receive(on: ImmediateIfOnMainQueueScheduler.shared)
+            .sink(receiveValue: { [weak self] event in
+                guard self?.subscriptionWrapper.isCancelled == false else {
+                    return
+                }
+                MainActor.assumeIsolated {
+                    onEvent(event)
+                }
+            })
+
+        subscriptionWrapper.setOrCancelSubscriptionHandle(handle)
     }
 }
 
 @available(iOS 15, tvOS 15, *)
 extension PlayerMonitor {
-    convenience init(player: AVPlayer) {
-        self.init()
+    // Stand-in for OSAllocatedUnfairLock (unavailable on iOS 15)
+    private final class SubscriptionWrapper {
+        private let lock = NSLock()
+        // guarded by lock
+        private var subscriptionHandle: AnyCancellable?
+        // guarded by lock
+        private var isCancelledFlag: Bool = false
 
-        let currentItemPublisher = player.publisher(for: \.currentItem, options: [.initial])
-            .removeDuplicates()
-
-        currentItemPublisher
-            .map { $0?.renditionChangeEvents().eraseToAnyPublisher() ?? Empty().eraseToAnyPublisher() }
-            .switchToLatest()
-            .sink(receiveValue: allEventsSubject.send)
-            .store(in: &cancellables)
-
-        currentItemPublisher
-            .map { $0?.textTrackChangeEvents().eraseToAnyPublisher() ?? Empty().eraseToAnyPublisher() }
-            .switchToLatest()
-            .sink(receiveValue: allEventsSubject.send)
-            .store(in: &cancellables)
-
-        currentItemPublisher
-            .map { $0?.audioTrackChangeEvents().eraseToAnyPublisher() ?? Empty().eraseToAnyPublisher() }
-            .switchToLatest()
-            .sink(receiveValue: allEventsSubject.send)
-            .store(in: &cancellables)
-
-#if !targetEnvironment(simulator)
-        if #available(iOS 18.0, tvOS 18.0, visionOS 2.0, *) {
-            currentItemPublisher
-                .map { $0?.requestBandwidthEvents().eraseToAnyPublisher() ?? Empty().eraseToAnyPublisher() }
-                .switchToLatest()
-                .sink(receiveValue: allEventsSubject.send)
-                .store(in: &cancellables)
-        }
-#endif
-    }
-
-    @objc public convenience init(player: AVPlayer, onEvent: @Sendable @escaping @MainActor (MUXSDKBaseEvent) -> Void) {
-        self.init(player: player)
-
-        allEvents
-            .receive(on: ImmediateIfOnMainQueueScheduler.shared)
-            .sink(receiveValue: { event in
-                // work around Sendable requirement on assumeIsolated
-                nonisolated(unsafe) let event = event
-                MainActor.assumeIsolated {
-                    onEvent(event)
+        func setOrCancelSubscriptionHandle(_ handle: AnyCancellable) {
+            let toCancel: AnyCancellable? = lock.withLock {
+                guard isCancelledFlag == false else {
+                    return handle
                 }
-            })
-            .store(in: &cancellables)
+                return exchange(&subscriptionHandle, with: handle)
+            }
+            toCancel?.cancel()
+        }
+
+        func cancel() {
+            let toCancel = lock.withLock {
+                isCancelledFlag = true
+                return exchange(&subscriptionHandle, with: nil)
+            }
+            toCancel?.cancel()
+        }
+
+        var isCancelled: Bool {
+            lock.withLock { isCancelledFlag }
+        }
     }
 }

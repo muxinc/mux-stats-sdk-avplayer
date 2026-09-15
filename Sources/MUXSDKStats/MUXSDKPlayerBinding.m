@@ -154,17 +154,16 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
         NSLog(@"MUXSDK-ERROR - Cannot attach to NULL AVPlayer for player name: %@", _name);
         return;
     }
+    _player = player;
+    __weak typeof(self) weakSelf = self;
     if (@available(iOS 15, tvOS 15, *)) {
         self.shouldTrackRenditionChanges = NO;
-        __weak typeof(self) weakSelf = self;
         self.swiftMonitor = [[MUXSDKPlayerMonitor alloc] initWithPlayer:player onEvent:^(MUXSDKBaseEvent *event) {
             [weakSelf dispatchSwiftMonitorEvent:event];
         }];
     } else {
         self.shouldTrackRenditionChanges = YES;
     }
-    _player = player;
-    __weak MUXSDKPlayerBinding *weakSelf = self;
     _lastTimeUpdate = CFAbsoluteTimeGetCurrent() - MUXSDKMaxSecsBetweenTimeUpdate;
     _timeObserver = [_player addPeriodicTimeObserverForInterval:[self getTimeObserverInternal]
                                                           queue:NULL
