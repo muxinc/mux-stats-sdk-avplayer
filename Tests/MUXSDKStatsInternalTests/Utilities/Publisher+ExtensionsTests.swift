@@ -11,7 +11,7 @@ struct PublisherExtensionsTests {
     @Test func testMapTransformsSingleValue() async throws {
         try await confirmation(expectedCount: 1) { confirmation in
             let values = try await collectOutput(
-                from: Just(1).map { value async in
+                from: Just(1).mapSerial { value async in
                     confirmation()
                     return value * 2
                 }
@@ -24,7 +24,7 @@ struct PublisherExtensionsTests {
     @Test func testMapTransformsMultipleValues() async throws {
         try await confirmation(expectedCount: 3) { confirmation in
             let values = try await collectOutput(
-                from: [1, 2, 3].publisher.map { value async in
+                from: [1, 2, 3].publisher.mapSerial { value async in
                     confirmation()
                     return value * 10
                 }
@@ -36,7 +36,7 @@ struct PublisherExtensionsTests {
     @available(iOS 14, tvOS 14, *)
     @Test func testMapWithAsyncDelayedTransform() async throws {
         let values = try await collectOutput(
-            from: [1, 2, 3].publisher.map { value async in
+            from: [1, 2, 3].publisher.mapSerial { value async in
                 try? await Task.sleep(nanoseconds: UInt64(NSEC_PER_MSEC * 10))
                 return value + 100
             }
@@ -49,7 +49,7 @@ struct PublisherExtensionsTests {
     @available(iOS 14, tvOS 14, *)
     @Test func testMapChangesOutputType() async throws {
         let values = try await collectOutput(
-            from: Just(42).map { value async in
+            from: Just(42).mapSerial { value async in
                 "\(value)"
             }
         )
@@ -62,7 +62,7 @@ struct PublisherExtensionsTests {
     @Test func testMapPreservesSequentialOrder() async throws {
         var order: [Int] = []
         let values = try await collectOutput(
-            from: [1, 2, 3, 4, 5].publisher.map { value async in
+            from: [1, 2, 3, 4, 5].publisher.mapSerial { value async in
                 // Vary delays inversely to ensure ordering
                 // is maintained by serial execution, not speed
                 let delay = UInt64(NSEC_PER_MSEC) * UInt64((6 - value) * 5)
@@ -81,7 +81,7 @@ struct PublisherExtensionsTests {
     @Test func testMapWithEmptyPublisher() async throws {
         try await confirmation(expectedCount: 0) { confirmation in
             let values = try await collectOutput(
-                from: Empty<Int, Never>().map { value async in
+                from: Empty<Int, Never>().mapSerial { value async in
                     confirmation()
                     return "\(value)"
                 }

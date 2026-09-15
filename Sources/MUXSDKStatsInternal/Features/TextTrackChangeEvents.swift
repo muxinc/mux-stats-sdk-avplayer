@@ -143,19 +143,20 @@ struct TextTrackChangeEvents {
                         for: AVPlayerItem.mediaSelectionDidChangeNotification,
                         object: playerItem)
                     .map { _ in captureMediaSelectionOption() }
-                    .switchToLatest()
 
                 let mediaSelectionOptionPublisher = Publishers.Concatenate(
-                    prefix: captureMediaSelectionOption(),
+                    prefix: Just(captureMediaSelectionOption()),
                     suffix: mediaSelectionOptionChanges)
                 // This can be a very noisy event stream, with intermediate states reported for fractions of a second:
                     .debounce(for: .seconds(minimumIntervalBetweenEvents), scheduler: DispatchQueue.global())
+                    .buffer(size: 5, prefetch: .keepFull, whenFull: .dropOldest)
+                    .flatMap(maxPublishers: .max(1)) { $0 }
                     .removeDuplicates { a, b in
                         a.selectionInfo == b.selectionInfo
                     }
 
                 return mediaSelectionOptionPublisher
-                    .map { @MainActor selectionOptionAndTiming in
+                    .mapSerial { @MainActor selectionOptionAndTiming in
                         let timing = selectionOptionAndTiming.timing
 
                         guard let selectionOption = selectionOptionAndTiming.selectionInfo else {
