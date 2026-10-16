@@ -9,14 +9,14 @@ public final class PlayerMonitor: NSObject {
 
     private let subscriptionWrapper = SubscriptionWrapper()
 
-    /// Cancels future events and makes a best-effort attempt to cancel any in-flight onEvent callback
+    /// Marks cancellation immediately so subsequent event checks skip delivery.
+    /// A callback that has already passed the check may finish; subscription cleanup
+    /// runs on the main queue.
     @objc public nonisolated func cancel() {
         subscriptionWrapper.cancel()
     }
 
-    @objc public init(player: AVPlayer, onEvent: @Sendable @escaping @MainActor (MUXSDKBaseEvent) -> Void) {
-        super.init()
-
+    @objc public convenience init(player: AVPlayer, onEvent: @Sendable @escaping @MainActor (MUXSDKBaseEvent) -> Void) {
         let allEvents = player.publisher(for: \.currentItem, options: [.initial])
             .removeDuplicates()
             .map { (playerItem: AVPlayerItem?) -> AnyPublisher<MUXSDKBaseEvent, Never> in
@@ -40,19 +40,31 @@ public final class PlayerMonitor: NSObject {
             }
             .switchToLatest()
 
-        let handle = allEvents
+        self.init(events: allEvents.eraseToAnyPublisher(), onEvent: onEvent)
+    }
+
+    init(events: AnyPublisher<MUXSDKBaseEvent, Never>, onEvent: @Sendable @escaping @MainActor (MUXSDKBaseEvent) -> Void) {
+        super.init()
+
+        let handle = events
             .subscribe(on: ImmediateIfOnMainQueueScheduler.shared)
             .receive(on: ImmediateIfOnMainQueueScheduler.shared)
             .sink(receiveValue: { [weak self] event in
-                guard self?.subscriptionWrapper.isCancelled == false else {
+                guard let self, self.subscriptionWrapper.isCancelled == false else {
                     return
                 }
-                MainActor.assumeIsolated {
-                    onEvent(event)
+                withExtendedLifetime(self) {
+                    MainActor.assumeIsolated {
+                        onEvent(event)
+                    }
                 }
             })
 
         subscriptionWrapper.setOrCancelSubscriptionHandle(handle)
+    }
+
+    deinit {
+        subscriptionWrapper.cancel()
     }
 }
 
@@ -73,7 +85,7 @@ extension PlayerMonitor {
                 }
                 return exchange(&subscriptionHandle, with: handle)
             }
-            toCancel?.cancel()
+            cancelOnMainQueue(toCancel)
         }
 
         func cancel() {
@@ -81,7 +93,14 @@ extension PlayerMonitor {
                 isCancelledFlag = true
                 return exchange(&subscriptionHandle, with: nil)
             }
-            toCancel?.cancel()
+            cancelOnMainQueue(toCancel)
+        }
+
+        private func cancelOnMainQueue(_ handle: AnyCancellable?) {
+            guard let handle else { return }
+            ImmediateIfOnMainQueueScheduler.shared.schedule {
+                handle.cancel()
+            }
         }
 
         var isCancelled: Bool {
