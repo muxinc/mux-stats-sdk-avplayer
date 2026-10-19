@@ -294,7 +294,7 @@ struct AudioTrackChangeEvents {
                     }
 
                 return audioTrackPublisher
-                    .map { trackInfoAndTiming in
+                    .mapOnMainQueue { trackInfoAndTiming in
                         MUXSDKAudioTrackChangeEvent(
                             timing: trackInfoAndTiming.timing,
                             trackInfo: trackInfoAndTiming.trackInfo)

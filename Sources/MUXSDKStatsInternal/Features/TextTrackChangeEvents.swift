@@ -161,9 +161,7 @@ struct TextTrackChangeEvents {
 
                         guard let selectionOption = selectionOptionAndTiming.selectionInfo else {
                             // No text track
-                            return MUXSDKTextTrackChangeEvent(
-                                timing: timing,
-                                selectionOption: nil)
+                            return TextTrackChange(timing: timing, selectionOption: nil, assetTrack: nil)
                         }
 
                         // Attempt to match presented tracks
@@ -172,20 +170,24 @@ struct TextTrackChangeEvents {
                                assetTrack.mediaType == selectionOption.mediaType,
                                let trackInfo = await AssetTrackInfo(assetTrack),
                                trackInfo.trackType == selectionOption.trackType {
-                                return MUXSDKTextTrackChangeEvent(
-                                    timing: timing,
-                                    selectionOption: selectionOption,
-                                    assetTrack: trackInfo)
+                                return TextTrackChange(timing: timing, selectionOption: selectionOption, assetTrack: trackInfo)
                             }
                         }
 
                         // Report all available info without matched track
-                        return MUXSDKTextTrackChangeEvent(
-                            timing: timing,
-                            selectionOption: selectionOption,
-                            assetTrack: nil)
+                        return TextTrackChange(timing: timing, selectionOption: selectionOption, assetTrack: nil)
                     }
+                    .mapOnMainQueue(MUXSDKTextTrackChangeEvent.init(_:))
             }
+    }
+}
+
+@available(iOS 15, tvOS 15, *)
+extension TextTrackChangeEvents {
+    struct TextTrackChange: Sendable {
+        let timing: PlaybackEventTiming
+        let selectionOption: LegibleMediaSelectionOptionInfo?
+        let assetTrack: AssetTrackInfo?
     }
 }
 
@@ -198,6 +200,14 @@ extension AVPlayerItem {
 
 @available(iOS 15, tvOS 15, *)
 extension MUXSDKTextTrackChangeEvent {
+    convenience init(_ change: TextTrackChangeEvents.TextTrackChange) {
+        if let selectionOption = change.selectionOption {
+            self.init(timing: change.timing, selectionOption: selectionOption, assetTrack: change.assetTrack)
+        } else {
+            self.init(timing: change.timing, selectionOption: nil)
+        }
+    }
+
     convenience init(timing: PlaybackEventTiming,
                      selectionOption: TextTrackChangeEvents.LegibleMediaSelectionOptionInfo?) {
         if let selectionOption {

@@ -62,13 +62,16 @@ extension AVPlayerItem {
                 return Future(priority: .userInitiated) {
                     async let timing = self.currentTiming()
                     guard let videoAssetTrack else {
-                        return await (timing, MUXSDKVideoData())
+                        return await (timing, RenditionInfo())
                     }
-                    return await (timing, MUXSDKVideoData.makeWithRenditionInfo(track: videoAssetTrack, on: self))
+                    return await (timing, RenditionInfo.load(track: videoAssetTrack, on: self))
                 }
             }
             .buffer(size: 5, prefetch: .keepFull, whenFull: .dropOldest)
             .flatMap(maxPublishers: .max(1)) { $0 }
+            .mapOnMainQueue { timing, renditionInfo in
+                (timing, MUXSDKVideoData(renditionInfo: renditionInfo))
+            }
         // Determine uniqueness (and therefore rendition changes) based on fully populated
         // video data:
             .removeDuplicates { timedInfoA, timedInfoB in
@@ -86,7 +89,7 @@ extension AVPlayerItem {
                 // Ignore status failed error
                 return Empty<(PlaybackEventTiming, MUXSDKVideoData), Never>()
             }
-            .map { timing, videoData in
+            .mapOnMainQueue { timing, videoData in
                 let event = MUXSDKRenditionChangeEvent()
 
                 let playerData = MUXSDKPlayerData()
@@ -122,20 +125,22 @@ extension AVPlayerItem {
         metrics(forType: AVMetricPlayerItemVariantSwitchEvent.self)
             .filter(\.didSucceed)
             .map { metricEvent in
+                (await PlaybackEventTiming(variantSwitchEvent: metricEvent, on: self), metricEvent)
+            }
+            .publisher
+            .mapOnMainQueue { timing, metricEvent in
                 let muxEvent = MUXSDKRenditionChangeEvent()
 
                 let playerData = MUXSDKPlayerData()
-                let timing = await PlaybackEventTiming(variantSwitchEvent: metricEvent, on: self)
                 playerData.updateWithTiming(timing)
                 muxEvent.playerData = playerData
 
-                let videoData = MUXSDKVideoData()
-                videoData.updateWithAssetVariant(metricEvent.toVariant)
-                muxEvent.videoData = videoData
+                var renditionInfo = RenditionInfo()
+                renditionInfo.updateWithAssetVariant(metricEvent.toVariant)
+                muxEvent.videoData = MUXSDKVideoData(renditionInfo: renditionInfo)
 
                 return muxEvent
             }
-            .publisher
     }
 
 #if !targetEnvironment(simulator)
@@ -144,13 +149,16 @@ extension AVPlayerItem {
         Publishers.Merge3(
             metrics(forType: AVMetricHLSPlaylistRequestEvent.self)
                 .publisher // manifest requests
-                .compactMap { MUXSDKRequestBandwidthEvent(event: $0) },
+                .mapOnMainQueue { MUXSDKRequestBandwidthEvent(event: $0) }
+                .compactMap { $0 },
             metrics(forType: AVMetricHLSMediaSegmentRequestEvent.self)
                 .publisher  // audio/video/media requests
-                .compactMap { MUXSDKRequestBandwidthEvent(event: $0) },
+                .mapOnMainQueue { MUXSDKRequestBandwidthEvent(event: $0) }
+                .compactMap { $0 },
             metrics(forType: AVMetricContentKeyRequestEvent.self)
                 .publisher  // encryption requests
-                .compactMap { MUXSDKRequestBandwidthEvent(event: $0) }
+                .mapOnMainQueue { MUXSDKRequestBandwidthEvent(event: $0) }
+                .compactMap { $0 }
         )
         .catch { error in
             if !(error is CancellationError) {

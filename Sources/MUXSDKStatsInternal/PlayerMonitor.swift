@@ -16,9 +16,15 @@ public final class PlayerMonitor: NSObject {
         subscriptionWrapper.cancel()
     }
 
+    deinit {
+        subscriptionWrapper.cancel()
+    }
+
     @objc public convenience init(player: AVPlayer, onEvent: @Sendable @escaping @MainActor (MUXSDKBaseEvent) -> Void) {
         let allEvents = player.publisher(for: \.currentItem, options: [.initial])
             .removeDuplicates()
+            // Serialize item replacement and inner-pipeline cancellation with event delivery.
+            .receive(on: ImmediateIfOnMainQueueScheduler.shared)
             .map { (playerItem: AVPlayerItem?) -> AnyPublisher<MUXSDKBaseEvent, Never> in
                 guard let playerItem else {
                     return Empty().eraseToAnyPublisher()
@@ -50,21 +56,15 @@ public final class PlayerMonitor: NSObject {
             .subscribe(on: ImmediateIfOnMainQueueScheduler.shared)
             .receive(on: ImmediateIfOnMainQueueScheduler.shared)
             .sink(receiveValue: { [weak self] event in
-                guard let self, self.subscriptionWrapper.isCancelled == false else {
+                guard self?.subscriptionWrapper.isCancelled == false else {
                     return
                 }
-                withExtendedLifetime(self) {
-                    MainActor.assumeIsolated {
-                        onEvent(event)
-                    }
+                MainActor.assumeIsolated {
+                    onEvent(event)
                 }
             })
 
         subscriptionWrapper.setOrCancelSubscriptionHandle(handle)
-    }
-
-    deinit {
-        subscriptionWrapper.cancel()
     }
 }
 
@@ -85,7 +85,7 @@ extension PlayerMonitor {
                 }
                 return exchange(&subscriptionHandle, with: handle)
             }
-            cancelOnMainQueue(toCancel)
+            Self.cancelOnMainQueue(toCancel)
         }
 
         func cancel() {
@@ -93,11 +93,13 @@ extension PlayerMonitor {
                 isCancelledFlag = true
                 return exchange(&subscriptionHandle, with: nil)
             }
-            cancelOnMainQueue(toCancel)
+            Self.cancelOnMainQueue(toCancel)
         }
 
-        private func cancelOnMainQueue(_ handle: AnyCancellable?) {
-            guard let handle else { return }
+        private static func cancelOnMainQueue(_ handle: AnyCancellable?) {
+            guard let handle else {
+                return
+            }
             ImmediateIfOnMainQueueScheduler.shared.schedule {
                 handle.cancel()
             }

@@ -480,15 +480,8 @@ static NSString *const RemoveObserverExceptionName = @"NSRangeException";
 
 - (void)detachAVPlayer {
     if (@available(iOS 15, tvOS 15, *)) {
-        __block MUXSDKPlayerMonitor *monitor = self.swiftMonitor;
-        [monitor cancel];
+        [self.swiftMonitor cancel];
         self.swiftMonitor = nil;
-        if (!NSThread.isMainThread) {
-            // Transfer the final release to the main queue along with subscription cleanup.
-            dispatch_async(dispatch_get_main_queue(), ^{
-                monitor = nil;
-            });
-        }
     }
     if (_playerItem) {
         [self stopMonitoringAVPlayerItem];

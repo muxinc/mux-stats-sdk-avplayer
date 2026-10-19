@@ -42,40 +42,6 @@ struct PlayerMonitorTests {
         #expect(wait(callbackReleasedOnMain) == .success)
     }
 
-    @Test
-    func backgroundReleaseDuringCallbackKeepsMonitorAlive() async {
-        guard #available(iOS 15, tvOS 15, *) else { return }
-        let events = PassthroughSubject<MUXSDKBaseEvent, Never>()
-        let cancelled = DispatchSemaphore(value: 0)
-        nonisolated(unsafe) var monitor: PlayerMonitor?
-        nonisolated(unsafe) weak var weakMonitor: PlayerMonitor?
-        var receivedCount = 0
-        monitor = PlayerMonitor(
-            events: events.handleEvents(receiveCancel: {
-                #expect(Thread.isMainThread)
-                cancelled.signal()
-            }).eraseToAnyPublisher(),
-            onEvent: { _ in
-                receivedCount += 1
-                let released = DispatchSemaphore(value: 0)
-                DispatchQueue.global().async {
-                    monitor = nil
-                    released.signal()
-                }
-                #expect(released.wait(timeout: .now() + 5) == .success)
-                #expect(weakMonitor != nil)
-                #expect(cancelled.wait(timeout: .now()) == .timedOut)
-            })
-        weakMonitor = monitor
-
-        events.send(MUXSDKBaseEvent())
-        await drainMainQueue()
-        #expect(weakMonitor == nil)
-        #expect(wait(cancelled) == .success)
-        events.send(MUXSDKBaseEvent())
-        #expect(receivedCount == 1)
-    }
-
     private func drainMainQueue() async {
         await withCheckedContinuation { continuation in
             DispatchQueue.main.async { continuation.resume() }

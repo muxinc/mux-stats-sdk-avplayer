@@ -12,3 +12,16 @@ extension Publisher {
         }
     }
 }
+
+@available(iOS 13, tvOS 13, *)
+extension Publisher {
+
+    /// Transforms all elements on the main queue.
+    ///
+    /// MuxCore objects are not thread-safe. Event pipelines finish their asynchronous work on
+    /// Sendable values, then create MuxCore objects here so they never leave the main queue.
+    func mapOnMainQueue<T>(_ transform: @escaping (Self.Output) -> T) -> some Publisher<T, Failure> {
+        receive(on: ImmediateIfOnMainQueueScheduler.shared)
+            .map(transform)
+    }
+}
