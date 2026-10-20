@@ -9,8 +9,14 @@ public final class PlayerMonitor: NSObject {
 
     private let subscriptionWrapper = SubscriptionWrapper()
 
-    /// Cancels future events and makes a best-effort attempt to cancel any in-flight onEvent callback
+    /// Marks cancellation immediately so subsequent event checks skip delivery.
+    /// A callback that has already passed the check may finish; subscription cleanup
+    /// runs on the main queue.
     @objc public nonisolated func cancel() {
+        subscriptionWrapper.cancel()
+    }
+
+    deinit {
         subscriptionWrapper.cancel()
     }
 
@@ -19,6 +25,8 @@ public final class PlayerMonitor: NSObject {
 
         let allEvents = player.publisher(for: \.currentItem, options: [.initial])
             .removeDuplicates()
+            // Serialize item replacement and inner-pipeline cancellation with event delivery.
+            .receive(on: ImmediateIfOnMainQueueScheduler.shared)
             .map { (playerItem: AVPlayerItem?) -> AnyPublisher<MUXSDKBaseEvent, Never> in
                 guard let playerItem else {
                     return Empty().eraseToAnyPublisher()
@@ -73,7 +81,7 @@ extension PlayerMonitor {
                 }
                 return exchange(&subscriptionHandle, with: handle)
             }
-            toCancel?.cancel()
+            Self.cancelOnMainQueue(toCancel)
         }
 
         func cancel() {
@@ -81,7 +89,16 @@ extension PlayerMonitor {
                 isCancelledFlag = true
                 return exchange(&subscriptionHandle, with: nil)
             }
-            toCancel?.cancel()
+            Self.cancelOnMainQueue(toCancel)
+        }
+
+        private static func cancelOnMainQueue(_ handle: AnyCancellable?) {
+            guard let handle else {
+                return
+            }
+            ImmediateIfOnMainQueueScheduler.shared.schedule {
+                handle.cancel()
+            }
         }
 
         var isCancelled: Bool {

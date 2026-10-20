@@ -161,9 +161,7 @@ struct TextTrackChangeEvents {
 
                         guard let selectionOption = selectionOptionAndTiming.selectionInfo else {
                             // No text track
-                            return MUXSDKTextTrackChangeEvent(
-                                timing: timing,
-                                selectionOption: nil)
+                            return TextTrackChange(timing: timing, selectionOption: nil, assetTrack: nil)
                         }
 
                         // Attempt to match presented tracks
@@ -172,20 +170,30 @@ struct TextTrackChangeEvents {
                                assetTrack.mediaType == selectionOption.mediaType,
                                let trackInfo = await AssetTrackInfo(assetTrack),
                                trackInfo.trackType == selectionOption.trackType {
-                                return MUXSDKTextTrackChangeEvent(
-                                    timing: timing,
-                                    selectionOption: selectionOption,
-                                    assetTrack: trackInfo)
+                                return TextTrackChange(timing: timing, selectionOption: selectionOption, assetTrack: trackInfo)
                             }
                         }
 
                         // Report all available info without matched track
-                        return MUXSDKTextTrackChangeEvent(
-                            timing: timing,
-                            selectionOption: selectionOption,
-                            assetTrack: nil)
+                        return TextTrackChange(timing: timing, selectionOption: selectionOption, assetTrack: nil)
+                    }
+                    .receive(on: ImmediateIfOnMainQueueScheduler.shared)
+                    .map { change in
+                        MUXSDKTextTrackChangeEvent(
+                            timing: change.timing,
+                            selectionOption: change.selectionOption,
+                            assetTrack: change.assetTrack)
                     }
             }
+    }
+}
+
+@available(iOS 15, tvOS 15, *)
+extension TextTrackChangeEvents {
+    struct TextTrackChange: Sendable {
+        let timing: PlaybackEventTiming
+        let selectionOption: LegibleMediaSelectionOptionInfo?
+        let assetTrack: AssetTrackInfo?
     }
 }
 
@@ -199,34 +207,14 @@ extension AVPlayerItem {
 @available(iOS 15, tvOS 15, *)
 extension MUXSDKTextTrackChangeEvent {
     convenience init(timing: PlaybackEventTiming,
-                     selectionOption: TextTrackChangeEvents.LegibleMediaSelectionOptionInfo?) {
-        if let selectionOption {
-            self.init(
-                timing: timing,
-                selectionOption: selectionOption,
-                assetTrack: nil)
-            return
-        }
-
+                     selectionOption: TextTrackChangeEvents.LegibleMediaSelectionOptionInfo?,
+                     assetTrack: TextTrackChangeEvents.AssetTrackInfo? = nil) {
         self.init(
-            textTrackEnabled: false as NSNumber,
-            textTrackType: nil,
-            textTrackFormat: nil,
-            textTrackName: nil,
-            textTrackLanguage: nil)
-
-        updateWithTiming(timing)
-    }
-
-    convenience init(timing: PlaybackEventTiming,
-                     selectionOption: TextTrackChangeEvents.LegibleMediaSelectionOptionInfo,
-                     assetTrack: TextTrackChangeEvents.AssetTrackInfo?) {
-        self.init(
-            textTrackEnabled: true as NSNumber,
-            textTrackType: selectionOption.trackType,
-            textTrackFormat: assetTrack?.trackFormat,
-            textTrackName: selectionOption.name,
-            textTrackLanguage: selectionOption.language)
+            textTrackEnabled: (selectionOption != nil) as NSNumber,
+            textTrackType: selectionOption?.trackType,
+            textTrackFormat: selectionOption == nil ? nil : assetTrack?.trackFormat,
+            textTrackName: selectionOption?.name,
+            textTrackLanguage: selectionOption?.language)
 
         updateWithTiming(timing)
     }

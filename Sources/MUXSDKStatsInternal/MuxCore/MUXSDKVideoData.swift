@@ -1,43 +1,33 @@
 import AVFoundation
 import MuxCore
 
-extension MUXSDKVideoData {
-    func updateWithPresentationSize(_ presentationSize: CGSize) {
-        videoSourceHeight = presentationSize.height as NSNumber
-        videoSourceWidth = presentationSize.width as NSNumber
-    }
-
-    func updateWithVideoCodecTypes(_ videoCodecs: [CMVideoCodecType]) {
-        // TODO: videoSourceAdvertisedCodec (RFC 6381)
-    }
+// Only these values cross the async rendition-loading pipeline.
+struct RenditionInfo: Sendable {
+    // Preserve the original Float (track) and Double (variant) NSNumber representations.
+    var trackFrameRate: Float?
+    var variantFrameRate: Double?
+    var presentationSize: CGSize?
+    var advertisedBitrate: Double?
 
     @available(iOS 15, tvOS 15, *)
-    func updateWithAssetVariant(_ assetVariant: AVAssetVariant) {
+    mutating func updateWithAssetVariant(_ assetVariant: AVAssetVariant) {
         if let peakBitRate = assetVariant.peakBitRate {
-            videoSourceAdvertisedBitrate = peakBitRate as NSNumber
+            advertisedBitrate = peakBitRate
         }
 
-        assetVariant.videoAttributes.map(updateWithVideoAttributes(_:))
-    }
-
-    @available(iOS 15, tvOS 15, *)
-    func updateWithVideoAttributes(_ videoAttributes: AVAssetVariant.VideoAttributes) {
+        guard let videoAttributes = assetVariant.videoAttributes else { return }
         if let nominalFrameRate = videoAttributes.nominalFrameRate {
-            videoSourceAdvertisedFrameRate = nominalFrameRate as NSNumber
+            variantFrameRate = nominalFrameRate
         }
 
         if videoAttributes.presentationSize != .zero {
-            updateWithPresentationSize(videoAttributes.presentationSize)
-        }
-
-        if !videoAttributes.codecTypes.isEmpty {
-            updateWithVideoCodecTypes(videoAttributes.codecTypes)
+            presentationSize = videoAttributes.presentationSize
         }
     }
 
     @available(iOS 15, tvOS 15, *)
-    static func makeWithRenditionInfo(track: AVAssetTrack, on playerItem: AVPlayerItem) async -> sending Self {
-        let videoData = Self()
+    static func load(track: AVAssetTrack, on playerItem: AVPlayerItem) async -> Self {
+        var renditionInfo = Self()
         // Obtain recent bitrate stats immediately in case another variant switch happens
         async let bitratesFromAccessLog = withTimeout(seconds: 5) {
             Array(try await playerItem.indicatedBitratesInAccessLog.suffix(3))
@@ -77,7 +67,7 @@ extension MUXSDKVideoData {
             if !(error is CancellationError) {
                 logger.error("Track \(track.trackID): failed to load basic video attributes: \(error)")
             }
-            return videoData
+            return renditionInfo
         }
 
         let videoCodecs = Set<CMVideoCodecType>(
@@ -87,15 +77,8 @@ extension MUXSDKVideoData {
         )
 
         // Set these right away so they're available even if variants are unavailable or matching fails:
-        if let nominalFrameRate {
-            videoData.videoSourceAdvertisedFrameRate = nominalFrameRate as NSNumber
-        }
-        if let presentationSize {
-            videoData.updateWithPresentationSize(presentationSize)
-        }
-        if !videoCodecs.isEmpty {
-            videoData.updateWithVideoCodecTypes(Array(videoCodecs))
-        }
+        renditionInfo.trackFrameRate = nominalFrameRate
+        renditionInfo.presentationSize = presentationSize
 
         // Matching below based on the following assumptions:
         //
@@ -112,14 +95,14 @@ extension MUXSDKVideoData {
         do {
             // Bail out when no variants present (including non-HLS assets)
             guard let assetVariantsOrNil = try await assetVariantsOrNil, !assetVariantsOrNil.isEmpty else {
-                return videoData
+                return renditionInfo
             }
             assetVariants = assetVariantsOrNil
         } catch {
             if !(error is CancellationError) {
                 logger.error("Track \(track.trackID): failed to load variants: \(error)")
             }
-            return videoData
+            return renditionInfo
         }
 
         let matchingVariants = assetVariants.filter { variant in
@@ -158,10 +141,10 @@ extension MUXSDKVideoData {
                     videoRangeIsHDR=\(videoRangeIsHDR.debugDescription)
                     variants=\(assetVariants)
                 """)
-            return videoData
+            return renditionInfo
         case 1:
-            videoData.updateWithAssetVariant(matchingVariants.first!)
-            return videoData
+            renditionInfo.updateWithAssetVariant(matchingVariants.first!)
+            return renditionInfo
         default:
             break
         }
@@ -177,14 +160,14 @@ extension MUXSDKVideoData {
             if !(error is CancellationError) {
                 logger.debug("Track \(track.trackID): failed to load bitrates from access log: \(error)")
             }
-            return videoData
+            return renditionInfo
         }
 
         // Effectively handles getting the initial bitrate for a stream, which is an increasingly common use case.
         // There will be one matching entry in the access log, and all further variant info will come from
         // `AVMetricPlayerItemVariantSwitchEvent.toVariant` on iOS 18+.
         if recentBitrates.count == 1 {
-            videoData.videoSourceAdvertisedBitrate = recentBitrates.first! as NSNumber
+            renditionInfo.advertisedBitrate = recentBitrates.first!
         }
 
         for bitrate in recentBitrates.reversed() {
@@ -195,12 +178,12 @@ extension MUXSDKVideoData {
             case 0:
                 break
             case 1:
-                videoData.updateWithAssetVariant(bitrateMatched.first!)
-                return videoData
+                renditionInfo.updateWithAssetVariant(bitrateMatched.first!)
+                return renditionInfo
             default:
-                videoData.videoSourceAdvertisedBitrate = recentBitrates.first! as NSNumber
+                renditionInfo.advertisedBitrate = recentBitrates.first!
                 logger.debug("Track \(track.trackID): Multiple matching variants detected after filtering by bitrate=\(bitrate): \(bitrateMatched)")
-                return videoData
+                return renditionInfo
             }
         }
 
@@ -213,7 +196,20 @@ extension MUXSDKVideoData {
                 recentBitrates=\(recentBitrates)
                 variants=\(assetVariants)
             """)
-        return videoData
+        return renditionInfo
     }
 }
 
+extension MUXSDKVideoData {
+    convenience init(renditionInfo: RenditionInfo) {
+        dispatchPrecondition(condition: .onQueue(.main))
+        self.init()
+        videoSourceAdvertisedFrameRate = (renditionInfo.variantFrameRate as NSNumber?)
+            ?? (renditionInfo.trackFrameRate as NSNumber?)
+        videoSourceAdvertisedBitrate = renditionInfo.advertisedBitrate as NSNumber?
+        if let size = renditionInfo.presentationSize {
+            videoSourceHeight = size.height as NSNumber
+            videoSourceWidth = size.width as NSNumber
+        }
+    }
+}

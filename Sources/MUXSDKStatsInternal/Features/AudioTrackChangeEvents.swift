@@ -294,6 +294,7 @@ struct AudioTrackChangeEvents {
                     }
 
                 return audioTrackPublisher
+                    .receive(on: ImmediateIfOnMainQueueScheduler.shared)
                     .map { trackInfoAndTiming in
                         MUXSDKAudioTrackChangeEvent(
                             timing: trackInfoAndTiming.timing,
