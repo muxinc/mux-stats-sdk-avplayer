@@ -9,29 +9,19 @@ struct RenditionInfo: Sendable {
     var presentationSize: CGSize?
     var advertisedBitrate: Double?
 
-    mutating func updateWithPresentationSize(_ presentationSize: CGSize) {
-        self.presentationSize = presentationSize
-    }
-
     @available(iOS 15, tvOS 15, *)
     mutating func updateWithAssetVariant(_ assetVariant: AVAssetVariant) {
         if let peakBitRate = assetVariant.peakBitRate {
             advertisedBitrate = peakBitRate
         }
 
-        if let attributes = assetVariant.videoAttributes {
-            updateWithVideoAttributes(attributes)
-        }
-    }
-
-    @available(iOS 15, tvOS 15, *)
-    mutating func updateWithVideoAttributes(_ videoAttributes: AVAssetVariant.VideoAttributes) {
+        guard let videoAttributes = assetVariant.videoAttributes else { return }
         if let nominalFrameRate = videoAttributes.nominalFrameRate {
             variantFrameRate = nominalFrameRate
         }
 
         if videoAttributes.presentationSize != .zero {
-            updateWithPresentationSize(videoAttributes.presentationSize)
+            presentationSize = videoAttributes.presentationSize
         }
     }
 
@@ -87,12 +77,8 @@ struct RenditionInfo: Sendable {
         )
 
         // Set these right away so they're available even if variants are unavailable or matching fails:
-        if let nominalFrameRate {
-            renditionInfo.trackFrameRate = nominalFrameRate
-        }
-        if let presentationSize {
-            renditionInfo.updateWithPresentationSize(presentationSize)
-        }
+        renditionInfo.trackFrameRate = nominalFrameRate
+        renditionInfo.presentationSize = presentationSize
 
         // Matching below based on the following assumptions:
         //

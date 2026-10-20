@@ -69,7 +69,8 @@ extension AVPlayerItem {
             }
             .buffer(size: 5, prefetch: .keepFull, whenFull: .dropOldest)
             .flatMap(maxPublishers: .max(1)) { $0 }
-            .mapOnMainQueue { timing, renditionInfo in
+            .receive(on: ImmediateIfOnMainQueueScheduler.shared)
+            .map { timing, renditionInfo in
                 (timing, MUXSDKVideoData(renditionInfo: renditionInfo))
             }
         // Determine uniqueness (and therefore rendition changes) based on fully populated
@@ -89,7 +90,8 @@ extension AVPlayerItem {
                 // Ignore status failed error
                 return Empty<(PlaybackEventTiming, MUXSDKVideoData), Never>()
             }
-            .mapOnMainQueue { timing, videoData in
+            .receive(on: ImmediateIfOnMainQueueScheduler.shared)
+            .map { timing, videoData in
                 let event = MUXSDKRenditionChangeEvent()
 
                 let playerData = MUXSDKPlayerData()
@@ -128,7 +130,8 @@ extension AVPlayerItem {
                 (await PlaybackEventTiming(variantSwitchEvent: metricEvent, on: self), metricEvent)
             }
             .publisher
-            .mapOnMainQueue { timing, metricEvent in
+            .receive(on: ImmediateIfOnMainQueueScheduler.shared)
+            .map { timing, metricEvent in
                 let muxEvent = MUXSDKRenditionChangeEvent()
 
                 let playerData = MUXSDKPlayerData()
@@ -149,15 +152,18 @@ extension AVPlayerItem {
         Publishers.Merge3(
             metrics(forType: AVMetricHLSPlaylistRequestEvent.self)
                 .publisher // manifest requests
-                .mapOnMainQueue { MUXSDKRequestBandwidthEvent(event: $0) }
+                .receive(on: ImmediateIfOnMainQueueScheduler.shared)
+                .map { MUXSDKRequestBandwidthEvent(event: $0) }
                 .compactMap { $0 },
             metrics(forType: AVMetricHLSMediaSegmentRequestEvent.self)
                 .publisher  // audio/video/media requests
-                .mapOnMainQueue { MUXSDKRequestBandwidthEvent(event: $0) }
+                .receive(on: ImmediateIfOnMainQueueScheduler.shared)
+                .map { MUXSDKRequestBandwidthEvent(event: $0) }
                 .compactMap { $0 },
             metrics(forType: AVMetricContentKeyRequestEvent.self)
                 .publisher  // encryption requests
-                .mapOnMainQueue { MUXSDKRequestBandwidthEvent(event: $0) }
+                .receive(on: ImmediateIfOnMainQueueScheduler.shared)
+                .map { MUXSDKRequestBandwidthEvent(event: $0) }
                 .compactMap { $0 }
         )
         .catch { error in

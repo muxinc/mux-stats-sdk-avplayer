@@ -20,7 +20,9 @@ public final class PlayerMonitor: NSObject {
         subscriptionWrapper.cancel()
     }
 
-    @objc public convenience init(player: AVPlayer, onEvent: @Sendable @escaping @MainActor (MUXSDKBaseEvent) -> Void) {
+    @objc public init(player: AVPlayer, onEvent: @Sendable @escaping @MainActor (MUXSDKBaseEvent) -> Void) {
+        super.init()
+
         let allEvents = player.publisher(for: \.currentItem, options: [.initial])
             .removeDuplicates()
             // Serialize item replacement and inner-pipeline cancellation with event delivery.
@@ -46,13 +48,7 @@ public final class PlayerMonitor: NSObject {
             }
             .switchToLatest()
 
-        self.init(events: allEvents.eraseToAnyPublisher(), onEvent: onEvent)
-    }
-
-    init(events: AnyPublisher<MUXSDKBaseEvent, Never>, onEvent: @Sendable @escaping @MainActor (MUXSDKBaseEvent) -> Void) {
-        super.init()
-
-        let handle = events
+        let handle = allEvents
             .subscribe(on: ImmediateIfOnMainQueueScheduler.shared)
             .receive(on: ImmediateIfOnMainQueueScheduler.shared)
             .sink(receiveValue: { [weak self] event in

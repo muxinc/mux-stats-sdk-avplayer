@@ -90,21 +90,6 @@ struct PublisherExtensionsTests {
         }
     }
 
-    // MARK: - Main Queue
-
-    @available(iOS 14, tvOS 14, *)
-    @Test func testMapOnMainQueueTransformsBackgroundValuesOnMainQueue() async throws {
-        let values = try await collectOutput(
-            from: (1...100).publisher
-                .subscribe(on: DispatchQueue.global())
-                .mapOnMainQueue { value in
-                    (value: value, isMainThread: Thread.isMainThread)
-                }
-        )
-        #expect(values.map(\.value) == Array(1...100))
-        #expect(values.allSatisfy { $0.isMainThread })
-    }
-
     // MARK: - Helper
 
     private func collectOutput<P: Publisher>(
