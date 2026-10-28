@@ -62,17 +62,14 @@ extension AVPlayerItem {
                 return Future(priority: .userInitiated) {
                     async let timing = self.currentTiming()
                     guard let videoAssetTrack else {
-                        return await (timing, RenditionInfo())
+                        return await (timing, MUXSDKVideoData())
                     }
-                    return await (timing, RenditionInfo.load(track: videoAssetTrack, on: self))
+                    return await (timing, MUXSDKVideoData.makeWithRenditionInfo(track: videoAssetTrack, on: self))
                 }
             }
             .buffer(size: 5, prefetch: .keepFull, whenFull: .dropOldest)
             .flatMap(maxPublishers: .max(1)) { $0 }
             .receive(on: ImmediateIfOnMainQueueScheduler.shared)
-            .map { timing, renditionInfo in
-                (timing, MUXSDKVideoData(renditionInfo: renditionInfo))
-            }
         // Determine uniqueness (and therefore rendition changes) based on fully populated
         // video data:
             .removeDuplicates { timedInfoA, timedInfoB in
@@ -90,7 +87,6 @@ extension AVPlayerItem {
                 // Ignore status failed error
                 return Empty<(PlaybackEventTiming, MUXSDKVideoData), Never>()
             }
-            .receive(on: ImmediateIfOnMainQueueScheduler.shared)
             .map { timing, videoData in
                 let event = MUXSDKRenditionChangeEvent()
 
@@ -127,20 +123,21 @@ extension AVPlayerItem {
         metrics(forType: AVMetricPlayerItemVariantSwitchEvent.self)
             .filter(\.didSucceed)
             .map { metricEvent in
-                (await PlaybackEventTiming(variantSwitchEvent: metricEvent, on: self), metricEvent)
+                let timing = await PlaybackEventTiming(variantSwitchEvent: metricEvent, on: self)
+                return (timing, metricEvent.toVariant)
             }
             .publisher
             .receive(on: ImmediateIfOnMainQueueScheduler.shared)
-            .map { timing, metricEvent in
+            .map { timing, variant in
                 let muxEvent = MUXSDKRenditionChangeEvent()
 
                 let playerData = MUXSDKPlayerData()
                 playerData.updateWithTiming(timing)
                 muxEvent.playerData = playerData
 
-                var renditionInfo = RenditionInfo()
-                renditionInfo.updateWithAssetVariant(metricEvent.toVariant)
-                muxEvent.videoData = MUXSDKVideoData(renditionInfo: renditionInfo)
+                let videoData = MUXSDKVideoData()
+                videoData.updateWithAssetVariant(variant)
+                muxEvent.videoData = videoData
 
                 return muxEvent
             }
@@ -153,18 +150,15 @@ extension AVPlayerItem {
             metrics(forType: AVMetricHLSPlaylistRequestEvent.self)
                 .publisher // manifest requests
                 .receive(on: ImmediateIfOnMainQueueScheduler.shared)
-                .map { MUXSDKRequestBandwidthEvent(event: $0) }
-                .compactMap { $0 },
+                .compactMap { MUXSDKRequestBandwidthEvent(event: $0) },
             metrics(forType: AVMetricHLSMediaSegmentRequestEvent.self)
                 .publisher  // audio/video/media requests
                 .receive(on: ImmediateIfOnMainQueueScheduler.shared)
-                .map { MUXSDKRequestBandwidthEvent(event: $0) }
-                .compactMap { $0 },
+                .compactMap { MUXSDKRequestBandwidthEvent(event: $0) },
             metrics(forType: AVMetricContentKeyRequestEvent.self)
                 .publisher  // encryption requests
                 .receive(on: ImmediateIfOnMainQueueScheduler.shared)
-                .map { MUXSDKRequestBandwidthEvent(event: $0) }
-                .compactMap { $0 }
+                .compactMap { MUXSDKRequestBandwidthEvent(event: $0) }
         )
         .catch { error in
             if !(error is CancellationError) {

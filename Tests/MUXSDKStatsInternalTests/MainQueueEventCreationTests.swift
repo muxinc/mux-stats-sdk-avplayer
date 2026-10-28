@@ -13,7 +13,7 @@ struct MainQueueEventCreationTests {
         player.isMuted = true
         let playerItem = AVPlayerItem(url: bipBopExampleURL)
 
-        // These assertions cover emission; the rendition constructor also asserts main-queue use.
+        // These assertions cover emission directly at each producer.
         let events = playerItem.renditionChangeEvents().map { ($0.getType() ?? "", Thread.isMainThread) }
             .merge(with: playerItem.textTrackChangeEvents().map { ($0.getType() ?? "", Thread.isMainThread) })
             .merge(with: playerItem.audioTrackChangeEvents().map { ($0.getType() ?? "", Thread.isMainThread) })

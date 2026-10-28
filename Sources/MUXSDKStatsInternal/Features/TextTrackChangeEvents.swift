@@ -156,12 +156,13 @@ struct TextTrackChangeEvents {
                     }
 
                 return mediaSelectionOptionPublisher
-                    .mapSerial { @MainActor selectionOptionAndTiming in
+                    .mapSerial { @MainActor selectionOptionAndTiming
+                        -> (PlaybackEventTiming, LegibleMediaSelectionOptionInfo?, AssetTrackInfo?) in
                         let timing = selectionOptionAndTiming.timing
 
                         guard let selectionOption = selectionOptionAndTiming.selectionInfo else {
                             // No text track
-                            return TextTrackChange(timing: timing, selectionOption: nil, assetTrack: nil)
+                            return (timing, nil, nil)
                         }
 
                         // Attempt to match presented tracks
@@ -170,30 +171,24 @@ struct TextTrackChangeEvents {
                                assetTrack.mediaType == selectionOption.mediaType,
                                let trackInfo = await AssetTrackInfo(assetTrack),
                                trackInfo.trackType == selectionOption.trackType {
-                                return TextTrackChange(timing: timing, selectionOption: selectionOption, assetTrack: trackInfo)
+                                return (timing, selectionOption, trackInfo)
                             }
                         }
 
                         // Report all available info without matched track
-                        return TextTrackChange(timing: timing, selectionOption: selectionOption, assetTrack: nil)
+                        return (timing, selectionOption, nil)
                     }
                     .receive(on: ImmediateIfOnMainQueueScheduler.shared)
-                    .map { change in
-                        MUXSDKTextTrackChangeEvent(
-                            timing: change.timing,
-                            selectionOption: change.selectionOption,
-                            assetTrack: change.assetTrack)
+                    .map { timing, selectionOption, assetTrack in
+                        if let selectionOption {
+                            return MUXSDKTextTrackChangeEvent(
+                                timing: timing,
+                                selectionOption: selectionOption,
+                                assetTrack: assetTrack)
+                        }
+                        return MUXSDKTextTrackChangeEvent(timing: timing, selectionOption: nil)
                     }
             }
-    }
-}
-
-@available(iOS 15, tvOS 15, *)
-extension TextTrackChangeEvents {
-    struct TextTrackChange: Sendable {
-        let timing: PlaybackEventTiming
-        let selectionOption: LegibleMediaSelectionOptionInfo?
-        let assetTrack: AssetTrackInfo?
     }
 }
 
@@ -207,14 +202,34 @@ extension AVPlayerItem {
 @available(iOS 15, tvOS 15, *)
 extension MUXSDKTextTrackChangeEvent {
     convenience init(timing: PlaybackEventTiming,
-                     selectionOption: TextTrackChangeEvents.LegibleMediaSelectionOptionInfo?,
-                     assetTrack: TextTrackChangeEvents.AssetTrackInfo? = nil) {
+                     selectionOption: TextTrackChangeEvents.LegibleMediaSelectionOptionInfo?) {
+        if let selectionOption {
+            self.init(
+                timing: timing,
+                selectionOption: selectionOption,
+                assetTrack: nil)
+            return
+        }
+
         self.init(
-            textTrackEnabled: (selectionOption != nil) as NSNumber,
-            textTrackType: selectionOption?.trackType,
-            textTrackFormat: selectionOption == nil ? nil : assetTrack?.trackFormat,
-            textTrackName: selectionOption?.name,
-            textTrackLanguage: selectionOption?.language)
+            textTrackEnabled: false as NSNumber,
+            textTrackType: nil,
+            textTrackFormat: nil,
+            textTrackName: nil,
+            textTrackLanguage: nil)
+
+        updateWithTiming(timing)
+    }
+
+    convenience init(timing: PlaybackEventTiming,
+                     selectionOption: TextTrackChangeEvents.LegibleMediaSelectionOptionInfo,
+                     assetTrack: TextTrackChangeEvents.AssetTrackInfo?) {
+        self.init(
+            textTrackEnabled: true as NSNumber,
+            textTrackType: selectionOption.trackType,
+            textTrackFormat: assetTrack?.trackFormat,
+            textTrackName: selectionOption.name,
+            textTrackLanguage: selectionOption.language)
 
         updateWithTiming(timing)
     }

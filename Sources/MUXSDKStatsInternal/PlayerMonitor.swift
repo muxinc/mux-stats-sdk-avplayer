@@ -16,10 +16,6 @@ public final class PlayerMonitor: NSObject {
         subscriptionWrapper.cancel()
     }
 
-    deinit {
-        subscriptionWrapper.cancel()
-    }
-
     @objc public init(player: AVPlayer, onEvent: @Sendable @escaping @MainActor (MUXSDKBaseEvent) -> Void) {
         super.init()
 
@@ -60,7 +56,10 @@ public final class PlayerMonitor: NSObject {
                 }
             })
 
-        subscriptionWrapper.setOrCancelSubscriptionHandle(handle)
+        // Clean up on a later main-queue turn; the cancellation check skips events until then.
+        subscriptionWrapper.setOrCancelSubscriptionHandle(AnyCancellable {
+            DispatchQueue.main.schedule { handle.cancel() }
+        })
     }
 }
 
@@ -81,7 +80,7 @@ extension PlayerMonitor {
                 }
                 return exchange(&subscriptionHandle, with: handle)
             }
-            Self.cancelOnMainQueue(toCancel)
+            toCancel?.cancel()
         }
 
         func cancel() {
@@ -89,16 +88,7 @@ extension PlayerMonitor {
                 isCancelledFlag = true
                 return exchange(&subscriptionHandle, with: nil)
             }
-            Self.cancelOnMainQueue(toCancel)
-        }
-
-        private static func cancelOnMainQueue(_ handle: AnyCancellable?) {
-            guard let handle else {
-                return
-            }
-            ImmediateIfOnMainQueueScheduler.shared.schedule {
-                handle.cancel()
-            }
+            toCancel?.cancel()
         }
 
         var isCancelled: Bool {
