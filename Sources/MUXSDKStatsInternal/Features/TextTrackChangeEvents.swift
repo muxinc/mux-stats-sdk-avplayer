@@ -156,14 +156,13 @@ struct TextTrackChangeEvents {
                     }
 
                 return mediaSelectionOptionPublisher
-                    .mapSerial { @MainActor selectionOptionAndTiming in
+                    .mapSerial { @MainActor selectionOptionAndTiming
+                        -> (PlaybackEventTiming, LegibleMediaSelectionOptionInfo?, AssetTrackInfo?) in
                         let timing = selectionOptionAndTiming.timing
 
                         guard let selectionOption = selectionOptionAndTiming.selectionInfo else {
                             // No text track
-                            return MUXSDKTextTrackChangeEvent(
-                                timing: timing,
-                                selectionOption: nil)
+                            return (timing, nil, nil)
                         }
 
                         // Attempt to match presented tracks
@@ -172,18 +171,22 @@ struct TextTrackChangeEvents {
                                assetTrack.mediaType == selectionOption.mediaType,
                                let trackInfo = await AssetTrackInfo(assetTrack),
                                trackInfo.trackType == selectionOption.trackType {
-                                return MUXSDKTextTrackChangeEvent(
-                                    timing: timing,
-                                    selectionOption: selectionOption,
-                                    assetTrack: trackInfo)
+                                return (timing, selectionOption, trackInfo)
                             }
                         }
 
                         // Report all available info without matched track
-                        return MUXSDKTextTrackChangeEvent(
-                            timing: timing,
-                            selectionOption: selectionOption,
-                            assetTrack: nil)
+                        return (timing, selectionOption, nil)
+                    }
+                    .receive(on: ImmediateIfOnMainQueueScheduler.shared)
+                    .map { timing, selectionOption, assetTrack in
+                        if let selectionOption {
+                            return MUXSDKTextTrackChangeEvent(
+                                timing: timing,
+                                selectionOption: selectionOption,
+                                assetTrack: assetTrack)
+                        }
+                        return MUXSDKTextTrackChangeEvent(timing: timing, selectionOption: nil)
                     }
             }
     }
